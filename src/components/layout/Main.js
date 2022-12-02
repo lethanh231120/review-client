@@ -1,25 +1,26 @@
-/*!
-  =========================================================
-  * Muse Ant Design Dashboard - v1.0.0
-  =========================================================
-  * Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-  * Copyright 2021 Creative Tim (https://www.creative-tim.com)
-  * Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-  * Coded by Creative Tim
-  =========================================================
-  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Layout, Drawer, Affix } from "antd";
 import Sidenav from "./Sidenav";
 import Header from "./Header";
 import Footer from "./Footer";
 
+import { Routes, Route } from "react-router-dom";
+import Billing from '../../../src/pages/Billing'
+import Home from "../../../src/pages/Home";
+import NotFound from "./404";
+import Tables from "../../../src/pages/Tables";
+import Rtl from "../../../src/pages/Rtl";
+import Profile from "../../../src/pages/Profile";
+import User from "../../pages/User";
+import Reviews from "../../pages/Reviews";
+import Products from "../../pages/Products";
+import Report from "../../pages/Report";
+import DetailReview from "../review/DetailReview";
+
 const { Header: AntHeader, Content, Sider } = Layout;
 
-function Main({ children }) {
+const Main = () => {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState("right");
   const [sidenavColor, setSidenavColor] = useState("#1890ff");
@@ -120,7 +121,26 @@ function Main({ children }) {
             />
           </AntHeader>
         )}
-        <Content className="content-ant">{children}</Content>
+        <Content className="content-ant">
+          <Routes>
+            <Route path='dashboard' element={<Home />} />
+            <Route path='tables' element={<Tables />} />
+            <Route path='billing' element={<Billing />} />
+            <Route path='rtl' element={<Rtl />} />
+            <Route path='profile' element={<Profile />} />
+            <Route path='users' element={<User />} />
+            {/* <Route path='reviews' element={<Reviews />} /> */}
+            <Route path='reviews'>
+              <Route path='' element={<Reviews />} />
+              <Route path=':reviewId/detail' element={<DetailReview />} />
+            </Route>
+            <Route path='products'>
+              <Route path='' element={<Products />} />
+              <Route path=':productId/reviews/report' element={<Report />} />
+            </Route>
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </Content>
         <Footer />
       </Layout>
     </Layout>

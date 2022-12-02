@@ -1,17 +1,4 @@
-/*!
-  =========================================================
-  * Muse Ant Design Dashboard - v1.0.0
-  =========================================================
-  * Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-  * Copyright 2021 Creative Tim (https://www.creative-tim.com)
-  * Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-  * Coded by Creative Tim
-  =========================================================
-  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// import { useState } from "react";
-import { Menu, Button } from "antd";
+import { Menu } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 
@@ -160,112 +147,83 @@ function Sidenav({ color }) {
     </svg>,
   ];
 
+  const menuItem = [
+    {
+      url: 'dashboard',
+      image: dashboard,
+      label: 'Dashboard'
+    },
+    {
+      url: 'users',
+      image: profile,
+      label: 'Users'
+    },
+    {
+      url: 'reviews',
+      image: billing,
+      label: 'Reviews'
+    },
+    {
+      url: 'products',
+      image: billing,
+      label: 'Products'
+    },
+    // {
+    //   url: 'tables',
+    //   image: tables,
+    //   label: 'Tables'
+    // },
+    // {
+    //   url: 'billing',
+    //   image: billing,
+    //   label: 'Billing'
+    // },
+    // {
+    //   url: 'rtl',
+    //   image: rtl,
+    //   label: 'RTL'
+    // },
+    // {
+    //   url: 'profile',
+    //   image: profile,
+    //   label: 'Profile'
+    // },
+    // {
+    //   url: 'sign-in',
+    //   image: signin,
+    //   label: 'Sign In'
+    // },
+    // {
+    //   url: 'sign-up',
+    //   image: signup,
+    //   label: 'Sign Up'
+    // }
+  ]
+
   return (
     <>
       <div className="brand">
         <img src={logo} alt="" />
-        <span>Muse Dashboard</span>
+        <span>Admin Review</span>
       </div>
       <hr />
       <Menu theme="light" mode="inline">
-        <Menu.Item key="1">
-          <NavLink to="/dashboard">
-            <span
-              className="icon"
-              style={{
-                background: page === "dashboard" ? color : "",
-              }}
-            >
-              {dashboard}
-            </span>
-            <span className="label">Dashboard</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <NavLink to="/tables">
-            <span
-              className="icon"
-              style={{
-                background: page === "tables" ? color : "",
-              }}
-            >
-              {tables}
-            </span>
-            <span className="label">Tables</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <NavLink to="/billing">
-            <span
-              className="icon"
-              style={{
-                background: page === "billing" ? color : "",
-              }}
-            >
-              {billing}
-            </span>
-            <span className="label">Billing</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="4">
-          <NavLink to="/rtl">
-            <span
-              className="icon"
-              style={{
-                background: page === "rtl" ? color : "",
-              }}
-            >
-              {rtl}
-            </span>
-            <span className="label">RTL</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item className="menu-item-header" key="5">
-          Account Pages
-        </Menu.Item>
-        <Menu.Item key="6">
-          <NavLink to="/profile">
-            <span
-              className="icon"
-              style={{
-                background: page === "profile" ? color : "",
-              }}
-            >
-              {profile}
-            </span>
-            <span className="label">Profile</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="7">
-          <NavLink to="/sign-in">
-            <span className="icon">{signin}</span>
-            <span className="label">Sign In</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="8">
-          <NavLink to="/sign-up">
-            <span className="icon">{signup}</span>
-            <span className="label">Sign Up</span>
-          </NavLink>
-        </Menu.Item>
+        {menuItem?.map((item, index) => (
+          <Menu.Item key={index+1}>
+            <NavLink to={item?.url}>
+              <span
+                className="icon"
+                style={{
+                  background: page === item?.url ? color : "",
+                }}
+              >
+                {item?.image}
+              </span>
+              <span className="label">{item?.label}</span>
+            </NavLink>
+          </Menu.Item>
+        ))}
       </Menu>
-      <div className="aside-footer">
-        <div
-          className="footer-box"
-          style={{
-            background: color,
-          }}
-        >
-          <span className="icon" style={{ color }}>
-            {dashboard}
-          </span>
-          <h6>Need Help?</h6>
-          <p>Please check our docs</p>
-          <Button type="primary" className="ant-btn-sm ant-btn-block">
-            DOCUMENTATION
-          </Button>
-        </div>
-      </div>
     </>
   );
 }
