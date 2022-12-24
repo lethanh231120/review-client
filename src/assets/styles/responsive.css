@@ -14,9 +14,9 @@
     margin: 0 0 20px 20px;
   }
   .layout-dashboard .ant-layout-sider.sider-primary {
-    margin: 20px 0 0 20px;
-    padding: 13px 20px;
-    height: calc(100vh - 20px);
+    /* margin: 20px 0 0 20px; */
+    /* padding: 13px 20px; */
+    height: 86vh;
   }
   .layout-dashboard .ant-layout {
     width: auto;
@@ -29,14 +29,11 @@
 }
 
 @media (min-width: 768px) {
-  .layout-dashboard .ant-layout-header {
-    margin: 10px 20px;
-  }
   .layout-dashboard .header-control {
     margin-top: 0;
   }
   .layout-dashboard .header-control .header-search {
-    margin: 0 7px;
+    /* margin: 0 7px; */
   }
   .layout-dashboard .header-control .btn-sign-in span {
     display: inline;

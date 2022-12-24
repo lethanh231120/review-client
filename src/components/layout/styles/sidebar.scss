@@ -1,0 +1,26 @@
+.ant-menu-submenu-title{
+    padding: 10px 34px 10px 16px !important;
+}
+.ant-menu-vertical .ant-menu-item, .ant-menu-vertical-left .ant-menu-item, .ant-menu-vertical-right .ant-menu-item, .ant-menu-inline .ant-menu-item, .ant-menu-vertical .ant-menu-submenu-title, .ant-menu-vertical-left .ant-menu-submenu-title, .ant-menu-vertical-right .ant-menu-submenu-title, .ant-menu-inline .ant-menu-submenu-title{
+    height: auto;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+.ant-menu-vertical > .ant-menu-item, .ant-menu-vertical-left > .ant-menu-item, .ant-menu-vertical-right > .ant-menu-item, .ant-menu-inline > .ant-menu-item, .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title{
+    height: auto !important;
+    line-height: 1 !important;
+}
+.number-menu{
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.3);
+}
+.sidebar-subcategory{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.sidebar{
+    margin: 3rem 0;
+}

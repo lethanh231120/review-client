@@ -1,30 +1,21 @@
-import { useState, useEffect } from "react";
-
-import {
-  Row,
-  Col,
-  Breadcrumb,
-  Badge,
-  Dropdown,
-  Button,
-  List,
-  Avatar,
-  Input,
-  Drawer,
-  Typography,
-  Switch,
-} from "antd";
-
-import {
-  SearchOutlined,
-  StarOutlined,
-  TwitterOutlined,
-  FacebookFilled,
-} from "@ant-design/icons";
-
-import { NavLink, Link } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
+import { Row, Col, Badge, Dropdown, Button, List, Avatar, Input, Drawer, Typography, Switch, Image, Popover, Form } from "antd";
+import { SearchOutlined, StarOutlined, TwitterOutlined, FacebookFilled } from "@ant-design/icons";
+import { getCookie, removeCookie, STORAGEKEY } from "../../utils/storage";
+import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+import { post } from "../../api/products";
+import { get } from "../../api/search";
+import Signin from "../modal/Signin";
+import _ from "lodash";
+
+import chatbox from '../../assets/images/chatbox.png'
 import avtar from "../../assets/images/team-2.jpg";
+import logo from "../../assets/images/logo.png";
+import title from "../../assets/images/title.png";
+
+import './styles/header.scss'
 
 const ButtonContainer = styled.div`
   .ant-btn-primary {
@@ -207,209 +198,299 @@ const profile = [
   </svg>,
 ];
 
-const toggler = [
-  <svg
-    width="20"
-    height="20"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 448 512"
-    key={0}
-  >
-    <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
-  </svg>,
-];
-
-const setting = [
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    key={0}
-  >
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M11.4892 3.17094C11.1102 1.60969 8.8898 1.60969 8.51078 3.17094C8.26594 4.17949 7.11045 4.65811 6.22416 4.11809C4.85218 3.28212 3.28212 4.85218 4.11809 6.22416C4.65811 7.11045 4.17949 8.26593 3.17094 8.51078C1.60969 8.8898 1.60969 11.1102 3.17094 11.4892C4.17949 11.7341 4.65811 12.8896 4.11809 13.7758C3.28212 15.1478 4.85218 16.7179 6.22417 15.8819C7.11045 15.3419 8.26594 15.8205 8.51078 16.8291C8.8898 18.3903 11.1102 18.3903 11.4892 16.8291C11.7341 15.8205 12.8896 15.3419 13.7758 15.8819C15.1478 16.7179 16.7179 15.1478 15.8819 13.7758C15.3419 12.8896 15.8205 11.7341 16.8291 11.4892C18.3903 11.1102 18.3903 8.8898 16.8291 8.51078C15.8205 8.26593 15.3419 7.11045 15.8819 6.22416C16.7179 4.85218 15.1478 3.28212 13.7758 4.11809C12.8896 4.65811 11.7341 4.17949 11.4892 3.17094ZM10 13C11.6569 13 13 11.6569 13 10C13 8.34315 11.6569 7 10 7C8.34315 7 7 8.34315 7 10C7 11.6569 8.34315 13 10 13Z"
-      fill="#111827"
-    ></path>
-  </svg>,
-];
-
-function Header({
-  placement,
-  name,
-  subName,
-  onPress,
-  handleSidenavColor,
-  handleSidenavType,
-  handleFixedNavbar,
-}) {
+const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedNavbar }) => {
+  const DEFAULT_TYPE = 'product'
+  const navigate = useNavigate()
   const { Title, Text } = Typography;
-
   const [visible, setVisible] = useState(false);
   const [sidenavType, setSidenavType] = useState("transparent");
-
+  const [openModalSignin, setOpenModalSignin] = useState(false)
+  const [dataSearch, setDataSearch] = useState()
+  const [form] = Form.useForm()
   useEffect(() => window.scrollTo(0, 0));
 
-  const showDrawer = () => setVisible(true);
-  const hideDrawer = () => setVisible(false);
+  const token = getCookie(STORAGEKEY.ACCESS_TOKEN)
+
+  const logout = async() => {
+    await removeCookie(STORAGEKEY.ACCESS_TOKEN)
+    await removeCookie(STORAGEKEY.USER_INFO)
+    await post('reviews/signout')
+    navigate('/')
+  }
+
+  const handleDetailProduct = (item) => {
+    console.log(item)
+    navigate(`../../products/${item?.id}`)
+  }
+
+  const handleSubmitSearch = (e) => {
+    if (e.key === 'Enter') {
+      if (dataSearch.length > 1) {
+        navigate('../../../filter', { state: { dataSearch: dataSearch }})
+        setDataSearch()
+      } else {
+        navigate(`../../../products/${dataSearch[0]?.id}`)
+        setDataSearch()
+      }
+    }
+  }
+
+  const handleChangeWithDebounce = _.debounce(async (e) => {
+    const params = {
+      type: DEFAULT_TYPE,
+      keyword: e.target.value
+    }
+    const dataSearch = await get('search/suggest', params)
+    if (dataSearch) {
+      const listDataSearch = []
+      dataSearch?.data?.products?.forEach((item) => {
+        const parts = [];
+        parts.push(item?.id.slice(0,8));
+        parts.push(item?.id.slice(8,12));
+        parts.push(item?.id.slice(12,16));
+        parts.push(item?.id.slice(16,20));
+        parts.push(item?.id.slice(20,32));
+        const GUID = parts.join('-'); 
+        listDataSearch.push({
+          ...item,
+          id: GUID
+        })
+      })
+      setDataSearch(listDataSearch)
+    }
+  }, 250)
 
   return (
     <>
-      <div className="setting-drwer" onClick={showDrawer}>
-        {setting}
+      <div className="setting-drwer" onClick={() => setVisible(!visible)}>
+        <Image src={chatbox} preview={false}/>
       </div>
       <Row gutter={[24, 0]}>
-        <Col span={24} md={6}>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <NavLink to="/">Pages</NavLink>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item style={{ textTransform: "capitalize" }}>
-              {name.replace("/", "")}
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </Col>
-        <Col span={24} md={18} className="header-control">
-          <Badge size="small" count={4}>
-            <Dropdown overlay={menu} trigger={["click"]}>
-              <a
-                href="#pablo"
-                className="ant-dropdown-link"
-                onClick={(e) => e.preventDefault()}
-              >
-                {bell}
-              </a>
-            </Dropdown>
-          </Badge>
-          <Button type="link" onClick={showDrawer}>
-            {logsetting}
-          </Button>
-          <Button
-            type="link"
-            className="sidebar-toggler"
-            onClick={() => onPress()}
-          >
-            {toggler}
-          </Button>
-          <Drawer
-            className="settings-drawer"
-            mask={true}
-            width={360}
-            onClose={hideDrawer}
-            placement={placement}
-            visible={visible}
-          >
-            <div layout="vertical">
-              <div className="header-top">
-                <Title level={4}>
-                  Configurator
-                  <Text className="subtitle">See our dashboard options.</Text>
-                </Title>
-              </div>
-
-              <div className="sidebar-color">
-                <Title level={5}>Sidebar Color</Title>
-                <div className="theme-color mb-2">
-                  <ButtonContainer>
-                    <Button
-                      type="primary"
-                      onClick={() => handleSidenavColor("#1890ff")}
-                    >
-                      1
-                    </Button>
-                    <Button
-                      type="success"
-                      onClick={() => handleSidenavColor("#52c41a")}
-                    >
-                      1
-                    </Button>
-                    <Button
-                      type="danger"
-                      onClick={() => handleSidenavColor("#d9363e")}
-                    >
-                      1
-                    </Button>
-                    <Button
-                      type="yellow"
-                      onClick={() => handleSidenavColor("#fadb14")}
-                    >
-                      1
-                    </Button>
-
-                    <Button
-                      type="black"
-                      onClick={() => handleSidenavColor("#111")}
-                    >
-                      1
-                    </Button>
-                  </ButtonContainer>
-                </div>
-
-                <div className="sidebarnav-color mb-2">
-                  <Title level={5}>Sidenav Type</Title>
-                  <Text>Choose between 2 different sidenav types.</Text>
-                  <ButtonContainer className="trans">
-                    <Button
-                      type={sidenavType === "transparent" ? "primary" : "white"}
+        <Col span={24} md={24} className="header-control header">
+          <div className="header-item">
+            <Row>
+              <Col xxl={{span:8}} sm={{span:0}}></Col>
+              <Col xxl={{span:16}} sm={{span:24}}>
+                <NavLink className="brand" to=''>
+                  <Image src={logo} preview={false} style={{ marginRight: '1rem' }}/>
+                  <Image src={title} preview={false} />
+                </NavLink>
+              </Col>
+            </Row>
+          </div>
+          <div className="header-item">
+            <Form form={form}>
+              <Form.Item name='keyword'>
+                <Input
+                  className="header-search"
+                  placeholder="Search Projects, Tokens"
+                  prefix={<SearchOutlined />}
+                  onChange={handleChangeWithDebounce}
+                  onKeyPress={handleSubmitSearch}
+                  onBlur={() => {
+                    // setDataSearch()
+                    form.resetFields()
+                  }}
+                />
+              </Form.Item>
+            </Form>
+            <div className={`header-item-form-data ${!_.isEmpty(dataSearch) ? 'active' : ''}`}>
+              {dataSearch?.map((item, index) => (
+                  <div
+                      key={index}
+                      className='header-item-form-data-item'
                       onClick={() => {
-                        handleSidenavType("transparent");
-                        setSidenavType("transparent");
+                        handleDetailProduct(item)
+                        setDataSearch()
+                        form.resetFields()
                       }}
-                    >
-                      TRANSPARENT
-                    </Button>
-                    <Button
-                      type={sidenavType === "white" ? "primary" : "white"}
-                      onClick={() => {
-                        handleSidenavType("#fff");
-                        setSidenavType("white");
-                      }}
-                    >
-                      WHITE
-                    </Button>
-                  </ButtonContainer>
-                </div>
-                <div className="fixed-nav mb-2">
-                  <Title level={5}>Navbar Fixed </Title>
-                  <Switch onChange={(e) => handleFixedNavbar(e)} />
-                </div>
-                <div className="ant-docment">
-                  <ButtonContainer>
-                    <Button type="black" size="large">
-                      FREE DOWNLOAD
-                    </Button>
-                    <Button size="large">VIEW DOCUMENTATION</Button>
-                  </ButtonContainer>
-                </div>
-                <div className="viewstar">
-                  <a href="#pablo">{<StarOutlined />} Star</a>
-                  <a href="#pablo"> 190</a>
-                </div>
-
-                <div className="ant-thank">
-                  <Title level={5} className="mb-2">
-                    Thank you for sharing!
-                  </Title>
-                  <ButtonContainer className="social">
-                    <Button type="black">{<TwitterOutlined />}TWEET</Button>
-                    <Button type="black">{<FacebookFilled />}SHARE</Button>
-                  </ButtonContainer>
-                </div>
+                  >
+                      <div className='header-item-form-data-item-data'>
+                        {item?.image ? (
+                          <Image src={item?.image} preview={false}/>
+                        ) : (
+                          <span className='table-icon-coin-logo'>
+                              {item?.name?.slice(0, 3)?.toUpperCase()}
+                          </span>
+                        )}
+                        {item?.name}
+                      </div>
+                      {item?.category && (
+                        <div className='header-item-form-data-item-category'>
+                          {item?.category}
+                        </div>
+                      )}
+                  </div>
+              ))}
               </div>
-            </div>
-          </Drawer>
-          <Link to="/sign-in" className="btn-sign-in">
-            {profile}
-            <span>Sign in</span>
-          </Link>
-          <Input
-            className="header-search"
-            placeholder="Type here..."
-            prefix={<SearchOutlined />}
-          />
+          </div>
+          <div className="header-item">
+            <Row>
+              <Col xxl={{span:16}} sm={{span:24}}>
+                <div style={{ textAlign: 'right' }}>
+                {token ? (
+                  <Popover
+                    placement='bottomRight'
+                    content={(<>
+                      <Typography
+                        variant='subtitle1'
+                        onClick={logout}
+                        className='header__link'
+                        style={{ cursor: 'pointer' }}
+                      >
+                        Logout
+                      </Typography>
+                    </>)}
+                    trigger='click'
+                    overlayClassName='menu-header-user-info-popover'
+                  >
+                    <Typography
+                      component='span'
+                      variant='subtitle1'
+                      fontWeight='bold'
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <span className='menu-header-account'>
+                        {profile}
+                        Le Thanh
+                      </span>
+                    </Typography>
+                  </Popover>
+                ) : 
+                  <span className="btn-sign-in" onClick={() => setOpenModalSignin(true)}>
+                    {profile}
+                    <span>Sign in</span>
+                  </span>
+                }
+                  <Button type="link" onClick={() => setVisible(true)}>
+                    {logsetting}
+                  </Button>
+                  <Drawer
+                    className="settings-drawer"
+                    mask={true}
+                    width={360}
+                    onClose={() => setVisible(false)}
+                    placement={placement}
+                    visible={visible}
+                  >
+                    <div layout="vertical">
+                      <div className="header-top">
+                        <Title level={4}>
+                          Configurator
+                          <Text className="subtitle">See our dashboard options.</Text>
+                        </Title>
+                      </div>
+
+                      <div className="sidebar-color">
+                        <Title level={5}>Sidebar Color</Title>
+                        <div className="theme-color mb-2">
+                          <ButtonContainer>
+                            <Button
+                              type="primary"
+                              onClick={() => handleSidenavColor("#1890ff")}
+                            >
+                              1
+                            </Button>
+                            <Button
+                              type="success"
+                              onClick={() => handleSidenavColor("#52c41a")}
+                            >
+                              1
+                            </Button>
+                            <Button
+                              type="danger"
+                              onClick={() => handleSidenavColor("#d9363e")}
+                            >
+                              1
+                            </Button>
+                            <Button
+                              type="yellow"
+                              onClick={() => handleSidenavColor("#fadb14")}
+                            >
+                              1
+                            </Button>
+
+                            <Button
+                              type="black"
+                              onClick={() => handleSidenavColor("#111")}
+                            >
+                              1
+                            </Button>
+                          </ButtonContainer>
+                        </div>
+
+                        <div className="sidebarnav-color mb-2">
+                          <Title level={5}>Sidenav Type</Title>
+                          <Text>Choose between 2 different sidenav types.</Text>
+                          <ButtonContainer className="trans">
+                            <Button
+                              type={sidenavType === "transparent" ? "primary" : "white"}
+                              onClick={() => {
+                                handleSidenavType("transparent");
+                                setSidenavType("transparent");
+                              }}
+                            >
+                              TRANSPARENT
+                            </Button>
+                            <Button
+                              type={sidenavType === "white" ? "primary" : "white"}
+                              onClick={() => {
+                                handleSidenavType("#fff");
+                                setSidenavType("white");
+                              }}
+                            >
+                              WHITE
+                            </Button>
+                          </ButtonContainer>
+                        </div>
+                        <div className="fixed-nav mb-2">
+                          <Title level={5}>Navbar Fixed </Title>
+                          <Switch onChange={(e) => handleFixedNavbar(e)} />
+                        </div>
+                        <div className="ant-docment">
+                          <ButtonContainer>
+                            <Button type="black" size="large">
+                              FREE DOWNLOAD
+                            </Button>
+                            <Button size="large">VIEW DOCUMENTATION</Button>
+                          </ButtonContainer>
+                        </div>
+                        <div className="viewstar">
+                          <a href="#pablo">{<StarOutlined />} Star</a>
+                          <a href="#pablo"> 190</a>
+                        </div>
+
+                        <div className="ant-thank">
+                          <Title level={5} className="mb-2">
+                            Thank you for sharing!
+                          </Title>
+                          <ButtonContainer className="social">
+                            <Button type="black">{<TwitterOutlined />}TWEET</Button>
+                            <Button type="black">{<FacebookFilled />}SHARE</Button>
+                          </ButtonContainer>
+                        </div>
+                      </div>
+                    </div>
+                  </Drawer>
+                  <Badge size="small" count={4}>
+                    <Dropdown overlay={menu} trigger={["click"]}>
+                      <a
+                        href="#pablo"
+                        className="ant-dropdown-link"
+                        onClick={(e) => e.preventDefault()}
+                      >
+                        {bell}
+                      </a>
+                    </Dropdown>
+                  </Badge>
+                  <Signin
+                    openModalSignin={openModalSignin}
+                    setOpenModalSignin={setOpenModalSignin}
+                  />
+                </div>
+              </Col>
+            </Row>
+          </div>
         </Col>
       </Row>
     </>
