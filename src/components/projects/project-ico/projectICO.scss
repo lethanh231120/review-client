@@ -28,6 +28,19 @@
                     object-fit: cover;
                 }
             }
+            & .ant-skeleton-element{
+                position: absolute;
+                top: 1.5rem;
+                left: 1.5rem;
+                width: 4rem;
+                height: 4rem;
+                z-index: 9;
+            }
+        }
+        & .ant-skeleton-element{
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
         }
         &-chain{
             display: flex;
@@ -57,6 +70,9 @@
             border-bottom-right-radius: 1.5rem;
             padding: 1rem;
             text-align: left;
+            & .ant-skeleton-content .ant-skeleton-title + .ant-skeleton-paragraph{
+                margin: 0;
+            }
             &-name{
                 font-size: 1.6rem;
                 font-weight: 700;

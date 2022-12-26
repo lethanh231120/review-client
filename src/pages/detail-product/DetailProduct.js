@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
-
-import { Image, Rate, Tooltip } from 'antd'
-import { Form, Input, Upload } from 'antd'
-import { DownOutlined, CodeOutlined, CaretUpOutlined, SendOutlined, FileImageOutlined } from '@ant-design/icons'
+import React, { useEffect, useState, useRef, useContext } from 'react'
+import { Image, Rate, Tooltip, Popover } from 'antd'
+import { Form, Input, Upload, Select, Checkbox } from 'antd'
+import { DownOutlined, CodeOutlined, CaretUpOutlined, SendOutlined, CopyOutlined } from '@ant-design/icons'
 import './detail-coin/detailCoin.scss'
 import checked from '../../assets/images/checked.png'
 import checked_warning from '../../assets/images/checked_warning.png'
@@ -18,10 +17,19 @@ import mask_scam from '../../assets/images/mask-scam.png'
 import Review from '../../components/list-review/Review'
 import { useParams } from 'react-router-dom'
 import _ from 'lodash'
-import { getCookie, STORAGEKEY } from '../../utils/storage'
+import { getCookie, setCookie, STORAGEKEY } from '../../utils/storage'
 import ReportScam from '../../components/modal/ReportScam'
+import ListReview from './product-footer/ListReview'
+import smile from '../../assets/images/smile.png'
+import EmojiPicker from 'emoji-picker-react'
+import icon_image from '../../assets/images/image.png'
+import { SignInContext } from '../../components/layout/Main'
 
 const DetailProduct = () => {
+    const DEFAULT_ALL = 'all'
+    const DEFAULT_SCAM = 'scam'
+    const DEFAULT_NOT_SCAM = 'notScam'
+    const signInContext = useContext(SignInContext)
     const TYPE_REVIEW = 'review'
     const TYPE_REPLY = 'reply'
     const TYPE_REACTION_FOR_REVIEW = 0
@@ -34,12 +42,23 @@ const DetailProduct = () => {
     const [openScam, setOpenScam] = useState(false)
     const [reload, setReload] = useState(false)
     const [dataAdd, setDataAdd] = useState()
-    const [image, setImage] = useState()
-    const [comment, setComment] = useState('')
+    const [defaultFilter, setDefaultFilter] = useState(DEFAULT_ALL)
+    const ref = useRef(null)
+    const [openEmoji, setOpenEmoji] = useState(false)
+    const [data, setData] = useState({
+        isScam: false,
+        content: '',
+        sources: [],
+        image: '',
+        star: 5
+    })
+    const [scams, setScams] = useState([])
+
     const [reactionData, setReactionData] = useState({
         type: '',
         data: {}
     })
+    const [dataSearch, setDataSearch] = useState()
 
     useEffect(() => {
         const getData = async() => {
@@ -137,81 +156,6 @@ const DetailProduct = () => {
         }
         getData()
     }, [productId])
-
-    useEffect(() => {
-        if (dataAdd) {
-            if (dataAdd?.type === TYPE_REVIEW) {
-                const getReview = async() => {
-                    const reviews = await get(`reviews/review?productId=${productInfo?.product?.id}`)
-                    const reviewItem = reviews?.data?.find((item) => (item?.accountId === userInfo?.id && item?.updatedDate === dataAdd?.data?.updatedDate && item?.productId === dataAdd?.data?.productId))
-                    const newReview = {
-                        reactions: [],
-                        replies: [],
-                        review: {
-                            ...reviewItem,
-                            accountType: userInfo?.accountType,
-                            email: userInfo?.email,
-                            acountImage: userInfo?.image,
-                            role: userInfo?.role,
-                            userName: userInfo?.userName
-                        }
-                    }
-                    if (productInfo?.reviews === null) {
-                        setProductInfo({
-                            ...productInfo,
-                            reviews: [ newReview ] 
-                        })
-                    } else {
-                        setProductInfo({
-                            ...productInfo,
-                            reviews: [
-                                newReview,
-                                ...productInfo?.reviews,
-                            ] 
-                        })
-                    }
-                }
-                getReview()
-            }
-            if (dataAdd?.type === TYPE_REPLY) {
-                const getReply = async() => {
-                    const reply = await get(`reviews/reply?productId=${productInfo?.product?.id}`)
-                    // tim trong mang data get reply theo projectid lays item co accounId, updatedDate, productId trung voi data cua reply vua them 
-                    const replyItem = reply?.data?.find((item) => (item?.accountId === userInfo?.id && item?.updatedDate === dataAdd?.data?.updatedDate && item?.productId === dataAdd?.data?.productId && item?.reviewId === dataAdd?.data?.reviewId))
-                    // time trong list review thuoc data detail cua product lay item co id === reviewId trong reply vua them
-                    const reviewItem = productInfo?.reviews?.find((item) => item?.review?.id === dataAdd?.data?.reviewId)
-                    // tao review moi
-                    const newReview = {
-                        ...reviewItem,
-                        replies: [
-                            {
-                                reactions: [],
-                                reply: {
-                                    ...replyItem,
-                                    accountType: userInfo?.accountType,
-                                    email: userInfo?.email,
-                                    acountImage: userInfo?.image,
-                                    role: userInfo?.role,
-                                    userName: userInfo?.userName
-                                }
-                            },
-                            ...reviewItem?.replies
-                        ],
-                    }
-                    // tim vi tri index cua review vua duoc add reply trong mang review cua data detail
-                    const index = productInfo?.reviews?.findIndex((item) => item?.review?.id === reviewItem?.review?.id)
-                    const newListReview = [...productInfo?.reviews]
-                    newListReview[index] = newReview
-                    // cap nhat lai data
-                    setProductInfo({
-                        ...productInfo,
-                        reviews: newListReview
-                    })
-                }
-                getReply()
-            }
-        }
-    }, [reload, dataAdd])
 
     useEffect(() => {
         const setData = async() => {
@@ -355,23 +299,23 @@ const DetailProduct = () => {
         }
     }, [reactionData])
 
-    const getBase64 = (img, callback) => {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result));
-        reader.readAsDataURL(img);
-    }
-
     const handleReply = async(e, type, reviewId) => {
-        if (e.key === 'Enter') {
+        if (e.ctrlKey && e.key === 'Enter') {
+            setData({
+                ...data,
+                content: `${data?.content}\n`
+            })
+        } else {
+            e.preventDefault()
             if (e.target.value !== '') {
                 if (type === TYPE_REVIEW) {
-                    const data = {
-                        content: e.target.value,
+                    const params = {
+                        ...data,
                         productId: productInfo?.product?.id,
-                        star: 5,
-                        image: image,
+                        productName: productInfo?.product?.name,
+                        type: productInfo?.product?.type,
                     }
-                    const dataAdd = await post('reviews/review', data)
+                    const dataAdd = await post('reviews/review', params)
                     if (dataAdd) {
                         setReload(true)
                         form.resetFields()
@@ -379,17 +323,24 @@ const DetailProduct = () => {
                             type: type,
                             data: dataAdd?.data
                         })
-                        setImage()
+                        setOpenComment(false)
+                        setData({
+                            isScam: false,
+                            content: '',
+                            sources: [],
+                            image: '',
+                            star: 5
+                        })
                     }
                 }
                 if (type === TYPE_REPLY) {
-                    const data = {
+                    const params = {
                         content: e.target.value,
                         reviewId: reviewId,
                         productId: productInfo?.product?.id,
-                        image: image
+                        image: data?.image
                     }
-                    const dataAdd = await post('reviews/reply', data)
+                    const dataAdd = await post('reviews/reply', params)
                     if (dataAdd) {
                         setReload(true)
                         form.resetFields()
@@ -397,23 +348,65 @@ const DetailProduct = () => {
                             type: type,
                             data: dataAdd?.data
                         })
-                        setImage()
+                        setData({
+                            isScam: false,
+                            content: '',
+                            sources: [],
+                            image: '',
+                            star: 5
+                        })
                     }
                 }
             }
         }
     }
     
+    const handlSubmitForm = async(e) => {
+        if (e.ctrlKey && e.key === 'Enter') {
+            setData({
+                ...data,
+                content: `${data?.content}\n`
+            })
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            const params = {
+                ...data,
+                productId: productInfo?.product?.id,
+                productName: productInfo?.product?.name,
+                type: productInfo?.product?.type,
+            }
+            const postData = await post('reviews/evaluate', params)
+            const newSources = []
+            postData?.data?.sources?.split(',')?.forEach((item) => {
+                newSources.push(item)
+            })
+            setData({
+                ...data,
+                content: '',
+                sources: [],
+                image: ''
+            })
+            setScams([
+                {
+                    ...postData?.data,
+                    sources: newSources,
+                    userImage: userInfo?.image
+                },
+                ...scams
+            ])
+        }
+    }
+
     const handleSend = async(type, reviewId, datacomment) => {
         if (type === TYPE_REVIEW) {
-            if (comment !== '') {
-                const data = {
-                    content: comment,
+            if (data?.content !== '') {
+                const params = {
+                    ...data,
                     productId: productInfo?.product?.id,
-                    star: 5,
-                    image: image
+                    productName: productInfo?.product?.name,
+                    type: productInfo?.product?.type,
                 }
-                const dataAdd = await post('reviews/review', data)
+                const dataAdd = await post('reviews/review', params)
                 if (dataAdd) {
                     setReload(true)
                     form.resetFields()
@@ -421,19 +414,26 @@ const DetailProduct = () => {
                         type: type,
                         data: dataAdd?.data
                     })
-                    setImage()
+                    setOpenComment(false)
+                    setData({
+                        isScam: false,
+                        content: '',
+                        sources: [],
+                        image: '',
+                        star: 5
+                    })
                 }
             }
         }
         if (type === TYPE_REPLY) {
             if (datacomment !== '') {
-                const data = {
+                const params = {
                     content: datacomment,
                     reviewId: reviewId,
                     productId: productInfo?.product?.id,
-                    image: image
+                    image: data?.image
                 }
-                const dataAdd = await post('reviews/reply', data)
+                const dataAdd = await post('reviews/reply', params)
                 if (dataAdd) {
                     setReload(true)
                     form.resetFields()
@@ -441,24 +441,184 @@ const DetailProduct = () => {
                         type: type,
                         data: dataAdd?.data
                     })
-                    setImage()
                 }
             }
         }
     }
 
-    const handleChangeFile = (e) => {
-        const formData = new FormData()
-        formData.append('file', e?.fileList[0]?.originFileObj)
-        const time = moment().unix()
-        getBase64(e.file.originFileObj, async(url) => {
-            const fileName= `${userInfo.id}_${time}`
-            const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
-            setImage(dataImage?.data)
-        });
+    const copyAddress = (e, address) => {
+        e.stopPropagation()
+        navigator.clipboard.writeText(address)
     }
 
-    console.log(productInfo)
+    const handleClickEmoji = (value) => {
+        const cursor = ref.current.selectionStart;
+        const text = data?.content.slice(0, cursor) + value.emoji;
+        setData({
+            ...data,
+            content: text
+        })
+    }
+
+    const handleChangeTextArea = (e) => {
+        const urlR = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
+        if (e.target.value.match(urlR)) {
+        } else {
+            setData({
+                ...data,
+                content: e.target.value
+            })
+        }
+        setOpenEmoji(false)
+    }
+
+    useEffect(() => {
+        if (dataAdd) {
+            if (dataAdd?.type === TYPE_REVIEW) {
+                const getReview = async() => {
+                    // const reviews = await get(`reviews/review?productId=${productInfo?.product?.id}`)
+                    // const reviewItem = reviews?.data?.find((item) => (item?.accountId === userInfo?.id && item?.updatedDate === dataAdd?.data?.updatedDate && item?.productId === dataAdd?.data?.productId))
+                    const newReview = {
+                        reactions: [],
+                        replies: [],
+                        review: {
+                            // ...reviewItem,
+                            ...dataAdd?.data,
+                            accountType: userInfo?.accountType,
+                            email: userInfo?.email,
+                            acountImage: userInfo?.image,
+                            role: userInfo?.role,
+                            userName: userInfo?.userName
+                        }
+                    }
+                    if (productInfo?.reviews === null) {
+                        setProductInfo({
+                            ...productInfo,
+                            reviews: [ newReview ] 
+                        })
+                    } else {
+                        setProductInfo({
+                            ...productInfo,
+                            reviews: [
+                                newReview,
+                                ...productInfo?.reviews,
+                            ] 
+                        })
+                    }
+                }
+                getReview()
+            }
+            if (dataAdd?.type === TYPE_REPLY) {
+                const getReply = async() => {
+                    // const reply = await get(`reviews/reply?productId=${productInfo?.product?.id}`)
+                    // tim trong mang data get reply theo projectid lays item co accounId, updatedDate, productId trung voi data cua reply vua them 
+                    // const replyItem = reply?.data?.find((item) => (item?.accountId === userInfo?.id && item?.updatedDate === dataAdd?.data?.updatedDate && item?.productId === dataAdd?.data?.productId && item?.reviewId === dataAdd?.data?.reviewId))
+                    // time trong list review thuoc data detail cua product lay item co id === reviewId trong reply vua them
+                    
+                    const reviewItem = productInfo?.reviews?.find((item) => item?.review?.id === dataAdd?.data?.reviewId)
+                    // tao review moi
+                    const newReview = {
+                        ...reviewItem,
+                        replies: [
+                            {
+                                reactions: [],
+                                reply: {
+                                    ...dataAdd?.data,
+                                    accountType: userInfo?.accountType,
+                                    email: userInfo?.email,
+                                    acountImage: userInfo?.image,
+                                    role: userInfo?.role,
+                                    userName: userInfo?.userName
+                                }
+                            },
+                            ...reviewItem?.replies
+                        ],
+                    }
+                    // tim vi tri index cua review vua duoc add reply trong mang review cua data detail
+                    const index = productInfo?.reviews?.findIndex((item) => item?.review?.id === reviewItem?.review?.id)
+                    const newListReview = [...productInfo?.reviews]
+                    newListReview[index] = newReview
+                    // cap nhat lai data
+                    setProductInfo({
+                        ...productInfo,
+                        reviews: newListReview
+                    })
+                }
+                getReply()
+            }
+        }
+    }, [reload, dataAdd])
+
+    const getBase64 = (img, callback) => {
+        const reader = new FileReader()
+        reader.addEventListener('load', () => callback(reader.result))
+        reader.readAsDataURL(img)
+    }
+
+    const handleChangeFile = (e) => {
+        if (userInfo) {
+            const formData = new FormData()
+            formData.append('file', e?.fileList[0]?.originFileObj)
+            const time = moment().unix()
+            getBase64(e.file.originFileObj, async(url) => {
+                const fileName= `${userInfo.id}_${time}`
+                const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
+                setData({
+                    ...data,
+                    image: dataImage?.data
+                })
+            });
+        } else {
+            signInContext?.handleSetOpenModal(true)
+        }
+    }
+
+    const handleChange = (values) => {
+        setData({
+            ...data,
+            sources: values
+        })
+    }
+
+    useEffect(() => {
+        if (defaultFilter === DEFAULT_ALL) {
+            setDataSearch(productInfo)
+        }
+        if (defaultFilter === DEFAULT_NOT_SCAM) {
+            const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === false)
+            setDataSearch({
+                ...productInfo,
+                reviews: listReview
+            })
+        }
+        if (defaultFilter === DEFAULT_SCAM) {
+            const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === true)
+            setDataSearch({
+                ...productInfo,
+                reviews: listReview
+            })
+        }
+    }, [defaultFilter])
+
+    useEffect(() => {
+        if (productInfo) {
+            console.log(productInfo)
+            setInterval(async() => {
+                const reviews = await get(`reviews/review?productId=${productInfo?.product?.id}`)
+                const replies = await get(`reviews/reply?productId=${productInfo?.product?.id}`)
+
+                let newReview
+                reviews?.data?.forEach((item) => {
+                    newReview = replies?.data?.filter((itemReply) => itemReply?.reviewId === item?.id)
+                    console.log(newReview)
+                })
+                console.log(reviews?.data)
+                console.log(replies?.data)
+             console.log(111111)
+            }, 10000)
+        }
+      }, [productInfo])
+
     return (
         <div className='product'>
             <div className='product-detail'>
@@ -478,7 +638,7 @@ const DetailProduct = () => {
                                     <div className='product-overview-symbol'>{productInfo?.product?.symbol}</div>
                                 ) : ''}
                                 <div className='product-overview-evaluate'>
-                                    <Tooltip placement="topLeft" title='reason scam'>
+                                    <Tooltip placement="topLeft" title='content scam'>
                                         <Image
                                             src={productInfo?.product?.isScam ? checked_scam : productInfo?.product?.isWarning ? checked_warning : checked}
                                             preview={false}
@@ -491,11 +651,21 @@ const DetailProduct = () => {
                                 {/* <div className='product-overview-parameter-reviews-amount'>Reviews 2.387</div> */}
                             </div>
                             <div className='product-overview-list-tags'>
-                                <div className='product-tag'>{productInfo?.product?.type}</div>
-                                {productInfo?.product?.holders > 0 && (
-                                    <div className='product-tag'>{productInfo?.product?.holders} Holders</div>
+                                {productInfo?.product?.type && (
+                                    <div className='product-tag'>{productInfo?.product?.type}</div>
                                 )}
-                                <div className='product-tag'>{productInfo?.product?.chainName}</div>
+                                {productInfo?.product?.detail !== null && (
+                                    <>
+                                        {parseInt(productInfo?.product?.detail?.holders) > 0 && (
+                                            <div className='product-tag'>
+                                                {new Intl.NumberFormat().format(productInfo?.product?.detail?.holders)} Holders
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                                {productInfo?.product?.chainName !== null && (
+                                    <div className='product-tag'>{productInfo?.product?.chainName}</div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -519,22 +689,54 @@ const DetailProduct = () => {
                             </>
                         )}
                         <div className='product-market-list'>
-                            <div className='product-market-list-item'>
-                                <div className='product-market-list-item-title'>Market Cap</div>
-                                <div className='product-market-list-item-amount'>$1.000.234</div>
-                            </div>
-                            <div className='product-market-list-item'>
-                                <div className='product-market-list-item-title'>Total Supply</div>
-                                <div className='product-market-list-item-amount'>$1.000.234</div>
-                            </div>
-                            <div className='product-market-list-item'>
-                                <div className='product-market-list-item-title'>Max Supply</div>
-                                <div className='product-market-list-item-amount'>$1.000.234</div>
-                            </div>
-                            <div className='product-market-list-item'>
-                                <div className='product-market-list-item-title'>Volumn Trading</div>
-                                <div className='product-market-list-item-amount'>$1.000.234</div>
-                            </div>
+                            {productInfo?.product?.detail !== null && (
+                                <>
+                                    {productInfo?.product?.detail?.marketCap && productInfo?.product?.detail?.marketCap !== null && (
+                                        <div className='product-market-list-item'>
+                                            <div className='product-market-list-item-title'>Market Cap</div>
+                                            <div className='product-market-list-item-amount'>
+                                                ${Number(productInfo?.product?.detail?.marketCap)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                            {productInfo?.product?.detail !== null && (
+                                <>
+                                    {productInfo?.product?.detail?.totalSupply && productInfo?.product?.detail?.totalSupply !== null && (
+                                        <div className='product-market-list-item'>
+                                            <div className='product-market-list-item-title'>Total Supply</div>
+                                            <div className='product-market-list-item-amount'>
+                                                ${Number(productInfo?.product?.detail?.totalSupply)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                            {productInfo?.product?.detail !== null && (
+                                <>
+                                    {productInfo?.product?.detail?.maxSupply && productInfo?.product?.detail?.maxSupply !== null && (
+                                        <div className='product-market-list-item'>
+                                            <div className='product-market-list-item-title'>Max Supply</div>
+                                            <div className='product-market-list-item-amount'>
+                                                ${Number(productInfo?.product?.detail?.maxSupply)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                            {productInfo?.product?.detail !== null && (
+                                <>
+                                    {productInfo?.product?.detail?.volumeTrading && productInfo?.product?.detail?.volumeTrading !== null && productInfo?.product?.detail?.volumeTrading !== '0' && (
+                                        <div className='product-market-list-item'>
+                                            <div className='product-market-list-item-title'>Volume Trading</div>
+                                            <div className='product-market-list-item-amount'>
+                                                ${productInfo?.product?.detail?.volumeTrading?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
+                            )}
                         </div>
                     </div>
                     {productInfo?.product?.category && (
@@ -555,185 +757,259 @@ const DetailProduct = () => {
                             <div className='product-info-item'>
                                 <div className='product-info-item-key'>Sub Category: </div>
                                 <div className='product-overview-list-tags'>
-                                    {productInfo?.product?.subcategory?.split(';')?.map((item) => (
-                                        <div className='product-tag'>{item}</div>
-                                    ))}
+                                    {(productInfo?.product?.subcategory?.split(';')
+                                        ? productInfo?.product?.subcategory?.split(';')
+                                            : productInfo?.product?.subcategory?.split(','))?.map((item) => (
+                                                <div className='product-tag'>{item}</div>
+                                            ))}
                                 </div>
                             </div>
                         </div>
                     )}
 
-                    <div className='product-info-item-key'>Product Info: </div>
-                    <div className='product-info'>
-                        <div className='product-info-item'>
-                            <div className='product-tag-item'>
-                                Source Code:
-                                <CodeOutlined />
-                                <div className='product-tag-item-list'>
-                                    <div className='product-tag-item-list-children'>source 1</div>
-                                    <div className='product-tag-item-list-children'>source 2</div>
-                                    <div className='product-tag-item-list-children'>source 3</div>
-                                    <div className='product-tag-item-list-children'>source 4</div>
-                                    <div className='product-tag-item-list-children'>source 5</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='product-info-item'>
-                            <div className='product-tag-item'>
-                                Social
-                                <DownOutlined />
-                                <div className='product-tag-item-list'>
-                                    {productInfo?.product?.detail?.social?.map((item, index) => (
-                                        <div className='product-tag-item-list-children' key={index}>
-                                            <a href={`${item}`} rel="noreferrer" target='_blank'>{item}</a>
+                    {productInfo?.product?.detail && productInfo?.product?.detail !== null && (
+                        <>
+                            <div className='product-info-item-key'>Product Info: </div>
+                            <div className='product-info'>
+                                <div className='product-info-item'>
+                                    {!_.isEmpty(productInfo?.product?.detail?.sourceCode) && (
+                                        <div className='product-tag-item'>
+                                            Source Code:
+                                            <CodeOutlined />
+                                            <div className='product-tag-item-list'>
+                                                {Object.keys(productInfo?.product?.detail?.sourceCode).map((key) => {
+                                                    return (<>
+                                                        <>
+                                                            {productInfo?.product?.detail?.sourceCode[key]?.map((item, index) => (
+                                                                <div className='product-tag-item-list-children'>
+                                                                    <a href={item} target='_blank'  rel="noreferrer">{key} {index + 1}</a>
+                                                                </div>
+                                                            ))}
+                                                        </>
+                                                    </>
+                                                    )
+                                                })}
+                                            </div>
                                         </div>
-                                    ))}
+                                    )}
                                 </div>
-                            </div>
-                        </div>
-                        <div className='product-info-item'>
-                            <div className='product-tag-item'>
-                                Community
-                                <DownOutlined />
-                                <div className='product-tag-item-list'>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='product-info-item'>
-                            <div className='product-tag-item'>
-                                Contract
-                                <DownOutlined />
-                                <div className='product-tag-item-list'>
-                                    {productInfo?.product?.contract?.contract?.map((item, index) => (
-                                        <div className='product-tag-item-list-children' key={index}>
-                                            <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>
-                                                {item?.address} {item?.chainName}
-                                            </a>
+                                <div className='product-info-item'>
+                                    {!_.isEmpty(productInfo?.product?.detail?.sourceCode) && (
+                                        <div className='product-tag-item'>
+                                            Social
+                                            <DownOutlined />
+                                            {productInfo?.product?.detail !== null && (
+                                                <div className='product-tag-item-list'>
+                                                    {productInfo?.product?.detail?.social?.map((item, index) => (
+                                                        <div className='product-tag-item-list-children' key={index}>
+                                                            <a href={`${item}`} rel="noreferrer" target='_blank'>{item}</a>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
-                                    ))}
+                                    )}
+                                </div>
+                                <div className='product-info-item'>
+                                    {!_.isEmpty(productInfo?.product?.detail?.community) && (
+                                        <div className='product-tag-item'>
+                                            Community
+                                            <DownOutlined />
+                                            <div className='product-tag-item-list'>
+                                                {Object.keys(productInfo?.product?.detail?.community).map((key) => {
+                                                    return (<>
+                                                        <>
+                                                            {productInfo?.product?.detail?.community[key]?.map((item, index) => (
+                                                                <div className='product-tag-item-list-children'>
+                                                                    <a href={item} target='_blank'  rel="noreferrer">{key} {index + 1}</a>
+                                                                </div>
+                                                            ))}
+                                                        </>
+                                                    </>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='product-info-item'>
+                                    {!_.isEmpty(productInfo?.product?.contract) && (
+                                        <div className='product-tag-item'>
+                                            Contract
+                                            <DownOutlined />
+                                            <div className='product-tag-item-list'>
+                                                {productInfo?.product?.contract?.contract?.map((item, index) => (
+                                                    <div className='product-tag-item-list-children' key={index}>
+                                                        <div className='product-tag-item-list-children-contract'>
+                                                            <span className='product-tag-item-list-children-contract-address'>
+                                                                {item?.address}
+                                                            </span>
+                                                            <CopyOutlined
+                                                                style={{ padding: '0, 1rem' }}
+                                                                onClick={(e) => copyAddress(e, item?.address)}
+                                                            />
+                                                            <span className='product-tag-item-list-children-contract-chain'>
+                                                                {item?.chainName}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='product-info-item'>
+                                    {!_.isEmpty(productInfo?.product?.detail?.founders) && (
+                                        <div className='product-tag-item'>
+                                            Founders
+                                            <DownOutlined />
+                                            <div className='product-tag-item-list'>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='product-info-item'>
+                                    {!_.isEmpty(productInfo?.product?.detail?.funds) && (
+                                        <div className='product-tag-item'>
+                                            Funds
+                                            <DownOutlined />
+                                            <div className='product-tag-item-list'>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='product-info-item'>
+                                    {!_.isEmpty(productInfo?.product?.detail?.moreInfo) && (
+                                        <div className='product-tag-item'>
+                                            More
+                                            <DownOutlined />
+                                            <div className='product-tag-item-list'>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                                <div className='product-tag-item-list-children'>
+                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='product-info-item'>
+                                    {!_.isEmpty(productInfo?.product?.detail?.decimals) && (
+                                        <div className='product-tag-item'>
+                                            Decimals
+                                            <DownOutlined />
+                                            <div className='product-tag-item-list'>
+                                                {Object.keys(productInfo?.product?.detail?.decimals).map((key) => {
+                                                    return (<>
+                                                        <div className='product-tag-item-list-children'>
+                                                            <div className='product-tag-item-list-children-contract'>
+                                                                <span className='product-tag-item-list-children-contract-decimals'>
+                                                                    {productInfo?.product?.detail?.decimals[key]?.contract_address}
+                                                                </span>
+                                                                <CopyOutlined
+                                                                    style={{ padding: '0, 1rem' }}
+                                                                    onClick={(e) => copyAddress(e, productInfo?.product?.detail?.decimals[key]?.contract_address)}
+                                                                />
+                                                                <span className='product-tag-item-list-children-contract-chain'>
+                                                                    {key}
+                                                                </span>
+                                                                <span className='product-tag-item-list-children-contract-decimal'>
+                                                                    {productInfo?.product?.detail?.decimals[key]?.decimal_place}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='product-info-item'>
+                                    {!_.isEmpty(productInfo?.product?.detail?.website) && (
+                                        <div className='product-tag-item'>
+                                            Websites
+                                            <DownOutlined />
+                                            <div className='product-tag-item-list'>
+                                                {Object.keys(productInfo?.product?.detail?.website).map((key) => {
+                                                    return (<>
+                                                        {!_.isEmpty(productInfo?.product?.detail?.website[key]) && (
+                                                            <>
+                                                                {productInfo?.product?.detail?.website[key]?.map((item, index) => (
+                                                                    <div className='product-tag-item-list-children'>
+                                                                        <a href={item} target='_blank'  rel="noreferrer">{key} {index + 1}</a>
+                                                                    </div>
+                                                                ))}
+                                                            </>
+                                                        )}
+                                                    </>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                        </div>
-                        <div className='product-info-item'>
-                            <div className='product-tag-item'>
-                                Founders
-                                <DownOutlined />
-                                <div className='product-tag-item-list'>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='product-info-item'>
-                            <div className='product-tag-item'>
-                                Funds
-                                <DownOutlined />
-                                <div className='product-tag-item-list'>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='product-info-item'>
-                            <div className='product-tag-item'>
-                                More
-                                <DownOutlined />
-                                <div className='product-tag-item-list'>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='product-info-item'>
-                            <div className='product-tag-item'>
-                                Decimals
-                                <DownOutlined />
-                                <div className='product-tag-item-list'>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='product-info-item'>
-                            <div className='product-tag-item'>
-                                Websites
-                                <DownOutlined />
-                                <div className='product-tag-item-list'>
-                                    <div className='product-tag-item-list-children'>
-                                        <a href={`${productInfo?.detail?.website}`} rel="noreferrer" target='_blank'>{productInfo?.detail?.website}</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </>
+                    )}
 
-                    <div className='product-info-item-key'>Description: </div>
-                    <div className='product-info-item-desc'>
-                        {(productInfo?.product?.desc !== null) ? productInfo?.product?.desc : (productInfo?.product?.detail && productInfo?.product?.detail?.description !== null) ? productInfo?.product?.detail?.description : ''}
-                    </div>
-                    <ProductFooter
+                    {productInfo?.product?.desc && (
+                        <>
+                            <div className='product-info-item-key'>Description: </div>
+                            <div className='product-info-item-desc'>
+                                {(productInfo?.product?.desc !== null) ? productInfo?.product?.desc : (productInfo?.product?.detail && productInfo?.product?.detail?.description !== null) ? productInfo?.product?.detail?.description : ''}
+                            </div>
+                        </>
+                    )}
+                    
+                    {/* <ProductFooter
                         liked={liked}
                         chat_icon={chat_icon}
                         mask_scam={mask_scam}
                         setOpenComment={setOpenComment}
                         productInfo={productInfo}
                         setOpenScam={setOpenScam}
+                    /> */}
+                    <ListReview
+                        setOpenComment={setOpenComment}
+                        defaultFilter={defaultFilter}
+                        setDefaultFilter={setDefaultFilter}
                     />
-                    <Form form={form} style={{ width: '100%' }}>
+                    {/* <Form form={form} style={{ width: '100%' }}>
                         <div className='review'>
-                            {openComment && (
+                            {!openComment && (
                                 <div className='product-detail-form'>
                                     <div className='product-detail-form-avatar'>
                                         <Image src={userInfo?.image ? userInfo?.image : user} preview={false}/>
@@ -769,7 +1045,112 @@ const DetailProduct = () => {
                                 </div>
                             )}
                         </div>
-                        {productInfo?.reviews?.map((item, index) => (
+                    </Form> */}
+                    {/* {productInfo?.reviews?.map((item, index) => (
+                        <Review
+                            openComment={openComment}
+                            key={index}
+                            data={item}
+                            productId={productInfo?.product?.id}
+                            handleReply={handleReply}
+                            handleSend={handleSend}
+                            userInfo={userInfo}
+                            setReactionData={setReactionData}
+                            setData={setData}
+                            // setComment={setComment}
+                        />
+                    ))} */}
+
+                    {openComment && (
+                        <div className='product-detail-form'>
+                            <div className='product-detail-form-avatar'>
+                                <Image src={userInfo?.image ? userInfo?.image : user} preview={false}/>
+                            </div>
+                            <div className='product-detail-form-content'>
+                                <div className='product-detail-form-content-text'>
+                                    <div className='product-detail-form-content-rate'>
+                                        <Rate
+                                            defaultValue={data?.star}
+                                            onChange={(value) => setData({...data, star: value})}
+                                        />
+                                    </div>
+                                    <Input.TextArea
+                                        className='product-detail-form-content-textarea'
+                                        ref={ref}
+                                        value={data?.content}
+                                        autoFocus
+                                        placeholder='Enter comment...'
+                                        autoSize={{ minRows: 1 }}
+                                        onChange={handleChangeTextArea}
+                                        onFocus={() => setOpenEmoji(false)}
+                                        onPressEnter={(e) => handleReply(e, TYPE_REVIEW)}
+                                    />
+                                    <Select
+                                        value={data?.sources}
+                                        placeholder="Enter multiple link"
+                                        mode="tags"
+                                        onChange={handleChange}
+                                        onFocus={() => setOpenEmoji(false)}
+                                    />
+                                    <Popover
+                                        content='Click to report scam project'
+                                        overlayClassName='product-detail-form-content-popover'
+                                    >
+                                        <div style={{ margin: '1rem 0', width: 'fit-content' }}>
+                                            <Checkbox
+                                                onChange={() => setData({...data, isScam: !data?.isScam})}
+                                                checked={data?.isScam}
+                                            >
+                                                Is Scam
+                                            </Checkbox>
+                                        </div>
+                                    </Popover>
+                                    {data?.image && (
+                                        <div className='product-detail-form-image'>
+                                            <Image src={data?.image} preview={false}/>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='product-detail-form-footer'>
+                                    <div className='product-detail-form-footer-item'>
+                                        <Upload
+                                            onChange={handleChangeFile}
+                                        >
+                                            <Image src={icon_image} preview={false}/>
+                                        </Upload>
+                                    </div>
+                                    <div className='product-detail-form-footer-item'>
+                                        <Image
+                                            src={smile}
+                                            preview={false}
+                                            onClick={() => setOpenEmoji(!openEmoji)}
+                                            className='product-detail-form-icon-emoji'
+                                        />
+                                    </div>
+                                    <div className='product-detail-form-footer-item'>
+                                        {openEmoji && 
+                                            <EmojiPicker
+                                                emojiStyle='facebook'
+                                                height={250}
+                                                width={250}
+                                                lazyLoadEmojis={true}
+                                                onEmojiClick={handleClickEmoji}
+                                                
+                                            />
+                                        }
+                                    </div>
+                                    <div className='product-detail-form-footer-item'>
+                                        <SendOutlined
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() => handleSend(TYPE_REVIEW)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    <Form form={form}>
+                        {(dataSearch ? dataSearch : productInfo)?.reviews?.map((item, index) => (
                             <Review
                                 openComment={openComment}
                                 key={index}
@@ -779,20 +1160,19 @@ const DetailProduct = () => {
                                 handleSend={handleSend}
                                 userInfo={userInfo}
                                 setReactionData={setReactionData}
-                                setImage={setImage}
-                                setComment={setComment}
+                                setData={setData}
                             />
                         ))}
                     </Form>
                 </div>
             </div>
-            <ReportScam
+            {/* <ReportScam
                 productInfo={productInfo}
                 productId={productId}
                 openScam={openScam}
                 setOpenScam={setOpenScam}
                 userInfo={userInfo}
-            />
+            /> */}
         </div>
     )
 }

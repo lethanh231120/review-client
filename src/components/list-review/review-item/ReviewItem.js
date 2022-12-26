@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Image, Button, Input, Form, Upload } from 'antd'
+import { Image, Input, Form, Upload } from 'antd'
 import './reviewItem.scss'
-import { CaretDownOutlined, SendOutlined, FileImageOutlined } from '@ant-design/icons'
+import { CaretDownOutlined, SendOutlined, FileImageOutlined, LinkOutlined } from '@ant-design/icons'
 import user from '../../../assets/images/user.png'
 import moment from 'moment'
 import ReplyComment from '../reply/Reply'
 import _ from 'lodash'
 import { post, patch } from '../../../api/products'
 
-const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId, setReactionData, setImage, handleSend }) => {
+const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId, setReactionData, setData, handleSend }) => {
   const TYPE_REPLY = 'reply'
   const TYPE_REVIEW = 0
   const [isCollapse, setIsCollapse] = useState(true)
@@ -66,7 +66,13 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
     getBase64(e.file.originFileObj, async(url) => {
         const fileName= `${userInfo.id}_${time}`
         const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
-        setImage(dataImage?.data)
+        setData({
+          isScam: false,
+          content: '',
+          sources: [],
+          image: dataImage?.data,
+          star: 5
+        })
         setImageReply(dataImage?.data)
     });
   }
@@ -84,13 +90,26 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
               </div>
               <div className='review-item-content'>
                 {data?.review?.content}
+                {!_.isEmpty(data?.review?.sources) && (
+                  <div className='review-item-content-source'>
+                    {data?.review?.sources?.map((item, index) => (
+                      <>
+                        {item !== '' && (
+                          <a href={item} target='_blank' rel="noreferrer">
+                            <LinkOutlined style={{ marginRight: '0.5rem' }}/> Proof {index + 1}
+                          </a>
+                        )}
+                      </>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
-            {/* {data?.review?.image && ( */}
+            {data?.review?.image && (
                 <div className='review-item-comment-image'>
-                  <Image src={data?.review?.image ? data?.review?.image : user} preview={true}/>
+                  <Image src={data?.review?.image} preview={true}/>
                 </div>
-            {/* )} */}
+            )}
             <div className='review-item-action'>
               <div className='review-item-action-list'>
                 <div className='review-item-action-item'>
@@ -171,14 +190,16 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
                           style={{ cursor: 'pointer' }}
                           onClick={() => {
                             handleSend(TYPE_REPLY, data?.review?.id, comment)
+                            setAddReply(false)
                             setImageReply()
                           }}
                         />
                       </>}
-                      placeholder='Enter comment...'
+                      placeholder='Enter reply...'
                       onChange={(e) => setComment(e.target.value)}
-                      onKeyPress={(e) => {
+                      onPressEnter={(e) => {
                         handleReply(e, TYPE_REPLY, data?.review?.id)
+                        setAddReply(false)
                         setImageReply()
                       }}
                     />

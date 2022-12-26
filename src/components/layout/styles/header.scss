@@ -1,7 +1,7 @@
 .header{
     &-item{
         & .ant-form-item{
-            margin-bottom: 1.5rem;
+            margin-bottom: 0rem;
         }
         & .ant-input-affix-wrapper{
             position: relative !important;
@@ -12,6 +12,11 @@
         }
         &-form{
             &-data{
+                & .ant-spin-spinning{
+                    height: 15rem;
+                    line-height: 15rem;
+                    width: 100%;
+                }
                 &.active{
                     position: absolute;
                     width: calc(50% - 3rem);
@@ -24,10 +29,17 @@
                     opacity: 1;
                     visibility: visible;
                     height: auto;
-                    max-height: 23rem;
+                    max-height: 41rem;
                     overflow-y: auto;
-                    &::-webkit-scrollbar{
-                        display: none;
+                    &::-webkit-scrollbar {
+                        width: 0.6rem;
+                    }
+                    &::-webkit-scrollbar-track {
+                        border-radius: 10px;
+                    }
+                    &::-webkit-scrollbar-thumb {
+                        background: rgba(0, 0, 0, 0.6); 
+                        border-radius: 10px;
                     }
                 }
                 &-item{

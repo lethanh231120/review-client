@@ -11,7 +11,7 @@ const ProjectItem = ({ data, checked, chat_icon, love_icon, scam_icon }) => {
         </div>
         <div className="project-content">
         <div className="project-content-name">
-            {data?.name}
+            <span>{data?.name}</span>
             <div className="project-content-icon">
                 <Image src={data?.isScam ? checked_scam : checked} preview={false}/>
             </div>

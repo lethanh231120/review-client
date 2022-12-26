@@ -19,14 +19,12 @@ const CategoryItem = () => {
     subcategory: '',
   })
   const location = useLocation()
-  console.log(location)
 
   useEffect(() => {
     const getData = async() => {
       let param = {}
       if (location?.state !== null) {
         if (location?.state?.dataSearch) {
-          console.log(location?.state?.dataSearch)
           setListProduct(location?.state?.dataSearch)
           setLoading(false)
         } else {
@@ -38,7 +36,6 @@ const CategoryItem = () => {
       } else {
         param = params
       }
-      console.log(param)
       setParams(param)
     }
     getData()
@@ -49,7 +46,6 @@ const CategoryItem = () => {
       setLoading(true)
       const getData = async() => {
         const dataBySearch = await get ('reviews/product/filters', params)
-        console.log(dataBySearch)
         setListProduct(dataBySearch?.data?.products !== null ? dataBySearch?.data?.products : [])
         setTotal(dataBySearch?.data?.productCount)
         setLoading(false)
@@ -57,15 +53,6 @@ const CategoryItem = () => {
       getData()
     }
   }, [params])
-
-  const handleChangePage = (value) => {
-    console.log(value)
-    setLoading(true)
-    setParams({
-      ...params,
-      page: value
-    })
-  }
 
   return (
     <div
@@ -78,9 +65,6 @@ const CategoryItem = () => {
           {_.isEmpty(listProduct) ? (
             <Empty
               image={nodata}
-              // imageStyle={{
-              //   height: 60,
-              // }}
               description={
                 <span>
                   <span style={{ fontSize: '2.2rem', color: 'red', fontWeight: 600 }}>SORRY </span>
@@ -90,8 +74,8 @@ const CategoryItem = () => {
             />
           ) : (
             <>
-              {listProduct?.map((item) => (
-                <ProjectSearch data={item} total={total}/>
+              {listProduct?.map((item, index) => (
+                <ProjectSearch data={item} total={total} key={index}/>
               ))}
             </>
           )}
@@ -106,7 +90,7 @@ const CategoryItem = () => {
                 current={params?.page}
                 pageSize={PAGE_SIZE}
                 showSizeChanger={false}
-                onChange={handleChangePage}
+                onChange={(value) => setParams({...params, page: value})}
               />
             </div>
           )}

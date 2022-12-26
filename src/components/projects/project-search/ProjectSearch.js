@@ -11,13 +11,13 @@ const ProjectSearch = ({ data }) => {
     <>
       <div className='project-search' onClick={() => navigate(`../../../products/${data?.id}`)}>
         <div className='project-search-image'>
-          {/* {data?.image ? ( */}
+          {data?.image ? (
             <Image src={data?.image} preview={false}/>
-          {/* ) : (
+          ) : (
               <span className='project-search-image-logo'>
                 {data?.name?.slice(0, 3)?.toUpperCase()}
             </span>
-          )} */}
+          )}
         </div>
         <div className='project-search-content'>
           <div className='project-search-name'>

@@ -1,19 +1,21 @@
-import { useState, useEffect, useCallback } from "react";
-import { Row, Col, Badge, Dropdown, Button, List, Avatar, Input, Drawer, Typography, Switch, Image, Popover, Form } from "antd";
+import { useState, useEffect, useContext } from "react";
+import { Row, Col, Badge, Dropdown, Button, List, Avatar, Input, Drawer, Typography, Switch, Image, Popover, Spin, Form, Empty } from "antd";
 import { SearchOutlined, StarOutlined, TwitterOutlined, FacebookFilled } from "@ant-design/icons";
 import { getCookie, removeCookie, STORAGEKEY } from "../../utils/storage";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import nodata from '../../assets/images/nodata.png'
 
 import { post } from "../../api/products";
 import { get } from "../../api/search";
-import Signin from "../modal/Signin";
 import _ from "lodash";
 
 import chatbox from '../../assets/images/chatbox.png'
 import avtar from "../../assets/images/team-2.jpg";
 import logo from "../../assets/images/logo.png";
 import title from "../../assets/images/title.png";
+import { SignInContext } from "./Main";
+import Signin from "../modal/Signin";
 
 import './styles/header.scss'
 
@@ -199,13 +201,18 @@ const profile = [
 ];
 
 const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedNavbar }) => {
+  const signContext = useContext(SignInContext)
   const DEFAULT_TYPE = 'product'
   const navigate = useNavigate()
   const { Title, Text } = Typography;
   const [visible, setVisible] = useState(false);
   const [sidenavType, setSidenavType] = useState("transparent");
-  const [openModalSignin, setOpenModalSignin] = useState(false)
-  const [dataSearch, setDataSearch] = useState()
+  const [dataSearch, setDataSearch] = useState({
+    data: [],
+    loading: false,
+    status: '',
+    isActive: false
+  })
   const [form] = Form.useForm()
   useEffect(() => window.scrollTo(0, 0));
 
@@ -225,25 +232,31 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
 
   const handleSubmitSearch = (e) => {
     if (e.key === 'Enter') {
-      if (dataSearch.length > 1) {
-        navigate('../../../filter', { state: { dataSearch: dataSearch }})
-        setDataSearch()
+      if (dataSearch?.data.length > 1) {
+        navigate('../../../filter', { state: { dataSearch: dataSearch?.data }})
+        setDataSearch({ data: [], isActive: false, status: '', loading: false })
+        form.resetFields()
       } else {
         navigate(`../../../products/${dataSearch[0]?.id}`)
-        setDataSearch()
+        form.resetFields()
       }
     }
   }
 
   const handleChangeWithDebounce = _.debounce(async (e) => {
+    setDataSearch({
+      ...dataSearch,
+      loading: true,
+      isActive: true
+    })
     const params = {
       type: DEFAULT_TYPE,
       keyword: e.target.value
     }
-    const dataSearch = await get('search/suggest', params)
-    if (dataSearch) {
+    const search = await get('search/suggest', params)
+    if (search) {
       const listDataSearch = []
-      dataSearch?.data?.products?.forEach((item) => {
+      search?.data?.products?.forEach((item) => {
         const parts = [];
         parts.push(item?.id.slice(0,8));
         parts.push(item?.id.slice(8,12));
@@ -256,7 +269,12 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
           id: GUID
         })
       })
-      setDataSearch(listDataSearch)
+      setDataSearch({
+        loading: false,
+        data: listDataSearch,
+        status: 'done',
+        isActive: true
+      })
     }
   }, 250)
 
@@ -288,41 +306,67 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
                   onChange={handleChangeWithDebounce}
                   onKeyPress={handleSubmitSearch}
                   onBlur={() => {
-                    // setDataSearch()
+                    setDataSearch({ isActive: false, data: [], loading: false, status: '' })
                     form.resetFields()
                   }}
                 />
               </Form.Item>
             </Form>
-            <div className={`header-item-form-data ${!_.isEmpty(dataSearch) ? 'active' : ''}`}>
-              {dataSearch?.map((item, index) => (
-                  <div
-                      key={index}
-                      className='header-item-form-data-item'
-                      onClick={() => {
-                        handleDetailProduct(item)
-                        setDataSearch()
-                        form.resetFields()
-                      }}
-                  >
-                      <div className='header-item-form-data-item-data'>
-                        {item?.image ? (
-                          <Image src={item?.image} preview={false}/>
-                        ) : (
-                          <span className='table-icon-coin-logo'>
-                              {item?.name?.slice(0, 3)?.toUpperCase()}
-                          </span>
-                        )}
-                        {item?.name}
-                      </div>
-                      {item?.category && (
-                        <div className='header-item-form-data-item-category'>
-                          {item?.category}
-                        </div>
+            <div className={`header-item-form-data ${dataSearch?.isActive ? 'active' : ''}`}>
+              {dataSearch?.loading ? (
+                <>
+                  <Spin size="large" />
+                </>
+              ) : (
+                <>
+                  {dataSearch?.status === 'done' && (
+                    <>
+                      {dataSearch?.data ? (
+                        <>
+                          {dataSearch?.data?.map((item, index) => (
+                            <div
+                              key={index}
+                              className='header-item-form-data-item'
+                              onClick={() => {
+                                handleDetailProduct(item)
+                                setDataSearch({ isActive: false, data: [], loading: false, status: '' })
+                                form.resetFields()
+                              }}
+                            >
+                                <div className='header-item-form-data-item-data'>
+                                  {item?.image ? (
+                                    <Image src={item?.image} preview={false}/>
+                                  ) : (
+                                    <span className='table-icon-coin-logo'>
+                                        {item?.name?.slice(0, 3)?.toUpperCase()}
+                                    </span>
+                                  )}
+                                  {item?.name}
+                                </div>
+                                {item?.category && (
+                                  <div className='header-item-form-data-item-category'>
+                                    {item?.category}
+                                  </div>
+                                )}
+                            </div>
+                          ))}
+                        </>
+                      ) : (
+                        <Empty
+                          image={nodata}
+                          description={
+                            <span>
+                              <span style={{ fontSize: '2.2rem', color: 'red', fontWeight: 600 }}>SORRY </span>
+                              <span style={{ fontSize: '1.8rem', color: 'rgba(0, 0, 0, 0.6)', fontWeight: '600' }}>NO DATA FOUND</span>
+                            </span>
+                          }
+                        />
                       )}
-                  </div>
-              ))}
-              </div>
+                    </>
+                  )}
+                </>
+              )}
+            </div>
           </div>
           <div className="header-item">
             <Row>
@@ -357,7 +401,7 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
                     </Typography>
                   </Popover>
                 ) : 
-                  <span className="btn-sign-in" onClick={() => setOpenModalSignin(true)}>
+                  <span className="btn-sign-in" onClick={() => signContext?.handleSetOpenModal(true)}>
                     {profile}
                     <span>Sign in</span>
                   </span>
@@ -483,15 +527,14 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
                       </a>
                     </Dropdown>
                   </Badge>
-                  <Signin
-                    openModalSignin={openModalSignin}
-                    setOpenModalSignin={setOpenModalSignin}
-                  />
                 </div>
               </Col>
             </Row>
           </div>
         </Col>
+        <Signin
+          openModalSignin={signContext?.openModalSignIn}
+        />
       </Row>
     </>
   );

@@ -1,5 +1,4 @@
 import React from 'react'
-import { StarOutlined } from "@ant-design/icons";
 import { Image } from 'antd';
 import './projectICO.scss'
 import moment from 'moment'

@@ -32,7 +32,6 @@ const ReportScam = ({ productInfo, openScam, userInfo, setOpenScam, productId })
         })
     }
 
-    console.log(scams)
     const handleChangeTextArea = (e) => {
         const urlR = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
         if (e.target.value.match(urlR)) {
@@ -76,7 +75,6 @@ const ReportScam = ({ productInfo, openScam, userInfo, setOpenScam, productId })
     useEffect(() => {
         const getListScam = async() => {
             const scams = await get(`reviews/evaluate?productId=${productId}`)
-            console.log(scams)
             const listScam = []
             if (scams?.data !== null) {
                 scams?.data?.forEach((item) => {
@@ -90,16 +88,14 @@ const ReportScam = ({ productInfo, openScam, userInfo, setOpenScam, productId })
                         sources: newSources
                     })
                 })
-                console.log(listScam)
                 setScams(listScam)
             } else {
                 setScams([])
             }
         }
         openScam && getListScam()
-    }, [productId, openScam])
+    }, [productId, openScam, userInfo])
 
-    console.log(scams)
     const handlSubmitForm = async() => {
         const params = {
             ...data,
@@ -107,9 +103,7 @@ const ReportScam = ({ productInfo, openScam, userInfo, setOpenScam, productId })
             productName: productInfo?.product?.name,
             type: productInfo?.product?.type,
         }
-        console.log(params)
         const postData = await post('reviews/evaluate', params)
-        console.log(postData?.data)
         const newSources = []
         postData?.data?.sources?.split(',')?.forEach((item) => {
             newSources.push(item)
@@ -127,9 +121,7 @@ const ReportScam = ({ productInfo, openScam, userInfo, setOpenScam, productId })
                 userImage: userInfo?.image
             },
             ...scams
-
         ])
-        // setOpenScam(false)
     }
 
     return (
@@ -191,18 +183,19 @@ const ReportScam = ({ productInfo, openScam, userInfo, setOpenScam, productId })
                                         className='modal-report-icon-emoji'
                                     />
                                     {openEmoji && 
-                                    <div>
+                                    // <div>
                                         <EmojiPicker
-                                            emojiStyle='facebook'
-                                            searchDisabled={false}
+                                            emojiStyle='google'
+                                            // searchDisabled={false}
                                             height={400}
                                             lazyLoadEmojis={true}
-                                            autoFocusSearch={false}
+                                            // autoFocusSearch={false}
                                             onEmojiClick={handleClickEmoji}
-                                            suggestedEmojisMode='recent'
+                                            // suggestedEmojisMode='recent'
                                             
                                         />
-                                    </div>}
+                                    // {/* </div> */}
+                                    }
                                 </div>
                                 <Button type="primary" onClick={handlSubmitForm}>
                                     Report

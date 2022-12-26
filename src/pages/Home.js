@@ -17,17 +17,35 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { FreeMode, Navigation } from "swiper"
 import { get } from "../api/products";
 import { useNavigate } from "react-router-dom";
-import _ from "lodash";
 
 import ProjectScam from "../components/projects/project-scam/ProjectScam";
 import ProjectICO from "../components/projects/project-ico/ProjectICO";
 import Token from "../components/projects/token/Token";
 import ProjectItem from "../components/projects/project-item/ProjectItem";
+import ScamEmpty from "../components/projects/project-scam/ScamEmpty";
+import ICOEmpty from "../components/projects/project-ico/ICOEmpty";
+import TokenEmpty from "../components/projects/token/TokenEmpty";
+import ProjectEmpty from "../components/projects/project-item/ProjectEmpty";
 
 const Home = () => {
   const navigate = useNavigate()
   const [summary, setSummary] = useState()
-  const [dataProject, setDataProject] = useState()
+  const [scams, setScams] = useState({
+    loading: true,
+    data: null
+  })
+  const [tokens, setTokens] = useState({
+    loading: true,
+    data: null
+  })
+  const [icos, setIcos] = useState({
+    loading: true,
+    data: null
+  })
+  const [projects, setProjects] = useState({
+    loading: true,
+    data: null
+  })
 
   useEffect(() => {
     const getSummary = async() => {
@@ -38,29 +56,16 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-    const getDataProject = async() => {
-      const [scams, icos, tokens, projects] = await Promise.all([
-        get('reviews/product/filters', { page: 1, isscam: true } ).then(res => res?.data).catch(error => console.log(error)),
-        get('reviews/product/filters', { page: 1, type: 'ico' } ).then(res => res?.data).catch(error => console.log(error)),
-        get('reviews/product/filters', { page: 1, type: 'token' } ).then(res => res?.data).catch(error => console.log(error)),
-        get('reviews/product/filters', { page: 1, type: 'project' } ).then(res => res?.data).catch(error => console.log(error)),
-      ])
-      setDataProject({
-        scams: scams?.products !== null ? scams?.products : [],
-        icos: icos?.products !== null ? icos?.products : [],
-        tokens: tokens?.products !== null ? tokens?.products : [],
-        projects: projects?.products !== null ? projects?.products : []
-      })
-    }
-    getDataProject()
+    get('reviews/product/filters', { page: 1, isscam: true }).then(res => setScams({loading: false, data: res?.data?.products})).catch(err => console.log(err))
+    get('reviews/product/filters', { page: 1, type: 'ico' }).then(res => setIcos({loading: false, data: res?.data?.products})).catch(err => console.log(err))
+    get('reviews/product/filters', { page: 1, type: 'token' }).then(res => setTokens({loading: false, data: res?.data?.products})).catch(err => console.log(err))
+    get('reviews/product/filters', { page: 1, type: 'project' }).then(res => setProjects({loading: false, data: res?.data?.products})).catch(err => console.log(err))
   }, [])
 
   const handleSeeAll = (value) => {
-    console.log(value)
     navigate('filter', { state: { params: { ...value, page: 2 } }})
   }
 
-  console.log(dataProject)
   return (
     <>
       <div className="layout-content">
@@ -102,11 +107,11 @@ const Home = () => {
                   <Col span={8}>
                     <Card bordered={false} className="criclebox h-full color-blue">
                       <div className="home-icon">
-                          <Image src={project} preview={false}/>
-                        </div>
-                        <div className="home-card-content-title">
-                          {summary?.totalProduct ? summary?.totalProduct?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0}
-                        </div>
+                        <Image src={project} preview={false}/>
+                      </div>
+                      <div className="home-card-content-title">
+                        {summary?.totalProduct ? summary?.totalProduct?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0}
+                      </div>
                       <div className="home-card-content-text">Number of products</div>
                     </Card>
                   </Col>
@@ -138,7 +143,7 @@ const Home = () => {
                 <Row gutter={[16, 16]}>
                   <Col span={12}>
                     <Card bordered={false} className="criclebox h-full color-red">
-                      <div className="home-card">
+                      <div className="home-card" onClick={() => handleSeeAll({ isscam: true })}>
                         <div className="home-icon">
                           <Image src={scam} preview={false}/>
                         </div>
@@ -153,7 +158,7 @@ const Home = () => {
                   </Col>
                   <Col span={12}>
                     <Card bordered={false} className="criclebox h-full color-red">
-                      <div className="home-card">
+                      <div className="home-card" onClick={() => handleSeeAll({ type: 'ico' })}>
                         <div className="home-icon">
                           <Image src={coming} preview={false}/>
                         </div>
@@ -169,116 +174,168 @@ const Home = () => {
                 </Row>
               </div>
 
-              {/* project scam */}
-              {/* {!_.isEmpty(dataProject?.scams) && ( */}
-                <div className="home-content">
-                  <div className="home-content-title">
-                    Project Scam
-                    <div className="home-content-title-seeall" onClick={() => handleSeeAll({ isscam: true })}>See All</div>
-                  </div>
-                  <Swiper
-                    slidesPerView={3}
-                    spaceBetween={15}
-                    loop={true}
-                    freeMode={true}
-                    navigation={true}
-                    modules={[FreeMode, Navigation]}
-                  >
-                    {dataProject?.scams?.map((item, index) => (
+              <div className="home-content">
+                <div className="home-content-title">
+                  Project Scam
+                  <div className="home-content-title-seeall" onClick={() => handleSeeAll({ isscam: true })}>See All</div>
+                </div>
+                <Swiper
+                  slidesPerView={3}
+                  spaceBetween={15}
+                  loop={true}
+                  freeMode={true}
+                  navigation={true}
+                  modules={[FreeMode, Navigation]}
+                >
+                  {!scams?.loading ? (
+                    <>
+                      {scams?.data?.map((item, index) => (
+                        <SwiperSlide>
+                          <ProjectScam
+                            key={index}
+                            bgurl={mask}
+                            image={post}
+                            chain={ethereum}
+                            data={item}
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </>
+                  ) : (
+                    <>
                       <SwiperSlide>
-                        <ProjectScam
-                          key={index}
-                          bgurl={mask}
-                          image={post}
-                          chain={ethereum}
-                          data={item}
-                        />
+                        <ScamEmpty/>
                       </SwiperSlide>
-                    ))}
-                  </Swiper>
-                </div>
-              {/* )} */}
+                      <SwiperSlide>
+                        <ScamEmpty/>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <ScamEmpty/>
+                      </SwiperSlide>
+                    </>
+                  )}
+                </Swiper>
+              </div>
 
-              {/* project ico */}
-              {/* {!_.isEmpty(dataProject?.icos) && ( */}
-                <div className="home-content">
-                  <div className="home-content-title">
-                    ICO/Airdrop
-                    <div className="home-content-title-seeall" onClick={() => handleSeeAll({ type: 'ico' })}>See All</div>
-                  </div>
-                  <Swiper
-                    slidesPerView={3}
-                    spaceBetween={15}
-                    loop={true}
-                    freeMode={true}
-                    navigation={true}
-                    modules={[FreeMode, Navigation]}
-                  >
-                    {dataProject?.icos?.map((item, index) => (
-                      <SwiperSlide key={index}>
-                        <ProjectICO
-                          data={item}
-                          bgurl={mask}
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
+              <div className="home-content">
+                <div className="home-content-title">
+                  ICO/Airdrop
+                  <div className="home-content-title-seeall" onClick={() => handleSeeAll({ type: 'ico' })}>See All</div>
                 </div>
-              {/* )} */}
+                <Swiper
+                  slidesPerView={3}
+                  spaceBetween={15}
+                  loop={true}
+                  freeMode={true}
+                  navigation={true}
+                  modules={[FreeMode, Navigation]}
+                >
+                  {!icos?.loading ? (
+                    <>
+                        {icos?.data?.map((item, index) => (
+                        <SwiperSlide key={index}>
+                          <ProjectICO
+                            data={item}
+                            bgurl={mask}
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      <SwiperSlide>
+                        <ICOEmpty bgurl={mask}/>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <ICOEmpty bgurl={mask}/>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <ICOEmpty bgurl={mask}/>
+                      </SwiperSlide>
+                    </>
+                  )}
+                </Swiper>
+              </div>
               
-              {/* tokens */}
-              {/* {!_.isEmpty(dataProject?.tokens) && ( */}
-                <div className="home-content">
-                  <div className="home-content-title">
-                    Tokens
-                    <div className="home-content-title-seeall" onClick={() => handleSeeAll({ type: 'token' })}>See All</div>
-                  </div>
-                  <Swiper
-                    slidesPerView={3}
-                    spaceBetween={15}
-                    loop={true}
-                    freeMode={true}
-                    navigation={true}
-                    modules={[FreeMode, Navigation]}
-                  >
-                    {dataProject?.tokens?.map((item, index) => (
-                      <SwiperSlide key={index}>
-                        <Token data={item}/>
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
+              <div className="home-content">
+                <div className="home-content-title">
+                  Tokens
+                  <div className="home-content-title-seeall" onClick={() => handleSeeAll({ type: 'token' })}>See All</div>
                 </div>
-              {/* )} */}
+                <Swiper
+                  slidesPerView={3}
+                  spaceBetween={15}
+                  loop={true}
+                  freeMode={true}
+                  navigation={true}
+                  modules={[FreeMode, Navigation]}
+                >
+                  {!tokens?.loading ? (
+                    <>
+                        {tokens?.data?.map((item, index) => (
+                          <SwiperSlide key={index}>
+                            <Token data={item}/>
+                          </SwiperSlide>
+                        ))}
+                    </>
+                  ) : (
+                    <>
+                      <SwiperSlide>
+                        <TokenEmpty/>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <TokenEmpty/>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <TokenEmpty/>
+                      </SwiperSlide>
+                    </>
+                  )}
+                </Swiper>
+              </div>
 
-              {/* list projects */}
-              {/* {!_.isEmpty(dataProject?.projects) && ( */}
-                <div className="home-content">
-                  <div className="home-content-title">
-                    List Project
-                    <div className="home-content-title-seeall" onClick={() => handleSeeAll({ type : 'project' })}>See All</div>
-                  </div>
-                  <Swiper
-                    slidesPerView={3}
-                    spaceBetween={15}
-                    loop={true}
-                    freeMode={true}
-                    navigation={true}
-                    modules={[FreeMode, Navigation]}
-                  >
-                    {dataProject?.projects?.map((item, index) => (
-                      <SwiperSlide key={index}>
-                        <ProjectItem
-                          data={item}
-                          checked={checked}
-                          chat_icon={chat_icon}
-                          love_icon={love_icon}
-                          scam_icon={scam_icon}
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
+              <div className="home-content">
+                <div className="home-content-title">
+                  List Project
+                  <div className="home-content-title-seeall" onClick={() => handleSeeAll({ type : 'project' })}>See All</div>
                 </div>
-              {/* )} */}
+                <Swiper
+                  slidesPerView={3}
+                  spaceBetween={15}
+                  loop={true}
+                  freeMode={true}
+                  navigation={true}
+                  modules={[FreeMode, Navigation]}
+                >
+                  {!projects?.loading ? (
+                    <>
+                      {projects?.data?.map((item, index) => (
+                        <SwiperSlide key={index}>
+                          <ProjectItem
+                            data={item}
+                            checked={checked}
+                            chat_icon={chat_icon}
+                            love_icon={love_icon}
+                            scam_icon={scam_icon}
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      <SwiperSlide>
+                        <ProjectEmpty/>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <ProjectEmpty/>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <ProjectEmpty/>
+                      </SwiperSlide>
+                    </>
+                  )}
+                </Swiper>
+              </div>
 
               {/* <div className="home-content" style={{ marginBottom: '3rem' }}>
                 <div className="home-content-post">

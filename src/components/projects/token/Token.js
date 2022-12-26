@@ -8,13 +8,13 @@ const Token = ({ image, data }) => {
         <div className="token">
             <div className="token-header">
                 <div className="token-header-item">
-                    <div className="token-header-item-title">Market Cap</div>
+                    <div className="token-header-item-title">Market</div>
                     <div className="token-header-item-amount">
                         ${data?.detail?.marketcap?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,')}B
                     </div>
                 </div>
                 <div className="token-header-item">
-                    <div className="token-header-item-title">Volumn</div>
+                    <div className="token-header-item-title">Volume</div>
                     <div className="token-header-item-amount">
                         ${data?.detail?.volumeTrading?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,')}B
                     </div>

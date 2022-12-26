@@ -58,29 +58,25 @@ function Sidenav({ color }) {
 
   useEffect(() => {
     const getcategories = async() => {
-      const categories = await get('reviews/category')
-      const promises = categories?.data?.categories?.map(async item => {
-        const numFruit = await get(`reviews/sub-category?categoryId=${item?.id}`)
-        let children = []
-        if (numFruit?.data?.subCategories !== null) {
-          numFruit?.data?.subCategories?.forEach((item) => {
-            children.push({
-              ...item,
-              url: `filter/${item?.name?.toLowerCase()?.replace(/\s\//g, '-')}`,
-              image: billing
-            })
+      const categorie = await get('reviews/category/all')
+      const categories = []
+      Object.keys(categorie?.data?.categoriesDetail).forEach(function(categoryItem) {
+        const newSub = []
+        categorie?.data?.categoriesDetail[categoryItem]?.subCategories?.forEach((item) => {
+          newSub.push({
+            ...item,
+            url: `filter/${item?.name?.toLowerCase()?.replace(/\s\//g, '-')}`,
+            image: billing
           })
-        }
-        return {
-          ...item,
+        })
+        categories.push({
+          ...categorie?.data?.categoriesDetail[categoryItem]?.category,
           image: dashboard,
-          url: `filter/${item?.name?.toLowerCase()?.replace(/\s/g, '-')}`,
-          children: children
-        }
+          url: `filter/${categoryItem?.category?.name?.toLowerCase()?.replace(/\s/g, '-')}`,
+          children: newSub
+        })
       })
-    
-      const numFruits = await Promise.all(promises)
-      setCategories(numFruits)
+      setCategories(categories)
     }
     getcategories()
   }, [])
@@ -108,10 +104,10 @@ function Sidenav({ color }) {
                 )}
               >
                 {item?.children?.map((subItem, i) => (
-                  <Menu.Item key={`sub ${i} ${subItem.name}`}> 
+                  <Menu.Item key={`sub ${i} ${subItem.id}`}> 
                     <NavLink
                       to={{ pathname: subItem?.url }}
-                      state={{ params: { subcategory: subItem?.name, page: 1 } }}
+                      state={{ params: { subcategory: subItem?.name, page: 1, category: '' } }}
                     >
                       <div className="sidebar-subcategory">
                         <div 
@@ -131,7 +127,7 @@ function Sidenav({ color }) {
               <Menu.Item key={index}>
                 <NavLink
                   to={item?.url}
-                  state={{ params: { category: item?.name, page: 1 } }}
+                  state={{ params: { category: item?.name, page: 1, subcategory: '' } }}
                 >
                   <span
                     className="icon"

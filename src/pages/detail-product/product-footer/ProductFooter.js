@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Image } from 'antd'
 import './productFooter.scss'
 
 const ProductFooter = ({ liked, chat_icon, mask_scam, handleClickReaction, setOpenComment, productInfo, setOpenScam }) => {
     const TYPE_POST = 0
-    const [isReaction, setIsReaction] = useState(false)
 
     return (
         <div className='product-footer'>
@@ -14,31 +13,31 @@ const ProductFooter = ({ liked, chat_icon, mask_scam, handleClickReaction, setOp
                 <div className='product-footer-item-emoji'>
                     <div
                         className='product-footer-item-emoji-item'
-                        onClick={() => handleClickReaction('💓', TYPE_POST, productInfo?.product?.id, true, isReaction)}
+                        onClick={() => handleClickReaction('💓', TYPE_POST, productInfo?.product?.id, true)}
                     >
                         &#128147;
                     </div>
                     <div
                         className='product-footer-item-emoji-item'
-                        onClick={() => handleClickReaction('👍', TYPE_POST, productInfo?.product?.id, true, isReaction)}
+                        onClick={() => handleClickReaction('👍', TYPE_POST, productInfo?.product?.id, true)}
                     >
                         &#128077;
                     </div>
                     <div
                         className='product-footer-item-emoji-item'
-                        onClick={() => handleClickReaction('👎', TYPE_POST, productInfo?.product?.id, true, isReaction)}
+                        onClick={() => handleClickReaction('👎', TYPE_POST, productInfo?.product?.id, true)}
                     >
                         &#128078;
                     </div>
                     <div
                         className='product-footer-item-emoji-item'
-                        onClick={() => handleClickReaction('😆', TYPE_POST, productInfo?.product?.id, true, isReaction)}
+                        onClick={() => handleClickReaction('😆', TYPE_POST, productInfo?.product?.id, true)}
                     >
                         &#128516;
                     </div>
                     <div
                         className='product-footer-item-emoji-item'
-                        onClick={() => handleClickReaction('😍', TYPE_POST, productInfo?.product?.id, true, isReaction)}
+                        onClick={() => handleClickReaction('😍', TYPE_POST, productInfo?.product?.id, true)}
                     >
                         &#128525;
                     </div>

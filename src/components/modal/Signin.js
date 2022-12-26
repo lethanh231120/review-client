@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Modal } from 'antd'
 import FacebookLogin from 'react-facebook-login'
 import { setCookie, STORAGEKEY } from '../../utils/storage'
 import { post, get } from '../../api/products'
+import { SignInContext } from '../layout/Main'
 
-const Signin = ({ openModalSignin, setOpenModalSignin }) => {
+const Signin = ({ openModalSignin }) => {
+  const signinContext = useContext(SignInContext)
     const responseFacebook = async(response) => {
         const dataSignup = {
           'userId': response?.userID,
@@ -35,7 +37,7 @@ const Signin = ({ openModalSignin, setOpenModalSignin }) => {
                 // await setCookie(STORAGEKEY.USER_INFO, userInfo?.data)
                 await setCookie(STORAGEKEY.USER_INFO, userInfo)
               // }
-              setOpenModalSignin(false)
+              signinContext?.handleSetOpenModal(false)
             // }
           // }
         } catch (error) {
@@ -46,8 +48,8 @@ const Signin = ({ openModalSignin, setOpenModalSignin }) => {
         <Modal
             title="Sign In"
             visible={openModalSignin}
-            onOk={() => setOpenModalSignin(false)}
-            onCancel={() => setOpenModalSignin(false)}
+            onOk={() => signinContext?.handleSetOpenModal(false)}
+            onCancel={() => signinContext?.handleSetOpenModal(false)}
             footer={false}
         >
             <FacebookLogin

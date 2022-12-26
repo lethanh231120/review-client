@@ -1,18 +1,16 @@
 import React from 'react'
-import { Image, Skeleton } from 'antd'
+import { Image } from 'antd'
 import './projectScam.scss'
 import scam_mask from '../../../assets/images/mask-scam.png'
 import checked from '../../../assets/images/checked.png'
 
 const ProjectScam = ({ bgurl, image, chain, data, key }) => {
-    console.log(data)
   return (
     <div className="project-scam" key={key}>
         <div className="project-scam-image">
             <Image src={data?.image} preview={false}/>
             <div className='project-scam-mask'>
                 <div className='project-scam-mask-scam'>
-                    {/* <Skeleton.Image active={true} /> */}
                     <Image src={scam_mask} preview={false}/>
                     {data?.totalIsScam}
                 </div>

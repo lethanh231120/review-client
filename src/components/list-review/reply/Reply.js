@@ -2,41 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Image } from 'antd'
 import './reply.scss'
 import moment from 'moment'
-import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import { post, patch } from '../../../api/products'
 import _ from 'lodash'
-
 import user from '../../../assets/images/user.png'
-import dislike from '../../../assets/images/dislike.png'
-import dislike_dark from '../../../assets/images/dislike-dark.png'
-import liked from '../../../assets/images/liked.png'
-import like from '../../../assets/images/like.png'
 
 const ReplyComment = ({ data, productId, setReactionData, userInfo }) => {
   const TYPE_REPLY = 1
   const [isReaction, setIsReaction] = useState(false)
-
-  // console.log(data)
-  // const handleAddReaction = async(type) => {
-  //   const body = {
-  //     accountId: account?.id,
-  //     commentId: data?.reply?.id,
-  //     type: TYPE_REPLY,
-  //     userName: account?.userName,
-  //     reactionType: type,
-  //     productId: productId
-  //   }
-  //   await post('reviews/reaction', body)
-  //   setReloadReaction(true)
-  // }
-
-  // useEffect(() => {
-  //   const listReactionReply = reactions?.filter((item) => item?.type === TYPE_REPLY)
-  //   const reviewOfReaction = listReactionReply?.find((item) => item?.commentId === data?.reply?.id)
-  //   if (reviewOfReaction !== undefined) {
-  //     setReactionType(reviewOfReaction?.reactionType)
-  //   }
-  // }, [reactions])
 
   useEffect(() => {
     if (!_.isEmpty(data?.reactions)) {
@@ -81,9 +53,11 @@ const ReplyComment = ({ data, productId, setReactionData, userInfo }) => {
             {data?.reply?.content}
           </div>
         </div>
-        <div className='reply-item-comment-image'>
-          <Image src={data?.reply?.image ? data?.reply?.image : user} preview={true}/>
-        </div>
+        {data?.reply?.image && (
+          <div className='reply-item-comment-image'>
+            <Image src={data?.reply?.image} preview={true}/>
+          </div>
+        )}
         <div className='review-item-action'>
           <div className='review-item-action-list'>
             <div className='review-item-action-item'>

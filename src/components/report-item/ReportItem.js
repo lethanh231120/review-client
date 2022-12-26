@@ -27,7 +27,7 @@ const ReportItem = ({ data }) => {
             {!_.isEmpty(data?.sources) && (
               <div className='report-item-content-source'>
                 {data?.sources?.map((item, index) => (
-                  <a href={item} target='_blank'><LinkOutlined style={{ marginRight: '0.5rem' }}/> Proof {index}</a>
+                  <a href={item} target='_blank' rel="noreferrer"><LinkOutlined style={{ marginRight: '0.5rem' }}/> Proof {index}</a>
                 ))}
               </div>
             )}

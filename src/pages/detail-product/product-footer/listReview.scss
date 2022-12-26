@@ -1,0 +1,68 @@
+.list{
+    &-review{
+        padding: 2rem 0;
+        border-top: 0.1px solid rgba(0, 0, 0, 0.1);
+        &-header{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            &-title{
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: rgba(0, 0, 0, 0.87);
+            }
+            &-right{
+                display: flex;
+                align-items: center;
+                &-add{
+                    font-size: 1.4rem;
+                    font-weight: 600;
+                    color: rgba(24, 64, 174, 0.766);
+                    cursor: pointer;
+                }
+                &-filter{
+                    cursor: pointer;
+                    margin-left: 1rem;
+                    font-size: 1.4rem;
+                    font-weight: 600;
+                    color: rgba(0, 0, 0, 0.5);
+                }
+            }
+            &-popover{
+                max-width: 30rem;
+                &-item{
+                    cursor: pointer;
+                    padding: 0.6rem;
+                    border-radius: 1rem;
+                    transition: all 0.2s linear;
+                    &:hover{
+                        background-color: rgba(208, 206, 206, 0.388);
+                    }
+                    &.active{
+                        background-color: rgba(208, 206, 206, 0.388);
+                    }
+                }
+                &-title{
+                    font-size: 1.4rem;
+                    font-weight: 700;
+                    color: rgba(0, 0, 0, 0.87);
+                }
+                &-content{
+                    font-size: 1.2rem;
+                    font-weight: 400;
+                    color: rgba(0, 0, 0, 0.4);
+                }
+            }
+            &-pop{
+                .ant-popover-inner{
+                    border-radius: 1.2rem;
+                }
+                .ant-popover-inner-content{
+                    box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 5px;
+                    border-radius: 1.2rem;
+                    padding: 0.6rem;
+                }
+            }
+        }
+    }
+}

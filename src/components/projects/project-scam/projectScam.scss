@@ -59,6 +59,14 @@
             border-top-right-radius: 1.5rem;
             position: relative;
             overflow: hidden;
+            & .ant-skeleton-element{
+                width: 100%;
+                height: 100%;
+            }
+            & .ant-skeleton-element .ant-skeleton-image{
+                width: 100%;
+                height: 100%;
+            }
             & .ant-image{
                 width: 100%;
                 height: 100%;
@@ -102,6 +110,12 @@
             display: flex;
             align-items: center;
             padding: 0 1rem 1rem 1rem;
+            & .ant-skeleton-element{
+                width: 100%;
+            }
+            & .ant-skeleton-element .ant-skeleton-button-sm.ant-skeleton-button-round{
+                width: 100%;
+            }
             &-founder{
                 font-size: 1.6rem;
                 font-weight: 700;
