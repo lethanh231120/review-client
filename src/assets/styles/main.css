@@ -1,23 +1,16 @@
-/*!
-=========================================================
-* Muse Ant Design Dashboard - v1.0.0
-=========================================================
-* Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-* Coded by Creative Tim
-=========================================================
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+
 body {
   padding: 0 0 30px 0;
-  background-color: #fafafa;
+  background-color: #fff;
   letter-spacing: -0.3px;
-  color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.2;
   font-weight: 400;
+  margin: 0px auto;
   font-family: open sans, Helvetica, Arial, sans-serif;
+}
+html{
+  font-size: 62.5%;
 }
 .ant-layout.ant-layout-has-sider {
   flex-direction: row;
@@ -30,21 +23,29 @@ body {
 }
 @media (min-width: 992px) {
   .layout-dashboard {
-    overflow: auto;
+    /* overflow: auto; */
   }
 }
 .layout-dashboard .ant-layout-sider.sider-primary {
-  width: 250px;
-  position: fixed;
+  /* width: 250px; */
+  /* position: fixed; */
   left: 0;
   z-index: 99;
   height: 100vh;
   overflow: auto;
   margin: 0;
-  padding: 33px 20px;
+  /* padding: 33px 20px; */
+  border-right: 0.5px solid rgba(0, 0, 0, 0.1);
 }
-.layout-dashboard .ant-layout-sider.sider-primary .brand img {
-  height: 30px;
+
+.layout-dashboard .ant-layout-sider.sider-primary .brand .ant-image {
+  height: 3rem;
+  object-fit: cover;
+}
+.layout-dashboard .ant-layout-sider.sider-primary .brand .ant-image img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 .layout-dashboard .ant-layout-sider.sider-primary hr {
   margin: 18px 0;
@@ -66,6 +67,25 @@ body {
 
 .layout-dashboard .ant-layout-sider.sider-primary .ant-menu-inline {
   border: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+}
+.layout-dashboard .ant-layout-sider.sider-primary .ant-menu-inline::-webkit-scrollbar{
+  display: none;
+}
+
+/* scroll nav */
+.layout-dashboard .ant-layout-sider.sider-primary::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.layout-dashboard .ant-layout-sider.sider-primary::-webkit-scrollbar-thumb {
+  background-color: #999999;
+  border-radius: 10px;
+}
+.layout-dashboard .ant-layout-sider.sider-primary::-webkit-scrollbar-track {
+  background-color: #fff;
 }
 .layout-dashboard .ant-menu {
   background: transparent;
@@ -80,7 +100,7 @@ body {
   .ant-menu-inline
   .ant-menu-submenu {
   margin: 0;
-  overflow: visible;
+  /* overflow: visible; */
 }
 
 .layout-dashboard .ant-layout-sider.sider-primary .ant-menu-item,
@@ -154,9 +174,9 @@ body {
 }
 .layout-dashboard .ant-layout-sider.sider-primary .ant-menu-item a,
 .layout-dashboard .ant-layout-sider.sider-primary .ant-menu-submenu a {
-  padding: 10px 16px;
+  padding: 1.6rem;
   color: #141414;
-  border-radius: 8px;
+  border-radius: 1.2rem;
   display: flex;
   align-items: center;
   white-space: nowrap;
@@ -386,10 +406,8 @@ body {
 .layout-dashboard .ant-layout-header {
   background: transparent;
   height: auto;
-  padding: 16px;
-  margin: 10px 4px;
+  padding: 1.5rem 0;
   line-height: inherit;
-  border-radius: 12px;
   transition: 0.2s;
 }
 
@@ -410,9 +428,12 @@ body {
 }
 .layout-dashboard .header-control {
   display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
   margin-top: 10px;
+  /* padding: 0 2rem; */
+  max-width: 192rem;
+  margin: 0px auto;
 }
 
 .ant-dropdown-menu.ant-dropdown-menu-split.header-notifications-dropdown {
@@ -541,6 +562,7 @@ h4 {
   margin: 0;
   box-shadow: none;
   color: #8c8c8c;
+  cursor: pointer;
 }
 .layout-dashboard .header-control .btn-sign-in svg {
   margin-right: 4px;
@@ -550,11 +572,10 @@ h4 {
 }
 
 .layout-dashboard .header-control .header-search {
-  width: 213px;
-  margin: 0 7px 0 0;
-  border-radius: 6px;
-  height: 40px;
+  border-radius: 1.5rem;
+  height: 50px;
   border: 1px solid #d9d9d9;
+  width: 100%;
 }
 
 .layout-dashboard .header-control .anticon.anticon-search svg {
@@ -616,7 +637,6 @@ h6 {
 .layout-dashboard .header-control .btn-sign-in span {
   font-weight: 600;
   vertical-align: middle;
-  display: none;
 }
 
 /* Old css start */
@@ -782,7 +802,7 @@ ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.left-nav
   margin-top: 15px;
 }
 .ant-layout {
-  background: #fafafa;
+  background: #cfcece4d;
 }
 .pageheader {
   display: flex;
@@ -943,8 +963,27 @@ button.ant-btn.bell strong {
   font-weight: 700;
 }
 .ant-card.criclebox {
-  box-shadow: 0px 20px 27px #0000000d;
-  border-radius: 12px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.ant-card.criclebox.color-pink{
+  /* background-color: #FFDCDC; */
+}
+.ant-card.criclebox.color-blue{
+  /* background-color: rgba(3, 169, 244, 0.4); */
+}
+.ant-card.criclebox.color-red{
+  /* background-color: rgb(255 0 0 / 42%); */
+  /* box-shadow: 0px 4px 6px #0000001f */
+}
+.ant-card.criclebox.color-green{
+  /* background-color: rgb(0 128 0 / 27%);
+   */
+   /* box-shadow: 0px 4px 6px #0000001f */
+}
+
+.ant-card.criclebox.no-padding .ant-card-body{
+  padding: 0;
 }
 
 .number span {
@@ -966,8 +1005,8 @@ button.ant-btn.bell strong {
   width: 48px;
   height: 48px;
   text-align: center;
-  background: #1890ff;
-  color: #fff;
+  /* background: #1890ff; */
+  /* color: #fff; */
   border-radius: 0.5rem;
   margin-left: auto;
   line-height: 55px;
@@ -1343,8 +1382,8 @@ span.ismobile {
   }
 
   .ant-row {
-    margin-left: -12px;
-    margin-right: -12px;
+    /* margin-left: -12px; */
+    /* margin-right: -12px; */
   }
   span.ismobile {
     display: inline-block;
@@ -1473,17 +1512,12 @@ span.ismobile {
   margin-top: 25px;
 }
 .setting-drwer {
-  background: #fff;
-  border-radius: 50%;
-  bottom: 42px;
-  right: 30px;
+  bottom: 3rem;
+  right: 2rem;
   font-size: 1.25rem;
-  z-index: 990;
-  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 16%);
-  width: 52px;
-  height: 52px;
-  text-align: center;
-  line-height: 60px;
+  z-index: 9999;
+  width: 4rem;
+  height: 4rem;
   position: fixed;
   cursor: pointer;
 }
@@ -1513,6 +1547,9 @@ ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.left-nav li svg path {
 .ant-card.criclebox .project-ant {
   padding-left: 24px;
   padding-right: 24px;
+}
+.card-new .ant-card-body{
+  padding: 0 !important;
 }
 
 .ant-card.criclebox table th {
@@ -1738,7 +1775,8 @@ ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.left-nav
 }
 
 body {
-  overflow: visible !important;
+  /* overflow: visible !important; */
+  overflow: hidden;
   width: 100% !important;
 }
 
@@ -2232,7 +2270,7 @@ button.ant-btn.bell strong {
 
 .layout-dashboard .ant-layout-content {
   padding: 0;
-  margin: 0 20px 0;
+  /* margin: 0 20px 0; */
 }
 .m-10,
 .mr-10,
@@ -2265,10 +2303,12 @@ small.redtext {
 section.ant-layout.layout-content .ant-layout-content.content-ant {
   padding: 0px !important;
 }
-
+.ant-layout-content.content-ant::-webkit-scrollbar {
+  display: none;
+}
 .layout-dashboard .ant-card {
-  border-radius: 12px;
-  box-shadow: 0 20px 27px rgb(0 0 0 / 5%);
+  border-radius: 20px;
+  /* box-shadow: 0 20px 27px rgb(0 0 0 / 5%); */
 }
 
 .card-credit {

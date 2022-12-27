@@ -1,0 +1,114 @@
+.project{
+    cursor: pointer;
+    border-radius: 1.5rem;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 5px;
+    &-image{
+        // width: 100%;
+        border-top-left-radius: 1.5rem;
+        border-top-right-radius: 1.5rem;
+        height: 13rem;
+        & .ant-image{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            & img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-top-left-radius: 1.5rem;
+                border-top-right-radius: 1.5rem;
+            }
+        }
+        & .ant-skeleton-element{
+            width: 100%;
+            height: 100%;
+        }
+        & .ant-skeleton-element .ant-skeleton-image{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    &-content{
+        padding: 1rem;
+        text-align: left;
+        & .ant-skeleton-content .ant-skeleton-title + .ant-skeleton-paragraph{
+            margin: 0;
+        }
+        &-name{
+            display: flex;
+            align-items: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: rgba(0, 0, 0, 0.87);
+            & span{
+                max-width: 90%;
+                display: block;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            & .ant-image{
+                width: 1.8rem;
+                display: flex;
+                align-items: center;
+                margin-left: 0.7rem;
+                & img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+        &-description{
+            padding: 0.7rem 0;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            display: block;
+            display: -webkit-box;
+            height: 14px*1.6*3;
+            line-height: 1.4;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    &-footer{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        &-item{
+            border-top: 1px solid rgba(0, 0, 0, 0.2);
+            width: calc(100% / 3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 0;
+            font-size: 1.3rem;
+            color: rgba(0, 0, 0, 0.5);
+            font-weight: 400;
+            cursor: pointer;
+            & .ant-skeleton-element{
+                width: 100%;
+            }
+            & .ant-skeleton-element .ant-skeleton-button-sm.ant-skeleton-button-round{
+                width: 100%;
+            }
+            & .ant-image{
+                width: 1.3rem;
+                margin-right: 0.5rem;
+                & img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+}
