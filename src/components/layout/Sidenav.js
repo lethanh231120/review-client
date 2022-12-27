@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { Menu } from "antd";
+import React, { useState, useEffect, useContext } from 'react'
+import { Menu, Tooltip } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import './styles/sidebar.scss'
 import { get } from '../../api/products';
+import { RightCircleOutlined } from '@ant-design/icons'
 import _ from 'lodash'
+import { SignInContext } from './Main';
 
-function Sidenav({ color }) {
+function Sidenav({ color, setVisible, profile, token, logout }) {
+  const signContext = useContext(SignInContext)
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
 
@@ -72,7 +75,7 @@ function Sidenav({ color }) {
         categories.push({
           ...categorie?.data?.categoriesDetail[categoryItem]?.category,
           image: dashboard,
-          url: `filter/${categoryItem?.category?.name?.toLowerCase()?.replace(/\s/g, '-')}`,
+          url: `filter/${categorie?.data?.categoriesDetail[categoryItem]?.category?.name?.toLowerCase()?.replace(/\s/g, '-')}`,
           children: newSub
         })
       })
@@ -90,7 +93,12 @@ function Sidenav({ color }) {
               <Menu.SubMenu
                 key={index}
                 title={(
-                  <>
+                  <NavLink
+                    onClick={() => setVisible(false)}
+                    to={{ pathname: item?.url }}
+                    state={{ params: { category: item?.name, page: 1, subcategory: '' } }}
+                    className='sidebar-submenu'
+                  >
                     <span
                       className="icon"
                       style={{
@@ -100,19 +108,22 @@ function Sidenav({ color }) {
                       {item?.image}
                     </span>
                     <span className="label">{item?.name}</span>
-                  </>
+                  </NavLink>
                 )}
               >
                 {item?.children?.map((subItem, i) => (
                   <Menu.Item key={`sub ${i} ${subItem.id}`}> 
                     <NavLink
+                      onClick={() => setVisible(false)}
                       to={{ pathname: subItem?.url }}
                       state={{ params: { subcategory: subItem?.name, page: 1, category: '' } }}
+                      className='sidebar-menu-item'
                     >
                       <div className="sidebar-subcategory">
                         <div 
                           style={{
-                            marginLeft: '35px'
+                            marginLeft: '35px',
+                            marginRight: '1rem'
                           }}
                         >
                           <span className="label">{subItem?.name}</span>
@@ -126,6 +137,7 @@ function Sidenav({ color }) {
             ) : (
               <Menu.Item key={index}>
                 <NavLink
+                  onClick={() => setVisible(false)}
                   to={item?.url}
                   state={{ params: { category: item?.name, page: 1, subcategory: '' } }}
                 >
@@ -144,6 +156,22 @@ function Sidenav({ color }) {
           </React.Fragment>
         ))}
       </Menu>
+      {token ? (
+        <div className='sidebar-account'>
+          <span className='menu-header-account' style={{ display: 'flex', alignItems: 'center' }}>
+            {profile}
+            Le Thanh
+          </span>
+          <Tooltip content='Logout'>
+            <RightCircleOutlined onClick={logout}/>
+          </Tooltip>
+        </div>
+      ) : 
+        <span className="btn-sign-in" onClick={() => signContext?.handleSetOpenModal(true)}>
+          {profile}
+          <span>Sign in</span>
+        </span>
+      }
     </div>
   );
 }

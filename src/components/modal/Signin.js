@@ -2,20 +2,21 @@ import React, { useContext } from 'react'
 import { Modal } from 'antd'
 import FacebookLogin from 'react-facebook-login'
 import { setCookie, STORAGEKEY } from '../../utils/storage'
-import { post, get } from '../../api/products'
+import { post } from '../../api/products'
 import { SignInContext } from '../layout/Main'
+import './signin.scss'
 
 const Signin = ({ openModalSignin }) => {
   const signinContext = useContext(SignInContext)
     const responseFacebook = async(response) => {
-        const dataSignup = {
-          'userId': response?.userID,
-          'userName': response?.name,
-          'email': response?.email,
-          'password': 'facebook',
-          'accountType': 'facebook',
-          'image': response?.picture?.data?.url
-        }
+        // const dataSignup = {
+        //   'userId': response?.userID,
+        //   'userName': response?.name,
+        //   'email': response?.email,
+        //   'password': 'facebook',
+        //   'accountType': 'facebook',
+        //   'image': response?.picture?.data?.url
+        // }
         const dataSignin = {
           'userId': response?.userID,
           'email': response?.email,
@@ -29,7 +30,7 @@ const Signin = ({ openModalSignin }) => {
             const signin = await post('reviews/auth/signin', dataSignin)
             const token = signin?.data.jwt.token
             const userInfo = signin?.data.profile
-            const accountId = signin?.data[1]?.id
+            // const accountId = signin?.data[1]?.id
             // if (token) {
               await setCookie(STORAGEKEY.ACCESS_TOKEN, token)
               // const userInfo = await get(`reviews/profile/accountId=${accountId}`)

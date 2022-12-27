@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ProjectSearch from '../projects/project-search/ProjectSearch'
 import './categoryItem.scss'
 import { useLocation } from 'react-router-dom'
-import { get } from '../../api/products'
+import { get, post } from '../../api/products'
 import { Pagination, Spin, Empty } from 'antd'
 import nodata from '../../assets/images/nodata.png'
 import _ from 'lodash'
@@ -25,7 +25,14 @@ const CategoryItem = () => {
       let param = {}
       if (location?.state !== null) {
         if (location?.state?.dataSearch) {
-          setListProduct(location?.state?.dataSearch)
+          const listProductId = []
+          location?.state?.dataSearch?.forEach((item) => {
+            listProductId.push(item?.id)
+          })
+          if (!_.listProductId) {
+            const data = await post('reviews/product/products', { productIds: listProductId })
+            setListProduct(data?.data?.products)
+          }
           setLoading(false)
         } else {
           param = {

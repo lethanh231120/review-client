@@ -21,7 +21,8 @@ const ReplyComment = ({ data, productId, setReactionData, userInfo }) => {
       const body = {
         commentId: data?.reply?.id,
         type: TYPE_REPLY, 
-        reactionType: value
+        reactionType: value,
+        productId: productId
       }
       const dataUpdate = await patch('reviews/reaction', body)
       if (dataUpdate) {

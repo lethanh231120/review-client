@@ -36,6 +36,9 @@
                     & .ant-input:focus, .ant-input-focused{
                         box-shadow: none;
                     }
+                    & .ant-select{
+                        width: 100%;
+                    }
                 }
                 &-rate{
                     padding: 0 0 1rem 0;
@@ -186,9 +189,14 @@
     &::-webkit-scrollbar{
         display: none;
     }
+    &-header{
+        display: flex;
+        align-items: flex-start;
+    }
     &-overview{
         display: flex;
         align-items: flex-start;
+        width: 55%;
         & .ant-image{
             width: 11rem;
             margin-right: 1.5rem;
@@ -305,7 +313,7 @@
                     margin-right: 1rem;
                 }
                 &-title{
-                    font-size: 1.4rem;
+                    font-size: 1.6rem;
                     font-weight: 500;
                     color: rgba(0, 0, 0, 0.6);
                     margin-bottom: 0.5rem;
@@ -333,13 +341,13 @@
             &-key{ 
                 margin-right: 1rem;
                 white-space: nowrap;
-                font-size: 1.4rem;
+                font-size: 1.6rem;
                 font-weight: 600;
                 color: rgba(0, 0, 0, 0.87);
             }
             &-desc{
                 padding: 1rem;
-                font-size: 1.4rem;
+                font-size: 1.6rem;
                 margin-bottom: 2rem;
             }
         }
@@ -351,6 +359,7 @@
         width: fit-content;
         margin-right: 0.5rem;
         margin-bottom: 0.5rem;
+        font-size: 1.6rem;
         &-item{
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
@@ -360,6 +369,7 @@
             transition: all 0.25s linear;
             position: relative;
             width: fit-content;
+            font-size: 1.6rem;
             &:hover{
                 background-color: rgba(166, 158, 158, 0.51);
                 & .product-tag-item-list{
@@ -455,4 +465,12 @@
 }
 .EmojiPickerReact li.epr-emoji-category>.epr-emoji-category-label{
     display: none !important;
+}
+
+@media (max-width: 670px) {
+    .product{
+        &-overview{
+            width: 65%;
+        }
+    }
 }

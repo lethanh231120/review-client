@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import { Card, Col, Row, Image } from "antd";
 import './styles/home.scss'
-import chat from '../assets/images/chat.png'
-import project from '../assets/images/project.png'
-import scam from '../assets/images/scam.png'
-import coming from '../assets/images/coming-soon.png'
 import post from '../assets/images/newpost.jpg'
 import mask from '../assets/images/mask.png'
 import ethereum from '../assets/images/ethereum.png'
@@ -17,7 +13,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { FreeMode, Navigation } from "swiper"
 import { get } from "../api/products";
 import { useNavigate } from "react-router-dom";
-
+import { MarketContext } from "../components/layout/Main";
 import ProjectScam from "../components/projects/project-scam/ProjectScam";
 import ProjectICO from "../components/projects/project-ico/ProjectICO";
 import Token from "../components/projects/token/Token";
@@ -27,8 +23,16 @@ import ICOEmpty from "../components/projects/project-ico/ICOEmpty";
 import TokenEmpty from "../components/projects/token/TokenEmpty";
 import ProjectEmpty from "../components/projects/project-item/ProjectEmpty";
 
+
+import twitter from '../assets/images/twitter.png'
+import binance from '../assets/images/binance.jpg'
+import new_cmt from '../assets/images/new-cmt.png'
+import heart from '../assets/images/love.png'
+
 const Home = () => {
+  const marketContext = useContext(MarketContext)
   const navigate = useNavigate()
+
   const [summary, setSummary] = useState()
   const [scams, setScams] = useState({
     loading: true,
@@ -72,66 +76,47 @@ const Home = () => {
         <Row className="rowgap-vbox" gutter={[40, 40]}>
           <Col span={24}>
             <div className="home-main">
-              {/* <div style={{ marginBottom: '16px', marginTop: '30px' }}>
-                <Row gutter={[0, 24]}>
-                    <Col span={24}>
-                      <Card bordered={false} className="criclebox no-padding h-full">
-                        <div className="home-banner">
-                          <div className="home-banner-content">
-                            <div className="home-banner-text">
-                              Don't Trust Verify
-                            </div>
-                          </div>
-                          <div className="home-banner-image">
-                            <Image src={banner} preview={false}/>
-                          </div>
-                        </div>
-                      </Card>
-                    </Col>
-                </Row>
-              </div> */}
-
-              <div style={{ marginBottom: '16px', marginTop: '30px' }}>
+              <div className="home-main-summary">
                 <Row gutter={[16, 16]}>
-                  <Col span={8}>
-                    <Card bordered={false} className="criclebox h-full color-pink">
-                      <div className="home-icon">
-                        <Image src={chat} preview={false}/>
+                  <Col xl={{ span: 8 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
+                    <Card bordered={false} className="criclebox h-full card-center">
+                      <div onClick={() => handleSeeAll({ type: 'ico' })} >
+                        <div className="home-card-content-title">
+                          {new Intl.NumberFormat().format(summary?.totalProductICO ? summary?.totalProductICO : 0)}
+                          {/* {summary?.totalProductICO ? summary?.totalProductICO?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}
+                        </div>
+                        <div className="home-card-content-text">Upcoming project</div>
                       </div>
-                      <div className="home-card-content-title">
-                        {summary?.review24h ? summary?.review24h?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0}
-                      </div>
-                      <div className="home-card-content-text">Number of comments</div>
                     </Card>
                   </Col>
-                  <Col span={8}>
-                    <Card bordered={false} className="criclebox h-full color-blue">
-                      <div className="home-icon">
-                        <Image src={project} preview={false}/>
-                      </div>
+                  <Col xl={{ span: 8 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
+                    <Card bordered={false} className="criclebox h-full card-center">
                       <div className="home-card-content-title">
-                        {summary?.totalProduct ? summary?.totalProduct?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0}
+                        {new Intl.NumberFormat().format(summary?.totalProduct ? summary?.totalProduct : 0)}
+                        {/* {summary?.totalProduct ? summary?.totalProduct?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}
                       </div>
                       <div className="home-card-content-text">Number of products</div>
                     </Card>
                   </Col>
-                  <Col span={8}>
+                  <Col xl={{ span: 8 }} md={{ span: 24 }} sm={{ span: 24 }} xs={{ span: 24 }}>
                     <Row gutter={[16, 16]}>
-                      <Col span={24}>
+                      <Col xl={{ span: 24 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
                         <Card bordered={false} className="criclebox h-full card-border">
                           <div className="home-card-content-text">
-                            Scam projects in 24 hours
+                            Number of investor
                           </div>
                           <div className="home-card-content-title">
-                            {summary?.scamProduct24h ? summary?.scamProduct24h?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0}
+                            {new Intl.NumberFormat().format(summary?.investor ? summary?.investor : 0)}
+                            {/* {summary?.investor ? summary?.investor?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}
                           </div>
                         </Card>
                       </Col>
-                      <Col span={24}>
+                      <Col xl={{ span: 24 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
                         <Card bordered={false} className="criclebox h-full card-border">
-                          <div className="home-card-content-text">Number of chains</div>
+                          <div className="home-card-content-text">Vendor Capital</div>
                           <div className="home-card-content-title">
-                            {summary?.totalChain ? summary?.totalChain?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0}
+                            {new Intl.NumberFormat().format(summary?.venderCapital ? summary?.venderCapital : 0)}
+                            {/* {summary?.venderCapital ? summary?.venderCapital?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}
                           </div>
                         </Card>
                       </Col>
@@ -139,39 +124,33 @@ const Home = () => {
                   </Col>
                 </Row>
               </div>
-              <div>
-                <Row gutter={[16, 16]}>
-                  <Col span={12}>
-                    <Card bordered={false} className="criclebox h-full color-red">
-                      <div className="home-card" onClick={() => handleSeeAll({ isscam: true })}>
-                        <div className="home-icon">
-                          <Image src={scam} preview={false}/>
-                        </div>
-                        <div className="home-card-content">
-                          <div className="home-card-content-title">
-                            {summary?.totalscamProduct ? summary?.totalscamProduct?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0}
+
+              <div className="home-market">
+                <div className="home-new-title">Markets</div>
+                  <div style={{ marginBottom: '16px' }}>
+                    <Card bordered={false} className="criclebox h-full">
+                      <div className="home-new-markets">
+                        <div className="home-new-card">
+                          <div className="home-new-card-title">MarketCap</div>
+                          <div className="home-new-card-amount">
+                            ${marketContext?.marketCap ? (marketContext?.marketCap / 1000000000)?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0}B
                           </div>
-                          <div className="home-card-content-text">Scam projects</div>
+                        </div>
+                        <div className="home-new-card">
+                          <div className="home-new-card-title">Volume</div>
+                          <div className="home-new-card-amount">
+                            ${marketContext?.volume ? (marketContext?.volume / 1000000000)?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0}B
+                          </div>
+                        </div>
+                        <div className="home-new-card">
+                          <div className="home-new-card-title">Dominance</div>
+                          <div className="home-new-card-amount">
+                            BTC: {marketContext?.btcDominance ? marketContext?.btcDominance : 0} %
+                          </div>
                         </div>
                       </div>
                     </Card>
-                  </Col>
-                  <Col span={12}>
-                    <Card bordered={false} className="criclebox h-full color-red">
-                      <div className="home-card" onClick={() => handleSeeAll({ type: 'ico' })}>
-                        <div className="home-icon">
-                          <Image src={coming} preview={false}/>
-                        </div>
-                        <div className="home-card-content">
-                          <div className="home-card-content-title">
-                            {summary?.totalProductICO ? summary?.totalProductICO?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0}
-                          </div>
-                          <div className="home-card-content-text">Upcoming project</div>
-                        </div>
-                      </div>
-                    </Card>
-                  </Col>
-                </Row>
+                  </div>
               </div>
 
               <div className="home-content">
@@ -180,17 +159,36 @@ const Home = () => {
                   <div className="home-content-title-seeall" onClick={() => handleSeeAll({ isscam: true })}>See All</div>
                 </div>
                 <Swiper
-                  slidesPerView={3}
-                  spaceBetween={15}
                   loop={true}
                   freeMode={true}
                   navigation={true}
                   modules={[FreeMode, Navigation]}
+                  breakpoints={{
+                    290: {
+                      slidesPerView: 1
+                    },
+                    450: {
+                      slidesPerView: 2,
+                      spaceBetween: 15
+                    },
+                    640: {
+                      slidesPerView: 2,
+                      spaceBetween: 15
+                    },
+                    768: {
+                      slidesPerView: 2,
+                      spaceBetween: 20
+                    },
+                    1244: {
+                      slidesPerView: 3,
+                      spaceBetween: 15
+                    }
+                  }}
                 >
                   {!scams?.loading ? (
                     <>
                       {scams?.data?.map((item, index) => (
-                        <SwiperSlide>
+                        <SwiperSlide onClick={() => navigate(`products/${item?.id}`)}>
                           <ProjectScam
                             key={index}
                             bgurl={mask}
@@ -223,17 +221,36 @@ const Home = () => {
                   <div className="home-content-title-seeall" onClick={() => handleSeeAll({ type: 'ico' })}>See All</div>
                 </div>
                 <Swiper
-                  slidesPerView={3}
-                  spaceBetween={15}
                   loop={true}
                   freeMode={true}
                   navigation={true}
                   modules={[FreeMode, Navigation]}
+                  breakpoints={{
+                    290: {
+                      slidesPerView: 1
+                    },
+                    450: {
+                      slidesPerView: 2,
+                      spaceBetween: 15
+                    },
+                    640: {
+                      slidesPerView: 2,
+                      spaceBetween: 15
+                    },
+                    768: {
+                      slidesPerView: 2,
+                      spaceBetween: 20
+                    },
+                    1244: {
+                      slidesPerView: 3,
+                      spaceBetween: 15
+                    }
+                  }}
                 >
                   {!icos?.loading ? (
                     <>
                         {icos?.data?.map((item, index) => (
-                        <SwiperSlide key={index}>
+                        <SwiperSlide key={index} onClick={() => navigate(`products/${item?.id}`)}>
                           <ProjectICO
                             data={item}
                             bgurl={mask}
@@ -263,17 +280,36 @@ const Home = () => {
                   <div className="home-content-title-seeall" onClick={() => handleSeeAll({ type: 'token' })}>See All</div>
                 </div>
                 <Swiper
-                  slidesPerView={3}
-                  spaceBetween={15}
                   loop={true}
                   freeMode={true}
                   navigation={true}
                   modules={[FreeMode, Navigation]}
+                  breakpoints={{
+                    290: {
+                      slidesPerView: 1
+                    },
+                    450: {
+                      slidesPerView: 2,
+                      spaceBetween: 15
+                    },
+                    640: {
+                      slidesPerView: 2,
+                      spaceBetween: 15
+                    },
+                    768: {
+                      slidesPerView: 2,
+                      spaceBetween: 20
+                    },
+                    1244: {
+                      slidesPerView: 3,
+                      spaceBetween: 15
+                    }
+                  }}
                 >
                   {!tokens?.loading ? (
                     <>
                         {tokens?.data?.map((item, index) => (
-                          <SwiperSlide key={index}>
+                          <SwiperSlide key={index} onClick={() => navigate(`products/${item?.id}`)}>
                             <Token data={item}/>
                           </SwiperSlide>
                         ))}
@@ -300,17 +336,36 @@ const Home = () => {
                   <div className="home-content-title-seeall" onClick={() => handleSeeAll({ type : 'project' })}>See All</div>
                 </div>
                 <Swiper
-                  slidesPerView={3}
-                  spaceBetween={15}
                   loop={true}
                   freeMode={true}
                   navigation={true}
                   modules={[FreeMode, Navigation]}
+                  breakpoints={{
+                    290: {
+                      slidesPerView: 1
+                    },
+                    450: {
+                      slidesPerView: 2,
+                      spaceBetween: 15
+                    },
+                    640: {
+                      slidesPerView: 2,
+                      spaceBetween: 15
+                    },
+                    768: {
+                      slidesPerView: 2,
+                      spaceBetween: 20
+                    },
+                    1244: {
+                      slidesPerView: 3,
+                      spaceBetween: 15
+                    }
+                  }}
                 >
                   {!projects?.loading ? (
                     <>
                       {projects?.data?.map((item, index) => (
-                        <SwiperSlide key={index}>
+                        <SwiperSlide key={index} onClick={() => navigate(`products/${item?.id}`)}>
                           <ProjectItem
                             data={item}
                             checked={checked}
@@ -337,44 +392,132 @@ const Home = () => {
                 </Swiper>
               </div>
 
-              {/* <div className="home-content" style={{ marginBottom: '3rem' }}>
-                <div className="home-content-post">
-                    <Image src={binance} preview={false}/>
-                    <div className="home-content-post-content">
-                      <div className="home-content-post-content-info">
-                        <div className="home-content-post-content-name">
-                          Binance Announcement
+              <div className="home-left">
+                <div className="home-new">
+                  <div className="home-new-title">News</div>
+                  <div style={{ marginBottom: '16px' }}>
+                    <Card bordered={false} className="criclebox h-full card-new">
+                      <div className="home-new-card-news">
+                        <div className="home-new-card-news-header">
+                          <div className="home-new-card-news-info">
+                            <Image src={binance} preview={false}/>
+                            <div className="home-new-card-news-user">
+                              <div className="home-new-card-news-name">Solscan</div>
+                              <div className="home-new-card-news-identification">
+                                @solscanofficial
+                                <div className="home-new-card-news-time">28m</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="home-new-card-news-network">
+                            <Image src={twitter} preview={false}/>
+                          </div>
                         </div>
-                        <div className="home-content-post-time">40 minutes ago</div>
+                        <div className="home-new-card-news-content">
+                          <div className="home-new-card-news-content-info">
+                            <div className="home-new-card-news-title">
+                              <a href='https://twitter.com/hashtag/Solscan?src=hashtag_click&ref_src=twsrc%5Etfw%7Ctwcamp%5Eembeddedtimeline%7Ctwterm%5Elist-id%3A1402560189463601152%7Ctwcon%5Es1_c14' target='blank'>#Solscan </a>
+                              Features Update🔼 - TRUE TPS
+                            </div>
+                            <div className="home-new-card-news-text">
+                              In addition to Vote TPS data, users can now directly track True TPS indicators on our TPS dashboard. This is one of Solscan's efforts to reflect the Solana ecosystem status more transparently than ever.
+                            </div>
+                          </div>
+                          <Image src={post} preview={false}/>
+                        </div>
+                        <div className="home-new-card-news-footer">
+                          <div className="home-new-card-news-reaction-item">
+                            <Image src={new_cmt} preview={false}/>
+                            10
+                          </div>
+                          <div className="home-new-card-news-reaction-item">
+                            <Image src={heart} preview={false}/>
+                            10
+                          </div>
+                        </div>
                       </div>
-                      <div className="home-content-post-description">
-                        <div className="home-content-post-description-title">
-                          Celebrating 10 Million Followers on Twitter: Collect #Binance10M Badges to Share 10 Million Satoshis!
+                      <div className="home-new-card-news">
+                        <div className="home-new-card-news-header">
+                          <div className="home-new-card-news-info">
+                            <Image src={binance} preview={false}/>
+                            <div className="home-new-card-news-user">
+                              <div className="home-new-card-news-name">Solscan</div>
+                              <div className="home-new-card-news-identification">
+                                @solscanofficial
+                                <div className="home-new-card-news-time">28m</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="home-new-card-news-network">
+                            <Image src={twitter} preview={false}/>
+                          </div>
                         </div>
-                        <div className="home-content-post-description-content">
-                          During the activity period, all verified users who complete the following three tasks  and collect all three #Binance10M badges at the #Binance10M Activity Page, will qualify for this activity. 
+                        <div className="home-new-card-news-content">
+                          <div className="home-new-card-news-content-info">
+                            <div className="home-new-card-news-title">
+                              <a href='https://twitter.com/hashtag/Solscan?src=hashtag_click&ref_src=twsrc%5Etfw%7Ctwcamp%5Eembeddedtimeline%7Ctwterm%5Elist-id%3A1402560189463601152%7Ctwcon%5Es1_c14' target='blank'>#Solscan </a>
+                              Features Update🔼 - TRUE TPS
+                            </div>
+                            <div className="home-new-card-news-text">
+                              In addition to Vote TPS data, users can now directly track True TPS indicators on our TPS dashboard. This is one of Solscan's efforts to reflect the Solana ecosystem status more transparently than ever.
+                            </div>
+                          </div>
+                          <Image src={post} preview={false}/>
                         </div>
-                        <div className="home-content-post-description-image">
-                          <Image src={newpost} preview={false}/>
+                        <div className="home-new-card-news-footer">
+                          <div className="home-new-card-news-reaction-item">
+                            <Image src={new_cmt} preview={false}/>
+                            10
+                          </div>
+                          <div className="home-new-card-news-reaction-item">
+                            <Image src={heart} preview={false}/>
+                            10
+                          </div>
                         </div>
                       </div>
-                      <div className="home-content-post-reaction">
-                        <div className="home-content-post-reaction-item">
-                          <Image src={like_icon} preview={false}/>
-                          10
+                      <div className="home-new-card-news">
+                        <div className="home-new-card-news-header">
+                          <div className="home-new-card-news-info">
+                            <Image src={binance} preview={false}/>
+                            <div className="home-new-card-news-user">
+                              <div className="home-new-card-news-name">Solscan</div>
+                              <div className="home-new-card-news-identification">
+                                @solscanofficial
+                                <div className="home-new-card-news-time">28m</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="home-new-card-news-network">
+                            <Image src={twitter} preview={false}/>
+                          </div>
                         </div>
-                        <div className="home-content-post-reaction-item">
-                          <Image src={dislike} preview={false}/>
-                          10
+                        <div className="home-new-card-news-content">
+                          <div className="home-new-card-news-content-info">
+                            <div className="home-new-card-news-title">
+                              <a href='https://twitter.com/hashtag/Solscan?src=hashtag_click&ref_src=twsrc%5Etfw%7Ctwcamp%5Eembeddedtimeline%7Ctwterm%5Elist-id%3A1402560189463601152%7Ctwcon%5Es1_c14' target='blank'>#Solscan </a>
+                              Features Update🔼 - TRUE TPS
+                            </div>
+                            <div className="home-new-card-news-text">
+                              In addition to Vote TPS data, users can now directly track True TPS indicators on our TPS dashboard. This is one of Solscan's efforts to reflect the Solana ecosystem status more transparently than ever.
+                            </div>
+                          </div>
+                          <Image src={post} preview={false}/>
                         </div>
-                        <div className="home-content-post-reaction-item">
-                          <Image src={comment} preview={false}/>
-                          10
+                        <div className="home-new-card-news-footer">
+                          <div className="home-new-card-news-reaction-item">
+                            <Image src={new_cmt} preview={false}/>
+                            10
+                          </div>
+                          <div className="home-new-card-news-reaction-item">
+                            <Image src={heart} preview={false}/>
+                            10
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </Card>
+                  </div>
                 </div>
-              </div> */}
+              </div>
             </div>
           </Col>
         </Row>

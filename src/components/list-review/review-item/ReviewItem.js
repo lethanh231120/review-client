@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Image, Input, Form, Upload } from 'antd'
 import './reviewItem.scss'
 import { CaretDownOutlined, SendOutlined, FileImageOutlined, LinkOutlined } from '@ant-design/icons'
@@ -7,6 +7,8 @@ import moment from 'moment'
 import ReplyComment from '../reply/Reply'
 import _ from 'lodash'
 import { post, patch } from '../../../api/products'
+import { getCookie, STORAGEKEY } from '../../../utils/storage'
+import { SignInContext } from '../../layout/Main'
 
 const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId, setReactionData, setData, handleSend }) => {
   const TYPE_REPLY = 'reply'
@@ -17,6 +19,7 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
   const [Loading, setLoading] = useState(true)
   const [imageReply, setImageReply] = useState()
   const [comment, setComment] = useState('')
+  const signContext = useContext(SignInContext)
 
   useEffect(() => {
     if (!_.isEmpty(data?.reactions)) {
@@ -30,7 +33,8 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
       const body = {
         commentId: data?.review?.id,
         type: TYPE_REVIEW,
-        reactionType: value
+        reactionType: value,
+        productId: productId
       }
       const dataUpdate = await patch('reviews/reaction', body)
       if (dataUpdate) {
@@ -75,6 +79,16 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
         })
         setImageReply(dataImage?.data)
     });
+  }
+
+  const handleAddReply = () => {
+    setAddReply(!addReply)
+    const token = Boolean(getCookie(STORAGEKEY.ACCESS_TOKEN))
+    if (token) {
+      setAddReply(!addReply)
+    } else {
+      signContext?.handleSetOpenModal(true)
+    }
   }
 
   return (
@@ -147,7 +161,7 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
                     </div>
                   </div>
                 </div>
-                <div className='review-item-action-item' onClick={() => setAddReply(!addReply)}>Reply</div>
+                <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
               </div>
               {!_.isEmpty(data?.reactions) && (
                 <div className='review-item-action-reaction'>

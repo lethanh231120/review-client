@@ -55,7 +55,7 @@
                 padding: 0.5rem 2rem;
             }
             &-item{
-                font-size: 1.2rem;
+                font-size: 1.4rem;
                 font-weight: 700;
                 padding: 0 2rem 0 0;
                 cursor: pointer;
@@ -67,6 +67,7 @@
                     }
                 }
                 &-emoji{
+                    font-size: 2rem;
                     position: absolute;
                     top: -4rem;
                     left: -2rem;
@@ -82,9 +83,6 @@
                     visibility: hidden;
                     transition: all 0.2s linear;
                     padding: 0.2rem  0.5rem;
-                    &-item{
-                        font-size: 2.5rem;
-                    }
                 }
             }
             &-reaction{
@@ -219,5 +217,16 @@
     & .ant-form-item{
         margin-bottom: 0;
         width: 100%;
+    }
+}
+@media (max-width:900px) {
+    .review{
+        &-item{
+            &-comment{
+                &-image{
+                    width: 30%
+                }
+            }
+        }
     }
 }

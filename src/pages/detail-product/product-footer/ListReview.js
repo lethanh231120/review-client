@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './listReview.scss'
 import { Popover } from 'antd'
 import { CaretDownOutlined } from '@ant-design/icons'
 
-const ListReview = ({ setOpenComment, setDefaultFilter, defaultFilter }) => {
+const ListReview = ({ handleAddComment, setDefaultFilter, defaultFilter }) => {
     const DEFAULT_ALL = 'all'
     const DEFAULT_SCAM = 'scam'
     const DEFAULT_NOT_SCAM = 'notScam'
@@ -19,7 +19,7 @@ const ListReview = ({ setOpenComment, setDefaultFilter, defaultFilter }) => {
             <div className='list-review-header-right'>
                 <div
                     className='list-review-header-right-add'
-                    onClick={() => setOpenComment(true)}
+                    onClick={() => handleAddComment(true)}
                 >
                     Add Comment
                 </div>

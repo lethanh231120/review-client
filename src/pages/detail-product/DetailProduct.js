@@ -3,27 +3,21 @@ import { Image, Rate, Tooltip, Popover } from 'antd'
 import { Form, Input, Upload, Select, Checkbox } from 'antd'
 import { DownOutlined, CodeOutlined, CaretUpOutlined, SendOutlined, CopyOutlined } from '@ant-design/icons'
 import './detail-coin/detailCoin.scss'
-import checked from '../../assets/images/checked.png'
-import checked_warning from '../../assets/images/checked_warning.png'
-import checked_scam from '../../assets/images/checked_scam.png'
 import user from '../../assets/images/user.png'
 import moment from 'moment'
 import '../styles/productDetail.scss'
 import { get, post } from '../../api/products'
-import ProductFooter from './product-footer/ProductFooter'
-import chat_icon from '../../assets/images/chat-icon.png'
-import liked from '../../assets/images/liked.png'
-import mask_scam from '../../assets/images/mask-scam.png'
 import Review from '../../components/list-review/Review'
 import { useParams } from 'react-router-dom'
 import _ from 'lodash'
-import { getCookie, setCookie, STORAGEKEY } from '../../utils/storage'
-import ReportScam from '../../components/modal/ReportScam'
+import { getCookie, STORAGEKEY } from '../../utils/storage'
 import ListReview from './product-footer/ListReview'
 import smile from '../../assets/images/smile.png'
 import EmojiPicker from 'emoji-picker-react'
 import icon_image from '../../assets/images/image.png'
 import { SignInContext } from '../../components/layout/Main'
+import warning from '../../assets/images/warning.png'
+import scam from '../../assets/images/scam.png'
 
 const DetailProduct = () => {
     const DEFAULT_ALL = 'all'
@@ -39,7 +33,6 @@ const DetailProduct = () => {
     const [productInfo, setProductInfo] = useState()
     const { productId } = useParams()
     const [openComment, setOpenComment] = useState(false)
-    const [openScam, setOpenScam] = useState(false)
     const [reload, setReload] = useState(false)
     const [dataAdd, setDataAdd] = useState()
     const [defaultFilter, setDefaultFilter] = useState(DEFAULT_ALL)
@@ -52,7 +45,6 @@ const DetailProduct = () => {
         image: '',
         star: 5
     })
-    const [scams, setScams] = useState([])
 
     const [reactionData, setReactionData] = useState({
         type: '',
@@ -360,42 +352,6 @@ const DetailProduct = () => {
             }
         }
     }
-    
-    const handlSubmitForm = async(e) => {
-        if (e.ctrlKey && e.key === 'Enter') {
-            setData({
-                ...data,
-                content: `${data?.content}\n`
-            })
-        } else if (e.key === 'Enter') {
-            e.preventDefault();
-            const params = {
-                ...data,
-                productId: productInfo?.product?.id,
-                productName: productInfo?.product?.name,
-                type: productInfo?.product?.type,
-            }
-            const postData = await post('reviews/evaluate', params)
-            const newSources = []
-            postData?.data?.sources?.split(',')?.forEach((item) => {
-                newSources.push(item)
-            })
-            setData({
-                ...data,
-                content: '',
-                sources: [],
-                image: ''
-            })
-            setScams([
-                {
-                    ...postData?.data,
-                    sources: newSources,
-                    userImage: userInfo?.image
-                },
-                ...scams
-            ])
-        }
-    }
 
     const handleSend = async(type, reviewId, datacomment) => {
         if (type === TYPE_REVIEW) {
@@ -600,78 +556,92 @@ const DetailProduct = () => {
         }
     }, [defaultFilter])
 
-    useEffect(() => {
-        if (productInfo) {
-            console.log(productInfo)
-            setInterval(async() => {
-                const reviews = await get(`reviews/review?productId=${productInfo?.product?.id}`)
-                const replies = await get(`reviews/reply?productId=${productInfo?.product?.id}`)
+    // useEffect(() => {
+    //     if (productInfo) {
+    //         console.log(productInfo)
+    //         setInterval(async() => {
+    //             const reviews = await get(`reviews/review?productId=${productInfo?.product?.id}`)
+    //             const replies = await get(`reviews/reply?productId=${productInfo?.product?.id}`)
 
-                let newReview
-                reviews?.data?.forEach((item) => {
-                    newReview = replies?.data?.filter((itemReply) => itemReply?.reviewId === item?.id)
-                    console.log(newReview)
-                })
-                console.log(reviews?.data)
-                console.log(replies?.data)
-             console.log(111111)
-            }, 10000)
+    //             let newReview
+    //             reviews?.data?.forEach((item) => {
+    //                 newReview = replies?.data?.filter((itemReply) => itemReply?.reviewId === item?.id)
+    //                 console.log(newReview)
+    //             })
+    //             console.log(reviews?.data)
+    //             console.log(replies?.data)
+    //          console.log(111111)
+    //         }, 10000)
+    //     }
+    // }, [productInfo])
+
+    const handleAddComment = (isOpen) => {
+        const token = Boolean(getCookie(STORAGEKEY.ACCESS_TOKEN))
+        if (!token) {
+            signInContext?.handleSetOpenModal(true)
+        } else {
+            setOpenComment(isOpen)
         }
-      }, [productInfo])
-
+    }
+    console.log(productInfo)
     return (
         <div className='product'>
             <div className='product-detail'>
                 <div className='product-content'>
-                    <div className='product-overview'>
-                        {productInfo?.product?.image ? (
-                            <Image src={productInfo?.product?.image} preview={false}/>
-                        ) : (
-                            <span className='product-detail-image-logo'>
-                              {productInfo?.product?.name?.slice(0, 3)?.toUpperCase()}
-                          </span>
-                        )}
-                        <div className='product-overview-parameter'>
-                            <div className='product-overview-parameter-info'>
-                                <div className='product-overview-name'>{productInfo?.product?.name}</div>
-                                {productInfo?.product?.symbol ? (
-                                    <div className='product-overview-symbol'>{productInfo?.product?.symbol}</div>
-                                ) : ''}
-                                <div className='product-overview-evaluate'>
-                                    <Tooltip placement="topLeft" title='content scam'>
-                                        <Image
-                                            src={productInfo?.product?.isScam ? checked_scam : productInfo?.product?.isWarning ? checked_warning : checked}
-                                            preview={false}
-                                        />
-                                    </Tooltip>
+                    <div className='product-header'>
+                        <div className='product-overview'>
+                            {productInfo?.product?.image ? (
+                                <Image src={productInfo?.product?.image} preview={false}/>
+                            ) : (
+                                <span className='product-detail-image-logo'>
+                                {productInfo?.product?.name?.slice(0, 3)?.toUpperCase()}
+                            </span>
+                            )}
+                            <div className='product-overview-parameter'>
+                                <div className='product-overview-parameter-info'>
+                                    <div className='product-overview-name'>{productInfo?.product?.name}</div>
+                                    {productInfo?.product?.symbol ? (
+                                        <div className='product-overview-symbol'>{productInfo?.product?.symbol}</div>
+                                    ) : ''}
+                                    <div className='product-overview-evaluate'>
+                                        <Tooltip placement="topLeft" title='content scam'>
+                                            {/* <Image
+                                                src={productInfo?.product?.isScam ? checked_scam : productInfo?.product?.isWarning ? checked_warning : checked}
+                                                preview={false}
+                                            /> */}
+                                            {productInfo?.product?.isScam ? (
+                                                <Image src={scam} preview={false}/>
+                                            ) : (productInfo?.product?.isWarning) ? (
+                                                    <Image src={warning} preview={false}/>
+                                                ) : ''}
+                                        </Tooltip>
+                                    </div>
+                                </div>
+                                <div className='product-overview-parameter-reviews'>
+                                    <Rate allowHalf defaultValue={2.5} /> 4.9
+                                    {/* <div className='product-overview-parameter-reviews-amount'>Reviews 2.387</div> */}
+                                </div>
+                                <div className='product-overview-list-tags'>
+                                    {productInfo?.product?.type && (
+                                        <div className='product-tag'>{productInfo?.product?.type}</div>
+                                    )}
+                                    {productInfo?.product?.detail !== null && (
+                                        <>
+                                            {parseInt(productInfo?.product?.detail?.holders) > 0 && (
+                                                <div className='product-tag'>
+                                                    {new Intl.NumberFormat().format(productInfo?.product?.detail?.holders)} Holders
+                                                </div>
+                                            )}
+                                        </>
+                                    )}
+                                    {productInfo?.product?.chainName !== null && (
+                                        <div className='product-tag'>{productInfo?.product?.chainName}</div>
+                                    )}
                                 </div>
                             </div>
-                            <div className='product-overview-parameter-reviews'>
-                                <Rate allowHalf defaultValue={2.5} /> 4.9
-                                {/* <div className='product-overview-parameter-reviews-amount'>Reviews 2.387</div> */}
-                            </div>
-                            <div className='product-overview-list-tags'>
-                                {productInfo?.product?.type && (
-                                    <div className='product-tag'>{productInfo?.product?.type}</div>
-                                )}
-                                {productInfo?.product?.detail !== null && (
-                                    <>
-                                        {parseInt(productInfo?.product?.detail?.holders) > 0 && (
-                                            <div className='product-tag'>
-                                                {new Intl.NumberFormat().format(productInfo?.product?.detail?.holders)} Holders
-                                            </div>
-                                        )}
-                                    </>
-                                )}
-                                {productInfo?.product?.chainName !== null && (
-                                    <div className='product-tag'>{productInfo?.product?.chainName}</div>
-                                )}
-                            </div>
                         </div>
-                    </div>
-                    <div className='product-market'>
-                        {productInfo?.product?.type === 'project' ? '' : (
-                            <>
+                        {/* {productInfo?.product?.type === 'project' ? '' : ( */}
+                            <div className='product-price'>
                                 <div className='product-market-symbol'>BNB Price (BNB)</div>
                                 <div className='product-market-price'>
                                     $234.76
@@ -686,57 +656,63 @@ const DetailProduct = () => {
                                         0.2%
                                     </div>
                                 </div>
-                            </>
-                        )}
+                            </div>
+                        {/* )} */}
+                    </div>
+                    <div className='product-market'>
                         <div className='product-market-list'>
-                            {productInfo?.product?.detail !== null && (
+                            {/* {productInfo?.product?.detail !== null && (
                                 <>
-                                    {productInfo?.product?.detail?.marketCap && productInfo?.product?.detail?.marketCap !== null && (
+                                    {productInfo?.product?.detail?.marketCap && productInfo?.product?.detail?.marketCap !== null && ( */}
                                         <div className='product-market-list-item'>
                                             <div className='product-market-list-item-title'>Market Cap</div>
                                             <div className='product-market-list-item-amount'>
-                                                ${Number(productInfo?.product?.detail?.marketCap)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                                                $123.456B
+                                                {/* ${productInfo?.product?.detail?.marketCap ? Number(productInfo?.product?.detail?.marketCap)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}
                                             </div>
                                         </div>
-                                    )}
+                                    {/* )}
                                 </>
-                            )}
-                            {productInfo?.product?.detail !== null && (
+                            )} */}
+                            {/* {productInfo?.product?.detail !== null && (
                                 <>
-                                    {productInfo?.product?.detail?.totalSupply && productInfo?.product?.detail?.totalSupply !== null && (
+                                    {productInfo?.product?.detail?.totalSupply && productInfo?.product?.detail?.totalSupply !== null && ( */}
                                         <div className='product-market-list-item'>
                                             <div className='product-market-list-item-title'>Total Supply</div>
                                             <div className='product-market-list-item-amount'>
-                                                ${Number(productInfo?.product?.detail?.totalSupply)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                                            $123.456B
+                                                {/* ${productInfo?.product?.detail?.totalSupply ? Number(productInfo?.product?.detail?.totalSupply)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}
                                             </div>
                                         </div>
-                                    )}
+                                    {/* )}
                                 </>
-                            )}
-                            {productInfo?.product?.detail !== null && (
+                            )} */}
+                            {/* {productInfo?.product?.detail !== null && (
                                 <>
-                                    {productInfo?.product?.detail?.maxSupply && productInfo?.product?.detail?.maxSupply !== null && (
+                                    {productInfo?.product?.detail?.maxSupply && productInfo?.product?.detail?.maxSupply !== null && ( */}
                                         <div className='product-market-list-item'>
                                             <div className='product-market-list-item-title'>Max Supply</div>
                                             <div className='product-market-list-item-amount'>
-                                                ${Number(productInfo?.product?.detail?.maxSupply)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                                            $123.456B
+                                                {/* ${Number(productInfo?.product?.detail?.maxSupply)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} */}
                                             </div>
                                         </div>
-                                    )}
+                                    {/* )}
                                 </>
-                            )}
-                            {productInfo?.product?.detail !== null && (
+                            )} */}
+                            {/* {productInfo?.product?.detail !== null && (
                                 <>
-                                    {productInfo?.product?.detail?.volumeTrading && productInfo?.product?.detail?.volumeTrading !== null && productInfo?.product?.detail?.volumeTrading !== '0' && (
+                                    {productInfo?.product?.detail?.volumeTrading && productInfo?.product?.detail?.volumeTrading !== null && productInfo?.product?.detail?.volumeTrading !== '0' && ( */}
                                         <div className='product-market-list-item'>
                                             <div className='product-market-list-item-title'>Volume Trading</div>
                                             <div className='product-market-list-item-amount'>
-                                                ${productInfo?.product?.detail?.volumeTrading?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                                            $123.456B
+                                                {/* ${productInfo?.product?.detail?.volumeTrading?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} */}
                                             </div>
                                         </div>
-                                    )}
+                                    {/* )}
                                 </>
-                            )}
+                            )} */}
                         </div>
                     </div>
                     {productInfo?.product?.category && (
@@ -1003,7 +979,7 @@ const DetailProduct = () => {
                         setOpenScam={setOpenScam}
                     /> */}
                     <ListReview
-                        setOpenComment={setOpenComment}
+                        handleAddComment={handleAddComment}
                         defaultFilter={defaultFilter}
                         setDefaultFilter={setDefaultFilter}
                     />

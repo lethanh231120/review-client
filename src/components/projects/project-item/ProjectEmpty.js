@@ -1,9 +1,8 @@
 import React from 'react'
 import { Skeleton } from 'antd'
 import './projectItem.scss'
-import checked_scam from '../../../assets/images/checked_scam.png'
 
-const ProjectEmpty = ({ data, checked, chat_icon, love_icon, scam_icon }) => {
+const ProjectEmpty = () => {
   return (
     <div className="project">
         <div className="project-image">
