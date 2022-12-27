@@ -93,22 +93,25 @@ function Sidenav({ color, setVisible, profile, token, logout }) {
               <Menu.SubMenu
                 key={index}
                 title={(
-                  <NavLink
-                    onClick={() => setVisible(false)}
-                    to={{ pathname: item?.url }}
-                    state={{ params: { category: item?.name, page: 1, subcategory: '' } }}
-                    className='sidebar-submenu'
-                  >
-                    <span
-                      className="icon"
-                      style={{
-                        background: page === item?.url ? color : "",
+                    <NavLink
+                      onClick={(e) => {
+                        // e.stopPropagation()
+                        // setVisible(false)
                       }}
+                      to={{ pathname: item?.url }}
+                      state={{ params: { category: item?.name, page: 1, subcategory: '' } }}
+                      className='sidebar-submenu'
                     >
-                      {item?.image}
-                    </span>
-                    <span className="label">{item?.name}</span>
-                  </NavLink>
+                      <span
+                        className="icon"
+                        style={{
+                          background: page === item?.url ? color : "",
+                        }}
+                      >
+                        {item?.image}
+                      </span>
+                      <span className="label">{item?.name}</span>
+                    </NavLink>
                 )}
               >
                 {item?.children?.map((subItem, i) => (

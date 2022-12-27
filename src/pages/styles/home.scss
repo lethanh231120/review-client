@@ -67,42 +67,42 @@
                     width: 4.5rem;
                 }
             }
-            &-title{
-                font-size: 1.4rem;
-                color: rgba(0, 0, 0, 0.6);
-                font-weight: 500;
-            }
+           
             &-amount{
                 font-weight: 600;
                 font-size: 1.6rem;
                 color: rgb(43, 119, 234);
             }
-            &-time{
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0.8rem 1.2rem;
-                border-radius: 1rem;
-                font-size: 1.6rem;
-                font-weight: 600;
-                margin-top: 0.5rem;
-                background-color: rgba(0, 0, 255, 0.09);
-                & .ant-image{
-                    padding: 0;
-                    border: none;
-                    align-items: center;
-                    margin-bottom: 0;
-                    & img{
-                        width: 2rem;
-                    }
-                }
-            }
+            // &-time{
+            //     display: flex;
+            //     align-items: center;
+            //     justify-content: space-between;
+            //     padding: 0.8rem 1.2rem;
+            //     border-radius: 1rem;
+            //     font-size: 1.6rem;
+            //     font-weight: 600;
+            //     margin-top: 0.5rem;
+            //     background-color: rgba(0, 0, 255, 0.09);
+            //     & .ant-image{
+            //         padding: 0;
+            //         border: none;
+            //         align-items: center;
+            //         margin-bottom: 0;
+            //         & img{
+            //             width: 2rem;
+            //         }
+            //     }
+            // }
             &-news{
+                &-title{
+                    font-size: 1.4rem;
+                    color: rgba(0, 0, 0, 0.87);
+                    font-weight: 600;
+                }
                 &:not(:last-child) {
                     border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
                 }
                 &-header{
-                    margin-bottom: 1.5rem;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
@@ -130,20 +130,7 @@
                     align-items: center;
                 }
                 &-time{
-                    position: relative;
-                    margin-left: 0.5rem;
-                    padding-left: 0.5rem;
                     font-size: 1.5rem;
-                    &::before{
-                        position: absolute;
-                        content: '';
-                        left: 0;
-                        top: 50%;
-                        width: 0.2rem;
-                        height: 0.2rem;
-                        border-radius: 50%;
-                        background-color: rgba(0, 0, 0, 0.6);
-                    }
                 }
                 &-network{
                     & .ant-image{
@@ -151,9 +138,9 @@
                     }
                 }
                 &-text{
-                    font-size: 1.5rem;
-                    color: rgba(0, 0, 0, 0.87);
-                    font-weight: 500;
+                    font-size: 1.4rem;
+                    color: rgba(0, 0, 0, 0.6);
+                    font-weight: 400;
                     padding: 1rem 0;
                 }
                 &-content{
@@ -188,6 +175,9 @@
                     }
                 }
             }
+        }
+        &.article{
+            display: none;
         }
     }
     &-icon{
@@ -325,7 +315,7 @@
         overflow-y: auto;
         height: 95vh;
         overflow-x: hidden;
-        padding: 0 0 1.6rem 0;
+        padding: 0 0 3rem 0;
         &::-webkit-scrollbar {
             display: none;
         }
@@ -502,6 +492,9 @@
                 border-radius: 1.5rem;
                 padding: 2rem 0;
                 // height: 10rem;
+            }
+            &.article{
+                display: block;
             }
         }
     }

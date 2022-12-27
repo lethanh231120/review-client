@@ -402,21 +402,22 @@
                     cursor: pointer;
                     transition: all 0.2s linear;
                     white-space: nowrap;
+                    background-color: blue($color: #000000);
                     &:hover{
                         background-color: rgba(0, 229, 255, 0.388);
                         border-radius: 0.3rem;
                     }
                     &-contract{
-                        max-width: 30rem;
+                        width: fit-content;
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
                         &-address{
-                            width: 55%;
+                            max-width: 10rem;
+                            width: 10rem;
                             display: block;
                             color: rgba(0, 0, 0, 0.6);
                             display: -webkit-box;
-                            line-height: 1.4;
                             font-size: 1.4rem;
                             -webkit-line-clamp: 1;
                             -webkit-box-orient: vertical;
@@ -424,7 +425,8 @@
                             text-overflow: ellipsis;
                         }
                         &-decimals{
-                            width: 55%;
+                            width: 10rem;
+                            padding: 0 0.5rem;
                             display: block;
                             color: rgba(0, 0, 0, 0.6);
                             display: -webkit-box;
@@ -435,12 +437,13 @@
                             overflow: hidden;
                             text-overflow: ellipsis;
                         }
-                        &-deecimal{
-                            width: 5%;
+                        &-decimal{
+                            padding: 0 0.5rem;
                         }
                         &-chain{
                             font-size: 1.4rem;
-                            width: 25%;
+                            width: fit-content;
+                            padding: 0 0.5rem;
                             font-weight: 600;
                             color: rgba(0, 0, 0, 0.87);
                             text-transform: uppercase;

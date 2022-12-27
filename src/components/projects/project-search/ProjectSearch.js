@@ -22,7 +22,7 @@ const ProjectSearch = ({ data }) => {
         <div className='project-search-content'>
           <div className='project-search-name'>
               {data?.name}
-              {(data?.type === 'coin' || data?.type === 'token') && (
+              {(data?.type === 'coin' || data?.type === 'token' || data?.type === 'ico') && (
                 <>
                   {data?.symbol && (
                     <div className='project-search-symbol'>{data?.symbol}</div>
@@ -43,12 +43,16 @@ const ProjectSearch = ({ data }) => {
             </div>
           )}
           <div className='project-search-more'>
-            <div className='project-search-category'>
-              Blockchain Games
-            </div>
-            <div className='project-search-chain'>
-              Ethereum
-            </div>
+            {data?.category && (
+              <div className='project-search-category'>
+                {data?.category}
+              </div>
+            )}
+            {data?.chainName && (
+              <div className='project-search-chain'>
+                {data?.chainName}
+              </div>
+            )}
           </div>
         </div>
       </div>

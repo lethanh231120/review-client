@@ -107,13 +107,13 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
                 {!_.isEmpty(data?.review?.sources) && (
                   <div className='review-item-content-source'>
                     {data?.review?.sources?.map((item, index) => (
-                      <>
+                      <span key={index}>
                         {item !== '' && (
                           <a href={item} target='_blank' rel="noreferrer">
                             <LinkOutlined style={{ marginRight: '0.5rem' }}/> Proof {index + 1}
                           </a>
                         )}
-                      </>
+                      </span>
                     ))}
                   </div>
                 )}

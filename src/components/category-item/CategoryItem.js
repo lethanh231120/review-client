@@ -22,6 +22,7 @@ const CategoryItem = () => {
 
   useEffect(() => {
     const getData = async() => {
+      setLoading(true)
       let param = {}
       if (location?.state !== null) {
         if (location?.state?.dataSearch) {
@@ -35,31 +36,38 @@ const CategoryItem = () => {
           }
           setLoading(false)
         } else {
+          console.log(1111)
           param = {
             ...params,
             ...location?.state?.params
           }
         }
       } else {
+        console.log(3333)
         param = params
       }
+      console.log('33333')
+      const dataBySearch = await get ('reviews/product/filters', param)
+      setListProduct(dataBySearch?.data?.products !== null ? dataBySearch?.data?.products : [])
+      setTotal(dataBySearch?.data?.productCount)
+      setLoading(false)
       setParams(param)
     }
     getData()
   }, [location])
 
-  useEffect(() => {
-    if (!location?.state?.dataSearch) {
-      setLoading(true)
-      const getData = async() => {
-        const dataBySearch = await get ('reviews/product/filters', params)
-        setListProduct(dataBySearch?.data?.products !== null ? dataBySearch?.data?.products : [])
-        setTotal(dataBySearch?.data?.productCount)
-        setLoading(false)
-      }
-      getData()
+  const handleChangePage = async(value) => {
+    setLoading(true)
+    const param = {
+      ...params,
+      page: value
     }
-  }, [params])
+    const dataBySearch = await get ('reviews/product/filters', param)
+    setListProduct(dataBySearch?.data?.products !== null ? dataBySearch?.data?.products : [])
+    setTotal(dataBySearch?.data?.productCount)
+    setLoading(false)
+    setParams(param)
+  }
 
   return (
     <div
@@ -97,7 +105,7 @@ const CategoryItem = () => {
                 current={params?.page}
                 pageSize={PAGE_SIZE}
                 showSizeChanger={false}
-                onChange={(value) => setParams({...params, page: value})}
+                onChange={(value) => handleChangePage(value)}
               />
             </div>
           )}

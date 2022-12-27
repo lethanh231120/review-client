@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 
-import { Card, Col, Row, Image } from "antd";
+import { Card, Col, Row } from "antd";
 import './styles/home.scss'
 import post from '../assets/images/newpost.jpg'
 import mask from '../assets/images/mask.png'
@@ -22,12 +22,7 @@ import ScamEmpty from "../components/projects/project-scam/ScamEmpty";
 import ICOEmpty from "../components/projects/project-ico/ICOEmpty";
 import TokenEmpty from "../components/projects/token/TokenEmpty";
 import ProjectEmpty from "../components/projects/project-item/ProjectEmpty";
-
-
-import twitter from '../assets/images/twitter.png'
-import binance from '../assets/images/binance.jpg'
-import new_cmt from '../assets/images/new-cmt.png'
-import heart from '../assets/images/love.png'
+import News from "../components/layout/News";
 
 const Home = () => {
   const marketContext = useContext(MarketContext)
@@ -85,7 +80,7 @@ const Home = () => {
                           {new Intl.NumberFormat().format(summary?.totalProductICO ? summary?.totalProductICO : 0)}
                           {/* {summary?.totalProductICO ? summary?.totalProductICO?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}
                         </div>
-                        <div className="home-card-content-text">Upcoming project</div>
+                        <div className="home-card-content-text">Upcoming projects</div>
                       </div>
                     </Card>
                   </Col>
@@ -95,7 +90,7 @@ const Home = () => {
                         {new Intl.NumberFormat().format(summary?.totalProduct ? summary?.totalProduct : 0)}
                         {/* {summary?.totalProduct ? summary?.totalProduct?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}
                       </div>
-                      <div className="home-card-content-text">Number of products</div>
+                      <div className="home-card-content-text">Total products</div>
                     </Card>
                   </Col>
                   <Col xl={{ span: 8 }} md={{ span: 24 }} sm={{ span: 24 }} xs={{ span: 24 }}>
@@ -103,7 +98,7 @@ const Home = () => {
                       <Col xl={{ span: 24 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
                         <Card bordered={false} className="criclebox h-full card-border">
                           <div className="home-card-content-text">
-                            Number of investor
+                            Total investors
                           </div>
                           <div className="home-card-content-title">
                             {new Intl.NumberFormat().format(summary?.investor ? summary?.investor : 0)}
@@ -113,7 +108,7 @@ const Home = () => {
                       </Col>
                       <Col xl={{ span: 24 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
                         <Card bordered={false} className="criclebox h-full card-border">
-                          <div className="home-card-content-text">Vendor Capital</div>
+                          <div className="home-card-content-text">Vendors</div>
                           <div className="home-card-content-title">
                             {new Intl.NumberFormat().format(summary?.venderCapital ? summary?.venderCapital : 0)}
                             {/* {summary?.venderCapital ? summary?.venderCapital?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}
@@ -155,7 +150,7 @@ const Home = () => {
 
               <div className="home-content">
                 <div className="home-content-title">
-                  Project Scam
+                  Crypto Scams
                   <div className="home-content-title-seeall" onClick={() => handleSeeAll({ isscam: true })}>See All</div>
                 </div>
                 <Swiper
@@ -217,7 +212,7 @@ const Home = () => {
 
               <div className="home-content">
                 <div className="home-content-title">
-                  ICO/Airdrop
+                  ICO/Airdrops
                   <div className="home-content-title-seeall" onClick={() => handleSeeAll({ type: 'ico' })}>See All</div>
                 </div>
                 <Swiper
@@ -332,7 +327,7 @@ const Home = () => {
 
               <div className="home-content">
                 <div className="home-content-title">
-                  List Project
+                  Top Project
                   <div className="home-content-title-seeall" onClick={() => handleSeeAll({ type : 'project' })}>See All</div>
                 </div>
                 <Swiper
@@ -392,9 +387,10 @@ const Home = () => {
                 </Swiper>
               </div>
 
-              <div className="home-left">
-                <div className="home-new">
-                  <div className="home-new-title">News</div>
+              {/* <div className="home-left"> */}
+                <div className="home-new article">
+                  <News/>
+                  {/* <div className="home-new-title">News</div>
                   <div style={{ marginBottom: '16px' }}>
                     <Card bordered={false} className="criclebox h-full card-new">
                       <div className="home-new-card-news">
@@ -515,9 +511,9 @@ const Home = () => {
                         </div>
                       </div>
                     </Card>
-                  </div>
+                  </div> */}
                 </div>
-              </div>
+              {/* </div> */}
             </div>
           </Col>
         </Row>

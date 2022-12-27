@@ -45,16 +45,103 @@ const DetailProduct = () => {
         image: '',
         star: 5
     })
-
     const [reactionData, setReactionData] = useState({
         type: '',
         data: {}
     })
     const [dataSearch, setDataSearch] = useState()
+    const [isShow, setIsShow] = useState()
 
     useEffect(() => {
         const getData = async() => {
             const product = await get(`reviews/product?productId=${productId}`)
+            // check show data
+            const shows = {
+                sourceCode: false,
+                community: false,
+                founders: false,
+                funds: false,
+                moreInfo: false,
+                decimals: false,
+                website: false,
+                contract: false
+            }
+            if (product?.data?.product?.detail) {
+                if (product?.data?.product?.detail?.sourceCode) {
+                    Object.keys(product?.data?.product?.detail?.sourceCode).forEach((key) => {
+                        if (product?.data?.product?.detail?.sourceCode[key].length === 0) {
+                            shows['sourceCode'] = false
+                        } else {
+                            shows['sourceCode'] = true
+                        }
+                    })
+                }
+                if (product?.data?.product?.detail?.community) {
+                    Object.keys(product?.data?.product?.detail?.community).forEach((key) => {
+                        if (product?.data?.product?.detail?.community[key].length === 0) {
+                            shows['community'] = false
+                        } else {
+                            shows['community'] = true
+                        }
+                    })
+                }
+                if (product?.data?.product?.detail?.founders) {
+                    Object.keys(product?.data?.product?.detail?.founders).forEach((key) => {
+                        if (product?.data?.product?.detail?.founders[key].length === 0) {
+                            shows['founders'] = false
+                        } else {
+                            shows['founders'] = true
+                        }
+                    })
+                }
+                if (product?.data?.product?.detail?.funds) {
+                    Object.keys(product?.data?.product?.detail?.funds).forEach((key) => {
+                        if (product?.data?.product?.detail?.funds[key].length === 0) {
+                            shows['funds'] = false
+                        } else {
+                            shows['funds'] = true
+                        }
+                    })
+                }
+                if (product?.data?.product?.detail?.moreInfo) {
+                    Object.keys(product?.data?.product?.detail?.moreInfo).forEach((key) => {
+                        if (product?.data?.product?.detail?.moreInfo[key].length === 0) {
+                            shows['moreInfo'] = false
+                        } else {
+                            shows['moreInfo'] = true
+                        }
+                    })
+                }
+                if (product?.data?.product?.detail?.decimals) {
+                    Object.keys(product?.data?.product?.detail?.decimals).forEach((key) => {
+                        if (_.isEmpty(product?.data?.product?.detail?.decimals[key])) {
+                            shows['decimals'] = false
+                        } else {
+                            shows['decimals'] = true
+                        }
+                    })
+                }
+                if (product?.data?.product?.detail?.website) {
+                    Object.keys(product?.data?.product?.detail?.website).forEach((key) => {
+                        if (product?.data?.product?.detail?.website[key].length === 0) {
+                            shows['website'] = false
+                        } else {
+                            shows['website'] = true
+                        }
+                    })
+                }
+                if (product?.data?.product?.contract) {
+                    product?.data?.product?.contract?.contract?.forEach((item) => {
+                        console.log(item)
+                        if (_.isEmpty(item)) {
+                            shows['contract'] = false
+                        } else {
+                            shows['contract'] = true
+                        }
+                    })
+                }
+            }
+            setIsShow(shows)
             const accountId = []
             if (product?.data?.reviews !== null) {
                 const newReviews = []
@@ -291,6 +378,7 @@ const DetailProduct = () => {
         }
     }, [reactionData])
 
+    console.log(productInfo)
     const handleReply = async(e, type, reviewId) => {
         if (e.ctrlKey && e.key === 'Enter') {
             setData({
@@ -517,6 +605,7 @@ const DetailProduct = () => {
             formData.append('file', e?.fileList[0]?.originFileObj)
             const time = moment().unix()
             getBase64(e.file.originFileObj, async(url) => {
+                console.log('thanh')
                 const fileName= `${userInfo.id}_${time}`
                 const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
                 setData({
@@ -556,25 +645,6 @@ const DetailProduct = () => {
         }
     }, [defaultFilter])
 
-    // useEffect(() => {
-    //     if (productInfo) {
-    //         console.log(productInfo)
-    //         setInterval(async() => {
-    //             const reviews = await get(`reviews/review?productId=${productInfo?.product?.id}`)
-    //             const replies = await get(`reviews/reply?productId=${productInfo?.product?.id}`)
-
-    //             let newReview
-    //             reviews?.data?.forEach((item) => {
-    //                 newReview = replies?.data?.filter((itemReply) => itemReply?.reviewId === item?.id)
-    //                 console.log(newReview)
-    //             })
-    //             console.log(reviews?.data)
-    //             console.log(replies?.data)
-    //          console.log(111111)
-    //         }, 10000)
-    //     }
-    // }, [productInfo])
-
     const handleAddComment = (isOpen) => {
         const token = Boolean(getCookie(STORAGEKEY.ACCESS_TOKEN))
         if (!token) {
@@ -583,7 +653,7 @@ const DetailProduct = () => {
             setOpenComment(isOpen)
         }
     }
-    console.log(productInfo)
+
     return (
         <div className='product'>
             <div className='product-detail'>
@@ -604,7 +674,7 @@ const DetailProduct = () => {
                                         <div className='product-overview-symbol'>{productInfo?.product?.symbol}</div>
                                     ) : ''}
                                     <div className='product-overview-evaluate'>
-                                        <Tooltip placement="topLeft" title='content scam'>
+                                        <Tooltip placement="topLeft" title={productInfo?.product?.proof?.isScam}>
                                             {/* <Image
                                                 src={productInfo?.product?.isScam ? checked_scam : productInfo?.product?.isWarning ? checked_warning : checked}
                                                 preview={false}
@@ -661,67 +731,48 @@ const DetailProduct = () => {
                     </div>
                     <div className='product-market'>
                         <div className='product-market-list'>
-                            {/* {productInfo?.product?.detail !== null && (
-                                <>
-                                    {productInfo?.product?.detail?.marketCap && productInfo?.product?.detail?.marketCap !== null && ( */}
-                                        <div className='product-market-list-item'>
-                                            <div className='product-market-list-item-title'>Market Cap</div>
-                                            <div className='product-market-list-item-amount'>
-                                                $123.456B
-                                                {/* ${productInfo?.product?.detail?.marketCap ? Number(productInfo?.product?.detail?.marketCap)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}
-                                            </div>
-                                        </div>
-                                    {/* )}
-                                </>
-                            )} */}
-                            {/* {productInfo?.product?.detail !== null && (
-                                <>
-                                    {productInfo?.product?.detail?.totalSupply && productInfo?.product?.detail?.totalSupply !== null && ( */}
-                                        <div className='product-market-list-item'>
-                                            <div className='product-market-list-item-title'>Total Supply</div>
-                                            <div className='product-market-list-item-amount'>
-                                            $123.456B
-                                                {/* ${productInfo?.product?.detail?.totalSupply ? Number(productInfo?.product?.detail?.totalSupply)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}
-                                            </div>
-                                        </div>
-                                    {/* )}
-                                </>
-                            )} */}
-                            {/* {productInfo?.product?.detail !== null && (
-                                <>
-                                    {productInfo?.product?.detail?.maxSupply && productInfo?.product?.detail?.maxSupply !== null && ( */}
-                                        <div className='product-market-list-item'>
-                                            <div className='product-market-list-item-title'>Max Supply</div>
-                                            <div className='product-market-list-item-amount'>
-                                            $123.456B
-                                                {/* ${Number(productInfo?.product?.detail?.maxSupply)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} */}
-                                            </div>
-                                        </div>
-                                    {/* )}
-                                </>
-                            )} */}
-                            {/* {productInfo?.product?.detail !== null && (
-                                <>
-                                    {productInfo?.product?.detail?.volumeTrading && productInfo?.product?.detail?.volumeTrading !== null && productInfo?.product?.detail?.volumeTrading !== '0' && ( */}
-                                        <div className='product-market-list-item'>
-                                            <div className='product-market-list-item-title'>Volume Trading</div>
-                                            <div className='product-market-list-item-amount'>
-                                            $123.456B
-                                                {/* ${productInfo?.product?.detail?.volumeTrading?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} */}
-                                            </div>
-                                        </div>
-                                    {/* )}
-                                </>
-                            )} */}
+                            {productInfo?.product?.detail !== null && (
+                                <div className='product-market-list-item'>
+                                    <div className='product-market-list-item-title'>Market Cap</div>
+                                    <div className='product-market-list-item-amount'>
+                                        {productInfo?.product?.detail?.marketcap !== 0 ? `$ ${Number(productInfo?.product?.detail?.marketcap)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}` : '__'}
+                                    </div>
+                                </div>
+                            )}
+                            {productInfo?.product?.detail !== null && (
+                                <div className='product-market-list-item'>
+                                    <div className='product-market-list-item-title'>Total Supply</div>
+                                    <div className='product-market-list-item-amount'>
+                                        {productInfo?.product?.detail?.marketcap !== 0 ? `$ ${Number(productInfo?.product?.detail?.totalSupply)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}` : '__'}
+                                    </div>
+                                </div>
+                            )}
+                            {productInfo?.product?.detail !== null && (
+                                <div className='product-market-list-item'>
+                                    <div className='product-market-list-item-title'>Max Supply</div>
+                                    <div className='product-market-list-item-amount'>
+                                        {productInfo?.product?.detail?.maxSupply !== 0 ? `$ ${Number(productInfo?.product?.detail?.maxSupply)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}` : '__'}
+                                    </div>
+                                </div>
+                            )}
+                            {productInfo?.product?.detail !== null && (
+                                <div className='product-market-list-item'>
+                                    <div className='product-market-list-item-title'>Volume Trading</div>
+                                    <div className='product-market-list-item-amount'>
+                                        {productInfo?.product?.detail?.volumeTrading !== 0 ? `$ ${Number(productInfo?.product?.detail?.volumeTrading)?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}` : '__'}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
+
                     {productInfo?.product?.category && (
                         <div className='product-info'>
                             <div className='product-info-item'>
                                 <div className='product-info-item-key'>Category: </div>
                                 <div className='product-overview-list-tags'>
-                                    {productInfo?.product?.category?.split(',')?.map((item) => (
-                                        <div className='product-tag'>{item}</div>
+                                    {productInfo?.product?.category?.split(',')?.map((item, index) => (
+                                        <div className='product-tag' key={index}>{item}</div>
                                     ))}
                                 </div>
                             </div>
@@ -733,11 +784,9 @@ const DetailProduct = () => {
                             <div className='product-info-item'>
                                 <div className='product-info-item-key'>Sub Category: </div>
                                 <div className='product-overview-list-tags'>
-                                    {(productInfo?.product?.subcategory?.split(';')
-                                        ? productInfo?.product?.subcategory?.split(';')
-                                            : productInfo?.product?.subcategory?.split(','))?.map((item) => (
-                                                <div className='product-tag'>{item}</div>
-                                            ))}
+                                    {(productInfo?.product?.subcategory?.split(','))?.map((item, index) => (
+                                        <div className='product-tag' key={index}>{item}</div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
@@ -748,46 +797,27 @@ const DetailProduct = () => {
                             <div className='product-info-item-key'>Product Info: </div>
                             <div className='product-info'>
                                 <div className='product-info-item'>
-                                    {!_.isEmpty(productInfo?.product?.detail?.sourceCode) && (
+                                    {isShow?.sourceCode && (
                                         <div className='product-tag-item'>
                                             Source Code:
                                             <CodeOutlined />
                                             <div className='product-tag-item-list'>
                                                 {Object.keys(productInfo?.product?.detail?.sourceCode).map((key) => {
-                                                    return (<>
-                                                        <>
-                                                            {productInfo?.product?.detail?.sourceCode[key]?.map((item, index) => (
-                                                                <div className='product-tag-item-list-children'>
-                                                                    <a href={item} target='_blank'  rel="noreferrer">{key} {index + 1}</a>
-                                                                </div>
-                                                            ))}
-                                                        </>
-                                                    </>
+                                                    return (<span key={key}>
+                                                        {productInfo?.product?.detail?.sourceCode[key]?.map((item, index) => (
+                                                            <div className='product-tag-item-list-children' key={index}>
+                                                                <a href={item} target='_blank'  rel="noreferrer">{key}</a>
+                                                            </div>
+                                                        ))}
+                                                    </span>
                                                     )
                                                 })}
                                             </div>
                                         </div>
                                     )}
                                 </div>
-                                <div className='product-info-item'>
-                                    {!_.isEmpty(productInfo?.product?.detail?.sourceCode) && (
-                                        <div className='product-tag-item'>
-                                            Social
-                                            <DownOutlined />
-                                            {productInfo?.product?.detail !== null && (
-                                                <div className='product-tag-item-list'>
-                                                    {productInfo?.product?.detail?.social?.map((item, index) => (
-                                                        <div className='product-tag-item-list-children' key={index}>
-                                                            <a href={`${item}`} rel="noreferrer" target='_blank'>{item}</a>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                                <div className='product-info-item'>
-                                    {!_.isEmpty(productInfo?.product?.detail?.community) && (
+                                {/* <div className='product-info-item'>
+                                    {isShow?.community && (
                                         <div className='product-tag-item'>
                                             Community
                                             <DownOutlined />
@@ -796,8 +826,8 @@ const DetailProduct = () => {
                                                     return (<>
                                                         <>
                                                             {productInfo?.product?.detail?.community[key]?.map((item, index) => (
-                                                                <div className='product-tag-item-list-children'>
-                                                                    <a href={item} target='_blank'  rel="noreferrer">{key} {index + 1}</a>
+                                                                <div className='product-tag-item-list-children' key={index}>
+                                                                    <a href={item} target='_blank'  rel="noreferrer">{key}</a>
                                                                 </div>
                                                             ))}
                                                         </>
@@ -807,9 +837,9 @@ const DetailProduct = () => {
                                             </div>
                                         </div>
                                     )}
-                                </div>
+                                </div> */}
                                 <div className='product-info-item'>
-                                    {!_.isEmpty(productInfo?.product?.contract) && (
+                                    {isShow?.contract && (
                                         <div className='product-tag-item'>
                                             Contract
                                             <DownOutlined />
@@ -835,30 +865,22 @@ const DetailProduct = () => {
                                     )}
                                 </div>
                                 <div className='product-info-item'>
-                                    {!_.isEmpty(productInfo?.product?.detail?.founders) && (
+                                    {isShow?.founders && (
                                         <div className='product-tag-item'>
                                             Founders
                                             <DownOutlined />
                                             <div className='product-tag-item-list'>
-                                                <div className='product-tag-item-list-children'>
-                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                                </div>
-                                                <div className='product-tag-item-list-children'>
-                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                                </div>
-                                                <div className='product-tag-item-list-children'>
-                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                                </div>
-                                                <div className='product-tag-item-list-children'>
-                                                    <a href='https://dev0-admin.gear5.guru/' rel="noreferrer" target='_blank'>community 1</a>
-                                                </div>
+                                                {productInfo?.product?.detail?.founders?.map((item, index) => (
+                                                    <div className='product-tag-item-list-children' key={index}>
+                                                        <a href={item?.social[0]} target='_blank' rel="noreferrer">{item?.name}</a>
+                                                    </div>
+                                                ))}
                                             </div>
-                                            
                                         </div>
                                     )}
                                 </div>
                                 <div className='product-info-item'>
-                                    {!_.isEmpty(productInfo?.product?.detail?.funds) && (
+                                    {isShow?.funds && (
                                         <div className='product-tag-item'>
                                             Funds
                                             <DownOutlined />
@@ -880,7 +902,7 @@ const DetailProduct = () => {
                                     )}
                                 </div>
                                 <div className='product-info-item'>
-                                    {!_.isEmpty(productInfo?.product?.detail?.moreInfo) && (
+                                    {isShow?.moreInfo && (
                                         <div className='product-tag-item'>
                                             More
                                             <DownOutlined />
@@ -902,13 +924,13 @@ const DetailProduct = () => {
                                     )}
                                 </div>
                                 <div className='product-info-item'>
-                                    {!_.isEmpty(productInfo?.product?.detail?.decimals) && (
+                                    {isShow?.decimals && (
                                         <div className='product-tag-item'>
                                             Decimals
                                             <DownOutlined />
                                             <div className='product-tag-item-list'>
                                                 {Object.keys(productInfo?.product?.detail?.decimals).map((key) => {
-                                                    return (<>
+                                                    return (<div key={key}>
                                                         <div className='product-tag-item-list-children'>
                                                             <div className='product-tag-item-list-children-contract'>
                                                                 <span className='product-tag-item-list-children-contract-decimals'>
@@ -926,7 +948,7 @@ const DetailProduct = () => {
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                    </>
+                                                    </div>
                                                     )
                                                 })}
                                             </div>
@@ -934,23 +956,23 @@ const DetailProduct = () => {
                                     )}
                                 </div>
                                 <div className='product-info-item'>
-                                    {!_.isEmpty(productInfo?.product?.detail?.website) && (
+                                    {isShow?.website && (
                                         <div className='product-tag-item'>
                                             Websites
                                             <DownOutlined />
                                             <div className='product-tag-item-list'>
                                                 {Object.keys(productInfo?.product?.detail?.website).map((key) => {
-                                                    return (<>
+                                                    return (<span key={key}>
                                                         {!_.isEmpty(productInfo?.product?.detail?.website[key]) && (
                                                             <>
                                                                 {productInfo?.product?.detail?.website[key]?.map((item, index) => (
-                                                                    <div className='product-tag-item-list-children'>
-                                                                        <a href={item} target='_blank'  rel="noreferrer">{key} {index + 1}</a>
+                                                                    <div className='product-tag-item-list-children' key={index}>
+                                                                        <a href={item} target='_blank'  rel="noreferrer">{key}</a>
                                                                     </div>
                                                                 ))}
                                                             </>
                                                         )}
-                                                    </>
+                                                    </span>
                                                     )
                                                 })}
                                             </div>
@@ -983,45 +1005,6 @@ const DetailProduct = () => {
                         defaultFilter={defaultFilter}
                         setDefaultFilter={setDefaultFilter}
                     />
-                    {/* <Form form={form} style={{ width: '100%' }}>
-                        <div className='review'>
-                            {!openComment && (
-                                <div className='product-detail-form'>
-                                    <div className='product-detail-form-avatar'>
-                                        <Image src={userInfo?.image ? userInfo?.image : user} preview={false}/>
-                                    </div>
-                                    <Form.Item
-                                        name='review'
-                                    >
-                                        <Input
-                                            autoFocus
-                                            name='reply'
-                                            suffix={<>
-                                                <Upload
-                                                    onChange={handleChangeFile}
-                                                >
-                                                    <FileImageOutlined style={{ marginRight: '1rem', cursor: 'pointer' }}/>
-                                                </Upload>
-                                                <SendOutlined
-                                                    style={{ cursor: 'pointer' }}
-                                                    onClick={() => handleSend(TYPE_REVIEW)}
-                                                />
-                                            </>
-                                            }
-                                            placeholder='Enter comment...'
-                                            onChange={(e) => setComment(e.target.value)}
-                                            onKeyPress={(e) => handleReply(e, TYPE_REVIEW)}
-                                        />
-                                        {image && (
-                                            <div className='product-detail-form-comment-image'>
-                                                <Image src={image} preview={false}/>
-                                            </div>
-                                        )}
-                                    </Form.Item>
-                                </div>
-                            )}
-                        </div>
-                    </Form> */}
                     {/* {productInfo?.reviews?.map((item, index) => (
                         <Review
                             openComment={openComment}
@@ -1128,7 +1111,6 @@ const DetailProduct = () => {
                     <Form form={form}>
                         {(dataSearch ? dataSearch : productInfo)?.reviews?.map((item, index) => (
                             <Review
-                                openComment={openComment}
                                 key={index}
                                 data={item}
                                 productId={productInfo?.product?.id}
@@ -1142,13 +1124,6 @@ const DetailProduct = () => {
                     </Form>
                 </div>
             </div>
-            {/* <ReportScam
-                productInfo={productInfo}
-                productId={productId}
-                openScam={openScam}
-                setOpenScam={setOpenScam}
-                userInfo={userInfo}
-            /> */}
         </div>
     )
 }

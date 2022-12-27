@@ -8,6 +8,7 @@ import { get } from "../../api/search";
 import _ from "lodash";
 
 import chatbox from '../../assets/images/chatbox.png'
+import gear5 from '../../assets/images/gear5.png'
 import logo from "../../assets/images/logo.png";
 import title from "../../assets/images/title.png";
 import { SignInContext } from "./Main";
@@ -124,8 +125,9 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
               <Col xxl={{span:8}} sm={{span:0}}></Col>
               <Col xxl={{span:16}} sm={{span:24}} xs={{ span: 24 }}>
                 <NavLink className="brand" to=''>
-                  <Image src={logo} preview={false} style={{ marginRight: '1rem' }}/>
-                  <Image src={title} preview={false} />
+                  {/* <Image src={logo} preview={false} style={{ marginRight: '1rem' }}/> */}
+                  {/* <Image src={title} preview={false} /> */}
+                  <Image src={gear5} preview={false} />
                 </NavLink>
               </Col>
             </Row>
