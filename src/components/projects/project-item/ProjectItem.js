@@ -1,7 +1,8 @@
 import React from 'react'
 import { Image } from 'antd'
 import './projectItem.scss'
-import checked_scam from '../../../assets/images/checked_scam.png'
+import scam from '../../../assets/images/scam.png'
+import warning from '../../../assets/images/warning.png'
 
 const ProjectItem = ({ data, checked, chat_icon, love_icon, scam_icon }) => {
   return (
@@ -13,7 +14,11 @@ const ProjectItem = ({ data, checked, chat_icon, love_icon, scam_icon }) => {
         <div className="project-content-name">
             <span>{data?.name}</span>
             <div className="project-content-icon">
-                <Image src={data?.isScam ? checked_scam : checked} preview={false}/>
+                {data?.isScam ? (
+                  <Image src={scam} preview={false}/>
+                ) : (data?.isWarning) ? (
+                  <Image src={warning} preview={false}/>
+                ) : ''}
             </div>
         </div>
         <div className="project-content-description">

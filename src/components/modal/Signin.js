@@ -25,10 +25,12 @@ const Signin = ({ openModalSignin }) => {
         'accountType': 'facebook'
       }
   
+      console.log(response)
       try {
         // const signup = await post('reviews/auth/signup', dataSignup)
         // if (signup?.status) {
           const signin = await post('reviews/auth/signin', dataSignin)
+          console.log(signin)
           const token = signin?.data.jwt.token
           const userInfo = signin?.data.profile
           // const accountId = signin?.data[1]?.id

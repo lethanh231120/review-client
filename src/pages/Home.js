@@ -62,7 +62,7 @@ const Home = () => {
   }, [])
 
   const handleSeeAll = (value) => {
-    navigate('filter', { state: { params: { ...value, page: 2 } }})
+    navigate('filter', { state: { params: { ...value, page: 1 } }})
   }
 
   return (
@@ -108,7 +108,7 @@ const Home = () => {
                       </Col>
                       <Col xl={{ span: 24 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
                         <Card bordered={false} className="criclebox h-full card-border">
-                          <div className="home-card-content-text">Vendors</div>
+                          <div className="home-card-content-text">Total VCs</div>
                           <div className="home-card-content-title">
                             {new Intl.NumberFormat().format(summary?.venderCapital ? summary?.venderCapital : 0)}
                             {/* {summary?.venderCapital ? summary?.venderCapital?.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0} */}

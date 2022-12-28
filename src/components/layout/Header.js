@@ -70,8 +70,16 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
         setDataSearch({ data: [], isActive: false, status: '', loading: false })
         form.resetFields()
       } else {
-        navigate(`../../../products/${dataSearch[0]?.id}`)
-        form.resetFields()
+        console.log(3333)
+        if (dataSearch?.data && !_.isEmpty(dataSearch?.data)) {
+          console.log(2222)
+          navigate(`../../../products/${dataSearch[0]?.id}`)
+          form.resetFields()
+        } else {
+          console.log(1111)
+          setDataSearch({ data: [], isActive: false, status: '', loading: false })
+          form.resetFields()
+        }
       }
     }
   }
@@ -108,6 +116,14 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
         status: 'done',
         isActive: true
       })
+    } else {
+      console.log(333333)
+      setDataSearch({
+        loading: false,
+        data: [],
+        status: 'done',
+        isActive: true
+      })
     }
   }, 250)
 
@@ -123,8 +139,6 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
               <Col xxl={{span:8}} sm={{span:0}}></Col>
               <Col xxl={{span:16}} sm={{span:24}} xs={{ span: 24 }}>
                 <NavLink className="brand" to=''>
-                  {/* <Image src={logo} preview={false} style={{ marginRight: '1rem' }}/> */}
-                  {/* <Image src={title} preview={false} /> */}
                   <Image src={gear5} preview={false} />
                 </NavLink>
               </Col>
@@ -139,10 +153,10 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
                   prefix={<SearchOutlined />}
                   onChange={handleChangeWithDebounce}
                   onKeyPress={handleSubmitSearch}
-                  // onBlur={() => {
-                  //   setDataSearch({ isActive: false, data: [], loading: false, status: '' })
-                  //   form.resetFields()
-                  // }}
+                  onBlur={() => {
+                    setDataSearch({ isActive: false, data: [], loading: false, status: '' })
+                    form.resetFields()
+                  }}
                 />
               </Form.Item>
             </Form>

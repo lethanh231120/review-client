@@ -2,7 +2,7 @@ import React from 'react'
 import { Image } from 'antd'
 import './projectScam.scss'
 import scam_mask from '../../../assets/images/mask-scam.png'
-import checked from '../../../assets/images/checked.png'
+import scam from '../../../assets/images/scam.png'
 
 const ProjectScam = ({ bgurl, image, chain, data, key }) => {
   return (
@@ -26,7 +26,7 @@ const ProjectScam = ({ bgurl, image, chain, data, key }) => {
                 LeThanh
             </div>
             <div className='project-scam-footer-icon'>
-                <Image src={checked} preview={false}/>
+                <Image src={scam} preview={false}/>
             </div>
             <div className='project-scam-footer-date'>14/12</div>
         </div>

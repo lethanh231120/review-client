@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react'
-import { Image, Rate, Tooltip, Popover } from 'antd'
+import { Image, Rate, Tooltip, Popover, message } from 'antd'
 import { Form, Input, Upload, Select, Checkbox } from 'antd'
-import { DownOutlined, CodeOutlined, CaretUpOutlined, SendOutlined, CopyOutlined } from '@ant-design/icons'
+import { DownOutlined, CodeOutlined, CaretUpOutlined, SendOutlined, CopyOutlined, LinkOutlined } from '@ant-design/icons'
 import './detail-coin/detailCoin.scss'
 import user from '../../assets/images/user.png'
 import moment from 'moment'
@@ -378,7 +378,6 @@ const DetailProduct = () => {
         }
     }, [reactionData])
 
-    console.log(productInfo)
     const handleReply = async(e, type, reviewId) => {
         if (e.ctrlKey && e.key === 'Enter') {
             setData({
@@ -493,6 +492,10 @@ const DetailProduct = () => {
     const copyAddress = (e, address) => {
         e.stopPropagation()
         navigator.clipboard.writeText(address)
+        message.success({
+            content: 'Copy address successfully',
+            duration: 3
+        })
     }
 
     const handleClickEmoji = (value) => {
@@ -816,7 +819,7 @@ const DetailProduct = () => {
                                         </div>
                                     )}
                                 </div>
-                                {/* <div className='product-info-item'>
+                                <div className='product-info-item'>
                                     {isShow?.community && (
                                         <div className='product-tag-item'>
                                             Community
@@ -837,7 +840,7 @@ const DetailProduct = () => {
                                             </div>
                                         </div>
                                     )}
-                                </div> */}
+                                </div>
                                 <div className='product-info-item'>
                                     {isShow?.contract && (
                                         <div className='product-tag-item'>
@@ -850,10 +853,12 @@ const DetailProduct = () => {
                                                             <span className='product-tag-item-list-children-contract-address'>
                                                                 {item?.address}
                                                             </span>
+                                                            
                                                             <CopyOutlined
                                                                 style={{ padding: '0, 1rem' }}
                                                                 onClick={(e) => copyAddress(e, item?.address)}
                                                             />
+
                                                             <span className='product-tag-item-list-children-contract-chain'>
                                                                 {item?.chainName}
                                                             </span>
@@ -967,7 +972,10 @@ const DetailProduct = () => {
                                                             <>
                                                                 {productInfo?.product?.detail?.website[key]?.map((item, index) => (
                                                                     <div className='product-tag-item-list-children' key={index}>
-                                                                        <a href={item} target='_blank'  rel="noreferrer">{key}</a>
+                                                                        <a href={item} target='_blank'  rel="noreferrer">
+                                                                            {item?.split('/')[2]}
+                                                                            <LinkOutlined />
+                                                                        </a>
                                                                     </div>
                                                                 ))}
                                                             </>

@@ -94,10 +94,7 @@ function Sidenav({ color, setVisible, profile, token, logout }) {
                 key={index}
                 title={(
                     <NavLink
-                      onClick={(e) => {
-                        // e.stopPropagation()
-                        setVisible(false)
-                      }}
+                      onClick={(e) => (window?.innerWidth < 1200 || window?.innerWidth === 1200) && setVisible(false)}
                       to={{ pathname: item?.url }}
                       state={{ params: { category: item?.name, page: 1, subcategory: '' } }}
                       className='sidebar-submenu'
@@ -117,7 +114,7 @@ function Sidenav({ color, setVisible, profile, token, logout }) {
                 {item?.children?.map((subItem, i) => (
                   <Menu.Item key={`sub ${i} ${subItem.id}`}> 
                     <NavLink
-                      onClick={() => setVisible(false)}
+                      onClick={(e) => (window?.innerWidth < 1200 || window?.innerWidth === 1200) && setVisible(false)}
                       to={{ pathname: subItem?.url }}
                       state={{ params: { subcategory: subItem?.name, page: 1, category: '' } }}
                       className='sidebar-menu-item'

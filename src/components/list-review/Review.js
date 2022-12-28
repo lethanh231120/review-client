@@ -2,7 +2,7 @@ import React from 'react'
 import ReviewItem from './review-item/ReviewItem'
 import './review.scss'
 
-const Review = ({ setReactionData, setReloadReaction, data, productId, handleReply, handleSend, userInfo, setData }) => {
+const Review = ({ setReactionData, setReloadReaction, data, productId, handleReply, handleSend, userInfo, setData, setOpenComment }) => {
     return (
         <div className='review' key={data?.review?.id}>
             <div className='review-comment'>
@@ -16,6 +16,7 @@ const Review = ({ setReactionData, setReloadReaction, data, productId, handleRep
                         setReactionData={setReactionData}
                         setData={setData}
                         handleSend={handleSend}
+                        setOpenComment={setOpenComment}
                     />
                 </div>
             </div>

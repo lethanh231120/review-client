@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Card, Image } from "antd";
 import '../../pages/styles/home.scss'
 import { get } from '../../api/products';
-import bgimage from '../../assets/images/gear5.png'
+import iconGear5 from '../../assets/images/icon-gear5.png'
 import moment from 'moment';
 
 const News = () => {
@@ -25,9 +25,9 @@ const News = () => {
                         <div className="home-new-card-news" key={index}>
                             <div className="home-new-card-news-header">
                             <div className="home-new-card-news-info">
-                                <Image src={bgimage} preview={false}/>
+                                <Image src={iconGear5} preview={false}/>
                                 <div className="home-new-card-news-user">
-                                    <div className="home-new-card-news-name">Admin Gear5</div>
+                                    <div className="home-new-card-news-name">Gear5.guru</div>
                                     <div className="home-new-card-news-identification">
                                         <div className="home-new-card-news-time">
                                             {moment(item?.updatedDate).startOf('YYYYMMDD').fromNow()}

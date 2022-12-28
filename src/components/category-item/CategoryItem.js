@@ -36,17 +36,14 @@ const CategoryItem = () => {
           }
           setLoading(false)
         } else {
-          console.log(1111)
           param = {
             ...params,
             ...location?.state?.params
           }
         }
       } else {
-        console.log(3333)
         param = params
       }
-      console.log('33333')
       const dataBySearch = await get ('reviews/product/filters', param)
       setListProduct(dataBySearch?.data?.products !== null ? dataBySearch?.data?.products : [])
       setTotal(dataBySearch?.data?.productCount)
@@ -69,6 +66,7 @@ const CategoryItem = () => {
     setParams(param)
   }
 
+  console.log(location)
   return (
     <div
       className='category-page'

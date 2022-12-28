@@ -4,12 +4,13 @@ import { Image } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import scam from '../../../assets/images/scam.png'
 import warning from '../../../assets/images/warning.png'
+import { Link } from 'react-router-dom'
 
 const ProjectSearch = ({ data }) => {
   const navigate = useNavigate()
   return (
     <>
-      <div className='project-search' onClick={() => navigate(`../../../products/${data?.id}`)}>
+      <Link to={`../../../products/${data?.id}`} className='project-search'>
         <div className='project-search-image'>
           {data?.image ? (
             <Image src={data?.image} preview={false}/>
@@ -55,7 +56,7 @@ const ProjectSearch = ({ data }) => {
             )}
           </div>
         </div>
-      </div>
+      </Link>
     </>
   )
 }
