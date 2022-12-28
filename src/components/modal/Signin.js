@@ -1,33 +1,14 @@
 import React, { useContext, useEffect } from 'react'
 import { Modal } from 'antd'
 import FacebookLogin from 'react-facebook-login'
-import { GoogleLogin, GoogleLogout } from 'react-google-login'
 import { setCookie, STORAGEKEY } from '../../utils/storage'
 import { post } from '../../api/products'
 import { SignInContext } from '../layout/Main'
 import './signin.scss'
-import { gapi } from 'gapi-script'
 
 const Signin = ({ openModalSignin }) => {
   const signinContext = useContext(SignInContext)
-  const refreshTokenSetup = (res) => {
-    // Timing to renew access token
-    let refreshTiming = (res.tokenObj.expires_in || 3600 - 5 * 60) * 1000
-
-    const refreshToken = async() => {
-      const newAuthRes = await res.reloadAuthResponse()
-      refreshTiming = (newAuthRes.expires_in || 3600 - 5 * 60) * 1000
-      console.log('newAuthRes:', newAuthRes)
-      // saveUserToken(newAuthRes.access_token);  <-- save new token
-      localStorage.setItem('authToken', newAuthRes.id_token)
-
-      // Setup the other timer after the first one
-      setTimeout(refreshToken, refreshTiming)
-    }
-
-    // Setup first refresh timer
-    setTimeout(refreshToken, refreshTiming)
-  }
+  
   const responseFacebook = async(response) => {
       // const dataSignup = {
       //   'userId': response?.userID,
@@ -66,36 +47,6 @@ const Signin = ({ openModalSignin }) => {
       }
   }
 
-  const onSuccess = (res) => {
-    console.log(res)
-    console.log('Login Success: currentUser:', res.profileObj)
-    // alert(
-    //   `Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
-    // )
-    refreshTokenSetup(res)
-  }
-
-  const onFailure = (res) => {
-    console.log('Login failed: res:', res)
-    alert(
-      `Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz`
-    )
-  }
-
-  useEffect(() => {
-    const start = () => {
-      gapi.client.init({
-        clientId: '1059982952171-sgovl851oomltgq97obi14sdekckkc81.apps.googleusercontent.com',
-        scope: ''
-      })
-    }
-    gapi.load('client:auth2', start)
-  })
-
-  const onLogout = (res) => {
-    console.log(res)
-  }
-
   return (
       <Modal
           title="Sign In"
@@ -113,20 +64,6 @@ const Signin = ({ openModalSignin }) => {
               render={renderProps => (
                   <button onClick={renderProps.onClick}>This is my custom FB button</button>
               )}
-          />
-          <GoogleLogin
-            clientId='78523510071-fdbfdv6ekf2n3q8ql3i4ut7irh2g22de.apps.googleusercontent.com'
-            buttonText='LOGIN WITH GOOGLE'
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy={'single_host_origin'}
-            className='GOOGLE'
-            // isSignedIn={true}
-          />
-          <GoogleLogout
-            clientId='78523510071-fdbfdv6ekf2n3q8ql3i4ut7irh2g22de.apps.googleusercontent.com'
-            buttonText='LOGOUT WITH GOOGLE'
-            onLogoutSuccess={onLogout}
           />
       </Modal>
   )
