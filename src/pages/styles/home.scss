@@ -168,6 +168,7 @@
                         height: 1.4rem * 1.6 * 1;
                         width: 100%;
                         display: block;
+                        font-size: 1.4rem;
                         display: -webkit-box;
                         line-height: 1.4;
                         -webkit-line-clamp: 1;
@@ -540,10 +541,7 @@
                 &-card{
                     width: 100%;
                     & .ant-card-body{
-                        // background-color: red;
                         display: flex;
-                        // align-items: center;
-                        // justify-content: space-between;
                         flex-wrap: wrap;
                         margin-right: -2rem !important;
                     }
@@ -591,5 +589,17 @@
                 margin-bottom: 1.5rem;
             }
        }
+    }
+}
+
+@media (max-width: 320px) {
+    .home{
+        &-new{
+            &-card{
+                &-news{
+                    width: 100%;
+                }
+            }
+        }
     }
 }
