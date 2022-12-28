@@ -69,6 +69,7 @@ const Main = () => {
     getMarket()
   }, [])
 
+  console.log('hgkfhjlgjhgflkhjklfgj')
   return (
     <CategoryContext.Provider value={stateCategory}>
       <SignInContext.Provider value={stateSignIn}>

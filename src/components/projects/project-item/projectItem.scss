@@ -112,3 +112,12 @@
         }
     }
 }
+@media (max-width: 991.98px) {
+    .project{
+        &-content{
+            &-description{
+                height: 1.4rem*1.6*3;
+            }
+        }
+    }
+}

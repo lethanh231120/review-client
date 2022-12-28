@@ -141,7 +141,7 @@
         &-form{
             &-data{
                 &.active{
-                    width: calc(56% - 2.5rem);
+                    width: calc(50% - 3rem);
                 }
             }
         }
@@ -166,10 +166,11 @@
             & .ant-image{
                 display: flex;
                 align-items: center;
+                justify-content: center;
                 height: 5rem;
                 &:last-child{
                     width: 100%;
-                    height: 5rem;
+                    height: 100%;
                     & img{
                         width: 100%;
                         height: 100%;
@@ -177,13 +178,6 @@
                     }
                 }
                 
-            }
-            &-form{
-                &-data{
-                    &.active{
-                        width: calc(60% - 3.5rem);
-                    }
-                }
             }
         }
     }
@@ -199,15 +193,15 @@
     .header{
         &-item{
             &:first-child{
-                width: calc(17% - 1rem);
+                width: calc(25% - 1rem);
             }
             &:nth-child(2){
-                width: calc(66% - 1rem);
+                width: calc(55% - 1rem);
             }
             &:last-child{
                 display: flex;
                 justify-content: right;
-                width: calc(17% - 1rem);
+                width: calc(20% - 1rem);
             }
             &-right{
                 & .btn-sign-in{
@@ -218,7 +212,7 @@
             &-form{
                 &-data{
                     &.active{
-                        width: calc(66% - 3rem);
+                        width: calc(55% - 3rem);
                     }
                 }
             }
@@ -245,10 +239,17 @@
                 width: calc(25% - 0.5rem);
             }
             &:nth-child(2){
-                width: calc(65% - 0.5rem);
+                width: calc(55% - 0.5rem);
             }
             &:last-child{
-                width: calc(10% - 0.5rem);
+                width: calc(20% - 0.5rem);
+            }
+            &-form{
+                &-data{
+                    &.active{
+                        width: calc(55% - 2.5rem);
+                    }
+                }
             }
         }
     }
@@ -275,4 +276,9 @@
         }
     }
     
+}
+@media (max-width: 400px) {
+    .ant-drawer-right .ant-drawer-content-wrapper{
+        width: 100vw !important;
+    }
 }

@@ -96,7 +96,7 @@ function Sidenav({ color, setVisible, profile, token, logout }) {
                     <NavLink
                       onClick={(e) => {
                         // e.stopPropagation()
-                        // setVisible(false)
+                        setVisible(false)
                       }}
                       to={{ pathname: item?.url }}
                       state={{ params: { category: item?.name, page: 1, subcategory: '' } }}
@@ -140,7 +140,7 @@ function Sidenav({ color, setVisible, profile, token, logout }) {
             ) : (
               <Menu.Item key={index}>
                 <NavLink
-                  onClick={() => setVisible(false)}
+                  // onClick={() => setVisible(false)}
                   to={item?.url}
                   state={{ params: { category: item?.name, page: 1, subcategory: '' } }}
                 >

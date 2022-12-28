@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Modal } from 'antd'
 import FacebookLogin from 'react-facebook-login'
 import { GoogleLogin, GoogleLogout } from 'react-google-login'
@@ -69,9 +69,9 @@ const Signin = ({ openModalSignin }) => {
   const onSuccess = (res) => {
     console.log(res)
     console.log('Login Success: currentUser:', res.profileObj)
-    alert(
-      `Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
-    )
+    // alert(
+    //   `Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
+    // )
     refreshTokenSetup(res)
   }
 
@@ -80,6 +80,20 @@ const Signin = ({ openModalSignin }) => {
     alert(
       `Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz`
     )
+  }
+
+  useEffect(() => {
+    const start = () => {
+      gapi.client.init({
+        clientId: '1059982952171-sgovl851oomltgq97obi14sdekckkc81.apps.googleusercontent.com',
+        scope: ''
+      })
+    }
+    gapi.load('client:auth2', start)
+  })
+
+  const onLogout = (res) => {
+    console.log(res)
   }
 
   return (
@@ -101,13 +115,18 @@ const Signin = ({ openModalSignin }) => {
               )}
           />
           <GoogleLogin
-            clientId='1059982952171-sgovl851oomltgq97obi14sdekckkc81.apps.googleusercontent.com'
+            clientId='78523510071-fdbfdv6ekf2n3q8ql3i4ut7irh2g22de.apps.googleusercontent.com'
             buttonText='LOGIN WITH GOOGLE'
             onSuccess={onSuccess}
             onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
             className='GOOGLE'
-            isSignedIn={true}
+            // isSignedIn={true}
+          />
+          <GoogleLogout
+            clientId='78523510071-fdbfdv6ekf2n3q8ql3i4ut7irh2g22de.apps.googleusercontent.com'
+            buttonText='LOGOUT WITH GOOGLE'
+            onLogoutSuccess={onLogout}
           />
       </Modal>
   )

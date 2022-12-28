@@ -9,8 +9,6 @@ import _ from "lodash";
 
 import chatbox from '../../assets/images/chatbox.png'
 import gear5 from '../../assets/images/gear5.png'
-import logo from "../../assets/images/logo.png";
-import title from "../../assets/images/title.png";
 import { SignInContext } from "./Main";
 import Signin from "../modal/Signin";
 import Sidenav from "./Sidenav";

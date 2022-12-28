@@ -160,13 +160,6 @@ const Home = () => {
                   modules={[FreeMode, Navigation]}
                   breakpoints={{
                     290: {
-                      slidesPerView: 1
-                    },
-                    450: {
-                      slidesPerView: 2,
-                      spaceBetween: 15
-                    },
-                    640: {
                       slidesPerView: 2,
                       spaceBetween: 15
                     },
@@ -222,13 +215,6 @@ const Home = () => {
                   modules={[FreeMode, Navigation]}
                   breakpoints={{
                     290: {
-                      slidesPerView: 1
-                    },
-                    450: {
-                      slidesPerView: 2,
-                      spaceBetween: 15
-                    },
-                    640: {
                       slidesPerView: 2,
                       spaceBetween: 15
                     },
@@ -281,13 +267,6 @@ const Home = () => {
                   modules={[FreeMode, Navigation]}
                   breakpoints={{
                     290: {
-                      slidesPerView: 1
-                    },
-                    450: {
-                      slidesPerView: 2,
-                      spaceBetween: 15
-                    },
-                    640: {
                       slidesPerView: 2,
                       spaceBetween: 15
                     },
@@ -337,13 +316,6 @@ const Home = () => {
                   modules={[FreeMode, Navigation]}
                   breakpoints={{
                     290: {
-                      slidesPerView: 1
-                    },
-                    450: {
-                      slidesPerView: 2,
-                      spaceBetween: 15
-                    },
-                    640: {
                       slidesPerView: 2,
                       spaceBetween: 15
                     },
