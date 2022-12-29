@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Image, Input, Form, Upload } from 'antd'
+import { Image, Input, Form } from 'antd'
 import './reviewItem.scss'
-import { CaretDownOutlined, SendOutlined, FileImageOutlined, LinkOutlined } from '@ant-design/icons'
+import { CaretDownOutlined, SendOutlined, LinkOutlined } from '@ant-design/icons'
 import user from '../../../assets/images/user.png'
 import moment from 'moment'
 import ReplyComment from '../reply/Reply'
@@ -10,95 +10,68 @@ import { post, patch } from '../../../api/products'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import { SignInContext } from '../../layout/Main'
 import scam from '../../../assets/images/scam.png'
+import ListEmoji from '../../emoji/ListEmoji'
 
-const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId, setReactionData, setData, handleSend }) => {
-  const TYPE_REPLY = 'reply'
+const ReviewItem = ({ data, userInfo, productId }) => {
   const TYPE_REVIEW = 0
   const [isCollapse, setIsCollapse] = useState({
     isCollapse: true,
     reviewId: ''
   })
+  const [form] = Form.useForm()
   const [addReply, setAddReply] = useState(false)
   const [isReaction, setIsReaction] = useState(false)
   const [Loading, setLoading] = useState(true)
-  const [imageReply, setImageReply] = useState()
   const [comment, setComment] = useState('')
   const signContext = useContext(SignInContext)
   const [isShowSource, setIsShowSource] = useState(false)
-
-  useEffect(() => {
-    if (!_.isEmpty(data?.reactions)) {
-      setIsReaction(data?.reactions?.some((item) => (item?.accountId === userInfo?.id)))
-    }
-    setLoading(false)
-  }, [data, userInfo])
-
-  const handleClickReaction = async(value) => {
-    if (isReaction) {
-      const body = {
-        commentId: data?.review?.id,
-        type: TYPE_REVIEW,
-        reactionType: value,
-        productId: productId
-      }
-      const dataUpdate = await patch('reviews/reaction', body)
-      if (dataUpdate) {
-        setReactionData({ type: TYPE_REVIEW, data: body, method: 'patch' })
-      }
-    } else {
-      const body = {
-        commentId: data?.review?.id,
-        type: TYPE_REVIEW,
-        reactionType: value,
-        productId: productId
-      }
-      const dataAddReact = await post('reviews/reaction', body)
-      setReactionData({ type: TYPE_REVIEW, data: dataAddReact?.data})
-    }
-    setIsReaction(!isReaction)
-  }
+  const [currenReaction, setCurrenReaction] = useState()
+  const [newData, setNewData] = useState(data)
+  const [validateTextArea, setValidateTextArea] = useState(false)
 
   useEffect(() => {
     setIsCollapse({
-      isCollapse: data?.replies?.length > 2,
-      reviewId: data?.review?.id
+      isCollapse: newData?.replies?.length > 2,
+      reviewId: newData?.replies?.length > 2 ? '' : newData?.review?.id
     })
-    data?.review?.sources?.forEach((item) => {
+    newData?.review?.sources?.forEach((item) => {
       if (item && item !== '') {
         setIsShowSource(false)
       } else {
         setIsShowSource(true)
       }
     })
-  }, [data])
+    newData?.reactions?.forEach((item) => {
+      if (item?.accountId === userInfo?.id) {
+        switch(item?.reactionType) {
+          case '😆':
+            setCurrenReaction('Haha')
+            break;
+          case '💓':
+            setCurrenReaction('Heart')
+            break;
+          case '👍':
+            setCurrenReaction('Like')
+            break;
+          case '👎':
+            setCurrenReaction('Dislike')
+            break;
+          case '😮':
+            setCurrenReaction('Wow')
+            break;
+          default:
+            break;
+        }
+      }
+    })
+  }, [newData])
 
-  const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-  };
-
-  const handleChangeFile = (e) => {
-    if (userInfo) {
-      const formData = new FormData()
-      formData.append('file', e?.fileList[0]?.originFileObj)
-      const time = moment().unix()
-      getBase64(e.file.originFileObj, async(url) => {
-          const fileName= `${userInfo.id}_${time}`
-          const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
-          setData({
-            isScam: false,
-            content: '',
-            sources: [],
-            image: dataImage?.data,
-            star: 5
-          })
-          setImageReply(dataImage?.data)
-      });
-    } else {
-      signContext?.handleSetOpenModal(true)
+  useEffect(() => {
+    if (!_.isEmpty(newData?.reactions)) {
+      setIsReaction(newData?.reactions?.some((item) => (item?.accountId === userInfo?.id)))
     }
-  }
+    setLoading(false)
+  }, [newData, userInfo])
 
   const handleAddReply = () => {
     setAddReply(!addReply)
@@ -110,41 +83,166 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
     }
   }
 
-  const handleSubmit = (e) => {
-    handleReply(e, TYPE_REPLY, data?.review?.id)
-    setAddReply(false)
-    setImageReply() 
-    setIsCollapse({
-      ...isCollapse,
-      reviewId: data?.review?.id
-    })
+  const handleSend = async(e) => {
+    if (comment !== '') {
+      const params = {
+        content: comment,
+        reviewId: data?.review?.id,
+        productId: productId,
+        image: ''
+      }
+      const dataAdd = await post('reviews/reply', params)
+      if (dataAdd) {
+        const newReply = [
+          {
+            reactions: [],
+            reply: {
+              ...dataAdd?.data,
+              accountType: userInfo?.accountType,
+              email: userInfo?.email,
+              acountImage: userInfo?.image,
+              role: userInfo?.role,
+              userName: userInfo?.userName
+            }
+          },
+          ...newData?.replies
+        ]
+        setNewData({
+          ...data,
+          replies: newReply
+        })
+        form.resetFields()
+        setIsCollapse({
+          ...isCollapse,
+          reviewId: data?.review?.id
+        })
+      }
+      setValidateTextArea(false)
+      setComment('')
+    } else {
+      setValidateTextArea(true)
+    }
   }
 
-  console.log(data)
-  console.log(isCollapse)
+  const handleSubmit = async(e) => {
+    if (e.target.value !== '') {
+      const params = {
+        content: e.target.value,
+        reviewId: data?.review?.id,
+        productId: productId,
+        image: ''
+      }
+      const dataAdd = await post('reviews/reply', params)
+      if (dataAdd) {
+        const newReply = [
+          {
+            reactions: [],
+            reply: {
+              ...dataAdd?.data,
+              accountType: userInfo?.accountType,
+              email: userInfo?.email,
+              acountImage: userInfo?.image,
+              role: userInfo?.role,
+              userName: userInfo?.userName
+            }
+          },
+          ...newData?.replies
+        ]
+        setNewData({
+          ...data,
+          replies: newReply
+        })
+        form.resetFields()
+        setIsCollapse({
+          ...isCollapse,
+          reviewId: data?.review?.id
+        })
+        setValidateTextArea(false)
+        setComment('')
+      }
+    } else {
+      setValidateTextArea(true)
+    }
+  }
+
+  const handleClickReaction = async(value) => {
+    if (isReaction) {
+      const body = {
+        commentId: data?.review?.id,
+        type: TYPE_REVIEW,
+        reactionType: value,
+        productId: productId
+      }
+      const dataUpdate = await patch('reviews/reaction', body)
+      if (dataUpdate) {
+        const index = newData?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
+        if (index !== -1) {
+          const newListReaction = [...newData?.reactions]
+          newListReaction[index] = {
+            ...newListReaction[index],
+            reactionType: body?.reactionType
+          }
+          setNewData({
+            ...newData,
+            reactions: newListReaction
+          })
+        }
+      }
+    } else {
+      const body = {
+        commentId: data?.review?.id,
+        type: TYPE_REVIEW,
+        reactionType: value,
+        productId: productId
+      }
+      const dataAddReact = await post('reviews/reaction', body)
+      if (dataAddReact) {
+        const newListReaction = [...newData?.reactions]
+        const newReview = {
+          ...newData,
+          reactions: [
+            dataAddReact?.data,
+            ...newListReaction
+          ]
+        }
+        setNewData(newReview)
+        setIsReaction(!isReaction)
+      }
+    }
+  }
+
+  const handleChangeComment = (e) => {
+    if (e.target.value === '') {
+      setValidateTextArea(true)
+    } else {
+      setComment(e.target.value)
+      setValidateTextArea(false)
+    }
+  }
+
   return (
     <>
       {!Loading && (
         <div className='review-item'>
-          <Image src={data?.review?.acountImage ? data?.review?.acountImage : user} preview={false}/>
+          <Image src={newData?.review?.acountImage ? newData?.review?.acountImage : user} preview={false}/>
           <div className='review-item-description'>
             <div className='review-item-data'>
               <div className='review-item-name'>
-                {data?.review?.userName}
+                {newData?.review?.userName}
                 <span>
-                  {data?.review?.isScam && (<Image src={scam} preview={false}/>)}
+                  {newData?.review?.isScam && (<Image src={scam} preview={false}/>)}
                 </span>
-                <span>{moment(data?.review?.updatedDate).startOf('day').fromNow()}</span>
+                <span>{moment(newData?.review?.updatedDate).startOf('day').fromNow()}</span>
               </div>
               <div className='review-item-content'>
-                {data?.review?.content}
+                {newData?.review?.content}
                 {!isShowSource && (
                   <div className='review-item-content-source'>
-                    {data?.review?.sources?.map((item, index) => (
+                    {newData?.review?.sources?.map((item, index) => (
                       <span key={index}>
                         {item !== '' && (
                           <a href={item} target='_blank' rel="noreferrer">
-                            <LinkOutlined style={{ marginRight: '0.5rem' }}/> Proof {index + 1}
+                            <LinkOutlined style={{ marginRight: '0.5rem' }}/> Proof
                           </a>
                         )}
                       </span>
@@ -153,61 +251,32 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
                 )}
               </div>
             </div>
-            {data?.review?.image && (
-                <div className='review-item-comment-image'>
-                  <Image src={data?.review?.image} preview={true}/>
-                </div>
+            {newData?.review?.image && (
+              <div className='review-item-comment-image'>
+                <Image src={newData?.review?.image} preview={true}/>
+              </div>
             )}
             <div className='review-item-action'>
               <div className='review-item-action-list'>
-                <div className='review-item-action-item'>
-                  Like
-                  <div className='review-item-action-item-emoji'>
-                    <div
-                        className='product-footer-item-emoji-item'
-                        onClick={() => handleClickReaction('💓')}
-                    >
-                        &#128147;
-                    </div>
-                    <div
-                        className='product-footer-item-emoji-item'
-                        onClick={() => handleClickReaction('👍')}
-                    >
-                        &#128077;
-                    </div>
-                    <div
-                        className='product-footer-item-emoji-item'
-                        onClick={() => handleClickReaction('👎')}
-                    >
-                        &#128078;
-                    </div>
-                    <div
-                        className='product-footer-item-emoji-item'
-                        onClick={() => handleClickReaction('😆')}
-                    >
-                        &#128516;
-                    </div>
-                    <div
-                        className='product-footer-item-emoji-item'
-                        onClick={() => handleClickReaction('😍')}
-                    >
-                        &#128525;
-                    </div>
-                  </div>
-                </div>
+                <ListEmoji
+                  currenReaction={currenReaction}
+                  handleClickReaction={handleClickReaction}
+                />
                 <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
               </div>
-              {!_.isEmpty(data?.reactions) && (
+              {!_.isEmpty(newData?.reactions) && (
                 <div className='review-item-action-reaction'>
-                  {data?.reactions?.map((item, index) => (
-                    <div className='review-item-action-reaction-item' key={index}>{item?.reactionType}</div>
+                  {newData?.reactions?.map((item, index) => (
+                    <div className='review-item-action-reaction-item' key={index}>
+                      {item?.reactionType}
+                    </div>
                   ))}
-                  <div className='review-item-action-reaction-item'>{data?.reactions?.length}</div>
+                  <div className='review-item-action-reaction-item'>{newData?.reactions?.length}</div>
                 </div>
               )}
             </div>
 
-            {data?.replies?.length > 2 && (
+            {newData?.replies?.length > 2 && (
               <div
                 className='review-item-replies'
                 onClick={() => setIsCollapse({
@@ -216,59 +285,52 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
                 })}
               >
                 <CaretDownOutlined/>
-                {data?.replies?.length} reply
+                {newData?.replies?.length} reply
               </div>
             )}
-
-            {addReply && (
+            <Form form={form}>
+              {addReply && (
                 <div className='add-reply'>
                   <div className='add-reply-form-avatar'>
                     <Image src={user} preview={false} style={{ width: '3rem' }}/>
                   </div>
                   <Form.Item
-                    name={`reply ${data?.review?.id}`}
+                    name={`reply ${newData?.review?.id}`}
                   >
                     <Input
-                      name={`reply ${data?.review?.id}`}
+                      name={`reply ${newData?.review?.id}`}
+                      className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
                       autoFocus
                       suffix={<>
-                        <Upload
-                            onChange={handleChangeFile}
-                        >
-                          <FileImageOutlined style={{ marginRight: '1rem', cursor: 'pointer' }}/>
-                        </Upload>
                         <SendOutlined
                           style={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            handleSend(TYPE_REPLY, data?.review?.id, comment)
-                            setAddReply(false)
-                            setImageReply()
-                          }}
+                          onClick={handleSend}
                         />
                       </>}
-                      placeholder='Enter reply...'
-                      onChange={(e) => setComment(e.target.value)}
+                      placeholder={`${validateTextArea ? 'Please enter reply' : 'Enter reply...'}`}
+                      onChange={handleChangeComment}
                       onPressEnter={handleSubmit}
                     />
-                    {imageReply && (
+                    {/* {imageReply && (
                       <div className='review-item-form-image'>
                           <Image src={imageReply} preview={false}/>
                       </div>
-                    )}
+                    )} */}
                   </Form.Item>
                 </div>
-            )}
+              )}
+            </Form>
             <div
               className={`${(isCollapse?.isCollapse && isCollapse?.reviewId === '') ? 'isCollapse' : 'comment-reply'}`}
             >
-              {data?.replies?.map((item, index) => (
+              {newData?.replies?.map((item, index) => (
                 <ReplyComment
                   key={index}
                   data={item}
                   productId={productId}
-                  setReloadReaction={setReloadReaction}
+                  // setReloadReaction={setReloadReaction}
                   userInfo={userInfo}
-                  setReactionData={setReactionData}
+                  // setReactionData={setReactionData}
                 />
               ))}
             </div>

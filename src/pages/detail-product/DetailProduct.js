@@ -24,17 +24,18 @@ const DetailProduct = () => {
     const DEFAULT_SCAM = 'scam'
     const DEFAULT_NOT_SCAM = 'notScam'
     const signInContext = useContext(SignInContext)
-    const TYPE_REVIEW = 'review'
-    const TYPE_REPLY = 'reply'
-    const TYPE_REACTION_FOR_REVIEW = 0
-    const TYPE_REACTION_FOR_REPLY = 1
+    // const TYPE_REVIEW = 'review'
+    // const TYPE_REPLY = 'reply'
+    // const TYPE_REACTION_FOR_REVIEW = 0
+    // const TYPE_REACTION_FOR_REPLY = 1
     const [form] = Form.useForm()
     const userInfo = getCookie(STORAGEKEY.USER_INFO)
+    const token = getCookie(STORAGEKEY.ACCESS_TOKEN)
     const [productInfo, setProductInfo] = useState()
     const { productId } = useParams()
     const [openComment, setOpenComment] = useState(false)
-    const [reload, setReload] = useState(false)
-    const [dataAdd, setDataAdd] = useState()
+    // const [reload, setReload] = useState(false)
+    // const [dataAdd, setDataAdd] = useState()
     const [defaultFilter, setDefaultFilter] = useState(DEFAULT_ALL)
     const ref = useRef(null)
     const [openEmoji, setOpenEmoji] = useState(false)
@@ -45,10 +46,11 @@ const DetailProduct = () => {
         image: '',
         star: 5
     })
-    const [reactionData, setReactionData] = useState({
-        type: '',
-        data: {}
-    })
+    const [validateTextArea, setValidateTextArea] = useState(false)
+    // const [reactionData, setReactionData] = useState({
+    //     type: '',
+    //     data: {}
+    // })
     const [dataSearch, setDataSearch] = useState()
     const [isShow, setIsShow] = useState()
 
@@ -236,149 +238,211 @@ const DetailProduct = () => {
         getData()
     }, [productId])
 
-    useEffect(() => {
-        const setData = async() => {
-            if (reactionData?.method === 'patch') {
-                if (reactionData?.type === TYPE_REACTION_FOR_REVIEW) {
-                    const newListReview = [...productInfo?.reviews]
-                    const index = productInfo?.reviews?.findIndex((item) => (item?.review?.id === reactionData?.data?.commentId))
-                    const newListReaction = []
-                    newListReview[index]?.reactions?.forEach((itemReaction) => {
-                        if (itemReaction?.accountId === userInfo?.id && itemReaction?.commentId === reactionData?.data?.commentId) {
-                            newListReaction.push({
-                                ...itemReaction,
-                                reactionType: reactionData?.data?.reactionType
-                            })
-                        } else {
-                            newListReaction.push(itemReaction)
-                        }
-                    })
-                    newListReview[index] = {
-                        ...newListReview[index],
-                        reactions: newListReaction
-                    }
-                    setProductInfo({
-                        ...productInfo,
-                        reviews: newListReview
-                    })
-                }
-                if (reactionData?.type === TYPE_REACTION_FOR_REPLY) {
-                    const listReview = []
-                    productInfo?.reviews?.forEach((itemReview) => {
-                        const listReply = []
-                        if (!_.isEmpty(itemReview?.replies)) {
-                            itemReview?.replies?.forEach((itemReply) => {
-                                const listReaction = []
-                                if (itemReply?.reply?.id === reactionData?.data?.commentId) {
-                                    itemReply?.reactions?.forEach((itemReaction) => {
-                                        if (itemReaction?.accountId === userInfo.id && itemReaction?.commentId === reactionData?.data?.commentId) {
-                                            listReaction.push({
-                                                ...itemReaction,
-                                                reactionType: reactionData?.data?.reactionType
-                                            })
-                                        } else {
-                                            listReaction.push(itemReaction) 
-                                        }
-                                    })
-                                    listReply.push({
-                                        ...itemReply,
-                                        reactions: listReaction
-                                    })
-                                } else {
-                                    listReply.push(itemReply)
-                                }
-                            })
-                            if (!_.isEmpty(listReply)) {
-                                listReview.push({
-                                    ...itemReview,
-                                    replies: listReply
-                                })
-                            }
-                        } else {
-                            listReview.push(itemReview)
-                        }
-                    })
-                    if (!_.isEmpty(listReview)) {
-                        setProductInfo({
-                            ...productInfo,
-                            reviews: listReview
-                        })
-                    }
-                }
-            } else {
-                if (reactionData?.type === TYPE_REACTION_FOR_REVIEW) {
-                    // REACTION FOR REVIEW
-                    const newListReview = [...productInfo?.reviews]
-                    const index = productInfo?.reviews?.findIndex((item) => item?.review?.id === reactionData?.data?.commentId)
-                    newListReview[index] = {
-                        ...newListReview[index],
-                        reactions: [
-                            {
-                                ...reactionData?.data,
-                                accountType: userInfo?.accountType,
-                                email: userInfo?.email,
-                                image: userInfo?.image,
-                                role: userInfo?.role,
-                                userName: userInfo?.userName
-                            },
-                            ...newListReview[index]?.reactions
-                        ]
-                    }
-                    setProductInfo({
-                        ...productInfo,
-                        reviews: newListReview
-                    })
-                }
-                if (reactionData?.type === TYPE_REACTION_FOR_REPLY) {
-                    // reaction for reply
-                    const listReview = []
-                    productInfo?.reviews?.forEach((itemReview) => {
-                        const newListReply = []
-                        itemReview?.replies?.forEach((itemReply) => {
-                            let newReply = {}
-                            if (itemReply?.reply?.id === reactionData?.data?.commentId) {
-                                newReply = {
-                                    ...itemReply,
-                                    reactions: [
-                                        {
-                                            ...reactionData?.data,
-                                            accountType: userInfo?.accountType,
-                                            email: userInfo?.email,
-                                            image: userInfo?.image,
-                                            role: userInfo?.role,
-                                            userName: userInfo?.userName
-                                        },
-                                        ...itemReply?.reactions
-                                    ]
-                                }
-                            } else {
-                                newReply = { ...itemReply }
-                            }
-                            newListReply.push(newReply)
-                        })
-                        if (!_.isEmpty(newListReply)) {
-                            listReview.push({
-                                ...itemReview,
-                                replies: newListReply
-                            })
-                        }
-                    })
-                    if (!_.isEmpty(listReview)) {
-                        setProductInfo({
-                            ...productInfo,
-                            reviews: listReview
-                        })
-                    }
+    // useEffect(() => {
+    //     const setData = async() => {
+    //         if (reactionData?.method === 'patch') {
+    //             if (reactionData?.type === TYPE_REACTION_FOR_REVIEW) {
+    //                 const newListReview = [...productInfo?.reviews]
+    //                 const index = productInfo?.reviews?.findIndex((item) => (item?.review?.id === reactionData?.data?.commentId))
+    //                 const newListReaction = []
+    //                 newListReview[index]?.reactions?.forEach((itemReaction) => {
+    //                     if (itemReaction?.accountId === userInfo?.id && itemReaction?.commentId === reactionData?.data?.commentId) {
+    //                         newListReaction.push({
+    //                             ...itemReaction,
+    //                             reactionType: reactionData?.data?.reactionType
+    //                         })
+    //                     } else {
+    //                         newListReaction.push(itemReaction)
+    //                     }
+    //                 })
+    //                 newListReview[index] = {
+    //                     ...newListReview[index],
+    //                     reactions: newListReaction
+    //                 }
+    //                 setProductInfo({
+    //                     ...productInfo,
+    //                     reviews: newListReview
+    //                 })
+    //             }
+    //             if (reactionData?.type === TYPE_REACTION_FOR_REPLY) {
+    //                 const listReview = []
+    //                 productInfo?.reviews?.forEach((itemReview) => {
+    //                     const listReply = []
+    //                     if (!_.isEmpty(itemReview?.replies)) {
+    //                         itemReview?.replies?.forEach((itemReply) => {
+    //                             const listReaction = []
+    //                             if (itemReply?.reply?.id === reactionData?.data?.commentId) {
+    //                                 itemReply?.reactions?.forEach((itemReaction) => {
+    //                                     if (itemReaction?.accountId === userInfo.id && itemReaction?.commentId === reactionData?.data?.commentId) {
+    //                                         listReaction.push({
+    //                                             ...itemReaction,
+    //                                             reactionType: reactionData?.data?.reactionType
+    //                                         })
+    //                                     } else {
+    //                                         listReaction.push(itemReaction) 
+    //                                     }
+    //                                 })
+    //                                 listReply.push({
+    //                                     ...itemReply,
+    //                                     reactions: listReaction
+    //                                 })
+    //                             } else {
+    //                                 listReply.push(itemReply)
+    //                             }
+    //                         })
+    //                         if (!_.isEmpty(listReply)) {
+    //                             listReview.push({
+    //                                 ...itemReview,
+    //                                 replies: listReply
+    //                             })
+    //                         }
+    //                     } else {
+    //                         listReview.push(itemReview)
+    //                     }
+    //                 })
+    //                 if (!_.isEmpty(listReview)) {
+    //                     setProductInfo({
+    //                         ...productInfo,
+    //                         reviews: listReview
+    //                     })
+    //                 }
+    //             }
+    //         } else {
+    //             if (reactionData?.type === TYPE_REACTION_FOR_REVIEW) {
+    //                 // REACTION FOR REVIEW
+    //                 const newListReview = [...productInfo?.reviews]
+    //                 const index = productInfo?.reviews?.findIndex((item) => item?.review?.id === reactionData?.data?.commentId)
+    //                 newListReview[index] = {
+    //                     ...newListReview[index],
+    //                     reactions: [
+    //                         {
+    //                             ...reactionData?.data,
+    //                             accountType: userInfo?.accountType,
+    //                             email: userInfo?.email,
+    //                             image: userInfo?.image,
+    //                             role: userInfo?.role,
+    //                             userName: userInfo?.userName
+    //                         },
+    //                         ...newListReview[index]?.reactions
+    //                     ]
+    //                 }
+    //                 setProductInfo({
+    //                     ...productInfo,
+    //                     reviews: newListReview
+    //                 })
+    //             }
+    //             if (reactionData?.type === TYPE_REACTION_FOR_REPLY) {
+    //                 // reaction for reply
+    //                 const listReview = []
+    //                 productInfo?.reviews?.forEach((itemReview) => {
+    //                     const newListReply = []
+    //                     itemReview?.replies?.forEach((itemReply) => {
+    //                         let newReply = {}
+    //                         if (itemReply?.reply?.id === reactionData?.data?.commentId) {
+    //                             newReply = {
+    //                                 ...itemReply,
+    //                                 reactions: [
+    //                                     {
+    //                                         ...reactionData?.data,
+    //                                         accountType: userInfo?.accountType,
+    //                                         email: userInfo?.email,
+    //                                         image: userInfo?.image,
+    //                                         role: userInfo?.role,
+    //                                         userName: userInfo?.userName
+    //                                     },
+    //                                     ...itemReply?.reactions
+    //                                 ]
+    //                             }
+    //                         } else {
+    //                             newReply = { ...itemReply }
+    //                         }
+    //                         newListReply.push(newReply)
+    //                     })
+    //                     if (!_.isEmpty(newListReply)) {
+    //                         listReview.push({
+    //                             ...itemReview,
+    //                             replies: newListReply
+    //                         })
+    //                     }
+    //                 })
+    //                 if (!_.isEmpty(listReview)) {
+    //                     setProductInfo({
+    //                         ...productInfo,
+    //                         reviews: listReview
+    //                     })
+    //                 }
                 
-                }
-            }
-        }
-        if (reactionData?.type !== '' && reactionData) {
-            setData()
-        }
-    }, [reactionData])
+    //             }
+    //         }
+    //     }
+    //     if (reactionData?.type !== '' && reactionData) {
+    //         setData()
+    //     }
+    // }, [reactionData])
 
-    const handleReply = async(e, type, reviewId) => {
+    // const handleReply = async(e, type, reviewId) => {
+    //     if (e.ctrlKey && e.key === 'Enter') {
+    //         setData({
+    //             ...data,
+    //             content: `${data?.content}\n`
+    //         })
+    //     } else {
+    //         e.preventDefault()
+    //         if (e.target.value !== '') {
+    //             if (type === TYPE_REVIEW) {
+    //                 const params = {
+    //                     ...data,
+    //                     productId: productInfo?.product?.id,
+    //                     productName: productInfo?.product?.name,
+    //                     type: productInfo?.product?.type,
+    //                 }
+    //                 const dataAdd = await post('reviews/review', params)
+    //                 if (dataAdd) {
+    //                     setReload(true)
+    //                     form.resetFields()
+    //                     setDataAdd({
+    //                         type: type,
+    //                         data: dataAdd?.data
+    //                     })
+    //                     setOpenComment(false)
+    //                     setData({
+    //                         isScam: false,
+    //                         content: '',
+    //                         sources: [],
+    //                         image: '',
+    //                         star: 5
+    //                     })
+    //                 }
+    //             }
+    //             // if (type === TYPE_REPLY) {
+    //             //     const params = {
+    //             //         content: e.target.value,
+    //             //         reviewId: reviewId,
+    //             //         productId: productInfo?.product?.id,
+    //             //         image: data?.image
+    //             //     }
+    //             //     const dataAdd = await post('reviews/reply', params)
+    //             //     if (dataAdd) {
+    //             //         setReload(true)
+    //             //         form.resetFields()
+    //             //         setDataAdd({
+    //             //             type: type,
+    //             //             data: dataAdd?.data
+    //             //         })
+    //             //         setData({
+    //             //             isScam: false,
+    //             //             content: '',
+    //             //             sources: [],
+    //             //             image: '',
+    //             //             star: 5
+    //             //         })
+    //             //     }
+    //             // }
+    //         }
+    //     }
+    // }
+
+    const handleComment = async(e) => {
         if (e.ctrlKey && e.key === 'Enter') {
             setData({
                 ...data,
@@ -387,62 +451,6 @@ const DetailProduct = () => {
         } else {
             e.preventDefault()
             if (e.target.value !== '') {
-                if (type === TYPE_REVIEW) {
-                    const params = {
-                        ...data,
-                        productId: productInfo?.product?.id,
-                        productName: productInfo?.product?.name,
-                        type: productInfo?.product?.type,
-                    }
-                    const dataAdd = await post('reviews/review', params)
-                    if (dataAdd) {
-                        setReload(true)
-                        form.resetFields()
-                        setDataAdd({
-                            type: type,
-                            data: dataAdd?.data
-                        })
-                        setOpenComment(false)
-                        setData({
-                            isScam: false,
-                            content: '',
-                            sources: [],
-                            image: '',
-                            star: 5
-                        })
-                    }
-                }
-                if (type === TYPE_REPLY) {
-                    const params = {
-                        content: e.target.value,
-                        reviewId: reviewId,
-                        productId: productInfo?.product?.id,
-                        image: data?.image
-                    }
-                    const dataAdd = await post('reviews/reply', params)
-                    if (dataAdd) {
-                        setReload(true)
-                        form.resetFields()
-                        setDataAdd({
-                            type: type,
-                            data: dataAdd?.data
-                        })
-                        setData({
-                            isScam: false,
-                            content: '',
-                            sources: [],
-                            image: '',
-                            star: 5
-                        })
-                    }
-                }
-            }
-        }
-    }
-
-    const handleSend = async(type, reviewId, datacomment) => {
-        if (type === TYPE_REVIEW) {
-            if (data?.content !== '') {
                 const params = {
                     ...data,
                     productId: productInfo?.product?.id,
@@ -451,13 +459,25 @@ const DetailProduct = () => {
                 }
                 const dataAdd = await post('reviews/review', params)
                 if (dataAdd) {
-                    setReload(true)
-                    form.resetFields()
-                    setDataAdd({
-                        type: type,
-                        data: dataAdd?.data
-                    })
-                    setOpenComment(false)
+                    const newProduct = {
+                        ...productInfo,
+                        reviews: [
+                            {
+                                reactions: [],
+                                replies: [],
+                                review: {
+                                    ...dataAdd?.data,
+                                    accountType: userInfo?.accountType,
+                                    email: userInfo?.email,
+                                    acountImage: userInfo?.image,
+                                    role: userInfo?.role,
+                                    userName: userInfo?.userName
+                                }
+                            },
+                            ...productInfo?.reviews
+                        ]
+                    }
+                    setProductInfo(newProduct)
                     setData({
                         isScam: false,
                         content: '',
@@ -466,28 +486,61 @@ const DetailProduct = () => {
                         star: 5
                     })
                 }
-            }
-        }
-        if (type === TYPE_REPLY) {
-            if (datacomment !== '') {
-                const params = {
-                    content: datacomment,
-                    reviewId: reviewId,
-                    productId: productInfo?.product?.id,
-                    image: data?.image
-                }
-                const dataAdd = await post('reviews/reply', params)
-                if (dataAdd) {
-                    setReload(true)
-                    form.resetFields()
-                    setDataAdd({
-                        type: type,
-                        data: dataAdd?.data
-                    })
-                }
+                setValidateTextArea(false)
+            } else {
+                setValidateTextArea(true)
             }
         }
     }
+
+    // const handleSend = async(type, reviewId, datacomment) => {
+    //     // if (type === TYPE_REVIEW) {
+    //     //     if (data?.content !== '') {
+    //     //         const params = {
+    //     //             ...data,
+    //     //             productId: productInfo?.product?.id,
+    //     //             productName: productInfo?.product?.name,
+    //     //             type: productInfo?.product?.type,
+    //     //         }
+    //     //         const dataAdd = await post('reviews/review', params)
+    //     //         if (dataAdd) {
+    //     //             setReload(true)
+    //     //             form.resetFields()
+    //     //             setDataAdd({
+    //     //                 type: type,
+    //     //                 data: dataAdd?.data
+    //     //             })
+    //     //             setOpenComment(false)
+    //     //             setData({
+    //     //                 isScam: false,
+    //     //                 content: '',
+    //     //                 sources: [],
+    //     //                 image: '',
+    //     //                 star: 5
+    //     //             })
+    //     //         }
+    //     //     }
+    //     // }
+    //     // if (type === TYPE_REPLY) {
+    //     //     if (datacomment !== '') {
+    //     //         const params = {
+    //     //             content: datacomment,
+    //     //             reviewId: reviewId,
+    //     //             productId: productInfo?.product?.id,
+    //     //             image: data?.image
+    //     //         }
+    //     //         const dataAdd = await post('reviews/reply', params)
+    //     //         if (dataAdd) {
+    //     //             setReload(true)
+    //     //             form.resetFields()
+    //     //             setDataAdd({
+    //     //                 type: type,
+    //     //                 data: dataAdd?.data
+    //     //             })
+    //     //         }
+    //     //     }
+    //     // }
+    // }
 
     const copyAddress = (e, address) => {
         e.stopPropagation()
@@ -508,93 +561,101 @@ const DetailProduct = () => {
     }
 
     const handleChangeTextArea = (e) => {
-        const urlR = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
-        if (e.target.value.match(urlR)) {
-        } else {
+        if (e.target.value !== '') {
+            setValidateTextArea(false)
             setData({
                 ...data,
                 content: e.target.value
             })
+        } else {
+            setData({
+                ...data,
+                content: ''
+            })
+            setValidateTextArea(true)
         }
         setOpenEmoji(false)
     }
 
-    useEffect(() => {
-        if (dataAdd) {
-            if (dataAdd?.type === TYPE_REVIEW) {
-                const getReview = async() => {
-                    // const reviews = await get(`reviews/review?productId=${productInfo?.product?.id}`)
-                    // const reviewItem = reviews?.data?.find((item) => (item?.accountId === userInfo?.id && item?.updatedDate === dataAdd?.data?.updatedDate && item?.productId === dataAdd?.data?.productId))
-                    const newReview = {
-                        reactions: [],
-                        replies: [],
-                        review: {
-                            // ...reviewItem,
-                            ...dataAdd?.data,
-                            accountType: userInfo?.accountType,
-                            email: userInfo?.email,
-                            acountImage: userInfo?.image,
-                            role: userInfo?.role,
-                            userName: userInfo?.userName
-                        }
-                    }
-                    if (productInfo?.reviews === null) {
-                        setProductInfo({
-                            ...productInfo,
-                            reviews: [ newReview ] 
-                        })
-                    } else {
-                        setProductInfo({
-                            ...productInfo,
-                            reviews: [
-                                newReview,
-                                ...productInfo?.reviews,
-                            ] 
-                        })
-                    }
-                }
-                getReview()
-            }
-            if (dataAdd?.type === TYPE_REPLY) {
-                const getReply = async() => {
-                    // const reply = await get(`reviews/reply?productId=${productInfo?.product?.id}`)
-                    // tim trong mang data get reply theo projectid lays item co accounId, updatedDate, productId trung voi data cua reply vua them 
-                    // const replyItem = reply?.data?.find((item) => (item?.accountId === userInfo?.id && item?.updatedDate === dataAdd?.data?.updatedDate && item?.productId === dataAdd?.data?.productId && item?.reviewId === dataAdd?.data?.reviewId))
-                    // time trong list review thuoc data detail cua product lay item co id === reviewId trong reply vua them
+    console.log('userInfo, userInfo')
+    console.log('token', token)
+    console.log(data)
+    // useEffect(() => {
+    //     if (dataAdd) {
+    //         if (dataAdd?.type === TYPE_REVIEW) {
+    //             const getReview = async() => {
+    //                 // const reviews = await get(`reviews/review?productId=${productInfo?.product?.id}`)
+    //                 // const reviewItem = reviews?.data?.find((item) => (item?.accountId === userInfo?.id && item?.updatedDate === dataAdd?.data?.updatedDate && item?.productId === dataAdd?.data?.productId))
+    //                 const newReview = {
+    //                     reactions: [],
+    //                     replies: [],
+    //                     review: {
+    //                         // ...reviewItem,
+    //                         ...dataAdd?.data,
+    //                         accountType: userInfo?.accountType,
+    //                         email: userInfo?.email,
+    //                         acountImage: userInfo?.image,
+    //                         role: userInfo?.role,
+    //                         userName: userInfo?.userName
+    //                     }
+    //                 }
+    //                 if (productInfo?.reviews === null) {
+    //                     setProductInfo({
+    //                         ...productInfo,
+    //                         reviews: [ newReview ] 
+    //                     })
+    //                 } else {
+    //                     setProductInfo({
+    //                         ...productInfo,
+    //                         reviews: [
+    //                             newReview,
+    //                             ...productInfo?.reviews,
+    //                         ] 
+    //                     })
+    //                 }
+    //             }
+    //             getReview()
+    //         }
+    //         if (dataAdd?.type === TYPE_REPLY) {
+    //             const getReply = async() => {
+    //                 // const reply = await get(`reviews/reply?productId=${productInfo?.product?.id}`)
+    //                 // tim trong mang data get reply theo projectid lays item co accounId, updatedDate, productId trung voi data cua reply vua them 
+    //                 // const replyItem = reply?.data?.find((item) => (item?.accountId === userInfo?.id && item?.updatedDate === dataAdd?.data?.updatedDate && item?.productId === dataAdd?.data?.productId && item?.reviewId === dataAdd?.data?.reviewId))
+    //                 // time trong list review thuoc data detail cua product lay item co id === reviewId trong reply vua them
                     
-                    const reviewItem = productInfo?.reviews?.find((item) => item?.review?.id === dataAdd?.data?.reviewId)
-                    // tao review moi
-                    const newReview = {
-                        ...reviewItem,
-                        replies: [
-                            {
-                                reactions: [],
-                                reply: {
-                                    ...dataAdd?.data,
-                                    accountType: userInfo?.accountType,
-                                    email: userInfo?.email,
-                                    acountImage: userInfo?.image,
-                                    role: userInfo?.role,
-                                    userName: userInfo?.userName
-                                }
-                            },
-                            ...reviewItem?.replies
-                        ],
-                    }
-                    // tim vi tri index cua review vua duoc add reply trong mang review cua data detail
-                    const index = productInfo?.reviews?.findIndex((item) => item?.review?.id === reviewItem?.review?.id)
-                    const newListReview = [...productInfo?.reviews]
-                    newListReview[index] = newReview
-                    // cap nhat lai data
-                    setProductInfo({
-                        ...productInfo,
-                        reviews: newListReview
-                    })
-                }
-                getReply()
-            }
-        }
-    }, [reload, dataAdd])
+    //                 const reviewItem = productInfo?.reviews?.find((item) => item?.review?.id === dataAdd?.data?.reviewId)
+    //                 // tao review moi
+    //                 const newReview = {
+    //                     ...reviewItem,
+    //                     replies: [
+    //                         {
+    //                             reactions: [],
+    //                             reply: {
+    //                                 ...dataAdd?.data,
+    //                                 accountType: userInfo?.accountType,
+    //                                 email: userInfo?.email,
+    //                                 acountImage: userInfo?.image,
+    //                                 role: userInfo?.role,
+    //                                 userName: userInfo?.userName
+    //                             }
+    //                         },
+    //                         ...reviewItem?.replies
+    //                     ],
+    //                 }
+    //                 // tim vi tri index cua review vua duoc add reply trong mang review cua data detail
+    //                 const index = productInfo?.reviews?.findIndex((item) => item?.review?.id === reviewItem?.review?.id)
+    //                 const newListReview = [...productInfo?.reviews]
+    //                 newListReview[index] = newReview
+    //                 // cap nhat lai data
+    //                 setProductInfo({
+    //                     ...productInfo,
+    //                     reviews: newListReview
+    //                 })
+    //             }
+    //             getReply()
+    //         }
+    //     }
+    // }, [reload, dataAdd])
 
     const getBase64 = (img, callback) => {
         const reader = new FileReader()
@@ -646,6 +707,7 @@ const DetailProduct = () => {
                 reviews: listReview
             })
         }
+        setOpenComment(false)
     }, [defaultFilter])
 
     const handleAddComment = (isOpen) => {
@@ -658,7 +720,6 @@ const DetailProduct = () => {
     }
 
     const handleChangeChecked = (e) => {
-        console.log(e?.target?.checked)
         setData({
             ...data,
             isScam: e?.target?.checked,
@@ -666,7 +727,49 @@ const DetailProduct = () => {
         })
     }
 
-    console.log(data)
+    const handleSubmitComment = async() => {
+        if (data?.content !== '') {
+            const params = {
+                ...data,
+                productId: productInfo?.product?.id,
+                productName: productInfo?.product?.name,
+                type: productInfo?.product?.type,
+            }
+            const dataAdd = await post('reviews/review', params)
+            if (dataAdd) {
+                const newProduct = {
+                    ...productInfo,
+                    reviews: [
+                        {
+                            reactions: [],
+                            replies: [],
+                            review: {
+                                ...dataAdd?.data,
+                                accountType: userInfo?.accountType,
+                                email: userInfo?.email,
+                                acountImage: userInfo?.image,
+                                role: userInfo?.role,
+                                userName: userInfo?.userName
+                            }
+                        },
+                        ...productInfo?.reviews
+                    ]
+                }
+                setProductInfo(newProduct)
+                setData({
+                    isScam: false,
+                    content: '',
+                    sources: [],
+                    image: '',
+                    star: 5
+                })
+
+            }
+        } else {
+            setValidateTextArea(true)
+        }
+    }
+
     return (
         <div className='product'>
             <div className='product-detail'>
@@ -1023,113 +1126,115 @@ const DetailProduct = () => {
                         defaultFilter={defaultFilter}
                         setDefaultFilter={setDefaultFilter}
                     />
-
-                    {openComment && (
-                        <div className='product-detail-form'>
-                            <div className='product-detail-form-avatar'>
-                                <Image src={userInfo?.image ? userInfo?.image : user} preview={false}/>
-                            </div>
-                            <div className='product-detail-form-content'>
-                                <div className='product-detail-form-content-text'>
-                                    <div className='product-detail-form-content-rate'>
-                                        <Rate
-                                            value={data?.star}
-                                            onChange={(value) => setData({...data, star: value})}
-                                        />
-                                    </div>
-                                    <Input.TextArea
-                                        className='product-detail-form-content-textarea'
-                                        ref={ref}
-                                        value={data?.content}
-                                        autoFocus
-                                        placeholder='Enter comment...'
-                                        autoSize={{ minRows: 1 }}
-                                        onChange={handleChangeTextArea}
-                                        onFocus={() => setOpenEmoji(false)}
-                                        onPressEnter={(e) => handleReply(e, TYPE_REVIEW)}
-                                    />
-                                    {data?.isScam && (
-                                        <Select
-                                            value={data?.sources}
-                                            placeholder="Proof..."
-                                            mode="tags"
-                                            onChange={handleChange}
-                                            onFocus={() => setOpenEmoji(false)}
-                                        />
-                                    )}
-                                    <Popover
-                                        content='Click to report scam project'
-                                        overlayClassName='product-detail-form-content-popover'
-                                    >
-                                        <div style={{ margin: '1rem 0', width: 'fit-content' }}>
-                                            <Checkbox
-                                                onChange={handleChangeChecked}
-                                                checked={data?.isScam}
-                                            >
-                                                Is Scam
-                                            </Checkbox>
-                                        </div>
-                                    </Popover>
-                                    {data?.image && (
-                                        <div className='product-detail-form-image'>
-                                            <Image src={data?.image} preview={false}/>
-                                        </div>
-                                    )}
-                                </div>
-                                <div className='product-detail-form-footer'>
-                                    {data?.isScam && (
-                                        <div className='product-detail-form-footer-item'>
-                                            <Upload
-                                                onChange={handleChangeFile}
-                                            >
-                                                <Image src={icon_image} preview={false}/>
-                                            </Upload>
-                                        </div>
-                                    )}
-                                    <div className='product-detail-form-footer-item'>
-                                        <Image
-                                            src={smile}
-                                            preview={false}
-                                            onClick={() => setOpenEmoji(!openEmoji)}
-                                            className='product-detail-form-icon-emoji'
-                                        />
-                                    </div>
-                                    <div className='product-detail-form-footer-item'>
-                                        {openEmoji && 
-                                            <EmojiPicker
-                                                emojiStyle='facebook'
-                                                height={250}
-                                                width={250}
-                                                lazyLoadEmojis={true}
-                                                onEmojiClick={handleClickEmoji}
-                                                
-                                            />
-                                        }
-                                    </div>
-                                    <div className='product-detail-form-footer-item'>
-                                        <SendOutlined
-                                            style={{ cursor: 'pointer' }}
-                                            onClick={() => handleSend(TYPE_REVIEW)}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
                     <Form form={form}>
+                        {openComment && (
+                            <div className='product-detail-form'>
+                                <div className='product-detail-form-avatar'>
+                                    <Image src={userInfo?.image ? userInfo?.image : user} preview={false}/>
+                                </div>
+                                <div className='product-detail-form-content'>
+                                    <div className='product-detail-form-content-text'>
+                                        <div className='product-detail-form-content-rate'>
+                                            <Rate
+                                                value={data?.star}
+                                                onChange={(value) => setData({...data, star: value})}
+                                            />
+                                        </div>
+                                        <Input.TextArea
+                                            className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
+                                            ref={ref}
+                                            value={data?.content}
+                                            minLength={0}
+                                            autoFocus
+                                            placeholder={`${validateTextArea ?  'Please enter comment' : 'Enter comment...'}`}
+                                            autoSize={{ minRows: 1 }}
+                                            onChange={handleChangeTextArea}
+                                            onFocus={() => setOpenEmoji(false)}
+                                            onPressEnter={handleComment}
+                                        />
+                                        {data?.isScam && (
+                                            <Select
+                                                value={data?.sources}
+                                                placeholder="Proof link..."
+                                                mode="tags"
+                                                onChange={handleChange}
+                                                onFocus={() => setOpenEmoji(false)}
+                                            />
+                                        )}
+                                        <Popover
+                                            content='Click to report scam project'
+                                            overlayClassName='product-detail-form-content-popover'
+                                        >
+                                            <div style={{ margin: '1rem 0', width: 'fit-content' }}>
+                                                <Checkbox
+                                                    onChange={handleChangeChecked}
+                                                    checked={data?.isScam}
+                                                >
+                                                    Is Scam
+                                                </Checkbox>
+                                            </div>
+                                        </Popover>
+                                        {data?.image && (
+                                            <div className='product-detail-form-image'>
+                                                <Image src={data?.image} preview={false}/>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className='product-detail-form-footer'>
+                                        {data?.isScam && (
+                                            <div className='product-detail-form-footer-item'>
+                                                <Upload
+                                                    onChange={handleChangeFile}
+                                                >
+                                                    <Image src={icon_image} preview={false}/>
+                                                </Upload>
+                                            </div>
+                                        )}
+                                        <div className='product-detail-form-footer-item'>
+                                            <Image
+                                                src={smile}
+                                                preview={false}
+                                                onClick={() => setOpenEmoji(!openEmoji)}
+                                                className='product-detail-form-icon-emoji'
+                                            />
+                                        </div>
+                                        <div className='product-detail-form-footer-item'>
+                                            {openEmoji && 
+                                                <EmojiPicker
+                                                    emojiStyle='facebook'
+                                                    height={250}
+                                                    width={250}
+                                                    lazyLoadEmojis={true}
+                                                    onEmojiClick={handleClickEmoji}
+                                                    
+                                                />
+                                            }
+                                        </div>
+                                        <div className='product-detail-form-footer-item'>
+                                            <SendOutlined
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={handleSubmitComment}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </Form>
+                    {/* <Form form={form}> */}
                         {(dataSearch ? dataSearch : productInfo)?.reviews?.map((item, index) => (
                             <Review
                                 key={index}
                                 data={item}
                                 productId={productInfo?.product?.id}
-                                handleReply={handleReply}
-                                handleSend={handleSend}
+                                // handleReply={handleReply}
+                                // handleSend={handleSend}
                                 userInfo={userInfo}
-                                setReactionData={setReactionData}
-                                setData={setData}
+                                // setReactionData={setReactionData}
+                                // setData={setData}
                             />
                         ))}
-                    </Form>
+                    {/* </Form> */}
                 </div>
             </div>
         </div>

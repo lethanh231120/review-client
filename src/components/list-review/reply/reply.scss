@@ -1,5 +1,5 @@
 .reply{
-    padding: 1rem 0;
+    padding: 0.5rem 0 0 0;
     display: flex;
     align-items: flex-start;
     text-align: left;
@@ -15,15 +15,15 @@
     &-description{
         text-align: left;
         margin-left: 1rem;
-        width: 100%;
+        width: calc(100% - 4rem);
         border-radius: 1.5rem;
     }
     &-data{
         text-align: left;
         width: fit-content;
         background: rgba(3, 145, 159, 0.05);
-        padding: 1rem;
-        border-radius: 1.5rem;
+        padding: 0.6rem;
+        border-radius: 1rem;
     }
     &-name{
         font-size: 1.4rem;
@@ -40,7 +40,8 @@
         font-size: 1.4rem;
         font-weight: 400;
         color: rgba(0, 0, 0, 0.87);
-        margin: 0.7rem 0;
+        margin: 0rem 0;
+        max-width: 100%;
     }
     &-action{
         display: flex;

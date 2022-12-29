@@ -66,7 +66,6 @@ const CategoryItem = () => {
     setParams(param)
   }
 
-  console.log(location)
   return (
     <div
       className='category-page'
