@@ -9,17 +9,22 @@ import _ from 'lodash'
 import { post, patch } from '../../../api/products'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import { SignInContext } from '../../layout/Main'
+import scam from '../../../assets/images/scam.png'
 
 const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId, setReactionData, setData, handleSend }) => {
   const TYPE_REPLY = 'reply'
   const TYPE_REVIEW = 0
-  const [isCollapse, setIsCollapse] = useState(true)
+  const [isCollapse, setIsCollapse] = useState({
+    isCollapse: true,
+    reviewId: ''
+  })
   const [addReply, setAddReply] = useState(false)
   const [isReaction, setIsReaction] = useState(false)
   const [Loading, setLoading] = useState(true)
   const [imageReply, setImageReply] = useState()
   const [comment, setComment] = useState('')
   const signContext = useContext(SignInContext)
+  const [isShowSource, setIsShowSource] = useState(false)
 
   useEffect(() => {
     if (!_.isEmpty(data?.reactions)) {
@@ -54,7 +59,17 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
   }
 
   useEffect(() => {
-    setIsCollapse(data?.replies?.length > 2)
+    setIsCollapse({
+      isCollapse: data?.replies?.length > 2,
+      reviewId: data?.review?.id
+    })
+    data?.review?.sources?.forEach((item) => {
+      if (item && item !== '') {
+        setIsShowSource(false)
+      } else {
+        setIsShowSource(true)
+      }
+    })
   }, [data])
 
   const getBase64 = (img, callback) => {
@@ -64,21 +79,25 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
   };
 
   const handleChangeFile = (e) => {
-    const formData = new FormData()
-    formData.append('file', e?.fileList[0]?.originFileObj)
-    const time = moment().unix()
-    getBase64(e.file.originFileObj, async(url) => {
-        const fileName= `${userInfo.id}_${time}`
-        const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
-        setData({
-          isScam: false,
-          content: '',
-          sources: [],
-          image: dataImage?.data,
-          star: 5
-        })
-        setImageReply(dataImage?.data)
-    });
+    if (userInfo) {
+      const formData = new FormData()
+      formData.append('file', e?.fileList[0]?.originFileObj)
+      const time = moment().unix()
+      getBase64(e.file.originFileObj, async(url) => {
+          const fileName= `${userInfo.id}_${time}`
+          const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
+          setData({
+            isScam: false,
+            content: '',
+            sources: [],
+            image: dataImage?.data,
+            star: 5
+          })
+          setImageReply(dataImage?.data)
+      });
+    } else {
+      signContext?.handleSetOpenModal(true)
+    }
   }
 
   const handleAddReply = () => {
@@ -91,6 +110,18 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
     }
   }
 
+  const handleSubmit = (e) => {
+    handleReply(e, TYPE_REPLY, data?.review?.id)
+    setAddReply(false)
+    setImageReply() 
+    setIsCollapse({
+      ...isCollapse,
+      reviewId: data?.review?.id
+    })
+  }
+
+  console.log(data)
+  console.log(isCollapse)
   return (
     <>
       {!Loading && (
@@ -100,11 +131,14 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
             <div className='review-item-data'>
               <div className='review-item-name'>
                 {data?.review?.userName}
+                <span>
+                  {data?.review?.isScam && (<Image src={scam} preview={false}/>)}
+                </span>
                 <span>{moment(data?.review?.updatedDate).startOf('day').fromNow()}</span>
               </div>
               <div className='review-item-content'>
                 {data?.review?.content}
-                {!_.isEmpty(data?.review?.sources) && (
+                {!isShowSource && (
                   <div className='review-item-content-source'>
                     {data?.review?.sources?.map((item, index) => (
                       <span key={index}>
@@ -176,7 +210,10 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
             {data?.replies?.length > 2 && (
               <div
                 className='review-item-replies'
-                onClick={() => setIsCollapse(!isCollapse)}
+                onClick={() => setIsCollapse({
+                  isCollapse: !isCollapse?.isCollapse,
+                  reviewId: ''
+                })}
               >
                 <CaretDownOutlined/>
                 {data?.replies?.length} reply
@@ -211,11 +248,7 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
                       </>}
                       placeholder='Enter reply...'
                       onChange={(e) => setComment(e.target.value)}
-                      onPressEnter={(e) => {
-                        handleReply(e, TYPE_REPLY, data?.review?.id)
-                        setAddReply(false)
-                        setImageReply()
-                      }}
+                      onPressEnter={handleSubmit}
                     />
                     {imageReply && (
                       <div className='review-item-form-image'>
@@ -226,7 +259,7 @@ const ReviewItem = ({ data, setReloadReaction, handleReply, userInfo, productId,
                 </div>
             )}
             <div
-              className={`${isCollapse ? 'isCollapse' : 'comment-reply'}`}
+              className={`${(isCollapse?.isCollapse && isCollapse?.reviewId === '') ? 'isCollapse' : 'comment-reply'}`}
             >
               {data?.replies?.map((item, index) => (
                 <ReplyComment

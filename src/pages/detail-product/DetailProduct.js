@@ -657,6 +657,16 @@ const DetailProduct = () => {
         }
     }
 
+    const handleChangeChecked = (e) => {
+        console.log(e?.target?.checked)
+        setData({
+            ...data,
+            isScam: e?.target?.checked,
+            star: e?.target?.checked ? 1 : 5
+        })
+    }
+
+    console.log(data)
     return (
         <div className='product'>
             <div className='product-detail'>
@@ -1013,20 +1023,6 @@ const DetailProduct = () => {
                         defaultFilter={defaultFilter}
                         setDefaultFilter={setDefaultFilter}
                     />
-                    {/* {productInfo?.reviews?.map((item, index) => (
-                        <Review
-                            openComment={openComment}
-                            key={index}
-                            data={item}
-                            productId={productInfo?.product?.id}
-                            handleReply={handleReply}
-                            handleSend={handleSend}
-                            userInfo={userInfo}
-                            setReactionData={setReactionData}
-                            setData={setData}
-                            // setComment={setComment}
-                        />
-                    ))} */}
 
                     {openComment && (
                         <div className='product-detail-form'>
@@ -1037,7 +1033,7 @@ const DetailProduct = () => {
                                 <div className='product-detail-form-content-text'>
                                     <div className='product-detail-form-content-rate'>
                                         <Rate
-                                            defaultValue={data?.star}
+                                            value={data?.star}
                                             onChange={(value) => setData({...data, star: value})}
                                         />
                                     </div>
@@ -1052,20 +1048,22 @@ const DetailProduct = () => {
                                         onFocus={() => setOpenEmoji(false)}
                                         onPressEnter={(e) => handleReply(e, TYPE_REVIEW)}
                                     />
-                                    <Select
-                                        value={data?.sources}
-                                        placeholder="Enter multiple link"
-                                        mode="tags"
-                                        onChange={handleChange}
-                                        onFocus={() => setOpenEmoji(false)}
-                                    />
+                                    {data?.isScam && (
+                                        <Select
+                                            value={data?.sources}
+                                            placeholder="Proof..."
+                                            mode="tags"
+                                            onChange={handleChange}
+                                            onFocus={() => setOpenEmoji(false)}
+                                        />
+                                    )}
                                     <Popover
                                         content='Click to report scam project'
                                         overlayClassName='product-detail-form-content-popover'
                                     >
                                         <div style={{ margin: '1rem 0', width: 'fit-content' }}>
                                             <Checkbox
-                                                onChange={() => setData({...data, isScam: !data?.isScam})}
+                                                onChange={handleChangeChecked}
                                                 checked={data?.isScam}
                                             >
                                                 Is Scam
@@ -1079,13 +1077,15 @@ const DetailProduct = () => {
                                     )}
                                 </div>
                                 <div className='product-detail-form-footer'>
-                                    <div className='product-detail-form-footer-item'>
-                                        <Upload
-                                            onChange={handleChangeFile}
-                                        >
-                                            <Image src={icon_image} preview={false}/>
-                                        </Upload>
-                                    </div>
+                                    {data?.isScam && (
+                                        <div className='product-detail-form-footer-item'>
+                                            <Upload
+                                                onChange={handleChangeFile}
+                                            >
+                                                <Image src={icon_image} preview={false}/>
+                                            </Upload>
+                                        </div>
+                                    )}
                                     <div className='product-detail-form-footer-item'>
                                         <Image
                                             src={smile}

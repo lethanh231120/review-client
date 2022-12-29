@@ -42,6 +42,12 @@
                 }
                 &-rate{
                     padding: 0 0 1rem 0;
+                    & .ant-rate{
+                        font-size: 1.4rem;
+                    }
+                    & .ant-rate-star:not(:last-child){
+                        margin-right: 0.2rem;
+                    }
                 }
             }
             & .ant-input-affix-wrapper{
@@ -469,7 +475,9 @@
 .EmojiPickerReact li.epr-emoji-category>.epr-emoji-category-label{
     display: none !important;
 }
-
+.ant-select-dropdown{
+    display: none;
+}
 @media (max-width: 670px) {
     .product{
         &-overview{
