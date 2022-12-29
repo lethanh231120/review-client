@@ -59,7 +59,8 @@ const Signin = ({ openModalSignin }) => {
       >
           <FacebookLogin
               icon='fa-facebook'
-              appId='1270002070516522'
+              appId='6488605091156536'
+              // appId='1270002070516522'
               autoLoad={false}
               fields='name,email,picture'
               callback={responseFacebook}
