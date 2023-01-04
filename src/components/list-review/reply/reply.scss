@@ -1,5 +1,5 @@
 .reply{
-    padding: 0.5rem 0 0 0;
+    padding: 0.8rem 0 0 1.2rem;
     display: flex;
     align-items: flex-start;
     text-align: left;
@@ -21,8 +21,8 @@
     &-data{
         text-align: left;
         width: fit-content;
-        background: rgba(3, 145, 159, 0.05);
-        padding: 0.6rem;
+        background: rgb(240, 242, 245);
+        padding: 0.8rem 1.2rem;
         border-radius: 1rem;
     }
     &-name{
@@ -37,7 +37,7 @@
         }
     }
     &-content{
-        font-size: 1.2rem;
+        font-size: 1.6rem;
         font-weight: 400;
         color: rgba(0, 0, 0, 0.87);
         margin: 0rem 0;

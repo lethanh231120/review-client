@@ -259,7 +259,6 @@ const ReviewItem = ({ data, userInfo, productId }) => {
                 <span>
                   {newData?.review?.isScam && (<Image src={scam} preview={false}/>)}
                 </span>
-                <span>{moment(newData?.review?.updatedDate).startOf('day').fromNow()}</span>
               </div>
               <div className='review-item-content'>
                 {newData?.review?.content}
@@ -290,6 +289,9 @@ const ReviewItem = ({ data, userInfo, productId }) => {
                   handleClickReaction={handleClickReaction}
                 />
                 <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
+                <span className='review-item-action-item-time'>
+                  {moment.utc(newData?.review?.updatedDate).fromNow(true)}
+                </span>
               </div>
               {!_.isEmpty(reactionType) && (
                 <div className='review-item-action-reaction'>

@@ -111,7 +111,7 @@ const ReplyComment = ({ data, productId, userInfo }) => {
         <div className='reply-data'>
           <div className='reply-name'>
             {newData?.reply?.userName}
-            <span>{moment(newData?.reply?.updatedDate).startOf('day').fromNow()}</span>
+            {/* <span>{moment(newData?.reply?.updatedDate).startOf('day').fromNow()}</span> */}
           </div>
           <div className='reply-content'>
             {newData?.reply?.content}
@@ -128,6 +128,9 @@ const ReplyComment = ({ data, productId, userInfo }) => {
               currenReaction={currenReaction}
               handleClickReaction={handleClickReaction}
             />
+            <span className='review-item-action-item-time'>
+              {moment.utc(newData?.review?.updatedDate).fromNow(true)}
+            </span>
           </div>
           {!_.isEmpty(newData?.reactions) && (
             <div className='review-item-action-reaction'>

@@ -21,6 +21,7 @@ const Signin = ({ openModalSignin }) => {
         'image': response?.picture?.data?.url
       }
       
+      
       try {
         const signin = await post('reviews/auth/signin', dataSignin)
         if (signin) {
