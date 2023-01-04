@@ -12,4 +12,4 @@ export const setCookie = (key, value) => {
 }
 
 export const getCookie = (key) => cookies.get(key)
-export const removeCookie = async(key) => await cookies.remove(key)
+export const removeCookie = (key) => cookies.remove(key)

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react'
 import { Image, Rate, Tooltip, Popover, message } from 'antd'
 import { Form, Input, Upload, Select, Checkbox } from 'antd'
+import ReCAPTCHA from "react-google-recaptcha"
 import { DownOutlined, CodeOutlined, CaretUpOutlined, SendOutlined, CopyOutlined, LinkOutlined } from '@ant-design/icons'
 import './detail-coin/detailCoin.scss'
 import user from '../../assets/images/user.png'
@@ -14,30 +15,25 @@ import { getCookie, STORAGEKEY } from '../../utils/storage'
 import ListReview from './product-footer/ListReview'
 import smile from '../../assets/images/smile.png'
 import EmojiPicker from 'emoji-picker-react'
-import icon_image from '../../assets/images/image.png'
 import { SignInContext } from '../../components/layout/Main'
 import warning from '../../assets/images/warning.png'
 import scam from '../../assets/images/scam.png'
+import { explorers } from '../../utils/ExplorerScan'
 
 const DetailProduct = () => {
     const DEFAULT_ALL = 'all'
     const DEFAULT_SCAM = 'scam'
     const DEFAULT_NOT_SCAM = 'notScam'
-    const signInContext = useContext(SignInContext)
-    // const TYPE_REVIEW = 'review'
-    // const TYPE_REPLY = 'reply'
-    // const TYPE_REACTION_FOR_REVIEW = 0
-    // const TYPE_REACTION_FOR_REPLY = 1
+
     const [form] = Form.useForm()
-    const userInfo = getCookie(STORAGEKEY.USER_INFO)
-    const token = getCookie(STORAGEKEY.ACCESS_TOKEN)
-    const [productInfo, setProductInfo] = useState()
     const { productId } = useParams()
-    const [openComment, setOpenComment] = useState(false)
-    // const [reload, setReload] = useState(false)
-    // const [dataAdd, setDataAdd] = useState()
-    const [defaultFilter, setDefaultFilter] = useState(DEFAULT_ALL)
     const ref = useRef(null)
+    const recapcharRef = useRef(null)
+    const signInContext = useContext(SignInContext)
+
+    const [productInfo, setProductInfo] = useState()
+    const [openComment, setOpenComment] = useState(false)
+    const [defaultFilter, setDefaultFilter] = useState(DEFAULT_ALL)
     const [openEmoji, setOpenEmoji] = useState(false)
     const [data, setData] = useState({
         isScam: false,
@@ -47,10 +43,7 @@ const DetailProduct = () => {
         star: 5
     })
     const [validateTextArea, setValidateTextArea] = useState(false)
-    // const [reactionData, setReactionData] = useState({
-    //     type: '',
-    //     data: {}
-    // })
+    const [fileList, setFileList] = useState([])
     const [dataSearch, setDataSearch] = useState()
     const [isShow, setIsShow] = useState()
 
@@ -134,7 +127,6 @@ const DetailProduct = () => {
                 }
                 if (product?.data?.product?.contract) {
                     product?.data?.product?.contract?.contract?.forEach((item) => {
-                        console.log(item)
                         if (_.isEmpty(item)) {
                             shows['contract'] = false
                         } else {
@@ -237,6 +229,9 @@ const DetailProduct = () => {
         }
         getData()
     }, [productId])
+
+    const userInfo = getCookie(STORAGEKEY.USER_INFO)
+    const token = Boolean(getCookie(STORAGEKEY.ACCESS_TOKEN))
 
     // useEffect(() => {
     //     const setData = async() => {
@@ -449,20 +444,22 @@ const DetailProduct = () => {
                 content: `${data?.content}\n`
             })
         } else {
-            e.preventDefault()
-            if (e.target.value !== '') {
-                const params = {
-                    ...data,
-                    productId: productInfo?.product?.id,
-                    productName: productInfo?.product?.name,
-                    type: productInfo?.product?.type,
-                }
-                const dataAdd = await post('reviews/review', params)
-                if (dataAdd) {
-                    const newProduct = {
-                        ...productInfo,
-                        reviews: [
-                            {
+            if (!token) {
+                signInContext?.handleSetOpenModal(true)
+            } else {
+                e.preventDefault()
+                if (e.target.value !== '') {
+                    const params = {
+                        ...data,
+                        productId: productInfo?.product?.id,
+                        productName: productInfo?.product?.name,
+                        type: productInfo?.product?.type,
+                    }
+                    const recaptchaValue = recapcharRef.current.getValue()
+                    if (recaptchaValue) {
+                        const dataAdd = await post('reviews/review', params)
+                        if (dataAdd) {
+                            const newReview = {
                                 reactions: [],
                                 replies: [],
                                 review: {
@@ -473,22 +470,35 @@ const DetailProduct = () => {
                                     role: userInfo?.role,
                                     userName: userInfo?.userName
                                 }
-                            },
-                            ...productInfo?.reviews
-                        ]
+                            }
+                            if (productInfo?.reviews === null) {
+                                setProductInfo({
+                                    ...productInfo,
+                                    reviews: [ newReview ] 
+                                })
+                            } else {
+                                setProductInfo({
+                                    ...productInfo,
+                                    reviews: [
+                                        newReview,
+                                        ...productInfo?.reviews,
+                                    ] 
+                                })
+                            }
+                            setData({
+                                isScam: false,
+                                content: '',
+                                sources: [],
+                                image: '',
+                                star: 5
+                            })
+                            setFileList([])
+                            setValidateTextArea(false)
+                        }
                     }
-                    setProductInfo(newProduct)
-                    setData({
-                        isScam: false,
-                        content: '',
-                        sources: [],
-                        image: '',
-                        star: 5
-                    })
+                } else {
+                    setValidateTextArea(true)
                 }
-                setValidateTextArea(false)
-            } else {
-                setValidateTextArea(true)
             }
         }
     }
@@ -561,131 +571,38 @@ const DetailProduct = () => {
     }
 
     const handleChangeTextArea = (e) => {
-        if (e.target.value !== '') {
-            setValidateTextArea(false)
-            setData({
-                ...data,
-                content: e.target.value
-            })
+        if (!token) {
+            signInContext?.handleSetOpenModal(true)
         } else {
-            setData({
-                ...data,
-                content: ''
-            })
-            setValidateTextArea(true)
-        }
-        setOpenEmoji(false)
-    }
-
-    console.log('userInfo, userInfo')
-    console.log('token', token)
-    console.log(data)
-    // useEffect(() => {
-    //     if (dataAdd) {
-    //         if (dataAdd?.type === TYPE_REVIEW) {
-    //             const getReview = async() => {
-    //                 // const reviews = await get(`reviews/review?productId=${productInfo?.product?.id}`)
-    //                 // const reviewItem = reviews?.data?.find((item) => (item?.accountId === userInfo?.id && item?.updatedDate === dataAdd?.data?.updatedDate && item?.productId === dataAdd?.data?.productId))
-    //                 const newReview = {
-    //                     reactions: [],
-    //                     replies: [],
-    //                     review: {
-    //                         // ...reviewItem,
-    //                         ...dataAdd?.data,
-    //                         accountType: userInfo?.accountType,
-    //                         email: userInfo?.email,
-    //                         acountImage: userInfo?.image,
-    //                         role: userInfo?.role,
-    //                         userName: userInfo?.userName
-    //                     }
-    //                 }
-    //                 if (productInfo?.reviews === null) {
-    //                     setProductInfo({
-    //                         ...productInfo,
-    //                         reviews: [ newReview ] 
-    //                     })
-    //                 } else {
-    //                     setProductInfo({
-    //                         ...productInfo,
-    //                         reviews: [
-    //                             newReview,
-    //                             ...productInfo?.reviews,
-    //                         ] 
-    //                     })
-    //                 }
-    //             }
-    //             getReview()
-    //         }
-    //         if (dataAdd?.type === TYPE_REPLY) {
-    //             const getReply = async() => {
-    //                 // const reply = await get(`reviews/reply?productId=${productInfo?.product?.id}`)
-    //                 // tim trong mang data get reply theo projectid lays item co accounId, updatedDate, productId trung voi data cua reply vua them 
-    //                 // const replyItem = reply?.data?.find((item) => (item?.accountId === userInfo?.id && item?.updatedDate === dataAdd?.data?.updatedDate && item?.productId === dataAdd?.data?.productId && item?.reviewId === dataAdd?.data?.reviewId))
-    //                 // time trong list review thuoc data detail cua product lay item co id === reviewId trong reply vua them
-                    
-    //                 const reviewItem = productInfo?.reviews?.find((item) => item?.review?.id === dataAdd?.data?.reviewId)
-    //                 // tao review moi
-    //                 const newReview = {
-    //                     ...reviewItem,
-    //                     replies: [
-    //                         {
-    //                             reactions: [],
-    //                             reply: {
-    //                                 ...dataAdd?.data,
-    //                                 accountType: userInfo?.accountType,
-    //                                 email: userInfo?.email,
-    //                                 acountImage: userInfo?.image,
-    //                                 role: userInfo?.role,
-    //                                 userName: userInfo?.userName
-    //                             }
-    //                         },
-    //                         ...reviewItem?.replies
-    //                     ],
-    //                 }
-    //                 // tim vi tri index cua review vua duoc add reply trong mang review cua data detail
-    //                 const index = productInfo?.reviews?.findIndex((item) => item?.review?.id === reviewItem?.review?.id)
-    //                 const newListReview = [...productInfo?.reviews]
-    //                 newListReview[index] = newReview
-    //                 // cap nhat lai data
-    //                 setProductInfo({
-    //                     ...productInfo,
-    //                     reviews: newListReview
-    //                 })
-    //             }
-    //             getReply()
-    //         }
-    //     }
-    // }, [reload, dataAdd])
-
-    const getBase64 = (img, callback) => {
-        const reader = new FileReader()
-        reader.addEventListener('load', () => callback(reader.result))
-        reader.readAsDataURL(img)
-    }
-
-    const handleChangeFile = (e) => {
-        if (userInfo) {
-            const formData = new FormData()
-            formData.append('file', e?.fileList[0]?.originFileObj)
-            const time = moment().unix()
-            getBase64(e.file.originFileObj, async(url) => {
-                console.log('thanh')
-                const fileName= `${userInfo.id}_${time}`
-                const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
+            if (e.target.value !== '') {
+                setValidateTextArea(false)
                 setData({
                     ...data,
-                    image: dataImage?.data
+                    content: e.target.value
                 })
-            });
-        } else {
-            signInContext?.handleSetOpenModal(true)
+            } else {
+                setData({
+                    ...data,
+                    content: ''
+                })
+                setValidateTextArea(true)
+            }
+            setOpenEmoji(false)
         }
     }
 
-    const handleChange = (values) => {
-        setData({
-            ...data,
-            sources: values
+    const changeSelect = (value) => {
+        explorers?.forEach((item) => {
+            const isCorrect = value?.includes(item)
+            if (isCorrect) {
+                setData({
+                    ...data,
+                    sources: [
+                        ...data?.sources,
+                        value
+                    ]
+                })
+            }
         })
     }
 
@@ -708,10 +625,9 @@ const DetailProduct = () => {
             })
         }
         setOpenComment(false)
-    }, [defaultFilter])
+    }, [defaultFilter, productInfo])
 
     const handleAddComment = (isOpen) => {
-        const token = Boolean(getCookie(STORAGEKEY.ACCESS_TOKEN))
         if (!token) {
             signInContext?.handleSetOpenModal(true)
         } else {
@@ -728,19 +644,21 @@ const DetailProduct = () => {
     }
 
     const handleSubmitComment = async() => {
-        if (data?.content !== '') {
-            const params = {
-                ...data,
-                productId: productInfo?.product?.id,
-                productName: productInfo?.product?.name,
-                type: productInfo?.product?.type,
-            }
-            const dataAdd = await post('reviews/review', params)
-            if (dataAdd) {
-                const newProduct = {
-                    ...productInfo,
-                    reviews: [
-                        {
+        if (!token) {
+            signInContext?.handleSetOpenModal(true)
+        } else {
+            if (data?.content !== '') {
+                const params = {
+                    ...data,
+                    productId: productInfo?.product?.id,
+                    productName: productInfo?.product?.name,
+                    type: productInfo?.product?.type,
+                }
+                const recaptchaValue = recapcharRef.current.getValue()
+                if (recaptchaValue) {
+                    const dataAdd = await post('reviews/review', params)
+                    if (dataAdd) {
+                        const newReview = {
                             reactions: [],
                             replies: [],
                             review: {
@@ -751,24 +669,69 @@ const DetailProduct = () => {
                                 role: userInfo?.role,
                                 userName: userInfo?.userName
                             }
-                        },
-                        ...productInfo?.reviews
-                    ]
+                        }
+                        if (productInfo?.reviews === null) {
+                            setProductInfo({
+                                ...productInfo,
+                                reviews: [ newReview ] 
+                            })
+                        } else {
+                            setProductInfo({
+                                ...productInfo,
+                                reviews: [
+                                    newReview,
+                                    ...productInfo?.reviews,
+                                ] 
+                            })
+                        }
+                        setData({
+                            isScam: false,
+                            content: '',
+                            sources: [],
+                            image: '',
+                            star: 5
+                        })
+                        setFileList([])
+                        setValidateTextArea(false)
+                    }
                 }
-                setProductInfo(newProduct)
-                setData({
-                    isScam: false,
-                    content: '',
-                    sources: [],
-                    image: '',
-                    star: 5
-                })
-
+            } else {
+                setValidateTextArea(true)
             }
-        } else {
-            setValidateTextArea(true)
         }
     }
+
+    const handleChangeFile = async(e) => {
+        if (userInfo) {
+            setFileList(e.fileList);
+            const formData = new FormData()
+            formData.append('file', e?.fileList[0]?.originFileObj)
+            const time = moment().unix()
+            const fileName= `${userInfo.id}_${time}`
+            const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
+            setData({
+                ...data,
+                image: dataImage?.data
+            })
+        } else {
+            signInContext?.handleSetOpenModal(true)
+        }
+    }
+
+    const onPreview = async (file) => {
+        let src = file.url;
+        if (!src) {
+            src = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file.originFileObj);
+                reader.onload = () => resolve(reader.result);
+            });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow?.document.write(image.outerHTML);
+    };
 
     return (
         <div className='product'>
@@ -881,7 +844,6 @@ const DetailProduct = () => {
                             )}
                         </div>
                     </div>
-
                     {productInfo?.product?.category && (
                         <div className='product-info'>
                             <div className='product-info-item'>
@@ -939,7 +901,7 @@ const DetailProduct = () => {
                                             <DownOutlined />
                                             <div className='product-tag-item-list'>
                                                 {Object.keys(productInfo?.product?.detail?.community).map((key) => {
-                                                    return (<>
+                                                    return (<span key={key}>
                                                         <>
                                                             {productInfo?.product?.detail?.community[key]?.map((item, index) => (
                                                                 <div className='product-tag-item-list-children' key={index}>
@@ -947,7 +909,7 @@ const DetailProduct = () => {
                                                                 </div>
                                                             ))}
                                                         </>
-                                                    </>
+                                                    </span>
                                                     )
                                                 })}
                                             </div>
@@ -1113,18 +1075,11 @@ const DetailProduct = () => {
                         </>
                     )}
                     
-                    {/* <ProductFooter
-                        liked={liked}
-                        chat_icon={chat_icon}
-                        mask_scam={mask_scam}
-                        setOpenComment={setOpenComment}
-                        productInfo={productInfo}
-                        setOpenScam={setOpenScam}
-                    /> */}
                     <ListReview
                         handleAddComment={handleAddComment}
                         defaultFilter={defaultFilter}
                         setDefaultFilter={setDefaultFilter}
+                        productInfo={productInfo}
                     />
                     <Form form={form}>
                         {openComment && (
@@ -1137,6 +1092,7 @@ const DetailProduct = () => {
                                         <div className='product-detail-form-content-rate'>
                                             <Rate
                                                 value={data?.star}
+                                                disabled={data?.isScam}
                                                 onChange={(value) => setData({...data, star: value})}
                                             />
                                         </div>
@@ -1157,7 +1113,7 @@ const DetailProduct = () => {
                                                 value={data?.sources}
                                                 placeholder="Proof link..."
                                                 mode="tags"
-                                                onChange={handleChange}
+                                                onSelect={changeSelect}
                                                 onFocus={() => setOpenEmoji(false)}
                                             />
                                         )}
@@ -1174,41 +1130,39 @@ const DetailProduct = () => {
                                                 </Checkbox>
                                             </div>
                                         </Popover>
-                                        {data?.image && (
-                                            <div className='product-detail-form-image'>
-                                                <Image src={data?.image} preview={false}/>
-                                            </div>
-                                        )}
+                                        {data?.isScam &&
+                                            <Upload
+                                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                                listType="picture-card"
+                                                fileList={fileList}
+                                                onChange={handleChangeFile}
+                                                onPreview={onPreview}
+                                            >
+                                                {fileList.length < 1 && "+ Upload"}
+                                            </Upload>
+                                        }
+                                        <ReCAPTCHA
+                                            ref={recapcharRef}
+                                            sitekey='6Lcab8wjAAAAAEeXUCE7iFIga2fynoCIZn4W8Q-l'
+                                        />
                                     </div>
                                     <div className='product-detail-form-footer'>
-                                        {data?.isScam && (
-                                            <div className='product-detail-form-footer-item'>
-                                                <Upload
-                                                    onChange={handleChangeFile}
-                                                >
-                                                    <Image src={icon_image} preview={false}/>
-                                                </Upload>
-                                            </div>
-                                        )}
                                         <div className='product-detail-form-footer-item'>
                                             <Image
                                                 src={smile}
                                                 preview={false}
                                                 onClick={() => setOpenEmoji(!openEmoji)}
-                                                className='product-detail-form-icon-emoji'
                                             />
-                                        </div>
-                                        <div className='product-detail-form-footer-item'>
-                                            {openEmoji && 
+                                            <div className='product-detail-form-icon-emoji'>
                                                 <EmojiPicker
                                                     emojiStyle='facebook'
-                                                    height={250}
+                                                    height={270}
                                                     width={250}
                                                     lazyLoadEmojis={true}
                                                     onEmojiClick={handleClickEmoji}
                                                     
                                                 />
-                                            }
+                                            </div>
                                         </div>
                                         <div className='product-detail-form-footer-item'>
                                             <SendOutlined

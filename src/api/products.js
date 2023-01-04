@@ -6,18 +6,14 @@ const instance = axios.create({
   baseURL: '/baseURL'
 })
 
-const token = getCookie(STORAGEKEY.ACCESS_TOKEN)
-
-if (token) {
+const setHeader = async() => {
+  const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
   instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
 }
 
 const get = async(url, params = {}) => {
-  const token = getCookie(STORAGEKEY.ACCESS_TOKEN)
-  if (token) {
-    instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
-  }
   try {
+    await setHeader()
     const config = { params: params }
     const response = await instance.get(getUrlPrefix() + url, config)
     return _responseHandler(response)
@@ -28,6 +24,7 @@ const get = async(url, params = {}) => {
 
 const put = async(url, data = {}) => {
   try {
+    await setHeader()
     let response = {}
     if (data.toLocaleString() === '[object FormData]') {
       response = await instance.put(getUrlPrefix() + url, data)
@@ -47,6 +44,7 @@ const put = async(url, data = {}) => {
 
 const post = async(url, data = {}) => {
   try {
+    await setHeader()
     const response = await instance.post(getUrlPrefix() + url, data)
     return _responseHandler(response)
   } catch (error) {
@@ -56,7 +54,8 @@ const post = async(url, data = {}) => {
 
 const del = async(url, data = {}) => {
   try {
-    const response = await instance.delete(getUrlPrefix() + url, { data })
+    await setHeader()
+    const response = await  instance.delete(getUrlPrefix() + url, { data })
     return _responseHandler(response)
   } catch (error) {
     _errorHandler(error)
@@ -77,6 +76,7 @@ const _errorHandler = (err) => {
 
 const patch = async(url, data = {}) => {
   try {
+    await setHeader()
     let response = {}
     if (data.toLocaleString() === '[object FormData]') {
       response = await instance.patch(getUrlPrefix() + url, data)

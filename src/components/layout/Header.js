@@ -6,13 +6,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 import nodata from '../../assets/images/nodata.png'
 import { get } from "../../api/search";
 import _ from "lodash";
-
+import { useDispatch } from "react-redux";
+import { resetUserInfo } from "../../redux/userInfo";
 import chatbox from '../../assets/images/chatbox.png'
 import gear5 from '../../assets/images/gear5.png'
-import { SignInContext } from "./Main";
+import { SignInContext, Authenticated } from "./Main";
 import Signin from "../modal/Signin";
 import Sidenav from "./Sidenav";
-
 import './styles/header.scss'
 
 const { Title } = Typography
@@ -34,10 +34,12 @@ const profile = [
   </svg>,
 ];
 
-const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedNavbar, sidenavType, sidenavColor }) => {
+const Header = ({ placement, sidenavColor }) => {
   const signContext = useContext(SignInContext)
+  const authenticated = useContext(Authenticated)
   const DEFAULT_TYPE = 'product'
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [visible, setVisible] = useState(false);
   const [dataSearch, setDataSearch] = useState({
     data: [],
@@ -45,21 +47,22 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
     status: '',
     isActive: false
   })
+  // const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [form] = Form.useForm()
   useEffect(() => window.scrollTo(0, 0));
 
-  const token = Boolean(getCookie(STORAGEKEY.ACCESS_TOKEN))
+  const userInfo = getCookie(STORAGEKEY?.USER_INFO)
 
   const logout = async() => {
     await removeCookie(STORAGEKEY.ACCESS_TOKEN)
     await removeCookie(STORAGEKEY.USER_INFO)
     setVisible(false)
-    // await post('reviews/signout')
-    navigate('/')
+    dispatch(resetUserInfo())
+    authenticated.handleSetAuthenticated(false)
+    // setIsAuthenticated(false)
   }
 
   const handleDetailProduct = (item) => {
-    console.log(item)
     navigate(`../../products/${item?.id}`)
   }
 
@@ -70,13 +73,10 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
         setDataSearch({ data: [], isActive: false, status: '', loading: false })
         form.resetFields()
       } else {
-        console.log(3333)
         if (dataSearch?.data && !_.isEmpty(dataSearch?.data)) {
-          console.log(2222)
           navigate(`../../../products/${dataSearch[0]?.id}`)
           form.resetFields()
         } else {
-          console.log(1111)
           setDataSearch({ data: [], isActive: false, status: '', loading: false })
           form.resetFields()
         }
@@ -117,7 +117,6 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
         isActive: true
       })
     } else {
-      console.log(333333)
       setDataSearch({
         loading: false,
         data: [],
@@ -223,7 +222,7 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
                   <Button type="link" className='header-item-right-menu' onClick={() => setVisible(true)}>
                     <UnorderedListOutlined/>
                   </Button>
-                  {token ? (
+                  {authenticated?.isAuthenticated ? (
                     <Popover
                       placement='bottomRight'
                       content={(<>
@@ -246,8 +245,8 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
                         style={{ cursor: 'pointer' }}
                       >
                         <span className='menu-header-account'>
-                          {profile}
-                          <span className='menu-header-account-name'>Le Thanh</span>
+                          <Image src={userInfo?.image ? userInfo?.image : profile} preview={false}/>
+                          <span className='menu-header-account-name'>{userInfo?.userName}</span>
                         </span>
                       </Typography>
                     </Popover>
@@ -276,7 +275,7 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
                           color={sidenavColor}
                           setVisible={setVisible}
                           profile={profile}
-                          token={token}
+                          // isAuthenticated={isAuthenticated}
                           logout={logout}
                         />
                       </div>
@@ -289,6 +288,7 @@ const Header = ({ placement, handleSidenavColor, handleSidenavType, handleFixedN
         </Col>
         <Signin
           openModalSignin={signContext?.openModalSignIn}
+          // setIsAuthenticated={setIsAuthenticated}
         />
       </Row>
     </>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Image } from 'antd'
 import './reply.scss'
 import moment from 'moment'
@@ -6,18 +6,27 @@ import { post, patch } from '../../../api/products'
 import _ from 'lodash'
 import user from '../../../assets/images/user.png'
 import ListEmoji from '../../emoji/ListEmoji'
+import { getCookie, STORAGEKEY } from '../../../utils/storage'
+import { SignInContext, Authenticated } from '../../layout/Main'
 
 const ReplyComment = ({ data, productId, userInfo }) => {
   const TYPE_REPLY = 1
   const [isReaction, setIsReaction] = useState(false)
   const [currenReaction, setCurrenReaction] = useState()
   const [newData, setNewData] = useState(data)
+  const signInContext = useContext(SignInContext)
+  const authenticated = useContext(Authenticated)
+  const [token, setToken] = useState()
 
   useEffect(() => {
     if (!_.isEmpty(data?.reactions)) {
       setIsReaction(data?.reactions?.some((item) => item?.accountId === userInfo?.id))
     }
   }, [data, userInfo])
+
+  useEffect(() => {
+    setToken(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
+  }, [authenticated?.isAuthenticated])
 
   useEffect(() => {
     newData?.reactions?.forEach((item) => {
@@ -46,47 +55,51 @@ const ReplyComment = ({ data, productId, userInfo }) => {
   }, [newData])
 
   const handleClickReaction = async(value) => {
-    if (isReaction) {
-      const body = {
-        commentId: data?.reply?.id,
-        type: TYPE_REPLY, 
-        reactionType: value,
-        productId: productId
-      }
-      const dataUpdate = await patch('reviews/reaction', body)
-      if (dataUpdate) {
-        const index = newData?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
-        if (index !== -1) {
-          const newListReaction = [...newData?.reactions]
-          newListReaction[index] = {
-            ...newListReaction[index],
-            reactionType: body?.reactionType
-          }
-          setNewData({
-            ...newData,
-            reactions: newListReaction
-          })
-        }
-      }
+    if (!token) {
+      signInContext?.handleSetOpenModal(true)
     } else {
-      const body = {
-        commentId: data?.reply?.id,
-        type: TYPE_REPLY,
-        reactionType: value,
-        productId: productId
-      }
-      const dataAddReact = await post('reviews/reaction', body)
-      if (dataAddReact) {
-        const newListReaction = [...newData?.reactions]
-        const newReply = {
-          ...newData,
-          reactions: [
-            dataAddReact?.data,
-            ...newListReaction
-          ]
+      if (isReaction) {
+        const body = {
+          commentId: data?.reply?.id,
+          type: TYPE_REPLY, 
+          reactionType: value,
+          productId: productId
         }
-        setNewData(newReply)
-        setIsReaction(!isReaction)
+        const dataUpdate = await patch('reviews/reaction', body)
+        if (dataUpdate) {
+          const index = newData?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
+          if (index !== -1) {
+            const newListReaction = [...newData?.reactions]
+            newListReaction[index] = {
+              ...newListReaction[index],
+              reactionType: body?.reactionType
+            }
+            setNewData({
+              ...newData,
+              reactions: newListReaction
+            })
+          }
+        }
+      } else {
+        const body = {
+          commentId: data?.reply?.id,
+          type: TYPE_REPLY,
+          reactionType: value,
+          productId: productId
+        }
+        const dataAddReact = await post('reviews/reaction', body)
+        if (dataAddReact) {
+          const newListReaction = [...newData?.reactions]
+          const newReply = {
+            ...newData,
+            reactions: [
+              dataAddReact?.data,
+              ...newListReaction
+            ]
+          }
+          setNewData(newReply)
+          setIsReaction(!isReaction)
+        }
       }
     }
   }
@@ -118,8 +131,8 @@ const ReplyComment = ({ data, productId, userInfo }) => {
           </div>
           {!_.isEmpty(newData?.reactions) && (
             <div className='review-item-action-reaction'>
-              {newData?.reactions?.map((item) => (
-                <div className='review-item-action-reaction-item'>{item?.reactionType}</div>
+              {newData?.reactions?.map((item, index) => (
+                <div className='review-item-action-reaction-item' key={index}>{item?.reactionType}</div>
               ))}
               <div className='review-item-action-reaction-item'>{newData?.reactions?.length}</div>
             </div>

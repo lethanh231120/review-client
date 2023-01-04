@@ -5,10 +5,11 @@ import './styles/sidebar.scss'
 import { get } from '../../api/products';
 import { RightCircleOutlined } from '@ant-design/icons'
 import _ from 'lodash'
-import { SignInContext } from './Main';
+import { SignInContext, Authenticated } from './Main';
 
-function Sidenav({ color, setVisible, profile, token, logout }) {
+function Sidenav({ color, setVisible, profile, logout }) {
   const signContext = useContext(SignInContext)
+  const authenticated = useContext(Authenticated)
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
 
@@ -156,7 +157,7 @@ function Sidenav({ color, setVisible, profile, token, logout }) {
           </React.Fragment>
         ))}
       </Menu>
-      {token ? (
+      {authenticated?.isAuthenticated ? (
         <div className='sidebar-account'>
           <span className='menu-header-account' style={{ display: 'flex', alignItems: 'center' }}>
             {profile}

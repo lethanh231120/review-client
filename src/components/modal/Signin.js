@@ -1,52 +1,40 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Modal } from 'antd'
 import FacebookLogin from 'react-facebook-login'
 import { setCookie, STORAGEKEY } from '../../utils/storage'
 import { post } from '../../api/products'
-import { SignInContext } from '../layout/Main'
+import { SignInContext, Authenticated } from '../layout/Main'
 import './signin.scss'
 
 const Signin = ({ openModalSignin }) => {
   const signinContext = useContext(SignInContext)
+  const authenticated = useContext(Authenticated)
   
   const responseFacebook = async(response) => {
-      // const dataSignup = {
-      //   'userId': response?.userID,
-      //   'userName': response?.name,
-      //   'email': response?.email,
-      //   'password': 'facebook',
-      //   'accountType': 'facebook',
-      //   'image': response?.picture?.data?.url
-      // }
+    if (response?.accessToken) {
       const dataSignin = {
-        'userId': response?.userID,
         'email': response?.email,
-        'password': 'facebook',
-        'accountType': 'facebook'
+        'accountType': 'facebook',
+        'password': response?.accessToken,
+        'userId': response?.userID,
+        'userName': response?.name,
+        'image': response?.picture?.data?.url
       }
-  
-      console.log(response)
+      
       try {
-        // const signup = await post('reviews/auth/signup', dataSignup)
-        // if (signup?.status) {
-          const signin = await post('reviews/auth/signin', dataSignin)
-          console.log(signin)
+        const signin = await post('reviews/auth/signin', dataSignin)
+        if (signin) {
           const token = signin?.data.jwt.token
           const userInfo = signin?.data.profile
-          // const accountId = signin?.data[1]?.id
-          // if (token) {
-            await setCookie(STORAGEKEY.ACCESS_TOKEN, token)
-            // const userInfo = await get(`reviews/profile/accountId=${accountId}`)
-            // if (userInfo) {
-              // await setCookie(STORAGEKEY.USER_INFO, userInfo?.data)
-              await setCookie(STORAGEKEY.USER_INFO, userInfo)
-            // }
-            signinContext?.handleSetOpenModal(false)
-          // }
-        // }
+          setCookie(STORAGEKEY.ACCESS_TOKEN, token)
+          setCookie(STORAGEKEY.USER_INFO, userInfo)
+          signinContext?.handleSetOpenModal(false)
+          authenticated.handleSetAuthenticated(true)
+        }
       } catch (error) {
         console.log('lỗi')
       }
+    }
   }
 
   return (

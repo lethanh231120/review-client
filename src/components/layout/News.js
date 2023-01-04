@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Image } from "antd";
+import { Image } from "antd";
 import '../../pages/styles/home.scss'
 import { get } from '../../api/products';
-import iconGear5 from '../../assets/images/icon-gear5.png'
 import moment from 'moment';
 
 const News = () => {
@@ -16,7 +15,6 @@ const News = () => {
         getArticle()
     }, [])
 
-    console.log(articles)
     return (
         <>
             <div className="home-new-title">News</div>
@@ -30,8 +28,8 @@ const News = () => {
                             <div className="home-new-card-news-content-info">
                                 {item?.tagList?.length > 0 && (
                                     <div className='home-new-card-news-content-tag'>
-                                        {item?.tagList?.map((item) => (
-                                            <span style={{ color: 'blue', marginRight: '0.5rem' }}>#{item}</span>
+                                        {item?.tagList?.map((item, index) => (
+                                            <span key={index} style={{ color: 'blue', marginRight: '0.5rem' }}>#{item}</span>
                                         ))}
                                     </div>
                                 )}

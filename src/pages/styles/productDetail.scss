@@ -132,7 +132,12 @@
                 display: flex;
                 align-items: flex-end;
                 padding: 0.5rem 0;
+                justify-content: right;
                 &-item{
+                    position: relative;
+                    &:hover .product-detail-form-icon-emoji{
+                        display: block;
+                    }
                     & .ant-image{
                         width: 2rem;
                         height: 2rem;
@@ -154,6 +159,16 @@
                     & .ant-upload.ant-upload-select{
                         display: block;
                     }
+                }
+            }
+            &-icon{
+                &-emoji{
+                    position: absolute;
+                    z-index: 9999;
+                    bottom: 0%;
+                    right: 100%;
+                    padding: 0 0.5rem;
+                    display: none;
                 }
             }
             &-image{
@@ -463,9 +478,9 @@
         }
     }
 }
-.ant-upload-list{
-    display: none;
-}
+// .ant-upload-list{
+//     display: none;
+// }
 .EmojiPickerReact .epr-header .epr-header-overlay{
     display: none;
 }

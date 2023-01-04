@@ -1,13 +1,11 @@
 import React from 'react'
 import './projectSearch.scss'
 import { Image } from 'antd'
-import { useNavigate } from 'react-router-dom'
 import scam from '../../../assets/images/scam.png'
 import warning from '../../../assets/images/warning.png'
 import { Link } from 'react-router-dom'
 
 const ProjectSearch = ({ data }) => {
-  const navigate = useNavigate()
   return (
     <>
       <Link to={`../../../products/${data?.id}`} className='project-search'>
