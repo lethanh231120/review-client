@@ -129,7 +129,7 @@ const ReplyComment = ({ data, productId, userInfo }) => {
               handleClickReaction={handleClickReaction}
             />
             <span className='review-item-action-item-time'>
-              {moment.utc(newData?.review?.updatedDate).fromNow(true)}
+              {moment.utc(newData?.review?.updatedDate).fromNow()}
             </span>
           </div>
           {!_.isEmpty(newData?.reactions) && (
