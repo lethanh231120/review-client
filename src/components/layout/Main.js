@@ -164,7 +164,7 @@ const Main = () => {
                       overflowX: 'hidden',
                     }}>
                     <Routes>
-                      <Route path='' element={<Home />} />
+                      <Route path='/' element={<Home />} />
                       <Route path='filter'>
                         <Route path=''element={<CategoryItem />} />
                         <Route path=':keyword' element={<CategoryItem />} />
