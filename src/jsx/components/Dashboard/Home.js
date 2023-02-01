@@ -61,7 +61,7 @@ const Home = () => {
                 <div className="card-body">
                   <div className="buy-coin  bubles-down">
                     <div>
-                      <h2>Buy & Sell 100+ Coins Instantly</h2>
+                      <h2>Buy & Sell 10000+ Coins Instantly</h2>
                       <p>
                         Lorem Ipsum is simply dummy text of the printing and
                         typesetting industry. Lorem Ipsum has been.
