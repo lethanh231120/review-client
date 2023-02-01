@@ -4,6 +4,7 @@ import { getCookie, STORAGEKEY } from '../utils/storage/index'
 const getUrlPrefix = () => '/'
 
 const authorizationText = 'Authorization'
+const bearerText = 'Bearer'
 
 const instanceSearch = axios.create({
   baseURL: process.env.REACT_APP_API_SEARCH
@@ -23,15 +24,15 @@ const instancePrice = axios.create({
 
 const setHeaderSearch = async() => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
-  instanceSearch.defaults.headers.common[authorizationText] = `Bearer ${token}`
+  instanceSearch.defaults.headers.common[authorizationText] = `${bearerText} ${token}`
 }
 const setHeaderRead = async() => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
-  instanceRead.defaults.headers.common[authorizationText] = `Bearer ${token}`
+  instanceRead.defaults.headers.common[authorizationText] = `${bearerText} ${token}`
 }
 const setHeaderWrite = async() => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
-  instanceWrite.defaults.headers.common[authorizationText] = `Bearer ${token}`
+  instanceWrite.defaults.headers.common[authorizationText] = `${bearerText} ${token}`
 }
 
 const search = async(url, params = {}) => {
