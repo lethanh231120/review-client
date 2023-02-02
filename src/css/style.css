@@ -30359,7 +30359,8 @@ div#mCSB_1 {
       padding: 0.625rem 0.0625rem; } }
 
 @media only screen and (max-width: 74.9375rem) {
-  padding: 0.9375rem 0.625rem; }
+  /* padding: 0.9375rem 0.625rem; */
+}
 
 @media only screen and (max-width: 61.9375rem) {
   .nav .nav-item .nav-link {
