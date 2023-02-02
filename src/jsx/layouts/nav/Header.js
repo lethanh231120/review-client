@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { Link } from 'react-router-dom'
@@ -14,9 +14,11 @@ import { Link } from 'react-router-dom'
 
 import LogoutPage from './Logout'
 
-import United from '../../../images/United.png'
+import imgMoon from '../../../images/moon.png'
+import imgSun from '../../../images/sun.png'
 import avatar from '../../../images/avatar/1.jpg'
 import profile from '../../../images/profile/pic1.jpg'
+import { ThemeContext } from '../../../context/ThemeContext'
 
 const NotificationBlog = ({ classChange }) => {
   return (
@@ -57,7 +59,7 @@ const NotificationBlog = ({ classChange }) => {
 }
 
 const Header = ({ onNote }) => {
-  const [rightSelect, setRightSelect] = useState('Eng')
+  const [isLightTheme, setIsLightTheme] = useState(true)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
   useEffect(() => {
@@ -65,6 +67,21 @@ const Header = ({ onNote }) => {
       setheaderFix(window.scrollY > 50)
     })
   }, [])
+
+  const { changeBackground, backgroundOption } = useContext(ThemeContext)
+
+  const onChangeTheme = () => {
+    // only 2 state: light or dark in config
+    if (backgroundOption.length === 2) {
+      // Current: Light theme --> change to Dark theme
+      if (isLightTheme) {
+        changeBackground(backgroundOption[1]) // { value: 'dark', label: 'Dark' }
+      } else { // Current: Dark theme --> change to Light theme
+        changeBackground(backgroundOption[0]) // { value: 'light', label: 'Light' }
+      }
+      setIsLightTheme(!isLightTheme)
+    }
+  }
 
   return (
     <div className={`header ${headerFix ? 'is-fixed' : ''}`}>
@@ -74,7 +91,7 @@ const Header = ({ onNote }) => {
             {/* header: search elk input */}
             <div className='navbar-nav header-right col-lg-12'>
               <div className='nav-item d-flex align-items-center col-lg-12'>
-                <div className='input-group search-area full-width'>
+                <div className='input-group search-area full-width' >
                   <span className='input-group-text'>
                     <Link to={'#'}>
                       <svg
@@ -102,28 +119,8 @@ const Header = ({ onNote }) => {
             {/* side-bar right */}
             <div className='header-right'>
               <div className='dz-side-menu'>
-                <div className='search-coundry d-flex align-items-center'>
-                  <img src={United} alt='' className='mx-2' />
-                  <Dropdown className='sidebar-dropdown me-2 mt-2'>
-                    <Dropdown.Toggle
-                      as='div'
-                      className='i-false sidebar-select'
-                    >
-                      {rightSelect}{' '}
-                      <i className='fa-solid fa-angle-down ms-2' />
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => setRightSelect('Eng')}>
-                        Eng
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => setRightSelect('Af')}>
-                        Af
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => setRightSelect('Al')}>
-                        Al
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                <div className='search-coundry d-flex align-items-center' onClick={() => onChangeTheme() }>
+                  <img src={isLightTheme ? imgMoon : imgSun} alt='' className='mx-2' />
                 </div>
                 <div className='sidebar-social-link '>
                   <ul className=''>
