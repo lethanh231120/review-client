@@ -112,7 +112,7 @@ const Header = ({ onNote }) => {
             </div>
             <div className='navbar-nav header-right'>
               <div className='nav-item d-flex align-items-center'>
-                <div className='input-group search-area'>
+                <div className='input-group search-area '>
                   <span className='input-group-text'>
                     <Link to={'#'}>
                       <svg
@@ -131,7 +131,7 @@ const Header = ({ onNote }) => {
                   </span>
                   <input
                     type='text'
-                    className='form-control'
+                    className='form-control '
                     placeholder='Search here...'
                   />
                 </div>
