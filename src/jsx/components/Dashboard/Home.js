@@ -125,24 +125,7 @@ const Home = () => {
               <div>
                 <h2 className='heading'>BTC Chart</h2>
                 <div className='market-data'>
-                  <div className='income data'>
-                    <span>This Month</span>
-                    <h4>$29.999.00</h4>
-                  </div>
-                  <div className='price data'>
-                    <span>Price</span>
-                    <h4>
-                          480 <sub>- 0,5%</sub>
-                    </h4>
-                  </div>
-                  <div className='rate data'>
-                    <span>Rate</span>
-                    <h4>-0.0662%/hr</h4>
-                  </div>
-                  <div className='volume data'>
-                    <span>volume</span>
-                    <h4>175k</h4>
-                  </div>
+
                 </div>
               </div>
 

@@ -1,5 +1,5 @@
 export const SummaryCard = ({ title, number }) => {
-  return <div className='col-xl  col-lg col-sm summary-item'>
+  return <div className='col-xl col-lg col-sm summary-item'>
     <div className='widget-stat card'>
       <div className='card-body p-3'>
         <div className='media ai-icon'>

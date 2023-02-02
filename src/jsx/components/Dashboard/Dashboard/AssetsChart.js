@@ -8,6 +8,9 @@ function AssetsChart() {
       chart: {
         type: 'donut'
       },
+      tooltip: {
+        enabled: false
+      },
       plotOptions: {
         pie: {
           // expandOnClick: false,
@@ -30,7 +33,6 @@ function AssetsChart() {
               total: {
                 show: true,
                 fontSize: '12px',
-
                 fontWeight: '800',
                 fontFamily: 'Arial',
                 label: 'Total Projects',
