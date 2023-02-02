@@ -11,7 +11,7 @@ import ThemeContext from './context/ThemeContext'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <Provider store = {store}>
+    <Provider store={store}>
       <BrowserRouter basename='/react/demo'>
         <ThemeContext>
           <App />

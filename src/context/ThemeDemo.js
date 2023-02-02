@@ -1,8 +1,8 @@
 const direction = 'ltr'
 
 export const dezThemeSet = [
-  { /* Default */
-    typography: 'poppins',
+  {
+    /* Default */ typography: 'poppins',
     version: 'light',
     layout: 'vertical',
     headerBg: 'color_1',
@@ -15,8 +15,8 @@ export const dezThemeSet = [
     primary: 'color_1',
     direction: direction
   },
-  { /* Demo Theme 1 */
-    typography: 'poppins',
+  {
+    /* Demo Theme 1 */ typography: 'poppins',
     version: 'light',
     layout: 'vertical',
     headerBg: 'color_1',
@@ -30,8 +30,8 @@ export const dezThemeSet = [
     // secondary:"color_10",
     direction: direction
   },
-  { /* Demo Theme 2 */
-    typography: 'poppins',
+  {
+    /* Demo Theme 2 */ typography: 'poppins',
     version: 'light',
     layout: 'horizontal',
     navheaderBg: 'color_2',
@@ -76,7 +76,6 @@ export const dezThemeSet = [
     primary: 'color_5',
     secondary: 'color_1',
     direction: direction
-
   },
   {
     /* Demo Theme 5 */
@@ -142,6 +141,4 @@ export const dezThemeSet = [
     secondary: 'color_1',
     direction: direction
   }
-
 ]
-

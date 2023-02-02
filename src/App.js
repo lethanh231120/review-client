@@ -44,7 +44,6 @@ function App(props) {
   }, [])
 
   const routeblog = (
-
     <Routes>
       <Route path='/login' element={<Login />} />
       <Route path='/page-register' element={<SignUp />} />
@@ -96,4 +95,3 @@ const mapStateToProps = (state) => {
 
 // export default connect((mapStateToProps)(App));
 export default withRouter(connect(mapStateToProps)(App))
-

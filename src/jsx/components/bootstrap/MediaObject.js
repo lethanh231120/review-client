@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
-import {Link} from 'react-router-dom';
-/// Compoent
+import { Link } from 'react-router-dom'
+// / Compoent
 import PageTitle from '../../layouts/PageTitle'
 
-/// Image
+// / Image
 import avatar1 from '../../../images/avatar/1.jpg'
 import avatar2 from '../../../images/avatar/2.jpg'
 import avatar3 from '../../../images/avatar/3.jpg'
@@ -13,7 +13,7 @@ import avatar5 from '../../../images/avatar/5.jpg'
 import avatar6 from '../../../images/avatar/6.jpg'
 import avatar8 from '../../../images/avatar/8.jpg'
 
-/// Bootstrap
+// / Bootstrap
 import { Row, Col, Card, Media } from 'react-bootstrap'
 
 const UiMediaObject = () => {
@@ -83,7 +83,7 @@ const UiMediaObject = () => {
                     <p className='mb-0'>{text}</p>
 
                     <Media className='mt-4'>
-                      <Link to={"#"} className='pe-3' >
+                      <Link to={'#'} className='pe-3'>
                         <img
                           className=''
                           width='60'

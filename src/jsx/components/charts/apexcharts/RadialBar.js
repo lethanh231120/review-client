@@ -1,17 +1,17 @@
-import React from "react";
-import ReactApexChart from "react-apexcharts";
+import React from 'react'
+import ReactApexChart from 'react-apexcharts'
 
 class ApexRedialBar extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       series: [81],
       options: {
         chart: {
           height: 300,
-          type: "radialBar",
-          offsetY: -10,
+          type: 'radialBar',
+          offsetY: -10
         },
         plotOptions: {
           radialBar: {
@@ -19,53 +19,53 @@ class ApexRedialBar extends React.Component {
             endAngle: 135,
             dataLabels: {
               name: {
-                fontSize: "16px",
+                fontSize: '16px',
                 color: undefined,
-                offsetY: 120,
+                offsetY: 120
               },
               value: {
                 offsetY: 0,
-                fontSize: "34px",
-                color: "#9568ff",
-                formatter: function (val) {
-                  return val + "%";
-                },
-              },
-            },
-          },
+                fontSize: '34px',
+                color: '#9568ff',
+                formatter: function(val) {
+                  return val + '%'
+                }
+              }
+            }
+          }
         },
         fill: {
-          type: "gradient",
-          colors: "#9568ff",
+          type: 'gradient',
+          colors: '#9568ff',
           gradient: {
-            shade: "dark",
+            shade: 'dark',
             shadeIntensity: 0.15,
             inverseColors: false,
             opacityFrom: 1,
             opacityTo: 1,
-            stops: [0, 50, 65, 91],
-          },
+            stops: [0, 50, 65, 91]
+          }
         },
         stroke: {
           dashArray: 4,
-          colors: "#9568ff",
+          colors: '#9568ff'
         },
-        labels: [""],
-      },
-    };
+        labels: ['']
+      }
+    }
   }
 
   render() {
     return (
-      <div id="chart">
+      <div id='chart'>
         <ReactApexChart
           options={this.state.options}
           series={this.state.series}
-          type="radialBar"
+          type='radialBar'
           height={350}
         />
       </div>
-    );
+    )
   }
 }
-export default ApexRedialBar;
+export default ApexRedialBar

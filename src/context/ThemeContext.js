@@ -129,7 +129,7 @@ const ThemeContextProvider = (props) => {
     body.setAttribute('data-primary', name)
   }
   const changeSecondaryColor = (name) => {
-	  // setSecondaryColor(name);
+    // setSecondaryColor(name);
     dispatch({ secondaryColor: name })
     body.setAttribute('data-secondary', name)
   }
@@ -281,7 +281,7 @@ const ThemeContextProvider = (props) => {
     body.setAttribute('data-headerbg', 'color_1')
     body.setAttribute('data-sidebar-style', 'overlay')
     body.setAttribute('data-sidebarbg', 'color_4')
-	  body.setAttribute('data-secondary', 'color_1')
+    body.setAttribute('data-secondary', 'color_1')
     body.setAttribute('data-sidebar-position', 'fixed')
     body.setAttribute('data-header-position', 'fixed')
     body.setAttribute('data-container', 'wide')
@@ -314,11 +314,11 @@ const ThemeContextProvider = (props) => {
         containerPosition,
         directionPosition,
         fontFamily,
-	    	primaryColor,
+        primaryColor,
         secondaryColor,
         navigationHader,
-		    windowWidth,
-		    windowHeight,
+        windowWidth,
+        windowHeight,
         changePrimaryColor,
         changeSecondaryColor,
         changeNavigationHader,
@@ -345,7 +345,7 @@ const ThemeContextProvider = (props) => {
         background,
         // containerPosition_,
         containerPositionSize,
-		    setDemoTheme
+        setDemoTheme
       }}
     >
       {props.children}
@@ -354,4 +354,3 @@ const ThemeContextProvider = (props) => {
 }
 
 export default ThemeContextProvider
-

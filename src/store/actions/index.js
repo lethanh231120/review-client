@@ -1,22 +1,22 @@
 export const addTodo = (data) => {
-	return{
-		type: "ADD_TODO",
-		payload: {
-			id: new Date().getTime(),
-			data:data,
-		},
-	}
+  return {
+    type: 'ADD_TODO',
+    payload: {
+      id: new Date().getTime(),
+      data: data
+    }
+  }
 }
 export const deleteTodo = (id) => {
-	return{
-		type: "DELETE_TODO",
-		id
-	}
+  return {
+    type: 'DELETE_TODO',
+    id
+  }
 }
 export const removeTodo = () => {
-	return{
-		type: "REMOVE_TODO"
-	}
+  return {
+    type: 'REMOVE_TODO'
+  }
 }
 
 /* export const editTodo = (id) =>{

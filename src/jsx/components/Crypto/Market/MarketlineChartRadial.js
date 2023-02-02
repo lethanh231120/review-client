@@ -70,7 +70,6 @@ class MarketlineChartRadial extends React.Component {
           }
         },
         labels: ['Average Results']
-
       }
     }
   }
