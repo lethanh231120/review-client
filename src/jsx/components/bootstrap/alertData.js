@@ -103,7 +103,7 @@ const emojis = {
       <line x1='15' y1='9' x2='9' y2='15'></line>
       <line x1='9' y1='9' x2='15' y2='15'></line>
     </svg>
-  ),
+  )
 }
 
 const mainData = [
@@ -112,96 +112,96 @@ const mainData = [
     msg: 'Welcome!',
     emoji: emojis.welcome,
     variant: 'primary',
-    icon: 'mdi mdi-account-search',
+    icon: 'mdi mdi-account-search'
   },
   {
     text: 'Your profile photo updated.',
     msg: 'Done!',
     emoji: emojis.done,
     variant: 'secondary',
-    icon: 'icon icon-bell-53',
+    icon: 'icon icon-bell-53'
   },
   {
     text: 'Message has been sent.',
     msg: 'Success!',
     emoji: emojis.success,
     variant: 'success',
-    icon: 'mdi mdi-check',
+    icon: 'mdi mdi-check'
   },
   {
     text: 'You have got 5 new email.',
     msg: 'Info!',
     emoji: emojis.info,
     variant: 'info',
-    icon: 'mdi mdi-email',
+    icon: 'mdi mdi-email'
   },
   {
     text: 'Something went wrong. Please check.',
     msg: 'Error!',
     emoji: emojis.error,
     variant: 'warning',
-    icon: 'mdi mdi-alert',
+    icon: 'mdi mdi-alert'
   },
   {
     text: 'Message sending failed.',
     msg: 'Error!',
     emoji: emojis.error,
     variant: 'danger',
-    icon: 'mdi mdi-help',
+    icon: 'mdi mdi-help'
   },
   {
     text: 'You successfully read this important alert message.',
     msg: 'Error!',
     emoji: emojis.error,
     variant: 'dark',
-    icon: 'mdi mdi-settings',
+    icon: 'mdi mdi-settings'
   },
   {
     text: 'You successfully read this message..',
     msg: 'Error!',
     emoji: emojis.error,
     variant: 'light',
-    icon: 'mdi mdi-cogs',
-  },
+    icon: 'mdi mdi-cogs'
+  }
 ]
 
 const socialMediaData = [
   { name: 'Facebook', icon: 'mdi mdi-facebook' },
   { name: 'Twitter', icon: 'mdi mdi-twitter' },
   { name: 'Linkedin', icon: 'mdi mdi-linkedin' },
-  { name: 'Google Plus', icon: 'mdi mdi-google-plus' },
+  { name: 'Google Plus', icon: 'mdi mdi-google-plus' }
 ]
 const leftBigIconData = [
   {
     text: 'Welcome to your account, Dear user!         ',
     msg: 'Please confirm your email address: email@example.com',
     variant: 'primary',
-    icon: 'email-alert',
+    icon: 'email-alert'
   },
   {
     text: 'Pending!',
     msg: 'You message sending failed.         ',
     variant: 'warning',
-    icon: 'help-circle-outline',
+    icon: 'help-circle-outline'
   },
   {
     text: 'Congratulations!         ',
     msg: 'You have successfully created a account.',
     variant: 'success',
-    icon: 'check-circle-outline',
+    icon: 'check-circle-outline'
   },
   {
     text: 'Loading failed!         ',
     msg: 'Again upload your server         ',
     variant: 'danger',
-    icon: 'alert',
-  },
+    icon: 'alert'
+  }
 ]
 
 const data = {
   mainData,
   socialMediaData,
-  leftBigIconData,
+  leftBigIconData
 }
 
 export default data

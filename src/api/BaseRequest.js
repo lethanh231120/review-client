@@ -6,35 +6,35 @@ const getUrlPrefix = () => '/'
 const authorizationText = 'Authorization'
 
 const instanceSearch = axios.create({
-  baseURL: process.env.REACT_APP_API_SEARCH
+  baseURL: process.env.REACT_APP_API_SEARCH,
 })
 
 const instanceWrite = axios.create({
-  baseURL: process.env.REACT_APP_API_WRITE
+  baseURL: process.env.REACT_APP_API_WRITE,
 })
 
 const instanceRead = axios.create({
-  baseURL: process.env.REACT_APP_API_READ
+  baseURL: process.env.REACT_APP_API_READ,
 })
 
 const instancePrice = axios.create({
-  baseURL: process.env.REACT_APP_API_PRICE
+  baseURL: process.env.REACT_APP_API_PRICE,
 })
 
-const setHeaderSearch = async() => {
+const setHeaderSearch = async () => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
   instanceSearch.defaults.headers.common[authorizationText] = `Bearer ${token}`
 }
-const setHeaderRead = async() => {
+const setHeaderRead = async () => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
   instanceRead.defaults.headers.common[authorizationText] = `Bearer ${token}`
 }
-const setHeaderWrite = async() => {
+const setHeaderWrite = async () => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
   instanceWrite.defaults.headers.common[authorizationText] = `Bearer ${token}`
 }
 
-const search = async(url, params = {}) => {
+const search = async (url, params = {}) => {
   try {
     await setHeaderSearch()
     const config = { params: params }
@@ -45,7 +45,7 @@ const search = async(url, params = {}) => {
   }
 }
 
-const get = async(url, params = {}) => {
+const get = async (url, params = {}) => {
   try {
     await setHeaderRead()
     const config = { params: params }
@@ -55,7 +55,7 @@ const get = async(url, params = {}) => {
     return _errorHandler(error)
   }
 }
-const getPrice = async(url, params = {}) => {
+const getPrice = async (url, params = {}) => {
   try {
     const config = { params: params }
     const response = await instancePrice.get(getUrlPrefix() + url, config)
@@ -65,7 +65,7 @@ const getPrice = async(url, params = {}) => {
   }
 }
 
-const read = async(url, data = {}) => {
+const read = async (url, data = {}) => {
   try {
     await setHeaderRead()
     const response = await instanceRead.post(getUrlPrefix() + url, data)
@@ -75,7 +75,7 @@ const read = async(url, data = {}) => {
   }
 }
 
-const put = async(url, data = {}) => {
+const put = async (url, data = {}) => {
   try {
     await setHeaderWrite()
     let response = {}
@@ -85,8 +85,8 @@ const put = async(url, data = {}) => {
       response = await instanceWrite.put(getUrlPrefix() + url, data, {
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       })
     }
     return _responseHandler(response)
@@ -95,7 +95,7 @@ const put = async(url, data = {}) => {
   }
 }
 
-const post = async(url, data = {}) => {
+const post = async (url, data = {}) => {
   try {
     await setHeaderWrite()
     const response = await instanceWrite.post(getUrlPrefix() + url, data)
@@ -105,7 +105,7 @@ const post = async(url, data = {}) => {
   }
 }
 
-const del = async(url, data = {}) => {
+const del = async (url, data = {}) => {
   try {
     await setHeaderWrite()
     const response = await instanceWrite.delete(getUrlPrefix() + url, { data })
@@ -115,7 +115,7 @@ const del = async(url, data = {}) => {
   }
 }
 
-const patch = async(url, data = {}) => {
+const patch = async (url, data = {}) => {
   try {
     await setHeaderWrite()
     let response = {}
@@ -125,8 +125,8 @@ const patch = async(url, data = {}) => {
       response = await instanceWrite.patch(getUrlPrefix() + url, data, {
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       })
     }
     return _responseHandler(response)

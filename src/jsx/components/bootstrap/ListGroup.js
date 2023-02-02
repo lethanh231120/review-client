@@ -1,34 +1,34 @@
-import React, { Fragment } from "react";
-import PageTitle from "../../layouts/PageTitle";
-import { Row, Card, Col, ListGroup, Badge, Tab } from "react-bootstrap";
+import React, { Fragment } from 'react'
+import PageTitle from '../../layouts/PageTitle'
+import { Row, Card, Col, ListGroup, Badge, Tab } from 'react-bootstrap'
 
 const UiListGroup = () => {
   const listItem = [
-    "Cras justo odio",
-    "Dapibus ac facilisis in",
-    "Morbi leo risus",
-    "Porta ac consectetur ac",
-    "Vestibulum at eros",
-  ];
+    'Cras justo odio',
+    'Dapibus ac facilisis in',
+    'Morbi leo risus',
+    'Porta ac consectetur ac',
+    'Vestibulum at eros'
+  ]
   return (
     <Fragment>
       <PageTitle
-        activeMenu="List Group"
-        motherMenu="Bootstrap"
-        pageContent="List Group"
+        activeMenu='List Group'
+        motherMenu='Bootstrap'
+        pageContent='List Group'
       />
       <Row>
-        <Col xl="4">
+        <Col xl='4'>
           <Card>
             <Card.Header>
               <Card.Title>Basic List Group</Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="basic-list-group">
-                <ListGroup as="ul">
+              <div className='basic-list-group'>
+                <ListGroup as='ul'>
                   {listItem.map((list, i) => (
                     <Fragment key={i}>
-                      <ListGroup.Item as="li">{list}</ListGroup.Item>
+                      <ListGroup.Item as='li'>{list}</ListGroup.Item>
                     </Fragment>
                   ))}
                 </ListGroup>
@@ -36,22 +36,22 @@ const UiListGroup = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col xl="4">
+        <Col xl='4'>
           <Card>
             <Card.Header>
               <Card.Title>List Active items</Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="basic-list-group">
-                <ListGroup as="ul">
+              <div className='basic-list-group'>
+                <ListGroup as='ul'>
                   {listItem.map((list, i) => (
                     <Fragment key={i}>
                       {i === 0 ? (
-                        <ListGroup.Item as="li" active>
+                        <ListGroup.Item as='li' active>
                           {list}
                         </ListGroup.Item>
                       ) : (
-                        <ListGroup.Item as="li">{list}</ListGroup.Item>
+                        <ListGroup.Item as='li'>{list}</ListGroup.Item>
                       )}
                     </Fragment>
                   ))}
@@ -60,22 +60,22 @@ const UiListGroup = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col xl="4">
+        <Col xl='4'>
           <Card>
             <Card.Header>
               <Card.Title>List Disabled items</Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="basic-list-group">
-                <ListGroup as="ul">
+              <div className='basic-list-group'>
+                <ListGroup as='ul'>
                   {listItem.map((list, i) => (
                     <Fragment key={i}>
                       {i === 0 ? (
-                        <ListGroup.Item as="li" disabled>
+                        <ListGroup.Item as='li' disabled>
                           {list}
                         </ListGroup.Item>
                       ) : (
-                        <ListGroup.Item as="li">{list}</ListGroup.Item>
+                        <ListGroup.Item as='li'>{list}</ListGroup.Item>
                       )}
                     </Fragment>
                   ))}
@@ -84,13 +84,13 @@ const UiListGroup = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col xl="4">
+        <Col xl='4'>
           <Card>
             <Card.Header>
               <Card.Title>Links and buttons items</Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="basic-list-group">
+              <div className='basic-list-group'>
                 <ListGroup>
                   {listItem.map((list, i) => (
                     <Fragment key={i}>
@@ -100,8 +100,8 @@ const UiListGroup = () => {
                         </ListGroup.Item>
                       ) : i === listItem.length - 1 ? (
                         <ListGroup.Item
-						action
-                          className="list-group-item-action disabled"
+                          action
+                          className='list-group-item-action disabled'
                         >
                           {list}
                         </ListGroup.Item>
@@ -115,37 +115,37 @@ const UiListGroup = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col xl="4">
+        <Col xl='4'>
           <Card>
             <Card.Header>
               <Card.Title>Flush</Card.Title>
             </Card.Header>
             <Card.Body>
-              <ListGroup as="ul" variant="flush">
+              <ListGroup as='ul' variant='flush'>
                 {listItem.map((list, i) => (
                   <Fragment key={i}>
-                    <ListGroup.Item as="li">{list}</ListGroup.Item>
+                    <ListGroup.Item as='li'>{list}</ListGroup.Item>
                   </Fragment>
                 ))}
               </ListGroup>
             </Card.Body>
           </Card>
         </Col>
-        <Col xl="4">
+        <Col xl='4'>
           <Card>
             <Card.Header>
               <Card.Title>With badges</Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="basic-list-group">
+              <div className='basic-list-group'>
                 <ListGroup>
                   {listItem.map((list, i) => (
                     <ListGroup.Item
-                      className="d-flex justify-content-between align-items-center"
+                      className='d-flex justify-content-between align-items-center'
                       key={i}
                     >
                       {list}
-                      <Badge variant="primary" pill>
+                      <Badge variant='primary' pill>
                         {i + 1}
                       </Badge>
                     </ListGroup.Item>
@@ -155,57 +155,57 @@ const UiListGroup = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col xl="6">
+        <Col xl='6'>
           <Card>
             <Card.Header>
               <Card.Title>Custom content</Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="basic-list-group">
+              <div className='basic-list-group'>
                 <ListGroup>
                   <ListGroup.Item
                     action
                     active
-                    className="flex-column align-items-start"
+                    className='flex-column align-items-start'
                   >
-                    <div className="d-flex w-100 justify-content-between">
-                      <h5 className="mb-3 text-white">
+                    <div className='d-flex w-100 justify-content-between'>
+                      <h5 className='mb-3 text-white'>
                         List group item heading
                       </h5>
                       <small>3 days ago</small>
                     </div>
-                    <p className="mb-1">
+                    <p className='mb-1'>
                       Donec id elit non mi porta gravida at eget metus. Maecenas
                       sed diam eget risus varius blandit.
                     </p>
                     <small>Donec id elit non mi porta.</small>
                   </ListGroup.Item>
-                  <ListGroup.Item  action className="flex-column">
-                    <div className="d-flex w-100 justify-content-between">
-                      <h5 className="mb-3">List group item heading</h5>
-                      <small className="text-muted">3 days ago</small>
+                  <ListGroup.Item action className='flex-column'>
+                    <div className='d-flex w-100 justify-content-between'>
+                      <h5 className='mb-3'>List group item heading</h5>
+                      <small className='text-muted'>3 days ago</small>
                     </div>
-                    <p className="mb-1">
+                    <p className='mb-1'>
                       Donec id elit non mi porta gravida at eget metus. Maecenas
                       sed diam eget risus varius blandit.
                     </p>
-                    <small className="text-muted">
+                    <small className='text-muted'>
                       Donec id elit non mi porta.
                     </small>
                   </ListGroup.Item>
                   <ListGroup.Item
                     action
-                    className="flex-column align-items-start"
+                    className='flex-column align-items-start'
                   >
-                    <div className="d-flex w-100 justify-content-between">
-                      <h5 className="mb-3">List group item heading</h5>
-                      <small className="text-muted">3 days ago</small>
+                    <div className='d-flex w-100 justify-content-between'>
+                      <h5 className='mb-3'>List group item heading</h5>
+                      <small className='text-muted'>3 days ago</small>
                     </div>
-                    <p className="mb-1">
+                    <p className='mb-1'>
                       Donec id elit non mi porta gravida at eget metus. Maecenas
                       sed diam eget risus varius blandit.
                     </p>
-                    <small className="text-muted">
+                    <small className='text-muted'>
                       Donec id elit non mi porta.
                     </small>
                   </ListGroup.Item>
@@ -214,39 +214,39 @@ const UiListGroup = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col xl="6">
+        <Col xl='6'>
           <Card>
             <Card.Header>
               <Card.Title>Contextual</Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="basic-list-group">
-                <ListGroup as="ul">
-                  <ListGroup.Item variant="">
+              <div className='basic-list-group'>
+                <ListGroup as='ul'>
+                  <ListGroup.Item variant=''>
                     Dapibus ac facilisis in
                   </ListGroup.Item>
-                  <ListGroup.Item variant="primary">
+                  <ListGroup.Item variant='primary'>
                     This is a primary list group item
                   </ListGroup.Item>
-                  <ListGroup.Item variant="secondary">
+                  <ListGroup.Item variant='secondary'>
                     This is a secondary list group item
                   </ListGroup.Item>
-                  <ListGroup.Item variant="success">
+                  <ListGroup.Item variant='success'>
                     This is a success list group item
                   </ListGroup.Item>
-                  <ListGroup.Item variant="danger">
+                  <ListGroup.Item variant='danger'>
                     This is a danger list group item
                   </ListGroup.Item>
-                  <ListGroup.Item variant="warning">
+                  <ListGroup.Item variant='warning'>
                     This is a warning list group item
                   </ListGroup.Item>
-                  <ListGroup.Item variant="info">
+                  <ListGroup.Item variant='info'>
                     This is a info list group item
                   </ListGroup.Item>
-                  <ListGroup.Item variant="light">
+                  <ListGroup.Item variant='light'>
                     This is a light list group item
                   </ListGroup.Item>
-                  <ListGroup.Item variant="dark">
+                  <ListGroup.Item variant='dark'>
                     This is a dark list group item
                   </ListGroup.Item>
                 </ListGroup>
@@ -256,35 +256,35 @@ const UiListGroup = () => {
         </Col>
       </Row>
       <Row>
-        <div className="col-lg-12">
+        <div className='col-lg-12'>
           <Card>
             <Card.Header>
               <Card.Title>List Tab</Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="basic-list-group">
+              <div className='basic-list-group'>
                 <Row>
-                  <Tab.Container defaultActiveKey="#home">
-                    <Col lg="6" xl="2">
-                      <ListGroup className="mb-4" id="list-tab">
-                        <ListGroup.Item action href="#home">
+                  <Tab.Container defaultActiveKey='#home'>
+                    <Col lg='6' xl='2'>
+                      <ListGroup className='mb-4' id='list-tab'>
+                        <ListGroup.Item action href='#home'>
                           Home
                         </ListGroup.Item>
-                        <ListGroup.Item action href="#profile">
+                        <ListGroup.Item action href='#profile'>
                           Profile
                         </ListGroup.Item>
-                        <ListGroup.Item action href="#messages">
+                        <ListGroup.Item action href='#messages'>
                           Messages
                         </ListGroup.Item>
-                        <ListGroup.Item action href="#settings">
+                        <ListGroup.Item action href='#settings'>
                           Settings
                         </ListGroup.Item>
                       </ListGroup>
                     </Col>
-                    <Col lg="6" xl="10">
+                    <Col lg='6' xl='10'>
                       <Tab.Content>
-                        <Tab.Pane eventKey="#home">
-                          <h4 className="mb-4">Home Tab Content</h4>
+                        <Tab.Pane eventKey='#home'>
+                          <h4 className='mb-4'>Home Tab Content</h4>
                           <p>
                             Velit aute mollit ipsum ad dolor consectetur nulla
                             officia culpa adipisicing exercitation fugiat
@@ -298,8 +298,8 @@ const UiListGroup = () => {
                             aliquip veniam minim.
                           </p>
                         </Tab.Pane>
-                        <Tab.Pane eventKey="#profile">
-                          <h4 className="mb-4">Profile Tab Content</h4>
+                        <Tab.Pane eventKey='#profile'>
+                          <h4 className='mb-4'>Profile Tab Content</h4>
                           <p>
                             Cupidatat quis ad sint excepteur laborum in esse
                             qui. Et excepteur consectetur ex nisi eu do cillum
@@ -312,8 +312,8 @@ const UiListGroup = () => {
                             commodo veniam incididunt veniam ad.
                           </p>
                         </Tab.Pane>
-                        <Tab.Pane eventKey="#messages">
-                          <h4 className="mb-4">Messages Tab Content</h4>
+                        <Tab.Pane eventKey='#messages'>
+                          <h4 className='mb-4'>Messages Tab Content</h4>
                           <p>
                             Ut ut do pariatur aliquip aliqua aliquip
                             exercitation do nostrud commodo reprehenderit aute
@@ -327,8 +327,8 @@ const UiListGroup = () => {
                             laborum elit adipisicing pariatur cillum.
                           </p>
                         </Tab.Pane>
-                        <Tab.Pane eventKey="#settings">
-                          <h4 className="mb-4">Settings Tab Content</h4>
+                        <Tab.Pane eventKey='#settings'>
+                          <h4 className='mb-4'>Settings Tab Content</h4>
                           <p>
                             Irure enim occaecat labore sit qui aliquip
                             reprehenderit amet velit. Deserunt ullamco ex elit
@@ -352,7 +352,7 @@ const UiListGroup = () => {
         </div>
       </Row>
     </Fragment>
-  );
-};
+  )
+}
 
-export default UiListGroup;
+export default UiListGroup
