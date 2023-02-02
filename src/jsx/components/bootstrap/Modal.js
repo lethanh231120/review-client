@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import {Link} from 'react-router-dom';
-import { Row, Card, Col, Button, Modal, Container } from "react-bootstrap";
-import PageTitle from "../../layouts/PageTitle";
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Row, Card, Col, Button, Modal, Container } from 'react-bootstrap'
+import PageTitle from '../../layouts/PageTitle'
 
 const UiModal = () => {
-  const [basicModal, setBasicModal] = useState(false);
-  const [contentModal, setContentModal] = useState(false);
-  const [modalCentered, setModalCentered] = useState(false);
-  const [modalWithTooltip, setModalWithTooltip] = useState(false);
-  const [gridInsideModal, setGridInsideModal] = useState(false);
-  const [largeModal, setLargeModal] = useState(false);
-  const [smallModal, setSmallModal] = useState(false);
+  const [basicModal, setBasicModal] = useState(false)
+  const [contentModal, setContentModal] = useState(false)
+  const [modalCentered, setModalCentered] = useState(false)
+  const [modalWithTooltip, setModalWithTooltip] = useState(false)
+  const [gridInsideModal, setGridInsideModal] = useState(false)
+  const [largeModal, setLargeModal] = useState(false)
+  const [smallModal, setSmallModal] = useState(false)
   return (
-    <div className="h-80">
+    <div className='h-80'>
       <PageTitle
-        pageContent="Modal"
-        motherMenu={"Bootstrap"}
-        activeMenu={"Modal"}
+        pageContent='Modal'
+        motherMenu={'Bootstrap'}
+        activeMenu={'Modal'}
       />
       <Row>
         <Col>
@@ -25,7 +25,7 @@ const UiModal = () => {
               <Card.Title>Bootstrap Modal</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Card.Text className="mb-4">
+              <Card.Text className='mb-4'>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. A,
                 minima! Eligendi minima illum itaque harum aliquam vel, sunt
                 magni dolorem! Cum quaerat est cupiditate saepe quidem, fugiat
@@ -42,58 +42,54 @@ const UiModal = () => {
                 sed nulla, placeat eum ex, ducimus in. Hic quo necessitatibus
                 autem tempora provident!
               </Card.Text>
-              <div className="bootstrap-modal">
+              <div className='bootstrap-modal'>
                 {/* <!-- Button trigger modal --> */}
                 <Button
-                  variant="primary"
-                  className="mb-2 me-2"
+                  variant='primary'
+                  className='mb-2 me-2'
                   onClick={() => setBasicModal(true)}
                 >
                   Basic modal
                 </Button>
                 {/* <!-- Modal --> */}
-                <Modal className="fade" show={basicModal}>
+                <Modal className='fade' show={basicModal}>
                   <Modal.Header>
                     <Modal.Title>Modal title</Modal.Title>
                     <Button
-                      variant=""
-                      className="btn-close"
+                      variant=''
+                      className='btn-close'
                       onClick={() => setBasicModal(false)}
-                    >
-                      
-                    </Button>
+                    ></Button>
                   </Modal.Header>
                   <Modal.Body>Modal body text goes here.</Modal.Body>
                   <Modal.Footer>
                     <Button
                       onClick={() => setBasicModal(false)}
-                      variant="danger light"
+                      variant='danger light'
                     >
                       Close
                     </Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant='primary'>Save changes</Button>
                   </Modal.Footer>
                 </Modal>
 
                 {/* <!-- Button trigger modal --> */}
                 <Button
-                  variant="primary"
-                  className="mb-2 me-2"
+                  variant='primary'
+                  className='mb-2 me-2'
                   onClick={() => setContentModal(true)}
                 >
                   Long content Modal
                 </Button>
                 {/* <!-- Modal --> */}
-                <Modal className="fade" show={contentModal}>
+                <Modal className='fade' show={contentModal}>
                   <Modal.Header>
                     <Modal.Title>Modal title</Modal.Title>
                     <Button
-                      variant=""
-                      className="btn-close"
+                      variant=''
+                      className='btn-close'
                       onClick={() => setContentModal(false)}
-                    >
-                      
-                    </Button>
+                    ></Button>
                   </Modal.Header>
                   <Modal.Body>
                     <p>
@@ -201,34 +197,32 @@ const UiModal = () => {
                   </Modal.Body>
                   <Modal.Footer>
                     <Button
-                      variant="danger light"
+                      variant='danger light'
                       onClick={() => setContentModal(false)}
                     >
                       Close
                     </Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant='primary'>Save changes</Button>
                   </Modal.Footer>
                 </Modal>
                 {/* <!-- Button trigger modal --> */}
                 <Button
-                  variant="primary"
-                  type="button"
-                  className="mb-2 me-2"
+                  variant='primary'
+                  type='button'
+                  className='mb-2 me-2'
                   onClick={() => setModalCentered(true)}
                 >
                   Modal centered
                 </Button>
                 {/* <!-- Modal --> */}
-                <Modal className="fade" show={modalCentered}>
+                <Modal className='fade' show={modalCentered}>
                   <Modal.Header>
                     <Modal.Title>Modal title</Modal.Title>
                     <Button
                       onClick={() => setModalCentered(false)}
-                      variant=""
-                      className="btn-close"
-                    >
-                      
-                    </Button>
+                      variant=''
+                      className='btn-close'
+                    ></Button>
                   </Modal.Header>
                   <Modal.Body>
                     <p>
@@ -241,129 +235,128 @@ const UiModal = () => {
                   <Modal.Footer>
                     <Button
                       onClick={() => setModalCentered(false)}
-                      variant="danger light"
+                      variant='danger light'
                     >
                       Close
                     </Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant='primary'>Save changes</Button>
                   </Modal.Footer>
                 </Modal>
 
                 {/* <!-- Button trigger modal --> */}
                 <Button
-                  variant="primary"
-                  className="mb-2 me-2"
+                  variant='primary'
+                  className='mb-2 me-2'
                   onClick={() => setModalWithTooltip(true)}
                 >
                   Modal with tooltip
                 </Button>
                 {/* <!-- Modal --> */}
-                <Modal className="fade" show={modalWithTooltip}>
+                <Modal className='fade' show={modalWithTooltip}>
                   <Modal.Header>
                     <Modal.Title>Modal title</Modal.Title>
                     <Button
-                      variant=""
-                      className="btn-close"
+                      variant=''
+                      className='btn-close'
                       onClick={() => setModalWithTooltip(false)}
-                    >
-                      
-                    </Button>
+                    ></Button>
                   </Modal.Header>
                   <Modal.Body>
                     <h5>Popover in a modal</h5>
                     <p>
-                      This{" "}
-                      <Link to={"#"} 
-                        role="button"
-                        data-container="body"
-                        data-toggle="popover"
-                        className="btn btn-secondary popover-test"
-                        title="Popover title"
-                        data-content="Popover body content is set in this attribute."
+                      This{' '}
+                      <Link
+                        to={'#'}
+                        role='button'
+                        data-container='body'
+                        data-toggle='popover'
+                        className='btn btn-secondary popover-test'
+                        title='Popover title'
+                        data-content='Popover body content is set in this attribute.'
                       >
                         button
-                      </Link>{" "}
+                      </Link>{' '}
                       triggers a popover on click.
                     </p>
                     <hr />
                     <h5>Tooltips in a modal</h5>
                     <p>
-                      <Link to={"#"}
-                        className="tooltip-test text-primary"
-                        data-toggle="tooltip"
-                        title="Told you!"
+                      <Link
+                        to={'#'}
+                        className='tooltip-test text-primary'
+                        data-toggle='tooltip'
+                        title='Told you!'
                       >
                         This link
-                      </Link>{" "}
-                      and{" "}
-                      <Link to={"#"}
-                        className="tooltip-test text-primary"
-                        data-toggle="tooltip"
-                        title="Another one!"
+                      </Link>{' '}
+                      and{' '}
+                      <Link
+                        to={'#'}
+                        className='tooltip-test text-primary'
+                        data-toggle='tooltip'
+                        title='Another one!'
                       >
                         that link
-                      </Link>{" "}
+                      </Link>{' '}
                       have tooltips on hover.
                     </p>
                   </Modal.Body>
                   <Modal.Footer>
                     <Button
-                      variant="danger light"
+                      variant='danger light'
                       onClick={() => setModalWithTooltip(false)}
                     >
                       Close
                     </Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant='primary'>Save changes</Button>
                   </Modal.Footer>
                 </Modal>
 
                 {/* <!-- Button trigger modal --> */}
                 <Button
-                  variant="primary"
-                  className="mb-2 me-2"
+                  variant='primary'
+                  className='mb-2 me-2'
                   onClick={() => setGridInsideModal(true)}
                 >
                   Grid Inside Modal
                 </Button>
                 {/* <!-- Modal --> */}
-                <Modal className="fade" show={gridInsideModal}>
+                <Modal className='fade' show={gridInsideModal}>
                   <Modal.Header>
                     <Modal.Title>Modal title</Modal.Title>
                     <Button
-                      variant=""
-                      className="btn-close"
+                      variant=''
+                      className='btn-close'
                       onClick={() => setGridInsideModal(false)}
-                    >
-                      
-                    </Button>
+                    ></Button>
                   </Modal.Header>
                   <Modal.Body>
                     <Container>
                       <Row>
-                        <Col md="4">.col-md-4</Col>
-                        <Col md="4" className="ms-auto">
+                        <Col md='4'>.col-md-4</Col>
+                        <Col md='4' className='ms-auto'>
                           .col-md-4 .ms-auto
                         </Col>
                       </Row>
                       <Row>
-                        <Col md="3" className="ms-auto">
+                        <Col md='3' className='ms-auto'>
                           .col-md-3 .ms-auto
                         </Col>
-                        <Col md="2" className="ms-auto">
+                        <Col md='2' className='ms-auto'>
                           .col-md-2 .ms-auto
                         </Col>
                       </Row>
                       <Row>
-                        <Col md="6" className="ms-auto">
+                        <Col md='6' className='ms-auto'>
                           .col-md-6 .ms-auto
                         </Col>
                       </Row>
                       <Row>
-                        <Col sm="9">
+                        <Col sm='9'>
                           Level 1: .col-sm-9
                           <Row>
-                            <Col sm="6">Level 2: .col-8 .col-sm-6</Col>
-                            <Col sm="6">Level 2: .col-4 .col-sm-6</Col>
+                            <Col sm='6'>Level 2: .col-8 .col-sm-6</Col>
+                            <Col sm='6'>Level 2: .col-4 .col-sm-6</Col>
                           </Row>
                         </Col>
                       </Row>
@@ -371,50 +364,48 @@ const UiModal = () => {
                   </Modal.Body>
                   <Modal.Footer>
                     <Button
-                      variant="danger light"
+                      variant='danger light'
                       onClick={() => setGridInsideModal(false)}
                     >
                       Close
                     </Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant='primary'>Save changes</Button>
                   </Modal.Footer>
                 </Modal>
 
                 {/* <!-- Large modal --> */}
                 <Button
-                  variant="primary"
-                  className="mb-2 me-2"
+                  variant='primary'
+                  className='mb-2 me-2'
                   onClick={() => setLargeModal(true)}
                 >
                   Large modal
                 </Button>
                 <Modal
-                  className="fade bd-example-modal-lg"
+                  className='fade bd-example-modal-lg'
                   show={largeModal}
-                  size="lg"
+                  size='lg'
                 >
                   <Modal.Header>
                     <Modal.Title>Modal title</Modal.Title>
                     <Button
-                      variant=""
-                      className="btn-close"
+                      variant=''
+                      className='btn-close'
                       onClick={() => setLargeModal(false)}
-                    >
-                      
-                    </Button>
+                    ></Button>
                   </Modal.Header>
                   <Modal.Body>Modal body text goes here.</Modal.Body>
                   <Modal.Footer>
                     <Button
-                      variant="danger light"
+                      variant='danger light'
                       onClick={() => setLargeModal(false)}
                     >
                       Close
                     </Button>
                     <Button
-                      variant=""
-                      type="button"
-                      className="btn btn-primary"
+                      variant=''
+                      type='button'
+                      className='btn btn-primary'
                     >
                       Save changes
                     </Button>
@@ -423,36 +414,34 @@ const UiModal = () => {
 
                 {/* <!-- Small modal --> */}
                 <Button
-                  variant="primary"
-                  className="mb-2 me-2"
+                  variant='primary'
+                  className='mb-2 me-2'
                   onClick={() => setSmallModal(true)}
                 >
                   Small modal
                 </Button>
                 <Modal
-                  className="fade bd-example-modal-sm"
-                  size="sm"
+                  className='fade bd-example-modal-sm'
+                  size='sm'
                   show={smallModal}
                 >
                   <Modal.Header>
                     <Modal.Title>Modal title</Modal.Title>
                     <Button
-                      variant=""
-                      className="btn-close"
+                      variant=''
+                      className='btn-close'
                       onClick={() => setSmallModal(false)}
-                    >
-                      
-                    </Button>
+                    ></Button>
                   </Modal.Header>
                   <Modal.Body>Modal body text goes here.</Modal.Body>
                   <Modal.Footer>
                     <Button
-                      variant="danger light"
+                      variant='danger light'
                       onClick={() => setSmallModal(false)}
                     >
                       Close
                     </Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant='primary'>Save changes</Button>
                   </Modal.Footer>
                 </Modal>
               </div>
@@ -461,7 +450,7 @@ const UiModal = () => {
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
-export default UiModal;
+export default UiModal

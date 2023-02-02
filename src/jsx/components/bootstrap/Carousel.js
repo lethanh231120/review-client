@@ -1,10 +1,10 @@
 import React from 'react'
 import { Fragment } from 'react'
 
-/// Page Title
+// / Page Title
 import PageTitle from '../../layouts/PageTitle'
 
-/// Images
+// / Images
 import img1 from '../../../images/big/img1.jpg'
 import img2 from '../../../images/big/img2.jpg'
 import img3 from '../../../images/big/img3.jpg'
@@ -13,22 +13,22 @@ import img5 from '../../../images/big/img5.jpg'
 import img6 from '../../../images/big/img6.jpg'
 import img7 from '../../../images/big/img7.jpg'
 
-/// Bootstrap
+// / Bootstrap
 import { Row, Col, Card, Carousel } from 'react-bootstrap'
 
-/// carousel data
+// / carousel data
 const carousel1 = [img1, img2, img3]
 const carousel2 = [
   { img: img2, text: 'First' },
   { img: img3, text: 'Second' },
-  { img: img4, text: 'Third' },
+  { img: img4, text: 'Third' }
 ]
 const carousel3 = [img3, img4, img5]
-//const carousel4 = [img4, img5, img6]
+// const carousel4 = [img4, img5, img6]
 const carousel5 = [
   { img: img5, text: 'First' },
   { img: img6, text: 'Second' },
-  { img: img7, text: 'Third' },
+  { img: img7, text: 'Third' }
 ]
 
 const UiCarousel = () => {

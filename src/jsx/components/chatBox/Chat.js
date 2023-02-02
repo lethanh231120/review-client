@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-/// Images
+// / Images
 import avatar1 from '../../../images/avatar/1.jpg'
 import avatar2 from '../../../images/avatar/2.jpg'
 import avatar3 from '../../../images/avatar/3.jpg'

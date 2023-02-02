@@ -1,16 +1,16 @@
-import React from "react";
-//import { geoCentroid } from "d3-geo";
+import React from 'react'
+//  import { geoCentroid } from "d3-geo";
 import {
   ComposableMap,
   Geographies,
-  Geography,
- // Marker,
-  //Annotation
-} from "react-simple-maps";
+  Geography
+  // Marker,
+  // Annotation
+} from 'react-simple-maps'
 
-//import allStates from "./allstates.json";
+//  import allStates from "./allstates.json";
 
-const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
+const geoUrl = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json'
 
 /* const offsets = {
   VT: [50, -8],
@@ -26,24 +26,23 @@ const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
 const MapChart = () => {
   return (
-    <ComposableMap projection="geoAlbersUsa">
+    <ComposableMap projection='geoAlbersUsa'>
       <Geographies geography={geoUrl}>
         {({ geographies }) => (
           <>
-            {geographies.map(geo => (
+            {geographies.map((geo) => (
               <Geography
                 key={geo.rsmKey}
-                stroke="#FFF"
+                stroke='#FFF'
                 geography={geo}
-                fill="#eff2f4"
+                fill='#eff2f4'
               />
             ))}
-            
           </>
         )}
       </Geographies>
     </ComposableMap>
-  );
-};
+  )
+}
 
-export default MapChart;
+export default MapChart

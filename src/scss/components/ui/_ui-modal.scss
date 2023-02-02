@@ -1,7 +1,7 @@
 // .modal{
 //     border: 0;
 //     z-index: 9999999999;
-    
+
 //     &-content{
 //         border: 0;
 //         box-shadow: 0rem 0.125rem 1.3125rem 0.375rem rgba(70, 66, 66, 0.26);
@@ -59,12 +59,6 @@
 //     }
 // }
 
-
-
-
-
-
-
 // .bootstrap-modal-wrapper{
 
 //     button:not(:last-child){
@@ -80,29 +74,29 @@
 //     }
 // }
 
-.modal-header{
-	padding: 1rem 1.875rem;
+.modal-header {
+  padding: 1rem 1.875rem;
 
-	.close{
-		padding: 0.875rem 1.815rem;
-		margin: 0;
-		position: absolute;
-		right: 0;
-		float: none;
-		top: 0;
-		font-size: 1.875rem;
-		font-weight: 100;
-	}
+  .close {
+    padding: 0.875rem 1.815rem;
+    margin: 0;
+    position: absolute;
+    right: 0;
+    float: none;
+    top: 0;
+    font-size: 1.875rem;
+    font-weight: 100;
+  }
 }
-.modal-body{
-	padding: 1.875rem;
+.modal-body {
+  padding: 1.875rem;
 }
-.modal-footer{
-	padding: 1rem 1.875rem;
+.modal-footer {
+  padding: 1rem 1.875rem;
 }
-.modal-content{
-	border-radius:$radius;
+.modal-content {
+  border-radius: $radius;
 }
-.modal-backdrop{
-    z-index: 10!important;
+.modal-backdrop {
+  z-index: 10 !important;
 }

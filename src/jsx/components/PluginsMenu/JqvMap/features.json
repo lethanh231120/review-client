@@ -20,7 +20,7 @@
           "secondProperty": "Something else"
         }
       },
-      { "type": "Feature", "geometry": {...}, "properties": {...} },
-      { "type": "Feature", "geometry": {...}, "properties": {...} }
+      { "type": "Feature", "geometry": "{...}", "properties": "{...}" },
+      { "type": "Feature", "geometry": "{...}", "properties": "{...}" }
     ]
   }

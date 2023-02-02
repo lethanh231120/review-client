@@ -1,9 +1,9 @@
-import React from "react";
-import ReactApexChart from "react-apexcharts";
+import React from 'react'
+import ReactApexChart from 'react-apexcharts'
 
 class ApexPie4 extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       series: [42, 47, 52, 58],
@@ -11,57 +11,57 @@ class ApexPie4 extends React.Component {
       options: {
         chart: {
           // width: 300,
-          type: "polarArea",
+          type: 'polarArea',
           sparkline: {
-            enabled: true,
-          },
+            enabled: true
+          }
         },
-        labels: ["VIP", "Reguler", "Exclusive", "Economic"],
+        labels: ['VIP', 'Reguler', 'Exclusive', 'Economic'],
         fill: {
           opacity: 1,
-          colors: ["#709fba", "#9568ff", "#44814e", "#3693ff"],
+          colors: ['#709fba', '#9568ff', '#44814e', '#3693ff']
         },
         stroke: {
           width: 0,
-          colors: undefined,
+          colors: undefined
         },
         yaxis: {
-          show: false,
+          show: false
         },
         legend: {
-          position: "bottom",
+          position: 'bottom'
         },
         plotOptions: {
           polarArea: {
             rings: {
-              strokeWidth: 0,
-            },
-          },
+              strokeWidth: 0
+            }
+          }
         },
         theme: {
           monochrome: {
             enabled: true,
-            shadeTo: "light",
-            shadeIntensity: 0.6,
-          },
-        },
-      },
-    };
+            shadeTo: 'light',
+            shadeIntensity: 0.6
+          }
+        }
+      }
+    }
   }
 
   render() {
     return (
-      <div id="chart">
+      <div id='chart'>
         <ReactApexChart
           options={this.state.options}
           series={this.state.series}
-          type="polarArea"
+          type='polarArea'
           height={251}
           // width={300}
         />
       </div>
-    );
+    )
   }
 }
 
-export default ApexPie4;
+export default ApexPie4

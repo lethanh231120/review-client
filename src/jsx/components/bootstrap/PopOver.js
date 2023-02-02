@@ -1,23 +1,23 @@
-import React from "react";
-import PageTitle from "../../layouts/PageTitle";
+import React from 'react'
+import PageTitle from '../../layouts/PageTitle'
 import {
   Row,
   Col,
   Card,
-  Popover,
+  // Popover,
   Tooltip,
   OverlayTrigger,
-  Button,
-} from "react-bootstrap";
+  Button
+} from 'react-bootstrap'
 
 const UiPopOver = () => {
-  let width = window.innerWidth;
+  const width = window.innerWidth
   return (
-    <div className="h-80">
+    <div className='h-80'>
       <PageTitle
-        activeMenu="Popover"
-        pageContent="Popover"
-        motherMenu="Bootstrap"
+        activeMenu='Popover'
+        pageContent='Popover'
+        motherMenu='Bootstrap'
       />
       <Row>
         <Col>
@@ -46,42 +46,46 @@ const UiPopOver = () => {
                 Distinctio itaque, veniam dolore inventore aliquid assumenda
                 neque. Deserunt!
               </Card.Text>
-              <div className="bootstrap-popover-wrapper">
-                <div className="bootstrap-popover d-inline-block">
-                  {["Left", "Top", "Bottom", "Right"].map((placement, i) => (
+              <div className='bootstrap-popover-wrapper'>
+                <div className='bootstrap-popover d-inline-block'>
+                  {['Left', 'Top', 'Bottom', 'Right'].map((placement, i) => (
                     <OverlayTrigger
-                      trigger="click"
+                      trigger='click'
                       key={i}
                       placement={
                         width < 1300 && width > 700
-                          ? placement === "Left"
-                            ? "right"
+                          ? placement === 'Left'
+                            ? 'right'
                             : placement.toLowerCase()
                           : width < 700
-                          ? placement === "Right"
-                            ? "top"
-                            : width < 385
-                            ? placement === "Left"
-                              ? "bottom"
-                              : placement.toLowerCase()
+                            ? placement === 'Right'
+                              ? 'top'
+                              : width < 385
+                                ? placement === 'Left'
+                                  ? 'bottom'
+                                  : placement.toLowerCase()
+                                : placement.toLowerCase()
                             : placement.toLowerCase()
-                          : placement.toLowerCase()
                       }
                       responsive={true}
                       overlay={
-						 <Tooltip className='toltip-popover'
-								id={`popover-positioned-${placement.toLowerCase()}`}
-							>
-							<h3 className='popover-header'>{`Popover on ${placement}`}</h3> 
-							<strong>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.
-							</strong>
-						</Tooltip>  
-						  
-                        
+                        <Tooltip
+                          className='toltip-popover'
+                          id={`popover-positioned-${placement.toLowerCase()}`}
+                        >
+                          <h3 className='popover-header'>{`Popover on ${placement}`}</h3>
+                          <strong>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit, sed do eiusmod tempor.
+                          </strong>
+                        </Tooltip>
                       }
                     >
-                      <Button variant="primary" size="sm" className="me-2 mt-3 px-4">
+                      <Button
+                        variant='primary'
+                        size='sm'
+                        className='me-2 mt-3 px-4'
+                      >
                         {placement}
                       </Button>
                     </OverlayTrigger>
@@ -93,7 +97,7 @@ const UiPopOver = () => {
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
-export default UiPopOver;
+export default UiPopOver
