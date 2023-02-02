@@ -8502,7 +8502,7 @@ label {
   @media only screen and (max-width: 87.5rem) {
     .nav-header {
       height: 5.5rem;
-      width: 18rem; } }
+      width: 19.5rem; } }
   .nav-header .brand-logo {
     display: flex;
     height: 100%;
@@ -11718,7 +11718,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     overflow-y: scroll; }
   @media only screen and (max-width: 87.5rem) {
     .deznav {
-      width: 18.5rem; } }
+      width: 19.5rem; } }
   .deznav ul {
     padding: 0;
     margin: 0;
@@ -11837,7 +11837,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
         transition: all 0.5s; }
         @media only screen and (max-width: 84.375rem) {
           .deznav .metismenu ul a {
-            padding-left: 3.8rem; } }
+            padding-left: 3.5rem; } }
         @media only screen and (max-width: 47.9375rem) {
           .deznav .metismenu ul a {
             padding-left: 3.4rem;
@@ -11850,7 +11850,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
           position: absolute;
           left: 1.8rem;
           top: 50%;
-          transform: translateY(-50%);
+          transform: translateY(-30%);
           -webkit-transition: all 0.5s;
           -ms-transition: all 0.5s;
           transition: all 0.5s; }
@@ -11872,7 +11872,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
           top: 50%;
           left: 1.75rem;
           border-radius: 3.75rem;
-          transform: translateY(-50%); }
+          transform: translateY(-30%); }
           @media only screen and (max-width: 84.375rem) {
             .deznav .metismenu ul a:before {
               left: 2.8125rem; } }

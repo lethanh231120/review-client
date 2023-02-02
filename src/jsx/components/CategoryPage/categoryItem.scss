@@ -1,0 +1,81 @@
+.category{
+    &-page{
+        // padding: 3rem 2rem;
+        margin-bottom: 3rem;
+    }
+    &-list{
+        // background: #fff;
+        // border-radius: 2rem;
+        max-width: 137rem;
+        margin: 0px auto;
+        // padding: 2rem;
+        // box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        &-title{
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.6);
+            padding: 0 1.5rem;
+        }
+        & .ant-input-affix-wrapper{
+            padding: 0.6rem 1.5rem;
+            border-radius: 0.8rem;
+        }
+        & .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover{
+            border-color: #039F7F;
+        }
+        & .ant-input-affix-wrapper:focus, .ant-input-affix-wrapper-focused{
+            border-color: #039F7F;
+            box-shadow: 0 0 0 2px #039f8037;
+        }
+        & .ant-tabs-tab{
+            font-size: 1.6rem;
+        }
+    }
+    &-paginate{
+        padding: 3rem 0;
+        text-align: center;
+        & .ant-pagination-item-active{
+            border-color: #00826889;
+            & a{
+                color: #00826889;
+            }
+        }
+        & .ant-pagination-item:focus-visible, .ant-pagination-item:hover{
+            border-color: #00826889;
+        }
+        & .ant-pagination-item:focus-visible a, .ant-pagination-item:hover a{
+            color: #00826889;
+        }
+        & .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
+            border-radius: 50%;
+        }
+        & .ant-pagination-prev:focus-visible .ant-pagination-item-link, .ant-pagination-next:focus-visible .ant-pagination-item-link, .ant-pagination-prev:hover .ant-pagination-item-link, .ant-pagination-next:hover .ant-pagination-item-link{
+            border-color: #00826889;
+            color: #00826889;
+        }
+        & .ant-pagination-item{
+            border-radius: 50%;
+        }
+    }
+}
+.spin{
+    height: 100vh;
+}
+
+
+@media (max-width: 1400px) {
+    .category{
+        &-page{
+            padding: 3rem 2rem;
+        }
+    }
+}
+@media (max-width: 1200px) {
+    .category{
+        &-page{
+            padding: 2rem;
+        }
+    }
+}
+
+  

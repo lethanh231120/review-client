@@ -1,0 +1,385 @@
+import React, { useRef, useState, useEffect } from 'react'
+import './categoryItem.scss'
+import { useParams } from 'react-router-dom'
+// import { Pagination, Empty, Row, Col, Tabs, Input } from 'antd'
+// import nodata from '../../assets/images/nodata.png'
+// import { SearchOutlined } from '@ant-design/icons'
+// import _ from 'lodash'
+// import Scam from '../detail-product/scam/Scam'
+import Dapp from '../table/dapp/Dapp'
+import Exchange from '../table/exchange/Exchange'
+import Crypto from '../table/crypto/Crypto'
+import Venture from '../table/venture/Venture'
+import Soon from '../table/soon/Soon'
+import {
+  DAPP,
+  EXCHANGE,
+  CRYPTO,
+  SOON,
+  SCAM,
+  VENTURE,
+  CRYPTO_COIN,
+  CRYPTO_TOKEN
+} from '../../constants/category'
+import { get, search } from '../../../api/BaseRequest'
+// import SpinLoading from '../layout/spin-loading/SpinLoading'
+// import { search } from '../../api/BaseRequest'
+// import TabSearch from './TabSearch'
+import { PAGE_SIZE } from '../../constants/pagination'
+// import { PAGE_SIZE, MAX_PAGE } from '../../constants/pagination'
+// import { useNavigate } from 'react-router-dom'
+import { decodeUrl } from '../../../utils/formatUrl'
+
+const CategoryItem = () => {
+  // const navigate = useNavigate()
+  const refabc = useRef()
+  const [listProduct, setListProduct] = useState({})
+  const [total, setTotal] = useState()
+  const [loading, setLoading] = useState(true)
+  const [params, setParams] = useState()
+  const { category, subCategory, keyword } = useParams()
+  // const [keywordSearch, setKeyWordSearch] = useState(keyword)
+
+  useEffect(() => {
+    const getData = async() => {
+      if (category) {
+        switch (category) {
+          case DAPP:
+            setParams({
+              page: 1,
+              sort: 'desc',
+              orderBy: 'score',
+              tag: subCategory || ''
+            })
+            break
+          case CRYPTO:
+            setParams({
+              type:
+                subCategory === CRYPTO_COIN || subCategory === CRYPTO_TOKEN
+                  ? subCategory
+                  : '',
+              tag:
+                subCategory && subCategory !== CRYPTO_COIN && subCategory !== CRYPTO_TOKEN
+                  ? subCategory
+                  : '',
+              orderBy: 'score',
+              sort: 'desc',
+              page: 1
+            })
+            break
+          case EXCHANGE:
+            setParams({
+              page: 1,
+              sort: 'desc',
+              orderBy: 'score',
+              tag: subCategory || ''
+            })
+            break
+          case VENTURE:
+            setParams({
+              location: '',
+              orderBy: 'score',
+              sort: 'desc',
+              page: 1
+            })
+            break
+          case SOON:
+            setParams({
+              roundType: '',
+              tag: subCategory || '',
+              orderBy: 'startDate',
+              sort: 'desc',
+              page: 1
+            })
+            break
+          default:
+            break
+        }
+      }
+    }
+    getData()
+  }, [category, subCategory])
+
+  const getData = async(category, paramSort) => {
+    // /*reset for loading*/
+    setListProduct([])
+    paramSort['tag'] = decodeUrl(paramSort?.tag)
+    switch (category) {
+      case DAPP: {
+        const dataDapp = await get('reviews/dapp/filter', paramSort)
+        setListProduct(dataDapp?.data?.dApps)
+        setTotal(dataDapp?.data?.dAppCount)
+        return
+      }
+      case CRYPTO: {
+        const dataCrypto = await get('reviews/crypto/filter', paramSort)
+        setListProduct(dataCrypto?.data?.cryptos)
+        setTotal(dataCrypto?.data?.cryptoCount)
+        return
+      }
+      case EXCHANGE: {
+        const dataExchange = await get('reviews/exchange/filter', paramSort)
+        setListProduct(dataExchange?.data?.exchanges)
+        setTotal(dataExchange?.data?.exchangeCount)
+        return
+      }
+      case VENTURE: {
+        const dataVenture = await get('reviews/venture/filter', paramSort)
+        setListProduct(dataVenture?.data?.ventures)
+        setTotal(dataVenture?.data?.ventureCount)
+        return
+      }
+      case SOON: {
+        const dataSoon = await get('reviews/soon/filter', paramSort)
+        setListProduct(dataSoon?.data?.soons)
+        setTotal(dataSoon?.data?.soonCount)
+        return
+      }
+      case SCAM: {
+        const dataScam = await get('reviews/scam/filter', paramSort)
+        setListProduct(dataScam?.data?.cryptos)
+        setTotal(dataScam?.data?.cryptoCount)
+        return
+      }
+      default:
+        break
+    }
+    setLoading(false)
+  }
+
+  // const handleChangePage = async(value) => {
+  //   setParams({
+  //     ...params,
+  //     page: value
+  //   })
+  // }
+
+  const handleChangeTable = (pagination, filters, sorter, extra) => {
+    let sort
+    if (sorter?.order) {
+      sort = {
+        ...params,
+        sort: params?.sort === 'asc' ? 'desc' : 'asc',
+        orderBy: sorter?.field
+      }
+    } else {
+      if (category === SOON) {
+        sort = {
+          ...params,
+          sort: 'desc',
+          orderBy: 'fundRaisingGoals'
+        }
+      } else {
+        sort = {
+          ...params,
+          sort: 'desc',
+          orderBy: 'score'
+        }
+      }
+    }
+    setParams(sort)
+  }
+
+  const renderComponent = (item) => {
+    let projectType = category
+    if (projectType === SCAM) {
+      let commonItemId = ''
+      if (item?.dAppId) commonItemId = item.dAppId
+      // soon project
+      else if (item?.projectId) {
+        commonItemId = item.projectId
+      } else if (item?.ventureId) {
+        commonItemId = item.ventureId
+      } else if (item?.cryptoId) {
+        commonItemId = item.cryptoId
+      } else if (item?.exchangeId) {
+        commonItemId = item.exchangeId
+      }
+      // sample common item id: 'gear5_exchange_tokocrypto_coinmarketcap'
+      const parts = commonItemId.split('_')
+      // need keyword above: exchange
+      if (parts.length >= 2) {
+        projectType = parts[1]
+        // path API token, coin (product id) is detail screen of crypto
+        if (projectType === CRYPTO_TOKEN || projectType === CRYPTO_COIN) {
+          projectType = CRYPTO
+        }
+      }
+    }
+    switch (projectType) {
+      case DAPP:
+        return (
+          <div className='col-12'>
+            <Dapp
+              listProduct={listProduct}
+              handleChangeTable={handleChangeTable}
+              params={params}
+              loading={loading}
+              handleFilter={handleFilter}
+              total={total}
+            />
+          </div>
+        )
+      case CRYPTO:
+        return (
+          <div className='col-12'>
+            <Crypto
+              listProduct={listProduct}
+              handleChangeTable={handleChangeTable}
+              params={params}
+              loading={loading}
+              handleFilter={handleFilter}
+              total={total}
+            />
+          </div>
+        )
+      case EXCHANGE:
+        return (
+          <div className='col-12'>
+            <Exchange
+              listProduct={listProduct}
+              handleChangeTable={handleChangeTable}
+              params={params}
+              loading={loading}
+              handleFilter={handleFilter}
+              total={total}
+            />
+          </div>
+        )
+      case VENTURE:
+        return (
+          <div className='col-12'>
+            <Venture
+              listProduct={listProduct}
+              handleChangeTable={handleChangeTable}
+              params={params}
+              loading={loading}
+              handleFilter={handleFilter}
+              total={total}
+            />
+          </div>
+        )
+      case SOON:
+        return (
+          <div className='col-12'>
+            <Soon
+              listProduct={listProduct}
+              handleChangeTable={handleChangeTable}
+              params={params}
+              loading={loading}
+              handleFilter={handleFilter}
+              total={total}
+            />
+          </div>
+        )
+      // get common item id fail above, project type not overridden, still value SCAM
+      // case SCAM:
+      //   return (
+      //     <div className='col-12'>
+      //       <Scam listProduct={listProduct} />
+      //     </div>
+      //   )
+      default:
+        break
+    }
+  }
+
+  // change param(tag: in state)
+  useEffect(() => {
+    // params['tag'] = params['tag'] + '123'
+    // setParams(params)
+    setLoading(true)
+    params && getData(category, params)
+  }, [params, category])
+
+  const handleFilter = (param) => {
+    setParams({
+      ...params,
+      ...param,
+      page: params?.page
+    })
+  }
+
+  // const handleChangeInput = (e) => {
+  //   setKeyWordSearch(e.target.value)
+  // }
+
+  const getDataSearch = async(content) => {
+    const data = await search('search/suggest', { keyword: content })
+    if (data) {
+      setListProduct(data?.data)
+      setLoading(false)
+      // setKeyWordSearch()
+    }
+  }
+
+  useEffect(() => {
+    if (keyword) {
+      setLoading(true)
+      getDataSearch(keyword)
+    }
+  }, [keyword])
+
+  // const handleSubmitSearch = (e) => {
+  //   if (e.key === 'Enter') {
+  //     navigate(`/search/${keywordSearch}`, { replace: true })
+  //   }
+  // }
+
+  // const handleSubmitBtn = () => {
+  //   navigate(`/search/${keywordSearch}`, { replace: true })
+  // }
+
+  return (
+    <div className='category-page section' ref={refabc}>
+      <div className='category-list detail'>
+        <div className='row'>
+          {/* {keyword ? (
+            <Col span={24}>
+              <Row>
+                <Col md={{ span: 16 }} sm={{ span: 14 }} xs={{ span: 24 }}></Col>
+                <Col md={{ span: 8 }} sm={{ span: 10 }} xs={{ span: 24 }}>
+                  <Input
+                    value={keywordSearch}
+                    placeholder={keyword}
+                    onChange={handleChangeInput}
+                    onKeyPress={handleSubmitSearch}
+                    suffix={<SearchOutlined onClick={handleSubmitBtn} />}
+                  />
+                </Col>
+              </Row>
+              <TabSearch listProduct={listProduct} loading={loading} />
+            </Col>
+          ) : ( */}
+          <>
+            {/* {loading ? (
+              <SpinLoading />
+            ) : ( */}
+            <>{renderComponent(listProduct && listProduct[0])}</>
+            {/* )} */}
+          </>
+          {/* )} */}
+        </div>
+      </div>
+      {total > PAGE_SIZE && (
+        <>
+          {!loading && (
+            <div className='category-paginate'>
+              {/* <Pagination
+                total={
+                  total > MAX_PAGE * PAGE_SIZE ? MAX_PAGE * PAGE_SIZE : total
+                }
+                current={params?.page}
+                pageSize={PAGE_SIZE}
+                showSizeChanger={false}
+                onChange={(value) => handleChangePage(value)}
+              /> */}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  )
+}
+
+export default CategoryItem

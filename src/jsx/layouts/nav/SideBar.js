@@ -232,6 +232,7 @@ const SideBar = () => {
             if (menuClass === 'menu-title') {
               return (
                 <li className={menuClass} key={index}>
+                  {console.log(data)}
                   {data.title}
                 </li>
               )
@@ -245,7 +246,7 @@ const SideBar = () => {
                 >
                   {data.content && data.content.length > 0 ? (
                     <Link
-                      to={'#'}
+                      to={data?.to}
                       className='has-arrow'
                       onClick={() => {
                         handleMenuActive(data.title)

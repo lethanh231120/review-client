@@ -53,9 +53,9 @@
 
   @include respond('laptop') {
     height: 5.5rem;
-    width: 17rem;
+    width: 19rem;
   }
-  .brand-logo {
+  .brand-logo { 
     display: flex;
     height: 100%;
     width: 100%;

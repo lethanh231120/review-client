@@ -116,6 +116,9 @@ import SortingTable from './components/table/SortingTable/SortingTable'
 import FilteringTable from './components/table/FilteringTable/FilteringTable'
 import BootstrapTable from './components/table/BootstrapTable'
 
+// categoryItem
+import CategoryItem from './components/CategoryPage/CategoryItem'
+
 // / Form
 import Element from './components/Forms/Element/Element'
 import Wizard from './components/Forms/Wizard/Wizard'
@@ -244,6 +247,56 @@ const Markup = () => {
     { url: 'table-filtering', component: <FilteringTable /> },
     { url: 'table-sorting', component: <SortingTable /> },
     { url: 'table-bootstrap-basic', component: <BootstrapTable /> }
+
+    // // crypto projects
+    // { url: ':category', component: <CategoryItem /> },
+    // { url: ':category:subCategory', component: <CategoryItem /> },
+    // { url: 'crypto/Binance+Ecosystem', component: <CategoryItem /> },
+    // { url: 'crypto/Centralized+Exchange', component: <CategoryItem /> },
+    // { url: 'crypto/Cronos+Ecosystem', component: <CategoryItem /> },
+    // { url: 'crypto/Cryptocurrency', component: <CategoryItem /> },
+    // { url: 'crypto/Decentralized+Exchange', component: <CategoryItem /> },
+    // { url: 'crypto/Decentralized+Finance', component: <CategoryItem /> },
+    // { url: 'crypto/Ethereum+Ecosystem', component: <CategoryItem /> },
+    // { url: 'crypto/Gambling', component: <CategoryItem /> },
+    // { url: 'crypto/Games', component: <CategoryItem /> },
+    // { url: 'crypto/Meme', component: <CategoryItem /> },
+    // { url: 'crypto/NFT', component: <CategoryItem /> },
+    // { url: 'crypto/Polygon+Ecosystem', component: <CategoryItem /> },
+    // { url: 'crypto/Solana+Ecosystem', component: <CategoryItem /> },
+
+    // // dapp
+    // { url: 'dapp', component: <CategoryItem /> },
+    // { url: 'dapp/Collectibles', component: <CategoryItem /> },
+    // { url: 'dapp/Defi', component: <CategoryItem /> },
+    // { url: 'dapp/Exchange', component: <CategoryItem /> },
+    // { url: 'dapp/Gambling', component: <CategoryItem /> },
+    // { url: 'dapp/Games', component: <CategoryItem /> },
+    // { url: 'dapp/High+Risk', component: <CategoryItem /> },
+    // { url: 'dapp/Marketplaces', component: <CategoryItem /> },
+    // { url: 'dapp/Social', component: <CategoryItem /> },
+    // { url: 'dapp/Other', component: <CategoryItem /> },
+
+    // // venture
+    // { url: 'venture', component: <CategoryItem /> },
+
+    // // Exchanges
+    // { url: 'exchanges', component: <CategoryItem /> },
+    // { url: 'exchanges/CEX', component: <CategoryItem /> },
+    // { url: 'exchanges/DEX', component: <CategoryItem /> },
+
+    // // SOON
+    // { url: 'soon', component: <CategoryItem /> },
+    // { url: 'soon/Blockchain', component: <CategoryItem /> },
+    // { url: 'soon/Crypto', component: <CategoryItem /> },
+    // { url: 'soon/Defi', component: <CategoryItem /> },
+    // { url: 'soon/Exchange', component: <CategoryItem /> },
+    // { url: 'soon/Finance', component: <CategoryItem /> },
+    // { url: 'soon/Gamefi', component: <CategoryItem /> },
+    // { url: 'soon/Marketplaces', component: <CategoryItem /> },
+    // { url: 'soon/NFT', component: <CategoryItem /> },
+    // { url: 'soon/Social+Network', component: <CategoryItem /> },
+    // { url: 'soon/Wallet', component: <CategoryItem /> }
     //
     // /// pages
     // { url: "page-register", component: Registration },
@@ -276,11 +329,19 @@ const Markup = () => {
           {allroutes.map((data, i) => (
             <Route
               key={i}
-              exact
               path={`${data.url}`}
               element={data.component}
             />
           ))}
+          <Route path=''>
+            <Route path=':category'>
+              <Route path='' element={<CategoryItem />} />
+              <Route
+                path=':subCategory'
+                element={<CategoryItem />}
+              />
+            </Route>
+          </Route>
         </Route>
       </Routes>
       <ScrollToTop />
