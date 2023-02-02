@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parserOptions: {
-    parser: '@babel/eslint-parser',
+    // parser: '@babel/eslint-parser',
     ecmaVersion: 2020,
     sourceType: 'module',
     ecmaFeatures: {
@@ -13,8 +13,8 @@ module.exports = {
     node: true,
     es6: true
   },
-  plugins: ['react'],
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  plugins: ['prettier', 'react'],
+  extends: ['prettier', 'eslint:recommended', 'plugin:react/recommended'],
   // add your custom rules here
   rules: {
     'react/react-in-jsx-scope': 'off',

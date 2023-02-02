@@ -3,23 +3,28 @@ import Nouislider from 'nouislider-react'
 import 'nouislider/distribute/nouislider.css'
 
 class NonlinerSlider extends React.Component {
-  state = {
-    color: 'rgb(127, 127, 127)',
-    textValue: null,
-    percent: null,
-    value: 0,
-    disabled: false,
-    range: {
-      min: 0,
-      max: 100,
-    },
-    ref: null,
+  constructor(props) {
+    super(props)
+    this.state = {
+      color: 'rgb(127, 127, 127)',
+      textValue: null,
+      percent: null,
+      value: 0,
+      disabled: false,
+      range: {
+        min: 0,
+        max: 100
+      },
+      ref: null
+    }
+
+    this.onSlide = this.onSlide.bind(this)
   }
 
-  onSlide = (render, handle, value, un, percent) => {
+  onSlide(render, handle, value, un, percent) {
     this.setState({
       textValue: value[0].toFixed(2),
-      percent: percent[0].toFixed(2),
+      percent: percent[0].toFixed(2)
     })
   }
   render() {
@@ -32,7 +37,7 @@ class NonlinerSlider extends React.Component {
           behaviour='tap'
           range={{
             min: [0],
-            max: [100],
+            max: [100]
           }}
           onSlide={this.onSlide}
         />

@@ -1,22 +1,22 @@
-import React from "react";
-// import { Link } from 'react-router-dom';
-import { Row, Col, Card } from "react-bootstrap";
-import LineChart from "./line";
-import AreaChart from "./area";
-import PolarChart from "./polar";
-import DonutChart from "./donut";
-import { Fragment } from "react";
-import PageTitle from "../../../layouts/PageTitle";
+import React from 'react'
+//  import { Link } from 'react-router-dom';
+import { Row, Col, Card } from 'react-bootstrap'
+import LineChart from './line'
+import AreaChart from './area'
+import PolarChart from './polar'
+import DonutChart from './donut'
+import { Fragment } from 'react'
+import PageTitle from '../../../layouts/PageTitle'
 
 function ChartChartist() {
   return (
     <Fragment>
-      <PageTitle motherMenu="Charts" activeMenu="Chartist" />
+      <PageTitle motherMenu='Charts' activeMenu='Chartist' />
       <Row>
         <Col xl={6} lg={6}>
           <Card>
             <Card.Header>
-              <h4 className="card-title">Line</h4>
+              <h4 className='card-title'>Line</h4>
             </Card.Header>
             <Card.Body>
               <LineChart />
@@ -27,7 +27,7 @@ function ChartChartist() {
         <Col xl={6} lg={6}>
           <Card>
             <Card.Header>
-				<h4 className="card-title">Area</h4>
+              <h4 className='card-title'>Area</h4>
             </Card.Header>
             <Card.Body>
               <AreaChart />
@@ -38,7 +38,7 @@ function ChartChartist() {
         <Col xl={6} lg={6}>
           <Card>
             <Card.Header>
-              <h4 className="card-title">Bi Polar</h4>
+              <h4 className='card-title'>Bi Polar</h4>
             </Card.Header>
             <Card.Body>
               <PolarChart />
@@ -49,7 +49,7 @@ function ChartChartist() {
         <Col xl={6} lg={6}>
           <Card>
             <Card.Header>
-               <h4 className="card-title">Donut</h4>
+              <h4 className='card-title'>Donut</h4>
             </Card.Header>
             <Card.Body>
               <DonutChart />
@@ -58,7 +58,7 @@ function ChartChartist() {
         </Col>
       </Row>
     </Fragment>
-  );
+  )
 }
 
-export default ChartChartist;
+export default ChartChartist

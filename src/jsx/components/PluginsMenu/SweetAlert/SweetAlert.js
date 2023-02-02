@@ -1,26 +1,25 @@
-//import swalMessage from "@sweetalert/with-react";
-import React, { Fragment } from "react";
-import swal from "sweetalert";
-import PageTitle from "../../../layouts/PageTitle";
+// import swalMessage from "@sweetalert/with-react";
+import React, { Fragment } from 'react'
+import swal from 'sweetalert'
+import PageTitle from '../../../layouts/PageTitle'
 
 const MainSweetAlert = () => {
   return (
     <Fragment>
-		
-      <PageTitle activeMenu="Sweet Alert" motherMenu="Plugins" />
-	
-      <div className="row">
-        <div className="col-xl-3 col-xxl-4 col-lg-4 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sweet Wrong</h4>
-              <div className="card-content">
-                <div className="sweetalert">
+      <PageTitle activeMenu='Sweet Alert' motherMenu='Plugins' />
+
+      <div className='row'>
+        <div className='col-xl-3 col-xxl-4 col-lg-4 col-md-6'>
+          <div className='card'>
+            <div className='card-body'>
+              <h4 className='card-title'>Sweet Wrong</h4>
+              <div className='card-content'>
+                <div className='sweetalert'>
                   <button
                     onClick={() =>
-                      swal("Oops", "Something went wrong!", "error")
+                      swal('Oops', 'Something went wrong!', 'error')
                     }
-                    className="btn btn-danger btn sweet-wrong"
+                    className='btn btn-danger btn sweet-wrong'
                   >
                     Sweet Wrong
                   </button>
@@ -29,13 +28,13 @@ const MainSweetAlert = () => {
             </div>
           </div>
         </div>
-        <div className="col-xl-3 col-xxl-4 col-lg-4 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sweet Message</h4>
-              <div className="card-content">
-                <div className="sweetalert">
-                    {/* <button
+        <div className='col-xl-3 col-xxl-4 col-lg-4 col-md-6'>
+          <div className='card'>
+            <div className='card-body'>
+              <h4 className='card-title'>Sweet Message</h4>
+              <div className='card-content'>
+                <div className='sweetalert'>
+                  {/* <button
                                 onClick={() =>
                                   swalMessage(
                                     <div>
@@ -47,26 +46,23 @@ const MainSweetAlert = () => {
                               >
                                 Sweet Message
                     </button> */}
-				          <button
-                    onClick={() =>
-                      swal("Hey, Here's a message !!", "")
-                    }
-                    className="btn btn-info btn sweet-message"
+                  <button
+                    onClick={() => swal("Hey, Here's a message !!", '')}
+                    className='btn btn-info btn sweet-message'
                   >
                     Sweet Message
-                 </button>
-				
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-xl-3 col-xxl-4 col-lg-4 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sweet Text</h4>
-              <div className="card-content">
-                <div className="sweetalert ">
+        <div className='col-xl-3 col-xxl-4 col-lg-4 col-md-6'>
+          <div className='card'>
+            <div className='card-body'>
+              <h4 className='card-title'>Sweet Text</h4>
+              <div className='card-content'>
+                <div className='sweetalert '>
                   {/* <button
                         onClick={() =>
                           swalMessage(
@@ -80,11 +76,11 @@ const MainSweetAlert = () => {
                       >
                         Sweet Text
                   </button> */}
-				          <button
+                  <button
                     onClick={() =>
                       swal("Hey, Here's a message !!", "It's pretty, isn't it?")
                     }
-                    className="btn btn-primary btn sweet-text"
+                    className='btn btn-primary btn sweet-text'
                   >
                     Sweet Text
                   </button>
@@ -93,17 +89,17 @@ const MainSweetAlert = () => {
             </div>
           </div>
         </div>
-        <div className="col-xl-3 col-xxl-4 col-lg-4 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sweet Success</h4>
-              <div className="card-content">
-                <div className="sweetalert">
+        <div className='col-xl-3 col-xxl-4 col-lg-4 col-md-6'>
+          <div className='card'>
+            <div className='card-body'>
+              <h4 className='card-title'>Sweet Success</h4>
+              <div className='card-content'>
+                <div className='sweetalert'>
                   <button
                     onClick={() =>
-                      swal("Good job!", "You clicked the button!", "success")
+                      swal('Good job!', 'You clicked the button!', 'success')
                     }
-                    className="btn btn-success btn sweet-success"
+                    className='btn btn-success btn sweet-success'
                   >
                     Sweet Success
                   </button>
@@ -113,32 +109,31 @@ const MainSweetAlert = () => {
           </div>
         </div>
 
-        <div className="col-xl-3 col-xxl-4 col-lg-4 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sweet Confirm</h4>
-              <div className="card-content">
-                <div className="sweetalert ">
+        <div className='col-xl-3 col-xxl-4 col-lg-4 col-md-6'>
+          <div className='card'>
+            <div className='card-body'>
+              <h4 className='card-title'>Sweet Confirm</h4>
+              <div className='card-content'>
+                <div className='sweetalert '>
                   <button
                     onClick={() =>
                       swal({
-                        title: "Are you sure?",
-                        text:
-                          "Once deleted, you will not be able to recover this imaginary file!",
-                        icon: "warning",
+                        title: 'Are you sure?',
+                        text: 'Once deleted, you will not be able to recover this imaginary file!',
+                        icon: 'warning',
                         buttons: true,
-                        dangerMode: true,
+                        dangerMode: true
                       }).then((willDelete) => {
                         if (willDelete) {
-                          swal("Poof! Your imaginary file has been deleted!", {
-                            icon: "success",
-                          });
+                          swal('Poof! Your imaginary file has been deleted!', {
+                            icon: 'success'
+                          })
                         } else {
-                          swal("Your imaginary file is safe!");
+                          swal('Your imaginary file is safe!')
                         }
                       })
                     }
-                    className="btn btn-warning btn sweet-confirm"
+                    className='btn btn-warning btn sweet-confirm'
                   >
                     Sweet Confirm
                   </button>
@@ -147,32 +142,31 @@ const MainSweetAlert = () => {
             </div>
           </div>
         </div>
-        <div className="col-xl-3 col-xxl-4 col-lg-4 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sweet Confirm Or Cancel</h4>
-              <div className="card-content">
-                <div className="sweetalert">
+        <div className='col-xl-3 col-xxl-4 col-lg-4 col-md-6'>
+          <div className='card'>
+            <div className='card-body'>
+              <h4 className='card-title'>Sweet Confirm Or Cancel</h4>
+              <div className='card-content'>
+                <div className='sweetalert'>
                   <button
                     onClick={() =>
                       swal({
-                        title: "Are you sure?",
-                        text:
-                          "Once deleted, you will not be able to recover this imaginary file!",
-                        icon: "warning",
+                        title: 'Are you sure?',
+                        text: 'Once deleted, you will not be able to recover this imaginary file!',
+                        icon: 'warning',
                         buttons: true,
-                        dangerMode: true,
+                        dangerMode: true
                       }).then((willDelete) => {
                         if (willDelete) {
-                          swal("Poof! Your imaginary file has been deleted!", {
-                            icon: "success",
-                          });
+                          swal('Poof! Your imaginary file has been deleted!', {
+                            icon: 'success'
+                          })
                         } else {
-                          swal("Your imaginary file is safe!");
+                          swal('Your imaginary file is safe!')
                         }
                       })
                     }
-                    className="btn btn-warning btn sweet-success-cancel"
+                    className='btn btn-warning btn sweet-success-cancel'
                   >
                     Sweet Confirm Or Cancel
                   </button>
@@ -181,13 +175,13 @@ const MainSweetAlert = () => {
             </div>
           </div>
         </div>
-        <div className="col-xl-3 col-xxl-4 col-lg-4 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sweet Image Message</h4>
-              <div className="card-content">
-                <div className="sweetalert">
-                {/* <button
+        <div className='col-xl-3 col-xxl-4 col-lg-4 col-md-6'>
+          <div className='card'>
+            <div className='card-body'>
+              <h4 className='card-title'>Sweet Image Message</h4>
+              <div className='card-content'>
+                <div className='sweetalert'>
+                  {/* <button
                             onClick={() =>
                               swalMessage(
                                 <div>
@@ -199,26 +193,28 @@ const MainSweetAlert = () => {
                           >
                             Sweet Image Message
                 </button> */}
-				          <button
+                  <button
                     onClick={() =>
-                      swal("Hey, Here's a message !!", "Hey, Here's a custom image !!")
+                      swal(
+                        "Hey, Here's a message !!",
+                        "Hey, Here's a custom image !!"
+                      )
                     }
-                    className="btn btn-info btn sweet-image-message"
+                    className='btn btn-info btn sweet-image-message'
                   >
                     Sweet Image Message
                   </button>
-				
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-xl-3 col-xxl-4 col-lg-4 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sweet HTML</h4>
-              <div className="card-content">
-                <div className="sweetalert">
+        <div className='col-xl-3 col-xxl-4 col-lg-4 col-md-6'>
+          <div className='card'>
+            <div className='card-body'>
+              <h4 className='card-title'>Sweet HTML</h4>
+              <div className='card-content'>
+                <div className='sweetalert'>
                   {/* <button
                               onClick={() =>
                                 swalMessage(
@@ -232,11 +228,9 @@ const MainSweetAlert = () => {
                             >
                               Sweet HTML
                   </button> */}
-				          <button
-                    onClick={() =>
-                      swal("Sweet !!", "true")
-                    }
-                    className="btn btn-primary btn sweet-html"
+                  <button
+                    onClick={() => swal('Sweet !!', 'true')}
+                    className='btn btn-primary btn sweet-html'
                   >
                     Sweet HTML
                   </button>
@@ -246,21 +240,21 @@ const MainSweetAlert = () => {
           </div>
         </div>
 
-        <div className="col-lg-4 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sweet Auto Close</h4>
-              <div className="card-content">
-                <div className="sweetalert">
+        <div className='col-lg-4 col-md-6'>
+          <div className='card'>
+            <div className='card-body'>
+              <h4 className='card-title'>Sweet Auto Close</h4>
+              <div className='card-content'>
+                <div className='sweetalert'>
                   <button
                     onClick={() =>
                       swal(
-                        "Click on either the button or outside the modal."
+                        'Click on either the button or outside the modal.'
                       ).then((value) => {
-                        swal(`The returned value is: ${value}`);
+                        swal(`The returned value is: ${value}`)
                       })
                     }
-                    className="btn btn-danger btn sweet-auto"
+                    className='btn btn-danger btn sweet-auto'
                   >
                     Sweet Auto btn-close
                   </button>
@@ -269,19 +263,19 @@ const MainSweetAlert = () => {
             </div>
           </div>
         </div>
-        <div className="col-lg-4 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sweet Prompt</h4>
-              <div className="card-content">
-                <div className="sweetalert">
+        <div className='col-lg-4 col-md-6'>
+          <div className='card'>
+            <div className='card-body'>
+              <h4 className='card-title'>Sweet Prompt</h4>
+              <div className='card-content'>
+                <div className='sweetalert'>
                   <button
                     onClick={() =>
-                      swal("Are you sure you want to do this?", {
-                        buttons: ["Oh noez!", true],
+                      swal('Are you sure you want to do this?', {
+                        buttons: ['Oh noez!', true]
                       })
                     }
-                    className="btn btn-success btn sweet-prompt"
+                    className='btn btn-success btn sweet-prompt'
                   >
                     Sweet Prompt
                   </button>
@@ -290,32 +284,31 @@ const MainSweetAlert = () => {
             </div>
           </div>
         </div>
-        <div className="col-lg-4 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sweet Ajax</h4>
-              <div className="card-content"></div>
-              <div className="sweetalert">
+        <div className='col-lg-4 col-md-6'>
+          <div className='card'>
+            <div className='card-body'>
+              <h4 className='card-title'>Sweet Ajax</h4>
+              <div className='card-content'></div>
+              <div className='sweetalert'>
                 <button
                   onClick={() =>
                     swal({
-                      title: "Are you sure?",
-                      text:
-                        "Once deleted, you will not be able to recover this imaginary file!",
-                      icon: "warning",
+                      title: 'Are you sure?',
+                      text: 'Once deleted, you will not be able to recover this imaginary file!',
+                      icon: 'warning',
                       buttons: true,
-                      dangerMode: true,
+                      dangerMode: true
                     }).then((willDelete) => {
                       if (willDelete) {
-                        swal("Poof! Your imaginary file has been deleted!", {
-                          icon: "success",
-                        });
+                        swal('Poof! Your imaginary file has been deleted!', {
+                          icon: 'success'
+                        })
                       } else {
-                        swal("Your imaginary file is safe!");
+                        swal('Your imaginary file is safe!')
                       }
                     })
                   }
-                  className="btn btn-info btn sweet-ajax"
+                  className='btn btn-info btn sweet-ajax'
                 >
                   Sweet Ajax
                 </button>
@@ -325,7 +318,7 @@ const MainSweetAlert = () => {
         </div>
       </div>
     </Fragment>
-  );
-};
+  )
+}
 
-export default MainSweetAlert;
+export default MainSweetAlert

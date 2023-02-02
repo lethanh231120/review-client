@@ -1,11 +1,11 @@
-import React, { Fragment } from "react";
-import PageTitle from "../../layouts/PageTitle";
-import { Row, Col, Card, Table } from "react-bootstrap";
+import React, { Fragment } from 'react'
+import PageTitle from '../../layouts/PageTitle'
+import { Row, Col, Card, Table } from 'react-bootstrap'
 
 const UiGrid = () => {
   return (
     <Fragment>
-      <PageTitle activeMenu="Grid" pageContent="Grid" motherMenu="Bootstrap" />
+      <PageTitle activeMenu='Grid' pageContent='Grid' motherMenu='Bootstrap' />
       <Row>
         <Col lg={12}>
           <Card>
@@ -24,36 +24,36 @@ const UiGrid = () => {
                 <thead>
                   <tr>
                     <th></th>
-                    <th className="text-center text-dark">
+                    <th className='text-center text-dark'>
                       Extra small
                       <br />
-                      <small className="text-muted">&lt;576px</small>
+                      <small className='text-muted'>&lt;576px</small>
                     </th>
-                    <th className="text-center text-dark">
+                    <th className='text-center text-dark'>
                       Small
                       <br />
-                      <small className="text-muted">≥576px</small>
+                      <small className='text-muted'>≥576px</small>
                     </th>
-                    <th className="text-center text-dark">
+                    <th className='text-center text-dark'>
                       Medium
                       <br />
-                      <small className="text-muted">≥768px</small>
+                      <small className='text-muted'>≥768px</small>
                     </th>
-                    <th className="text-center text-dark">
+                    <th className='text-center text-dark'>
                       Large
                       <br />
-                      <small className="text-muted">≥992px</small>
+                      <small className='text-muted'>≥992px</small>
                     </th>
-                    <th className="text-center text-dark">
+                    <th className='text-center text-dark'>
                       Extra large
                       <br />
-                      <small className="text-muted">≥1200px</small>
+                      <small className='text-muted'>≥1200px</small>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th className="text-nowrap text-dark" scope="row">
+                    <th className='text-nowrap text-dark' scope='row'>
                       Max container width
                     </th>
                     <td>None (auto)</td>
@@ -63,7 +63,7 @@ const UiGrid = () => {
                     <td>1140px</td>
                   </tr>
                   <tr>
-                    <th className="text-nowrap text-dark" scope="row">
+                    <th className='text-nowrap text-dark' scope='row'>
                       Class prefix
                     </th>
                     <td>
@@ -83,28 +83,28 @@ const UiGrid = () => {
                     </td>
                   </tr>
                   <tr>
-                    <th className="text-nowrap text-dark" scope="row">
+                    <th className='text-nowrap text-dark' scope='row'>
                       # of columns
                     </th>
-                    <td colSpan="5">12</td>
+                    <td colSpan='5'>12</td>
                   </tr>
                   <tr>
-                    <th className="text-nowrap text-dark" scope="row">
+                    <th className='text-nowrap text-dark' scope='row'>
                       Gutter width
                     </th>
-                    <td colSpan="5">24px (12px on each side of a column)</td>
+                    <td colSpan='5'>24px (12px on each side of a column)</td>
                   </tr>
                   <tr>
-                    <th className="text-nowrap text-dark" scope="row">
+                    <th className='text-nowrap text-dark' scope='row'>
                       Nestable
                     </th>
-                    <td colSpan="5">Yes</td>
+                    <td colSpan='5'>Yes</td>
                   </tr>
                   <tr>
-                    <th className="text-nowrap text-dark" scope="row">
+                    <th className='text-nowrap text-dark' scope='row'>
                       Column ordering
                     </th>
-                    <td colSpan="5">Yes</td>
+                    <td colSpan='5'>Yes</td>
                   </tr>
                 </tbody>
               </Table>
@@ -128,106 +128,106 @@ const UiGrid = () => {
               </p>
               <Row>
                 <Col lg={12}>
-                  <div className="grid-col mb-4">.Col-lg-12</div>
+                  <div className='grid-col mb-4'>.Col-lg-12</div>
                 </Col>
               </Row>
 
               <Row>
                 <Col xl={11}>
-                  <div className="grid-col mb-4">.Col-lg-11</div>
+                  <div className='grid-col mb-4'>.Col-lg-11</div>
                 </Col>
                 <Col xl={1}>
-                  <div className="grid-col mb-4">.Col-lg-01</div>
+                  <div className='grid-col mb-4'>.Col-lg-01</div>
                 </Col>
               </Row>
 
               <Row>
                 <Col xl={10}>
-                  <div className="grid-col mb-4">.Col-lg-10</div>
+                  <div className='grid-col mb-4'>.Col-lg-10</div>
                 </Col>
                 <Col xl={2}>
-                  <div className="grid-col mb-4">.Col-lg-02</div>
+                  <div className='grid-col mb-4'>.Col-lg-02</div>
                 </Col>
               </Row>
 
               <Row>
                 <Col xl={9}>
-                  <div className="grid-col mb-4">.Col-lg-09</div>
+                  <div className='grid-col mb-4'>.Col-lg-09</div>
                 </Col>
                 <Col xl={3}>
-                  <div className="grid-col mb-4">.Col-lg-03</div>
+                  <div className='grid-col mb-4'>.Col-lg-03</div>
                 </Col>
               </Row>
 
               <Row>
                 <Col xl={8}>
-                  <div className="grid-col mb-4">.Col-lg-08</div>
+                  <div className='grid-col mb-4'>.Col-lg-08</div>
                 </Col>
                 <Col xl={4}>
-                  <div className="grid-col mb-4">.Col-lg-04</div>
+                  <div className='grid-col mb-4'>.Col-lg-04</div>
                 </Col>
               </Row>
 
               <Row>
                 <Col xl={7}>
-                  <div className="grid-col mb-4">.Col-lg-07</div>
+                  <div className='grid-col mb-4'>.Col-lg-07</div>
                 </Col>
                 <Col xl={5}>
-                  <div className="grid-col mb-4">.Col-lg-05</div>
+                  <div className='grid-col mb-4'>.Col-lg-05</div>
                 </Col>
               </Row>
 
               <Row>
                 <Col xl={6}>
-                  <div className="grid-col mb-4">.Col-lg-06</div>
+                  <div className='grid-col mb-4'>.Col-lg-06</div>
                 </Col>
                 <Col xl={6}>
-                  <div className="grid-col mb-4">.Col-lg-06</div>
+                  <div className='grid-col mb-4'>.Col-lg-06</div>
                 </Col>
               </Row>
 
               <Row>
                 <Col xl={5}>
-                  <div className="grid-col mb-4">.Col-lg-05</div>
+                  <div className='grid-col mb-4'>.Col-lg-05</div>
                 </Col>
                 <Col xl={7}>
-                  <div className="grid-col mb-4">.Col-lg-07</div>
+                  <div className='grid-col mb-4'>.Col-lg-07</div>
                 </Col>
               </Row>
 
               <Row>
                 <Col xl={4}>
-                  <div className="grid-col mb-4">.Col-lg-04</div>
+                  <div className='grid-col mb-4'>.Col-lg-04</div>
                 </Col>
                 <Col xl={8}>
-                  <div className="grid-col mb-4">.Col-lg-08</div>
+                  <div className='grid-col mb-4'>.Col-lg-08</div>
                 </Col>
               </Row>
 
               <Row>
                 <Col xl={3}>
-                  <div className="grid-col mb-4">.Col-lg-03</div>
+                  <div className='grid-col mb-4'>.Col-lg-03</div>
                 </Col>
                 <Col xl={9}>
-                  <div className="grid-col mb-4">.Col-lg-09</div>
+                  <div className='grid-col mb-4'>.Col-lg-09</div>
                 </Col>
               </Row>
 
               <Row>
                 <Col xl={2}>
-                  <div className="grid-col mb-4">.Col-lg-02</div>
+                  <div className='grid-col mb-4'>.Col-lg-02</div>
                 </Col>
                 <Col xl={10}>
-                  <div className="grid-col mb-4">.Col-lg-10</div>
+                  <div className='grid-col mb-4'>.Col-lg-10</div>
                 </Col>
               </Row>
 
               <Row>
                 <Col xl={1}>
-                  <div className="grid-col mb-4">.Col-lg-01</div>
+                  <div className='grid-col mb-4'>.Col-lg-01</div>
                 </Col>
                 <Col xl={11}>
-                  <div className="grid-col mb-4">.Col-lg-11</div>
+                  <div className='grid-col mb-4'>.Col-lg-11</div>
                 </Col>
               </Row>
             </Card.Body>
@@ -235,7 +235,7 @@ const UiGrid = () => {
         </Col>
       </Row>
     </Fragment>
-  );
-};
+  )
+}
 
-export default UiGrid;
+export default UiGrid

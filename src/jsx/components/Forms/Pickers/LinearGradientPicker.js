@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { SketchPicker } from "react-color";
-import { GradientPickerPopover  } from "react-linear-gradient-picker";
-import 'react-linear-gradient-picker/dist/index.css';
+import React, { useState } from 'react'
+import { SketchPicker } from 'react-color'
+import { GradientPickerPopover } from 'react-linear-gradient-picker'
+import 'react-linear-gradient-picker/dist/index.css'
 
 const rgbToRgba = (rgb, a = 1) =>
-  rgb.replace("rgb(", "rgba(").replace(")", `, ${a})`);
+  rgb.replace('rgb(', 'rgba(').replace(')', `, ${a})`)
 
 const WrappedSketchPicker = ({ onSelect, ...rest }) => {
   return (
@@ -12,25 +12,25 @@ const WrappedSketchPicker = ({ onSelect, ...rest }) => {
       {...rest}
       color={rgbToRgba(rest.color, rest.opacity)}
       onChange={(c) => {
-        const { r, g, b, a } = c.rgb;
-        onSelect(`rgb(${r}, ${g}, ${b})`, a);
+        const { r, g, b, a } = c.rgb
+        onSelect(`rgb(${r}, ${g}, ${b})`, a)
       }}
     />
-  );
-};
+  )
+}
 
 const initialPallet = [
-  { offset: "0.00", color: "rgb(238, 241, 11)" },
-  { offset: "1.00", color: "rgb(126, 32, 207)" },
-];
+  { offset: '0.00', color: 'rgb(238, 241, 11)' },
+  { offset: '1.00', color: 'rgb(126, 32, 207)' }
+]
 
 const Gradient = () => {
-  const [open, setOpen] = useState(false);
-  const [angle, setAngle] = useState(90);
-  const [palette, setPalette] = useState(initialPallet);
+  const [open, setOpen] = useState(false)
+  const [angle, setAngle] = useState(90)
+  const [palette, setPalette] = useState(initialPallet)
 
   return (
-    <GradientPickerPopover 
+    <GradientPickerPopover
       {...{
         open,
         setOpen,
@@ -41,15 +41,12 @@ const Gradient = () => {
         maxStops: 3,
         paletteHeight: 32,
         palette,
-        onPaletteChange: setPalette,
+        onPaletteChange: setPalette
       }}
     >
       <WrappedSketchPicker />
-    </GradientPickerPopover >
-  );
-};
+    </GradientPickerPopover>
+  )
+}
 
-export default Gradient;
-
-
-
+export default Gradient

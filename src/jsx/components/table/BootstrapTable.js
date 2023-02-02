@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import PageTitle from "../../layouts/PageTitle";
+import React, { Fragment } from 'react'
+import PageTitle from '../../layouts/PageTitle'
 import {
   Row,
   Col,
@@ -7,51 +7,51 @@ import {
   Table,
   Badge,
   Dropdown,
-  ProgressBar,
-} from "react-bootstrap";
+  ProgressBar
+} from 'react-bootstrap'
 
-/// imge
-import avatar1 from "../../../images/avatar/1.jpg";
-import avatar2 from "../../../images/avatar/2.jpg";
-import avatar3 from "../../../images/avatar/3.jpg";
-import { Link } from "react-router-dom";
+// / imge
+import avatar1 from '../../../images/avatar/1.jpg'
+import avatar2 from '../../../images/avatar/2.jpg'
+import avatar3 from '../../../images/avatar/3.jpg'
+import { Link } from 'react-router-dom'
 
 const BootstrapTable = () => {
-  const chackbox = document.querySelectorAll(".bs_exam_topper input");
-  const motherChackBox = document.querySelector(".bs_exam_topper_all input");
+  const chackbox = document.querySelectorAll('.bs_exam_topper input')
+  const motherChackBox = document.querySelector('.bs_exam_topper_all input')
   const chackboxFun = (type) => {
     for (let i = 0; i < chackbox.length; i++) {
-      const element = chackbox[i];
-      if (type === "all") {
+      const element = chackbox[i]
+      if (type === 'all') {
         if (motherChackBox.checked) {
-          element.checked = true;
+          element.checked = true
         } else {
-          element.checked = false;
+          element.checked = false
         }
       } else {
         if (!element.checked) {
-          motherChackBox.checked = false;
-          break;
+          motherChackBox.checked = false
+          break
         } else {
-          motherChackBox.checked = true;
+          motherChackBox.checked = true
         }
       }
     }
-  };
+  }
   const svg1 = (
-    <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
-      <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-        <rect x="0" y="0" width="24" height="24"></rect>
-        <circle fill="#000000" cx="5" cy="12" r="2"></circle>
-        <circle fill="#000000" cx="12" cy="12" r="2"></circle>
-        <circle fill="#000000" cx="19" cy="12" r="2"></circle>
+    <svg width='20px' height='20px' viewBox='0 0 24 24' version='1.1'>
+      <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
+        <rect x='0' y='0' width='24' height='24'></rect>
+        <circle fill='#000000' cx='5' cy='12' r='2'></circle>
+        <circle fill='#000000' cx='12' cy='12' r='2'></circle>
+        <circle fill='#000000' cx='19' cy='12' r='2'></circle>
       </g>
     </svg>
-  );
+  )
 
   return (
     <Fragment>
-      <PageTitle activeMenu="Bootstrap" motherMenu="Table" />
+      <PageTitle activeMenu='Bootstrap' motherMenu='Table' />
       <Row>
         <Col lg={12}>
           <Card>
@@ -62,7 +62,7 @@ const BootstrapTable = () => {
               <Table responsive>
                 <thead>
                   <tr>
-                    <th className="width80">
+                    <th className='width80'>
                       <strong>#</strong>
                     </th>
                     <th>
@@ -92,14 +92,16 @@ const BootstrapTable = () => {
                     <td>Dr. Jackson</td>
                     <td>01 August 2022</td>
                     <td>
-                      <span  className="badge light badge-success">Successful</span>
+                      <span className='badge light badge-success'>
+                        Successful
+                      </span>
                     </td>
                     <td>$21.56</td>
                     <td>
                       <Dropdown>
                         <Dropdown.Toggle
-                          variant="success"
-                          className="light sharp i-false"
+                          variant='success'
+                          className='light sharp i-false'
                         >
                           {svg1}
                         </Dropdown.Toggle>
@@ -118,14 +120,16 @@ const BootstrapTable = () => {
                     <td>Dr. Jackson</td>
                     <td>01 August 2022</td>
                     <td>
-                      <Badge bg="" className="light badge-danger">Canceled</Badge>
+                      <Badge bg='' className='light badge-danger'>
+                        Canceled
+                      </Badge>
                     </td>
                     <td>$21.56</td>
                     <td>
                       <Dropdown>
                         <Dropdown.Toggle
-                          variant="danger"
-                          className="light sharp i-false"
+                          variant='danger'
+                          className='light sharp i-false'
                         >
                           {svg1}
                         </Dropdown.Toggle>
@@ -144,14 +148,16 @@ const BootstrapTable = () => {
                     <td>Dr. Jackson</td>
                     <td>01 August 2022</td>
                     <td>
-                      <Badge bg="" className="badge-warning light">Pending</Badge>
+                      <Badge bg='' className='badge-warning light'>
+                        Pending
+                      </Badge>
                     </td>
                     <td>$21.56</td>
                     <td>
                       <Dropdown>
                         <Dropdown.Toggle
-                          variant="warning"
-                          className="light sharp i-false"
+                          variant='warning'
+                          className='light sharp i-false'
                         >
                           {svg1}
                         </Dropdown.Toggle>
@@ -176,18 +182,18 @@ const BootstrapTable = () => {
               <Table responsive>
                 <thead>
                   <tr>
-                    <th className="width50 ">
-                      <div className="form-check custom-checkbox checkbox-success check-lg me-3 bs_exam_topper_all">
+                    <th className='width50 '>
+                      <div className='form-check custom-checkbox checkbox-success check-lg me-3 bs_exam_topper_all'>
                         <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="checkAll"
-                          required=""
-                          onClick={() => chackboxFun("all")}
+                          type='checkbox'
+                          className='form-check-input'
+                          id='checkAll'
+                          required=''
+                          onClick={() => chackboxFun('all')}
                         />
                         <label
-                          className="form-check-label"
-                          htmlFor="checkAll"
+                          className='form-check-label'
+                          htmlFor='checkAll'
                         ></label>
                       </div>
                     </th>
@@ -211,17 +217,17 @@ const BootstrapTable = () => {
                 <tbody>
                   <tr>
                     <td>
-                      <div className="form-check custom-checkbox checkbox-success check-lg me-3 bs_exam_topper">
+                      <div className='form-check custom-checkbox checkbox-success check-lg me-3 bs_exam_topper'>
                         <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="customCheckBox2"
-                          required=""
+                          type='checkbox'
+                          className='form-check-input'
+                          id='customCheckBox2'
+                          required=''
                           onClick={() => chackboxFun()}
                         />
                         <label
-                          className="form-check-label"
-                          htmlFor="customCheckBox2"
+                          className='form-check-label'
+                          htmlFor='customCheckBox2'
                         ></label>
                       </div>
                     </td>
@@ -229,54 +235,54 @@ const BootstrapTable = () => {
                       <strong>542</strong>
                     </td>
                     <td>
-                      <div className="d-flex align-items-center">
+                      <div className='d-flex align-items-center'>
                         <img
                           src={avatar1}
-                          className="rounded-lg me-2"
-                          width="24"
-                          alt=""
-                        />{" "}
-                        <span className="w-space-no">Dr. Jackson</span>
+                          className='rounded-lg me-2'
+                          width='24'
+                          alt=''
+                        />{' '}
+                        <span className='w-space-no'>Dr. Jackson</span>
                       </div>
                     </td>
                     <td>example@example.com </td>
                     <td>01 August 2022</td>
                     <td>
-                      <div className="d-flex align-items-center">
-                        <i className="fa fa-circle text-success me-1"></i>{" "}
+                      <div className='d-flex align-items-center'>
+                        <i className='fa fa-circle text-success me-1'></i>{' '}
                         Successful
                       </div>
                     </td>
                     <td>
-                      <div className="d-flex">
+                      <div className='d-flex'>
                         <Link
-                          href="#"
-                          className="btn btn-primary shadow btn-xs sharp me-1"
+                          href='#'
+                          className='btn btn-primary shadow btn-xs sharp me-1'
                         >
-                          <i className="fas fa-pencil-alt"></i>
+                          <i className='fas fa-pencil-alt'></i>
                         </Link>
                         <Link
-                          href="#"
-                          className="btn btn-danger shadow btn-xs sharp"
+                          href='#'
+                          className='btn btn-danger shadow btn-xs sharp'
                         >
-                          <i className="fa fa-trash"></i>
+                          <i className='fa fa-trash'></i>
                         </Link>
                       </div>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <div className="form-check custom-checkbox checkbox-success check-lg me-3 bs_exam_topper">
+                      <div className='form-check custom-checkbox checkbox-success check-lg me-3 bs_exam_topper'>
                         <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="customCheckBox3"
-                          required=""
+                          type='checkbox'
+                          className='form-check-input'
+                          id='customCheckBox3'
+                          required=''
                           onClick={() => chackboxFun()}
                         />
                         <label
-                          className="form-check-label"
-                          htmlFor="customCheckBox3"
+                          className='form-check-label'
+                          htmlFor='customCheckBox3'
                         ></label>
                       </div>
                     </td>
@@ -284,54 +290,54 @@ const BootstrapTable = () => {
                       <strong>542</strong>
                     </td>
                     <td>
-                      <div className="d-flex align-items-center">
+                      <div className='d-flex align-items-center'>
                         <img
                           src={avatar2}
-                          className="rounded-lg me-2"
-                          width="24"
-                          alt=""
-                        />{" "}
-                        <span className="w-space-no">Dr. Jackson</span>
+                          className='rounded-lg me-2'
+                          width='24'
+                          alt=''
+                        />{' '}
+                        <span className='w-space-no'>Dr. Jackson</span>
                       </div>
                     </td>
                     <td>example@example.com </td>
                     <td>01 August 2022</td>
                     <td>
-                      <div className="d-flex align-items-center">
-                        <i className="fa fa-circle text-danger me-1"></i>{" "}
+                      <div className='d-flex align-items-center'>
+                        <i className='fa fa-circle text-danger me-1'></i>{' '}
                         Canceled
                       </div>
                     </td>
                     <td>
-                      <div className="d-flex">
+                      <div className='d-flex'>
                         <Link
-                          href="#"
-                          className="btn btn-primary shadow btn-xs sharp me-1"
+                          href='#'
+                          className='btn btn-primary shadow btn-xs sharp me-1'
                         >
-                          <i className="fas fa-pencil-alt"></i>
+                          <i className='fas fa-pencil-alt'></i>
                         </Link>
                         <Link
-                          href="#"
-                          className="btn btn-danger shadow btn-xs sharp"
+                          href='#'
+                          className='btn btn-danger shadow btn-xs sharp'
                         >
-                          <i className="fa fa-trash"></i>
+                          <i className='fa fa-trash'></i>
                         </Link>
                       </div>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <div className="form-check custom-checkbox checkbox-success check-lg me-3 bs_exam_topper">
+                      <div className='form-check custom-checkbox checkbox-success check-lg me-3 bs_exam_topper'>
                         <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="customCheckBox4"
-                          required=""
+                          type='checkbox'
+                          className='form-check-input'
+                          id='customCheckBox4'
+                          required=''
                           onClick={() => chackboxFun()}
                         />
                         <label
-                          className="form-check-label"
-                          htmlFor="customCheckBox4"
+                          className='form-check-label'
+                          htmlFor='customCheckBox4'
                         ></label>
                       </div>
                     </td>
@@ -339,37 +345,37 @@ const BootstrapTable = () => {
                       <strong>542</strong>
                     </td>
                     <td>
-                      <div className="d-flex align-items-center">
+                      <div className='d-flex align-items-center'>
                         <img
                           src={avatar3}
-                          className="rounded-lg me-2"
-                          width="24"
-                          alt=""
-                        />{" "}
-                        <span className="w-space-no">Dr. Jackson</span>
+                          className='rounded-lg me-2'
+                          width='24'
+                          alt=''
+                        />{' '}
+                        <span className='w-space-no'>Dr. Jackson</span>
                       </div>
                     </td>
                     <td>example@example.com </td>
                     <td>01 August 2022</td>
                     <td>
-                      <div className="d-flex align-items-center">
-                        <i className="fa fa-circle text-warning me-1"></i>{" "}
+                      <div className='d-flex align-items-center'>
+                        <i className='fa fa-circle text-warning me-1'></i>{' '}
                         Pending
                       </div>
                     </td>
                     <td>
-                      <div className="d-flex">
+                      <div className='d-flex'>
                         <Link
-                          href="#"
-                          className="btn btn-primary shadow btn-xs sharp me-1"
+                          href='#'
+                          className='btn btn-primary shadow btn-xs sharp me-1'
                         >
-                          <i className="fas fa-pencil-alt"></i>
+                          <i className='fas fa-pencil-alt'></i>
                         </Link>
                         <Link
-                          href="#"
-                          className="btn btn-danger shadow btn-xs sharp"
+                          href='#'
+                          className='btn btn-danger shadow btn-xs sharp'
                         >
-                          <i className="fa fa-trash"></i>
+                          <i className='fa fa-trash'></i>
                         </Link>
                       </div>
                     </td>
@@ -400,28 +406,30 @@ const BootstrapTable = () => {
                     <th>1</th>
                     <td>Kolor Tea Shirt For Man</td>
                     <td>
-                      <Badge bg="" className="badge-primary light">Sale</Badge>
+                      <Badge bg='' className='badge-primary light'>
+                        Sale
+                      </Badge>
                     </td>
                     <td>January 22</td>
-                    <td className="color-primary">$21.56</td>
+                    <td className='color-primary'>$21.56</td>
                   </tr>
                   <tr>
                     <th>2</th>
                     <td>Kolor Tea Shirt For Women</td>
                     <td>
-                      <Badge bg="success">Tax</Badge>
+                      <Badge bg='success'>Tax</Badge>
                     </td>
                     <td>January 30</td>
-                    <td className="color-success">$55.32</td>
+                    <td className='color-success'>$55.32</td>
                   </tr>
                   <tr>
                     <th>3</th>
                     <td>Blue Backpack For Baby</td>
                     <td>
-                      <Badge bg="danger">Extended</Badge>
+                      <Badge bg='danger'>Extended</Badge>
                     </td>
                     <td>January 25</td>
-                    <td className="color-danger">$14.85</td>
+                    <td className='color-danger'>$14.85</td>
                   </tr>
                 </tbody>
               </Table>
@@ -449,28 +457,30 @@ const BootstrapTable = () => {
                     <th>1</th>
                     <td>Color Tea Shirt For Man</td>
                     <td>
-                      <Badge bg="primary">Sale</Badge>
+                      <Badge bg='primary'>Sale</Badge>
                     </td>
                     <td>January 22</td>
-                    <td className="color-primary">$21.56</td>
+                    <td className='color-primary'>$21.56</td>
                   </tr>
                   <tr>
                     <th>2</th>
                     <td>Color Tea Shirt For Women</td>
                     <td>
-                      <Badge bg="" className="badge-success light">Tax</Badge>
+                      <Badge bg='' className='badge-success light'>
+                        Tax
+                      </Badge>
                     </td>
                     <td>January 30</td>
-                    <td className="color-success">$55.32</td>
+                    <td className='color-success'>$55.32</td>
                   </tr>
                   <tr>
                     <th>3</th>
                     <td>Blue Backpack For Baby</td>
                     <td>
-                      <Badge bg="danger">Extended</Badge>
+                      <Badge bg='danger'>Extended</Badge>
                     </td>
                     <td>January 25</td>
-                    <td className="color-danger">$14.85</td>
+                    <td className='color-danger'>$14.85</td>
                   </tr>
                 </tbody>
               </Table>
@@ -498,28 +508,28 @@ const BootstrapTable = () => {
                     <th>1</th>
                     <td>Kolor Tea Shirt For Man</td>
                     <td>
-                      <Badge bg="primary">Sale</Badge>
+                      <Badge bg='primary'>Sale</Badge>
                     </td>
                     <td>January 22</td>
-                    <td className="color-primary">$21.56</td>
+                    <td className='color-primary'>$21.56</td>
                   </tr>
                   <tr>
                     <th>2</th>
                     <td>Kolor Tea Shirt For Women</td>
                     <td>
-                      <Badge bg="success">Tax</Badge>
+                      <Badge bg='success'>Tax</Badge>
                     </td>
                     <td>January 30</td>
-                    <td className="color-success">$55.32</td>
+                    <td className='color-success'>$55.32</td>
                   </tr>
                   <tr>
                     <th>3</th>
                     <td>Blue Backpack For Baby</td>
                     <td>
-                      <Badge bg="danger">Extended</Badge>
+                      <Badge bg='danger'>Extended</Badge>
                     </td>
                     <td>January 25</td>
-                    <td className="color-danger">$14.85</td>
+                    <td className='color-danger'>$14.85</td>
                   </tr>
                 </tbody>
               </Table>
@@ -547,28 +557,32 @@ const BootstrapTable = () => {
                     <th>1</th>
                     <td>Kolor Tea Shirt For Man</td>
                     <td>
-                      <Badge bg="" className="badge-primary light">Sale</Badge>
+                      <Badge bg='' className='badge-primary light'>
+                        Sale
+                      </Badge>
                     </td>
                     <td>January 22</td>
-                    <td className="color-primary">$21.56</td>
+                    <td className='color-primary'>$21.56</td>
                   </tr>
                   <tr>
                     <th>2</th>
                     <td>Kolor Tea Shirt For Women</td>
                     <td>
-                      <Badge bg="success">Tax</Badge>
+                      <Badge bg='success'>Tax</Badge>
                     </td>
                     <td>January 30</td>
-                    <td className="color-success">$55.32</td>
+                    <td className='color-success'>$55.32</td>
                   </tr>
                   <tr>
                     <th>3</th>
                     <td>Blue Backpack For Baby</td>
                     <td>
-                      <Badge bg="" className="badge-danger light">Extended</Badge>
+                      <Badge bg='' className='badge-danger light'>
+                        Extended
+                      </Badge>
                     </td>
                     <td>January 25</td>
-                    <td className="color-danger">$14.85</td>
+                    <td className='color-danger'>$14.85</td>
                   </tr>
                 </tbody>
               </Table>
@@ -582,13 +596,13 @@ const BootstrapTable = () => {
               <Card.Title>Hover Table</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Table responsive hover className="header-border verticle-middle">
+              <Table responsive hover className='header-border verticle-middle'>
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Popularity</th>
-                    <th scope="col">Sales</th>
+                    <th scope='col'>#</th>
+                    <th scope='col'>Product</th>
+                    <th scope='col'>Popularity</th>
+                    <th scope='col'>Sales</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -596,50 +610,54 @@ const BootstrapTable = () => {
                     <th>1</th>
                     <td>Air Conditioner</td>
                     <td>
-                      <ProgressBar now={70} variant="primary" />
+                      <ProgressBar now={70} variant='primary' />
                     </td>
                     <td>
-                      <Badge bg="" className="badge-primary light">70%</Badge>
+                      <Badge bg='' className='badge-primary light'>
+                        70%
+                      </Badge>
                     </td>
                   </tr>
                   <tr>
                     <th>2</th>
                     <td>Textiles</td>
                     <td>
-                      <ProgressBar variant="success" now="70" />
+                      <ProgressBar variant='success' now='70' />
                     </td>
                     <td>
-                      <Badge bg="success">70%</Badge>
+                      <Badge bg='success'>70%</Badge>
                     </td>
                   </tr>
                   <tr>
                     <th>3</th>
                     <td>Milk Powder</td>
                     <td>
-                      <ProgressBar variant="dark" now="70" />
+                      <ProgressBar variant='dark' now='70' />
                     </td>
                     <td>
-                      <Badge bg="" className="badge badge-dark light">70%</Badge>
+                      <Badge bg='' className='badge badge-dark light'>
+                        70%
+                      </Badge>
                     </td>
                   </tr>
                   <tr>
                     <th>4</th>
                     <td>Vehicles</td>
                     <td>
-                      <ProgressBar variant="danger" now="70" />
+                      <ProgressBar variant='danger' now='70' />
                     </td>
                     <td>
-                      <Badge bg="danger">70%</Badge>
+                      <Badge bg='danger'>70%</Badge>
                     </td>
                   </tr>
                   <tr>
                     <th>5</th>
                     <td>Boats</td>
                     <td>
-                      <ProgressBar variant="warning" now="70" />
+                      <ProgressBar variant='warning' now='70' />
                     </td>
                     <td>
-                      <Badge bg="warning">70%</Badge>
+                      <Badge bg='warning'>70%</Badge>
                     </td>
                   </tr>
                 </tbody>
@@ -653,37 +671,39 @@ const BootstrapTable = () => {
               <Card.Title>Bordered Table</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Table responsive bordered className="verticle-middle">
+              <Table responsive bordered className='verticle-middle'>
                 <thead>
                   <tr>
-                    <th scope="col">Task</th>
-                    <th scope="col">Progress</th>
-                    <th scope="col">Deadline</th>
-                    <th scope="col">Label</th>
-                    <th scope="col">Action</th>
+                    <th scope='col'>Task</th>
+                    <th scope='col'>Progress</th>
+                    <th scope='col'>Deadline</th>
+                    <th scope='col'>Label</th>
+                    <th scope='col'>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Air Conditioner</td>
                     <td>
-                      <ProgressBar now={70} variant="primary" />
+                      <ProgressBar now={70} variant='primary' />
                     </td>
                     <td>Apr 20,2018</td>
                     <td>
-                      <Badge bg="" className="badge-primary light">70%</Badge>
+                      <Badge bg='' className='badge-primary light'>
+                        70%
+                      </Badge>
                     </td>
                     <td>
                       <span>
                         <Link
-                          to="/table-bootstrap-basic"
-                          className="me-4"
-                          title="Edit"
+                          to='/table-bootstrap-basic'
+                          className='me-4'
+                          title='Edit'
                         >
-                          <i className="fas fa-pencil-alt color-muted"></i>{" "}
+                          <i className='fas fa-pencil-alt color-muted'></i>{' '}
                         </Link>
-                        <Link to="/table-bootstrap-basic" title="Close">
-                          <i className="fa fa-close text-danger"></i>
+                        <Link to='/table-bootstrap-basic' title='Close'>
+                          <i className='fa fa-close text-danger'></i>
                         </Link>
                       </span>
                     </td>
@@ -691,23 +711,23 @@ const BootstrapTable = () => {
                   <tr>
                     <td>Textiles</td>
                     <td>
-                      <ProgressBar now={70} variant="success" />
+                      <ProgressBar now={70} variant='success' />
                     </td>
                     <td>May 27,2018</td>
                     <td>
-                      <Badge bg="success">70%</Badge>
+                      <Badge bg='success'>70%</Badge>
                     </td>
                     <td>
                       <span>
                         <Link
-                          to="/table-bootstrap-basic"
-                          className="me-4"
-                          title="Edit"
+                          to='/table-bootstrap-basic'
+                          className='me-4'
+                          title='Edit'
                         >
-                          <i className="fas fa-pencil-alt color-muted"></i>{" "}
+                          <i className='fas fa-pencil-alt color-muted'></i>{' '}
                         </Link>
-                        <Link to="/table-bootstrap-basic" title="Close">
-                          <i className="fa fa-close text-danger"></i>
+                        <Link to='/table-bootstrap-basic' title='Close'>
+                          <i className='fa fa-close text-danger'></i>
                         </Link>
                       </span>
                     </td>
@@ -715,23 +735,25 @@ const BootstrapTable = () => {
                   <tr>
                     <td>Milk Powder</td>
                     <td>
-                      <ProgressBar now={70} variant="dark" />
+                      <ProgressBar now={70} variant='dark' />
                     </td>
                     <td>May 18,2018</td>
                     <td>
-                      <Badge bg="" className="badge badge-dark light">70%</Badge> 
+                      <Badge bg='' className='badge badge-dark light'>
+                        70%
+                      </Badge>
                     </td>
                     <td>
                       <span>
                         <Link
-                          to="/table-bootstrap-basic"
-                          className="me-4"
-                          title="Edit"
+                          to='/table-bootstrap-basic'
+                          className='me-4'
+                          title='Edit'
                         >
-                          <i className="fas fa-pencil-alt color-muted"></i>{" "}
+                          <i className='fas fa-pencil-alt color-muted'></i>{' '}
                         </Link>
-                        <Link to="/table-bootstrap-basic" title="Close">
-                          <i className="fa fa-close text-danger"></i>
+                        <Link to='/table-bootstrap-basic' title='Close'>
+                          <i className='fa fa-close text-danger'></i>
                         </Link>
                       </span>
                     </td>
@@ -739,23 +761,23 @@ const BootstrapTable = () => {
                   <tr>
                     <td>Vehicles</td>
                     <td>
-                      <ProgressBar now={70} variant="danger" />
+                      <ProgressBar now={70} variant='danger' />
                     </td>
                     <td>Mar 27,2018</td>
                     <td>
-                      <Badge bg="danger">70%</Badge>
+                      <Badge bg='danger'>70%</Badge>
                     </td>
                     <td>
                       <span>
                         <Link
-                          to="/table-bootstrap-basic"
-                          className="me-4"
-                          title="Edit"
+                          to='/table-bootstrap-basic'
+                          className='me-4'
+                          title='Edit'
                         >
-                          <i className="fas fa-pencil-alt color-muted"></i>{" "}
+                          <i className='fas fa-pencil-alt color-muted'></i>{' '}
                         </Link>
-                        <Link to="/table-bootstrap-basic" title="Close">
-                          <i className="fa fa-close text-danger"></i>
+                        <Link to='/table-bootstrap-basic' title='Close'>
+                          <i className='fa fa-close text-danger'></i>
                         </Link>
                       </span>
                     </td>
@@ -763,23 +785,23 @@ const BootstrapTable = () => {
                   <tr>
                     <td>Boats</td>
                     <td>
-                      <ProgressBar now={70} variant="warning" />
+                      <ProgressBar now={70} variant='warning' />
                     </td>
                     <td>Jun 28,2018</td>
                     <td>
-                      <Badge bg="warning">70%</Badge>
+                      <Badge bg='warning'>70%</Badge>
                     </td>
                     <td>
                       <span>
                         <Link
-                          to="/table-bootstrap-basic"
-                          className="me-4"
-                          title="Edit"
+                          to='/table-bootstrap-basic'
+                          className='me-4'
+                          title='Edit'
                         >
-                          <i className="fas fa-pencil-alt color-muted"></i>{" "}
+                          <i className='fas fa-pencil-alt color-muted'></i>{' '}
                         </Link>
-                        <Link to="/table-bootstrap-basic" title="Close">
-                          <i className="fa fa-close text-danger"></i>
+                        <Link to='/table-bootstrap-basic' title='Close'>
+                          <i className='fa fa-close text-danger'></i>
                         </Link>
                       </span>
                     </td>
@@ -795,37 +817,37 @@ const BootstrapTable = () => {
               <Card.Title>Table Stripped</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Table responsive striped bordered className="verticle-middle">
+              <Table responsive striped bordered className='verticle-middle'>
                 <thead>
                   <tr>
-                    <th scope="col">Task</th>
-                    <th scope="col">Progress</th>
-                    <th scope="col">Deadline</th>
-                    <th scope="col">Label</th>
-                    <th scope="col">Action</th>
+                    <th scope='col'>Task</th>
+                    <th scope='col'>Progress</th>
+                    <th scope='col'>Deadline</th>
+                    <th scope='col'>Label</th>
+                    <th scope='col'>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Air Conditioner</td>
                     <td>
-                      <ProgressBar now={70} variant="primary" />
+                      <ProgressBar now={70} variant='primary' />
                     </td>
                     <td>Apr 20,2018</td>
                     <td>
-                      <Badge bg="primary light">70%</Badge>
+                      <Badge bg='primary light'>70%</Badge>
                     </td>
                     <td>
                       <span>
                         <Link
-                          to="/table-bootstrap-basic"
-                          className="me-4"
-                          title="Edit"
+                          to='/table-bootstrap-basic'
+                          className='me-4'
+                          title='Edit'
                         >
-                          <i className="fas fa-pencil-alt color-muted"></i>{" "}
+                          <i className='fas fa-pencil-alt color-muted'></i>{' '}
                         </Link>
-                        <Link to="/table-bootstrap-basic" title="Close">
-                          <i className="fa fa-close text-danger"></i>
+                        <Link to='/table-bootstrap-basic' title='Close'>
+                          <i className='fa fa-close text-danger'></i>
                         </Link>
                       </span>
                     </td>
@@ -833,23 +855,23 @@ const BootstrapTable = () => {
                   <tr>
                     <td>Textiles</td>
                     <td>
-                      <ProgressBar now={70} variant="success" />
+                      <ProgressBar now={70} variant='success' />
                     </td>
                     <td>May 27,2018</td>
                     <td>
-                      <Badge bg="success">70%</Badge>
+                      <Badge bg='success'>70%</Badge>
                     </td>
                     <td>
                       <span>
                         <Link
-                          to="/table-bootstrap-basic"
-                          className="me-4"
-                          title="Edit"
+                          to='/table-bootstrap-basic'
+                          className='me-4'
+                          title='Edit'
                         >
-                          <i className="fas fa-pencil-alt color-muted"></i>{" "}
+                          <i className='fas fa-pencil-alt color-muted'></i>{' '}
                         </Link>
-                        <Link to="/table-bootstrap-basic" title="Close">
-                          <i className="fa fa-close text-danger"></i>
+                        <Link to='/table-bootstrap-basic' title='Close'>
+                          <i className='fa fa-close text-danger'></i>
                         </Link>
                       </span>
                     </td>
@@ -857,23 +879,23 @@ const BootstrapTable = () => {
                   <tr>
                     <td>Milk Powder</td>
                     <td>
-                      <ProgressBar now={70} variant="dark" />
+                      <ProgressBar now={70} variant='dark' />
                     </td>
                     <td>May 18,2018</td>
                     <td>
-                      <Badge bg="dark light">70%</Badge>
+                      <Badge bg='dark light'>70%</Badge>
                     </td>
                     <td>
                       <span>
                         <Link
-                          to="/table-bootstrap-basic"
-                          className="me-4"
-                          title="Edit"
+                          to='/table-bootstrap-basic'
+                          className='me-4'
+                          title='Edit'
                         >
-                          <i className="fas fa-pencil-alt color-muted"></i>{" "}
+                          <i className='fas fa-pencil-alt color-muted'></i>{' '}
                         </Link>
-                        <Link to="/table-bootstrap-basic" title="Close">
-                          <i className="fa fa-close text-danger"></i>
+                        <Link to='/table-bootstrap-basic' title='Close'>
+                          <i className='fa fa-close text-danger'></i>
                         </Link>
                       </span>
                     </td>
@@ -881,23 +903,23 @@ const BootstrapTable = () => {
                   <tr>
                     <td>Vehicles</td>
                     <td>
-                      <ProgressBar now={70} variant="danger" />
+                      <ProgressBar now={70} variant='danger' />
                     </td>
                     <td>Mar 27,2018</td>
                     <td>
-                      <Badge bg="danger">70%</Badge>
+                      <Badge bg='danger'>70%</Badge>
                     </td>
                     <td>
                       <span>
                         <Link
-                          to="/table-bootstrap-basic"
-                          className="me-4"
-                          title="Edit"
+                          to='/table-bootstrap-basic'
+                          className='me-4'
+                          title='Edit'
                         >
-                          <i className="fas fa-pencil-alt color-muted"></i>{" "}
+                          <i className='fas fa-pencil-alt color-muted'></i>{' '}
                         </Link>
-                        <Link to="/table-bootstrap-basic" title="Close">
-                          <i className="fa fa-close text-danger"></i>
+                        <Link to='/table-bootstrap-basic' title='Close'>
+                          <i className='fa fa-close text-danger'></i>
                         </Link>
                       </span>
                     </td>
@@ -905,23 +927,23 @@ const BootstrapTable = () => {
                   <tr>
                     <td>Boats</td>
                     <td>
-                      <ProgressBar now={70} variant="warning" />
+                      <ProgressBar now={70} variant='warning' />
                     </td>
                     <td>Jun 28,2018</td>
                     <td>
-                      <Badge bg="warning">70%</Badge>
+                      <Badge bg='warning'>70%</Badge>
                     </td>
                     <td>
                       <span>
                         <Link
-                          to="/table-bootstrap-basic"
-                          className="me-4"
-                          title="Edit"
+                          to='/table-bootstrap-basic'
+                          className='me-4'
+                          title='Edit'
                         >
-                          <i className="fas fa-pencil-alt color-muted"></i>{" "}
+                          <i className='fas fa-pencil-alt color-muted'></i>{' '}
                         </Link>
-                        <Link to="/table-bootstrap-basic" title="Close">
-                          <i className="fa fa-close text-danger"></i>
+                        <Link to='/table-bootstrap-basic' title='Close'>
+                          <i className='fa fa-close text-danger'></i>
                         </Link>
                       </span>
                     </td>
@@ -937,7 +959,7 @@ const BootstrapTable = () => {
               <Card.Title>Responsive Table</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Table responsive className="header-border ">
+              <Table responsive className='header-border '>
                 <thead>
                   <tr>
                     <th>Invoice</th>
@@ -951,57 +973,59 @@ const BootstrapTable = () => {
                 <tbody>
                   <tr>
                     <td>
-                      <Link to="/table-bootstrap-basic">Order #26589</Link>
+                      <Link to='/table-bootstrap-basic'>Order #26589</Link>
                     </td>
                     <td>Herman Beck</td>
                     <td>
-                      <span className="text-muted">Oct 16, 2017</span>
+                      <span className='text-muted'>Oct 16, 2017</span>
                     </td>
                     <td>$45.00</td>
                     <td>
-                      <Badge bg="success">Paid</Badge>
+                      <Badge bg='success'>Paid</Badge>
                     </td>
                     <td>EN</td>
                   </tr>
                   <tr>
                     <td>
-                      <Link to="/table-bootstrap-basic">Order #58746</Link>
+                      <Link to='/table-bootstrap-basic'>Order #58746</Link>
                     </td>
                     <td>Mary Adams</td>
                     <td>
-                      <span className="text-muted">Oct 12, 2017</span>
+                      <span className='text-muted'>Oct 12, 2017</span>
                     </td>
                     <td>$245.30</td>
                     <td>
-                      <Badge bg="" className="badge badge-info light">Shipped</Badge>
+                      <Badge bg='' className='badge badge-info light'>
+                        Shipped
+                      </Badge>
                     </td>
                     <td>CN</td>
                   </tr>
                   <tr>
                     <td>
-                      <Link to="/table-bootstrap-basic">Order #98458</Link>
+                      <Link to='/table-bootstrap-basic'>Order #98458</Link>
                     </td>
                     <td>Caleb Richards</td>
                     <td>
-                      <span className="text-muted">May 18, 2017</span>
+                      <span className='text-muted'>May 18, 2017</span>
                     </td>
                     <td>$38.00</td>
                     <td>
-                      <Badge bg="danger">Shipped</Badge>
+                      <Badge bg='danger'>Shipped</Badge>
                     </td>
                     <td>AU</td>
                   </tr>
                   <tr>
                     <td>
-                      <Link to="/table-bootstrap-basic">Order #32658</Link>
+                      <Link to='/table-bootstrap-basic'>Order #32658</Link>
                     </td>
                     <td>June Lane</td>
                     <td>
-                      <span className="text-muted">Apr 28, 2017</span>
+                      <span className='text-muted'>Apr 28, 2017</span>
                     </td>
                     <td>$77.99</td>
                     <td>
-                      <Badge bg="success">Paid</Badge>
+                      <Badge bg='success'>Paid</Badge>
                     </td>
                     <td>FR</td>
                   </tr>
@@ -1017,12 +1041,12 @@ const BootstrapTable = () => {
             </Card.Header>
             <Card.Body>
               <Table responsive>
-                <thead className="thead-info">
+                <thead className='thead-info'>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope='col'>#</th>
+                    <th scope='col'>First</th>
+                    <th scope='col'>Last</th>
+                    <th scope='col'>Handle</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1055,13 +1079,13 @@ const BootstrapTable = () => {
               <Card.Title>Primary Table</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Table responsive className="primary-table-bordered">
-                <thead className="thead-primary">
+              <Table responsive className='primary-table-bordered'>
+                <thead className='thead-primary'>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope='col'>#</th>
+                    <th scope='col'>First</th>
+                    <th scope='col'>Last</th>
+                    <th scope='col'>Handle</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1094,13 +1118,13 @@ const BootstrapTable = () => {
               <Card.Title>Primary Table Hover</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Table responsive className="primary-table-bg-hover">
+              <Table responsive className='primary-table-bg-hover'>
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope='col'>#</th>
+                    <th scope='col'>First</th>
+                    <th scope='col'>Last</th>
+                    <th scope='col'>Handle</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1151,7 +1175,7 @@ const BootstrapTable = () => {
               <Card.Title>Contextual Table</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Table responsive className="header-border">
+              <Table responsive className='header-border'>
                 <thead>
                   <tr>
                     <th>#</th>
@@ -1161,37 +1185,37 @@ const BootstrapTable = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="table-active">
+                  <tr className='table-active'>
                     <td>1</td>
                     <td>Column content</td>
                     <td>Column content</td>
                     <td>Column content</td>
                   </tr>
-                  <tr className="table-primary">
+                  <tr className='table-primary'>
                     <td>1</td>
                     <td>Column content</td>
                     <td>Column content</td>
                     <td>Column content</td>
                   </tr>
-                  <tr className="table-success">
+                  <tr className='table-success'>
                     <td>2</td>
                     <td>Column content</td>
                     <td>Column content</td>
                     <td>Column content</td>
                   </tr>
-                  <tr className="table-info">
+                  <tr className='table-info'>
                     <td>3</td>
                     <td>Column content</td>
                     <td>Column content</td>
                     <td>Column content</td>
                   </tr>
-                  <tr className="table-warning">
+                  <tr className='table-warning'>
                     <td>4</td>
                     <td>Column content</td>
                     <td>Column content</td>
                     <td>Column content</td>
                   </tr>
-                  <tr className="table-danger">
+                  <tr className='table-danger'>
                     <td>5</td>
                     <td>Column content</td>
                     <td>Column content</td>
@@ -1204,7 +1228,7 @@ const BootstrapTable = () => {
         </Col>
       </Row>
     </Fragment>
-  );
-};
+  )
+}
 
-export default BootstrapTable;
+export default BootstrapTable

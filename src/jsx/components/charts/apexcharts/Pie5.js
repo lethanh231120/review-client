@@ -1,19 +1,19 @@
-import React from "react";
-import ReactApexChart from "react-apexcharts";
+import React from 'react'
+import ReactApexChart from 'react-apexcharts'
 
 class ApexRedialBar2 extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       series: [71, 63, 90],
       options: {
         chart: {
-          type: "radialBar",
-          //width:320,
+          type: 'radialBar',
+          // width:320,
           // height: 370,
           offsetY: 0,
-          offsetX: 0,
+          offsetX: 0
         },
         plotOptions: {
           radialBar: {
@@ -21,18 +21,18 @@ class ApexRedialBar2 extends React.Component {
             inverseOrder: false,
             hollow: {
               margin: 0,
-              size: "30%",
-              background: "transparent",
+              size: '30%',
+              background: 'transparent'
             },
 
             track: {
               show: true,
-              background: "#9568ff",
-              strokeWidth: "10%",
+              background: '#9568ff',
+              strokeWidth: '10%',
               opacity: 1,
-              margin: 18, // margin is in pixels
-            },
-          },
+              margin: 18 // margin is in pixels
+            }
+          }
         },
         responsive: [
           {
@@ -40,113 +40,113 @@ class ApexRedialBar2 extends React.Component {
             options: {
               chart: {
                 offsetY: 0,
-                offsetX: 0,
+                offsetX: 0
               },
               legend: {
-                position: "bottom",
+                position: 'bottom',
                 offsetX: 0,
-                offsetY: 0,
+                offsetY: 0
               },
               plotOptions: {
                 radialBar: {
                   hollow: {
-                    size: "20%",
-                  },
-                },
-              },
-            },
+                    size: '20%'
+                  }
+                }
+              }
+            }
           },
           {
             breakpoint: 800,
             options: {
               chart: {
                 offsetY: 0,
-                offsetX: 0,
+                offsetX: 0
               },
               legend: {
-                position: "bottom",
+                position: 'bottom',
                 offsetX: 0,
-                offsetY: 0,
+                offsetY: 0
               },
               plotOptions: {
                 radialBar: {
                   hollow: {
-                    size: "10%",
-                  },
-                },
-              },
-            },
+                    size: '10%'
+                  }
+                }
+              }
+            }
           },
           {
             breakpoint: 768,
             options: {
               chart: {
                 offsetY: 0,
-                offsetX: 0,
+                offsetX: 0
               },
               legend: {
-                position: "bottom",
+                position: 'bottom',
                 offsetX: 0,
-                offsetY: 0,
+                offsetY: 0
               },
               plotOptions: {
                 radialBar: {
                   hollow: {
-                    size: "30%",
-                  },
-                },
-              },
-            },
+                    size: '30%'
+                  }
+                }
+              }
+            }
           },
           {
             breakpoint: 330,
             options: {
               chart: {
                 offsetY: 0,
-                offsetX: 0,
+                offsetX: 0
               },
               legend: {
-                position: "bottom",
+                position: 'bottom',
                 offsetX: 0,
-                offsetY: 0,
+                offsetY: 0
               },
               plotOptions: {
                 radialBar: {
                   hollow: {
-                    size: "20%",
-                  },
-                },
-              },
-            },
-          },
+                    size: '20%'
+                  }
+                }
+              }
+            }
+          }
         ],
 
         fill: {
-          opacity: 1,
+          opacity: 1
         },
 
-        colors: ["#9568ff", "#9568ff", "#9568ff"],
-        labels: ["Ticket A", "Ticket B", "Ticket C"],
+        colors: ['#9568ff', '#9568ff', '#9568ff'],
+        labels: ['Ticket A', 'Ticket B', 'Ticket C'],
         legend: {
-          fontSize: "14px",
+          fontSize: '14px',
           show: true,
-          position: "bottom",
-        },
-      },
-    };
+          position: 'bottom'
+        }
+      }
+    }
   }
 
   render() {
     return (
-      <div id="chart" className="line-chart-style bar-chart">
+      <div id='chart' className='line-chart-style bar-chart'>
         <ReactApexChart
           options={this.state.options}
           series={this.state.series}
-          type="radialBar"
+          type='radialBar'
           height={this.props.height ? this.props.height : 350}
         />
       </div>
-    );
+    )
   }
 }
-export default ApexRedialBar2;
+export default ApexRedialBar2
