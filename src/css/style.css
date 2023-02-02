@@ -748,9 +748,10 @@ progress {
     max-width: 1320px; } }
 
 .row {
-  --bs-gutter-x: 30px;
-  --bs-gutter-y: 0;
+  --bs-gutter-x: 20px;
+  --bs-gutter-y: 0px;
   display: flex;
+ 
   flex-wrap: wrap;
   margin-top: calc(var(--bs-gutter-y) * -1);
   margin-right: calc(var(--bs-gutter-x) / -2);
@@ -34266,3 +34267,22 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       color: #fff; }
 
 /*# sourceMappingURL=style.css.map */
+/*--------------------------------------------------------CUSTOM CSS------------------------------------------------------------------------------------------------------*/
+/*----------------------Top coin - home custom------------------------------------------------------*/
+.top-coin{
+  height: 100%;
+}
+
+.text-start{
+  margin-top: 10rem;
+}
+
+.summary-item{
+  width : 20%;
+}
+
+.top-coin-header{
+  display: flex;
+  justify-content: space-between;
+}
+
