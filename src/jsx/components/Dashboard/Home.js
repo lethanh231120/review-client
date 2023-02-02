@@ -8,6 +8,7 @@ import { Dropdown } from 'react-bootstrap'
 // Import Components
 import { ThemeContext } from '../../../context/ThemeContext'
 import BalanceCardSlider from './Dashboard/BalanceCardSlider'
+import ChangeTheme from '../../layouts/ChangeTheme'
 //  import MorrisDonught from './Dashboard/MorrisDonught';
 //  import OrderForm from './Dashboard/OrderForm'
 //  import ServerStatusBar from './Dashboard/ServerStatusBar';
@@ -53,6 +54,7 @@ const Home = () => {
 
   return (
     <>
+      <ChangeTheme />
       <div className='row'>
         <div className='col-xl-12'>
           <div className='row'>

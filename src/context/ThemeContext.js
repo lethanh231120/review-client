@@ -46,24 +46,7 @@ const ThemeContextProvider = (props) => {
     windowWidth,
     windowHeight
   } = state
-
-  // const [sideBarStyle, setSideBarStyle] = useState({ value: "full", label: "Full",});
-  // const [sidebarposition, setSidebarposition] = useState({ value: "fixed",	label: "Fixed",});
-  // const [headerposition, setHeaderposition] = useState({ value: "fixed", label: "Fixed", });
-  // const [sidebarLayout, setSidebarLayout] = useState({ value: "vertical", label: "Vertical",});
-  // const [direction, setDirection] = useState({ value: "ltr", label: "LTR" });
-  // const [primaryColor, setPrimaryColor] = useState("color_1");
-  // const [secondaryColor, setSecondaryColor] = useState("color_1");
-  // const [navigationHader, setNavigationHader] = useState("color_3");
-  // const [haderColor, setHaderColor] = useState("color_3");
-  // const [sidebarColor, setSidebarColor] = useState("color_1");
-  // const [iconHover, setIconHover] = useState(false);
-  // const [menuToggle, setMenuToggle] = useState(false);
-  // const [background, setBackground] = useState({ value: "light",	label: "Light",});
-  // const [containerPosition_, setcontainerPosition_] = useState({value: "wide-boxed", label: "Wide Boxed",});
   const body = document.querySelector('body')
-  // const [windowWidth, setWindowWidth] = useState(0);
-  // const [windowHeight, setWindowHeight] = useState(0);
 
   // layout
   const layoutOption = [
@@ -96,8 +79,8 @@ const ThemeContextProvider = (props) => {
     { value: 'wide', label: 'Wide' }
   ]
   const colors = [
-    'color_1',
-    'color_2',
+    'color_1', // white
+    'color_2', // green
     'color_3',
     'color_4',
     'color_5',
@@ -276,11 +259,11 @@ const ThemeContextProvider = (props) => {
     body.setAttribute('data-typography', 'poppins')
     body.setAttribute('data-theme-version', 'light')
     body.setAttribute('data-layout', 'vertical')
-    body.setAttribute('data-primary', 'color_1')
-    body.setAttribute('data-nav-headerbg', 'color_4')
-    body.setAttribute('data-headerbg', 'color_1')
+    body.setAttribute('data-primary', 'color_2') // body-background, button, border chart
+    body.setAttribute('data-nav-headerbg', 'color_1') // sidebar left header
+    body.setAttribute('data-headerbg', 'color_2') // header
     body.setAttribute('data-sidebar-style', 'overlay')
-    body.setAttribute('data-sidebarbg', 'color_4')
+    body.setAttribute('data-sidebarbg', 'color_1') // sidebar left body
     body.setAttribute('data-secondary', 'color_1')
     body.setAttribute('data-sidebar-position', 'fixed')
     body.setAttribute('data-header-position', 'fixed')
@@ -295,7 +278,7 @@ const ThemeContextProvider = (props) => {
         ? body.setAttribute('data-sidebar-style', 'mini')
         : window.innerWidth <= 768
           ? body.setAttribute('data-sidebar-style', 'overlay')
-          : body.setAttribute('data-sidebar-style', 'full')
+          : body.setAttribute('data-sidebar-style', 'modern') //
     }
     resizeWindow()
     window.addEventListener('resize', resizeWindow)
