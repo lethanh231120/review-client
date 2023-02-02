@@ -61,12 +61,6 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "lint": "npx eslint src test",
-    "lint:fix": "npm run lint -- --fix",
-    "prettier": "npx prettier src test --check",
-    "prettier:fix": "npm run prettier -- --write",
-    "format": "npm run prettier:fix && npm run lint:fix",
-    
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
