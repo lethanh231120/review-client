@@ -1,0 +1,16 @@
+export const PREFIX_DETAIL = 'products'
+export const EXCHANGE = 'exchange'
+export const DAPP = 'dapp'
+export const SOON = 'soon'
+export const VENTURE = 'venture'
+export const SCAM = 'scam'
+export const CRYPTO = 'crypto'
+export const CRYPTO_COIN = 'coin'
+export const CRYPTO_TOKEN = 'token'
+
+export const LIST_CRYPTO = 'listCrypto'
+export const LIST_VENTURE = 'listVenture'
+export const LIST_SOON = 'listSoon'
+export const LIST_EXCHANGE = 'listExchange'
+export const LIST_DAPP = 'listDapp'
+
