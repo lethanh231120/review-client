@@ -7,6 +7,11 @@ import pMinDelay from 'p-min-delay'
 // Import Components
 import { ThemeContext } from '../../../context/ThemeContext'
 import BalanceCardSlider from './Dashboard/BalanceCardSlider'
+import ChangeTheme from '../../layouts/ChangeTheme'
+//  import MorrisDonught from './Dashboard/MorrisDonught';
+//  import OrderForm from './Dashboard/OrderForm'
+//  import ServerStatusBar from './Dashboard/ServerStatusBar';
+
 // images
 import coin from './../../../images/coin.png'
 import { TopCoins } from '../common-widgets/home/top-coin'
@@ -35,6 +40,7 @@ const Home = () => {
 
   return (
     <>
+      <ChangeTheme />
       <div className='row'>
         <div className='col-8 col-xl-8'>
           <div className='row'>
