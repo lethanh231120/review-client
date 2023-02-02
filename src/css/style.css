@@ -8502,7 +8502,7 @@ label {
   @media only screen and (max-width: 87.5rem) {
     .nav-header {
       height: 5.5rem;
-      width: 17rem; } }
+      width: 18rem; } }
   .nav-header .brand-logo {
     display: flex;
     height: 100%;
@@ -11718,7 +11718,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     overflow-y: scroll; }
   @media only screen and (max-width: 87.5rem) {
     .deznav {
-      width: 17rem; } }
+      width: 18.5rem; } }
   .deznav ul {
     padding: 0;
     margin: 0;
