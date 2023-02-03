@@ -8,7 +8,7 @@ import { SummaryCard } from '../../common-widgets/home/summary-card'
 // import ProfitLossArea from './ProfitLossArea'
 // import TotaldipositChart from './TotaldipositChart'
 
-const BalanceCardSlider = () => {
+const SummaryRow = () => {
   return (
     <div className='row'>
       <SummaryCard title={'Cryptocurrencies'} number={'2.200.000'}/>
@@ -19,4 +19,4 @@ const BalanceCardSlider = () => {
     </div>
   )
 }
-export default BalanceCardSlider
+export default SummaryRow

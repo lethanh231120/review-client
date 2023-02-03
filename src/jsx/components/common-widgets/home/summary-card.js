@@ -22,8 +22,8 @@ export const SummaryCard = ({ title, number }) => {
             </svg>
           </span> */}
           <div className='media-body'>
-            <p className='mb-1'>{title}</p>
-            <h4 className='mb-0'>{number}</h4>
+            <p className='mb-1' style={{ fontSize: '0.7vw', overflowWrap: 'anywhere' }}>{title}</p>
+            <h4 className='mb-0' style={{ fontSize: '1vw', overflowWrap: 'anywhere' }}>{number}</h4>
             {/* <span className='badge badge-primary'>+3.5%</span> */}
           </div>
         </div>

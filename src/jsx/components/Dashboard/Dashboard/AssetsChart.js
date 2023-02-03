@@ -56,10 +56,11 @@ function AssetsChart() {
       },
       responsive: [
         {
-          breakpoint: 480,
+          breakpoint: 1500,
           options: {
             chart: {
-              // width: 200
+              // width: 200,
+              height: 200
             }
           }
         }

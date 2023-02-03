@@ -84,7 +84,7 @@ const Header = ({ onNote }) => {
                   <input
                     type='text'
                     className='form-control '
-                    placeholder='Search here...'
+                    placeholder='Search by Token / Coin / Exchange / Dapp / Venture...'
                   />
                 </div>
               </div>

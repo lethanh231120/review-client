@@ -29139,8 +29139,9 @@ table.dataTable thead .sorting_asc {
 @media only screen and (min-width: 1199px) and (max-width: 1500px) {
   .email-susb {
     display: none; }
-  .market-previews,
-  .assets-al {
+  .market-previews
+  /* .assets-al  */
+  {
     width: 50%; }
   .buy-coin .coin-img img {
     width: 230px;
@@ -34274,8 +34275,8 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   height: 100%;
 }
 
-.text-start{
-  margin-top: 10rem;
+.chart-legend{
+  margin-top: 8rem;
 }
 
 .summary-item{
@@ -34291,3 +34292,13 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 .full-width{
   width: 100% !important;
 }
+
+/* TOP COIN CARD RESPONSIVE */
+@media only screen and (min-width: 1199px) and (max-width: 1500px) {
+  .market-previews
+ {
+    width: 100%; 
+ }
+
+ 
+ }
