@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 // import { ThemeContext } from '../../../context/ThemeContext'
 
 // images
-import logo1 from './../../../images/logo/logo.png'
-import logotext1 from './../../../images/logo/logo-text.png'
-import logoColor from './../../../images/logo/logo-color.png'
-import logoColorText from './../../../images/logo/logo-text-color.png'
+import gear5Logo from './../../../images/logo/gear5-logo.png'
+import gear5LogoNotext from './../../../images/logo/gear5_logo_notext.png'
+// import logotext1 from './../../../images/logo/logo-text.png'
+// import logoColor from './../../../images/logo/logo-color.png'
+// import logoColorText from './../../../images/logo/logo-text-color.png'
 
 export function NavMenuToggle() {
   setTimeout(() => {
@@ -27,10 +28,8 @@ const NavHader = () => {
   return (
     <div className='nav-header'>
       <Link to='/dashboard' className='brand-logo'>
-        <img src={logo1} className='logo-abbr' alt='' />
-        <img src={logotext1} className='brand-title' alt='' />
-        <img src={logoColor} className='logo-color' alt='' />
-        <img src={logoColorText} className='brand-title color-title' alt='' />
+        <img src={gear5LogoNotext} className='logo-abbr img-fluid' alt='' />
+        <img src={gear5Logo} className='brand-title color-title img-fluid ' alt='' />
       </Link>
 
       <div
