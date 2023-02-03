@@ -1,13 +1,10 @@
 import React from 'react'
+import { Badge } from 'react-bootstrap'
 import './score.scss'
-
-const green = '#039F7F'
-const yellow = '#F5B97F'
-const red = '#EA3943'
 
 const MyScoreComponent = ({ score }) => {
   let output = 0
-  let color
+  let classname = 'success'
   if (score || score === 0) {
     if (score > 200) {
       output = 10
@@ -19,14 +16,14 @@ const MyScoreComponent = ({ score }) => {
 
     // color
     if (parseInt(output) > 6) {
-      color = green
+      classname = 'badge-success'
     } else if (parseInt(output) >= 4 && parseInt(output) <= 6) {
-      color = yellow
+      classname = 'badge-warning'
     } else if (parseInt(output) < 4) {
-      color = red
+      classname = 'badge-danger'
     }
   }
-  return <span className='score' style={{ backgroundColor: color }}>{output.toFixed(1)}</span>
+  return <Badge bg=' badge-l' className={classname}>{output.toFixed(1)}</Badge>
 }
 
 export default MyScoreComponent

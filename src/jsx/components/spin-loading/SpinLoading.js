@@ -8,7 +8,7 @@ const SpinLoading = () => {
     <div className='not-found' style={{ width: '100%' }}>
       <Spin
         indicator={antIcon}
-        style={{ width: '100%', height: '100%', alignItems: 'center', display: 'flex', justifyContent: 'center' }}
+        style={{ width: '100%', height: '100%', alignItems: 'center', display: 'flex', justifyContent: 'center', color: 'green' }}
       />
     </div>
   )
