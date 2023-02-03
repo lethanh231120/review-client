@@ -1,0 +1,28 @@
+
+@import '../../../../scss/base/font-size.scss';
+
+.read-or-hide {
+  color: blue;// rgba(61, 61, 194, 0.753);
+  cursor: pointer;
+  & .anticon{
+    font-size: 1rem;
+    margin-left: 0.625rem;
+  }
+}
+.text{
+  & p{
+    // margin: 0.625rem 0;
+    display: -webkit-box;
+    line-height: 1.4;
+    margin-top: 0.625rem;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.default {
+  @include font-regular-400;
+}
+
+
