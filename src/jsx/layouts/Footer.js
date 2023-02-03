@@ -6,9 +6,9 @@ const Footer = () => {
     <div className='footer out-footer'>
       <div className='copyright'>
         <p>
-          Copyright © Designed &amp; Developed by{' '}
-          <a href='http://dexignzone.com/' target='_blank' rel='noreferrer'>
-            DexignZone
+          Copyright © Developed by{' '}
+          <a href='#' target='_blank' rel='noreferrer' style={{ color: 'green' }}>
+            Nika Guru
           </a>{' '}
           {d.getFullYear()}
         </p>

@@ -3,19 +3,15 @@ import { Link } from 'react-router-dom'
 //  import {NavLink} from 'react-router-dom';
 import loadable from '@loadable/component'
 import pMinDelay from 'p-min-delay'
-
 // Import Components
 import { ThemeContext } from '../../../context/ThemeContext'
-import BalanceCardSlider from './Dashboard/BalanceCardSlider'
-//  import MorrisDonught from './Dashboard/MorrisDonught';
-//  import OrderForm from './Dashboard/OrderForm'
-//  import ServerStatusBar from './Dashboard/ServerStatusBar';
 
 // images
 import coin from './../../../images/coin.png'
 import { TopCoins } from '../common-widgets/home/top-coin'
 import { RecentlyScam } from '../common-widgets/home/recently-scam'
 import { TopDiscussed } from '../common-widgets/home/top-discuss-project'
+import SummaryRow from './Dashboard/BalanceCardSlider'
 
 const DashboardComboChart = loadable(() =>
   pMinDelay(import('./Dashboard/DashboardComboChart'), 1000)
@@ -63,9 +59,8 @@ const Home = () => {
               </div>
             </div>
             <div className='col-xl-12'>
-              <BalanceCardSlider />
+              <SummaryRow />
             </div>
-
           </div>
         </div>
         <div className='col-4 '>
@@ -73,21 +68,19 @@ const Home = () => {
         </div>
       </div>
       <div className='row'>
-        <div className='col-xl-4 assets-al col-lg-4 col-md-4 ' >
+        <div className='col-4 assets-al' >
           <div className='card'>
             <div className='card-header border-0 pb-0'>
               <h2 className='heading'>Data Allocation</h2>
             </div>
-            <div className='card-body text-center pt-0 pb-4'>
+            <div className='card-body text-center pt-0 '>
               <div id='morris_donught' className='custome-donut'>
-                {/* <MorrisDonught /> */}
                 <AssetsChart />
               </div>
               <div className='chart-items'>
                 <div className='row'>
                   <div className=' col-xl-12 col-sm-12 '>
-                    <div className='text-start '>
-
+                    <div className='text-start chart-legend'>
                       {pickerData.map((data, ind) => (
                         <div className='color-picker' key={ind}>
                           <span className='mb-0 col-6 fs-14'>
@@ -118,14 +111,12 @@ const Home = () => {
             </div>
           </div>
         </div>
-
-        <div className='col-xl-8 col-md-8 col-lg-8'>
+        <div className='col-8 col-xl-8'>
           <div className='card'>
             <div className='card-header border-0 align-items-start flex-wrap pb-0'>
               <div>
                 <h2 className='heading'>BTC Chart</h2>
                 <div className='market-data'>
-
                 </div>
               </div>
 

@@ -39,7 +39,7 @@ export const TopCoins = () => {
                 </span>
               </div>
               <div className='chart-img' >
-                <img src={ind % 2 === 0 ? 'https://www.coingecko.com/coins/1/sparkline' : 'https://www.coingecko.com/coins/13029/sparkline'} width={100} height={40} />
+                <img className='img-fluid' src={ind % 2 === 0 ? 'https://www.coingecko.com/coins/1/sparkline' : 'https://www.coingecko.com/coins/13029/sparkline'} width={100} height={40} />
               </div>
             </div>
           ))}
