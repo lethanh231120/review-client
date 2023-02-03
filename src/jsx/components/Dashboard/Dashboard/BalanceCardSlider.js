@@ -15,7 +15,7 @@ const BalanceCardSlider = () => {
       <SummaryCard title={'Dapps'} number={'100.000'}/>
       <SummaryCard title={'Exchanges'} number={'1000'}/>
       <SummaryCard title={'Ventures'} number={'100.000'}/>
-      <SummaryCard title={'Upcoming Projects'} number={'1000'}/>
+      <SummaryCard title={'IDO/ICOs'} number={'1000'}/>
     </div>
   )
 }
