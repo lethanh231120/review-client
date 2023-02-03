@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
 import ThemeContext from './context/ThemeContext'
+import SignInContext from './context/SignInContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -14,7 +15,9 @@ root.render(
     <Provider store={store}>
       <BrowserRouter basename='/react/demo'>
         <ThemeContext>
-          <App />
+          <SignInContext>
+            <App />
+          </SignInContext>
         </ThemeContext>
       </BrowserRouter>
     </Provider>
