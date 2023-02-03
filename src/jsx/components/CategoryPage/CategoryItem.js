@@ -8,6 +8,7 @@ import Exchange from '../table/exchange/Exchange'
 import Crypto from '../table/crypto/Crypto'
 import Venture from '../table/venture/Venture'
 import Soon from '../table/soon/Soon'
+import SoonDetail from '../detail/soon/Soon'
 import {
   DAPP,
   EXCHANGE,
@@ -203,6 +204,13 @@ const CategoryItem = () => {
       }
     }
     switch (projectType) {
+      // test
+      case 'detail':
+        return (
+          <div className='col-12'>
+            <SoonDetail />
+          </div>
+        )
       case DAPP:
         return (
           <Col span={24}>

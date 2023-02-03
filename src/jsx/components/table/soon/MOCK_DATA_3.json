@@ -1,0 +1,171 @@
+[
+    {
+        "projectId": "gear5_soon_scriptnetwork",
+        "projectName": "Script Network Script Network",
+        "projectSymbol": "SCPT",
+        "type": "token",
+        "totalSupply": 1000000000,
+        "fullyDilutedMarketcap": 94700000,
+        "bigLogo": "https://img.api.cryptorank.io/coins/150x150.script network1653467086410.png",
+        "blockchain": {
+            "BNB": "https://bscscan.com/token/",
+            "Ethereum": "https://etherscan.io/token/"
+        },
+        "subCategory": "Blockchain",
+        "status": "upcoming",
+        "website": "https://token.script.tv/",
+        "roundType": "IDO",
+        "fundRaisingGoals": 550000,
+        "startDate": "",
+        "endDate": "",
+        "launchPads": [
+            "gear5_launchpad_trust-pad",
+            "gear5_launchpad_poolz"
+        ],
+        "shortDesc": "Script Network is a watch to earn live tv platform, where users earn rewards though social GameFi experience.",
+        "totalReviews": 0,
+        "totalIsScam": 0,
+        "totalNotScam": 0,
+        "star": 0
+    },
+    {
+        "projectId": "gear5_soon_metaclash",
+        "projectName": "MetaClash",
+        "projectSymbol": "PCORE",
+        "type": "token",
+        "totalSupply": 100000000000,
+        "fullyDilutedMarketcap": 75000000,
+        "bigLogo": "https://img.api.cryptorank.io/coins/150x150.metaclash1644316259251.png",
+        "blockchain": {
+            "Polygon": "https://polygonscan.com/token/"
+        },
+        "subCategory": "GameFi",
+        "status": "upcoming",
+        "website": "https://www.metaclash.online",
+        "roundType": "Seed",
+        "fundRaisingGoals": 1350000,
+        "startDate": "",
+        "endDate": "",
+        "launchPads": [
+            "gear5_launchpad_trust-pad"
+        ],
+        "shortDesc": "MetaClash is a hyper-realistic science fantasy DAO-centered combat gaming metaverse.",
+        "totalReviews": 0,
+        "totalIsScam": 0,
+        "totalNotScam": 0,
+        "star": 0
+    },
+    {
+        "projectId": "gear5_soon_lifetise",
+        "projectName": "Lifetise",
+        "projectSymbol": "LIFE",
+        "type": "token",
+        "totalSupply": 1000000000,
+        "fullyDilutedMarketcap": 30000000,
+        "bigLogo": "https://img.api.cryptorank.io/coins/150x150.lifetise1652368447607.png",
+        "blockchain": {
+            "Ethereum": "https://etherscan.io/token/"
+        },
+        "subCategory": "GameFi",
+        "status": "upcoming",
+        "website": "https://www.lifetise.io/",
+        "roundType": "IDO",
+        "fundRaisingGoals": 190001,
+        "startDate": "",
+        "endDate": "",
+        "launchPads": [
+            "gear5_launchpad_trust-pad"
+        ],
+        "shortDesc": "Lifetise is building the world's most exciting Web3 consumer finance platform.",
+        "totalReviews": 0,
+        "totalIsScam": 0,
+        "totalNotScam": 0,
+        "star": 0
+    },
+    {
+        "projectId": "gear5_soon_playzap",
+        "projectName": "PlayZap",
+        "projectSymbol": "PLAYZAP",
+        "type": "token",
+        "totalSupply": 150000000,
+        "fullyDilutedMarketcap": 18000000,
+        "bigLogo": "https://img.api.cryptorank.io/coins/150x150.playzap1651218936248.png",
+        "blockchain": {
+            "Polygon": "https://polygonscan.com/token/"
+        },
+        "subCategory": "GameFi",
+        "status": "upcoming",
+        "website": "https://www.playzap.games/",
+        "roundType": "IDO",
+        "fundRaisingGoals": 2642505,
+        "startDate": "",
+        "endDate": "",
+        "launchPads": [
+            "gear5_launchpad_trust-pad",
+            "gear5_launchpad_trust-pad",
+            "gear5_launchpad_moon-starter",
+            "gear5_launchpad_gamestarter"
+        ],
+        "shortDesc": "PlayZap is an interactive P2E gaming platform that lets players to compete against other players, win crypto tokens, and NFTs.",
+        "totalReviews": 0,
+        "totalIsScam": 0,
+        "totalNotScam": 0,
+        "star": 0
+    },
+    {
+        "projectId": "gear5_soon_mizar",
+        "projectName": "Mizar",
+        "projectSymbol": "MZR",
+        "type": "token",
+        "totalSupply": 10000000000,
+        "fullyDilutedMarketcap": 15000000,
+        "bigLogo": "https://img.api.cryptorank.io/coins/150x150.mizar1649409948438.png",
+        "blockchain": {
+            "BNB": "https://bscscan.com/token/"
+        },
+        "subCategory": "Exchange",
+        "status": "upcoming",
+        "website": "https://mizar.ai/",
+        "roundType": "IDO",
+        "fundRaisingGoals": 150000,
+        "startDate": "",
+        "endDate": "",
+        "launchPads": [
+            "gear5_launchpad_trust-pad"
+        ],
+        "shortDesc": "Mizar is a next-gen trading platform that provides an access to a wide range of trading tools and lets traders to build their strategies.",
+        "totalReviews": 0,
+        "totalIsScam": 0,
+        "totalNotScam": 0,
+        "star": 0
+    },
+    {
+        "projectId": "gear5_soon_animalia",
+        "projectName": "Animalia",
+        "projectSymbol": "ANIM",
+        "type": "token",
+        "totalSupply": 87000000,
+        "fullyDilutedMarketcap": 12180000.000000002,
+        "bigLogo": "https://img.api.cryptorank.io/coins/150x150.animalia1637930956946.png",
+        "blockchain": {
+            "BNB": "https://bscscan.com/token/"
+        },
+        "subCategory": "GameFi",
+        "status": "upcoming",
+        "website": "https://animalia.games",
+        "roundType": "IDO",
+        "fundRaisingGoals": 350000,
+        "startDate": "",
+        "endDate": "",
+        "launchPads": [
+            "gear5_launchpad_paid-network",
+            "gear5_launchpad_trust-pad",
+            "gear5_launchpad_synapse-network"
+        ],
+        "shortDesc": "Animalia is an independent free-to-play online NFT trading card game.",
+        "totalReviews": 0,
+        "totalIsScam": 0,
+        "totalNotScam": 0,
+        "star": 0
+    }
+]
