@@ -29,7 +29,7 @@ const NavHader = () => {
     <div className='nav-header'>
       <Link to='/dashboard' className='brand-logo'>
         <img src={gear5LogoNotext} className='logo-abbr img-fluid' alt='' />
-        <img src={gear5Logo} className='brand-title color-title img-fluid ' alt='' />
+        <img src={gear5Logo} className='brand-title color-title img-fluid' alt='' />
       </Link>
 
       <div

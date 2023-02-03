@@ -34,7 +34,6 @@ import IntradayTrading from './components/Trading/IntradayTrading'
 import MarketWatch from './components/Crypto/MarketWatch'
 import IcoListingFilter from './components/Crypto/IcoListingFilter'
 import Banking from './components/Crypto/Banking'
-import Exchange from './components/Crypto/Exchange'
 import CoinDetails from './components/Crypto/CoinDetails'
 
 // Report
@@ -166,7 +165,7 @@ const Markup = () => {
     { url: 'crypto', component: <MarketWatch /> },
     { url: 'ico-listing-filter', component: <IcoListingFilter /> },
     { url: 'banking', component: <Banking /> },
-    { url: 'exchange', component: <Exchange /> },
+    // { url: 'exchange', component: <Exchange /> },
     { url: 'coin-details', component: <CoinDetails /> },
 
     // Report
