@@ -34302,3 +34302,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
  
  }
+/* list soon */
+.text-total-soon-project{
+  font-size: 1.6rem;
+  padding: 1rem 0;
+  /* font-weight */
+}
+
+
