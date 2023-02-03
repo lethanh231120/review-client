@@ -18,16 +18,11 @@ const CoinChart = () => {
         <div className='card-header border-0 flex-wrap'>
           <div className='mb-2'>
             <h4 className='heading m-0'>Coin Chart</h4>
-            <span className='fs-16'>
+            {/* <span className='fs-16'>
               Lorem ipsum dolor sit amet, consectetur
-            </span>
+            </span> */}
           </div>
           <div className='dropdown bootstrap-select'>
-            {/* <select className="image-select default-select dashboard-select" aria-label="Default" tabindex="0">
-                            <option selected="">USD ($ US Dollar)</option>
-                            <option value="1">BTC ($ US Dollar)</option>
-                            <option value="2">USD ($ US Dollar)</option>
-                        </select> */}
             <Select
               className='custom-react-select mb-xl-0 mb-3'
               options={options}
@@ -43,20 +38,28 @@ const CoinChart = () => {
                 <span className='fs-18 d-block mb-2'>Price</span>
                 <h4 className='fs-20 font-w600'>$9,542.39</h4>
               </div>
-              <div className='price-content'>
+              {/* <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>24h% change</span>
                 <h4 className='font-w600 text-success'>
                   1.64%
                   <i className='fa-solid fa-caret-up ms-1 text-success'></i>
                 </h4>
-              </div>
-              <div className='price-content'>
-                <span className='fs-14 d-block mb-2'>Volume (24h)</span>
-                <h4 className='font-w600'>$47.22B</h4>
-              </div>
+              </div> */}
               <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Market Cap</span>
                 <h4 className='font-w600'>$219.24B</h4>
+              </div>
+              <div className='price-content'>
+                <span className='fs-14 d-block mb-2'>Total Supply</span>
+                <h4 className='font-w600'>$47.22B</h4>
+              </div>
+              <div className='price-content'>
+                <span className='fs-14 d-block mb-2'>Holders</span>
+                <h4 className='font-w600'>$47.22B</h4>
+              </div>
+              <div className='price-content'>
+                <span className='fs-14 d-block mb-2'>Trannsfer</span>
+                <h4 className='font-w600'>$47.22B</h4>
               </div>
             </div>
             {/* <div className='d-flex align-items-center'>
