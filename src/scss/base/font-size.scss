@@ -1,0 +1,23 @@
+@mixin font-regular-500 {
+    font-size: 0.9375rem; // 15px
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+}
+@mixin font-regular-400 {
+    font-size: 0.9375rem; // 15px
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.6);
+}
+@mixin font-medium {
+    font-size: 0.9375rem; // 15px
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+}
+@mixin font-family {
+    font-family: "poppins", sans-serif, sans-serif;
+}
+@mixin image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

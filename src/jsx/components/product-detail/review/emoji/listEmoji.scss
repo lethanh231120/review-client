@@ -1,0 +1,84 @@
+.review{
+    &-item{
+        &-action{
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            &-list{
+                display: flex;
+                align-items: center;
+                padding: 0rem 1.2rem;
+            }
+            &-item{
+                font-size: 1.3rem;
+                font-weight: 900;
+                padding: 0 1.5rem 0 0;
+                cursor: pointer;
+                position: relative;
+                color: rgba(0, 0, 0, 0.6);
+                & span{
+                    color: rgba(0, 140, 255, 0.648);
+                }
+                &:hover{
+                    & .review-item-action-item-emoji{
+                        opacity: 1;
+                        visibility: visible;
+                    }
+                }
+                &-emoji{
+                    font-size: 2rem;
+                    position: absolute;
+                    top: -4rem;
+                    left: -2rem;
+                    z-index: 9999999;
+                    width: fit-content;
+                    display: flex;
+                    align-items: center;
+                    background-color: #fff;
+                    border: 0.2px solid rgba(0, 0, 0, 0.1);
+                    border-radius: 2rem;
+                    height: auto;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: all 0.2s linear;
+                    padding: 0.2rem  0.5rem;
+                }
+                &-time{
+                    font-size: 1.3rem;
+                    font-weight: 500;
+                    color: rgba(0, 0, 0, 0.6);
+                    cursor: pointer;
+                    &:hover{
+                        text-decoration: underline;
+                    }
+                }
+            }
+            &-reaction{
+                display: flex;
+                align-items: center;
+                padding: 0 1.6rem;
+                padding: 0.2rem 0.5rem;
+                width: fit-content;
+                border-radius: 1.2rem;
+                background-color: #fff;
+                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                width: fit-content;
+                border: 1.5px solid #fff;
+                cursor: pointer;
+                &-item{
+                    border: 1.5px solid #fff;
+                    font-size: 1.6rem;
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    &:last-child{
+                        margin-left: 1rem;
+                    }
+                }
+            }
+        }
+    }
+}
