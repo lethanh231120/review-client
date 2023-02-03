@@ -1,0 +1,59 @@
+.filter{
+  & .ant-collapse-borderless{
+    background-color: #fff;
+  }
+  & .ant-drawer-body{
+    padding: 2rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
+  & .ant-drawer-header{
+    padding: 2rem;
+  }
+  & .ant-drawer-content{
+    border-top-left-radius: 1.5rem;
+  }
+  & .ant-collapse{
+    background-color: #fff;
+    border: 0px;
+  }
+  // custom item panel
+  & .ant-collapse > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow{
+    font-size: 1.6rem;
+    margin-right: 0.6rem;
+  }
+  & .ant-collapse > .ant-collapse-item > .ant-collapse-header{
+    color: rgba(0, 0, 0, 0.6);
+    padding: 1rem;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    // background-color: rgba(0, 0, 0, 0.1);
+    // border-radius: 0.6rem;
+    // margin-bottom: 1rem;
+  }
+  &-item{
+    border-radius: 1rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 1.5rem;
+  // const panelStyle = {
+  //   marginBottom: 24,
+  //   background: 'blue',
+  //   border: 'none',
+  //   // borderRadius: "20px",
+  //   // border: "none",
+  // };
+  }
+  // custom select
+  & .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+    border-radius: 0.6rem;
+  }
+}
+.drawer{
+  width: 100%;
+  text-align: right;
+  & button{
+    margin-bottom: 2rem;
+  }
+}

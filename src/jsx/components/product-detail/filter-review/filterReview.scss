@@ -1,0 +1,61 @@
+@import '../../../../scss/base/font-size.scss';
+
+.list{
+    &-review{
+        &-header{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            &-title{
+                font-size: 1.125rem;
+                font-weight: 700;
+                color: rgba(0, 0, 0, 0.87);
+            }
+            &-right{
+                display: flex;
+                align-items: center;
+                &-add{
+                    @include font-regular-500;
+                    color: rgba(24, 64, 174, 0.766);
+                    cursor: pointer;
+                }
+                &-filter{
+                    cursor: pointer;
+                    margin-left: 1rem;
+                    @include font-regular-500;
+                }
+            }
+            &-popover{
+                max-width: 30rem;
+                &-item{
+                    cursor: pointer;
+                    padding: 0.6rem;
+                    border-radius: 1rem;
+                    transition: all 0.2s linear;
+                    &:hover{
+                        background-color: rgba(208, 206, 206, 0.388);
+                    }
+                    &.active{
+                        background-color: rgba(208, 206, 206, 0.388);
+                    }
+                }
+                &-title{
+                    @include font-medium;
+                }
+                &-content{
+                    @include font-regular-400;
+                }
+            }
+            &-pop{
+                .ant-popover-inner{
+                    border-radius: 1.2rem;
+                }
+                .ant-popover-inner-content{
+                    box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 5px;
+                    border-radius: 1.2rem;
+                    padding: 0.6rem;
+                }
+            }
+        }
+    }
+}

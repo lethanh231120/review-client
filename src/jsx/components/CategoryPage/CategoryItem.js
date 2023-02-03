@@ -1,11 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react'
 import './categoryItem.scss'
 import { useParams } from 'react-router-dom'
-// import { Pagination, Empty, Row, Col, Tabs, Input } from 'antd'
-// import nodata from '../../assets/images/nodata.png'
-// import { SearchOutlined } from '@ant-design/icons'
-// import _ from 'lodash'
-// import Scam from '../detail-product/scam/Scam'
+import { Pagination, Row, Col, Input } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 import Dapp from '../table/dapp/Dapp'
 import Exchange from '../table/exchange/Exchange'
 import Crypto from '../table/crypto/Crypto'
@@ -22,23 +19,22 @@ import {
   CRYPTO_TOKEN
 } from '../../constants/category'
 import { get, search } from '../../../api/BaseRequest'
-// import SpinLoading from '../layout/spin-loading/SpinLoading'
 // import { search } from '../../api/BaseRequest'
-// import TabSearch from './TabSearch'
-import { PAGE_SIZE } from '../../constants/pagination'
-// import { PAGE_SIZE, MAX_PAGE } from '../../constants/pagination'
-// import { useNavigate } from 'react-router-dom'
+import SpinLoading from '../spin-loading/SpinLoading'
+import TabSearch from './TabSearch'
+import { PAGE_SIZE, MAX_PAGE } from '../../constants/pagination'
+import { useNavigate } from 'react-router-dom'
 import { decodeUrl } from '../../../utils/formatUrl'
 
 const CategoryItem = () => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const refabc = useRef()
   const [listProduct, setListProduct] = useState({})
   const [total, setTotal] = useState()
   const [loading, setLoading] = useState(true)
   const [params, setParams] = useState()
   const { category, subCategory, keyword } = useParams()
-  // const [keywordSearch, setKeyWordSearch] = useState(keyword)
+  const [keywordSearch, setKeyWordSearch] = useState(keyword)
 
   useEffect(() => {
     const getData = async() => {
@@ -101,45 +97,44 @@ const CategoryItem = () => {
   }, [category, subCategory])
 
   const getData = async(category, paramSort) => {
-    // /*reset for loading*/
-    setListProduct([])
+    setListProduct([]) // reset for loading
     paramSort['tag'] = decodeUrl(paramSort?.tag)
     switch (category) {
       case DAPP: {
         const dataDapp = await get('reviews/dapp/filter', paramSort)
         setListProduct(dataDapp?.data?.dApps)
         setTotal(dataDapp?.data?.dAppCount)
-        return
+        break
       }
       case CRYPTO: {
         const dataCrypto = await get('reviews/crypto/filter', paramSort)
         setListProduct(dataCrypto?.data?.cryptos)
         setTotal(dataCrypto?.data?.cryptoCount)
-        return
+        break
       }
       case EXCHANGE: {
         const dataExchange = await get('reviews/exchange/filter', paramSort)
         setListProduct(dataExchange?.data?.exchanges)
         setTotal(dataExchange?.data?.exchangeCount)
-        return
+        break
       }
       case VENTURE: {
         const dataVenture = await get('reviews/venture/filter', paramSort)
         setListProduct(dataVenture?.data?.ventures)
         setTotal(dataVenture?.data?.ventureCount)
-        return
+        break
       }
       case SOON: {
         const dataSoon = await get('reviews/soon/filter', paramSort)
         setListProduct(dataSoon?.data?.soons)
         setTotal(dataSoon?.data?.soonCount)
-        return
+        break
       }
       case SCAM: {
         const dataScam = await get('reviews/scam/filter', paramSort)
         setListProduct(dataScam?.data?.cryptos)
         setTotal(dataScam?.data?.cryptoCount)
-        return
+        break
       }
       default:
         break
@@ -147,12 +142,12 @@ const CategoryItem = () => {
     setLoading(false)
   }
 
-  // const handleChangePage = async(value) => {
-  //   setParams({
-  //     ...params,
-  //     page: value
-  //   })
-  // }
+  const handleChangePage = async(value) => {
+    setParams({
+      ...params,
+      page: value
+    })
+  }
 
   const handleChangeTable = (pagination, filters, sorter, extra) => {
     let sort
@@ -184,9 +179,10 @@ const CategoryItem = () => {
     let projectType = category
     if (projectType === SCAM) {
       let commonItemId = ''
-      if (item?.dAppId) commonItemId = item.dAppId
-      // soon project
-      else if (item?.projectId) {
+      if (item?.dAppId) {
+        commonItemId = item.dAppId
+      } else if (item?.projectId) {
+        // soon project
         commonItemId = item.projectId
       } else if (item?.ventureId) {
         commonItemId = item.ventureId
@@ -195,7 +191,7 @@ const CategoryItem = () => {
       } else if (item?.exchangeId) {
         commonItemId = item.exchangeId
       }
-      // sample common item id: 'gear5_exchange_tokocrypto_coinmarketcap'
+      // sample common item id: "gear5_exchange_tokocrypto_coinmarketcap"
       const parts = commonItemId.split('_')
       // need keyword above: exchange
       if (parts.length >= 2) {
@@ -209,7 +205,7 @@ const CategoryItem = () => {
     switch (projectType) {
       case DAPP:
         return (
-          <div className='col-12'>
+          <Col span={24}>
             <Dapp
               listProduct={listProduct}
               handleChangeTable={handleChangeTable}
@@ -218,11 +214,11 @@ const CategoryItem = () => {
               handleFilter={handleFilter}
               total={total}
             />
-          </div>
+          </Col>
         )
       case CRYPTO:
         return (
-          <div className='col-12'>
+          <Col span={24}>
             <Crypto
               listProduct={listProduct}
               handleChangeTable={handleChangeTable}
@@ -231,54 +227,41 @@ const CategoryItem = () => {
               handleFilter={handleFilter}
               total={total}
             />
-          </div>
+          </Col>
         )
       case EXCHANGE:
         return (
-          <div className='col-12'>
-            <Exchange
-              listProduct={listProduct}
-              handleChangeTable={handleChangeTable}
-              params={params}
-              loading={loading}
-              handleFilter={handleFilter}
-              total={total}
-            />
-          </div>
+          <Exchange
+            listProduct={listProduct}
+            handleChangeTable={handleChangeTable}
+            params={params}
+            loading={loading}
+            handleFilter={handleFilter}
+            total={total}
+          />
         )
       case VENTURE:
         return (
-          <div className='col-12'>
-            <Venture
-              listProduct={listProduct}
-              handleChangeTable={handleChangeTable}
-              params={params}
-              loading={loading}
-              handleFilter={handleFilter}
-              total={total}
-            />
-          </div>
+          <Venture
+            listProduct={listProduct}
+            handleChangeTable={handleChangeTable}
+            params={params}
+            loading={loading}
+            handleFilter={handleFilter}
+            total={total}
+          />
         )
       case SOON:
         return (
-          <div className='col-12'>
-            <Soon
-              listProduct={listProduct}
-              handleChangeTable={handleChangeTable}
-              params={params}
-              loading={loading}
-              handleFilter={handleFilter}
-              total={total}
-            />
-          </div>
+          <Soon
+            listProduct={listProduct}
+            handleChangeTable={handleChangeTable}
+            params={params}
+            loading={loading}
+            handleFilter={handleFilter}
+            total={total}
+          />
         )
-      // get common item id fail above, project type not overridden, still value SCAM
-      // case SCAM:
-      //   return (
-      //     <div className='col-12'>
-      //       <Scam listProduct={listProduct} />
-      //     </div>
-      //   )
       default:
         break
     }
@@ -300,16 +283,16 @@ const CategoryItem = () => {
     })
   }
 
-  // const handleChangeInput = (e) => {
-  //   setKeyWordSearch(e.target.value)
-  // }
+  const handleChangeInput = (e) => {
+    setKeyWordSearch(e.target.value)
+  }
 
   const getDataSearch = async(content) => {
     const data = await search('search/suggest', { keyword: content })
     if (data) {
       setListProduct(data?.data)
       setLoading(false)
-      // setKeyWordSearch()
+      setKeyWordSearch()
     }
   }
 
@@ -320,21 +303,22 @@ const CategoryItem = () => {
     }
   }, [keyword])
 
-  // const handleSubmitSearch = (e) => {
-  //   if (e.key === 'Enter') {
-  //     navigate(`/search/${keywordSearch}`, { replace: true })
-  //   }
-  // }
+  const handleSubmitSearch = (e) => {
+    if (e.key === 'Enter') {
+      navigate(`/search/${keywordSearch}`, { replace: true })
+    }
+  }
 
-  // const handleSubmitBtn = () => {
-  //   navigate(`/search/${keywordSearch}`, { replace: true })
-  // }
+  const handleSubmitBtn = () => {
+    navigate(`/search/${keywordSearch}`, { replace: true })
+  }
 
+  console.log(loading)
   return (
     <div className='category-page section' ref={refabc}>
       <div className='category-list detail'>
-        <div className='row'>
-          {/* {keyword ? (
+        <Row gutter={[10, 10]}>
+          {keyword ? (
             <Col span={24}>
               <Row>
                 <Col md={{ span: 16 }} sm={{ span: 14 }} xs={{ span: 24 }}></Col>
@@ -350,22 +334,23 @@ const CategoryItem = () => {
               </Row>
               <TabSearch listProduct={listProduct} loading={loading} />
             </Col>
-          ) : ( */}
-          <>
-            {/* {loading ? (
-              <SpinLoading />
-            ) : ( */}
-            <>{renderComponent(listProduct && listProduct[0])}</>
-            {/* )} */}
-          </>
-          {/* )} */}
-        </div>
+          ) : (
+            <>
+              {loading ? (
+                <SpinLoading />
+              ) : (
+                <>{renderComponent(listProduct && listProduct[0])}</>
+              )}
+            </>
+          )}
+        </Row>
       </div>
       {total > PAGE_SIZE && (
         <>
           {!loading && (
             <div className='category-paginate'>
-              {/* <Pagination
+              <Pagination
+                // total={total}
                 total={
                   total > MAX_PAGE * PAGE_SIZE ? MAX_PAGE * PAGE_SIZE : total
                 }
@@ -373,7 +358,7 @@ const CategoryItem = () => {
                 pageSize={PAGE_SIZE}
                 showSizeChanger={false}
                 onChange={(value) => handleChangePage(value)}
-              /> */}
+              />
             </div>
           )}
         </>
@@ -381,5 +366,4 @@ const CategoryItem = () => {
     </div>
   )
 }
-
 export default CategoryItem

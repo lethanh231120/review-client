@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, createContext, useState, useEffect } from 'react'
 
 // / React router dom
 import { Routes, Route, Outlet } from 'react-router-dom'
+import { get } from '../api/BaseRequest'
 
 // / Css
 import './index.css'
@@ -119,6 +120,8 @@ import BootstrapTable from './components/table/BootstrapTable'
 // categoryItem
 import CategoryItem from './components/CategoryPage/CategoryItem'
 
+// product detail
+import ProductDetail1 from './components/product-detail/ProductDetail'
 // / Form
 import Element from './components/Forms/Element/Element'
 import Wizard from './components/Forms/Wizard/Wizard'
@@ -138,7 +141,10 @@ import Error500 from './pages/Error500'
 import Error503 from './pages/Error503'
 import { ThemeContext } from '../context/ThemeContext'
 
+export const ChainListContext = createContext()
 const Markup = () => {
+  const [chainList, setChainList] = useState([])
+
   const allroutes = [
     // / Dashboard
     { url: '', component: <Home /> },
@@ -316,8 +322,22 @@ const Markup = () => {
   // let pagePath = path.split("-").includes("page");
   // const { menuToggle } = useContext(ThemeContext);
 
+  const getChainList = async() => {
+    try {
+      const chainList = await get(`reviews/chain/all`)
+      setChainList(chainList?.data?.chains)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  useEffect(() => {
+    // getCategoryAndSubcategories()
+    getChainList()
+  }, [])
+
   return (
-    <>
+    <ChainListContext.Provider value={chainList}>
       <Routes>
         <Route path='page-lock-screen' element={<LockScreen />} />
         <Route path='page-error-400' element={<Error400 />} />
@@ -342,10 +362,30 @@ const Markup = () => {
               />
             </Route>
           </Route>
+          <Route path='products'>
+            <Route path='crypto'>
+              <Route path=':type'>
+                <Route path=':productName'>
+                  <Route path='' element={<ProductDetail1 />} />
+                  <Route path=':path' element={<ProductDetail1 />} />
+                </Route>
+              </Route>
+            </Route>
+            <Route path=':categoryName'>
+              <Route path=':productName'>
+                <Route path='' element={<ProductDetail1 />} />
+                <Route path=':path' element={<ProductDetail1 />} />
+              </Route>
+              <Route
+                path=':productId'
+                element={<ProductDetail1 />}
+              />
+            </Route>
+          </Route>
         </Route>
       </Routes>
       <ScrollToTop />
-    </>
+    </ChainListContext.Provider>
   )
 }
 
