@@ -21,7 +21,6 @@ import profile07 from '../../../../images/profile/7.jpg'
 import profile08 from '../../../../images/profile/8.jpg'
 import profile09 from '../../../../images/profile/9.jpg'
 import profile from '../../../../images/profile/profile.png'
-import PageTitle from '../../../layouts/PageTitle'
 
 const galleryBlog = [
   { image: profile03 },
@@ -61,8 +60,6 @@ const AppProfile = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
   return (
     <Fragment>
-      <PageTitle activeMenu='Profile' motherMenu='App' />
-
       <div className='row'>
         <div className='col-lg-12'>
           <div className='profile card card-body px-3 pt-3 pb-0'>
@@ -210,7 +207,7 @@ const AppProfile = () => {
             <div className='col-lg-12'>
               <div className='card'>
                 <div className='card-header border-0 pb-0'>
-                  <h5 className='text-primary '>Interest</h5>
+                  <h5 className='text-primary'>Interest</h5>
                 </div>
                 <div className='card-body pt-3'>
                   <div className='profile-interest '>
