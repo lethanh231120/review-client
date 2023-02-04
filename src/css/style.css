@@ -20938,10 +20938,11 @@ input#checkAll.form-check-input:checked {
 
 .profile .profile-photo {
   max-width: 6.25rem;
-  position: relative;
+  /* position: relative; */
   z-index: 1;
-  margin-top: -4.5rem;
-  margin-right: 0.625rem; }
+  /* margin-top: -4.5rem; */
+  /* margin-right: 0.625rem;  */
+}
   @media only screen and (max-width: 35.9375rem) {
     .profile .profile-photo {
       width: 5rem;
@@ -21027,13 +21028,16 @@ input#checkAll.form-check-input:checked {
       margin-right: 0rem; } }
 
 .profile-info {
-  display: flex; }
+  display: flex; 
+}
   @media only screen and (max-width: 35.9375rem) {
     .profile-info {
       display: block; } }
   .profile-info .profile-details {
     display: flex;
-    width: 100%; }
+    width: 100%;
+    align-items: flex-start;
+  }
     @media only screen and (max-width: 35.9375rem) {
       .profile-info .profile-details {
         display: block; }
