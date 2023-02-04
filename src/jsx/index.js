@@ -352,15 +352,15 @@ const Markup = () => {
               element={data.component}
             />
           ))}
-          <Route path=''>
-            <Route path=':category'>
-              <Route path='' element={<CategoryItem />} />
-              <Route
-                path=':subCategory'
-                element={<CategoryItem />}
-              />
-            </Route>
+          {/* <Route path=''> */}
+          <Route path=':category'>
+            <Route path='' element={<CategoryItem />} />
+            <Route
+              path=':subCategory'
+              element={<CategoryItem />}
+            />
           </Route>
+          {/* </Route> */}
           <Route path='products'>
             <Route path='crypto'>
               <Route path=':type'>
