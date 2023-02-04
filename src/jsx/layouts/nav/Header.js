@@ -35,7 +35,7 @@ const Header = ({ onNote }) => {
     })
   }, [])
 
-  const { changeBackground, backgroundOption } = useContext(ThemeContext)
+  const { changeBackground, backgroundOption, colors, chnageHaderColor } = useContext(ThemeContext)
   const signContext = useContext(SignInContext)
 
   const onChangeTheme = () => {
@@ -44,8 +44,18 @@ const Header = ({ onNote }) => {
       // Current: Light theme --> change to Dark theme
       if (isLightTheme) {
         changeBackground(backgroundOption[1]) // { value: 'dark', label: 'Dark' }
+        // Dark purple at position 4 in array
+        if (colors.length >= 4) {
+          const colorDarkPurple = colors[3]
+          chnageHaderColor(colorDarkPurple)
+        }
       } else { // Current: Dark theme --> change to Light theme
         changeBackground(backgroundOption[0]) // { value: 'light', label: 'Light' }
+        // White at position 4 in array
+        if (colors.length >= 1) {
+          const colorWhite = colors[0]
+          chnageHaderColor(colorWhite);
+        }
       }
       setIsLightTheme(!isLightTheme)
     }
