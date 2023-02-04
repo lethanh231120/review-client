@@ -77,7 +77,8 @@ const Header = ({ onNote }) => {
       <Modal
         open={isModalOpen}
         onCancel={hideModal}
-        footer={null}
+        footer={false}
+        destroyOnClose={true}
       >
         <AccountTab activeTabKey={ activeTabKey }/>
       </Modal>

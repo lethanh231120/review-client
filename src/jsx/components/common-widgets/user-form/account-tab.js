@@ -13,7 +13,7 @@ const AccountTab = ({ activeTabKey }) => {
             <Nav.Link
               as='button'
               className='nav-link'
-              eventKey='Navbuy'
+              eventKey={logInKey}
               type='button'
             >
               Log&nbsp;In
@@ -21,7 +21,7 @@ const AccountTab = ({ activeTabKey }) => {
             <Nav.Link
               as='button'
               className='nav-link'
-              eventKey='Navsell'
+              eventKey={signUpKey}
               type='button'
             >
               Sign&nbsp;Up
@@ -29,7 +29,7 @@ const AccountTab = ({ activeTabKey }) => {
           </Nav>
         </div>
         <Tab.Content>
-          <Tab.Pane eventKey='Navbuy'>
+          <Tab.Pane eventKey={logInKey}>
             <Tab.Container defaultActiveKey='Navbuymarket'>
               <Tab.Content id='nav-tabContent1'>
                 <Tab.Pane eventKey='Navbuymarket'></Tab.Pane>
@@ -40,7 +40,7 @@ const AccountTab = ({ activeTabKey }) => {
               </div>
             </Tab.Container>
           </Tab.Pane>
-          <Tab.Pane eventKey='Navsell'>
+          <Tab.Pane eventKey={signUpKey}>
             <Tab.Container defaultActiveKey='Navsellmarket'>
               <Tab.Content id='nav-tabContent2'>
                 <Tab.Pane id='Navsellmarket'></Tab.Pane>
