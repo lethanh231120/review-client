@@ -54,7 +54,7 @@ const Header = ({ onNote }) => {
         // White at position 4 in array
         if (colors.length >= 1) {
           const colorWhite = colors[0]
-          chnageHaderColor(colorWhite);
+          chnageHaderColor(colorWhite)
         }
       }
       setIsLightTheme(!isLightTheme)
