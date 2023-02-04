@@ -11,7 +11,10 @@ import imgMoon from '../../../images/moon.png'
 import imgSun from '../../../images/sun.png'
 import profile from '../../../images/profile/pic1.jpg'
 import { ThemeContext } from '../../../context/ThemeContext'
-import AccountTab, { logInKey, signUpKey } from '../../components/common-widgets/user-form/account-tab'
+import AccountTab, {
+  logInKey,
+  signUpKey
+} from '../../components/common-widgets/user-form/account-tab'
 // import { SignInComponent } from '../../components/common-widgets/user-form/sign-in-form'
 import { SignInContext } from '../../../context/SignInContext'
 
@@ -67,7 +70,6 @@ const Header = ({ onNote }) => {
   }
 
   const onOpenModalLogInSignUp = () => {
-    alert(123)
     signContext?.handleSetOpenModal(true)
     setIsLogin(true)
   }
@@ -80,16 +82,25 @@ const Header = ({ onNote }) => {
         footer={false}
         destroyOnClose={true}
       >
-        <AccountTab activeTabKey={ activeTabKey }/>
+        <AccountTab activeTabKey={activeTabKey} />
       </Modal>
       <div className={`header ${headerFix ? 'is-fixed' : ''}`}>
         <div className='header-content'>
           <nav className='navbar navbar-expand'>
-            <div className='collapse navbar-collapse'>
+            <div className='collapse navbar-collapse justify-content-between'>
+              {/* header: text */}
+              <div className='header-left'>
+                <div
+                  className='dashboard_bar'
+                  style={{ textTransform: 'capitalize' }}
+                >
+                  Gear 5
+                </div>
+              </div>
               {/* header: search elk input */}
-              <div className='navbar-nav header-right col-lg-12'>
-                <div className='nav-item d-flex align-items-center col-lg-12'>
-                  <div className='input-group search-area full-width'>
+              <div className='navbar-nav header-right'>
+                <div className='nav-item d-flex align-items-center'>
+                  <div className='input-group search-area'>
                     <span className='input-group-text'>
                       <Link to={'#'}>
                         <svg
@@ -109,13 +120,11 @@ const Header = ({ onNote }) => {
                     <input
                       type='text'
                       className='form-control '
-                      placeholder='Search by Token / Coin / Exchange / Dapp / Venture...'
+                      placeholder='Search here...'
                     />
                   </div>
                 </div>
-              </div>
-              {/* side-bar right */}
-              <div className='header-right'>
+                {/* side-bar right */}
                 <div className='dz-side-menu'>
                   <div
                     className='search-coundry d-flex align-items-center'
@@ -174,7 +183,12 @@ const Header = ({ onNote }) => {
                           as='a'
                           className='nav-link i-false c-pointer'
                         >
-                          <img src={profile} width={20} alt='' onClick={() => onOpenModalLogInSignUp()} />
+                          <img
+                            src={profile}
+                            width={20}
+                            alt=''
+                            onClick={() => onOpenModalLogInSignUp()}
+                          />
                         </Dropdown.Toggle>
                         <Dropdown.Menu
                           align='right'
@@ -191,7 +205,7 @@ const Header = ({ onNote }) => {
                           onClick={() => showModal(logInKey)}
                         >
                           <span className='btn-header btn-header-sign-in'>
-                          Log&nbsp;In
+                            Log&nbsp;In
                           </span>
                         </Dropdown>
                         <Dropdown
@@ -200,7 +214,7 @@ const Header = ({ onNote }) => {
                           onClick={() => showModal(signUpKey)}
                         >
                           <span className='btn-header btn-header-sign-up'>
-                          Sign&nbsp;Up
+                            Sign&nbsp;Up
                           </span>
                         </Dropdown>
                       </>
