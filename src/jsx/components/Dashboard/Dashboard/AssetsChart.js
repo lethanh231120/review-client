@@ -49,7 +49,7 @@ function AssetsChart() {
       legend: {
         show: false
       },
-      colors: ['#32CD32', '#FF0000'],
+      colors: ['#18A594', '#15073A'],
       labels: ['Alive Projects', 'Dead/Scam Projects'],
       dataLabels: {
         enabled: false
@@ -73,7 +73,7 @@ function AssetsChart() {
         options={state.options}
         series={state.series}
         type='donut'
-        height={300}
+        height={270}
         // width={400}
       />
     </div>
