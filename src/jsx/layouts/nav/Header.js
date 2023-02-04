@@ -139,7 +139,7 @@ const Header = ({ onNote }) => {
                     />
                   </div>
 
-                  {/*  */}
+                  {/* Settings */}
                   <div className='sidebar-social-link '>
                     <ul className=''>
                       <Dropdown

@@ -316,7 +316,7 @@ const CategoryItem = () => {
   console.log(loading)
   return (
     <div className='category-page section' ref={refabc}>
-      <div className='category-list detail format-list-soon-background'>
+      <div className={`category-list detail ${category === SOON ? 'format-list-soon-background' : ''}`}>
         <Row gutter={[10, 10]}>
           {keyword ? (
             <Col span={24}>

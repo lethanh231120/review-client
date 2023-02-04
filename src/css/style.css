@@ -34313,7 +34313,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 .format-list-soon-background{
   border-radius: 0;
   padding: 0;
-  /* background: red; */
+  background: #E7F5F4;
 }
 
 /*START: button log in and sign up in side bar right */
