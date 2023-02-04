@@ -1,7 +1,7 @@
 import { Row, Col, Table, Avatar, Tooltip, Image } from 'antd'
 import React, { useContext } from 'react'
 import { Badge } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ChainListContext } from '../../..'
 import { renderNumber } from '../../../../utils/formatNumber'
 import { DAPP } from '../../../constants/category'
@@ -17,9 +17,15 @@ const Dapp = ({
   handleFilter,
   total
 }) => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const chainList = useContext(ChainListContext)
+
+  const handleonRowClicked = (record)=> {
+    const splitedId = record?.dAppId?.split('_')
+    splitedId && navigate(`../../products/${splitedId[1]}/${splitedId[2]}`)
+  }
+
   const columns = [
     {
       title: 'Name',
@@ -104,6 +110,7 @@ const Dapp = ({
       title: 'Score',
       showSorterTooltip: false,
       dataIndex: 'score',
+      align: 'center',
       sorter: true,
       defaultSortOrder:
         params?.orderBy === 'score'
@@ -140,7 +147,7 @@ const Dapp = ({
         rowKey={(record) => record?.cryptoId}
         onRow={(record) => ({
           onClick: () => {
-            // handleRowClicked(record)
+            handleonRowClicked(record)
           }
         })}
         scroll={{ x: 'max-content' }}

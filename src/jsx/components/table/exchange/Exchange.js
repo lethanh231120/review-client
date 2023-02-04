@@ -35,6 +35,7 @@ const Exchange = ({
     },
     {
       title: 'Subcategory',
+      align: 'center',
       render: (_, record) => (<Badge bg=' badge-l' className='badge-success '>
         {record?.subCategory}
       </Badge>)
@@ -134,6 +135,7 @@ const Exchange = ({
       title: 'Score',
       showSorterTooltip: false,
       dataIndex: 'score',
+      align: 'center',
       sorter: true,
       defaultSortOrder:
         params?.orderBy === 'priceUSD'
