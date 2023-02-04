@@ -32,9 +32,9 @@ const ItemExchange = ({ item, index, itemSubmit, setOpenModalSearch, setItemSubm
         )}
         <div>
           <div className='form-search-data-item-data-content'>
-            <div className='form-search-data-item-data-name'>
+            <h6 className='cus-h6'>
               {item?.name}
-            </div>
+            </h6>
             {item?.isScam ? (
               <Image src={scam} preview={false} />
             ) : item?.isWarning ? (
@@ -45,7 +45,7 @@ const ItemExchange = ({ item, index, itemSubmit, setOpenModalSearch, setItemSubm
           </div>
           <div className='form-search-data-item-data-list'>
             {item?.volume7d > 0 && (
-              <div className='form-search-data-item-data-tag'>
+              <div className='btn btn-primary light cus-btn cus-tag'>
                 {item?.volume7d
                   ?.toFixed(2)
                   .replace(
@@ -56,7 +56,7 @@ const ItemExchange = ({ item, index, itemSubmit, setOpenModalSearch, setItemSubm
               </div>
             )}
             {item?.category && (
-              <div className='form-search-data-item-data-tag'>
+              <div className='btn btn-primary light cus-btn'>
                 {item?.category}
               </div>
             )}

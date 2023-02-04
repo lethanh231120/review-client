@@ -35,12 +35,8 @@ const ItemCrypto = ({ item, index, itemSubmit, setOpenModalSearch, setItemSubmit
         )}
         <div>
           <div className='form-search-data-item-data-content'>
-            <div className='form-search-data-item-data-name'>
-              {item?.name}
-            </div>
-            <div className='form-search-data-item-data-symbol'>
-                        ({item?.symbol})
-            </div>
+            <h6 className='cus-h6'>{item?.name}</h6>
+            <h6 className='cus-h6'>({item?.symbol})</h6>
             {item?.isScam ? (
               <Image src={scam} preview={false} />
             ) : item?.isWarning ? (
@@ -49,15 +45,14 @@ const ItemCrypto = ({ item, index, itemSubmit, setOpenModalSearch, setItemSubmit
               ''
             )}
           </div>
-          <div className='form-search-data-item-data-list'>
-            {item?.addressShow && (
-              <div className='form-search-data-item-data-address'>
-                {item?.addressShow}
-              </div>
-            )}
-          </div>
+          {/* <div className='form-search-data-item-data-list'> */}
+          {item?.addressShow && (<p className='cus-p'>{item?.addressShow}</p>)}
+          {/* </div> */}
           {item?.chainname && (
-            <div className='form-search-data-item-data-tag'>
+            // <div className='form-search-data-item-data-tag'>
+            //   {item?.chainname}
+            // </div>
+            <div className='btn btn-primary light cus-btn'>
               {item?.chainname}
             </div>
           )}

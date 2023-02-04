@@ -232,17 +232,19 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
   // }
 
   return (
-    <React.Fragment>
-      {/* <Form form={form} fields={defaultValue}>
-        <Form.Item name='keyword'> */}
-
+    <div className='input-group search-area cus-input-group'>
       <input
         type='text'
-        className='form-control '
+        className='form-control cus-form-control'
         placeholder='Search here...'
         onChange={(e) => handleSearch(e, e.target.value)}
+        onBlur={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          handleSearch(e, '')
+        }}
       />
-      <span className='input-group-text'>
+      <span className='input-group-text cus-input-group-text'>
         <Link to={'#'}>
           <svg
             width='24'
@@ -323,7 +325,7 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                     {dataSearch?.data?.listCrypto &&
                       dataSearch?.data?.listCrypto?.cryptos !== null && (
                       <div className='form-search-data-box'>
-                        <div className='form-search-data-title'>Cryptos</div>
+                        <h4 className='card-title card-intro-title form-search-data-title'>Cryptos</h4>
                         {dataSearch?.data?.listCrypto?.cryptos?.map(
                           (item, index) => (
                             <>
@@ -400,7 +402,7 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                     {dataSearch?.data?.listDapp &&
                       dataSearch?.data?.listDapp?.dapps !== null && (
                       <div className='form-search-data-box'>
-                        <div className='form-search-data-title'>Dapps</div>
+                        <h4 className='card-title card-intro-title form-search-data-title'>Dapps</h4>
                         {dataSearch?.data?.listDapp?.dapps?.map(
                           (item, index) => (
                             <ItemDapp
@@ -494,9 +496,7 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                     {dataSearch?.data?.listExchange &&
                       dataSearch?.data?.listExchange?.exchanges !== null && (
                       <div className='form-search-data-box'>
-                        <div className='form-search-data-title'>
-                            Exchanges
-                        </div>
+                        <h4 className='card-title card-intro-title form-search-data-title'>Exchanges</h4>
                         {dataSearch?.data?.listExchange?.exchanges?.map(
                           (item, index) => (
                             <ItemExchange
@@ -571,7 +571,7 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                     {dataSearch?.data?.listSoon &&
                       dataSearch?.data?.listSoon?.soons !== null && (
                       <div className='form-search-data-box'>
-                        <div className='form-search-data-title'>Soons</div>
+                        <h4 className='card-title card-intro-title form-search-data-title'>Soons</h4>
                         {dataSearch?.data?.listSoon?.soons?.map((item) => (
                           <ItemSoon
                             key={item?.soonId}
@@ -649,7 +649,7 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                     {dataSearch?.data?.listVenture &&
                       dataSearch?.data?.listVenture?.ventures !== null && (
                       <div className='form-search-data-box'>
-                        <div className='form-search-data-title'>Ventures</div>
+                        <h4 className='card-title card-intro-title form-search-data-title'>Ventures</h4>
                         {dataSearch?.data?.listVenture?.ventures?.map(
                           (item, index) => (
                             <ItemVenture
@@ -738,7 +738,7 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
           </>
         )}
       </div>
-    </React.Fragment>
+    </div>
   )
 }
 

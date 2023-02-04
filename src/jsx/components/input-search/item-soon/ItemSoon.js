@@ -31,16 +31,12 @@ const ItemSoon = ({ item, itemSubmit, setOpenModalSearch, setItemSubmit, global 
         )}
         <div>
           <div className='form-search-data-item-data-content'>
-            <div className='form-search-data-item-data-name'>
-              {item?.name}
-            </div>
-            <div className='form-search-data-item-data-symbol'>
-                            ({item?.symbol})
-            </div>
+            <h6 className='cus-h6'>{item?.name}</h6>
+            <h6 className='cus-h6'>({item?.symbol})</h6>
           </div>
           <div className='form-search-data-item-data-list'>
             {item?.roundType && (
-              <div className='form-search-data-item-data-tag'>
+              <div className='btn btn-primary light cus-btn cus-tag'>
                 {item?.roundType}
               </div>
             )}
@@ -50,7 +46,7 @@ const ItemSoon = ({ item, itemSubmit, setOpenModalSearch, setItemSubmit, global 
                   ?.split(';')
                   ?.map((itemSoon) => (
                     <div
-                      className='form-search-data-item-data-tag'
+                      className='btn btn-primary light cus-btn cus-tag'
                       key={itemSoon}
                     >
                       {itemSoon}
