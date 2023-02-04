@@ -94,17 +94,17 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                   <h4 className='heading mb-0 soon-item-text-block'>
                                     {item?.projectName}
                                   </h4>
-                                  <span>{item?.projectSymbol}</span>
+                                  <span className='soon-item-text-block'>{item?.projectSymbol}</span>
                                 </div>
                               </div>
                               <div className='row'>
-                                <p className='mb-0 fs-14 text-black text-center'>
+                                <p className='mb-0 fs-14 text-black text-center soon-item-text-block'>
                                   {item?.subCategory ? item?.subCategory : absentData}
                                 </p>
                               </div>
                               <div className='d-flex align-items-center justify-content-between'>
                                 <div>
-                                  <p className='mb-0 fs-14 text-black'>
+                                  <p className='mb-0 fs-14 text-black soon-item-text-block'>
                                     {item?.roundType}
                                   </p>
                                   <span className='fs-12'>
@@ -142,13 +142,13 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                   </span>
                                 </div>
                                 <div>
-                                  <p className='mb-0 fs-14 text-success'>
+                                  <p className='mb-0 fs-14 text-success soon-item-text-block'>
                                     {formatLargeNumberMoneyUSD(
                                       item?.fundRaisingGoals
                                     )}{' '}
                                     raised
                                   </p>
-                                  <span className='fs-12'>
+                                  <span className='fs-12 soon-item-text-block'>
                                     Start date:{' '}
                                     {item?.startDate ? item?.startDate : 'TBA'}
                                   </span>
