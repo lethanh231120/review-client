@@ -571,50 +571,6 @@ const dataMock = {
 }
 console.log(dataMock)
 
-// const DropdownBlog = () => {
-//   return (
-//     <>
-//       <Dropdown className='custom-dropdown mb-0 tbl-orders-style'>
-//         <Dropdown.Toggle className='btn sharp tp-btn i-false' as='div'>
-//           <svg
-//             width='25'
-//             height='24'
-//             viewBox='0 0 25 24'
-//             fill='none'
-//             xmlns='http://www.w3.org/2000/svg'
-//           >
-//             <path
-//               d='M12.0335 13C12.5854 13 13.0328 12.5523 13.0328 12C13.0328 11.4477 12.5854 11 12.0335 11C11.4816 11 11.0342 11.4477 11.0342 12C11.0342 12.5523 11.4816 13 12.0335 13Z'
-//               stroke='#342E59'
-//               strokeWidth='2'
-//               strokeLinecap='round'
-//               strokeLinejoin='round'
-//             />
-//             <path
-//               d='M12.0335 6C12.5854 6 13.0328 5.55228 13.0328 5C13.0328 4.44772 12.5854 4 12.0335 4C11.4816 4 11.0342 4.44772 11.0342 5C11.0342 5.55228 11.4816 6 12.0335 6Z'
-//               stroke='#342E59'
-//               strokeWidth='2'
-//               strokeLinecap='round'
-//               strokeLinejoin='round'
-//             />
-//             <path
-//               d='M12.0335 20C12.5854 20 13.0328 19.5523 13.0328 19C13.0328 18.4477 12.5854 18 12.0335 18C11.4816 18 11.0342 18.4477 11.0342 19C11.0342 19.5523 11.4816 20 12.0335 20Z'
-//               stroke='#342E59'
-//               strokeWidth='2'
-//               strokeLinecap='round'
-//               strokeLinejoin='round'
-//             />
-//           </svg>
-//         </Dropdown.Toggle>
-//         <Dropdown.Menu className=' dropdown-menu-end' align='end'>
-//           <Dropdown.Item>Details</Dropdown.Item>
-//           <Dropdown.Item className='text-danger'>Cancel</Dropdown.Item>
-//         </Dropdown.Menu>
-//       </Dropdown>
-//     </>
-//   )
-// }
-
 const CryptoInfo = () => {
   return (
     <>
