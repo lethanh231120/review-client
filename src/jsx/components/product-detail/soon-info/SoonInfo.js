@@ -6,7 +6,7 @@ import CoinChart from '../../Crypto/Coin/CoinChart'
 import QuickTrade from '../../Crypto/Coin/QuickTrade'
 import CoinBuyTable from '../../Crypto/Coin/CoinBuyTable'
 import CoinSellTable from '../../Crypto/Coin/CoinSellTable'
-import { formatLargeNumber } from '../../../../utils/formatNumber'
+import { formatLargeNumberMoneyUSD } from '../../../../utils/formatNumber'
 
 const SoonInfo = ({ productInfo }) => {
   return (
@@ -34,7 +34,7 @@ const SoonInfo = ({ productInfo }) => {
                                 {productInfo?.details?.projectSymbol}
                               </span>
                               <span className='my-4 fs-16 font-w600 d-block'>
-                                {productInfo?.details?.totalSupply ? `${formatLargeNumber(productInfo?.details?.totalSupply)} ${productInfo?.details?.type} supply` : '' }
+                                {productInfo?.details?.totalSupply ? `${formatLargeNumberMoneyUSD(productInfo?.details?.totalSupply)} ${productInfo?.details?.type} supply` : '' }
                               </span>
                               <p className='text-start'>
                                 Dash is an open source cryptocurrency. It is an
