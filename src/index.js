@@ -12,15 +12,15 @@ import SignInContext from './context/SignInContext'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <ThemeContext>
-          <SignInContext>
+    <ThemeContext>
+      <SignInContext>
+        <Provider store={store}>
+          <BrowserRouter>
             <App />
-          </SignInContext>
-        </ThemeContext>
-      </BrowserRouter>
-    </Provider>
+          </BrowserRouter>
+        </Provider>
+      </SignInContext>
+    </ThemeContext>
   </React.StrictMode>
 )
 

@@ -3,50 +3,50 @@
     & .text-select{
         font-size: 1.6rem;
     }
-    & .ant-form-item{
-        margin-bottom: 0rem;
-    }
-    & .ant-input-group{
-        border: 1px solid #d9d9d9;
-        border-radius: 1rem;
-    }
-    & .ant-input{
-        color: rgba(0, 0, 0, 0.87);
-        font-size: 1.7rem;
-        font-weight: 400;
-    }
-    & .ant-input-group-addon{
-        border: 0px;
-        background-color: #fff;
-        border-top-left-radius: 1rem;
-        border-bottom-left-radius: 1rem;
-    }
-    & .ant-input-affix-wrapper:focus, .ant-input-affix-wrapper-focused{
-        box-shadow: none;
-    } 
-    & .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover{
-        border-color: #d9d9d9;
-    }
-    & .ant-input-suffix{
-        background-color: #3498db;
-        color: #fff;
-        font-size: 2rem;
-        border-top-right-radius: 1rem;
-        border-bottom-right-radius: 1rem;
-        & span{
-            padding: 2rem;
-        }
-    }
-    & .ant-input-affix-wrapper{
-        z-index: 999;
-        padding: 0 0 0 11px;
-        height: 6rem;
-        border-top-right-radius: 1rem;
-        border-bottom-right-radius: 1rem;
-        border: 0px;
-        width: 100%;
-        border-left: 1px solid #d9d9d9;
-    }
+    // & .ant-form-item{
+    //     margin-bottom: 0rem;
+    // }
+    // & .ant-input-group{
+    //     border: 1px solid #d9d9d9;
+    //     border-radius: 1rem;
+    // }
+    // & .ant-input{
+    //     color: rgba(0, 0, 0, 0.87);
+    //     font-size: 1.7rem;
+    //     font-weight: 400;
+    // }
+    // & .ant-input-group-addon{
+    //     border: 0px;
+    //     background-color: #fff;
+    //     border-top-left-radius: 1rem;
+    //     border-bottom-left-radius: 1rem;
+    // }
+    // & .ant-input-affix-wrapper:focus, .ant-input-affix-wrapper-focused{
+    //     box-shadow: none;
+    // } 
+    // & .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover{
+    //     border-color: #d9d9d9;
+    // }
+    // & .ant-input-suffix{
+    //     background-color: #3498db;
+    //     color: #fff;
+    //     font-size: 2rem;
+    //     border-top-right-radius: 1rem;
+    //     border-bottom-right-radius: 1rem;
+    //     & span{
+    //         padding: 2rem;
+    //     }
+    // }
+    // & .ant-input-affix-wrapper{
+    //     z-index: 999;
+    //     padding: 0 0 0 11px;
+    //     height: 6rem;
+    //     border-top-right-radius: 1rem;
+    //     border-bottom-right-radius: 1rem;
+    //     border: 0px;
+    //     width: 100%;
+    //     border-left: 1px solid #d9d9d9;
+    // }
     &-data{
         display: none;
         opacity: 0;

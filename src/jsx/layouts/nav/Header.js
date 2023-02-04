@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { Modal } from 'antd'
 // / Scroll
 // import PerfectScrollbar from "react-perfect-scrollbar";
@@ -17,6 +17,7 @@ import AccountTab, {
 } from '../../components/common-widgets/user-form/account-tab'
 // import { SignInComponent } from '../../components/common-widgets/user-form/sign-in-form'
 import { SignInContext } from '../../../context/SignInContext'
+import InputSearch from '../../components/input-search/GlobalSearch'
 
 const Header = ({ onNote }) => {
   const [isLightTheme, setIsLightTheme] = useState(true)
@@ -101,7 +102,7 @@ const Header = ({ onNote }) => {
               <div className='navbar-nav header-right'>
                 <div className='nav-item d-flex align-items-center'>
                   <div className='input-group search-area'>
-                    <span className='input-group-text'>
+                    {/* <span className='input-group-text'>
                       <Link to={'#'}>
                         <svg
                           width='24'
@@ -121,7 +122,8 @@ const Header = ({ onNote }) => {
                       type='text'
                       className='form-control '
                       placeholder='Search here...'
-                    />
+                    /> */}
+                    <InputSearch/>
                   </div>
                 </div>
                 {/* side-bar right */}
