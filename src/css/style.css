@@ -34354,3 +34354,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   box-shadow: 0.1rem 0.1rem rgb(182, 179, 179), -0.3rem 0 0.4rem rgb(182, 179, 179);
 }
 /*END: button log in and sign up in side bar right */
+
+.test{
+  background-color: red;
+}
