@@ -12,6 +12,7 @@ import {
 } from '@ant-design/icons'
 import './crypto.scss'
 import _ from 'lodash'
+import { TopCoins } from '../../common-widgets/home/top-coin'
 // import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 
 import { Button, Modal, Alert, Dropdown } from 'react-bootstrap'
@@ -32,9 +33,9 @@ import FormReport from '../../Forms/form-report/FormReport'
 // import profile02 from '../../../../images/profile/2.jpg'
 // import profile03 from '../../../../images/profile/3.jpg'
 // import profile04 from '../../../../images/profile/4.jpg'
-import profile05 from '../../../../images/profile/5.jpg'
-import profile06 from '../../../../images/profile/6.jpg'
-import profile07 from '../../../../images/profile/7.jpg'
+// import profile05 from '../../../../images/profile/5.jpg'
+// import profile06 from '../../../../images/profile/6.jpg'
+// import profile07 from '../../../../images/profile/7.jpg'
 // import profile08 from '../../../../images/profile/8.jpg'
 // import profile09 from '../../../../images/profile/9.jpg'
 import profile from '../../../../images/profile/profile.png'
@@ -1774,7 +1775,7 @@ const CryptoInfo = ({ copyAddress }) => {
                 </div>
               </div>
               <div className='col-lg-12'>
-                <div className='card'>
+                {/* <div className='card'>
                   <div className='card-header border-0 pb-0'>
                     <h5 className='text-primary'>Projects Hot</h5>
                   </div>
@@ -1839,7 +1840,8 @@ const CryptoInfo = ({ copyAddress }) => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
+                <TopCoins/>
               </div>
             </div>
           </div>
