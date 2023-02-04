@@ -1,7 +1,7 @@
 import { Row, Col, Table, Image } from 'antd'
 import React from 'react'
 import { Badge } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { renderNumber } from '../../../../utils/formatNumber'
 import { DAPP } from '../../../constants/category'
 import { NO_DATA } from '../../../constants/data'
@@ -17,7 +17,12 @@ const Exchange = ({
   handleFilter,
   total
 }) => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
+
+  const handleOnRowClicked = (record)=> {
+    const splitedId = record?.exchangeId?.split('_')
+    splitedId && navigate(`../../products/${splitedId[1]}/${splitedId[2]}`)
+  }
 
   const columns = [
     {
@@ -138,7 +143,7 @@ const Exchange = ({
       align: 'center',
       sorter: true,
       defaultSortOrder:
-        params?.orderBy === 'priceUSD'
+        params?.orderBy === 'score'
           ? params?.sort === 'desc'
             ? 'descend'
             : 'ascend'
@@ -169,10 +174,10 @@ const Exchange = ({
         dataSource={listProduct}
         onChange={handleChangeTable}
         pagination={false}
-        rowKey={(record) => record?.cryptoId}
+        rowKey={(record) => record?.exchangeId}
         onRow={(record) => ({
           onClick: () => {
-            // handleRowClicked(record)
+            handleOnRowClicked(record)
           }
         })}
         scroll={{ x: 'max-content' }}

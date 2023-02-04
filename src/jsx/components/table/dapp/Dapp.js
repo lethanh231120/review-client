@@ -144,7 +144,7 @@ const Dapp = ({
         dataSource={listProduct}
         onChange={handleChangeTable}
         pagination={false}
-        rowKey={(record) => record?.cryptoId}
+        rowKey={(record) => record?.dAppId}
         onRow={(record) => ({
           onClick: () => {
             handleonRowClicked(record)

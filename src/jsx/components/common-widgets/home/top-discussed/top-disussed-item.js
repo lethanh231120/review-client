@@ -14,7 +14,6 @@ export const TopDiscussedItem = ({ item }) => {
           <Badge className='badge-sm ms-2'>{item.type}</Badge></h5>
         <small className='d-block'>
           29 July 2022 - 02:26 PM
-
         </small>
       </div>
       <div>
