@@ -28807,7 +28807,8 @@ table.dataTable thead .sorting_asc {
     color: #fff; }
   .toatal-email h5, .toatal-email .h5 {
     font-size: 18px;
-    color: #fff; }
+    color: #fff; 
+  }
   @media only screen and (max-width: 100rem) {
     .toatal-email h3, .toatal-email .h3 {
       font-size: 20px; }
@@ -29181,7 +29182,8 @@ table.dataTable thead .sorting_asc {
   display: none; }
 
 .email-susb {
-  background: var(--secondary) !important; }
+  /* background: var(--secondary) !important;  */
+}
 
 .students h4, .students .h4, .students h5, .students .h5, .students span {
   color: #fff; }
@@ -34271,12 +34273,12 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 /*# sourceMappingURL=style.css.map */
 /*--------------------------------------------------------CUSTOM CSS------------------------------------------------------------------------------------------------------*/
 /*----------------------Top coin - home custom------------------------------------------------------*/
-.top-coin{
+/* .top-coin{
   height: 100%;
-}
+} */
 
 .chart-legend{
-  margin-top: 8rem;
+  margin-top: 6rem;
 }
 
 .summary-item{
@@ -34307,6 +34309,29 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   font-size: 1.6rem;
   padding: 1rem 0;
   /* font-weight */
+}
+
+.summary-chart{
+  height: auto;
+}
+
+/* HOME REPORT TITLE */
+.report-title{
+  width: 100%;
+}
+
+.toatal-email h5, .toatal-email h3{
+  color: black
+}
+
+.top-coin-icon{
+  width: 3.125rem;
+  height: 3.125rem;
+  background: #eee;
+  border-radius: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 

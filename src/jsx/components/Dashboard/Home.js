@@ -1,31 +1,17 @@
 import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 //  import {NavLink} from 'react-router-dom';
-import loadable from '@loadable/component'
-import pMinDelay from 'p-min-delay'
 // Import Components
 import { ThemeContext } from '../../../context/ThemeContext'
-
+import metaverse from './../../../images/metaverse.png'
 // images
 import coin from './../../../images/coin.png'
 import { TopCoins } from '../common-widgets/home/top-coin'
-import { RecentlyScam } from '../common-widgets/home/recently-scam'
-import { TopDiscussed } from '../common-widgets/home/top-discuss-project'
+import { RecentlyScam } from '../common-widgets/home/recently-scam/recently-scam'
+import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-project'
 import SummaryRow from './Dashboard/BalanceCardSlider'
-
-const DashboardComboChart = loadable(() =>
-  pMinDelay(import('./Dashboard/DashboardComboChart'), 1000)
-)
-const AssetsChart = loadable(() =>
-  pMinDelay(import('./Dashboard/AssetsChart'), 1000)
-)
-
-const pickerData = [
-  { fillcolor: '#FF0000', datatitle: 'Scam or Dead Projects', amount: '1000000' },
-  { fillcolor: '#32CD32', datatitle: 'Alive Projects', amount: '100000' }
-  // { fillcolor: 'var(--primary)', datatitle: 'BNB(10%)', price: '69' },
-  // { fillcolor: '#E085E4', datatitle: 'ETH(10%)', price: '154' }
-]
+import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
+import { BitcoinChartAndData } from '../common-widgets/home/bitcoin-chart'
 
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
@@ -43,12 +29,12 @@ const Home = () => {
                 <div className='card-body'>
                   <div className='buy-coin bubles-down'>
                     <div>
-                      <h2>Add your projects here</h2>
-                      <p>
-                        By adding your new founded project, this helps Gear5 grows stronger.
+                      <h2 className='report-title' style={{ width: '100%' }}>You got scammed <br></br>lost money</h2>
+                      <p className='join-us-text' style={{ width: '100%' }}>
+                      Please join us to warn everyone in the community
                       </p>
-                      <Link to={'/exchange'} className='btn btn-primary'>
-                        Add project
+                      <Link to={'/exchange'} className='btn btn-danger '>
+                        Report&nbsp;now
                       </Link>
                     </div>
                     <div className='coin-img'>
@@ -64,74 +50,38 @@ const Home = () => {
           </div>
         </div>
         <div className='col-4 '>
-          <TopCoins/>
+          <DataAllocationChart />
         </div>
       </div>
       <div className='row'>
-        <div className='col-4 assets-al' >
-          <div className='card'>
-            <div className='card-header border-0 pb-0'>
-              <h2 className='heading'>Data Allocation</h2>
-            </div>
-            <div className='card-body text-center pt-0 '>
-              <div id='morris_donught' className='custome-donut'>
-                <AssetsChart />
-              </div>
-              <div className='chart-items'>
-                <div className='row'>
-                  <div className=' col-xl-12 col-sm-12 '>
-                    <div className='text-start chart-legend'>
-                      {pickerData.map((data, ind) => (
-                        <div className='color-picker' key={ind}>
-                          <span className='mb-0 col-6 fs-14'>
-                            <svg
-                              className='me-2'
-                              width='16'
-                              height='16'
-                              viewBox='0 0 14 14'
-                              fill='none'
-                              xmlns='http://www.w3.org/2000/svg'
-                            >
-                              <rect
-                                width='14'
-                                height='14'
-                                rx='4'
-                                fill={data.fillcolor}
-                              />
-                            </svg>
-                            {data.datatitle}
-                          </span>
-                          <h5>{data.amount}</h5>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className='col-8 col-xl-8'>
-          <div className='card'>
-            <div className='card-header border-0 align-items-start flex-wrap pb-0'>
-              <div>
-                <h2 className='heading'>BTC Chart</h2>
-                <div className='market-data'>
-                </div>
-              </div>
+        <div className='col-8 assets-al' >
+          <BitcoinChartAndData />
 
-            </div>
-            <div className='card-body'>
-              {/* <div id="tradingview_e8053" className="tranding-chart"></div> */}
-              <DashboardComboChart />
-            </div>
-          </div>
+        </div>
+        <div className='col-4 col-xl-4'>
+          <TopCoins />
         </div>
       </div>
       <div className='row'>
         {/* LIST SCAM  */}
-        <div className='col-8'>
+        <div className='col-6'>
           <RecentlyScam/>
+        </div>
+        <div className='col-xl-2 col-sm-2'>
+          <div className='card email-susb'>
+            <div className='card-body text-center'>
+              <div className=''>
+                <img src={metaverse} alt='' />
+              </div>
+              <div className='toatal-email'>
+                <h3>2.2M+ Products</h3>
+                <h5>Contribute new project with us</h5>
+              </div>
+              <Link to={'/exchange'} className='btn btn-primary email-btn'>
+                   Add Projects
+              </Link>
+            </div>
+          </div>
         </div>
         {/* LIST HOT DISCUSS  */}
         <div className='col-4'>
