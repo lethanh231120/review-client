@@ -7,20 +7,17 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
 import ThemeContext from './context/ThemeContext'
-import SignInContext from './context/SignInContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <ThemeContext>
-      <SignInContext>
-        <Provider store={store}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </Provider>
-      </SignInContext>
-    </ThemeContext>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeContext>
+          <App />
+        </ThemeContext>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 )
 

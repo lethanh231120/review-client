@@ -338,6 +338,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
             expandIcon={({ isActive }) => (
               <CaretRightOutlined rotate={isActive ? 90 : 0} />
             )}
+            style={{ display: 'block' }}
           >
             {type === 'crypto' && (
               <Panel header='Type' className='filter-item'>
@@ -781,10 +782,10 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )} */}
           </Collapse>
           <div>
-            <Button type='primary' htmlType='submit'>
+            <Button htmlType='text' style={{ backgroundColor: '#18A594', color: '#fff', borderColor: '#18A594', minWidth: '6.875rem' }} >
               Filter
             </Button>{' '}
-            <Button onClick={onResetClicked} type='primary'>
+            <Button onClick={onResetClicked} type='dashed' style={{ minWidth: '6.875rem' }}>
               Reset
             </Button>
           </div>
