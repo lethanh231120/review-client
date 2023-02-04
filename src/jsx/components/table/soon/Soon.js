@@ -51,7 +51,7 @@ const Soon = () => {
                             <div className='card-body align-items-center flex-wrap'>
                               <div className='d-flex align-items-center mb-4'>
                                 <div>
-                                  <img src={item?.bigLogo} height={48} width={48}/>
+                                  <img src={item?.bigLogo} height={32} width={32}/>
                                 </div>
                                 <div className='ms-4'>
                                   <h4 className='heading mb-0'>{item?.projectName}</h4>
