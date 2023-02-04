@@ -520,9 +520,6 @@ const ProductDetail = () => {
             copyAddress={copyAddress}
           />
         ) : ''}
-        {/* //  : (
-        //   <Scam productInfo={productInfo} />
-        // ) */}
 
         <div className='product-detail'>
           <FilterReview
