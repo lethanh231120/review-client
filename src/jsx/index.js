@@ -142,9 +142,19 @@ import { ThemeContext } from '../context/ThemeContext'
 
 export const ChainListContext = createContext()
 export const CategoryContext = createContext()
+export const SignInContext = createContext()
+export const LaunchpadContext = createContext()
 const Markup = () => {
   const [chainList, setChainList] = useState([])
+  const [launchpads, setLaunchpads] = useState([])
   const [categories, setCategories] = useState([])
+
+  const [openModalSignIn, setOpenModalSignIn] = useState(false)
+
+  const stateSignIn = {
+    openModalSignIn: openModalSignIn,
+    handleSetOpenModal: (isOpen) => setOpenModalSignIn(isOpen)
+  }
 
   const allroutes = [
     // / Dashboard
@@ -340,64 +350,81 @@ const Markup = () => {
       console.error(e)
     }
   }
+  const getLaunchpad = async() => {
+    try {
+      const launchpads = await get(`reviews/launchpad`)
+      setLaunchpads(launchpads?.data?.launchPads)
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   useEffect(() => {
     getCategoryAndSubcategories()
     getChainList()
+    getLaunchpad()
   }, [])
 
   return (
-    <CategoryContext.Provider value={categories}>
-      <ChainListContext.Provider value={chainList}>
-        <Routes>
-          <Route path='page-lock-screen' element={<LockScreen />} />
-          <Route path='page-error-400' element={<Error400 />} />
-          <Route path='page-error-403' element={<Error403 />} />
-          <Route path='page-error-404' element={<Error404 />} />
-          <Route path='page-error-500' element={<Error500 />} />
-          <Route path='page-error-503' element={<Error503 />} />
-          <Route element={<MainLayout />}>
-            {allroutes.map((data, i) => (
-              <Route
-                key={i}
-                path={`${data.url}`}
-                element={data.component}
-              />
-            ))}
-            {/* <Route path=''> */}
-            <Route path=':category'>
-              <Route path='' element={<CategoryItem />} />
-              <Route
-                path=':subCategory'
-                element={<CategoryItem />}
-              />
-            </Route>
-            {/* </Route> */}
-            <Route path='products'>
-              <Route path='crypto'>
-                <Route path=':type'>
-                  <Route path=':productName'>
-                    <Route path='' element={<ProductDetail1 />} />
-                    <Route path=':path' element={<ProductDetail1 />} />
+    <ChainListContext.Provider value={chainList}>
+      <SignInContext.Provider value={stateSignIn}>
+        <LaunchpadContext.Provider value={launchpads}>
+          <CategoryContext.Provider value={categories}>
+            <Routes>
+              <Route path='page-lock-screen' element={<LockScreen />} />
+              <Route path='page-error-400' element={<Error400 />} />
+              <Route path='page-error-403' element={<Error403 />} />
+              <Route path='page-error-404' element={<Error404 />} />
+              <Route path='page-error-500' element={<Error500 />} />
+              <Route path='page-error-503' element={<Error503 />} />
+              <Route element={<MainLayout />}>
+                {allroutes.map((data, i) => (
+                  <Route
+                    key={i}
+                    path={`${data.url}`}
+                    element={data.component}
+                  />
+                ))}
+                <Route path=''>
+                  <Route path=':category'>
+                    <Route path='' element={<CategoryItem />} />
+                    <Route
+                      path=':subCategory'
+                      element={<CategoryItem />}
+                    />
                   </Route>
                 </Route>
-              </Route>
-              <Route path=':categoryName'>
-                <Route path=':productName'>
-                  <Route path='' element={<ProductDetail1 />} />
-                  <Route path=':path' element={<ProductDetail1 />} />
+                <Route path='products'>
+                  <Route path='crypto'>
+                    <Route path=':type'>
+                      <Route path=':productName'>
+                        <Route path='' element={<ProductDetail1 />} />
+                        <Route path=':path' element={<ProductDetail1 />} />
+                      </Route>
+                    </Route>
+                  </Route>
+                  <Route path=':categoryName'>
+                    <Route path=':productName'>
+                      <Route path='' element={<ProductDetail1 />} />
+                      <Route path=':path' element={<ProductDetail1 />} />
+                    </Route>
+                    <Route
+                      path=':productId'
+                      element={<ProductDetail1 />}
+                    />
+                  </Route>
+                  <Route
+                    path=':productId'
+                    element={<ProductDetail1 />}
+                  />
                 </Route>
-                <Route
-                  path=':productId'
-                  element={<ProductDetail1 />}
-                />
               </Route>
-            </Route>
-          </Route>
-        </Routes>
-        <ScrollToTop />
-      </ChainListContext.Provider>
-    </CategoryContext.Provider>
+            </Routes>
+            <ScrollToTop />
+          </CategoryContext.Provider>
+        </LaunchpadContext.Provider>
+      </SignInContext.Provider>
+    </ChainListContext.Provider>
   )
 }
 
