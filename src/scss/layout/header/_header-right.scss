@@ -128,11 +128,10 @@
   .search-area {
     width: 25rem;
     .form-control {
-      // background : #FAFAFA;
       background: $white;
       border: 0;
       padding-left: 0;
-      border-radius: 0.75rem;
+      border-radius: 1rem;
     }
     ::placeholder {
       color: #a098ae;
@@ -141,7 +140,6 @@
     }
     .input-group-text {
       border-radius: 0.75rem;
-      // background : #FAFAFA;
       background: $white;
       padding: 0px 5px;
       border: 0;

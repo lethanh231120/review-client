@@ -1754,7 +1754,8 @@ progress {
   border: 1px solid #eeee;
   appearance: none;
   border-radius: 0.75rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; 
+}
   @media (prefers-reduced-motion: reduce) {
     .form-control {
       transition: none; } }
@@ -2133,9 +2134,10 @@ textarea.form-control-lg {
   color: #A098AE;
   text-align: center;
   white-space: nowrap;
-  background-color: #e9ecef;
+  background-color: red;
   border: 1px solid #eeee;
-  border-radius: 0.75rem; }
+  border-radius: 0.75rem; 
+}
 
 .input-group-lg > .form-control,
 .input-group-lg > .form-select,
@@ -2159,18 +2161,21 @@ textarea.form-control-lg {
 
 .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
 .input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n + 3) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0; }
+  /* border-top-right-radius: 0; */
+  /* border-bottom-right-radius: 0; */
+}
 
 .input-group.has-validation > :nth-last-child(n + 3):not(.dropdown-toggle):not(.dropdown-menu),
 .input-group.has-validation > .dropdown-toggle:nth-last-child(n + 4) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0; }
+  /* border-top-right-radius: 0; */
+  /* border-bottom-right-radius: 0;  */
+}
 
 .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
   margin-left: -1px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0; }
+  /* border-top-left-radius: 0; */
+  /* border-bottom-left-radius: 0;  */
+}
 
 .valid-feedback {
   display: none;
@@ -9092,11 +9097,6 @@ svg.pulse-svg {
       content: none; } }
   .header-right .search-area {
     width: 25rem; }
-    .header-right .search-area .form-control {
-      background: #fff;
-      border: 0;
-      padding-left: 0;
-      border-radius: 0.75rem; }
     .header-right .search-area ::placeholder {
       color: #A098AE;
       font-size: 16px;
@@ -9113,7 +9113,7 @@ svg.pulse-svg {
         fill: var(--primary); }
     @media only screen and (max-width: 100rem) {
       .header-right .search-area {
-        width: 15.625rem; } }
+        width: 40.625rem; } }
     @media only screen and (max-width: 74.9375rem) {
       .header-right .search-area {
         display: none; } }
