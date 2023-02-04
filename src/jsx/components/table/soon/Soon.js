@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 //  import {Tab, Nav} from 'react-bootstrap';
 import { AnimatePresence, motion } from 'framer-motion'
 import MOCK_DATA from './MOCK_DATA_3.json'
-import { formatLargeNumber } from '../../../../utils/formatNumber'
+import { formatLargeNumberMoneyUSD } from '../../../../utils/formatNumber'
 import { Link } from 'react-router-dom'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
 
@@ -21,9 +21,9 @@ const Soon = () => {
   return (
     <>
       <div className='row'>
-        <div className='col-xl-12'>
+        {/* <div className='col-xl-12'>
           <div className='row text-total-soon-project justify-content-center'> A total of {filtered.length} Upcoming Projects found.</div>
-        </div>
+        </div> */}
         <div className='col-xl-12'>
           <div className='row'>
             <div className='col-xl-12'>
@@ -61,9 +61,9 @@ const Soon = () => {
                               <div className='d-flex align-items-center justify-content-between'>
                                 <div>
                                   <p className='mb-0 fs-14 text-black'>
-                                    {formatLargeNumber(item?.totalSupply)}
+                                    {formatLargeNumberMoneyUSD(item?.fundRaisingGoals)} raising
                                   </p>
-                                  <span className='fs-12'>{item?.type} supply</span>
+                                  <span className='fs-12'>{item?.type}</span>
                                 </div>
                                 <div>
                                   <p className='mb-0 fs-14 text-success'>

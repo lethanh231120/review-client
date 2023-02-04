@@ -106,8 +106,10 @@ export const getBaseLog = (x, y) => {
 export const isInt = (number) => {
   return number % 1 === 0
 }
-export const formatLargeNumber = (data) =>
+export const formatLargeNumberMoneyUSD = (data) =>
   new Intl.NumberFormat('en-EN', {
     notation: 'compact',
-    compactDisplay: 'long'
+    compactDisplay: 'short',
+    style: 'currency',
+    currency: 'USD'
   }).format(data)
