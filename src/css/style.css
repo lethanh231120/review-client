@@ -34320,6 +34320,29 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 .summary-chart{
   height: auto;
 }
+.summary-chart{
+  height: auto;
+}
+
+/* HOME REPORT TITLE */
+.report-title{
+  width: 100%;
+}
+
+.toatal-email h5, .toatal-email h3{
+  color: black
+}
+
+.top-coin-icon{
+  width: 3.125rem;
+  height: 3.125rem;
+  background: #eee;
+  border-radius: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 /* HOME REPORT TITLE */
 .report-title{
