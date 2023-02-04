@@ -29,7 +29,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
     <>
       <div className='row'>
         <div className='col-xl-12'>
-          <div className='card Infra' style={{ marginBottom: '0rem' }}>
+          <div className='card Infra' style={{ height: '5rem' }} >
             <div className='card-header border-0'>
               <Col md={{ span: 12 }} sm={{ span: 14 }} xs={{ span: 24 }}>
                 <div
@@ -74,9 +74,8 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                         >
                           <div
                             className='card pull-up'
-                            onClick={(item) => console.log(item)}
                           >
-                            <div className='card-body align-items-center flex-wrap'>
+                            <div className='card-body align-items-center flex-wrap' >
                               <div className='d-flex align-items-center mb-4'>
                                 <div>
                                   {item?.bigLogo ? (
@@ -91,20 +90,24 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                     />
                                   )}
                                 </div>
-                                <div className='ms-4'>
-                                  <h4 className='heading mb-0'>
+                                <div className='ms-4 soon-item-text-block' style={{ width: '100%' }}>
+                                  <h4 className='heading mb-0 soon-item-text-block'>
                                     {item?.projectName}
                                   </h4>
                                   <span>{item?.projectSymbol}</span>
                                 </div>
                               </div>
+                              <div className='row'>
+                                <p className='mb-0 fs-14 text-black text-center'>
+                                  {item?.subCategory ? item?.subCategory : absentData}
+                                </p>
+                              </div>
                               <div className='d-flex align-items-center justify-content-between'>
                                 <div>
                                   <p className='mb-0 fs-14 text-black'>
-                                    {item?.subCategory}
+                                    {item?.roundType}
                                   </p>
                                   <span className='fs-12'>
-                                    Launched{' '}
                                     <Avatar.Group
                                       maxCount={2}
                                       size={20}
