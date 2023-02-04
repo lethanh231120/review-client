@@ -34309,4 +34309,9 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   /* font-weight */
 }
 
+.format-list-soon-background{
+  border-radius: 0;
+  padding: 0;
+  /* background: red; */
+}
 

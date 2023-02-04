@@ -260,10 +260,10 @@ const ThemeContextProvider = (props) => {
     body.setAttribute('data-theme-version', 'light')
     body.setAttribute('data-layout', 'vertical')
     body.setAttribute('data-primary', 'color_2') // body-background, button, border chart
-    body.setAttribute('data-nav-headerbg', 'color_1') // sidebar left header
+    body.setAttribute('data-nav-headerbg', 'color_2') // sidebar left header
     body.setAttribute('data-headerbg', 'color_1') // header
     body.setAttribute('data-sidebar-style', 'overlay')
-    body.setAttribute('data-sidebarbg', 'color_1') // sidebar left body
+    body.setAttribute('data-sidebarbg', 'color_2') // sidebar left body
     body.setAttribute('data-secondary', 'color_1')
     body.setAttribute('data-sidebar-position', 'fixed')
     body.setAttribute('data-header-position', 'fixed')

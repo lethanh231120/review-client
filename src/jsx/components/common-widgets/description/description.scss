@@ -1,0 +1,27 @@
+.read-or-hide {
+  color: blue;// rgba(61, 61, 194, 0.753);
+  cursor: pointer;
+  & .anticon{
+    font-size: 1.6rem;
+    margin-left: 1rem;
+  }
+}
+.text{
+  & p{
+    margin: 1rem 0;
+    display: -webkit-box;
+    line-height: 1.4;
+    margin-top: 1rem;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.default {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+
