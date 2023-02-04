@@ -103,7 +103,7 @@ const Header = ({ onNote }) => {
             <div className='header-right'>
               <div className='dz-side-menu'>
                 <div className='search-coundry d-flex align-items-center' onClick={() => onChangeTheme() }>
-                  <img src={isLightTheme ? imgMoon : imgSun} alt='' className='mx-2' />
+                  <img src={isLightTheme ? imgMoon : imgSun} alt='' className='mx-2' height={24} width={24} />
                 </div>
 
                 {/*  */}
