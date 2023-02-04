@@ -87,7 +87,6 @@ const ProductDetail = () => {
     setProductId(id)
   }, [type, productName, path, productId, categoryName])
 
-  console.log('productInfo', productInfo)
   useEffect(() => {
     const getData = async() => {
       const product = await get(`reviews/product/detail?productId=${productId}`)
