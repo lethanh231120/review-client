@@ -101,7 +101,7 @@ const Header = ({ onNote }) => {
               {/* header: search elk input */}
               <div className='navbar-nav header-right'>
                 <div className='nav-item d-flex align-items-center'>
-                  <InputSearch/>
+                  <InputSearch />
                 </div>
                 {/* side-bar right */}
                 <div className='dz-side-menu'>
@@ -119,7 +119,7 @@ const Header = ({ onNote }) => {
                   </div>
 
                   {/* Settings */}
-                  <div className='sidebar-social-link '>
+                  {/* <div className='sidebar-social-link '>
                     <ul className=''>
                       <Dropdown
                         as='li'
@@ -148,7 +148,8 @@ const Header = ({ onNote }) => {
                         </Dropdown.Toggle>
                       </Dropdown>
                     </ul>
-                  </div>
+
+                  </div> */}
 
                   {/* PROFILE */}
                   <ul>
@@ -178,24 +179,46 @@ const Header = ({ onNote }) => {
                       </Dropdown>
                     ) : (
                       <>
-                        <Dropdown
-                          as='li'
-                          className='nav-item dropdown header-profile'
-                          onClick={() => showModal(logInKey)}
-                        >
-                          <span className='btn-header btn-header-sign-in'>
-                            Log&nbsp;In
-                          </span>
-                        </Dropdown>
-                        <Dropdown
-                          as='li'
-                          className='nav-item dropdown header-profile'
-                          onClick={() => showModal(signUpKey)}
-                        >
-                          <span className='btn-header btn-header-sign-up'>
-                            Sign&nbsp;Up
-                          </span>
-                        </Dropdown>
+                        <ul className=''>
+                          <Dropdown
+                            as='li'
+                            className='nav-item dropdown notification_dropdown'
+                            onClick={() => showModal(logInKey)}
+                          >
+                            <Dropdown.Toggle
+                              variant=''
+                              as='a'
+                              className='nav-link  ai-icon i-false c-pointer'
+                              role='button'
+                            >
+                              <svg fill='#000000' width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M12 3c-4.625 0-8.442 3.507-8.941 8.001H10v-3l5 4-5 4v-3H3.06C3.56 17.494 7.376 21 12 21c4.963 0 9-4.037 9-9s-4.037-9-9-9z'/></svg>
+                            </Dropdown.Toggle>
+                          </Dropdown>
+                        </ul>
+                        <ul className=''>
+                          <Dropdown
+                            as='li'
+                            className='nav-item dropdown notification_dropdown'
+                            onClick={() => showModal(signUpKey)}
+                          >
+                            <Dropdown.Toggle
+                              variant=''
+                              as='a'
+                              className='nav-link  ai-icon i-false c-pointer'
+                              role='button'
+                            >
+                              <svg width='24' height='24' viewBox='0 0 512 512' version='1.1' xmlns='http://www.w3.org/2000/svg'>
+                                <title>log-in</title>
+                                <g id='Page-1' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
+                                  <g id='icon' fill='#000000' transform='translate(42.666667, 42.666667)'>
+                                    <path d='M405.333333,3.55271368e-14 L405.333333,426.666667 L170.666667,426.666667 L170.666667,341.333333 L213.333333,341.333333 L213.333333,384 L362.666667,384 L362.666667,42.6666667 L213.333333,42.6666667 L213.333333,85.3333333 L170.666667,85.3333333 L170.666667,3.55271368e-14 L405.333333,3.55271368e-14 Z M74.6666667,138.666667 C108.491057,138.666667 137.06239,161.157677 146.241432,192.000465 L320,192 L320,234.666667 L298.666667,234.666667 L298.666667,277.333333 L234.666667,277.333333 L234.666667,234.666667 L146.241432,234.666202 C137.06239,265.508989 108.491057,288 74.6666667,288 C33.4294053,288 7.10542736e-15,254.570595 7.10542736e-15,213.333333 C7.10542736e-15,172.096072 33.4294053,138.666667 74.6666667,138.666667 Z M74.6666667,181.333333 C56.9935547,181.333333 42.6666667,195.660221 42.6666667,213.333333 C42.6666667,231.006445 56.9935547,245.333333 74.6666667,245.333333 C92.3397787,245.333333 106.666667,231.006445 106.666667,213.333333 C106.666667,195.660221 92.3397787,181.333333 74.6666667,181.333333 Z' id='Combined-Shape'>
+                                    </path>
+                                  </g>
+                                </g>
+                              </svg>
+                            </Dropdown.Toggle>
+                          </Dropdown>
+                        </ul>
                       </>
                     )}
                   </ul>
