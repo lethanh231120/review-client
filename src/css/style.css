@@ -34315,3 +34315,41 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   /* background: red; */
 }
 
+
+.btn-header{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.3rem;
+  width: 3.5rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 550;
+}
+.btn-header:hover{
+  opacity: 1;
+}     
+.btn-header-sign-in{
+  margin: 0 0.8rem 0 0.6rem;
+  background-color: white;
+  border: 0.2rem solid #039F7F;
+  color: #039F7F;
+  opacity: 0.85;
+}
+
+.btn-header-sign-in:hover{
+  box-shadow: 0.1rem 0.1rem #039F7F, -0.5rem 0 0.4rem rgb(182, 179, 179);
+}
+.btn-header-sign-up{
+  background-color: #039F7F;
+  color: white;
+  opacity: 0.9;
+  margin-top: 0.5rem;
+}
+
+.btn-header-sign-up:hover{
+  box-shadow: 0.1rem 0.1rem rgb(182, 179, 179), -0.5rem 0 0.4rem rgb(182, 179, 179);
+}
+
