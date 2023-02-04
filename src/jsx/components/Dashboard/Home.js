@@ -74,7 +74,7 @@ const Home = () => {
                 <img src={metaverse} alt='' />
               </div>
               <div className='toatal-email'>
-                <h3>2.2M+ Products</h3>
+                <h4>2.2M+ Products</h4>
                 <h5>Contribute new project with us</h5>
               </div>
               <Link to={'/exchange'} className='btn btn-primary email-btn'>

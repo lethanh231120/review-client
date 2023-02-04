@@ -15,7 +15,6 @@ const Soon = ({ listProduct, handleFilter, total }) => {
 
   useEffect(() => {
     const launchpadMapLocal = new Map()
-
     launchpadContext.forEach((launchpad) => {
       console.log(launchpad, launchpadMapLocal)
       launchpadMapLocal.set(launchpad?.launchPadId, launchpad)
