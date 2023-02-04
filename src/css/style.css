@@ -34302,20 +34302,21 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
  
  }
-/* list soon */
+/* list soon text total project(dapp/ crypto project/ exchange/ ...) */
 .text-total-soon-project{
   font-size: 1.6rem;
   padding: 1rem 0;
   /* font-weight */
 }
 
+/* list soon background of items */
 .format-list-soon-background{
   border-radius: 0;
   padding: 0;
   /* background: red; */
 }
 
-
+/*START: button log in and sign up in side bar right */
 .btn-header{
   display: flex;
   align-items: center;
@@ -34340,7 +34341,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 .btn-header-sign-in:hover{
-  box-shadow: 0.1rem 0.1rem #039F7F, -0.5rem 0 0.4rem rgb(182, 179, 179);
+  box-shadow: 0.1rem 0.1rem #039F7F, -0.3rem 0 0.4rem rgb(182, 179, 179);
 }
 .btn-header-sign-up{
   background-color: #039F7F;
@@ -34350,6 +34351,6 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 .btn-header-sign-up:hover{
-  box-shadow: 0.1rem 0.1rem rgb(182, 179, 179), -0.5rem 0 0.4rem rgb(182, 179, 179);
+  box-shadow: 0.1rem 0.1rem rgb(182, 179, 179), -0.3rem 0 0.4rem rgb(182, 179, 179);
 }
-
+/*END: button log in and sign up in side bar right */
