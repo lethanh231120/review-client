@@ -1,0 +1,178 @@
+{
+    "details": {
+        "type": "token",
+        "totalSupply": 500000000,
+        "blockchain": {
+            "binance": "56"
+        },
+        "subCategory": "GameFi",
+        "isSponsored": true,
+        "status": "upcoming",
+        "website": "https://yachtingverse.io/",
+        "whitepaperUrl": "https://whitepaper.yachtingverse.io/index.php/xdocs/white-paper/?_ga=2.103201736.95388695.1657109663-1036636722.1657109663&_gl=1*3fijsi*_ga*MTAzNjYzNjcyMi4xNjU3MTA5NjYz*_ga_ZFG9MB2BH9*MTY1NzE3ODQ5OS4yLjAuMTY1NzE3ODQ5OS4w",
+        "socials": {
+            "announcement": "https://t.me/YachtingVerse",
+            "discord": "https://discord.com/invite/YnwAwxWgck",
+            "facebook": "https://www.facebook.com/YachtingVerse",
+            "github": "https://github.com/yachtingverse",
+            "linkedin": "https://www.linkedin.com/company/yachtingverse",
+            "medium": "https://medium.com/@YachtingVerse",
+            "telegram": "https://t.me/YachtingVerse_Chat",
+            "twitter": "https://twitter.com/YachtingVerse",
+            "youtube": "https://www.youtube.com/channel/UCTnQyI7p26pKaHRPhXJqGDQ"
+        },
+        "tokenPrice": null,
+        "acceptCurrency": null,
+        "startDate": "TBA",
+        "endDate": "TBA",
+        "launchPads": [
+            "gear5_launchpad_kommunitas",
+            "gear5_launchpad_sol-razr",
+            "gear5_launchpad_bin-starter",
+            "gear5_launchpad_gagarin"
+        ],
+        "shortDesc": "YachtingVerse is an open world marine themed VR platform",
+        "fullDesc": "<p>Key Features of YachtingVerse</p><p><strong>NFT &amp; ASSETS</strong></p><p>Yachts, advertising spaces, shops, wearable, lands, digital assets and avatars are represented by an NFT on YachtingVerse. Yachters will be able to access NFTs from Market Place. YachtingVerse’s NFT standard is BEP-721. Yachters will earn a high reward from ad revenue by staking NFT on the avatar and YachtLand. YachtingVerse's goal is to design NFTs that are all revenue generating and usable beyond&nbsp;</p><ul><li><strong>MarineMALL</strong>. YachtingVerse has 522 stores where world famous brands can showcase their latest products. Each initially measures 256 square meters and is fully customizable by brand.</li><li><strong>YachtWEARABLE</strong>. Clothing is a basic need that will never end. Like humans, avatars will always need wearable assets. Brands can make the first launch of their wearable assets on YachtingVerse and get first reactions from their users. Users can purchase wearable assets of famous brands on Marine Mall, both for themselves and their avatars.</li><li><strong>YachtLAND</strong>. YachtLand parcels in YachtingVerse is capped at 16,384 and built on the Cartesian coordinate system of 128×128 dimensions. However, the common spaces, gallery, and roads are owned by the developers of YachtingVerse and cannot be bought or sold by users. Purchasable YachtLand parcels is capped to 9216.</li></ul><p><strong>ZONES</strong></p><ul><li><strong>BOAT SHOW</strong>. Don't wait for boat shows. You can organize a boat show 365 days a year. You will be able to show, launch, sell and charter your yacht whenever you want in YachtingVerse. Yacht Landowners will always be able to organize boat shows for their guests. This may be for guests only or in public. It is part of the reflection of technology and innovation on the yacht industry.</li><li><strong>GAME ZONE</strong>. YachtingVerse is initially being developed as two main games and dozens of mini games. The main purpose of the playground is to provide users with real P2E profit. It will consist of VR supported MMO based simulation game and NFT game.</li><li><strong>ADVERTISING ZONE</strong>. YachtingVerse will provide advertising solutions for brands. The platform will allow advertisements to be served directly on totems and billboards. YachtingVerse will have a total of 2000 totem &amp; billboards and 200 skyscraper skins.Each of the advertising boards revenue will be owned 30% by YachtingVerse, and 70% by NFT holders. Marketplace will be launched in conjunction with the YACHT token distribution where YACHT token holders will be able to purchase Advertising Area via the NFT mechanism.</li></ul><p><strong>SMART EDITOR &amp; AVATAR</strong></p><ul><li><strong>SMART EDITOR</strong>. Smart Editor is a software development kit for yachters to develop their games and applications. Yachters can create, share and revenue their 3D digital assets. 3D assets can be viewed and played on the Yachtingverse platform. SDK allows users to create assets and minigames, provided they meet the requirements. Users then convert these assets into non-fungible and fungible tokens. —</li><li><strong>AVATAR</strong>. Upon signing into YachtingVerse, the user is prompted to create and name their avatar, but it can be updated later by the user. Avatars can be upgraded and made unique with Smart Editor. There are over 100,000 possible combinations in Smart Editor. This allows users to create virtually anyone with each avatar. Yachters can also customize their avatars by purchasing wearable NFTs from the Yacht Market. YachtingVerse has an extremely flexible and open avatar system as well as providing SDK connectivity. Bring your favorite Characters, and make your favorite NFT JPEGs as your 3D avatars using the glTF or glb 3D file formats. You can design it yourself or use the technology supported by Ready Player Me with a single tap and take selfie.</li></ul><p><strong>Token Utility</strong></p><p>The $YACHT token utility includes but is not limited to the following;</p><ul><li>$YACHT will act as a native utility token of the YachtingVerse ecosystem by empowering and incentivizing all the parties. Access to YachtingVerse will be free to all whether you’re a Yachter or not. Users who hold, stake, or transact with $YACHT, will be given certain privileges and benefits.</li><li>YachtingVerse will allow advertisements to be served directly on totems and billboards. Team will share ad revenue directly with our NFT and YACHT holders community.</li><li>Initially, YACHT tokens will be sold during the ICO period to purchase Land with the NFT mechanism acting as your title of ownership. All YACHT tokens initially used to purchase the YachtLand and advertising space will be locked. YachtLand owners will be able to customize their owned space. YachtLand can earn revenue by licensing, renting, or selling with transactions using YACHT tokens.</li><li>Brands &amp; Advertising will play a key role in generating YACHT tokens as revenue. YachtingVerse is a crypto-focused hub that attracts Yachters &amp; stakeholders and therefore is a key opportunity for advertising &amp; brands for all business types. YACHT token will be used for all these activities.</li><li>Staking of YACHT. YACHT Tokens are used to run the ecosystem &amp; can be staked to earn attractive APY. This is aimed to create monetary incentives for the most dedicated and motivated players. Staking mechanism takes place on BSC by several community validators and delegates. In effect, the authorizes are pooling their YACHT tokens in their preferred validator.&nbsp;</li><li>Marketplace will be your go to resource to purchase real estate, customize avatars, purchase NFTs to create your personalized YachtingVerse reality.</li><li>Yachters will be able to show, launch, sell and charter your yacht whenever you want in YachtingVerse. Yachters will be able to organize a boat show at any time by purchasing NFT with the YACHT token.</li><li>Education is the most important part of YachtingVerse. Yacht owners will benefit from all training free of charge. After successful training, they will win NFT and YACHT rewards.</li></ul>",
+        "media": {
+            "Investors&Partners": "https://img.api.cryptorank.io/coins/ico-screenshots/yachting_verse1657179678804.png",
+            "Roadmap": "https://img.api.cryptorank.io/coins/ico-screenshots/yachting_verse1657179822134.png",
+            "Tokenomics": "https://img.api.cryptorank.io/coins/ico-screenshots/yachting_verse1657179822277.png"
+        },
+        "additionalLinks": {
+            "YachtingVerse IDO Page on Gagarin Launchpad": "https://app.gagarin.world/ido/6389e769dd08c55a37ab4406",
+            "YachtingVerse IDO Page on Kommunitas": "https://launchpad.kommunitas.net/pool/YACHT/PublicGov",
+            "YachtingVerse IDO Page on SolRazr": "https://solrazr.com/projects/yachtingverse"
+        },
+        "sourceUrl": null,
+        "linkDemo": null,
+        "countryOrigin": null,
+        "kycRequired": null,
+        "whitelistAvailable": null,
+        "totalReviews": 0,
+        "totalIsScam": 0,
+        "totalNotScam": 0,
+        "star": 0,
+        "createdDate": "2023-01-05T14:38:44Z",
+        "updatedDate": "2023-02-03T14:35:45.04442Z",
+        "reputation": null,
+        "isShow": true,
+        "sourceCode": {
+            "github": "https://github.com/yachtingverse"
+        },
+        "community": {
+            "announcement": "https://t.me/YachtingVerse",
+            "discord": "https://discord.com/invite/YnwAwxWgck",
+            "facebook": "https://www.facebook.com/YachtingVerse",
+            "linkedin": "https://www.linkedin.com/company/yachtingverse",
+            "medium": "https://medium.com/@YachtingVerse",
+            "telegram": "https://t.me/YachtingVerse_Chat",
+            "twitter": "https://twitter.com/YachtingVerse",
+            "youtube": "https://www.youtube.com/channel/UCTnQyI7p26pKaHRPhXJqGDQ"
+        },
+        "exchanges": []
+    },
+    "mores": {
+        "fund": null,
+        "roundSale": [
+            {
+                "id": "99fdc68c-de33-4296-88fa-c6a6bd1a38ba",
+                "launchPadId": "gear5_launchpad_kommunitas",
+                "projectId": "gear5_soon_yachtingverse",
+                "type": "IDO",
+                "start": null,
+                "end": null,
+                "tokenForSale": 1000000,
+                "lockUpPeriod": " 20% TGE - 6 Months Linear Vesting",
+                "status": "upcoming",
+                "raise": 50000,
+                "price": 0.05,
+                "createdDate": "2023-02-03T01:17:20.613276Z",
+                "updatedDate": "2023-02-03T01:17:20.613276Z"
+            },
+            {
+                "id": "5fd0fd89-1d87-44e2-a722-4d6e79adfa6b",
+                "launchPadId": "gear5_launchpad_sol-razr",
+                "projectId": "gear5_soon_yachtingverse",
+                "type": "IDO",
+                "start": null,
+                "end": null,
+                "tokenForSale": 2000000,
+                "lockUpPeriod": "20% at listing, rest linear monthly vesting for 6 months",
+                "status": "upcoming",
+                "raise": 100000,
+                "price": 0.05,
+                "createdDate": "2023-02-03T01:17:20.816377Z",
+                "updatedDate": "2023-02-03T01:17:20.816377Z"
+            },
+            {
+                "id": "aa4037a3-b157-4d5f-adf4-251bb87fa314",
+                "launchPadId": null,
+                "projectId": "gear5_soon_yachtingverse",
+                "type": "Seed",
+                "start": null,
+                "end": null,
+                "tokenForSale": 10000000,
+                "lockUpPeriod": "0% at TGE, 3 months cliff, then 12 months linear vesting",
+                "status": "past",
+                "raise": 200000,
+                "price": 0.02,
+                "createdDate": "2023-02-03T01:17:21.022184Z",
+                "updatedDate": "2023-02-03T01:17:21.022184Z"
+            },
+            {
+                "id": "56c6ac78-3394-4265-b92e-76833328a042",
+                "launchPadId": null,
+                "projectId": "gear5_soon_yachtingverse",
+                "type": "Private",
+                "start": null,
+                "end": null,
+                "tokenForSale": 2500000,
+                "lockUpPeriod": "10% at TGE, 9 months linear vesting over last 90%",
+                "status": "past",
+                "raise": 100000,
+                "price": 0.04,
+                "createdDate": "2023-02-03T01:17:21.228385Z",
+                "updatedDate": "2023-02-03T01:17:21.228385Z"
+            },
+            {
+                "id": "6f77dd2a-54e2-4de2-bada-80d3f0566ae1",
+                "launchPadId": "gear5_launchpad_bin-starter",
+                "projectId": "gear5_soon_yachtingverse",
+                "type": "IDO",
+                "start": null,
+                "end": null,
+                "tokenForSale": 2000000,
+                "lockUpPeriod": "20% TGE - 6 Months Linear Vesting",
+                "status": "upcoming",
+                "raise": 100000,
+                "price": 0.05,
+                "createdDate": "2023-02-03T01:17:21.432629Z",
+                "updatedDate": "2023-02-03T01:17:21.432629Z"
+            },
+            {
+                "id": "a348ef50-5aae-48c6-bbd8-8af3222d352e",
+                "launchPadId": "gear5_launchpad_gagarin",
+                "projectId": "gear5_soon_yachtingverse",
+                "type": "IDO",
+                "start": null,
+                "end": null,
+                "tokenForSale": 500000,
+                "lockUpPeriod": "20% at the TGE then 6 months linear vesting over last 80%",
+                "status": "upcoming",
+                "raise": 25000,
+                "price": 0.05,
+                "createdDate": "2023-02-03T01:17:21.641465Z",
+                "updatedDate": "2023-02-03T01:17:21.641465Z"
+            }
+        ],
+        "tag": [
+            {
+                "id": "7f463d6d-7d9b-448f-b9b9-096a49fe8976",
+                "name": "GameFi",
+                "productId": "gear5_soon_yachtingverse",
+                "type": "soon"
+            }
+        ]
+    },
+    "reviews": null
+}
