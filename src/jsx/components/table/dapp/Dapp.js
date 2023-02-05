@@ -135,7 +135,7 @@ const Dapp = ({
           <CategorySearch type={DAPP}/>
         </Col>
         <Col md={{ span: 12 }} sm={{ span: 10 }} xs={{ span: 24 }}>
-          <DrawerFilter type='crypto' handleFilter={handleFilter} />
+          <DrawerFilter type='dapp' handleFilter={handleFilter} />
         </Col>
       </Row>
       <Table

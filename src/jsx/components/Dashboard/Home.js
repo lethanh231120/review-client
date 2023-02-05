@@ -33,7 +33,7 @@ const Home = () => {
                       <p className='join-us-text' style={{ width: '100%' }}>
                       Please join us to warn everyone in the community
                       </p>
-                      <Link to={'/exchange'} className='btn btn-danger '>
+                      <Link to={'#'} className='btn btn-danger '>
                         Report&nbsp;now
                       </Link>
                     </div>
@@ -74,10 +74,10 @@ const Home = () => {
                 <img src={metaverse} alt='' />
               </div>
               <div className='toatal-email'>
-                <h4>2.2M+ Products</h4>
+                <h3>2.2M+ Products</h3>
                 <h5>Contribute new project with us</h5>
               </div>
-              <Link to={'/exchange'} className='btn btn-primary email-btn'>
+              <Link to={'#'} className='btn btn-primary email-btn'>
                    Add Projects
               </Link>
             </div>

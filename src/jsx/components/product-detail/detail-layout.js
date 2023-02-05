@@ -1,12 +1,12 @@
 import { Fragment } from 'react'
 
-export const DetailLayout = ({ header, summary, more, about, report, isScam }) => {
+export const DetailLayout = ({ Header, summary, more, about, portfolioOrChart, report, isScam }) => {
   return <Fragment>
     <div className='row'>
       {/* detail Header: icon, name, score */}
       <div className='col-lg-12'>
         <div className='profile card card-body px-3 pt-3 pb-0'>
-          { header }
+          {Header}
         </div>
       </div>
     </div>
@@ -48,6 +48,10 @@ export const DetailLayout = ({ header, summary, more, about, report, isScam }) =
         </div>
       </div>
       <div className='col-xl-8'>
+        {portfolioOrChart && <div className='card'>
+          {portfolioOrChart}
+        </div>
+        }
         <div className='card'>
           <div className='card-body'>
             <div className='profile-tab'>
