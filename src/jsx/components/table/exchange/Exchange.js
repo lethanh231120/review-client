@@ -27,7 +27,7 @@ const Exchange = ({
   const columns = [
     {
       title: 'Name',
-      render: (_, record) => (<Link className='crypto-table-info image-list'>
+      render: (_, record) => (<Link to='#' className='crypto-table-info image-list'>
         {record?.smallLogo ? <Image src={record?.smallLogo} preview={false} /> : <span className='image-list-no-data'>
           {record?.name?.slice(0, 3)}
         </span>}
@@ -165,7 +165,7 @@ const Exchange = ({
           <CategorySearch type={DAPP}/>
         </Col>
         <Col md={{ span: 12 }} sm={{ span: 10 }} xs={{ span: 24 }}>
-          <DrawerFilter type='crypto' handleFilter={handleFilter} />
+          <DrawerFilter type='exchange' handleFilter={handleFilter} />
         </Col>
       </Row>
       <Table
