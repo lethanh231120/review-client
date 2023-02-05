@@ -109,7 +109,12 @@ export const isInt = (number) => {
 export const formatLargeNumberMoneyUSD = (data) =>
   new Intl.NumberFormat('en-EN', {
     notation: 'compact',
-    compactDisplay: 'short',
     style: 'currency',
     currency: 'USD'
+  }).format(data)
+
+export const formatLargeNumber = (data) =>
+  new Intl.NumberFormat('en-EN', {
+    notation: 'compact',
+    compactDisplay: 'short'
   }).format(data)

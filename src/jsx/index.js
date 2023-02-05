@@ -143,10 +143,10 @@ import { ThemeContext } from '../context/ThemeContext'
 export const ChainListContext = createContext()
 export const CategoryContext = createContext()
 export const SignInContext = createContext()
-export const LaunchpadContext = createContext()
+export const LaunchpadMapContext = createContext()
 const Markup = () => {
   const [chainList, setChainList] = useState([])
-  const [launchpads, setLaunchpads] = useState([])
+  const [launchpadMap, setLaunchpadMap] = useState([])
   const [categories, setCategories] = useState([])
 
   const [openModalSignIn, setOpenModalSignIn] = useState(false)
@@ -352,8 +352,15 @@ const Markup = () => {
   }
   const getLaunchpad = async() => {
     try {
-      const launchpads = await get(`reviews/launchpad`)
-      setLaunchpads(launchpads?.data?.launchPads)
+      const resp = await get(`reviews/launchpad`)
+      const launchpadList = resp?.data?.launchPads
+      const launchpadMapLocal = new Map()
+      // convert list to map
+      launchpadList.forEach((launchpad) => {
+        console.log(launchpad, launchpadMapLocal)
+        launchpadMapLocal.set(launchpad?.launchPadId, launchpad)
+      })
+      setLaunchpadMap(launchpadMapLocal)
     } catch (e) {
       console.error(e)
     }
@@ -368,7 +375,7 @@ const Markup = () => {
   return (
     <ChainListContext.Provider value={chainList}>
       <SignInContext.Provider value={stateSignIn}>
-        <LaunchpadContext.Provider value={launchpads}>
+        <LaunchpadMapContext.Provider value={launchpadMap}>
           <CategoryContext.Provider value={categories}>
             <Routes>
               <Route path='page-lock-screen' element={<LockScreen />} />
@@ -422,7 +429,7 @@ const Markup = () => {
             </Routes>
             <ScrollToTop />
           </CategoryContext.Provider>
-        </LaunchpadContext.Provider>
+        </LaunchpadMapContext.Provider>
       </SignInContext.Provider>
     </ChainListContext.Provider>
   )
