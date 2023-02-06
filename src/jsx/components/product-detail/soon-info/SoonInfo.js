@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import { DetailLayout } from '../detail-layout'
 
 import { Button, Dropdown } from 'react-bootstrap'
-import IconImageList from '../../common-widgets/page-soon/LaunchpadIconList'
+import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
 import {
   formatLargeNumberMoneyUSD,
   formatLargeNumber
 } from '../../../../utils/formatNumber'
 import moment from 'moment'
-import FormReport from '../../Forms/form-report/FormReport'
+// import FormReport from '../../Forms/form-report/FormReport'
 import Description from '../description/Description'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Spin } from 'antd'
@@ -59,7 +59,7 @@ const getStatusBackgroundFromSoonStatus = (status) => {
 
 const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
-const SoonInfo = ({ productInfo }) => {
+const SoonInfo = ({ productInfo, ...rest }) => {
   const itemDetail = productInfo?.details
   const itemRoundSales = productInfo?.mores?.roundSale
   const [websiteLoading, setWebsiteLoading] = useState(false)
@@ -259,9 +259,9 @@ const SoonInfo = ({ productInfo }) => {
             <Link href='#'>
               <h4>Launchpad(s):</h4>
             </Link>
-            <p className='mb-0'>
-              <IconImageList listLaunchpad={itemDetail?.launchPads} />
-            </p>
+            <span className='mb-0'>
+              <LaunchpadIconList listLaunchpad={itemDetail?.launchPads} />
+            </span>
           </div>
           <div className='profile-blog mb-3'>
             <Link href='#'>
@@ -277,10 +277,8 @@ const SoonInfo = ({ productInfo }) => {
                   </Dropdown.Toggle>
                   <Dropdown.Menu className='cus-dropdown-menu'>
                     {
-                      Object.keys(itemDetail?.community)?.map((keyName) => (
-                        <>
-                          <Dropdown.Item href={itemDetail?.community[keyName]}>{keyName}</Dropdown.Item>
-                        </>
+                      Object.keys(itemDetail?.community)?.map((keyName, index) => (
+                        <Dropdown.Item href={itemDetail?.community[keyName]} key={index}>{keyName}</Dropdown.Item>
                       ))
                     }
                   </Dropdown.Menu>
@@ -316,7 +314,10 @@ const SoonInfo = ({ productInfo }) => {
       summary={summary}
       more={more}
       portfolioOrChart={description}
-      report={<FormReport />}
+      // report={<FormReport />}
+
+      numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
+      rest={rest}
     />
   )
 }

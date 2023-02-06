@@ -6,7 +6,7 @@ import { PREFIX_DETAIL, SOON } from '../../../constants/category'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { Col } from 'antd'
-import IconImageList from '../../common-widgets/page-soon/LaunchpadIconList'
+import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
@@ -102,7 +102,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                     {item?.roundType}
                                   </p>
                                   <span className='fs-12'>
-                                    <IconImageList
+                                    <LaunchpadIconList
                                       listLaunchpad={item?.launchPads}
                                     />
                                   </span>

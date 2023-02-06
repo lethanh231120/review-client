@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import FormReport from '../Forms/form-report/FormReport'
 import ReviewItem from './review/review-item/ReviewItem'
 
-export const DetailLayout = ({ header, roundSale, summary, more, about, scam, topDiscus, coinChart, numberReviews, rest }) => {
+export const DetailLayout = ({ header, roundSale, portfolioOrChart, summary, more, about, scam, topDiscus, coinChart, numberReviews, rest }) => {
   return <Fragment>
     <div className='row'>
       {/* detail header: icon, name, score */}
@@ -71,6 +71,10 @@ export const DetailLayout = ({ header, roundSale, summary, more, about, scam, to
       </div>
       <div className='col-xl-7'>
         {coinChart}
+        {portfolioOrChart && <div className='card'>
+          {portfolioOrChart}
+        </div>
+        }
         {/* {report} */}
         {/* form report */}
         <div className='product-detail'>

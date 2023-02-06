@@ -564,6 +564,42 @@ const ProductDetail = () => {
     productId={productId}
   />
 
+  const soon = <SoonInfo
+  // use in crypto info
+    isShow={isShow}
+    copyAddress={copyAddress}
+
+    // use in filter review component
+    productInfo={productInfo}
+    defaultFilter={defaultFilter}
+    setDefaultFilter={setDefaultFilter}
+
+    // use in form report component
+    data={data}
+    setData={setData}
+    handleSubmitComment={handleSubmitComment}
+    setValidateTextArea={setValidateTextArea}
+    validateTextArea={validateTextArea}
+    handleComment={handleComment}
+    recapcharRef={recapcharRef}
+    setFileList={setFileList}
+    fileList={fileList}
+    showUser={true}
+    isRecaptcha={isRecaptcha}
+    setIsRecaptcha={setIsRecaptcha}
+    setErrorLink={setErrorLink}
+    errorLink={errorLink}
+    setTypeComment={setTypeComment}
+    typeComment={typeComment}
+    setErrorType={setErrorType}
+    errorType={errorType}
+    id={productInfo?.details?.id}
+
+    // use in list review
+    dataFilter={dataFilter}
+    productId={productId}
+  />
+
   return (
     <div className='section'>
       {!productInfo ? <DetailLoading /> : ''}
@@ -576,7 +612,7 @@ const ProductDetail = () => {
         ) : categoryName === EXCHANGE ? (
           <ExchangeInfo productInfo={productInfo} />
         ) : categoryName === SOON ? (
-          <SoonInfo productInfo={productInfo} />
+          <React.Fragment>{soon}</React.Fragment>
         ) : categoryName === VENTURE ? (
           <VentureInfo productInfo={productInfo} />
         ) : type === 'coin' || type === 'token' ? (
