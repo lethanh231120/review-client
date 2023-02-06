@@ -38,9 +38,9 @@ export const DataAllocationChart = ({ data, header }) => {
                         fill={data.fillcolor}
                       />
                     </svg>
-                    {data.datatitle}
+                    {data?.datatitle}
                   </span>
-                  <h5>{data.amount}</h5>
+                  <h5>{new Intl.NumberFormat().format(data?.amount)}</h5>
                 </div>
               ))}
             </div>

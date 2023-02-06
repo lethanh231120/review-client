@@ -185,7 +185,7 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
       </div>
       <div className='mt-4'>
         <Link
-          to='/post-details'
+          to='#'
           className='btn btn-primary mb-1 me-1'
         >
         Report Scam
@@ -404,7 +404,7 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
   return (
     <>
       <DetailLayout
-        header={header}
+        Header={header}
         summary={summary}
         scam={scam}
         more={more}
@@ -412,7 +412,6 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
         topDiscus={(<TopDiscussed/>)}
         coinChart={coinChart}
         // report={report}
-
         numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
         rest={rest}
       />

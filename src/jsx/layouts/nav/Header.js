@@ -82,7 +82,6 @@ const Header = ({ onNote }) => {
                   className='dashboard_bar'
                   style={{ textTransform: 'capitalize' }}
                 >
-                  Gear 5
                 </div>
               </div>
               {/* header: search elk input */}

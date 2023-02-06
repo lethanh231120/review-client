@@ -19,6 +19,15 @@ import _ from 'lodash'
 import { renderRandomColor } from '../../../utils/formatNumber'
 import { API_KEY, bitqueryEndpoint, BITQUERY_QUERY } from './Dashboard/bitquery-query/query'
 
+const fillColors = [
+  '#18A594',
+  '#DB4439',
+  '#3B5998',
+  '#1DA1F2',
+  '#FF8019',
+  '#886CC4'
+]
+
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
   const [summaryData, setSummaryData] = useState()
@@ -106,7 +115,7 @@ const Home = () => {
 
       // get first 5 tokens
       for (var i = 0; i < SHOW_DATA_NUMBER; i++) {
-        dataArr.push({ fillcolor: renderRandomColor(), datatitle: Object.keys(sorted[i])[0], amount: Object.values(sorted[i])[0] })
+        dataArr.push({ fillcolor: fillColors[i], datatitle: Object.keys(sorted[i])[0], amount: Object.values(sorted[i])[0] })
       }
 
       // calulate other
@@ -114,7 +123,7 @@ const Home = () => {
       for (var k = SHOW_DATA_NUMBER; k < sorted?.length; k++) {
         totalOther += Object.values(sorted[k])[0]
       }
-      dataArr.push({ fillcolor: renderRandomColor(), datatitle: 'Others', amount: totalOther })
+      dataArr.push({ fillcolor: fillColors[fillColors.length - 1], datatitle: 'Others', amount: totalOther })
     }
     return dataArr
   }
