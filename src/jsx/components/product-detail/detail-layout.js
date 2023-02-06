@@ -1,6 +1,9 @@
+// import { scaleBand } from 'd3-scale'
 import { Fragment } from 'react'
+import FormReport from '../Forms/form-report/FormReport'
+import ReviewItem from './review/review-item/ReviewItem'
 
-export const DetailLayout = ({ header, summary, more, about, report, isScam }) => {
+export const DetailLayout = ({ header, summary, more, about, scam, topDiscus, coinChart, numberReviews, rest }) => {
   return <Fragment>
     <div className='row'>
       {/* detail Header: icon, name, score */}
@@ -11,8 +14,7 @@ export const DetailLayout = ({ header, summary, more, about, report, isScam }) =
       </div>
     </div>
     <div className='row'>
-
-      <div className='col-xl-4'>
+      <div className='col-xl-5'>
         <div className='row'>
           {/* Total Scam, Total Reviews, Score */}
           <div className='col-lg-12'>
@@ -25,14 +27,17 @@ export const DetailLayout = ({ header, summary, more, about, report, isScam }) =
             </div>
           </div>
           {/* Scam/Warning message*/}
-          {isScam && <div className='col-lg-12'>
+          {/* {isScam && <div className='col-lg-12'>
             <div className='card'>
               <div className='card-body pt-3'>
                 <div className='profile-interest '>
                 </div>
               </div>
             </div>
-          </div>}
+          </div>} */}
+          <div className='col-lg-12 mb-3'>
+            {scam}
+          </div>
           {/* Mores*/}
           <div className='col-lg-12'>
             <div className='card'>
@@ -45,17 +50,30 @@ export const DetailLayout = ({ header, summary, more, about, report, isScam }) =
               {about}
             </div>
           </div>
+
+          <div className='col-lg-12'>
+            {topDiscus}
+          </div>
         </div>
       </div>
-      <div className='col-xl-8'>
-        <div className='card'>
-          <div className='card-body'>
-            <div className='profile-tab'>
-              <div className='custom-tab-1'>
-                {report}
-              </div>
-            </div>
-          </div>
+      <div className='col-xl-7'>
+        {coinChart}
+        {/* {report} */}
+        {/* form report */}
+        <div className='product-detail'>
+          <FormReport
+            // use in filter review
+            numberReviews={numberReviews}
+            rest={rest}
+          />
+          {(rest?.dataFilter || rest?.productInfo)?.reviews?.map((item) => (
+            <ReviewItem
+              key={item?.review?.id}
+              data={item}
+              productId={rest?.productId}
+              // userInfo={userInfo}
+            />
+          ))}
         </div>
       </div>
     </div>

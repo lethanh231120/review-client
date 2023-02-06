@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 // import React, { useEffect, useState, useRef, useContext } from 'react'
 import { message } from 'antd'
 // import { DownOutlined, CodeOutlined, CaretUpOutlined, SendOutlined, CopyOutlined, LinkOutlined } from '@ant-design/icons'
@@ -12,6 +12,7 @@ import _ from 'lodash'
 // import FilterReview from './filter-review/FilterReview'
 // import ListReview from '../../components/detail-product/list-review/ListReview'
 // import { SignInContext } from '../../components/layout/Main'
+import { SignInContext, Authenticated } from '../../index'
 import CryptoInfo from './crypto-info/CryptoInfo'
 import ExchangeInfo from './exchange-info/ExchangeInfo'
 import DappInfo from './dapp-info/DappInfo'
@@ -31,42 +32,44 @@ import {
 // import user from '../../../images/product/user.png'
 // import { Authenticated } from '../../components/layout/Main'
 import DetailLoading from '../loading/DetailLoading'
+import { getCookie, STORAGEKEY } from '../../../utils/storage'
 // import DetailLoading from '../../components/layout/detail-loading/DetailLoading'
+import user from '../../../images/product/user.png'
 
 const ProductDetail = () => {
   const { pathname } = useLocation()
-  // const DEFAULT_ALL = 'all'
-  // const DEFAULT_SCAM = 'scam'
-  // const DEFAULT_NOT_SCAM = 'notScam'
+  const DEFAULT_ALL = 'all'
+  const DEFAULT_SCAM = 'scam'
+  const DEFAULT_NOT_SCAM = 'notScam'
   const [productId, setProductId] = useState()
 
   const { type, productName, path, categoryName } = useParams()
   // type coin thi khong co product Id, token thi co productId
 
   const ref = useRef(null)
-  // const recapcharRef = useRef(null)
-  // const signInContext = useContext(SignInContext)
-  // const auth = useContext(Authenticated)
+  const recapcharRef = useRef(null)
+  const signInContext = useContext(SignInContext)
+  const auth = useContext(Authenticated)
 
   const [productInfo, setProductInfo] = useState()
-  // const [defaultFilter, setDefaultFilter] = useState(DEFAULT_ALL)
-  // const [data, setData] = useState({
-  //   isScam: false,
-  //   content: '',
-  //   sources: [],
-  //   image: '',
-  //   star: 5
-  // })
-  // const [validateTextArea, setValidateTextArea] = useState(false)
-  // const [fileList, setFileList] = useState([])
-  // const [dataFilter, setDataFilter] = useState()
+  const [defaultFilter, setDefaultFilter] = useState(DEFAULT_ALL)
+  const [data, setData] = useState({
+    isScam: false,
+    content: '',
+    sources: [],
+    image: '',
+    star: 5
+  })
+  const [validateTextArea, setValidateTextArea] = useState(false)
+  const [fileList, setFileList] = useState([])
+  const [dataFilter, setDataFilter] = useState()
   const [isShow, setIsShow] = useState()
-  // const [errorLink, setErrorLink] = useState()
-  // const [isRecaptcha, setIsRecaptcha] = useState(false)
-  // const [typeComment, setTypeComment] = useState(false)
-  // const [errorType, setErrorType] = useState()
+  const [errorLink, setErrorLink] = useState()
+  const [isRecaptcha, setIsRecaptcha] = useState(false)
+  const [typeComment, setTypeComment] = useState(false)
+  const [errorType, setErrorType] = useState()
 
-  // const userInfo = getCookie(STORAGEKEY.USER_INFO)
+  const userInfo = getCookie(STORAGEKEY.USER_INFO)
   // const token = Boolean(getCookie(STORAGEKEY.ACCESS_TOKEN))
 
   useEffect(() => {
@@ -85,7 +88,7 @@ const ProductDetail = () => {
       }
     }
     setProductId(id)
-  }, [type, productName, path, productId, categoryName])
+  }, [type, productName, path, categoryName])
 
   useEffect(() => {
     const getData = async() => {
@@ -299,200 +302,267 @@ const ProductDetail = () => {
   }
 
   useEffect(() => {
-    // if (defaultFilter === DEFAULT_ALL) {
-    //   setDataFilter(productInfo)
-    // }
-    // if (defaultFilter === DEFAULT_NOT_SCAM) {
-    //   const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === false)
-    //   setDataFilter({
-    //     ...productInfo,
-    //     reviews: listReview
-    //   })
-    // }
-    // if (defaultFilter === DEFAULT_SCAM) {
-    //   const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === true)
-    //   setDataFilter({
-    //     ...productInfo,
-    //     reviews: listReview
-    //   })
-    // }
-  }, [productInfo])
-  // }, [defaultFilter, productInfo])
+    if (defaultFilter === DEFAULT_ALL) {
+      setDataFilter(productInfo)
+    }
+    if (defaultFilter === DEFAULT_NOT_SCAM) {
+      const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === false)
+      setDataFilter({
+        ...productInfo,
+        reviews: listReview
+      })
+    }
+    if (defaultFilter === DEFAULT_SCAM) {
+      const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === true)
+      setDataFilter({
+        ...productInfo,
+        reviews: listReview
+      })
+    }
+  }, [defaultFilter, productInfo])
 
-  // useEffect(() => {
-  //   if (typeComment === 'login') {
-  //     // if (!auth?.isAuthenticated) {
-  //     //   console.log('log in')
-  //     //   signInContext?.handleSetOpenModal(true)
-  //     // }
-  //   }
-  // }, [typeComment])
-  // }, [typeComment, signInContext, auth])
+  useEffect(() => {
+    if (typeComment === 'login') {
+      if (!auth?.isAuthenticated) {
+        console.log('log in')
+        signInContext?.handleSetOpenModal(true)
+      }
+    }
+  }, [typeComment, signInContext, auth])
 
-  // const handleAddComment = async(params, type) => {
-  //   let dataAdd
-  //   if (type === 'anonymous') {
-  //     dataAdd = await post('reviews/review/anonymous', params)
-  //   } else {
-  //     dataAdd = await post('reviews/review', params)
-  //   }
-  //   if (dataAdd) {
-  //     const newReview = {
-  //       reactions: [],
-  //       replies: [],
-  //       review: {
-  //         ...dataAdd?.data,
-  //         accountType: type === 'auth' ? userInfo?.accountType : '',
-  //         email: type === 'auth' ? userInfo?.email : '',
-  //         acountImage: type === 'auth' ? userInfo?.image : user,
-  //         role: type === 'auth' ? userInfo?.role : -1,
-  //         userName: type === 'auth' ? userInfo?.userName : 'anonymous'
-  //       }
-  //     }
-  //     if (productInfo?.reviews === null) {
-  //       setProductInfo({
-  //         ...productInfo,
-  //         reviews: [newReview]
-  //       })
-  //     } else {
-  //       const data = productInfo?.reviews
-  //       setProductInfo({
-  //         ...productInfo,
-  //         reviews: [
-  //           newReview,
-  //           ...data
-  //         ]
-  //       })
-  //     }
-  //     setData({
-  //       isScam: false,
-  //       content: '',
-  //       sources: [],
-  //       image: '',
-  //       star: 5
-  //     })
-  //     setFileList([])
-  //     setValidateTextArea(false)
-  //     setTypeComment()
-  //     recapcharRef.current.reset()
-  //   }
-  // }
+  const handleAddComment = async(params, type) => {
+    let dataAdd
+    if (type === 'anonymous') {
+      dataAdd = await post('reviews/review/anonymous', params)
+    } else {
+      dataAdd = await post('reviews/review', params)
+    }
+    if (dataAdd) {
+      const newReview = {
+        reactions: [],
+        replies: [],
+        review: {
+          ...dataAdd?.data,
+          accountType: type === 'auth' ? userInfo?.accountType : '',
+          email: type === 'auth' ? userInfo?.email : '',
+          acountImage: type === 'auth' ? userInfo?.image : user,
+          role: type === 'auth' ? userInfo?.role : -1,
+          userName: type === 'auth' ? userInfo?.userName : 'anonymous'
+        }
+      }
+      if (productInfo?.reviews === null) {
+        setProductInfo({
+          ...productInfo,
+          reviews: [newReview]
+        })
+      } else {
+        const data = productInfo?.reviews
+        setProductInfo({
+          ...productInfo,
+          reviews: [
+            newReview,
+            ...data
+          ]
+        })
+      }
+      setData({
+        isScam: false,
+        content: '',
+        sources: [],
+        image: '',
+        star: 5
+      })
+      setFileList([])
+      setValidateTextArea(false)
+      setTypeComment()
+      recapcharRef.current.reset()
+    }
+  }
 
   // submit btn
-  // const handleSubmitComment = async() => {
-  //   const params = {
-  //     ...data,
-  //     productId: productId
-  //   }
-  //   if (typeComment) {
-  //     if (data?.content !== '') {
-  //       const recaptchaValue = recapcharRef.current.getValue()
-  //       if (recaptchaValue) {
-  //         if (data?.isScam) {
-  //           if (!_.isEmpty(data?.sources)) {
-  //             handleAddComment(params, 'anonymous')
-  //           } else {
-  //             setErrorLink('Link proof is required')
-  //           }
-  //         } else {
-  //           handleAddComment(params, 'anonymous')
-  //         }
-  //       } else {
-  //         setIsRecaptcha(true)
-  //       }
-  //     } else {
-  //       setValidateTextArea(true)
-  //     }
-  //   } else {
-  //     // if (auth?.isAuthenticated) {
-  //     if (data?.content !== '') {
-  //       const recaptchaValue = recapcharRef.current.getValue()
-  //       if (recaptchaValue) {
-  //         if (data?.isScam) {
-  //           if (!_.isEmpty(data?.sources)) {
-  //             handleAddComment(params, 'auth')
-  //           } else {
-  //             setErrorLink('Link proof is required')
-  //           }
-  //         } else {
-  //           handleAddComment(params, 'auth')
-  //         }
-  //       } else {
-  //         setIsRecaptcha(true)
-  //       }
-  //     } else {
-  //       setValidateTextArea(true)
-  //     }
-  //     // } else {
-  //     //   console.log('call funtion open modal login')
-  //     //   signInContext?.handleSetOpenModal(true)
-  //     // }
-  //   }
-  // }
+  const handleSubmitComment = async() => {
+    const params = {
+      ...data,
+      productId: productId
+    }
+    if (typeComment) {
+      if (data?.content !== '') {
+        const recaptchaValue = recapcharRef.current.getValue()
+        if (recaptchaValue) {
+          if (data?.isScam) {
+            if (!_.isEmpty(data?.sources)) {
+              handleAddComment(params, 'anonymous')
+            } else {
+              setErrorLink('Link proof is required')
+            }
+          } else {
+            handleAddComment(params, 'anonymous')
+          }
+        } else {
+          setIsRecaptcha(true)
+        }
+      } else {
+        setValidateTextArea(true)
+      }
+    } else {
+      if (auth?.isAuthenticated) {
+        if (data?.content !== '') {
+          const recaptchaValue = recapcharRef.current.getValue()
+          if (recaptchaValue) {
+            if (data?.isScam) {
+              if (!_.isEmpty(data?.sources)) {
+                handleAddComment(params, 'auth')
+              } else {
+                setErrorLink('Link proof is required')
+              }
+            } else {
+              handleAddComment(params, 'auth')
+            }
+          } else {
+            setIsRecaptcha(true)
+          }
+        } else {
+          setValidateTextArea(true)
+        }
+      } else {
+        signInContext?.handleSetOpenModal(true)
+      }
+    }
+  }
 
   // enter
-  // const handleComment = async(e) => {
-  //   if (e.ctrlKey && e.key === 'Enter') {
-  //     setData({
-  //       ...data,
-  //       content: `${data?.content}\n`
-  //     })
-  //   } else {
-  //     e.preventDefault()
-  //     const params = {
-  //       ...data,
-  //       productId: productId
-  //     }
-  //     if (typeComment) {
-  //       if (data?.content !== '') {
-  //         const recaptchaValue = recapcharRef.current.getValue()
-  //         if (recaptchaValue) {
-  //           if (data?.isScam) {
-  //             if (!_.isEmpty(data?.sources)) {
-  //               handleAddComment(params, 'anonymous')
-  //             } else {
-  //               setErrorLink('Link proof is required')
-  //             }
-  //           } else {
-  //             handleAddComment(params, 'anonymous')
-  //           }
-  //         } else {
-  //           setIsRecaptcha(true)
-  //         }
-  //       } else {
-  //         setValidateTextArea(true)
-  //       }
-  //     } else {
-  //       // if (auth?.isAuthenticated) {
-  //       if (data?.content !== '') {
-  //         const recaptchaValue = recapcharRef.current.getValue()
-  //         if (recaptchaValue) {
-  //           if (data?.isScam) {
-  //             if (!_.isEmpty(data?.sources)) {
-  //               handleAddComment(params, 'auth')
-  //             } else {
-  //               setErrorLink('Link proof is required')
-  //             }
-  //           } else {
-  //             handleAddComment(params, 'auth')
-  //           }
-  //         } else {
-  //           setIsRecaptcha(true)
-  //         }
-  //       } else {
-  //         setValidateTextArea(true)
-  //       }
-  //       // } else {
-  //       //   signInContext?.handleSetOpenModal(true)
-  //       //   console.log('call function opne modal login')
-  //       // }
-  //     }
-  //   }
-  // }
+  const handleComment = async(e) => {
+    if (e.ctrlKey && e.key === 'Enter') {
+      setData({
+        ...data,
+        content: `${data?.content}\n`
+      })
+    } else {
+      e.preventDefault()
+      const params = {
+        ...data,
+        productId: productId
+      }
+      if (data?.content !== '') {
+        const recaptchaValue = recapcharRef.current.getValue()
+        if (recaptchaValue) {
+          if (data?.isScam) {
+            if (!_.isEmpty(data?.sources)) {
+              if (typeComment) {
+                handleAddComment(params, 'anonymous')
+              } else {
+                if (auth?.isAuthenticated) {
+                  handleAddComment(params, 'auth')
+                } else {
+                  signInContext?.handleSetOpenModal(true)
+                }
+              }
+            } else {
+              setErrorLink('Link proof is required')
+            }
+          } else {
+            if (typeComment) {
+              handleAddComment(params, 'anonymous')
+            } else {
+              if (auth?.isAuthenticated) {
+                handleAddComment(params, 'auth')
+              } else {
+                signInContext?.handleSetOpenModal(true)
+              }
+            }
+          }
+        } else {
+          setIsRecaptcha(true)
+        }
+      } else {
+        setValidateTextArea(true)
+      }
+      // if (typeComment) {
+      //   if (data?.content !== '') {
+      //     const recaptchaValue = recapcharRef.current.getValue()
+      //     if (recaptchaValue) {
+      //       if (data?.isScam) {
+      //         if (!_.isEmpty(data?.sources)) {
+      //           handleAddComment(params, 'anonymous')
+      //         } else {
+      //           setErrorLink('Link proof is required')
+      //         }
+      //       } else {
+      //         handleAddComment(params, 'anonymous')
+      //       }
+      //     } else {
+      //       setIsRecaptcha(true)
+      //     }
+      //   } else {
+      //     setValidateTextArea(true)
+      //   }
+      // } else {
+      //   if (auth?.isAuthenticated) {
+      //     console.log(222222)
+      //     if (data?.content !== '') {
+      //       const recaptchaValue = recapcharRef.current.getValue()
+      //       if (recaptchaValue) {
+      //         if (data?.isScam) {
+      //           if (!_.isEmpty(data?.sources)) {
+      //             handleAddComment(params, 'auth')
+      //           } else {
+      //             setErrorLink('Link proof is required')
+      //           }
+      //         } else {
+      //           handleAddComment(params, 'auth')
+      //         }
+      //       } else {
+      //         setIsRecaptcha(true)
+      //       }
+      //     } else {
+      //       setValidateTextArea(true)
+      //     }
+      //   } else {
+      //     signInContext?.handleSetOpenModal(true)
+      //   }
+      // }
+    }
+  }
 
   useEffect(() => {
     ref.current.scrollTo(0, 0)
   }, [pathname])
+
+  const crypto = <CryptoInfo
+    // use in crypto info
+    isShow={isShow}
+    copyAddress={copyAddress}
+
+    // use in filter review component
+    productInfo={productInfo}
+    defaultFilter={defaultFilter}
+    setDefaultFilter={setDefaultFilter}
+
+    // use in form report component
+    data={data}
+    setData={setData}
+    handleSubmitComment={handleSubmitComment}
+    setValidateTextArea={setValidateTextArea}
+    validateTextArea={validateTextArea}
+    handleComment={handleComment}
+    recapcharRef={recapcharRef}
+    setFileList={setFileList}
+    fileList={fileList}
+    showUser={true}
+    isRecaptcha={isRecaptcha}
+    setIsRecaptcha={setIsRecaptcha}
+    setErrorLink={setErrorLink}
+    errorLink={errorLink}
+    setTypeComment={setTypeComment}
+    typeComment={typeComment}
+    setErrorType={setErrorType}
+    errorType={errorType}
+    id={productInfo?.details?.id}
+
+    // use in list review
+    dataFilter={dataFilter}
+    productId={productId}
+  />
 
   return (
     <div className='section'>
@@ -502,11 +572,7 @@ const ProductDetail = () => {
         {categoryName === DAPP ? (
           <DappInfo productInfo={productInfo} />
         ) : categoryName === CRYPTO ? (
-          <CryptoInfo
-            productInfo={productInfo}
-            isShow={isShow}
-            copyAddress={copyAddress}
-          />
+          <React.Fragment>{crypto}</React.Fragment>
         ) : categoryName === EXCHANGE ? (
           <ExchangeInfo productInfo={productInfo} />
         ) : categoryName === SOON ? (
@@ -514,11 +580,7 @@ const ProductDetail = () => {
         ) : categoryName === VENTURE ? (
           <VentureInfo productInfo={productInfo} />
         ) : type === 'coin' || type === 'token' ? (
-          <CryptoInfo
-            productInfo={productInfo}
-            isShow={isShow}
-            copyAddress={copyAddress}
-          />
+          <React.Fragment>{crypto}</React.Fragment>
         ) : ''}
 
         {/* <div className='product-detail'>

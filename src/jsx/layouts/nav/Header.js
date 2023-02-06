@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
-// import { Link } from 'react-router-dom'
 import { Modal } from 'antd'
-// / Scroll
-// import PerfectScrollbar from "react-perfect-scrollbar";
 import LogoutPage from './Logout'
 
 // / Image
@@ -11,12 +8,8 @@ import imgMoon from '../../../images/moon.png'
 import imgSun from '../../../images/sun.png'
 import profile from '../../../images/profile/pic1.jpg'
 import { ThemeContext } from '../../../context/ThemeContext'
-import AccountTab, {
-  logInKey,
-  signUpKey
-} from '../../components/common-widgets/user-form/account-tab'
-// import { SignInComponent } from '../../components/common-widgets/user-form/sign-in-form'
-import { SignInContext } from '../../../context/SignInContext'
+import AccountTab, { logInKey, signUpKey } from '../../components/common-widgets/user-form/account-tab'
+import { SignInContext } from '../../index'
 import InputSearch from '../../components/input-search/GlobalSearch'
 
 const Header = ({ onNote }) => {
@@ -24,17 +17,7 @@ const Header = ({ onNote }) => {
   const [isLogin, setIsLogin] = useState(false)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const [activeTabKey, setActiveTabKey] = useState('')
-
-  const showModal = (activeTabKey) => {
-    setIsModalOpen(true)
-    setActiveTabKey(activeTabKey)
-  }
-
-  const hideModal = () => {
-    setIsModalOpen(false)
-  }
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -78,8 +61,9 @@ const Header = ({ onNote }) => {
   return (
     <>
       <Modal
-        open={isModalOpen}
-        onCancel={hideModal}
+        open={signContext?.openModalSignIn}
+        onCancel={() => signContext?.handleSetOpenModal(false)}
+        onOk={() => signContext?.handleSetOpenModal(false)}
         footer={false}
         destroyOnClose={true}
       >
@@ -183,7 +167,10 @@ const Header = ({ onNote }) => {
                           <Dropdown
                             as='li'
                             className='nav-item dropdown notification_dropdown'
-                            onClick={() => showModal(logInKey)}
+                            onClick={() => {
+                              setActiveTabKey(logInKey)
+                              signContext?.handleSetOpenModal(true)
+                            }}
                           >
                             <Dropdown.Toggle
                               variant=''
@@ -199,7 +186,10 @@ const Header = ({ onNote }) => {
                           <Dropdown
                             as='li'
                             className='nav-item dropdown notification_dropdown'
-                            onClick={() => showModal(signUpKey)}
+                            onClick={() => {
+                              signContext?.handleSetOpenModal(true)
+                              setActiveTabKey(signUpKey)
+                            }}
                           >
                             <Dropdown.Toggle
                               variant=''

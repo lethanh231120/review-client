@@ -6,7 +6,7 @@ export const logInKey = 'Navbuy'
 export const signUpKey = 'Navsell'
 const AccountTab = ({ activeTabKey }) => {
   return (
-    <Tab.Container defaultActiveKey={activeTabKey}>
+    <Tab.Container defaultActiveKey={activeTabKey || logInKey}>
       <div className=''>
         <div className='buy-sell'>
           <Nav className='nav nav-tabs' eventKey='nav-tab2' role='tablist'>
