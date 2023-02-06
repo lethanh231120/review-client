@@ -13,13 +13,18 @@
     font-weight: 500;
     color: rgba(0, 0, 0, 0.87);
 }
+@mixin font-bold-400 {
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.87);
+}
 @mixin font-bold-600 {
     font-size: 1rem; // 16px
     font-weight: 600;
     color: #362465;
 }
 @mixin font-family {
-    font-family: "poppins", sans-serif, sans-serif;
+    font-family: "poppins", sans-serif, sans-serif !important;
 }
 @mixin image {
     width: 100%;

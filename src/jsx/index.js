@@ -139,16 +139,18 @@ import Error404 from './pages/Error404'
 import Error500 from './pages/Error500'
 import Error503 from './pages/Error503'
 import { ThemeContext } from '../context/ThemeContext'
+import { getCookie, STORAGEKEY } from '../utils/storage'
 
 export const ChainListContext = createContext()
 export const CategoryContext = createContext()
+export const Authenticated = createContext()
 export const SignInContext = createContext()
 export const LaunchpadMapContext = createContext()
 const Markup = () => {
   const [chainList, setChainList] = useState([])
   const [launchpadMap, setLaunchpadMap] = useState([])
   const [categories, setCategories] = useState([])
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [openModalSignIn, setOpenModalSignIn] = useState(false)
 
   const stateSignIn = {
@@ -156,6 +158,10 @@ const Markup = () => {
     handleSetOpenModal: (isOpen) => setOpenModalSignIn(isOpen)
   }
 
+  const stateAuthenticated = {
+    isAuthenticated: isAuthenticated,
+    handleSetAuthenticated: (isAuth) => setIsAuthenticated(isAuth)
+  }
   const allroutes = [
     // / Dashboard
     { url: '', component: <Home /> },
@@ -350,6 +356,7 @@ const Markup = () => {
       console.error(e)
     }
   }
+
   const getLaunchpad = async() => {
     try {
       const resp = await get(`reviews/launchpad`)
@@ -357,7 +364,6 @@ const Markup = () => {
       const launchpadMapLocal = new Map()
       // convert list to map
       launchpadList.forEach((launchpad) => {
-        console.log(launchpad, launchpadMapLocal)
         launchpadMapLocal.set(launchpad?.launchPadId, launchpad)
       })
       setLaunchpadMap(launchpadMapLocal)
@@ -372,63 +378,69 @@ const Markup = () => {
     getLaunchpad()
   }, [])
 
+  useEffect(() => {
+    setIsAuthenticated(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
+  }, [])
+
   return (
     <ChainListContext.Provider value={chainList}>
       <SignInContext.Provider value={stateSignIn}>
         <LaunchpadMapContext.Provider value={launchpadMap}>
-          <CategoryContext.Provider value={categories}>
-            <Routes>
-              <Route path='page-lock-screen' element={<LockScreen />} />
-              <Route path='page-error-400' element={<Error400 />} />
-              <Route path='page-error-403' element={<Error403 />} />
-              <Route path='page-error-404' element={<Error404 />} />
-              <Route path='page-error-500' element={<Error500 />} />
-              <Route path='page-error-503' element={<Error503 />} />
-              <Route element={<MainLayout />}>
-                {allroutes.map((data, i) => (
-                  <Route
-                    key={i}
-                    path={`${data.url}`}
-                    element={data.component}
-                  />
-                ))}
-                <Route path=''>
-                  <Route path=':category'>
-                    <Route path='' element={<CategoryItem />} />
+          <Authenticated.Provider value={stateAuthenticated}>
+            <CategoryContext.Provider value={categories}>
+              <Routes>
+                <Route path='page-lock-screen' element={<LockScreen />} />
+                <Route path='page-error-400' element={<Error400 />} />
+                <Route path='page-error-403' element={<Error403 />} />
+                <Route path='page-error-404' element={<Error404 />} />
+                <Route path='page-error-500' element={<Error500 />} />
+                <Route path='page-error-503' element={<Error503 />} />
+                <Route element={<MainLayout />}>
+                  {allroutes.map((data, i) => (
                     <Route
-                      path=':subCategory'
-                      element={<CategoryItem />}
+                      key={i}
+                      path={`${data.url}`}
+                      element={data.component}
                     />
+                  ))}
+                  <Route path=''>
+                    <Route path=':category'>
+                      <Route path='' element={<CategoryItem />} />
+                      <Route
+                        path=':subCategory'
+                        element={<CategoryItem />}
+                      />
+                    </Route>
                   </Route>
-                </Route>
-                <Route path='products'>
-                  <Route path='crypto'>
-                    <Route path=':type'>
+                  <Route path='products'>
+                    <Route path='crypto'>
+                      <Route path=':type'>
+                        <Route path=':productName'>
+                          <Route path='' element={<ProductDetail1 />} />
+                          <Route path=':path' element={<ProductDetail1 />} />
+                        </Route>
+                      </Route>
+                    </Route>
+                    <Route path=':categoryName'>
                       <Route path=':productName'>
                         <Route path='' element={<ProductDetail1 />} />
                         <Route path=':path' element={<ProductDetail1 />} />
                       </Route>
-                    </Route>
-                  </Route>
-                  <Route path=':categoryName'>
-                    <Route path=':productName'>
-                      <Route path='' element={<ProductDetail1 />} />
-                      <Route path=':path' element={<ProductDetail1 />} />
+                      <Route
+                        path=':productId'
+                        element={<ProductDetail1 />}
+                      />
                     </Route>
                     <Route
                       path=':productId'
                       element={<ProductDetail1 />}
                     />
                   </Route>
-                  <Route
-                    path=':productId'
-                    element={<ProductDetail1 />}
-                  />
                 </Route>
-              </Route>
-            </Routes>
-            <ScrollToTop />
-          </CategoryContext.Provider>
+              </Routes>
+              <ScrollToTop />
+            </CategoryContext.Provider>
+          </Authenticated.Provider>
         </LaunchpadMapContext.Provider>
       </SignInContext.Provider>
     </ChainListContext.Provider>

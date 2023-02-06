@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-// import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Image, Input, Form } from 'antd'
 import './reviewItem.scss'
 import { CaretDownOutlined, SendOutlined, LinkOutlined } from '@ant-design/icons'
@@ -9,11 +8,11 @@ import ReplyComment from '../reply/Reply'
 import _ from 'lodash'
 import { post, patch } from '../../../../../api/BaseRequest'
 import { getCookie, STORAGEKEY } from '../../../../../utils/storage'
-// import { SignInContext, Authenticated } from '../../layout/Main'
+import { SignInContext, Authenticated } from '../../../../../jsx/index'
 import scam from '../../../../../images/product/scam.png'
 import ListEmoji from '../emoji/ListEmoji'
 
-const ReviewItem = ({ data, userInfo, productId }) => {
+const ReviewItem = ({ data, productId }) => {
   const TYPE_REVIEW = 0
   const [isCollapse, setIsCollapse] = useState({
     isCollapse: true,
@@ -24,14 +23,15 @@ const ReviewItem = ({ data, userInfo, productId }) => {
   const [isReaction, setIsReaction] = useState(false)
   const [Loading, setLoading] = useState(true)
   const [comment, setComment] = useState('')
-  // const signContext = useContext(SignInContext)
-  // const authenticated = useContext(Authenticated)
+  const signContext = useContext(SignInContext)
+  const authenticated = useContext(Authenticated)
   // const [isShowSource, setIsShowSource] = useState(false)
   const [currenReaction, setCurrenReaction] = useState()
   const [newData, setNewData] = useState(data)
   const [validateTextArea, setValidateTextArea] = useState(false)
   const [token, setToken] = useState()
   const [reactionType, setReactionType] = useState([])
+  const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
   useEffect(() => {
     setIsCollapse({
@@ -87,22 +87,19 @@ const ReviewItem = ({ data, userInfo, productId }) => {
 
   useEffect(() => {
     setToken(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
-  }, [])
-  // }, [authenticated?.isAuthenticated])
+  }, [authenticated?.isAuthenticated])
 
   const handleAddReply = () => {
     if (token) {
       setAddReply(!addReply)
     } else {
-      console.log('call fc open modal signin')
-      // signContext?.handleSetOpenModal(true)
+      signContext?.handleSetOpenModal(true)
     }
   }
 
   const handleSend = async(e) => {
     if (!token) {
-      console.log('call fc open modal signin')
-      // signContext?.handleSetOpenModal(true)
+      signContext?.handleSetOpenModal(true)
     } else {
       if (comment !== '') {
         const params = {
@@ -148,8 +145,7 @@ const ReviewItem = ({ data, userInfo, productId }) => {
 
   const handleSubmit = async(e) => {
     if (!token) {
-      console.log('call fc open modal signin')
-      // signContext?.handleSetOpenModal(true)
+      signContext?.handleSetOpenModal(true)
     } else {
       if (e.target.value !== '') {
         const params = {
@@ -239,8 +235,7 @@ const ReviewItem = ({ data, userInfo, productId }) => {
         }
       }
     } else {
-      console.log('call fc open modal signin')
-      // signContext?.handleSetOpenModal(true)
+      signContext?.handleSetOpenModal(true)
     }
   }
 

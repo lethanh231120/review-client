@@ -26,12 +26,15 @@
                 }
             }
             &-popover{
-                max-width: 30rem;
+                padding: 0.625rem !important;
+                width: 18.75rem !important;
+                right: 0 !important;
                 &-item{
                     cursor: pointer;
-                    padding: 0.6rem;
+                    padding: 0.6rem !important;
                     border-radius: 1rem;
                     transition: all 0.2s linear;
+                    margin-bottom: 0.3rem !important;
                     &:hover{
                         background-color: rgba(208, 206, 206, 0.388);
                     }
@@ -39,23 +42,10 @@
                         background-color: rgba(208, 206, 206, 0.388);
                     }
                 }
-                &-title{
-                    @include font-medium;
-                }
-                &-content{
-                    @include font-regular-400;
-                }
-            }
-            &-pop{
-                .ant-popover-inner{
-                    border-radius: 1.2rem;
-                }
-                .ant-popover-inner-content{
-                    box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 5px;
-                    border-radius: 1.2rem;
-                    padding: 0.6rem;
-                }
             }
         }
     }
+}
+.cus-dropdown-item{
+    white-space: normal !important;
 }
