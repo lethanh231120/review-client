@@ -9,10 +9,10 @@ const mockData = [
   { logo: 'https://assets.coingecko.com/coins/images/1372/small/WAX_Coin_Tickers_P_512px.png?1602812260', name: 'WAX', symbol: 'WAXP', type: 'Token' }
 ]
 
-export const TopDiscussed = () => {
+export const TopDiscussed = ({ topList }) => {
   return <div className='card pb-0'>
     <div className='card-header border-0 pb-0'>
-      <h4 className='card-title'>Top Discussed Projects</h4>
+      <h2 className='heading'>Top Discussed Projects</h2>
     </div>
     <div className='card-body'>
       <PerfectScrollbar

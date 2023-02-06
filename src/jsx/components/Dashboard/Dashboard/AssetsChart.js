@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ReactApexChart from 'react-apexcharts'
 
-function AssetsChart() {
-  const [state] = useState({
-    series: [100000, 1000000],
+function AssetsChart({ data }) {
+  const chartData = {
+    series: data?.map(item => item?.amount),
     options: {
+      stroke: {
+        width: 0
+      },
       chart: {
         type: 'donut'
       },
@@ -49,8 +52,8 @@ function AssetsChart() {
       legend: {
         show: false
       },
-      colors: ['#18A594', '#15073A'],
-      labels: ['Alive Projects', 'Dead/Scam Projects'],
+      colors: data?.map(item => item?.fillcolor),
+      labels: data?.map(item => item?.datatitle),
       dataLabels: {
         enabled: false
       },
@@ -66,16 +69,18 @@ function AssetsChart() {
         }
       ]
     }
-  })
+  }
   return (
     <div id=''>
-      <ReactApexChart
-        options={state.options}
-        series={state.series}
-        type='donut'
-        height={270}
+      { chartData.series &&
+        <ReactApexChart
+          options={chartData.options}
+          series={chartData.series}
+          type='donut'
+          height={270}
         // width={400}
-      />
+        />
+      }
     </div>
   )
 }
