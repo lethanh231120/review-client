@@ -1,30 +1,26 @@
 import loadable from '@loadable/component'
 import pMinDelay from 'p-min-delay'
-const pickerData = [
-  { fillcolor: '#15073A', datatitle: 'Scam or Dead Projects', amount: '1000000' },
-  { fillcolor: '#18A594', datatitle: 'Alive Projects', amount: '100000' }
-  // { fillcolor: 'var(--primary)', datatitle: 'BNB(10%)', price: '69' },
-  // { fillcolor: '#E085E4', datatitle: 'ETH(10%)', price: '154' }
-]
+import { MySpinner } from '../my-spinner'
+
 // ../../../Dashboard/AssetsChart
 const AssetsChart = loadable(() =>
   pMinDelay(import('../../Dashboard/Dashboard/AssetsChart'), 1000)
 )
 
-export const DataAllocationChart = () => {
+export const DataAllocationChart = ({ data, header }) => {
   return <div className='card summary-chart'>
     <div className='card-header border-0 pb-0'>
-      <h2 className='heading'>Data Allocation</h2>
+      <h2 className='heading'>{header}</h2>
     </div>
     <div className='card-body text-center pt-0 '>
       <div id='morris_donught' className='custome-donut'>
-        <AssetsChart/>
+        {data ? <AssetsChart data={data}/> : <MySpinner fontSize={30}/>}
       </div>
       <div className='chart-items'>
         <div className='row'>
           <div className=' col-xl-12 col-sm-12 '>
             <div className='text-start chart-legend'>
-              {pickerData.map((data, ind) => (
+              {data?.map((data, ind) => (
                 <div className='color-picker' key={ind}>
                   <span className='mb-0 col-6 fs-14'>
                     <svg

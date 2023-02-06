@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { formatLargeNumberMoneyUSD } from '../../../../utils/formatNumber'
 import { Link } from 'react-router-dom'
@@ -7,9 +7,24 @@ import NoImage from '../../common-widgets/no-image/NoImage'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { Col } from 'antd'
 import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
+import { LaunchpadMapContext } from '../../..'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
+  const launchpadContext = useContext(LaunchpadMapContext)
+  const [launchpadMap, setLaunchpadMap] = useState()
+
+  useEffect(() => {
+    const launchpadMapLocal = new Map()
+    launchpadContext.forEach((launchpad) => {
+      console.log(launchpad, launchpadMapLocal)
+      launchpadMapLocal.set(launchpad?.launchPadId, launchpad)
+    })
+    setLaunchpadMap(launchpadMapLocal)
+  }, [])
+
+  console.log(launchpadMap)
+
   return (
     <>
       <div className='row'>

@@ -29,7 +29,7 @@ const Dapp = ({
   const columns = [
     {
       title: 'Name',
-      render: (_, record) => (<Link className='crypto-table-info image-list'>
+      render: (_, record) => (<Link className='crypto-table-info image-list' to='#'>
         {record?.dAppLogo ? <Image src={record?.dAppLogo} preview={false} /> : <span className='image-list-no-data'>
           {record?.name?.slice(0, 3)}
         </span>}
@@ -135,7 +135,7 @@ const Dapp = ({
           <CategorySearch type={DAPP}/>
         </Col>
         <Col md={{ span: 12 }} sm={{ span: 10 }} xs={{ span: 24 }}>
-          <DrawerFilter type='crypto' handleFilter={handleFilter} />
+          <DrawerFilter type='dapp' handleFilter={handleFilter} />
         </Col>
       </Row>
       <Table

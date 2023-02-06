@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const PageTitle = ({ motherMenu, activeMenu, pageContent }) => {
-  const path = window.location.pathname.split('/')
+  const path = window.location.pathname?.split('/')
 
   return (
     <>
