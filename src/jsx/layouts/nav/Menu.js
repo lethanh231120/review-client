@@ -4,6 +4,7 @@ export const MenuList = [
     title: 'Dashboard',
     classsChange: 'mm-collapse',
     iconStyle: <i className='material-icons'>grid_view</i>,
+    to: '',
     content: [
       {
         title: 'Dashboard Light',

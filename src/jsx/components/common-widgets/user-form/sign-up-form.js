@@ -1,6 +1,55 @@
+import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { post } from '../../../../api/BaseRequest'
+import { SignInContext } from '../../../index'
 
 export const SignUpComponent = () => {
+  const [email, setEmail] = useState('')
+  const errorsObj = { email: '', password: '', rePassword: '', isConfirm: '' }
+  const [errors, setErrors] = useState(errorsObj)
+  const [password, setPassword] = useState('')
+  const [rePassword, setRePassword] = useState('')
+  const [isConfirm, setIsConfirm] = useState(false)
+  const signContext = useContext(SignInContext)
+
+  const onSignUp = async(e) => {
+    e.preventDefault()
+    let error = false
+    const errorObj = { ...errorsObj }
+    if (email === '') {
+      errorObj.email = 'Email is Required'
+      error = true
+    }
+    if (password === '') {
+      errorObj.password = 'Password is Required'
+      error = true
+    }
+    if (password !== rePassword) {
+      errorObj.rePassword = 'Re-password is Not Matching with Password'
+      error = true
+    }
+    if (!isConfirm) {
+      errorObj.isConfirm = 'Must Be Confirm'
+      error = true
+    }
+
+    setErrors(errorObj)
+    if (error) return
+
+    try {
+      const dataSignin = {
+        email: email,
+        password: password
+      }
+      const resp = await post('reviews/auth/signup/normal', dataSignin)
+      if (resp?.status) {
+        signContext?.handleSetOpenModal(false)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return <div className='login-form style-2'>
     <div className='card-body'>
       <nav className='nav nav-tabs border-bottom-0'>
@@ -17,7 +66,7 @@ export const SignUpComponent = () => {
                     )} */}
             <form
               className='dz-form pb-3'
-            //   onSubmit={onSignUp}
+              onSubmit={onSignUp}
             >
               <h3 className='form-title'>Sign Up</h3>
               <div className='dz-separator-outer m-b5'>
@@ -26,48 +75,58 @@ export const SignUpComponent = () => {
               <p>Enter your personal details below: </p>
               <div className='form-group mt-3'>
                 <input
-                  name='dzName'
-                  required=''
                   className='form-control'
-                  placeholder='Email'
+                  placeholder='Enter your e-mail address.'
                   type='text'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
+                {errors.email && (
+                  <div className='text-danger fs-12'>
+                    {errors.email}
+                  </div>
+                )}
               </div>
               <div className='form-group mt-3'>
                 <input
-                  name='dzName2'
-                  required=''
                   className='form-control'
-                  placeholder='Password'
-                  type='text'
+                  placeholder='Enter your password.'
+                  type='password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
+                {errors.password && (
+                  <div className='text-danger fs-12'>
+                    {errors.password}
+                  </div>
+                )}
               </div>
               <div className='form-group mt-3'>
-                {/* <input name="dzName" required="" className="form-control" placeholder="Email Address" type="text" /> */}
                 <input
-                //   value={email}
-                //   onChange={(e) => setEmail(e.target.value)}
                   className='form-control'
-                  placeholder='Re-enter Password'
+                  placeholder='Re-enter your password'
+                  type='password'
+                  value={rePassword}
+                  onChange={(e) => setRePassword(e.target.value)}
                 />
-                {/* {errors.email && (
-                          <div className='text-danger fs-12'>
-                            {errors.email}
-                          </div>
-                        )} */}
+                {errors.rePassword && (
+                  <div className='text-danger fs-12'>
+                    {errors.rePassword}
+                  </div>
+                )}
               </div>
-
-              {/* <div className="form-group mt-3 mb-3">
-                                                          <input name="dzName" required="" className="form-control" placeholder="Re-type Your Password" type="password" />
-                                                      </div> */}
               <div className='mb-3 mt-3'>
                 <span className='form-check float-start me-2'>
                   <input
                     type='checkbox'
                     className='form-check-input mt-0'
                     id='check2'
-                    name='example1'
+                    checked={isConfirm}
+                    onChange={() => {
+                      setIsConfirm(!isConfirm)
+                    }}
                   />
+
                   <label
                     className='form-check-label d-unset'
                     htmlFor='check2'
@@ -79,12 +138,17 @@ export const SignUpComponent = () => {
                   <Link to={'#'}>Terms of Service </Link>&amp;{' '}
                   <Link to={'#'}>Privacy Policy</Link>
                 </label>
+                {errors.isConfirm && (
+                  <div className='text-danger fs-12'>
+                    {errors.isConfirm}
+                  </div>
+                )}
               </div>
               <button
                 type='submit'
                 className='btn btn-primary '
               >
-                          Submit
+                          Sign&nbsp;Up
               </button>
             </form>
           </div>
