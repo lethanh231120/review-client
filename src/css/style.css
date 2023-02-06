@@ -2161,20 +2161,20 @@ textarea.form-control-lg {
 
 .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
 .input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n + 3) {
-  /* border-top-right-radius: 0; */
-  /* border-bottom-right-radius: 0; */
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .input-group.has-validation > :nth-last-child(n + 3):not(.dropdown-toggle):not(.dropdown-menu),
 .input-group.has-validation > .dropdown-toggle:nth-last-child(n + 4) {
-  /* border-top-right-radius: 0; */
-  /* border-bottom-right-radius: 0;  */
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; 
 }
 
 .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
   margin-left: -1px;
-  /* border-top-left-radius: 0; */
-  /* border-bottom-left-radius: 0;  */
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0; 
 }
 
 .valid-feedback {
@@ -9096,7 +9096,7 @@ svg.pulse-svg {
     .header-right .dropdown-menu:after {
       content: none; } }
   .header-right .search-area {
-    width: 25rem; }
+    width: 45rem; }
     .header-right .search-area ::placeholder {
       color: #A098AE;
       font-size: 16px;

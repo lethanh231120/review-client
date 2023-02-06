@@ -1,43 +1,16 @@
 // / Menu
-import React, {
-  // Component,
-  useContext,
-  useEffect,
-  useReducer,
-  useState
-} from 'react'
-// import Metismenu from "metismenujs";
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 // / Scroll
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import Collapse from 'react-bootstrap/Collapse'
-// import Button from 'react-bootstrap/Button'
 
 // / Link
 import { Link, NavLink } from 'react-router-dom'
 
-import { MenuList } from './Menu'
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { ThemeContext } from '../../../context/ThemeContext'
-
-// import medal from "../../../images/medal.png";
-
-// class MM extends Component {
-// 	componentDidMount() {
-// 		this.$el = this.el;
-// 		this.mm = new Metismenu(this.$el);
-// 	}
-//   componentWillUnmount() {
-//   }
-//   render() {
-//     return (
-//       <div className="mm-wrapper">
-//         <ul className="metismenu " ref={(el) => (this.el = el)}>
-//           {this.props.children}
-//         </ul>
-//       </div>
-//     );
-//   }
-// }
+import { CategoryContext } from '../../index'
+import _ from 'lodash'
 
 const reducer = (previousState, updatedState) => ({
   ...previousState,
@@ -49,18 +22,36 @@ const initialState = {
   activeSubmenu: ''
 }
 
+const headerItem1 = `Crypto Projects`
+const headerItem2 = `DApps`
+const headerItem3 = `Ventures`
+const headerItem4 = `Exchanges`
+const headerItem5 = `Upcomings`
+
 const SideBar = () => {
+  // set defaul category when no data
+  const arrOrderedCategories = [
+    headerItem1,
+    headerItem2,
+    headerItem3,
+    headerItem4,
+    headerItem5
+  ]
+  const [categories, setCategories] = useState([])
+  const mapOrderedCategories = new Map() // match with data from BE
+  mapOrderedCategories.set(headerItem1, false)
+  mapOrderedCategories.set(headerItem2, false)
+  mapOrderedCategories.set(headerItem3, false)
+  mapOrderedCategories.set(headerItem4, false)
+  mapOrderedCategories.set(headerItem5, false)
+  // get category context
+  const categoryContext = useContext(CategoryContext)
+
   const { iconHover, sidebarposition, headerposition, sidebarLayout } =
     useContext(ThemeContext)
 
   const [state, setState] = useReducer(reducer, initialState)
 
-  // let handleheartBlast = document.querySelector('.heart');
-  // function heartBlast(){
-  //   return handleheartBlast.classList.toggle("heart-blast");
-  // }
-
-  useEffect(() => {}, [])
   // For scroll
   const [hideOnScroll, setHideOnScroll] = useState(true)
   useScrollPosition(
@@ -71,10 +62,6 @@ const SideBar = () => {
     [hideOnScroll]
   )
 
-  // Menu dropdown list
-  // const [active , setActive] = useState('');
-  // const [activeSubmenu , setActiveSubmenu] = useState('');
-
   const handleMenuActive = (status) => {
     setState({ active: status })
 
@@ -82,6 +69,7 @@ const SideBar = () => {
       setState({ active: '' })
     }
   }
+
   const handleSubmenuActive = (status) => {
     setState({ activeSubmenu: status })
     if (state.activeSubmenu === status) {
@@ -94,124 +82,75 @@ const SideBar = () => {
   let path = window.location.pathname
   path = path.split('/')
   path = path[path.length - 1]
-  // / Active menu
-  // let deshBoard = [
-  //     "",
-  //     "dashboard-dark",
-  //     "food-order",
-  //     "favorite-menu",
-  //     "message",
-  //     "order-history",
-  //     "notification",
-  //     "bill",
-  //     "setting",
-  //     "task",
-  //   ],
-  // restro=[
-  // 	"restaurant",
-  // 	"menu",
-  // 	"orders",
-  // 	"customer-reviews",
-  // 	"restro-setting",
-  // ],
-  // drivers=[
-  // 	"deliver-main",
-  // 	"deliver-order",
-  // 	"feedback",
-  // ],
-  //   app = [
-  //     "app-profile",
-  //     "post-details",
-  //     "app-calender",
-  //     "email-compose",
-  //     "email-inbox",
-  //     "email-read",
-  //     "ecom-product-grid",
-  //     "ecom-product-list",
-  //     "ecom-product-order",
-  //     "ecom-checkout",
-  //     "ecom-invoice",
-  //     "ecom-customers",
-  //     "post-details",
-  //     "ecom-product-detail",
-  //   ],
-  //   email = ["email-compose", "email-inbox", "email-read"],
-  //   shop = [
-  //     "ecom-product-grid",
-  //     "ecom-product-list",
-  //     "ecom-product-list",
-  //     "ecom-product-order",
-  //     "ecom-checkout",
-  //     "ecom-invoice",
-  //     "ecom-customers",
-  //     "ecom-product-detail",
-  //   ],
-  //   charts = [
-  //     "chart-rechart",
-  //     "chart-flot",
-  //     "chart-chartjs",
-  //     //"chart-chartist",
-  //     "chart-sparkline",
-  //     "chart-apexchart",
-  //   ],
-  //   bootstrap = [
-  //     "ui-accordion",
-  //     "ui-badge",
-  //     "ui-alert",
-  //     "ui-button",
-  //     "ui-modal",
-  //     "ui-button-group",
-  //     "ui-list-group",
-  //     "ui-card",
-  //     "ui-carousel",
-  //     "ui-dropdown",
-  //     "ui-popover",
-  //     "ui-progressbar",
-  //     "ui-tab",
-  //     "ui-typography",
-  //     "ui-pagination",
-  //     "ui-grid",
-  //   ],
-  //   plugins = [
-  //     "uc-select2",
-  //     "uc-nestable",
-  //     "uc-sweetalert",
-  //     "uc-toastr",
-  //     "uc-noui-slider",
-  //     "map-jqvmap",
-  //     "uc-lightgallery",
-  //   ],
-  // redux = [
-  //      "redux-form",
-  //    "redux-wizard",
-  //      "todo",
-  //   ],
-  //   widget = ["widget-basic"],
-  //   forms = [
-  //     "form-element",
-  //     "form-wizard",
-  //     "form-ckeditor",
-  //     "form-pickers",
-  //     "form-validation-jquery",
-  //   ],
-  //   table = ["table-bootstrap-basic", "table-datatable-basic"],
-  //   pages = [
-  //     "page-register",
-  //     "page-login",
-  //     "page-lock-screen",
-  //     "page-error-400",
-  //     "page-error-403",
-  //     "page-error-404",
-  //     "page-error-500",
-  //     "page-error-503",
-  //   ],
-  //   error = [
-  //     "page-error-400",
-  //     "page-error-403",
-  //     "page-error-404",
-  //     "page-error-500",
-  //     "page-error-503",
-  //   ];
+
+  useEffect(() => {
+    const objCategories = [
+      {
+        title: 'Dashboard',
+        classsChange: 'mm-collapse',
+        iconStyle: <i className='material-icons'>grid_view</i>,
+        content: [
+          {
+            title: 'Dashboard Light',
+            to: 'dashboard'
+          }
+        ]
+      }
+    ]
+    const sortCategory = []
+    for (const objCategory of mapOrderedCategories) {
+      for (const key in categoryContext) {
+        if (categoryContext[key]?.category?.name !== 'Scams') {
+          if (
+            objCategory[0] === categoryContext[key]?.category?.name &&
+            !objCategory[1]
+          ) {
+            sortCategory.push([key, categoryContext[key]])
+            objCategory[1] = !objCategory[1]
+          }
+        }
+      }
+    }
+
+    sortCategory?.forEach((item) => {
+      // filter data name !== other
+      const sortSubCategory = item[1]?.subCategories
+        ?.filter(
+          (itemSub) => itemSub?.name !== 'Others' && itemSub?.name !== 'Other'
+        )
+        ?.sort((a, b) => a?.name?.localeCompare(b?.name))
+
+      // get item have name === other
+      const otherItem = item[1].subCategories.filter(
+        (itemSub) => itemSub?.name === 'Others' || itemSub?.name === 'Other')
+
+      const newContent = []
+      // format data item subcategory
+      sortSubCategory?.forEach((itemContent) => {
+        newContent.push({
+          title: itemContent?.name,
+          to: `${item[1]?.category?.path}/${itemContent?.name?.replace(' ', '+')}`
+        })
+      })
+
+      // check if the otherItem exists then push to newContent
+      if (!_.isEmpty(otherItem)) {
+        newContent.push({
+          title: otherItem?.name,
+          to: `${item[1]?.category?.path}/${otherItem?.name}`
+        })
+      }
+
+      objCategories.push({
+        title: item[1]?.category?.name,
+        classsChange: 'mm-collapse',
+        iconStyle: <i className='material-icons'>grid_view</i>,
+        content: newContent,
+        to: item[1]?.category?.path
+      })
+    })
+    setCategories(objCategories)
+  }, [categoryContext])
 
   return (
     <div
@@ -227,12 +166,11 @@ const SideBar = () => {
     >
       <PerfectScrollbar className='deznav-scroll'>
         <ul className='metismenu' id='menu'>
-          {MenuList.map((data, index) => {
+          {categories.length !== 0 ? categories.map((data, index) => {
             const menuClass = data.classsChange
             if (menuClass === 'menu-title') {
               return (
                 <li className={menuClass} key={index}>
-                  {console.log(data)}
                   {data.title}
                 </li>
               )
@@ -334,7 +272,12 @@ const SideBar = () => {
                 </li>
               )
             }
-          })}
+          }) : arrOrderedCategories.map((index) => (
+            <span key={index}>
+              <li className='menu-title' key={index}>
+                {arrOrderedCategories[index]}
+              </li>
+            </span>))}
         </ul>
       </PerfectScrollbar>
     </div>
