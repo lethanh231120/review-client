@@ -70,6 +70,8 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                   ) : (
                                     <NoImage
                                       alt={item?.projectName?.slice(0, 3)}
+                                      height={32}
+                                      width={32}
                                     />
                                   )}
                                 </div>

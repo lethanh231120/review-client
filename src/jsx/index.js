@@ -357,7 +357,6 @@ const Markup = () => {
       const launchpadMapLocal = new Map()
       // convert list to map
       launchpadList.forEach((launchpad) => {
-        console.log(launchpad, launchpadMapLocal)
         launchpadMapLocal.set(launchpad?.launchPadId, launchpad)
       })
       setLaunchpadMap(launchpadMapLocal)

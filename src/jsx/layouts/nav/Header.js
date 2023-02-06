@@ -16,12 +16,11 @@ import AccountTab, {
   signUpKey
 } from '../../components/common-widgets/user-form/account-tab'
 // import { SignInComponent } from '../../components/common-widgets/user-form/sign-in-form'
-import { SignInContext } from '../../../context/SignInContext'
 import InputSearch from '../../components/input-search/GlobalSearch'
 
 const Header = ({ onNote }) => {
   const [isLightTheme, setIsLightTheme] = useState(true)
-  const [isLogin, setIsLogin] = useState(false)
+  const [isLogin] = useState(false)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -44,7 +43,6 @@ const Header = ({ onNote }) => {
 
   const { changeBackground, backgroundOption, colors, chnageHaderColor } =
     useContext(ThemeContext)
-  const signContext = useContext(SignInContext)
 
   const onChangeTheme = () => {
     // only 2 state: light or dark in config
@@ -68,11 +66,6 @@ const Header = ({ onNote }) => {
       }
       setIsLightTheme(!isLightTheme)
     }
-  }
-
-  const onOpenModalLogInSignUp = () => {
-    signContext?.handleSetOpenModal(true)
-    setIsLogin(true)
   }
 
   return (
@@ -167,7 +160,6 @@ const Header = ({ onNote }) => {
                             src={profile}
                             width={20}
                             alt=''
-                            onClick={() => onOpenModalLogInSignUp()}
                           />
                         </Dropdown.Toggle>
                         <Dropdown.Menu
