@@ -1,20 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { Modal } from 'antd'
-import LogoutPage from './Logout'
 
 // / Image
 import imgMoon from '../../../images/moon.png'
 import imgSun from '../../../images/sun.png'
-import profile from '../../../images/profile/pic1.jpg'
+import profile from '../../../images/profile/avatar_facebook.jpg'
 import { ThemeContext } from '../../../context/ThemeContext'
 import AccountTab, { logInKey, signUpKey } from '../../components/common-widgets/user-form/account-tab'
-import { SignInContext } from '../../index'
+import { SignInContext, Authenticated } from '../../index'
 import InputSearch from '../../components/input-search/GlobalSearch'
+import { getCookie, removeCookie, STORAGEKEY } from '../../../utils/storage'
 
 const Header = ({ onNote }) => {
   const [isLightTheme, setIsLightTheme] = useState(true)
-  const [isLogin] = useState(false)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
   const [activeTabKey, setActiveTabKey] = useState('')
@@ -27,6 +26,7 @@ const Header = ({ onNote }) => {
 
   const { changeBackground, backgroundOption, colors, chnageHaderColor } =
     useContext(ThemeContext)
+  const authenticated = useContext(Authenticated)
   const signContext = useContext(SignInContext)
   const onChangeTheme = () => {
     // only 2 state: light or dark in config
@@ -52,6 +52,15 @@ const Header = ({ onNote }) => {
     }
   }
 
+  const userInfo = getCookie(STORAGEKEY?.USER_INFO)
+  console.log(userInfo)
+
+  const logout = () => {
+    removeCookie(STORAGEKEY.ACCESS_TOKEN)
+    removeCookie(STORAGEKEY.USER_INFO)
+    authenticated.handleSetAuthenticated(false)
+  }
+
   return (
     <>
       <Modal
@@ -73,7 +82,6 @@ const Header = ({ onNote }) => {
                   className='dashboard_bar'
                   style={{ textTransform: 'capitalize' }}
                 >
-                  Gear 5
                 </div>
               </div>
               {/* header: search elk input */}
@@ -131,29 +139,53 @@ const Header = ({ onNote }) => {
 
                   {/* PROFILE */}
                   <ul>
-                    {isLogin ? (
-                      <Dropdown
-                        as='li'
-                        className='nav-item dropdown header-profile'
-                      >
-                        <Dropdown.Toggle
-                          variant=''
-                          as='a'
-                          className='nav-link i-false c-pointer'
+                    {authenticated?.isAuthenticated ? (
+                      <>
+                        <Dropdown
+                          as='li'
+                          className='nav-item dropdown header-profile'
                         >
-                          <img
-                            src={profile}
-                            width={20}
-                            alt=''
-                          />
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu
-                          align='right'
-                          className='dropdown-menu dropdown-menu-end'
-                        >
-                          <LogoutPage />
-                        </Dropdown.Menu>
-                      </Dropdown>
+                          <Dropdown.Toggle
+                            variant=''
+                            as='a'
+                            className='nav-link i-false c-pointer'
+                          >
+                            <img
+                              src={userInfo?.image ? userInfo?.image : profile}
+                              width={20}
+                              alt=''
+                            />
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu
+                            align='right'
+                            className='dropdown-menu dropdown-menu-end'
+                          >
+                            {/* <LogoutPage /> */}
+                            <>
+                              <button className='dropdown-item ai-icon ms-1' onClick={logout}>
+                                <svg
+                                  xmlns='http://www.w3.org/2000/svg'
+                                  className='text-primary'
+                                  width='18'
+                                  height='18'
+                                  viewBox='0 0 24 24'
+                                  fill='none'
+                                  stroke='currentColor'
+                                  strokeWidth='2'
+                                  strokeLinecap='round'
+                                  strokeLinejoin='round'
+                                >
+                                  <path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'></path>
+                                  <polyline points='16 17 21 12 16 7'></polyline>
+                                  <line x1='21' y1='12' x2='9' y2='12'></line>
+                                </svg>
+                                <span className='ms-2'>Logout</span>
+                              </button>
+                            </>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                        <div>{userInfo?.userName}</div>
+                      </>
                     ) : (
                       <>
                         <ul className=''>

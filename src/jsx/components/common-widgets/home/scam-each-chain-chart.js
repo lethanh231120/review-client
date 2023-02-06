@@ -17,16 +17,16 @@ export const ScamEachChainChart = ({ data }) => {
     labels: data?.map(item => item?.datatitle),
     datasets: [
       {
-        label: 'Expense',
+        label: 'Scam',
         backgroundColor: '#ff2c53',
         hoverBackgroundColor: '#ff5777',
         barThickness: 9,
         data: data?.map(item => item?.scam)
       },
       {
-        label: 'Earning',
-        backgroundColor: '#F1F3F7',
-        hoverBackgroundColor: '#F1F3F7',
+        label: 'Total',
+        backgroundColor: '#18A594',
+        hoverBackgroundColor: '#18A594',
         barThickness: 9,
         data: data?.map(item => item?.total)
       }

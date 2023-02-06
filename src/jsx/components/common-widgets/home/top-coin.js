@@ -35,7 +35,7 @@ export const TopCoins = ({ data }) => {
                 </div>
               </div>
               <div className='count' style={{ width: '100px' }}>
-                <h6>${item?.priceUSD}</h6>
+                <h6>{new Intl.NumberFormat().format(item?.priceUSD)}</h6>
                 {/* <span className={parseInt(data.change) > 0 ? 'text-success' : 'text-danger'}>
                   { data.change}%
                 </span> */}
