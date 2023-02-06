@@ -3,16 +3,29 @@ import { Fragment } from 'react'
 import FormReport from '../Forms/form-report/FormReport'
 import ReviewItem from './review/review-item/ReviewItem'
 
-export const DetailLayout = ({ header, summary, more, about, scam, topDiscus, coinChart, numberReviews, rest }) => {
+export const DetailLayout = ({ header, roundSale, portfolioOrChart, summary, more, about, scam, topDiscus, coinChart, numberReviews, rest }) => {
   return <Fragment>
     <div className='row'>
-      {/* detail Header: icon, name, score */}
+      {/* detail header: icon, name, score */}
       <div className='col-lg-12'>
         <div className='profile card card-body px-3 pt-3 pb-0'>
-          { header }
+          {header}
         </div>
       </div>
     </div>
+
+    {
+      roundSale ? <div className='row'>
+        {/* round sale:   */}
+        <div className='col-lg-12'>
+          <div className='profile card card-body px-3 pt-3 pb-0'>
+            {roundSale}
+          </div>
+        </div>
+      </div>
+        : ''
+    }
+
     <div className='row'>
       <div className='col-xl-5'>
         <div className='row'>
@@ -58,6 +71,10 @@ export const DetailLayout = ({ header, summary, more, about, scam, topDiscus, co
       </div>
       <div className='col-xl-7'>
         {coinChart}
+        {portfolioOrChart && <div className='card'>
+          {portfolioOrChart}
+        </div>
+        }
         {/* {report} */}
         {/* form report */}
         <div className='product-detail'>

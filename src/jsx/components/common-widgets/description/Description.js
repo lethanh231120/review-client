@@ -6,12 +6,16 @@ const ReadMore = ({ text }) => {
   // max length displayed first time(more length withh display show more, less length withh display all)
   const length = 600
   const [showLess, setShowLess] = React.useState(true)
-
+  console.log(text)
+  alert(text)
   return (
     <div className='description-list'>
       <div className='text'>
         {text.length < length ? (
-          <p className={`default formatNewlineHTML longWordBreakLine`} dangerouslySetInnerHTML={{ __html: text }}></p>
+          <p
+            className={`default formatNewlineHTML longWordBreakLine`}
+            dangerouslySetInnerHTML={{ __html: text }}
+          ></p>
         ) : (
           <>
             <p
