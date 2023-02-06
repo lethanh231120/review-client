@@ -134,7 +134,7 @@ const ExchangeInfo = ({ productInfo }) => {
         <div className='profile-blog '>
           <div className='row'>
             <div className='col-6'>
-              {detail?.detail['Country'] && dataItem('Country', shortenString(detail?.detail['Country'])) }
+              {detail?.detail && detail?.detail['Country'] && dataItem('Country', shortenString(detail?.detail['Country'])) }
               {detail?.pairCount > 0 && dataItem('Pairs Count', detail?.pairCount)}
               {detail?.volume24h > 0 && dataItem('Volume 24h', renderNumber(detail?.volume24h))}
               {detail?.volume1m > 0 && dataItem('Volume 1m', renderNumber(detail?.volume1m))}
@@ -178,7 +178,7 @@ const ExchangeInfo = ({ productInfo }) => {
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>
-          {detail?.description && <Description text={detail?.fullDescription}/>}
+          {detail?.fullDescription && <Description text={detail?.fullDescription}/>}
         </div>
       </div>
     </div>

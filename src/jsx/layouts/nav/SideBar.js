@@ -187,14 +187,14 @@ const SideBar = () => {
                       to={data?.to}
                       className='has-arrow'
                       onClick={() => {
-                        handleMenuActive(data.title)
+                        handleMenuActive(data?.title)
                       }}
                     >
                       {data.iconStyle}
                       <span className='nav-text'>{data.title}</span>
                     </Link>
                   ) : (
-                    <NavLink to={data.to}>
+                    <NavLink to={data?.to}>
                       {data.iconStyle}
                       <span className='nav-text'>{data.title}</span>
                     </NavLink>
@@ -219,7 +219,7 @@ const SideBar = () => {
                               {data.content && data.content.length > 0 ? (
                                 <>
                                   <NavLink
-                                    to={data.to}
+                                    to={data?.to}
                                     className={data.hasMenu ? 'has-arrow' : ''}
                                     onClick={() => {
                                       handleSubmenuActive(data.title)
@@ -246,7 +246,7 @@ const SideBar = () => {
                                               <li key={index}>
                                                 <Link
                                                   className={`${
-                                                    path === data.to
+                                                    path === data?.to
                                                       ? 'mm-active'
                                                       : ''
                                                   }`}
@@ -262,7 +262,7 @@ const SideBar = () => {
                                   </Collapse>
                                 </>
                               ) : (
-                                <Link to={data.to}>{data.title}</Link>
+                                <Link to={data?.to}>{data.title}</Link>
                               )}
                             </li>
                           )

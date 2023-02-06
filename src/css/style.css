@@ -26813,16 +26813,16 @@ code {
   padding: 0rem 0;
   align-items: center; }
   .widget-stat .media > span {
-    height: 5.3125rem;
-    width: 5.3125rem;
+    height: 4rem;
+    width: 4rem;
     border-radius: 3.125rem;
     padding: 0.625rem 0.75rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #464a53;
-    min-width: 5.3125rem; }
+    min-width: 4rem; }
   .widget-stat .media .media-body p {
     text-transform: uppercase;
     font-weight: 500;
@@ -26839,7 +26839,9 @@ code {
     display: inline-block;
     vertical-align: middle; }
   .widget-stat .media .media-body span {
-    margin-left: 0.3125rem; }
+    /* margin-left: 0.3125rem;  */
+  
+  }
 
 .widget-stat[class*="bg-"] .media > span {
   background-color: rgba(255, 255, 255, 0.25);

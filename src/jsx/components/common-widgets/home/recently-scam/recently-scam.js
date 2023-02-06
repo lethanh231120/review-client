@@ -13,7 +13,7 @@ const mockData = [
 export const RecentlyScam = () => {
   return <div className='card  pb-0'>
     <div className='card-header border-0 pb-0'>
-      <h4 className='card-title'>Recently Scam Projects</h4>
+      <h2 className='heading'>Recently Scam Projects</h2>
     </div>
     <div className='card-body'>
       <PerfectScrollbar
