@@ -240,7 +240,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         </div>
         <div className='card-body pt-3'>
           <div className='profile-blog mb-3'>
-            <Link href='#'>
+            <Link to={'#'} >
               <h4>Current Round:</h4>
             </Link>
             <p className='mb-0 highlight-tag'>
@@ -248,7 +248,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             </p>
           </div>
           <div className='profile-blog mb-3'>
-            <Link href='#'>
+            <Link to={'#'} >
               <h4>Tag(s):</h4>
             </Link>
             <p className='mb-0 highlight-tag'>
@@ -256,7 +256,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             </p>
           </div>
           <div className='profile-blog mb-3'>
-            <Link href='#'>
+            <Link to={'#'} >
               <h4>Launchpad(s):</h4>
             </Link>
             <span className='mb-0'>
@@ -264,7 +264,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             </span>
           </div>
           <div className='profile-blog mb-3'>
-            <Link href='#'>
+            <Link to={'#'} >
               <h4>Community:</h4>
             </Link>
             <p className='mb-0'>

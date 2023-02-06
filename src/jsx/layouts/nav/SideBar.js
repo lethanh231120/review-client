@@ -87,12 +87,13 @@ const SideBar = () => {
     const objCategories = [
       {
         title: 'Dashboard',
+        to: '',
         classsChange: 'mm-collapse',
         iconStyle: <i className='material-icons'>grid_view</i>,
         content: [
           {
             title: 'Dashboard Light',
-            to: 'dashboard'
+            to: ''
           }
         ]
       }

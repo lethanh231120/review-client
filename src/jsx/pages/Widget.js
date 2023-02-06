@@ -2794,7 +2794,7 @@ const Widget = () => {
                 <path d='M16 10a4 4 0 0 1-8 0'></path>
               </svg>
               <h4 className='my-2'>You don’t have badges yet</h4>
-              <Link className='btn my-2 btn-primary btn-lg px-4'>
+              <Link to={'#'} className='btn my-2 btn-primary btn-lg px-4'>
                 <i className='fa fa-usd'></i> Earn Budges
               </Link>
             </div>

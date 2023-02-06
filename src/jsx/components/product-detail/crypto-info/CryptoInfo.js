@@ -384,7 +384,7 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
 
   const about = <>
     <div className='card-header border-0 pb-0'>
-      <h5 className='text-primary'>About Bitcoin</h5>
+      <h5 className='text-primary'>About {productInfo?.details?.name}</h5>
     </div>
     <div className='card-body pt-3'>
       <div className='profile-interest '>

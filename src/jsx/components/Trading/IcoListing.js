@@ -195,11 +195,11 @@ const IcoListing = () => {
                 <div className='card pull-up'>
                   <div className='card-body align-items-center flex-wrap'>
                     <div className='d-flex align-items-center mb-4'>
-                      <Link t={'#'} className='ico-icon'>
+                      <Link to={'#'} className='ico-icon'>
                         <i className={item.icon}></i>
                       </Link>
                       <div className='ms-4'>
-                        <Link t={'#'}>
+                        <Link to={'#'}>
                           <h4 className='heading mb-0'>{item.title}</h4>
                         </Link>
                         <span>{item.subtitle}</span>
