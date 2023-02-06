@@ -3,7 +3,7 @@
     &-item{
         display: flex;
         align-items: flex-start;
-        margin-bottom: 1rem;
+        margin-bottom: 0.625rem;
         & .ant-image{
             width: 2.1875rem;
             & img{
@@ -48,9 +48,9 @@
             margin: 0.1875rem 0 0 0;
             line-height: 1.4;
             &-source{
-                padding: 1rem 0;
+                padding: 0.625rem 0;
                 & span{
-                    margin-right: 1rem;
+                    margin-right: 0.625rem;
                 }
             }
         }
@@ -61,10 +61,8 @@
             background: transparent;
             display: flex;
             align-items: center;
-            width: 10rem;
-            font-size: 1.4rem;
-            font-weight: 500;
-            color: rgba(0, 0, 0, 0.6);
+            width: 6.25rem;
+            @include font-medium-500;
             &:hover{
                 text-decoration: underline;
             }
@@ -79,9 +77,9 @@
         }
         &-comment{
             &-image{
-                width: 25rem;
-                height: 14rem;
-                border-radius: 1rem;
+                width: 15.625rem;
+                height: 8.75rem;
+                border-radius: 0.625rem;
                 border: 0.1px solid rgba(0, 0, 0, 0.1);
                 & .ant-image{
                     width: 100%;
@@ -89,28 +87,28 @@
                     & img{
                         @include image;
                         border-radius: 0;
-                        border-radius: 1rem;
+                        border-radius: 0.675rem;
                     }
                     & .ant-image-mask{
-                        border-radius: 1rem;
+                        border-radius: 0.675rem;
                     }
                 }
             }
         }
         &-form{
             &-image{
-                width: 10rem;
-                height: 10rem;
-                padding: 1rem;
-                border-radius: 1rem;
-                margin: 1.5rem 0;
+                width: 6.75rem;
+                height: 6.75rem;
+                padding: 0.675rem;
+                border-radius: 0.675rem;
+                margin: 0.9375rem 0;
                 border: 0.1px solid rgba(0, 0, 0, 0.1);
                 & .ant-image{
                     width: 100%;
                     height: 100%;
                     & img{
                         @include image;
-                        border-radius: 0.5rem;
+                        border-radius: 0.3125em;
                     }
                 }
             }
@@ -133,12 +131,12 @@
 .add-reply{
     display: flex;
     align-items: flex-start;
-    margin-top: 2rem;
+    margin-top: 1.25rem;
     width: 100%;
     &-avatar{
         & .ant-image{
-            width: 3.5rem;
-            margin-right: 1rem;
+            width: 2.1875rem;
+            margin-right: 0.625rem;
             & img{
                 border-radius: 50%;
                 width: 100%;
@@ -148,16 +146,16 @@
         }
     }
     & .ant-input-affix-wrapper{
-        border-radius: 2.5rem;
-        padding: 0 1rem;
+        border-radius: 1.5625rem;
+        padding: 0 0.625rem;
     }
     & .ant-input-affix-wrapper-focused, .ant-input-affix-wrapper:focus{
         box-shadow: none;
     }
     & .ant-input{
         font-weight: 400;
-        font-size: 1.4rem;
-        height: 3.5rem;
+        font-size: 0.875rem;
+        height: 2.1875rem;
     }
     & .ant-form-item{
         margin-bottom: 0;

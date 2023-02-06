@@ -1,3 +1,4 @@
+@import '../../../../../scss/base/font-size.scss';
 .review{
     &-item{
         &-action{
@@ -7,12 +8,12 @@
             &-list{
                 display: flex;
                 align-items: center;
-                padding: 0rem 1.2rem;
+                padding: 0rem 0.75rem;
             }
             &-item{
-                font-size: 1.3rem;
+                font-size: 0.8125rem;
                 font-weight: 900;
-                padding: 0 1.5rem 0 0;
+                padding: 0 0.675rem 0 0;
                 cursor: pointer;
                 position: relative;
                 color: rgba(0, 0, 0, 0.6);
@@ -26,28 +27,28 @@
                     }
                 }
                 &-emoji{
-                    font-size: 2rem;
+                    font-size: 1.25rem;
                     position: absolute;
-                    top: -4rem;
-                    left: -2rem;
+                    top: -2.5rem;
+                    left: -1.25rem;
                     z-index: 9999999;
                     width: fit-content;
                     display: flex;
                     align-items: center;
                     background-color: #fff;
                     border: 0.2px solid rgba(0, 0, 0, 0.1);
-                    border-radius: 2rem;
+                    border-radius: 1.25rem;
                     height: auto;
                     opacity: 0;
                     visibility: hidden;
                     transition: all 0.2s linear;
-                    padding: 0.2rem  0.5rem;
+                    padding: 0.2rem  0.3125rem;
                 }
                 &-time{
-                    font-size: 1.3rem;
-                    font-weight: 500;
-                    color: rgba(0, 0, 0, 0.6);
+                    display: inline;
+                    @include font-medium-500;
                     cursor: pointer;
+                    width: max-content !important;
                     &:hover{
                         text-decoration: underline;
                     }
@@ -56,10 +57,10 @@
             &-reaction{
                 display: flex;
                 align-items: center;
-                padding: 0 1.6rem;
-                padding: 0.2rem 0.5rem;
+                padding: 0 1rem;
+                padding: 0.2rem 0.3125rem;
                 width: fit-content;
-                border-radius: 1.2rem;
+                border-radius: 0.75rem;
                 background-color: #fff;
                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                 width: fit-content;
@@ -67,15 +68,15 @@
                 cursor: pointer;
                 &-item{
                     border: 1.5px solid #fff;
-                    font-size: 1.6rem;
-                    width: 1.6rem;
-                    height: 1.6rem;
+                    font-size: 1rem;
+                    width: 1rem;
+                    height: 1rem;
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     &:last-child{
-                        margin-left: 1rem;
+                        margin-left: 0.625rem;
                     }
                 }
             }
