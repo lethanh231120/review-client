@@ -2,7 +2,7 @@ export const MenuList = [
   // Dashboard
   {
     title: 'Dashboard',
-    to: '/',
+    to: '',
     classsChange: 'mm-collapse',
     iconStyle: <i className='material-icons'>grid_view</i>
   },
