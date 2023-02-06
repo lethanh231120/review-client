@@ -14,7 +14,7 @@ import InputSearch from '../../components/input-search/GlobalSearch'
 
 const Header = ({ onNote }) => {
   const [isLightTheme, setIsLightTheme] = useState(true)
-  const [isLogin, setIsLogin] = useState(false)
+  const [isLogin] = useState(false)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
   const [activeTabKey, setActiveTabKey] = useState('')
@@ -51,11 +51,6 @@ const Header = ({ onNote }) => {
       }
       setIsLightTheme(!isLightTheme)
     }
-  }
-
-  const onOpenModalLogInSignUp = () => {
-    signContext?.handleSetOpenModal(true)
-    setIsLogin(true)
   }
 
   return (
@@ -151,7 +146,6 @@ const Header = ({ onNote }) => {
                             src={profile}
                             width={20}
                             alt=''
-                            onClick={() => onOpenModalLogInSignUp()}
                           />
                         </Dropdown.Toggle>
                         <Dropdown.Menu
