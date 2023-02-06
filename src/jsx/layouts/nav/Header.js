@@ -28,7 +28,6 @@ const Header = ({ onNote }) => {
   const { changeBackground, backgroundOption, colors, chnageHaderColor } =
     useContext(ThemeContext)
   const signContext = useContext(SignInContext)
-
   const onChangeTheme = () => {
     // only 2 state: light or dark in config
     if (backgroundOption.length === 2) {
