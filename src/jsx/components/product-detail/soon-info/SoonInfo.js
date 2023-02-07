@@ -14,7 +14,25 @@ import Description from '../description/Description'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Spin } from 'antd'
 import NoImage from '../../common-widgets/no-image/NoImage'
+import LightGallery from 'lightgallery/react'
+import lgThumbnail from 'lightgallery/plugins/thumbnail'
+import lgZoom from 'lightgallery/plugins/zoom'
+// / Image
+import profile02 from '../../../../images/profile/2.jpg'
+import profile03 from '../../../../images/profile/3.jpg'
+import profile04 from '../../../../images/profile/4.jpg'
+import 'lightgallery/css/lightgallery.css'
+import 'lightgallery/css/lg-zoom.css'
+import 'lightgallery/css/lg-thumbnail.css'
 
+const galleryBlog = [
+  { image: profile02 },
+  { image: profile03 },
+  { image: profile04 },
+  { image: profile03 },
+  { image: profile02 },
+  { image: profile04 }
+]
 const txtTBA = 'TBA'
 
 // match with BE
@@ -243,7 +261,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             <Link to={'#'} >
               <h4>Current Round:</h4>
             </Link>
-            <p className='mb-0 highlight-tag'>
+            <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
               {itemDetail?.roundType}
             </p>
           </div>
@@ -251,7 +269,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             <Link to={'#'} >
               <h4>Tag(s):</h4>
             </Link>
-            <p className='mb-0 highlight-tag'>
+            <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
               {itemDetail?.subCategory}
             </p>
           </div>
@@ -265,7 +283,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           </div>
           <div className='profile-blog mb-3'>
             <Link to={'#'} >
-              <h4>Community:</h4>
+              <h4>Social(s):</h4>
             </Link>
             <p className='mb-0'>
               <div className='basic-dropdown'>
@@ -307,6 +325,62 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </div>
   ) : ''
 
+  const about = <div className='card'>
+    <div className='card-header border-0 pb-0'>
+      <h5 className='text-primary '>Interest</h5>
+    </div>
+    <div className='card-body pt-3'>
+      <div className='profile-interest '>
+        <LightGallery
+          speed={500}
+          plugins={[lgThumbnail, lgZoom]}
+          elementClassNames='row sp4'
+        >
+          {galleryBlog.map((item, index) => (
+            <div
+              data-src={item.image}
+              className='col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1'
+              key={index}
+            >
+              <img
+                src={item.image}
+                style={{ width: '100%' }}
+                alt='gallery'
+              />
+            </div>
+          ))}
+        </LightGallery>
+        {/* <SRLWrapper options={options}>
+      <div className="row sp4">
+          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
+            <a href={profile02}> <img src={profile02} alt="profileImage" className="img-fluid" /> </a>
+          </div>
+          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
+            <a href={profile03}> <img src={profile03} alt="profile" className="img-fluid"/></a>
+          </div>
+          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
+            <a href={profile04}><img src={profile04} alt="profile" className="img-fluid" /> </a>
+          </div>
+          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
+            {" "}
+            <a href={profile02}><img src={profile02} alt="profile" className="img-fluid" /> </a>
+          </div>
+          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
+            <a href={profile03} className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col" >
+              <img src={profile03} alt="profile"	className="img-fluid"/>
+            </a>
+          </div>
+          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
+            <a href={profile04}	className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col">
+              <img  src={profile04} alt="profile"	className="img-fluid"/>
+            </a>
+          </div>
+      </div>
+   </SRLWrapper> */}
+      </div>
+    </div>
+  </div>
+
   return (
     <DetailLayout
       Header={header}
@@ -314,6 +388,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       summary={summary}
       more={more}
       portfolioOrChart={description}
+      about={about}
       // report={<FormReport />}
 
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}

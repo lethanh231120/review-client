@@ -5,6 +5,7 @@ import { Dropdown, Button, Modal } from 'react-bootstrap'
 
 import LightGallery from 'lightgallery/react'
 //  import styles
+// css: lightbox
 import 'lightgallery/css/lightgallery.css'
 import 'lightgallery/css/lg-zoom.css'
 import 'lightgallery/css/lg-thumbnail.css'
@@ -329,7 +330,7 @@ const PostDetails = () => {
               <div className='col-lg-12'>
                 <div className='card'>
                   <div className='card-header border-0 pb-0'>
-                    <h5 className='text-primary '>Interest</h5>
+                    <h5 className='text-primary'>Interest</h5>
                   </div>
                   <div className='card-body pt-3'>
                     <div className='profile-interest '>
