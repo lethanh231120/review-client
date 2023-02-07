@@ -47,15 +47,15 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem 1.6rem;
+            padding: 0.625rem 1rem;
             cursor: pointer;
             &-data{
                 display: flex;
                 transition: all 0.3s linear;
                 & .ant-image{
-                    width: 4rem;
-                    height: 4rem;
-                    margin-right: 1rem;
+                    width: 3.6rem;
+                    height: 3.6rem;
+                    margin-right: 0.625rem;
                     & img{
                         @include image;
                         border-radius: 50%;
@@ -93,6 +93,9 @@
             &:hover{
                 background: rgb(230, 242, 252);
             }
+            &.hover{
+                background: rgb(230, 242, 252);
+            }
         }
         &-title{
             &:first-child{
@@ -117,26 +120,27 @@
     }
 }
 .table-icon-coin{
-    width: 4rem;
-    height: 4rem;
+    width: 3.6rem;
+    height: 3.6rem;
     &-logo{
-        width:4rem;
-        margin-right: 1rem;
-        height: 4rem;
+        width:3.6rem;
+        margin-right: 0.675rem;
+        height: 3.6rem;
         border-radius: 50%;
         background-color: orange;
         color: #000;
-        font-size: 1.2rem;
-        font-weight: 700;
+        font-size: 1.1rem;
+        font-weight: 600;
         text-transform: uppercase;
-        line-height: 4rem;
+        line-height: 3.6rem;
         text-align: center;
     }
 }
 
 .cus-btn{
-    padding: 0.2rem 0.5rem !important;
+    padding: 0.1rem 0.4rem !important;
     margin: 0.2rem 0;
+    font-weight: 400 !important;
 }
 .cus-tag{
     margin-right: 0.4rem;
@@ -160,6 +164,11 @@
         max-width: 60rem;
         position: relative;
         &-data{
+            & .ant-spin-spinning{
+                height: 15rem;
+                line-height: 15rem;
+                width: 100%;
+            }
             &.active{
                 @include active;
                 z-index: 99999;

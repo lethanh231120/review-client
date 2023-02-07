@@ -77,18 +77,17 @@ export const DetailLayout = ({ Header, roundSale, portfolioOrChart, summary, mor
         }
         {/* {report} */}
         {/* form report */}
-        <div className='product-detail'>
+        <div className='product-detail' id='comment'>
           <FormReport
             // use in filter review
             numberReviews={numberReviews}
             rest={rest}
           />
-          {(rest?.dataFilter || rest?.productInfo)?.reviews?.map((item) => (
+          {(rest?.dataFilter)?.reviews?.map((item) => (
             <ReviewItem
               key={item?.review?.id}
               data={item}
               productId={rest?.productId}
-              // userInfo={userInfo}
             />
           ))}
         </div>

@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import { Input, Spin, Empty, Image } from 'antd'
+import { Input, Spin, Empty } from 'antd'
 import _ from 'lodash'
 import { search } from '../../../api/BaseRequest'
 import './globalSearch.scss'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import nodata from '../../../images/product/nodata.png'
 import ItemCrypto from './item-crypto/ItemCrypto'
 import ItemDapp from './item-dapp/ItemDapp'
 import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon'
+import ItemVenture from './item-venture/ItemVenture'
 
 import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP, LIST_CRYPTO, LIST_EXCHANGE, LIST_DAPP, LIST_SOON, LIST_VENTURE } from '../../../jsx/constants/category'
 
@@ -20,6 +21,8 @@ const CategorySearch = ({ type }) => {
     status: '',
     isActive: false
   })
+  const [itemSubmit, setItemSubmit] = useState()
+
   const handleSearch = _.debounce(async(e, value) => {
     if (value !== '') {
       setDataSearch({
@@ -42,6 +45,7 @@ const CategorySearch = ({ type }) => {
               },
               isNull: data?.data[LIST_DAPP]?.dapps === null
             })
+            setItemSubmit(data?.data[LIST_DAPP]?.dapps[0])
             break
           case CRYPTO:
             setDataSearch({
@@ -55,6 +59,7 @@ const CategorySearch = ({ type }) => {
               },
               isNull: data?.data[LIST_CRYPTO]?.cryptos === null
             })
+            setItemSubmit(data?.data[LIST_CRYPTO]?.cryptos[0])
             break
           case EXCHANGE:
             setDataSearch({
@@ -68,6 +73,7 @@ const CategorySearch = ({ type }) => {
               },
               isNull: data?.data[LIST_EXCHANGE]?.exchanges === null
             })
+            setItemSubmit(data?.data[LIST_EXCHANGE]?.exchanges[0])
             break
           case VENTURE:
             setDataSearch({
@@ -81,6 +87,7 @@ const CategorySearch = ({ type }) => {
               },
               isNull: data?.data[LIST_VENTURE]?.ventures === null
             })
+            setItemSubmit(data?.data[LIST_VENTURE]?.ventures[0])
             break
           case SOON:
             setDataSearch({
@@ -94,6 +101,7 @@ const CategorySearch = ({ type }) => {
               },
               isNull: data?.data[LIST_SOON]?.soons === null
             })
+            setItemSubmit(data?.data[LIST_SOON]?.soons[0])
             break
           default:
             break
@@ -111,24 +119,62 @@ const CategorySearch = ({ type }) => {
     }
   }, 250)
 
-  console.log(dataSearch)
-
-  const handleBlurInput = () => {
-    setDataSearch({
-      data: null,
-      loading: false,
-      status: '',
-      isActive: false
-    })
+  const subMitForm = () => {
+    if (itemSubmit) {
+      const productId = itemSubmit?.cryptoId
+        ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
+        : itemSubmit?.dappId
+          ? `${itemSubmit?.dappId?.split('_')[2]}/${itemSubmit?.dappId?.split('_')[3]}`
+          : itemSubmit?.exchangeId
+            ? `${itemSubmit?.exchangeId?.split('_')[2]}/${itemSubmit?.exchangeId?.split('_')[3]}`
+            : itemSubmit?.soonId
+              ? `${itemSubmit?.soonId?.split('_')[2]}${itemSubmit?.soonId?.split('_')[3] ? `/${itemSubmit?.soonId?.split('_')[3]}` : ''}`
+              : `${itemSubmit?.ventureId?.split('_')[2]}/${itemSubmit?.ventureId?.split('_')[3]}`
+      navigate(
+        `../../products/${
+          itemSubmit?.cryptoId
+            ? 'crypto'
+            : itemSubmit?.dappId
+              ? 'dapp'
+              : itemSubmit?.exchangeId
+                ? 'exchange'
+                : itemSubmit?.soonId
+                  ? 'soon'
+                  : 'venture'
+        }/${productId}`
+      )
+    }
   }
 
+  // const handleBlurInput = () => {
+  //   setDataSearch({
+  //     data: null,
+  //     loading: false,
+  //     status: '',
+  //     isActive: false
+  //   })
+  // }
+
+  const handleSubmitSearch = (e) => {
+    if (e.key === 'Enter') {
+      subMitForm()
+    }
+  }
+
+  console.log(itemSubmit)
   return (
     <div className='item-search'>
       <Input
         placeholder='Search by Token / Coin / Exchange / Dapp / Venture...'
         onChange={(e) => handleSearch(e, e.target.value)}
         autoComplete='off'
-        onBlur={handleBlurInput}
+        // onBlur={handleBlurInput}
+        onBlur={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          handleSearch(e, '')
+        }}
+        onKeyPress={handleSubmitSearch}
       />
       <div className={`item-search-data ${dataSearch?.isActive ? 'active' : ''}`}>
         {dataSearch?.loading ? (
@@ -149,6 +195,7 @@ const CategorySearch = ({ type }) => {
                           item={item}
                           index={index}
                           global={false}
+                          itemSubmit={itemSubmit}
                         />
                       )
                     )}
@@ -164,6 +211,7 @@ const CategorySearch = ({ type }) => {
                           item={item}
                           index={index}
                           global={false}
+                          itemSubmit={itemSubmit}
                         />
                       )
                     )}
@@ -179,6 +227,7 @@ const CategorySearch = ({ type }) => {
                           item={item}
                           index={index}
                           global={false}
+                          itemSubmit={itemSubmit}
                         />
                       )
                     )}
@@ -192,6 +241,7 @@ const CategorySearch = ({ type }) => {
                         item={item}
                         key={item?.soonId}
                         global={false}
+                        itemSubmit={itemSubmit}
                       />
                     ))}
                   </div>
@@ -201,42 +251,49 @@ const CategorySearch = ({ type }) => {
                   <div className='form-search-data-box'>
                     {dataSearch?.data?.listVenture?.ventures?.map(
                       (item, index) => (
-                        <Link
-                          to={`../../products/venture/${item?.ventureId?.split('_')[2]}/${item?.ventureId?.split('_')[3]}`}
+                        // <Link
+                        //   to={`../../products/venture/${item?.ventureId?.split('_')[2]}/${item?.ventureId?.split('_')[3]}`}
+                        //   key={index}
+                        //   className='form-search-data-item'
+                        //   onClick={(e) => {
+                        //     e.stopPropagation()
+                        //     e.preventDefault()
+                        //     navigate(`../../products/venture/${item?.ventureId?.split('_')[2]}/${item?.ventureId?.split('_')[3]}`)
+                        //   }}
+                        // >
+                        //   <div className='form-search-data-item-data'>
+                        //     {item?.image ? (
+                        //       <Image src={item?.image} preview={false} />
+                        //     ) : (
+                        //       <span className='table-icon-coin-logo'>
+                        //         {item?.name?.slice(0, 3)?.toUpperCase()}
+                        //       </span>
+                        //     )}
+                        //     <div>
+                        //       <div className='form-search-data-item-data-content'>
+                        //         <div className='form-search-data-item-data-name'>
+                        //           {item?.name}
+                        //         </div>
+                        //       </div>
+                        //       {item?.location && (
+                        //         <span className='form-search-data-item-data-content-list'>
+                        //           <div
+                        //             className='form-search-data-item-data-tag'
+                        //           >
+                        //             {item?.location}
+                        //           </div>
+                        //         </span>
+                        //       )}
+                        //     </div>
+                        //   </div>
+                        // </Link>
+                        <ItemVenture
                           key={index}
-                          className='form-search-data-item'
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            e.preventDefault()
-                            navigate(`../../products/venture/${item?.ventureId?.split('_')[2]}/${item?.ventureId?.split('_')[3]}`)
-                          }}
-                        >
-                          <div className='form-search-data-item-data'>
-                            {item?.image ? (
-                              <Image src={item?.image} preview={false} />
-                            ) : (
-                              <span className='table-icon-coin-logo'>
-                                {item?.name?.slice(0, 3)?.toUpperCase()}
-                              </span>
-                            )}
-                            <div>
-                              <div className='form-search-data-item-data-content'>
-                                <div className='form-search-data-item-data-name'>
-                                  {item?.name}
-                                </div>
-                              </div>
-                              {item?.location && (
-                                <span className='form-search-data-item-data-content-list'>
-                                  <div
-                                    className='form-search-data-item-data-tag'
-                                  >
-                                    {item?.location}
-                                  </div>
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </Link>
+                          item={item}
+                          index={index}
+                          itemSubmit={itemSubmit}
+                          global={false}
+                        />
                       )
                     )}
                   </div>

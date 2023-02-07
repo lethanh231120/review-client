@@ -329,7 +329,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
         }`}
         placement='right'
         onClose={closeDrawer}
-        visible={showDrawer}
+        open={showDrawer}
         className='filter'
       >
         <Form form={form} onFinish={onFinish}>

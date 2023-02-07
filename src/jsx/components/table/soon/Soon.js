@@ -7,7 +7,7 @@ import NoImage from '../../common-widgets/no-image/NoImage'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { Col } from 'antd'
 import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
-import { LaunchpadMapContext } from '../../..'
+import { LaunchpadMapContext } from '../../../../App'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {

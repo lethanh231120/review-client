@@ -15,20 +15,21 @@
         &-description{
             text-align: left;
             margin-left: 0.625rem;
-            width: calc(100% - 42.5rem);
+            width: calc(100% - 2.5rem);
             border-radius: 0.9375rem;
         }
         &-data{
             text-align: left;
-            width: fit-content;
+            width: max-content;
             background: rgb(240,242,245);
             padding: 0.5rem 0.75rem;
             border-radius: 0.625rem;
         }
         &-name{
-            font-size: 0.9375rem;
-            font-weight: 500;
-            color: #000;
+            // font-size: 0.9375rem;
+            // font-weight: 500;
+            // color: #000;
+            @include font-bold-500;
             & span{
                 & .ant-image{
                     width: 0.75rem;
@@ -44,7 +45,7 @@
 
         }
         &-content{
-            @include font-bold-400;
+            @include font-medium-500;
             margin: 0.1875rem 0 0 0;
             line-height: 1.4;
             &-source{
@@ -55,7 +56,7 @@
             }
         }
         &-replies{
-            margin: 0.5rem 1.2rem;
+            margin: 0.3rem 0.75rem;
             cursor: pointer;
             border: 0;
             background: transparent;
@@ -156,10 +157,13 @@
         font-weight: 400;
         font-size: 0.875rem;
         height: 2.1875rem;
+        @include font-family;
+        border-radius: 6px !important;
     }
     & .ant-form-item{
         margin-bottom: 0;
         width: 100%;
+        margin-left: 0.625rem;
     }
 }
 @media (max-width:900px) {

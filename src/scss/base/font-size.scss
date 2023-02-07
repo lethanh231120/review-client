@@ -9,7 +9,7 @@
     color: rgba(0, 0, 0, 0.6);
 }
 @mixin font-medium-500 {
-    font-size: 0.875rem;
+    font-size: 0.875rem; // 14px
     font-weight: 500;
     color: rgba(0, 0, 0, 0.6);
 }
@@ -19,9 +19,14 @@
     color: rgba(0, 0, 0, 0.87);
 }
 @mixin font-bold-400 {
-    font-size: 1rem;
+    font-size: 1rem; // 16px
     font-weight: 400;
     color: rgba(0, 0, 0, 0.87);
+}
+@mixin font-bold-500 {
+    font-size: 0.9375rem; // 15px
+    font-weight: 500;
+    color: #000;
 }
 @mixin font-bold-600 {
     font-size: 1rem; // 16px
