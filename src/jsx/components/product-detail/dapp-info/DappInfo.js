@@ -223,7 +223,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
   }
 
   return <DetailLayout Header={<Header />}
-    ummary={<Summary />}
+    summary={<Summary />}
     more={<More/>}
     about={<About />}
     isScam={detail?.isScam}
