@@ -2,52 +2,16 @@
     "details": {
         "exchanges": [],
 
-        "socials": {
-            "announcement": "https://t.me/YachtingVerse",
-            "discord": "https://discord.com/invite/YnwAwxWgck",
-            "facebook": "https://www.facebook.com/YachtingVerse",
-            "github": "https://github.com/yachtingverse",
-            "linkedin": "https://www.linkedin.com/company/yachtingverse",
-            "medium": "https://medium.com/@YachtingVerse",
-            "telegram": "https://t.me/YachtingVerse_Chat",
-            "twitter": "https://twitter.com/YachtingVerse",
-            "youtube": "https://www.youtube.com/channel/UCTnQyI7p26pKaHRPhXJqGDQ"
-        },
         "blockchain": {
             "binance": "56"
         },
-        "sourceCode": {
-            "github": "https://github.com/yachtingverse"
-        },
-        "community": {
-            "announcement": "https://t.me/YachtingVerse",
-            "discord": "https://discord.com/invite/YnwAwxWgck",
-            "facebook": "https://www.facebook.com/YachtingVerse",
-            "linkedin": "https://www.linkedin.com/company/yachtingverse",
-            "medium": "https://medium.com/@YachtingVerse",
-            "telegram": "https://t.me/YachtingVerse_Chat",
-            "twitter": "https://twitter.com/YachtingVerse",
-            "youtube": "https://www.youtube.com/channel/UCTnQyI7p26pKaHRPhXJqGDQ"
-        },
 
         "isSponsored": true,
-        "website": "https://yachtingverse.io/",
-        "whitepaperUrl": "https://whitepaper.yachtingverse.io/index.php/xdocs/white-paper/?_ga=2.103201736.95388695.1657109663-1036636722.1657109663&_gl=1*3fijsi*_ga*MTAzNjYzNjcyMi4xNjU3MTA5NjYz*_ga_ZFG9MB2BH9*MTY1NzE3ODQ5OS4yLjAuMTY1NzE3ODQ5OS4w",
-        
+       
         "tokenPrice": null,
         "acceptCurrency": null,
         "startDate": "TBA",
         "endDate": "TBA",
-        "media": {
-            "Investors&Partners": "https://img.api.cryptorank.io/coins/ico-screenshots/yachting_verse1657179678804.png",
-            "Roadmap": "https://img.api.cryptorank.io/coins/ico-screenshots/yachting_verse1657179822134.png",
-            "Tokenomics": "https://img.api.cryptorank.io/coins/ico-screenshots/yachting_verse1657179822277.png"
-        },
-        "additionalLinks": {
-            "YachtingVerse IDO Page on Gagarin Launchpad": "https://app.gagarin.world/ido/6389e769dd08c55a37ab4406",
-            "YachtingVerse IDO Page on Kommunitas": "https://launchpad.kommunitas.net/pool/YACHT/PublicGov",
-            "YachtingVerse IDO Page on SolRazr": "https://solrazr.com/projects/yachtingverse"
-        },
         "sourceUrl": null,
         "linkDemo": null,
         "countryOrigin": null,

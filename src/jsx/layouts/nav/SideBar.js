@@ -54,7 +54,6 @@ const SideBar = () => {
   mapCategoriesMenuIcon.set(headerItem3, 'monetization_on')
   mapCategoriesMenuIcon.set(headerItem4, 'currency_exchange')
   mapCategoriesMenuIcon.set(headerItem5, 'query_stats')
-  console.log(mapCategoriesMenuIcon)
 
   const { iconHover, sidebarposition, headerposition, sidebarLayout } =
     useContext(ThemeContext)
