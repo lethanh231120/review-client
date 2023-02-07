@@ -1,97 +1,110 @@
-import { lazy, Suspense, useEffect } from 'react'
-
-// / Components
+import { Suspense, createContext, useEffect, useState } from 'react'
 import Index from './jsx'
-import { connect, useDispatch } from 'react-redux'
-import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom'
-// action
-import { checkAutoLogin } from './services/AuthService'
-import { isAuthenticated } from './store/selectors/AuthSelectors'
-// / Style
 import './vendor/bootstrap-select/dist/css/bootstrap-select.min.css'
 import './css/style.css'
+import { get } from './api/BaseRequest'
+import { getCookie, STORAGEKEY } from './utils/storage'
 
-const SignUp = lazy(() => import('./jsx/pages/Registration'))
-const ForgotPassword = lazy(() => import('./jsx/pages/ForgotPassword'))
-const Login = lazy(() => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(import('./jsx/pages/Login')), 500)
-  })
-})
+export const ChainListContext = createContext()
+export const CategoryContext = createContext()
+export const Authenticated = createContext()
+export const SignInContext = createContext()
+export const LaunchpadMapContext = createContext()
 
-function withRouter(Component) {
-  function ComponentWithRouterProp(props) {
-    const location = useLocation()
-    const navigate = useNavigate()
-    const params = useParams()
+const App = () => {
+  const [openModalSignIn, setOpenModalSignIn] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [categories, setCategories] = useState([])
+  const [chainList, setChainList] = useState([])
+  const [launchpadMap, setLaunchpadMap] = useState([])
 
-    return (
-      <Component
-        {...props}
-        router={{ location, navigate, params }}
-      />
-    )
+  // const [data, setData] = useState({
+  //   chainList: [],
+  //   launchpadMap: [],
+  //   categories: [],
+  //   isAuthenticated: false,
+  //   openModalSignIn: false
+  // })
+
+  const stateSignIn = {
+    openModalSignIn: openModalSignIn,
+    handleSetOpenModal: (isOpen) => setOpenModalSignIn(isOpen)
   }
 
-  return ComponentWithRouterProp
-}
+  const stateAuthenticated = {
+    isAuthenticated: isAuthenticated,
+    handleSetAuthenticated: (isAuth) => setIsAuthenticated(isAuth)
+  }
 
-function App(props) {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
   useEffect(() => {
-    checkAutoLogin(dispatch, navigate)
+    setIsAuthenticated(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
   }, [])
 
-  const routeblog = (
-    <Routes>
-      <Route path='/login' element={<Login />} />
-      <Route path='/page-register' element={<SignUp />} />
-      <Route path='/page-forgot-password' element={<ForgotPassword />} />
-    </Routes>
+  const getCategoryAndSubcategories = async() => {
+    try {
+      const resp = await get(`reviews/category/all`)
+      setCategories(resp?.data?.categoriesDetail)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const getChainList = async() => {
+    try {
+      const chainList = await get(`reviews/chain/all`)
+      setChainList(chainList?.data?.chains)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  useEffect(() => {
+    getCategoryAndSubcategories()
+    getChainList()
+  }, [])
+
+  const getLaunchpad = async() => {
+    try {
+      const resp = await get(`reviews/launchpad`)
+      const launchpadList = resp?.data?.launchPads
+      const launchpadMapLocal = new Map()
+      // convert list to map
+      launchpadList.forEach((launchpad) => {
+        launchpadMapLocal.set(launchpad?.launchPadId, launchpad)
+      })
+      setLaunchpadMap(launchpadMapLocal)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  useEffect(() => {
+    getLaunchpad()
+  }, [])
+
+  return (
+    <ChainListContext.Provider value={chainList}>
+      <SignInContext.Provider value={stateSignIn}>
+        <LaunchpadMapContext.Provider value={launchpadMap}>
+          <Authenticated.Provider value={stateAuthenticated}>
+            <CategoryContext.Provider value={categories}>
+              <Suspense fallback={
+                <div id='preloader'>
+                  <div className='sk-three-bounce'>
+                    <div className='sk-child sk-bounce1'></div>
+                    <div className='sk-child sk-bounce2'></div>
+                    <div className='sk-child sk-bounce3'></div>
+                  </div>
+                </div>
+              }
+              >
+                <Index />
+              </Suspense>
+            </CategoryContext.Provider>
+          </Authenticated.Provider>
+        </LaunchpadMapContext.Provider>
+      </SignInContext.Provider>
+    </ChainListContext.Provider>
   )
-  if (props.isAuthenticated) {
-    return (
-      <>
-        <Suspense fallback={
-          <div id='preloader'>
-            <div className='sk-three-bounce'>
-              <div className='sk-child sk-bounce1'></div>
-              <div className='sk-child sk-bounce2'></div>
-              <div className='sk-child sk-bounce3'></div>
-            </div>
-          </div>
-        }
-        >
-          <Index />
-        </Suspense>
-      </>
-    )
-  } else {
-    return (
-      <div className='vh-100'>
-        <Suspense fallback={
-          <div id='preloader'>
-            <div className='sk-three-bounce'>
-              <div className='sk-child sk-bounce1'></div>
-              <div className='sk-child sk-bounce2'></div>
-              <div className='sk-child sk-bounce3'></div>
-            </div>
-          </div>
-        }
-        >
-          {routeblog}
-        </Suspense>
-      </div>
-    )
-  }
 }
-
-const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: isAuthenticated(state)
-  }
-}
-
-// export default connect((mapStateToProps)(App));
-export default withRouter(connect(mapStateToProps)(App))
+export default App

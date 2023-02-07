@@ -1,11 +1,11 @@
 import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { post } from '../../../../api/BaseRequest'
-import { SignInContext } from '../../../index'
 import Swal from 'sweetalert2'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import { isValidEmail } from '../../../../utils/regrex'
+import { SignInContext } from '../../../../App'
 
 export const SignUpComponent = () => {
   const [email, setEmail] = useState('')

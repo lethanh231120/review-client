@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 // import { ChainListContext } from '../../layout/Main'
-import { ChainListContext } from '../../../index'
+import { ChainListContext } from '../../../../App'
 import _ from 'lodash'
 import {
   renderNumber,
@@ -502,7 +502,6 @@ const Crypto = ({
     }
   }
 
-  console.log(listData)
   return (
     <div className='crypto-table font-family'>
       <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>

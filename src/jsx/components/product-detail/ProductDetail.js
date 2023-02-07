@@ -12,7 +12,8 @@ import _ from 'lodash'
 // import FilterReview from './filter-review/FilterReview'
 // import ListReview from '../../components/detail-product/list-review/ListReview'
 // import { SignInContext } from '../../components/layout/Main'
-import { SignInContext, Authenticated } from '../../index'
+// import { SignInContext, Authenticated } from '../../index'
+import { SignInContext, Authenticated } from '../../../App'
 import CryptoInfo from './crypto-info/CryptoInfo'
 import ExchangeInfo from './exchange-info/ExchangeInfo'
 import DappInfo from './dapp-info/DappInfo'
@@ -74,7 +75,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     let id
-    if (type) {
+    if (type && productName) {
       if (type === 'coin') {
         id = `gear5_coin_${productName}`
       } else {
@@ -93,14 +94,6 @@ const ProductDetail = () => {
   useEffect(() => {
     const getData = async() => {
       const product = await get(`reviews/product/detail?productId=${productId}`)
-      // let price
-      // if(type === 'coin' || type === 'token'){
-      //     try{
-      //         price = await getPrice(`prices/crypto?cryptoId=${productId}`)
-      //     }catch(e){
-
-      //     }
-      // }
       // check show data
       const shows = {
         sourceCode: false,
@@ -183,7 +176,6 @@ const ProductDetail = () => {
           // get list account
           const listUser = await post('reviews/auth/profiles', { 'accountIds': unique })
           if (!_.isEmpty(listUser?.data?.accounts)) {
-            console.log(2222)
             product?.data?.reviews?.forEach((itemReview) => {
               const account = listUser?.data?.accounts?.find(item => item?.id === itemReview?.review?.accountId)
               const newReview = {
@@ -727,43 +719,6 @@ const ProductDetail = () => {
           <React.Fragment>{crypto}</React.Fragment>
         ) : ''}
 
-        {/* <div className='product-detail'>
-          <FilterReview
-            defaultFilter={defaultFilter}
-            setDefaultFilter={setDefaultFilter}
-            productInfo={productInfo}
-          />
-
-          <FormReport
-            data={data}
-            setData={setData}
-            handleSubmitComment={handleSubmitComment}
-            setValidateTextArea={setValidateTextArea}
-            validateTextArea={validateTextArea}
-            handleComment={handleComment}
-            recapcharRef={recapcharRef}
-            setFileList={setFileList}
-            fileList={fileList}
-            showUser={true}
-            isRecaptcha={isRecaptcha}
-            setErrorLink={setErrorLink}
-            errorLink={errorLink}
-            setIsRecaptcha={setIsRecaptcha}
-            setTypeComment={setTypeComment}
-            setErrorType={setErrorType}
-            typeComment={typeComment}
-            errorType={errorType}
-            id={productInfo?.details?.id}
-          />
-          {(dataFilter || productInfo)?.reviews?.map((item) => (
-            <ReviewItem
-              key={item?.review?.id}
-              data={item}
-              productId={productId}
-              userInfo={userInfo}
-            />
-          ))}
-        </div> */}
       </div>
     </div>
   )

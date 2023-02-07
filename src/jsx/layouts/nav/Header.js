@@ -8,7 +8,8 @@ import imgSun from '../../../images/sun.png'
 import profile from '../../../images/profile/avatar_facebook.jpg'
 import { ThemeContext } from '../../../context/ThemeContext'
 import AccountTab, { logInKey, signUpKey } from '../../components/common-widgets/user-form/account-tab'
-import { SignInContext, Authenticated } from '../../index'
+import { SignInContext, Authenticated } from '../../../App'
+
 import InputSearch from '../../components/input-search/GlobalSearch'
 import { getCookie, removeCookie, STORAGEKEY } from '../../../utils/storage'
 import ExpiredJWTChecker from '../../components/auth/ExpiredJWTChecker'
@@ -55,7 +56,6 @@ const Header = ({ onNote }) => {
   }
 
   const userInfo = getCookie(STORAGEKEY?.USER_INFO)
-  console.log(userInfo)
 
   const logout = () => {
     removeCookie(STORAGEKEY.ACCESS_TOKEN)

@@ -9,7 +9,8 @@ import { Link, NavLink } from 'react-router-dom'
 
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { ThemeContext } from '../../../context/ThemeContext'
-import { CategoryContext } from '../../index'
+// import { CategoryContext } from '../../index'
+import { CategoryContext } from '../../../App'
 import _ from 'lodash'
 
 const reducer = (previousState, updatedState) => ({

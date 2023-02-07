@@ -5,6 +5,7 @@
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
+            width: 100%;
             &-list{
                 display: flex;
                 align-items: center;
@@ -48,7 +49,7 @@
                     display: inline;
                     @include font-medium-500;
                     cursor: pointer;
-                    width: max-content !important;
+                    // width: max-content !important;
                     &:hover{
                         text-decoration: underline;
                     }
@@ -59,7 +60,6 @@
                 align-items: center;
                 padding: 0 1rem;
                 padding: 0.2rem 0.3125rem;
-                width: fit-content;
                 border-radius: 0.75rem;
                 background-color: #fff;
                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

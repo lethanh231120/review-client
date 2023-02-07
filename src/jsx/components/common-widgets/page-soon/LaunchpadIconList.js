@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Avatar, Tooltip } from 'antd'
-import { LaunchpadMapContext } from '../../../index'
+// import { LaunchpadMapContext } from '../../../index'
+import { LaunchpadMapContext } from '../../../../App'
 
 const absentData = '__'
 const LaunchpadIconList = ({ listLaunchpad }) => {
