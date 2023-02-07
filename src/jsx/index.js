@@ -18,8 +18,8 @@ import ScrollToTop from './layouts/ScrollToTop'
 import Home from './components/Dashboard/Home'
 // categoryItem
 import CategoryItem from './components/CategoryPage/CategoryItem'
-import { ConfirmEmail } from './components/auth/confirm-email/index'
-
+// import { ConfirmEmail } from './components/auth/confirm-email/index'
+import { ConfirmEmail } from './components/auth/confirm-email'
 // product detail
 import ProductDetail1 from './components/product-detail/ProductDetail'
 // / Form
