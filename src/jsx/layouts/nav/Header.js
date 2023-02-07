@@ -11,6 +11,8 @@ import AccountTab, { logInKey, signUpKey } from '../../components/common-widgets
 import { SignInContext, Authenticated } from '../../index'
 import InputSearch from '../../components/input-search/GlobalSearch'
 import { getCookie, removeCookie, STORAGEKEY } from '../../../utils/storage'
+import ExpiredJWTChecker from '../../components/auth/ExpiredJWTChecker'
+import Swal from 'sweetalert2'
 
 const Header = ({ onNote }) => {
   const [isLightTheme, setIsLightTheme] = useState(true)
@@ -59,6 +61,18 @@ const Header = ({ onNote }) => {
     removeCookie(STORAGEKEY.ACCESS_TOKEN)
     removeCookie(STORAGEKEY.USER_INFO)
     authenticated.handleSetAuthenticated(false)
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 600,
+      timerProgressBar: true
+    })
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Log Out ...'
+    })
   }
 
   return (
@@ -141,6 +155,7 @@ const Header = ({ onNote }) => {
                   <ul>
                     {authenticated?.isAuthenticated ? (
                       <>
+                        <ExpiredJWTChecker logout={logout}/>
                         <Dropdown
                           as='li'
                           className='nav-item dropdown header-profile'
