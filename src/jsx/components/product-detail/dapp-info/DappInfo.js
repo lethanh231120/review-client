@@ -82,7 +82,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
   const dataItem = (title, content) =>{
     return <div className='d-flex text-align-center mb-1'>
       <p className='mb-0'>{title}:</p>
-      <h5 className='ms-1 mt-1' >{content} </h5>
+      <h5 className='ms-1 ' >{content} </h5>
     </div>
   }
 
@@ -90,53 +90,45 @@ const DappInfo = ({ productInfo, ...rest }) => {
     return <div className='d-flex'>
       <p className='mt-2 '>{title}:</p>
       {content && (
-        <Avatar.Group
-          size={25}
-          maxCount={2}
-          maxStyle={{
-            color: '#f56a00',
-            backgroundColor: '#fde3cf',
-            cursor: 'pointer'
-          }}
-          className='mt-1'
-          style={{ marginLeft: '10px' }}>
-          {Object.keys(content).map(
-            (socialName) => {
-              return content[socialName] !== '' ? (
-                <Tooltip
-                  placementTooltip='topLeft'
-                  title={socialName}
-                  key={socialName}
+
+        Object.keys(content).map(
+          (socialName) => {
+            return content[socialName] !== '' ? (
+              <Tooltip className='mt-2 ms-1'
+                placementTooltip='topLeft'
+                title={socialName}
+                key={socialName}
+              >
+                <a
+                  href={content[socialName]}
+                  target='_blank'
+                  rel='noreferrer'
                 >
-                  <a
-                    href={content[socialName]}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    <Avatar
-                      className=' img-fluid p-1 rounded-circle'
-                      style={{ backgroundColor: '#F0F2F5' }}
-                      preview={false}
-                      src={
-                        socials?.find(
+                  <Avatar
+                    size={25}
+                    className=' img-fluid p-1 rounded-circle'
+                    style={{ backgroundColor: '#F0F2F5' }}
+                    preview={false}
+                    src={
+                      socials?.find(
+                        (social) =>
+                          social?.key?.toLowerCase() ===
+                          socialName?.toLowerCase()
+                      )?.icon
+                        ? socials?.find(
                           (social) =>
                             social?.key?.toLowerCase() ===
-                          socialName?.toLowerCase()
-                        )?.icon
-                          ? socials?.find(
-                            (social) =>
-                              social?.key?.toLowerCase() ===
                               socialName?.toLowerCase()
-                          ).icon
-                          : defaultSocial
-                      }
-                    />
-                  </a>
-                </Tooltip>
-              ) : null
-            }
-          )}
-        </Avatar.Group>
+                        ).icon
+                        : defaultSocial
+                    }
+                  />
+                </a>
+              </Tooltip>
+            ) : null
+          }
+        )
+
       )}
     </div>
   }
@@ -180,7 +172,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
               )}
             </div>
             <div className='col-6'>
-              {dataItem('User 24h', detail?.user24h)}
+              {dataItem('User 24h', formatMoney(detail?.user24h)?.replace('$', ''))}
               {dataItem('Volume 24h', formatMoney(detail?.volume24h))}
               {detail?.totalUser > 0 && dataItem('Total Users', detail?.totalUser)}
             </div>

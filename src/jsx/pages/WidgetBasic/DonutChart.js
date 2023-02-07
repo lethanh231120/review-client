@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Doughnut } from 'react-chartjs-2'
-
+import { Chart, ArcElement } from 'chart.js'
+Chart.register(ArcElement)
 class DonutChart extends Component {
   render() {
     const data = {

@@ -3,7 +3,7 @@ import React from 'react'
 import { Badge } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { renderNumber } from '../../../../utils/formatNumber'
-import { DAPP } from '../../../constants/category'
+import { EXCHANGE } from '../../../constants/category'
 import { NO_DATA } from '../../../constants/data'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import CategorySearch from '../../input-search/CategorySearch'
@@ -162,7 +162,7 @@ const Exchange = ({
       </div>
       <Row>
         <Col md={{ span: 12 }} sm={{ span: 14 }} xs={{ span: 24 }}>
-          <CategorySearch type={DAPP}/>
+          <CategorySearch type={EXCHANGE}/>
         </Col>
         <Col md={{ span: 12 }} sm={{ span: 10 }} xs={{ span: 24 }}>
           <DrawerFilter type='exchange' handleFilter={handleFilter} />

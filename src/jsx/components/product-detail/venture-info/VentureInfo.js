@@ -1,5 +1,5 @@
-import { Avatar, Table, Tooltip } from 'antd'
-import React from 'react'
+import { Avatar, Spin, Table, Tooltip } from 'antd'
+import React, { useState } from 'react'
 import { Badge, Button } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
@@ -9,10 +9,20 @@ import Description from '../description/Description'
 import moment from 'moment'
 import FormReport from '../../Forms/form-report/FormReport'
 import { useNavigate } from 'react-router-dom'
+import { LoadingOutlined } from '@ant-design/icons'
 
 const VentureInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+
+  const onOpenDapp = (link) => {
+    setLoading(true)
+    setTimeout(() => {
+      link && window.open(link)
+      setLoading(false)
+    }, 3000)
+  }
 
   const calculateTotalFund = (fund) =>{
     let total = 0
@@ -41,6 +51,9 @@ const VentureInfo = ({ productInfo, ...rest }) => {
             </h4>
             <Badge className='badge-sm' >{detail?.subCategory}</Badge>
           </div>
+          {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
+            {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
+    Open Website</Button>}
         </div>
       </div>
     </div>
@@ -59,7 +72,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
           <h3 className='m-b-0'>{detail?.totalIsScam}</h3> <span>Reported Scam</span>
         </div>
         <div className='col'>
-          <h3 className='m-b-0'>{detail?.score}</h3> <span>Score</span>
+          <h3 className='m-b-0'>{parseFloat(detail?.score) / 20}</h3> <span>Score</span>
         </div>
       </div>
       <div className='mt-4'>
@@ -84,55 +97,56 @@ const VentureInfo = ({ productInfo, ...rest }) => {
 
   const communityItem = (title, content) => {
     return <div className='d-flex'>
-      <p className='mt-2 '>{title}:</p>
+      <p className='mt-2 me-2'>{title}:</p>
       {content && (
-        <Avatar.Group
-          size={25}
-          maxCount={2}
-          maxStyle={{
-            color: '#f56a00',
-            backgroundColor: '#fde3cf',
-            cursor: 'pointer'
-          }}
-          className='mt-1'
-          style={{ marginLeft: '10px' }}>
-          {Object.keys(content).map(
-            (socialName) => {
-              return content[socialName] !== '' ? (
-                <Tooltip
-                  placementTooltip='topLeft'
-                  title={socialName}
-                  key={socialName}
+        // <Avatar.Group
+        //   size={25}
+        //   maxCount={2}
+        //   maxStyle={{
+        //     color: '#f56a00',
+        //     backgroundColor: '#fde3cf',
+        //     cursor: 'pointer'
+        //   }}
+        //   className='mt-1'
+        //   style={{ marginLeft: '10px' }}>
+        Object.keys(content).map(
+          (socialName) => {
+            return content[socialName] !== '' ? (
+              <Tooltip
+                className='me-1 mt-2'
+                placementTooltip='topLeft'
+                title={socialName}
+                key={socialName}
+              >
+                <a
+                  href={content[socialName]}
+                  target='_blank'
+                  rel='noreferrer'
                 >
-                  <a
-                    href={content[socialName]}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    <Avatar
-                      className=' img-fluid p-1 rounded-circle'
-                      style={{ backgroundColor: '#F0F2F5' }}
-                      preview={false}
-                      src={
-                        socials?.find(
+                  <Avatar
+                    size={25}
+                    className=' img-fluid p-1 rounded-circle'
+                    style={{ backgroundColor: '#F0F2F5' }}
+                    preview={false}
+                    src={
+                      socials?.find(
+                        (social) =>
+                          social?.key?.toLowerCase() ===
+                        socialName?.toLowerCase()
+                      )?.icon
+                        ? socials?.find(
                           (social) =>
                             social?.key?.toLowerCase() ===
-                        socialName?.toLowerCase()
-                        )?.icon
-                          ? socials?.find(
-                            (social) =>
-                              social?.key?.toLowerCase() ===
                             socialName?.toLowerCase()
-                          ).icon
-                          : defaultSocial
-                      }
-                    />
-                  </a>
-                </Tooltip>
-              ) : null
-            }
-          )}
-        </Avatar.Group>
+                        ).icon
+                        : defaultSocial
+                    }
+                  />
+                </a>
+              </Tooltip>
+            ) : null
+          }
+        )
       )}
     </div>
   }
@@ -152,12 +166,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
             <div className='col-6'>
               {detail?.yearFounded && dataItem('Founded Year', detail?.yearFounded)}
             </div>
-            {detail?.website && <div className='col-12'>
-              <div className='d-flex text-align-center mb-1'>
-                <p className='mb-0 mt-1'>Website:</p>
-                <a className='mt- ms-1' href={detail?.website}> <h5 className='ms-1 mt-1' >{detail?.website} </h5></a>
-              </div>
-            </div>}
+
             <div className='col-12'>
               {communityItem('Socials', detail?.socials)}
             </div>
@@ -184,7 +193,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
   const portfolioColumns = [
     {
       title: 'Name',
-      render: (_, record) => (<span>{record?.projectId?.split('_')[2]}</span>)
+      render: (_, record) => (<span><Avatar src={record?.projectLogo}/> {record?.projectName}</span>)
     },
     {
       title: 'Funding Round',
@@ -195,6 +204,13 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     }, {
       title: 'Fund Date',
       render: (_, record) => <span>{moment(record?.fundDate)?.format('DD-MM-YYYY')}</span>
+    },
+    {
+      title: 'Announcement',
+      render: (_, record) => <a onClick={(e) =>{
+        e.stopPropagation()
+        window.open(record?.announcementUrl)
+      }}>Link</a>
     }
   ]
 
@@ -224,14 +240,14 @@ const VentureInfo = ({ productInfo, ...rest }) => {
             columns={portfolioColumns}
             dataSource={productInfo?.mores?.fund}
             // onChange={handleChangeTable}
-            pagination={true}
-            rowKey={(record) => record?.projectId}
             onRow={(record) => ({
               onClick: () => {
                 handleonRowClicked(record?.projectId)
               }
             })}
-            scroll={{ x: 'max-content' }}
+            rowKey={(record, index) => index}
+            pagination={{ pageSize: 10, showSizeChanger: false }}
+            // scroll={{ x: 'max-content' }}
           />
         </div>
       </div></>

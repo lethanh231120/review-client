@@ -1,34 +1,20 @@
 import React from 'react'
 import loadable from '@loadable/component'
 import pMinDelay from 'p-min-delay'
-import Select from 'react-select'
+import { formatMoney } from '../../../../utils/formatNumber'
 
 const BitCoinChart = loadable(() => pMinDelay(import('../../Crypto/Coin/BitCoinChart'), 1000))
 
-const options = [
-  { value: '1', label: 'USD ($ US Dollar)' },
-  { value: '2', label: 'BTC ($ US Dollar)' },
-  { value: '3', label: 'USD ($ US Dollar)' }
-]
-
-const CoinChart = () => {
+const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, chartData }) => {
   return (
     <>
       <div className='card coin-content'>
         <div className='card-header border-0 flex-wrap'>
           <div className='mb-2'>
-            <h4 className='heading m-0'>Coin Chart</h4>
+            <h4 className='heading m-0'>{symbol} Chart</h4>
             {/* <span className='fs-16'>
               Lorem ipsum dolor sit amet, consectetur
             </span> */}
-          </div>
-          <div className='dropdown bootstrap-select'>
-            <Select
-              className='custom-react-select mb-xl-0 mb-3'
-              options={options}
-              defaultValue={options[0]}
-              isSearchable={false}
-            />
           </div>
         </div>
         <div className='card-body'>
@@ -36,7 +22,7 @@ const CoinChart = () => {
             <div className='d-flex align-items-center justify-content-between flex-wrap'>
               <div className='price-content'>
                 <span className='fs-18 d-block mb-2'>Price</span>
-                <h4 className='fs-20 font-w600'>$9,542.39</h4>
+                <h4 className='fs-20 font-w600'>${price}</h4>
               </div>
               {/* <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>24h% change</span>
@@ -47,19 +33,19 @@ const CoinChart = () => {
               </div> */}
               <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Market Cap</span>
-                <h4 className='font-w600'>$219.24B</h4>
+                <h4 className='font-w600'>{formatMoney(marketCap)}</h4>
               </div>
               <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Total Supply</span>
-                <h4 className='font-w600'>$47.22B</h4>
+                <h4 className='font-w600'>{formatMoney(totalSupply)}</h4>
               </div>
               <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Holders</span>
-                <h4 className='font-w600'>$47.22B</h4>
+                <h4 className='font-w600'>{formatMoney(holders)}</h4>
               </div>
               <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Trannsfer</span>
-                <h4 className='font-w600'>$47.22B</h4>
+                <h4 className='font-w600'>{formatMoney(transfer)}</h4>
               </div>
             </div>
             {/* <div className='d-flex align-items-center'>
@@ -72,7 +58,7 @@ const CoinChart = () => {
             </div> */}
           </div>
           {/* <div id="bitcoinhChart"></div> */}
-          <BitCoinChart />
+          <BitCoinChart chartData={chartData}/>
         </div>
       </div>
     </>
