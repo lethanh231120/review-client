@@ -34370,3 +34370,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   justify-content: center;
   align-items: center;
 }
+
+.none-click{
+  pointer-events:none;
+}

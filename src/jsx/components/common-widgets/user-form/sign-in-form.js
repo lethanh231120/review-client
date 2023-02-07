@@ -5,6 +5,10 @@ import { notification } from 'antd'
 import { setCookie, STORAGEKEY } from '../../../../utils/storage'
 import { SignInContext, Authenticated } from '../../../index'
 import { CloseCircleOutlined } from '@ant-design/icons'
+import { Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+import Swal from 'sweetalert2'
+import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
 
 export const SignInComponent = () => {
   const authenticated = useContext(Authenticated)
@@ -44,6 +48,7 @@ export const SignInComponent = () => {
   const errorsObj = { email: '', password: '' }
   const [errors, setErrors] = useState(errorsObj)
   const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const onLoginNormal = async(e) => {
     e.preventDefault()
@@ -53,10 +58,19 @@ export const SignInComponent = () => {
       errorObj.email = 'Email is Required'
       error = true
     }
+    if (!isValidEmail(email)) {
+      errorObj.email = 'Email is not valid format'
+      error = true
+    }
     if (password === '') {
       errorObj.password = 'Password is Required'
       error = true
     }
+    if (!isValidPassword(password)) {
+      errorObj.password = 'Password must has at least 8 characters, contains at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
+      error = true
+    }
+
     setErrors(errorObj)
     if (error) {
       return
@@ -66,12 +80,26 @@ export const SignInComponent = () => {
         email: email,
         password: password
       }
+      setIsLoading(true)
       const resp = await post('reviews/auth/signin/normal', dataSignin)
       if (resp?.status) {
         setStateLoginSuccess(resp?.data.jwt.token, resp?.data.profile)
       }
     } catch (e) {
-      console.error(e)
+      Swal.fire({
+        icon: 'error',
+        title: 'Resgister failed.',
+        html: e?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later.',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        backdrop: `rgba(4,148,114,0.4)`
+      })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -100,11 +128,12 @@ export const SignInComponent = () => {
               <div className='form-group mb-3'>
                 {/* <input name="dzName" required="" className="form-control" placeholder="User Name" type="text" /> */}
                 <input
-                  type='email'
+                  type='text'
                   className='form-control'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder='Enter your e-mail address.'
+                  readOnly={isLoading}
                 />
                 {errors.email && (
                   <div className='text-danger fs-12'>
@@ -120,6 +149,7 @@ export const SignInComponent = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder='Enter your password.'
+                  readOnly={isLoading}
                 />
                 {errors.password && (
                   <div className='text-danger fs-12'>
@@ -131,15 +161,17 @@ export const SignInComponent = () => {
                 <button
                   type='submit'
                   className='btn btn-primary dz-xs-flex m-r5'
+                  disabled={isLoading}
                 >
                   Login
                 </button>
-                <span className='form-check d-inline-block ms-2'>
+                {isLoading ? <>&nbsp;&nbsp; <Spin indicator={<LoadingOutlined spin />} size='large' /> </> : ''}
+                <span className='form-check d-inline-block ms-2' style={ { float: 'right' }}>
                   <label
                     className='form-check-label'
                     htmlFor='check1'
                   >
-                    <a to={'#'} className='nav-link m-auto btn tp-btn-light btn-primary'>
+                    <a to={'#'} className={`nav-link m-auto btn tp-btn-light btn-primary${isLoading ? 'none-click' : ''}`}>
                                                     Forget Password ?
                     </a>
                   </label>
@@ -162,33 +194,36 @@ export const SignInComponent = () => {
                       render={(renderProps) => (
                         <a
                           href='#'
-                          className='fab fa-facebook-f btn-facebook' rel='noreferrer'
+                          className={`fab fa-facebook-f btn-facebook ${isLoading ? 'none-click' : ''}`}
+                          rel='noreferrer'
                           onClick={renderProps.onClick}
                         >
                         </a>
                       )}
                     />
-
                   </li>
                   <li>
                     <a
                       target='_blank'
                       href='https://www.google.com/'
-                      className='fab fa-google-plus-g btn-google-plus' rel='noreferrer'
+                      className={`fab fa-google-plus-g btn-google-plus ${isLoading ? 'none-click' : ''}`}
+                      rel='noreferrer'
                     ></a>
                   </li>
                   <li>
                     <a
                       target='_blank'
                       href='https://www.linkedin.com/'
-                      className='fab fa-linkedin-in btn-linkedin' rel='noreferrer'
+                      className={`fab fa-linkedin-in btn-linkedin ${isLoading ? 'none-click' : ''}`}
+                      rel='noreferrer'
                     ></a>
                   </li>
                   <li>
                     <a
                       target='_blank'
                       href='https://twitter.com/'
-                      className='fab fa-twitter btn-twitter' rel='noreferrer'
+                      className={`fab fa-twitter btn-twitter ${isLoading ? 'none-click' : ''}`}
+                      rel='noreferrer'
                     ></a>
                   </li>
                 </ul>
