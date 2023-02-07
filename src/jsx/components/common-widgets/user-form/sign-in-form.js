@@ -89,7 +89,7 @@ export const SignInComponent = () => {
     } catch (e) {
       Swal.fire({
         icon: 'error',
-        title: 'Resgister failed.',
+        title: 'Log In failed.',
         html: e?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later.',
         showClass: {
           popup: 'animate__animated animate__fadeInDown'
@@ -121,7 +121,7 @@ export const SignInComponent = () => {
           >
             <form className=' dz-form pb-3' onSubmit={onLoginNormal}>
               <h3 className='form-title m-t0'>
-                Sign in
+                Sign In
               </h3>
               <div className='dz-separator-outer m-b5'>
                 <div className='dz-separator bg-primary style-liner'></div>

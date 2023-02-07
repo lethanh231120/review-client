@@ -17,7 +17,6 @@ const Soon = ({ listProduct, handleFilter, total }) => {
   useEffect(() => {
     const launchpadMapLocal = new Map()
     launchpadContext.forEach((launchpad) => {
-      console.log(launchpad, launchpadMapLocal)
       launchpadMapLocal.set(launchpad?.launchPadId, launchpad)
     })
     setLaunchpadMap(launchpadMapLocal)
@@ -91,13 +90,13 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                   )}
                                 </div>
                                 <div
-                                  className='ms-4 soon-item-text-block'
+                                  className='ms-4 text-etc-overflow'
                                   style={{ width: '100%' }}
                                 >
-                                  <h4 className='heading mb-0 soon-item-text-block'>
+                                  <h4 className='heading mb-0 text-etc-overflow'>
                                     {item?.projectName}
                                   </h4>
-                                  <span className='soon-item-text-block'>
+                                  <span className='text-etc-overflow'>
                                     {item?.projectSymbol
                                       ? item?.projectSymbol
                                       : absentData}
@@ -105,7 +104,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                 </div>
                               </div>
                               <div className='row'>
-                                <p className='mb-0 fs-14 text-black text-center soon-item-text-block'>
+                                <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>
                                   {item?.subCategory
                                     ? item?.subCategory
                                     : absentData}
@@ -113,7 +112,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                               </div>
                               <div className='d-flex align-items-center justify-content-between'>
                                 <div>
-                                  <p className='mb-0 fs-14 text-black soon-item-text-block'>
+                                  <p className='mb-0 fs-14 text-black text-etc-overflow'>
                                     {item?.roundType}
                                   </p>
                                   <span className='fs-12'>
@@ -123,13 +122,13 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                   </span>
                                 </div>
                                 <div>
-                                  <p className='mb-0 fs-14 text-success soon-item-text-block'>
+                                  <p className='mb-0 fs-14 text-success text-etc-overflow'>
                                     {formatLargeNumberMoneyUSD(
                                       item?.fundRaisingGoals
                                     )}{' '}
                                     raised
                                   </p>
-                                  <span className='fs-12 soon-item-text-block'>
+                                  <span className='fs-12 text-etc-overflow'>
                                     Start date:{' '}
                                     {item?.startDate ? item?.startDate : 'TBA'}
                                   </span>
