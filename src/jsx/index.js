@@ -161,6 +161,10 @@ const Markup = () => {
           ))}
           <Route path='confirm-email' element={<ConfirmEmail />}/>
           <Route path='/' element={<Home />}></Route>
+          <Route
+            path='search/:keyword'
+            element={<CategoryItem />}
+          />
           <Route path=''>
             <Route path=':category'>
               <Route path='' element={<CategoryItem />} />

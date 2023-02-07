@@ -22,7 +22,7 @@ import ItemDapp from './item-dapp/ItemDapp'
 import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon.js'
 import ItemVenture from './item-venture/ItemVenture'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 // const { Option } = Select
 
@@ -128,32 +128,35 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
   }, [listDataSearch])
   // }, [listDataSearch, category])
 
-  // const subMitForm = () => {
-  //   if (itemSubmit) {
-  //     const productId = itemSubmit?.cryptoId
-  //       ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
-  //       : itemSubmit?.dappId
-  //         ? `${itemSubmit?.dappId?.split('_')[2]}/${itemSubmit?.dappId?.split('_')[3]}`
-  //         : itemSubmit?.exchangeId
-  //           ? `${itemSubmit?.exchangeId?.split('_')[2]}/${itemSubmit?.exchangeId?.split('_')[3]}`
-  //           : itemSubmit?.soonId
-  //             ? `${itemSubmit?.soonId?.split('_')[2]}${itemSubmit?.soonId?.split('_')[3] ? `/${itemSubmit?.soonId?.split('_')[3]}` : ''}`
-  //             : `${itemSubmit?.ventureId?.split('_')[2]}/${itemSubmit?.ventureId?.split('_')[3]}`
-  //     navigate(
-  //       `../../products/${
-  //         itemSubmit?.cryptoId
-  //           ? 'crypto'
-  //           : itemSubmit?.dappId
-  //             ? 'dapp'
-  //             : itemSubmit?.exchangeId
-  //               ? 'exchange'
-  //               : itemSubmit?.soonId
-  //                 ? 'soon'
-  //                 : 'venture'
-  //       }/${productId}`
-  //     )
-  //   }
-  // }
+  const subMitForm = () => {
+    if (itemSubmit) {
+      const productId = itemSubmit?.cryptoId
+        ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
+        : itemSubmit?.dappId
+          ? `${itemSubmit?.dappId?.split('_')[2]}/${itemSubmit?.dappId?.split('_')[3]}`
+          : itemSubmit?.exchangeId
+            ? `${itemSubmit?.exchangeId?.split('_')[2]}/${itemSubmit?.exchangeId?.split('_')[3]}`
+            : itemSubmit?.soonId
+              ? `${itemSubmit?.soonId?.split('_')[2]}${itemSubmit?.soonId?.split('_')[3] ? `/${itemSubmit?.soonId?.split('_')[3]}` : ''}`
+              : `${itemSubmit?.ventureId?.split('_')[2]}/${itemSubmit?.ventureId?.split('_')[3]}`
+      navigate(
+        `../../products/${
+          itemSubmit?.cryptoId
+            ? 'crypto'
+            : itemSubmit?.dappId
+              ? 'dapp'
+              : itemSubmit?.exchangeId
+                ? 'exchange'
+                : itemSubmit?.soonId
+                  ? 'soon'
+                  : 'venture'
+        }/${productId}`
+      )
+      setDataSearch({
+        isActive: false, data: {}, loading: false, status: ''
+      })
+    }
+  }
 
   // const handleSubmit = () => {
   //   if (_.isEmpty(dataSearch?.data)) {
@@ -163,11 +166,11 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
   //   }
   // }
 
-  // const handleSubmitSearch = (e) => {
-  //   if (e.key === 'Enter') {
-  //     subMitForm()
-  //   }
-  // }
+  const handleSubmitSearch = (e) => {
+    if (e.key === 'Enter') {
+      subMitForm()
+    }
+  }
 
   useEffect(() => {
     if (isSubmit) {
@@ -176,10 +179,13 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
           setOpenModalSearch(false)
         }
         form.resetFields()
-        form.setFieldsValue({
-          category: 'all'
-        })
+        // form.setFieldsValue({
+        //   category: 'all'
+        // })
         setIsSubmit(false)
+        setDataSearch({
+          isActive: false, data: {}, loading: false, status: ''
+        })
         navigate(`../../../search/${keyWord}`)
       }
     }
@@ -235,53 +241,40 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
     <div className='input-group search-area cus-input-group'>
       <div className='nav-item d-flex align-items-center'>
         <div className='input-group search-area'>
-          <span className='input-group-text'>
-            <Link to={'#'}>
-              <svg width='24' height='24' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M27.414 24.586L22.337 19.509C23.386 17.928 24 16.035 24 14C24 8.486 19.514 4 14 4C8.486 4 4 8.486 4 14C4 19.514 8.486 24 14 24C16.035 24 17.928 23.386 19.509 22.337L24.586 27.414C25.366 28.195 26.634 28.195 27.414 27.414C28.195 26.633 28.195 25.367 27.414 24.586ZM7 14C7 10.14 10.14 7 14 7C17.86 7 21 10.14 21 14C21 17.86 17.86 21 14 21C10.14 21 7 17.86 7 14Z' fill='var(--secondary)'/>
-              </svg>
-            </Link>
+          <span
+            className='input-group-text cus-input-group-text'
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              setIsSubmit(true)
+            }}
+          >
+            {/* <Link to={'#'}> */}
+            <svg width='24' height='24' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M27.414 24.586L22.337 19.509C23.386 17.928 24 16.035 24 14C24 8.486 19.514 4 14 4C8.486 4 4 8.486 4 14C4 19.514 8.486 24 14 24C16.035 24 17.928 23.386 19.509 22.337L24.586 27.414C25.366 28.195 26.634 28.195 27.414 27.414C28.195 26.633 28.195 25.367 27.414 24.586ZM7 14C7 10.14 10.14 7 14 7C17.86 7 21 10.14 21 14C21 17.86 17.86 21 14 21C10.14 21 7 17.86 7 14Z' fill='var(--secondary)'/>
+            </svg>
+            {/* </Link> */}
           </span>
           <input
             type='text'
             className='form-control cus-form-control'
             placeholder='Search here...'
             onChange={(e) => handleSearch(e, e.target.value)}
+            onKeyPress={handleSubmitSearch}
+            autoComplete='off'
             onBlur={(e) => {
               e.preventDefault()
               e.stopPropagation()
               handleSearch(e, '')
             }}
+
           />
         </div>
       </div>
       {/* <input
-        placeholder='Search by Token / Coin / Exchange / Dapp / Venture...'
-        // onChange={(e) => handleSearch(e, e.target.value)}
-        // onKeyPress={handleSubmitSearch}
-        className='form-control'
-        // autoComplete='off'
-        // addonBefore={
-        //   <Form.Item name='category'>
-        //     <Select
-        //       className='text-select'
-        //       style={{ minWidth: '15rem' }}
-        //       value={category}
-        //       onChange={(value) => setCategory(value)}
-        //       onBlur={(e) => handleSearch(e, '')}
-        //       onKeyDown={handleEnterSelect}
-        //     >
-        //       {categories.map((item) => (
-        //         <Option value={item?.key} key={item?.key}>
-        //           {item?.name}
-        //         </Option>
-        //       ))}
-        //     </Select>
-        //   </Form.Item>
-        // }
         // suffix={
         //   <Form.Item>
-        //     <SearchOutlined
+        //     <SearchOutlineds
         //       onClick={(e) => {
         //         e.preventDefault()
         //         e.stopPropagation()
@@ -296,11 +289,6 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
         //     />
         //   </Form.Item>
         // }
-        onBlur={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          handleSearch(e, '')
-        }}
       /> */}
       {/* </Form.Item>
       </Form> */}
@@ -332,63 +320,6 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                                 setItemSubmit={setItemSubmit}
                                 global={true}
                               />
-                              {/* <Link
-                                  to={`../../products/crypto/${item?.cryptoId?.split('_')[1]}/${item?.cryptoId?.split('_')[2]}/${item?.cryptoId?.split('_')[1] === 'token' ? item?.cryptoId?.split('_')[3] : ''}`}
-                                  key={index}
-                                  className={`${
-                                    itemSubmit?.cryptoId === item?.cryptoId
-                                      ? "hover"
-                                      : ""
-                                  } form-search-data-item`}
-                                  onClick={(e) => {
-                                    e.stopPropagation()
-                                    e.preventDefault()
-                                    navigate(`../../products/crypto/${item?.cryptoId?.split('_')[1]}/${item?.cryptoId?.split('_')[2]}/${item?.cryptoId?.split('_')[1] === 'token' ? item?.cryptoId?.split('_')[3] : ''}`)
-                                    if (setOpenModalSearch !== undefined) {
-                                      setOpenModalSearch(false)
-                                    }
-                                  }}
-                                  onMouseEnter={() => setItemSubmit(item)}
-                                >
-                                  <div className="form-search-data-item-data">
-                                    {item?.image ? (
-                                      <Image src={item?.image} preview={false} />
-                                    ) : (
-                                      <span className="table-icon-coin-logo">
-                                        {item?.name?.slice(0, 3)?.toUpperCase()}
-                                      </span>
-                                    )}
-                                    <div>
-                                      <div className="form-search-data-item-data-content">
-                                          <div className="form-search-data-item-data-name">
-                                              {item?.name}
-                                          </div>
-                                          <div className="form-search-data-item-data-symbol">
-                                              ({item?.symbol})
-                                          </div>
-                                          {item?.isScam ? (
-                                              <Image src={scam} preview={false} />
-                                          ) : item?.isWarning ? (
-                                              <Image src={warning} preview={false} />
-                                          ) : (
-                                              ""
-                                          )}
-                                      </div>
-                                      <div className="form-search-data-item-data-list">
-                                        {item?.addressShow && (
-                                          <div className="form-search-data-item-data-address">
-                                            {item?.addressShow}
-                                          </div>
-                                        )}
-                                      </div>
-                                      {item?.chainname && (
-                                          <div className="form-search-data-item-data-tag">
-                                              {item?.chainname}
-                                          </div>
-                                      )}
-                                    </div>
-                                  </div>
-                                </Link> */}
                             </>
                           )
                         )}
@@ -409,81 +340,6 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                               setItemSubmit={setItemSubmit}
                               global={true}
                             />
-                            // <Link
-                            //   to={`../../products/dapp/${item?.dappId?.split('_')[2]}/${item?.dappId?.split('_')[3]}`}
-                            //   key={index}
-                            //   className={`${
-                            //     itemSubmit?.dappId === item?.dappId
-                            //       ? "hover"
-                            //       : ""
-                            //   } form-search-data-item`}
-                            //   onClick={(e) => {
-                            //       navigate(`../../products/dapp/${item?.dappId?.split('_')[2]}/${item?.dappId?.split('_')[3]}`)
-                            //       setOpenModalSearch(false)
-                            //   }}
-                            //   onMouseEnter={() => setItemSubmit(item)}
-                            // >
-                            //   <div className="form-search-data-item-data">
-                            //     {item?.image ? (
-                            //       <Image src={item?.image} preview={false} />
-                            //     ) : (
-                            //       <span className="table-icon-coin-logo">
-                            //         {item?.name?.slice(0, 3)?.toUpperCase()}
-                            //       </span>
-                            //     )}
-                            //     <div>
-                            //       <div className="form-search-data-item-data-content">
-                            //         <div className="form-search-data-item-data-name">
-                            //           {item?.name}
-                            //         </div>
-                            //         {item?.isScam ? (
-                            //           <Image src={scam} preview={false} />
-                            //         ) : item?.isWarning ? (
-                            //           <Image src={warning} preview={false} />
-                            //         ) : (
-                            //           ""
-                            //         )}
-                            //       </div>
-                            //       <div className="form-search-data-item-data-list">
-                            //         {item?.chainName && (
-                            //           <div className="form-search-data-item-data-tag">
-                            //             {item?.chainName}
-                            //           </div>
-                            //         )}
-                            //         {item?.user24h > 0 && (
-                            //           <div className="form-search-data-item-data-tag">
-                            //             {item?.user24h
-                            //               ?.toFixed(2)
-                            //               .replace(
-                            //                 /\d(?=(\d{3})+\.)/g,
-                            //                 "$&,"
-                            //               )}{" "}
-                            //             User 24H
-                            //           </div>
-                            //         )}
-                            //       </div>
-                            //       {item?.chains && (
-                            //         <span className="form-search-data-item-data-content-list">
-                            //           {item?.chains
-                            //             ?.split(",")
-                            //             ?.map((itemChain) => (
-                            //               <div
-                            //                 className="form-search-data-item-data-tag"
-                            //                 key={itemChain}
-                            //               >
-                            //                 {itemChain}
-                            //               </div>
-                            //             ))}
-                            //         </span>
-                            //       )}
-                            //     </div>
-                            //   </div>
-                            //   {item?.category && (
-                            //     <div className="form-search-data-item-data-content-tag">
-                            //       {item?.category}
-                            //     </div>
-                            //   )}
-                            // </Link>
                           )
                         )}
                       </div>
@@ -503,62 +359,6 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                               setItemSubmit={setItemSubmit}
                               global={true}
                             />
-                            // <Link
-                            //   to={`../../products/exchange/${item?.exchangeId?.split('_')[2]}/${item?.exchangeId?.split('_')[3]}`}
-                            //   key={index}
-                            //   className={`${
-                            //     itemSubmit?.exchangeId === item?.exchangeId
-                            //       ? "hover"
-                            //       : ""
-                            //   } form-search-data-item`}
-                            //   onClick={() => {
-                            //     navigate(`../../products/exchange/${item?.exchangeId?.split('_')[2]}/${item?.exchangeId?.split('_')[3]}`)
-                            //     setOpenModalSearch(false)
-                            //   }}
-                            //   onMouseEnter={() => setItemSubmit(item)}
-                            // >
-                            //   <div className="form-search-data-item-data">
-                            //     {item?.image ? (
-                            //       <Image src={item?.image} preview={false} />
-                            //     ) : (
-                            //       <span className="table-icon-coin-logo">
-                            //         {item?.name?.slice(0, 3)?.toUpperCase()}
-                            //       </span>
-                            //     )}
-                            //     <div>
-                            //       <div className="form-search-data-item-data-content">
-                            //         <div className="form-search-data-item-data-name">
-                            //           {item?.name}
-                            //         </div>
-                            //         {item?.isScam ? (
-                            //           <Image src={scam} preview={false} />
-                            //         ) : item?.isWarning ? (
-                            //           <Image src={warning} preview={false} />
-                            //         ) : (
-                            //           ""
-                            //         )}
-                            //       </div>
-                            //       <div className="form-search-data-item-data-list">
-                            //         {item?.volume7d > 0 && (
-                            //           <div className="form-search-data-item-data-tag">
-                            //             {item?.volume7d
-                            //               ?.toFixed(2)
-                            //               .replace(
-                            //                 /\d(?=(\d{3})+\.)/g,
-                            //                 "$&,"
-                            //               )}{" "}
-                            //             Volume 7D
-                            //           </div>
-                            //         )}
-                            //         {item?.category && (
-                            //           <div className="form-search-data-item-data-tag">
-                            //             {item?.category}
-                            //           </div>
-                            //         )}
-                            //       </div>
-                            //     </div>
-                            //   </div>
-                            // </Link>
                           )
                         )}
                       </div>
@@ -656,46 +456,6 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                               setItemSubmit={setItemSubmit}
                               global={true}
                             />
-                            // <Link
-                            //   to={`../../products/venture/${item?.ventureId?.split('_')[2]}/${item?.ventureId?.split('_')[3]}`}
-                            //   key={index}
-                            //   className={`${
-                            //     itemSubmit?.ventureId === item?.ventureId
-                            //       ? "hover"
-                            //       : ""
-                            //   } form-search-data-item`}
-                            //   onClick={() => {
-                            //       navigate(`../../products/venture/${item?.ventureId?.split('_')[2]}/${item?.ventureId?.split('_')[3]}`)
-                            //       setOpenModalSearch(false)
-                            //   }}
-                            //   onMouseEnter={() => setItemSubmit(item)}
-                            // >
-                            //   <div className="form-search-data-item-data">
-                            //     {item?.image ? (
-                            //       <Image src={item?.image} preview={false} />
-                            //     ) : (
-                            //       <span className="table-icon-coin-logo">
-                            //         {item?.name?.slice(0, 3)?.toUpperCase()}
-                            //       </span>
-                            //     )}
-                            //     <div>
-                            //       <div className="form-search-data-item-data-content">
-                            //         <div className="form-search-data-item-data-name">
-                            //           {item?.name}
-                            //         </div>
-                            //       </div>
-                            //       {item?.location && (
-                            //         <span className="form-search-data-item-data-content-list">
-                            //           <div
-                            //             className="form-search-data-item-data-tag"
-                            //           >
-                            //             {item?.location}
-                            //           </div>
-                            //         </span>
-                            //       )}
-                            //     </div>
-                            //   </div>
-                            // </Link>
                           )
                         )}
                       </div>

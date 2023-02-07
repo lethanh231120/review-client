@@ -161,7 +161,6 @@ const CategorySearch = ({ type }) => {
     }
   }
 
-  console.log(itemSubmit)
   return (
     <div className='item-search'>
       <Input

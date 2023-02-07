@@ -19,6 +19,7 @@
         & .ant-input-affix-wrapper{
             padding: 0.6rem 1.5rem;
             border-radius: 0.8rem;
+            width: 100%;
         }
         & .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover{
             border-color: #039F7F;
@@ -62,6 +63,9 @@
     height: 100vh;
 }
 
+.cus-card-header{
+    align-items: flex-start !important;
+}
 
 @media (max-width: 1400px) {
     .category{
