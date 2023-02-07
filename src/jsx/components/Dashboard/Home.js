@@ -91,13 +91,14 @@ const Home = () => {
   useEffect(() => {
     const getSummaryData = async() => {
       const response = await get('reviews/summary')
-      if (response?.code === 'B.A.200') {
+      if (response?.code === '200') {
         setSummaryData(response?.data)
       }
     }
+
     getSummaryData()
   }, [])
-
+  console.log(summaryData)
   const setScamAliveProjectsData = (data) => {
     return [
       { fillcolor: '#18A594', datatitle: 'Alive Projects', amount: data?.coins + data?.exchanges + data?.tokens + data?.ventures - data?.cryptoScams + data?.dAppScams + data?.exchangeScams + data?.ventureScams },
