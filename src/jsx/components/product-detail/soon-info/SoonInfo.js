@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { DetailLayout } from '../detail-layout'
 
@@ -12,27 +12,16 @@ import moment from 'moment'
 // import FormReport from '../../Forms/form-report/FormReport'
 import Description from '../description/Description'
 import { LoadingOutlined } from '@ant-design/icons'
-import { Spin } from 'antd'
+import { Spin, Tooltip } from 'antd'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import LightGallery from 'lightgallery/react'
 import lgThumbnail from 'lightgallery/plugins/thumbnail'
 import lgZoom from 'lightgallery/plugins/zoom'
 // / Image
-import profile02 from '../../../../images/profile/2.jpg'
-import profile03 from '../../../../images/profile/3.jpg'
-import profile04 from '../../../../images/profile/4.jpg'
 import 'lightgallery/css/lightgallery.css'
 import 'lightgallery/css/lg-zoom.css'
 import 'lightgallery/css/lg-thumbnail.css'
 
-const screenShots = [
-  { image: profile02 },
-  { image: profile03 },
-  { image: profile04 },
-  { image: profile03 },
-  { image: profile02 },
-  { image: profile04 }
-]
 const txtTBA = 'TBA'
 
 // match with BE
@@ -81,6 +70,15 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const itemDetail = productInfo?.details
   const itemRoundSales = productInfo?.mores?.roundSale
   const [websiteLoading, setWebsiteLoading] = useState(false)
+
+  // useEffect(() => {
+  //   if (itemDetail) {
+  //     alert(itemDetail)
+  //     for (const media of itemDetail.media) {
+  //       console.log(`=============`, media)
+  //     }
+  //   }
+  // }, [])
 
   const header = (
     <div className='profile-head'>
@@ -290,25 +288,120 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           </div>
           <div className='profile-blog mb-3'>
             <Link to={'#'} >
-              <h4>Social(s):</h4>
+              <h4>Website(s):</h4>
             </Link>
-            <p className='mb-0'>
-              <div className='basic-dropdown'>
-                <div className='basic-dropdown'>
-                </div>
-                <Dropdown>
-                  <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
-                    Community
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className='cus-dropdown-menu'>
-                    {
-                      Object.keys(itemDetail?.community)?.map((keyName, index) => (
-                        <Dropdown.Item href={itemDetail?.community[keyName]} key={index}>{keyName}</Dropdown.Item>
-                      ))
-                    }
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
+            <p className='mb-0 d-flex website-soon'>
+              {
+                itemDetail?.whitepaperUrl ? <div className='basic-dropdown mx-2'>
+                  <Dropdown variant='primary' className='cus-dropdown-select btn btn-primary light sharp' onClick={() => window.open(itemDetail?.website)}>
+                  Homepage
+                  </Dropdown>
+                </div> : ''
+              }
+
+              {
+                itemDetail?.whitepaperUrl ? <div className='basic-dropdown mx-2'>
+                  <Dropdown variant='primary' className='cus-dropdown-select btn btn-primary light sharp' onClick={() => window.open(itemDetail?.whitepaperUrl)}>
+                  Whitepaper
+                  </Dropdown>
+                </div> : ''
+              }
+
+              {
+                itemDetail?.community
+                  ? <div className='basic-dropdown'>
+                    <Dropdown>
+                      <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
+                        Community
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu className='cus-dropdown-menu'>
+                        {
+                          Object.keys(itemDetail?.community)?.map((keyName, index) => (
+                            <Dropdown.Item onClick={() => window.open(itemDetail?.community[keyName])} key={index}>{keyName}</Dropdown.Item>
+                          ))
+                        }
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                  : ''
+              }
+
+              {
+                itemDetail?.additionalLinks
+                  ? <div className='basic-dropdown mx-2'>
+                    <Dropdown>
+                      <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
+                    Additional Links
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu className='cus-dropdown-menu'>
+                        {
+                          Object.keys(itemDetail?.additionalLinks)?.map((keyName, index) => (
+                            <Dropdown.Item onClick={() => window.open(itemDetail?.additionalLinks[keyName])} key={index}>{keyName}</Dropdown.Item>
+                          ))
+                        }
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                  : ''
+              }
+
+              {
+                itemDetail?.socials
+                  ? <div className='basic-dropdown'>
+                    <Dropdown>
+                      <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
+                        Social
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu className='cus-dropdown-menu'>
+                        {
+                          Object.keys(itemDetail?.socials)?.map((keyName, index) => (
+                            <Dropdown.Item onClick={() => window.open(itemDetail?.socials[keyName])} key={index}>{keyName}</Dropdown.Item>
+                          ))
+                        }
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                  : ''
+              }
+
+              {
+                itemDetail?.sourceCode
+                  ? <div className='basic-dropdown mx-2'>
+                    <Dropdown>
+                      <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
+                        Source Code
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu className='cus-dropdown-menu'>
+                        {
+                          Object.keys(itemDetail?.sourceCode)?.map((keyName, index) => (
+                            <Dropdown.Item onClick={() => window.open(itemDetail?.sourceCode[keyName])} key={index}>{keyName}</Dropdown.Item>
+                          ))
+                        }
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                  : ''
+              }
+
+              {
+                itemDetail?.blockchain
+                  ? <div className='basic-dropdown mx-2'>
+                    <Dropdown>
+                      <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
+                        Blockchain
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu className='cus-dropdown-menu'>
+                        {
+                          Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
+                            <Dropdown.Item key={index}>{keyName}</Dropdown.Item>
+                          ))
+                        }
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                  : ''
+              }
+
             </p>
           </div>
 
@@ -337,53 +430,30 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       <h5 className='text-primary '>Screenshots</h5>
     </div>
     <div className='card-body pt-3'>
-      <div className='profile-interest '>
+      <div className='profile-interest'>
         <LightGallery
           speed={500}
           plugins={[lgThumbnail, lgZoom]}
           elementClassNames='row sp4'
         >
-          {screenShots.map((item, index) => (
+          {itemDetail && Object.keys(itemDetail?.media)?.map((keyScreenshotName, index) => (
             <div
-              data-src={item.image}
+              data-src={itemDetail?.media[keyScreenshotName]}
               className='col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1'
               key={index}
             >
-              <img
-                src={item.image}
-                style={{ width: '100%' }}
-                alt='gallery'
-              />
+              <Tooltip
+                title={keyScreenshotName}
+              >
+                <img
+                  src={itemDetail?.media[keyScreenshotName]}
+                  style={{ width: '100%', height: '100%' }}
+                  alt={keyScreenshotName}
+                />
+              </Tooltip>
             </div>
           ))}
         </LightGallery>
-        {/* <SRLWrapper options={options}>
-      <div className="row sp4">
-          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
-            <a href={profile02}> <img src={profile02} alt="profileImage" className="img-fluid" /> </a>
-          </div>
-          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
-            <a href={profile03}> <img src={profile03} alt="profile" className="img-fluid"/></a>
-          </div>
-          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
-            <a href={profile04}><img src={profile04} alt="profile" className="img-fluid" /> </a>
-          </div>
-          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
-            {" "}
-            <a href={profile02}><img src={profile02} alt="profile" className="img-fluid" /> </a>
-          </div>
-          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
-            <a href={profile03} className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col" >
-              <img src={profile03} alt="profile"	className="img-fluid"/>
-            </a>
-          </div>
-          <div className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1">
-            <a href={profile04}	className="col-lg-4 col-xl-4 col-sm-4 col-6 int-col">
-              <img  src={profile04} alt="profile"	className="img-fluid"/>
-            </a>
-          </div>
-      </div>
-   </SRLWrapper> */}
       </div>
     </div>
   </div>

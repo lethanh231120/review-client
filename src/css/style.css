@@ -34321,12 +34321,9 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 /* list soon background of items */
 .format-list-soon-background{
-  border-radius: 0;
-  padding: 0;
-  background: #E7F5F4;
-}
-.summary-chart{
-  height: auto;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  background: #E7F5F4 !important;
 }
 .summary-chart{
   height: auto;
@@ -34373,4 +34370,16 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 .none-click{
   pointer-events:none;
+}
+
+.text-etc-overflow{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Soon detail */
+.website-soon{
+  flex-wrap: wrap;
+  line-height: 2.5rem;
 }

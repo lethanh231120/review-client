@@ -111,7 +111,6 @@ export const SignUpComponent = () => {
               <div className='dz-separator-outer m-b5'>
                 <div className='dz-separator bg-primary style-liner'></div>
               </div>
-              <p>Enter your personal details below: </p>
               <div className='form-group mt-3'>
                 <input
                   className='form-control'
