@@ -48,6 +48,14 @@ const SideBar = () => {
   // get category context
   const categoryContext = useContext(CategoryContext)
 
+  const mapCategoriesMenuIcon = new Map() // match with data from BE
+  mapCategoriesMenuIcon.set(headerItem1, 'currency_bitcoin')
+  mapCategoriesMenuIcon.set(headerItem2, 'polymer')
+  mapCategoriesMenuIcon.set(headerItem3, 'monetization_on')
+  mapCategoriesMenuIcon.set(headerItem4, 'currency_exchange')
+  mapCategoriesMenuIcon.set(headerItem5, 'query_stats')
+  console.log(mapCategoriesMenuIcon)
+
   const { iconHover, sidebarposition, headerposition, sidebarLayout } =
     useContext(ThemeContext)
 
@@ -87,10 +95,10 @@ const SideBar = () => {
   useEffect(() => {
     const objCategories = [
       {
-        title: 'Dashboard',
+        title: 'Home',
         to: '',
         // classsChange: 'mm-collapse',
-        iconStyle: <i className='material-icons'>grid_view</i>
+        iconStyle: <i className='material-icons'>home</i>
       }
     ]
     const sortCategory = []
@@ -137,10 +145,10 @@ const SideBar = () => {
         })
       }
 
-      objCategories.push({
+      objCategories?.push({
         title: item[1]?.category?.name,
         classsChange: 'mm-collapse',
-        iconStyle: <i className='material-icons'>grid_view</i>,
+        iconStyle: <i className='material-icons'>{mapCategoriesMenuIcon?.get(item[1]?.category?.name)}</i>,
         content: newContent,
         to: item[1]?.category?.path
       })

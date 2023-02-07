@@ -28,6 +28,8 @@ const LaunchpadIconList = ({ listLaunchpad }) => {
                 className='soon-table-blockchain'
                 onClick={(e) => {
                   e.stopPropagation()
+                  e.preventDefault()
+                  window.open(launchpadMapContext?.get(key)?.website)
                 }}
               />
             </Tooltip>

@@ -18,6 +18,7 @@ import ScrollToTop from './layouts/ScrollToTop'
 import Home from './components/Dashboard/Home'
 // categoryItem
 import CategoryItem from './components/CategoryPage/CategoryItem'
+import { ConfirmEmail } from './components/auth/confirm-email/index'
 
 // product detail
 import ProductDetail1 from './components/product-detail/ProductDetail'
@@ -158,6 +159,7 @@ const Markup = () => {
               element={data.component}
             />
           ))}
+          <Route path='confirm-email' element={<ConfirmEmail />}/>
           <Route path='/' element={<Home />}></Route>
           <Route path=''>
             <Route path=':category'>
