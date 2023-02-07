@@ -309,7 +309,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
   return (
     <DetailLayout
-      header={header}
+      Header={header}
       roundSale={roundSale}
       summary={summary}
       more={more}

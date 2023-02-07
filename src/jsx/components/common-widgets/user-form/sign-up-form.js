@@ -2,6 +2,10 @@ import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { post } from '../../../../api/BaseRequest'
 import { SignInContext } from '../../../index'
+import Swal from 'sweetalert2'
+import { Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+import { isValidEmail } from '../../../../utils/regrex'
 
 export const SignUpComponent = () => {
   const [email, setEmail] = useState('')
@@ -11,6 +15,7 @@ export const SignUpComponent = () => {
   const [rePassword, setRePassword] = useState('')
   const [isConfirm, setIsConfirm] = useState(false)
   const signContext = useContext(SignInContext)
+  const [isLoading, setIsLoading] = useState(false)
 
   const onSignUp = async(e) => {
     e.preventDefault()
@@ -18,6 +23,10 @@ export const SignUpComponent = () => {
     const errorObj = { ...errorsObj }
     if (email === '') {
       errorObj.email = 'Email is Required'
+      error = true
+    }
+    if (!isValidEmail(email)) {
+      errorObj.email = 'Email is not valid format'
       error = true
     }
     if (password === '') {
@@ -41,12 +50,42 @@ export const SignUpComponent = () => {
         email: email,
         password: password
       }
+      setIsLoading(true)
       const resp = await post('reviews/auth/signup/normal', dataSignin)
       if (resp?.status) {
-        signContext?.handleSetOpenModal(false)
+        Swal.fire({
+          icon: 'success',
+          title: 'Resgister successfully. Please check email to activate your account',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          },
+          backdrop: `rgba(4,148,114,0.4)`
+        }).then((result) => {
+          // click out modal notification, or click [OK] in modal
+          if (result?.isDismissed || result?.isConfirmed) {
+            signContext?.handleSetOpenModal(false)
+          }
+        })
       }
     } catch (e) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Resgister failed.',
+        html: e?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later.',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        backdrop: `rgba(4,148,114,0.4)`
+      })
       console.error(e)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -80,6 +119,7 @@ export const SignUpComponent = () => {
                   type='text'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  readOnly={isLoading}
                 />
                 {errors.email && (
                   <div className='text-danger fs-12'>
@@ -94,6 +134,7 @@ export const SignUpComponent = () => {
                   type='password'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  readOnly={isLoading}
                 />
                 {errors.password && (
                   <div className='text-danger fs-12'>
@@ -108,6 +149,7 @@ export const SignUpComponent = () => {
                   type='password'
                   value={rePassword}
                   onChange={(e) => setRePassword(e.target.value)}
+                  readOnly={isLoading}
                 />
                 {errors.rePassword && (
                   <div className='text-danger fs-12'>
@@ -125,6 +167,7 @@ export const SignUpComponent = () => {
                     onChange={() => {
                       setIsConfirm(!isConfirm)
                     }}
+                    disabled={isLoading}
                   />
 
                   <label
@@ -146,10 +189,12 @@ export const SignUpComponent = () => {
               </div>
               <button
                 type='submit'
-                className='btn btn-primary '
+                className='btn btn-primary'
+                disabled={isLoading}
               >
                           Sign&nbsp;Up
               </button>
+              {isLoading ? <>&nbsp;&nbsp; <Spin indicator={<LoadingOutlined spin />} size='large' /> </> : ''}
             </form>
           </div>
         </div>
