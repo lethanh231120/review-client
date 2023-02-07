@@ -9,7 +9,7 @@ import moment from 'moment'
 import Description from '../description/Description'
 import FormReport from '../../Forms/form-report/FormReport'
 
-const ExchangeInfo = ({ productInfo }) => {
+const ExchangeInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
   // exchange header
   const Header = () => {
@@ -185,7 +185,17 @@ const ExchangeInfo = ({ productInfo }) => {
   }
 
   return (
-    <DetailLayout Header={<Header />} summary={<Summary />} more={<More />} about={<About />} isScam={detail?.isScam} report={<FormReport />}/>
+    <DetailLayout
+      Header={<Header />}
+      summary={<Summary />}
+      more={<More />}
+      about={<About />}
+      isScam={detail?.isScam}
+      report={<FormReport />}
+      numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
+      rest={rest}
+    />
+
   )
 }
 

@@ -1,4 +1,5 @@
 import { Bar } from 'react-chartjs-2'
+
 import { Chart as ChartJS, CategoryScale, LinearScale,
   PointElement,
   BarElement,
@@ -12,6 +13,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement,
   Tooltip,
   Legend)
 export const ScamEachChainChart = ({ data }) => {
+  console.log(data?.map(item => item?.datatitle))
   const chartData = {
     defaultFontFamily: 'Poppins',
     labels: data?.map(item => item?.datatitle),
@@ -20,27 +22,37 @@ export const ScamEachChainChart = ({ data }) => {
         label: 'Scam',
         backgroundColor: '#ff2c53',
         hoverBackgroundColor: '#ff5777',
-        barThickness: 9,
+        barThickness: 20,
         data: data?.map(item => item?.scam)
       },
       {
         label: 'Total',
         backgroundColor: '#18A594',
         hoverBackgroundColor: '#18A594',
-        barThickness: 9,
+        barThickness: 20,
         data: data?.map(item => item?.total)
       }
     ]
   }
 
   const options = {
+    indexAxis: 'y',
+
     plugins: {
+      datalabels: {
+        display: true,
+        color: 'black',
+        align: 'end',
+        anchor: 'end',
+        font: { size: '14' }
+      },
       legend: {
-        display: false
+        display: true,
+        position: 'bottom'
       },
-      title: {
-        display: false
-      },
+      // title: {
+      //   display: true
+      // },
       tooltips: {
         mode: 'index',
         intersect: false
@@ -51,13 +63,11 @@ export const ScamEachChainChart = ({ data }) => {
     scales: {
       x: {
         display: false,
-        stacked: true,
-        barPercentage: 0.2,
+        barPercentage: 0.3,
         ticks: {
           display: false
         },
         gridLines: {
-          display: false,
           drawBorder: false
         }
       },
@@ -76,17 +86,16 @@ export const ScamEachChainChart = ({ data }) => {
     }
   }
 
-  return <div className='card'>
+  return <div className='card px-4'>
     <div className='card-body pb-0'>
       <div className='row justify-content-between'>
         <div className='col-auto'>
           <h2 className='heading'>Scam Data In Each Blockchains</h2>
         </div>
-
       </div>
     </div>
-    <div className='chart-wrapper'>
-      <div style={{ height: '100%' }}>
+    <div className='chart-wrapper mt-4'>
+      <div >
         <Bar data={chartData} options={options} height={150} />
       </div>
     </div>

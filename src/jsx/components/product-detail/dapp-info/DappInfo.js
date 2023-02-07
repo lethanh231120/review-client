@@ -11,7 +11,7 @@ import { LoadingOutlined } from '@ant-design/icons'
 import Description from '../description/Description'
 //  import styles
 
-const DappInfo = ({ productInfo }) => {
+const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
   const chainList = useContext(ChainListContext)
   const [loading, setLoading] = useState(false)
@@ -194,7 +194,7 @@ const DappInfo = ({ productInfo }) => {
                               Source Code
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  {Object.keys(detail?.sourceCode)?.map((key, index) => key && <Dropdown.Item key={index} >{detail?.sourceCode[key]}</Dropdown.Item>)}
+                  {Object.keys(detail?.sourceCode)?.map((key, index) => key && <Dropdown.Item key={index} ><a href={detail?.sourceCode[key]}>{detail?.sourceCode[key]}</a></Dropdown.Item>)}
                 </Dropdown.Menu>
               </Dropdown>
               {/* <div className='d-flex text-align-center mb-1'>
@@ -222,7 +222,14 @@ const DappInfo = ({ productInfo }) => {
     </div>
   }
 
-  return <DetailLayout Header={<Header />} summary={<Summary />} more={<More/>} about={<About />} isScam={detail?.isScam} report={<FormReport />}/>
+  return <DetailLayout Header={<Header />}
+    summary={<Summary />}
+    more={<More/>}
+    about={<About />}
+    isScam={detail?.isScam}
+    report={<FormReport />}
+    numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
+    rest={rest}/>
 }
 
 export default DappInfo
