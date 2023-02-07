@@ -183,10 +183,10 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
         //   category: 'all'
         // })
         setIsSubmit(false)
+        navigate(`../../../search/${keyWord}`)
         setDataSearch({
           isActive: false, data: {}, loading: false, status: ''
         })
-        navigate(`../../../search/${keyWord}`)
       }
     }
   }, [isSubmit])

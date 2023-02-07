@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import './categoryItem.scss'
 import { useParams } from 'react-router-dom'
 import { Pagination, Row, Col } from 'antd'
-import { SearchOutlined } from '@ant-design/icons'
+// import { SearchOutlined } from '@ant-design/icons'
 import Dapp from '../table/dapp/Dapp'
 import Exchange from '../table/exchange/Exchange'
 import Crypto from '../table/crypto/Crypto'
@@ -335,11 +335,11 @@ const CategoryItem = () => {
               </Row> */}
               <TabSearch
                 listProduct={listProduct}
-                value={keywordSearch}
-                placeholder={keyword}
-                onChange={handleChangeInput}
-                onKeyPress={handleSubmitSearch}
-                suffix={<SearchOutlined onClick={handleSubmitBtn} />}
+                keywordSearch={keywordSearch}
+                keyword={keyword}
+                handleChangeInput={handleChangeInput}
+                handleSubmitSearch={handleSubmitSearch}
+                handleSubmitBt={handleSubmitBtn}
               />
             </Col>
           ) : (
