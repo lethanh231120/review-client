@@ -10,7 +10,7 @@ import moment from 'moment'
 import FormReport from '../../Forms/form-report/FormReport'
 import { useNavigate } from 'react-router-dom'
 
-const VentureInfo = ({ productInfo }) => {
+const VentureInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
   const navigate = useNavigate()
 
@@ -238,7 +238,16 @@ const VentureInfo = ({ productInfo }) => {
   }
 
   return (
-    <DetailLayout Header={<Header />} summary={<Summary />} more={<More />} about={<About />} portfolioOrChart={<PortfolioTable />} report={<FormReport />}/>
+    <DetailLayout
+      Header={<Header />}
+      summary={<Summary />}
+      more={<More />}
+      about={<About />}
+      portfolioOrChart={<PortfolioTable />}
+      report={<FormReport />}
+      numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
+      rest={rest}
+    />
   )
 }
 

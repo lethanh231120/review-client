@@ -18,6 +18,7 @@ import { MySpinner } from '../common-widgets/my-spinner'
 import _ from 'lodash'
 import { renderRandomColor } from '../../../utils/formatNumber'
 import { API_KEY, bitqueryEndpoint, BITQUERY_QUERY } from './Dashboard/bitquery-query/query'
+import { DonutChartSkeleton } from '../common-widgets/loading-skeleton/donutchart-loading'
 
 const fillColors = [
   '#18A594',
@@ -32,27 +33,26 @@ const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
   const [summaryData, setSummaryData] = useState()
   const [btcChartData, setBtcChartData] = useState()
-  // const [hotList, setHotList] = useState()
+  const [hotList, setHotList] = useState()
   const [topCoins, setTopCoins] = useState()
 
   useEffect(() => {
     changeBackground({ value: 'light', label: 'Light' })
   }, [])
 
-  // GET HOT LIST
-  // useEffect(() => {
-  //   const getHotList = async() => {
-  //     const res = await get('reviews/hot')
-  //     if (res?.code === '200') {
-  //       setHotList(res?.data?.products)
-  //     }
-  //   }
+  // GET SUMMARY DATA
+  useEffect(() => {
+    const getSummaryData = async() => {
+      const response = await get('reviews/summary')
+      if (response?.code === '200') {
+        setSummaryData(response?.data)
+      }
+    }
 
-  //   getHotList()
-  // }, [])
+    getSummaryData()
+  }, [])
 
-  // GET TOP COIN
-
+  // GET TOP COINS DATA
   useEffect(() => {
     const getTopCoinData = async() => {
       const res = await get('reviews/crypto/filter?orderBy=marketcapUSD&sort=desc&page=1')
@@ -63,6 +63,16 @@ const Home = () => {
     getTopCoinData()
   }, [])
 
+  // GET HOT LIST
+  useEffect(() => {
+    const getHotList = async() => {
+      const res = await get('reviews/hot')
+      if (res?.code === '200') {
+        setHotList(res?.data?.products)
+      }
+    }
+    getHotList()
+  }, [])
   // GET DATA FOR BTC CHART
   useEffect(() => {
     const queryData = async() => {
@@ -88,17 +98,6 @@ const Home = () => {
     queryData()
   }, [])
 
-  useEffect(() => {
-    const getSummaryData = async() => {
-      const response = await get('reviews/summary')
-      if (response?.code === '200') {
-        setSummaryData(response?.data)
-      }
-    }
-
-    getSummaryData()
-  }, [])
-  console.log(summaryData)
   const setScamAliveProjectsData = (data) => {
     return [
       { fillcolor: '#18A594', datatitle: 'Alive Projects', amount: data?.coins + data?.exchanges + data?.tokens + data?.ventures - data?.cryptoScams + data?.dAppScams + data?.exchangeScams + data?.ventureScams },
@@ -130,7 +129,7 @@ const Home = () => {
   }
 
   const setScamDataEachChains = (data) => {
-    const SHOW_DATA_NUMBER = 12
+    const SHOW_DATA_NUMBER = 4
     const dataArr = []
     const dataList = data?.chainTokens
 
@@ -182,20 +181,20 @@ const Home = () => {
               </div>
             </div>
             <div className='col-xl-12'>
-              <SummaryRow data={summaryData}/>
+              {summaryData ? <SummaryRow data={summaryData}/> : <MySpinner />}
             </div>
           </div>
         </div>
-        <div className='col-4 '>
-          {summaryData ? <DataAllocationChart header={'Scam/Alive Projects Allocation'} data={setScamAliveProjectsData(summaryData)}/> : <MySpinner fontSize={30}/>}
-        </div>
+        {summaryData ? <div className='col-4 '>
+          <DataAllocationChart header={'Scam/Alive Projects Allocation'} data={setScamAliveProjectsData(summaryData)}/> </div> : <DonutChartSkeleton />}
       </div>
+
       <div className='row'>
         <div className='col-8 assets-al' >
-          {(btcChartData && topCoins) ? <BitcoinChartAndData chartData={btcChartData} headerData={topCoins[0]}/> : <MySpinner fontSize={30}/>}
+          {(btcChartData && topCoins) ? <BitcoinChartAndData chartData={btcChartData} headerData={topCoins[0]}/> : <MySpinner />}
         </div>
         <div className='col-4 col-xl-4'>
-          {topCoins ? <TopCoins data={topCoins}/> : <MySpinner fontSize={30}/>}
+          {topCoins ? <TopCoins data={topCoins}/> : <MySpinner />}
         </div>
       </div>
       <div className='row'>
@@ -221,18 +220,17 @@ const Home = () => {
         </div>
         {/* LIST HOT DISCUSS  */}
         <div className='col-4'>
-          {/* {hotList ? <TopDiscussed hotList={hotList}/> : <MySpinner fontSize={30} />} */}
-          <TopDiscussed />
+          {hotList ? <TopDiscussed topList={hotList}/> : <MySpinner />}
         </div>
       </div>
 
       <div className='row'>
         {/* Scam percentage each chains chart */}
         <div className='col-8'>
-          {summaryData ? <ScamEachChainChart data={setScamDataEachChains(summaryData)}/> : <MySpinner fontSize={30}/>}
+          {summaryData ? <ScamEachChainChart data={setScamDataEachChains(summaryData)}/> : <MySpinner/>}
         </div>
         <div className='col-4 col-xl-4'>
-          {summaryData ? <DataAllocationChart header={'Cryptos Data Allocation'} data={setTotalCrytosData(summaryData)}/> : <MySpinner fontSize={30}/>}
+          {summaryData ? <DataAllocationChart header={'Cryptos Data Allocation'} data={setTotalCrytosData(summaryData)}/> : <MySpinner/>}
         </div>
       </div>
     </>

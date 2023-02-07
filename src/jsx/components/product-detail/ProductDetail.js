@@ -600,21 +600,129 @@ const ProductDetail = () => {
     productId={productId}
   />
 
+  const dapp = <DappInfo
+  // use in crypto info
+    isShow={isShow}
+    copyAddress={copyAddress}
+
+    // use in filter review component
+    productInfo={productInfo}
+    defaultFilter={defaultFilter}
+    setDefaultFilter={setDefaultFilter}
+
+    // use in form report component
+    data={data}
+    setData={setData}
+    handleSubmitComment={handleSubmitComment}
+    setValidateTextArea={setValidateTextArea}
+    validateTextArea={validateTextArea}
+    handleComment={handleComment}
+    recapcharRef={recapcharRef}
+    setFileList={setFileList}
+    fileList={fileList}
+    showUser={true}
+    isRecaptcha={isRecaptcha}
+    setIsRecaptcha={setIsRecaptcha}
+    setErrorLink={setErrorLink}
+    errorLink={errorLink}
+    setTypeComment={setTypeComment}
+    typeComment={typeComment}
+    setErrorType={setErrorType}
+    errorType={errorType}
+    id={productInfo?.details?.id}
+
+    // use in list review
+    dataFilter={dataFilter}
+    productId={productId}
+  />
+
+  const exchange = <ExchangeInfo
+  // use in crypto info
+    isShow={isShow}
+    copyAddress={copyAddress}
+
+    // use in filter review component
+    productInfo={productInfo}
+    defaultFilter={defaultFilter}
+    setDefaultFilter={setDefaultFilter}
+
+    // use in form report component
+    data={data}
+    setData={setData}
+    handleSubmitComment={handleSubmitComment}
+    setValidateTextArea={setValidateTextArea}
+    validateTextArea={validateTextArea}
+    handleComment={handleComment}
+    recapcharRef={recapcharRef}
+    setFileList={setFileList}
+    fileList={fileList}
+    showUser={true}
+    isRecaptcha={isRecaptcha}
+    setIsRecaptcha={setIsRecaptcha}
+    setErrorLink={setErrorLink}
+    errorLink={errorLink}
+    setTypeComment={setTypeComment}
+    typeComment={typeComment}
+    setErrorType={setErrorType}
+    errorType={errorType}
+    id={productInfo?.details?.id}
+
+    // use in list review
+    dataFilter={dataFilter}
+    productId={productId}
+  />
+
+  const venture = <VentureInfo
+  // use in crypto info
+    isShow={isShow}
+    copyAddress={copyAddress}
+
+    // use in filter review component
+    productInfo={productInfo}
+    defaultFilter={defaultFilter}
+    setDefaultFilter={setDefaultFilter}
+
+    // use in form report component
+    data={data}
+    setData={setData}
+    handleSubmitComment={handleSubmitComment}
+    setValidateTextArea={setValidateTextArea}
+    validateTextArea={validateTextArea}
+    handleComment={handleComment}
+    recapcharRef={recapcharRef}
+    setFileList={setFileList}
+    fileList={fileList}
+    showUser={true}
+    isRecaptcha={isRecaptcha}
+    setIsRecaptcha={setIsRecaptcha}
+    setErrorLink={setErrorLink}
+    errorLink={errorLink}
+    setTypeComment={setTypeComment}
+    typeComment={typeComment}
+    setErrorType={setErrorType}
+    errorType={errorType}
+    id={productInfo?.details?.id}
+
+    // use in list review
+    dataFilter={dataFilter}
+    productId={productId}
+  />
+
   return (
     <div className='section'>
       {!productInfo ? <DetailLoading /> : ''}
       <div className='product' ref={ref} hidden={!productInfo}>
         {/* <div className='product detail' ref={ref} hidden={!productInfo}> */}
         {categoryName === DAPP ? (
-          <DappInfo productInfo={productInfo} />
+          <React.Fragment>{dapp}</React.Fragment>
         ) : categoryName === CRYPTO ? (
           <React.Fragment>{crypto}</React.Fragment>
         ) : categoryName === EXCHANGE ? (
-          <ExchangeInfo productInfo={productInfo} />
+          <React.Fragment>{exchange}</React.Fragment>
         ) : categoryName === SOON ? (
           <React.Fragment>{soon}</React.Fragment>
         ) : categoryName === VENTURE ? (
-          <VentureInfo productInfo={productInfo} />
+          <React.Fragment>{venture}</React.Fragment>
         ) : type === 'coin' || type === 'token' ? (
           <React.Fragment>{crypto}</React.Fragment>
         ) : ''}

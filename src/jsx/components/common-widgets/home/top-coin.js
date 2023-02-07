@@ -1,14 +1,5 @@
 import { Avatar } from 'antd'
 
-// const marketBlog = [
-//   { icon: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579', classBg: 'bg-success', Name: 'Bitcoin', symbol: 'BTC', price: '23,343.86', change: '1.1', chart: 'https://www.coingecko.com/coins/1/sparkline' },
-//   { icon: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880', classBg: 'bg-warning', Name: 'Ethereum', symbol: 'ETH', price: '1,654.02', change: '3.5', chart: 'https://www.coingecko.com/coins/279/sparkline' },
-//   { icon: 'https://assets.coingecko.com/coins/images/325/small/Tether.png?1668148663', classBg: 'bg-primary', Name: 'Tether', symbol: 'USDT', price: '1.00', change: '-0.1', chart: 'https://www.coingecko.com/coins/325/sparkline' },
-//   { icon: 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png?1644979850', classBg: 'bg-pink', Name: 'BNB', symbol: 'BNB', price: '329.41', change: '6.8', chart: 'https://www.coingecko.com/coins/825/sparkline' },
-//   { icon: 'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389', classBg: 'bg-primary', Name: 'USD Coin', symbol: 'USDC', price: '1.00', change: '-0.1', chart: 'https://www.coingecko.com/coins/825/sparkline' },
-//   { icon: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png?1605778731', classBg: 'bg-primary', Name: 'XRP', symbol: 'XRP', price: '0.409264', change: '-1.1', chart: 'https://www.coingecko.com/coins/44/sparkline' }
-// ]
-
 export const TopCoins = ({ data }) => {
   const top6 = data?.slice(0, 5)
 
@@ -35,7 +26,7 @@ export const TopCoins = ({ data }) => {
                 </div>
               </div>
               <div className='count' style={{ width: '100px' }}>
-                <h6>{new Intl.NumberFormat().format(item?.priceUSD)}</h6>
+                <h6>${new Intl.NumberFormat().format(item?.priceUSD)}</h6>
                 {/* <span className={parseInt(data.change) > 0 ? 'text-success' : 'text-danger'}>
                   { data.change}%
                 </span> */}

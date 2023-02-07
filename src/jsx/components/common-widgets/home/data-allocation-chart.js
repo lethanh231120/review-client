@@ -1,6 +1,5 @@
 import loadable from '@loadable/component'
 import pMinDelay from 'p-min-delay'
-import { MySpinner } from '../my-spinner'
 
 // ../../../Dashboard/AssetsChart
 const AssetsChart = loadable(() =>
@@ -14,7 +13,7 @@ export const DataAllocationChart = ({ data, header }) => {
     </div>
     <div className='card-body text-center pt-0 '>
       <div id='morris_donught' className='custome-donut'>
-        {data ? <AssetsChart data={data}/> : <MySpinner fontSize={30}/>}
+        <AssetsChart data={data}/>
       </div>
       <div className='chart-items'>
         <div className='row'>

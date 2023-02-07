@@ -14,7 +14,7 @@ export const BitcoinChartAndData = ({ chartData, headerData }) => {
         <div className='market-data'>
           <div className='income data'>
             <span>Price</span>
-            <h4>{formatMoney(headerData?.priceUSD)}</h4>
+            <h4>${new Intl.NumberFormat().format(headerData?.priceUSD)}</h4>
           </div>
           <div className='price data'>
             <span>Market Cap</span>
