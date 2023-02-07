@@ -25,7 +25,7 @@ import 'lightgallery/css/lightgallery.css'
 import 'lightgallery/css/lg-zoom.css'
 import 'lightgallery/css/lg-thumbnail.css'
 
-const galleryBlog = [
+const screenShots = [
   { image: profile02 },
   { image: profile03 },
   { image: profile04 },
@@ -246,6 +246,13 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         >
           Report Scam
         </Button>
+        <Button
+          as='a'
+          href='#'
+          className='btn btn-primary mb-1 ms-1'
+        >
+        Add Review
+        </Button>
       </div>
     </div>
   )
@@ -327,7 +334,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
   const about = <div className='card'>
     <div className='card-header border-0 pb-0'>
-      <h5 className='text-primary '>Interest</h5>
+      <h5 className='text-primary '>Screenshots</h5>
     </div>
     <div className='card-body pt-3'>
       <div className='profile-interest '>
@@ -336,7 +343,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           plugins={[lgThumbnail, lgZoom]}
           elementClassNames='row sp4'
         >
-          {galleryBlog.map((item, index) => (
+          {screenShots.map((item, index) => (
             <div
               data-src={item.image}
               className='col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1'
