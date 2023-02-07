@@ -1,6 +1,7 @@
 import loadable from '@loadable/component'
 import pMinDelay from 'p-min-delay'
 import { formatMoney } from '../../../../utils/formatNumber'
+import { MySpinner } from '../my-spinner'
 
 const DashboardComboChart = loadable(() =>
   pMinDelay(import('../../Dashboard/Dashboard/DashboardComboChart'), 1000)
@@ -11,7 +12,7 @@ export const BitcoinChartAndData = ({ chartData, headerData }) => {
     <div className='card-header border-0 align-items-start flex-wrap pb-0'>
       <div>
         <h2 className='heading'>Bitcoin Chart</h2>
-        <div className='market-data'>
+        {headerData ? <div className='market-data'>
           <div className='income data'>
             <span>Price</span>
             <h4>${new Intl.NumberFormat().format(headerData?.priceUSD)}</h4>
@@ -34,9 +35,9 @@ export const BitcoinChartAndData = ({ chartData, headerData }) => {
             <span>Transfers</span>
             <h4>801M</h4>
           </div>
-        </div>
+        </div> : <MySpinner />}
       </div>
     </div>
-    <DashboardComboChart data={chartData}/>
+    {chartData ? <DashboardComboChart data={chartData}/> : <MySpinner />}
   </div>
 }

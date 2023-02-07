@@ -33,7 +33,7 @@ const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
   const [summaryData, setSummaryData] = useState()
   const [btcChartData, setBtcChartData] = useState()
-  const [hotList, setHotList] = useState()
+
   const [topCoins, setTopCoins] = useState()
 
   useEffect(() => {
@@ -63,16 +63,6 @@ const Home = () => {
     getTopCoinData()
   }, [])
 
-  // GET HOT LIST
-  useEffect(() => {
-    const getHotList = async() => {
-      const res = await get('reviews/hot')
-      if (res?.code === '200') {
-        setHotList(res?.data?.products)
-      }
-    }
-    getHotList()
-  }, [])
   // GET DATA FOR BTC CHART
   useEffect(() => {
     const queryData = async() => {
@@ -191,7 +181,7 @@ const Home = () => {
 
       <div className='row'>
         <div className='col-8 assets-al' >
-          {(btcChartData && topCoins) ? <BitcoinChartAndData chartData={btcChartData} headerData={topCoins[0]}/> : <MySpinner />}
+          <BitcoinChartAndData chartData={btcChartData} headerData={topCoins && topCoins[0]}/>
         </div>
         <div className='col-4 col-xl-4'>
           {topCoins ? <TopCoins data={topCoins}/> : <MySpinner />}
@@ -220,7 +210,7 @@ const Home = () => {
         </div>
         {/* LIST HOT DISCUSS  */}
         <div className='col-4'>
-          {hotList ? <TopDiscussed topList={hotList}/> : <MySpinner />}
+          <TopDiscussed />
         </div>
       </div>
 

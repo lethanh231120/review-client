@@ -55,7 +55,7 @@ const DashboardComboChart = ({ data }) => {
     <div id='chart-candlestick'>
       <ReactApexChart
         options={setting.options}
-        series={setting.series}
+        series={setting?.series}
         type='candlestick'
         height={390}
       />
