@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import './categoryItem.scss'
 import { useParams } from 'react-router-dom'
-import { Pagination, Row, Col, Input } from 'antd'
+import { Pagination, Row, Col } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import Dapp from '../table/dapp/Dapp'
 import Exchange from '../table/exchange/Exchange'
@@ -319,8 +319,10 @@ const CategoryItem = () => {
         <Row gutter={[10, 10]}>
           {keyword ? (
             <Col span={24}>
-              <Row>
-                <Col md={{ span: 16 }} sm={{ span: 14 }} xs={{ span: 24 }}></Col>
+              {/* <Row>
+                <Col md={{ span: 16 }} sm={{ span: 14 }} xs={{ span: 24 }}>
+                  <TabSearch listProduct={listProduct} />
+                </Col>
                 <Col md={{ span: 8 }} sm={{ span: 10 }} xs={{ span: 24 }}>
                   <Input
                     value={keywordSearch}
@@ -330,8 +332,15 @@ const CategoryItem = () => {
                     suffix={<SearchOutlined onClick={handleSubmitBtn} />}
                   />
                 </Col>
-              </Row>
-              <TabSearch listProduct={listProduct} loading={loading} />
+              </Row> */}
+              <TabSearch
+                listProduct={listProduct}
+                value={keywordSearch}
+                placeholder={keyword}
+                onChange={handleChangeInput}
+                onKeyPress={handleSubmitSearch}
+                suffix={<SearchOutlined onClick={handleSubmitBtn} />}
+              />
             </Col>
           ) : (
             <>

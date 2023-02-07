@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import '../../table/dapp/dapp.scss'
-import { Image, Table, Avatar, Tag, Tooltip, Empty } from 'antd'
+import { Image, Table, Avatar, Tooltip, Empty } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { renderNumber } from '../../../../utils/formatNumber'
@@ -9,7 +9,7 @@ import { ChainListContext } from '../../../../App'
 import nodata from '../../../../images/product/nodata.png'
 import MyScoreComponent from '../../score/scoreComponent'
 import { encodeUrl } from '../../../../utils/formatUrl'
-import { mainColorHex } from '../../../constants/color'
+import { Badge } from 'react-bootstrap'
 
 const DappTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -21,6 +21,7 @@ const DappTable = ({ loading, listData }) => {
     }
   }
 
+  console.log(listData)
   const colunms = [
     {
       title: 'Name',
@@ -28,16 +29,10 @@ const DappTable = ({ loading, listData }) => {
       render: (_, record) => (
         <Link
           to={`../../../${PREFIX_DETAIL}/${DAPP}/${record?.dAppId}`}
-          className='dapp-table-info image-list'
+          className='crypto-table-info image-list'
         >
           {record?.dAppLogo ? (
             <Image
-              // style={{
-              //   width: "5rem",
-              //   height: "5rem",
-              //   marginRight: "1.5rem",
-              //   borderRadius: "50%",
-              // }}
               src={record?.dAppLogo}
               preview={false}
             />
@@ -47,9 +42,9 @@ const DappTable = ({ loading, listData }) => {
             </span>
           )}
           <span>
-            <div className='table-info-name'>
+            <div className='data-table-name ms-2'>
               <div className='table-info-name-title'>
-                {record?.dAppName}
+                {record?.dAppName ? record?.dAppName : 'Unknown'}
               </div>
             </div>
           </span>
@@ -63,9 +58,9 @@ const DappTable = ({ loading, listData }) => {
       render: (_, record) => (
         <>
           {record?.subCategory ? (
-            <Tag onClick={(e) => handleClickTag(e, record?.subCategory)} color={mainColorHex}>
+            <Badge bg=' badge-l' className='badge-success' style={{ cursor: 'pointer' }} onClick={(e) => handleClickTag(e, record?.subCategory)}>
               {record?.subCategory}
-            </Tag>
+            </Badge>
           ) : (
             '__'
           )}

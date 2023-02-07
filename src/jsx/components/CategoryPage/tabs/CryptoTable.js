@@ -10,7 +10,6 @@ import {
 import { renderNumber } from '../../../../utils/formatNumber'
 import { useNavigate, Link } from 'react-router-dom'
 import '../../table/crypto/crypto.scss'
-// import { ChainListContext } from '../../../../jsx/index'
 import { ChainListContext } from '../../../../App'
 import _ from 'lodash'
 import MyScoreComponent from '../../score/scoreComponent'
@@ -124,29 +123,21 @@ const CryptoTable = ({ loading, listData }) => {
           className='crypto-table-info image-list'
         >
           {record?.bigLogo ? (
-            <Image
-              src={record?.bigLogo}
-              preview={false}
-            />
+            <Image src={record?.bigLogo} preview={false}/>
           ) : record?.thumbLogo ? (
-            <Image
-              src={record?.thumbLogo}
-              preview={false}
-            />
+            <Image src={record?.thumbLogo} preview={false}/>
           ) : record?.smallLogo ? (
-            <Image
-              src={record?.smallLogo}
-              preview={false}
-            />
+            <Image src={record?.smallLogo} preview={false}/>
           ) : (
             <span className='image-list-no-data'>
               {record?.name?.slice(0, 3)}
             </span>
           )}
+
           <span>
-            <div className='table-info-name'>
-              <div className='table-info-name-title'>{record?.name}</div>
-              <div className='table-info-symbol'>{record?.symbol}</div>
+            <div className='data-table-name'>
+              <div className='data-table-name-title'>{record?.name}</div>
+              <div className='data-table-symbol'>{record?.symbol}</div>
             </div>
             {record?.cryptoId?.split('_')[1] === 'token' && (
               <div className='crypto-table-info-address'>

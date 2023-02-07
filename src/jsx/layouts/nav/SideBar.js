@@ -140,8 +140,8 @@ const SideBar = () => {
       // check if the otherItem exists then push to newContent
       if (!_.isEmpty(otherItem)) {
         newContent.push({
-          title: otherItem?.name,
-          to: `${item[1]?.category?.path}/${otherItem?.name}`
+          title: otherItem[0]?.name,
+          to: `${item[1]?.category?.path}/${otherItem[0]?.name}`
         })
       }
 
