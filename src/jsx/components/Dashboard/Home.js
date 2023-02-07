@@ -12,7 +12,7 @@ import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-p
 import SummaryRow from './Dashboard/BalanceCardSlider'
 import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
 import { BitcoinChartAndData } from '../common-widgets/home/bitcoin-chart'
-import { ScamEachChainChart } from '../common-widgets/home/scam-each-chain-chart'
+import { ScamEachChainsList } from '../common-widgets/home/scam-each-chain-chart'
 import { get } from '../../../api/BaseRequest'
 import { MySpinner } from '../common-widgets/my-spinner'
 import _ from 'lodash'
@@ -227,7 +227,7 @@ const Home = () => {
       <div className='row'>
         {/* Scam percentage each chains chart */}
         <div className='col-8'>
-          {summaryData ? <ScamEachChainChart data={setScamDataEachChains(summaryData)}/> : <MySpinner/>}
+          {summaryData ? <ScamEachChainsList data={setScamDataEachChains(summaryData)}/> : <MySpinner/>}
         </div>
         <div className='col-4 col-xl-4'>
           {summaryData ? <DataAllocationChart header={'Cryptos Data Allocation'} data={setTotalCrytosData(summaryData)}/> : <MySpinner/>}

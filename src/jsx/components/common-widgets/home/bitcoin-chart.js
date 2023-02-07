@@ -24,7 +24,7 @@ export const BitcoinChartAndData = ({ chartData, headerData }) => {
           </div>
           <div className='rate data'>
             <span>Total Supply</span>
-            <h4>180M</h4>
+            <h4>21M</h4>
           </div>
           <div className='volume data'>
             <span>Holders</span>

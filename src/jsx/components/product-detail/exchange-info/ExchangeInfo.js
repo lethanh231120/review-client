@@ -1,5 +1,5 @@
-import { Avatar, Tooltip } from 'antd'
-import React from 'react'
+import { Avatar, Spin, Tooltip } from 'antd'
+import React, { useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
@@ -8,9 +8,20 @@ import _ from 'lodash'
 import moment from 'moment'
 import Description from '../description/Description'
 import FormReport from '../../Forms/form-report/FormReport'
+import { LoadingOutlined } from '@ant-design/icons'
 
 const ExchangeInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
+  const [loading, setLoading] = useState(false)
+
+  const onOpenDapp = (link) => {
+    setLoading(true)
+    setTimeout(() => {
+      link && window.open(link)
+      setLoading(false)
+    }, 3000)
+  }
+
   // exchange header
   const Header = () => {
     return <div className='profile-head'>
@@ -29,6 +40,9 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
             </h4>
             <Badge className='badge-sm' >{detail?.subCategory}</Badge>
           </div>
+          {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
+            {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
+    Open Exchange</Button>}
         </div>
       </div>
     </div>
@@ -74,53 +88,57 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
     return <div className='d-flex'>
       <p className='mt-2 '>{title}:</p>
       {content && (
-        <Avatar.Group
-          size={25}
-          maxCount={2}
-          maxStyle={{
-            color: '#f56a00',
-            backgroundColor: '#fde3cf',
-            cursor: 'pointer'
-          }}
-          className='mt-1'
-          style={{ marginLeft: '10px' }}>
-          {Object.keys(content).map(
-            (socialName) => {
-              return content[socialName] !== '' ? (
-                <Tooltip
-                  placementTooltip='topLeft'
-                  title={socialName}
-                  key={socialName}
+        // <Avatar.Group
+        //   size={25}
+        //   maxCount={2}
+        //   maxStyle={{
+        //     color: '#f56a00',
+        //     backgroundColor: '#fde3cf',
+        //     cursor: 'pointer'
+        //   }}
+        //   className='mt-1'
+        //   style={{ marginLeft: '10px' }}>
+      // {
+        Object.keys(content).map(
+          (socialName) => {
+            return content[socialName] !== '' ? (
+              <Tooltip
+                className='ms-1 mt-2'
+                placementTooltip='topLeft'
+                title={socialName}
+                key={socialName}
+              >
+                <a
+                  href={content[socialName]}
+                  target='_blank'
+                  rel='noreferrer'
                 >
-                  <a
-                    href={content[socialName]}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    <Avatar
-                      className=' img-fluid p-1 rounded-circle'
-                      style={{ backgroundColor: '#F0F2F5' }}
-                      preview={false}
-                      src={
-                        socials?.find(
+                  <Avatar
+                    size={25}
+                    className=' img-fluid p-1 rounded-circle'
+                    style={{ backgroundColor: '#F0F2F5' }}
+                    preview={false}
+                    src={
+                      socials?.find(
+                        (social) =>
+                          social?.key?.toLowerCase() ===
+                          socialName?.toLowerCase()
+                      )?.icon
+                        ? socials?.find(
                           (social) =>
                             social?.key?.toLowerCase() ===
-                          socialName?.toLowerCase()
-                        )?.icon
-                          ? socials?.find(
-                            (social) =>
-                              social?.key?.toLowerCase() ===
                               socialName?.toLowerCase()
-                          ).icon
-                          : defaultSocial
-                      }
-                    />
-                  </a>
-                </Tooltip>
-              ) : null
-            }
-          )}
-        </Avatar.Group>
+                        ).icon
+                        : defaultSocial
+                    }
+                  />
+                </a>
+              </Tooltip>
+            ) : null
+          }
+        )
+        // }
+        // </Avatar.Group>
       )}
     </div>
   }
@@ -146,12 +164,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
               {detail?.volume1y > 0 && dataItem('Volume 1y', renderNumber(detail?.volume1y))}
             </div>
             {detail?.founderYear && dataItem('Founder Year', moment(detail?.founderYear).format('DD-MM-YYYY'))}
-            {detail?.website && <div className='col-12'>
-              <div className='d-flex text-align-center mb-1'>
-                <p className='mb-0 mt-1'>Website:</p>
-                <a href={detail?.website}> <h5 className='ms-1 mt-1' >{detail?.website}</h5></a>
-              </div>
-            </div>}
+
             <div className='col-12'>
               {communityItem('Socials', detail?.socials)}
             </div>

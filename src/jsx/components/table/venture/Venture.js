@@ -2,7 +2,7 @@ import { Row, Col, Table, Image } from 'antd'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { renderNumber } from '../../../../utils/formatNumber'
-import { DAPP } from '../../../constants/category'
+import { VENTURE } from '../../../constants/category'
 import { NO_DATA } from '../../../constants/data'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import CategorySearch from '../../input-search/CategorySearch'
@@ -178,12 +178,12 @@ const Venture = ({
     <div className='crypto-table font-family'>
       <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>
         A total of{' '}
-        <b>{total ? new Intl.NumberFormat().format(total) : 0}</b> Dapps
+        <b>{total ? new Intl.NumberFormat().format(total) : 0}</b> Ventures
         found.
       </div>
       <Row>
         <Col md={{ span: 12 }} sm={{ span: 14 }} xs={{ span: 24 }}>
-          <CategorySearch type={DAPP}/>
+          <CategorySearch type={VENTURE}/>
         </Col>
         <Col md={{ span: 12 }} sm={{ span: 10 }} xs={{ span: 24 }}>
           <DrawerFilter type='venture' handleFilter={handleFilter} />

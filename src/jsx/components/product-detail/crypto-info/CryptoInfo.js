@@ -23,11 +23,13 @@ import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { LinkOutlined } from '@ant-design/icons'
 import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
 import { DetailLayout } from '../detail-layout'
+import getCryptoDetailChartData from './HandleChartData.js'
+import { MySpinner } from '../../common-widgets/my-spinner'
 
 const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
-
+  const [chartData, setChartData] = useState([])
   const [showInfo, setShowInfo] = useState()
   const [multichain, setMultichain] = useState()
   const [mainExplorer, setMainExplorer] = useState()
@@ -41,6 +43,17 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
         !isShow?.sourceCode
     )
   }, [isShow, productInfo])
+
+  useEffect(() => {
+    const getChartData = async(wrappedTokenId) => {
+      const network = wrappedTokenId?.split('_')[2]
+      const baseCurrency = wrappedTokenId?.split('_')[3]
+      const data = await getCryptoDetailChartData(network, baseCurrency)
+      setChartData(data)
+    }
+
+    !_.isEmpty(productInfo) && getChartData(productInfo?.details?.wrapTokenId)
+  }, [productInfo])
 
   const handleClickExchange = (e, item) => {
     e.stopPropagation()
@@ -403,7 +416,13 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
   </>
 
   const coinChart = <div className='cus-height-chart'>
-    <CoinChart />
+    {chartData ? <CoinChart symbol={productInfo?.details?.symbol}
+      price={productInfo?.details?.priceUSD}
+      marketCap={productInfo?.details?.marketcapUSD}
+      totalSupply={productInfo?.details?.totalSupply}
+      holders={productInfo?.details?.holders}
+      transfer={productInfo?.details?.transfers}
+      chartData={chartData}/> : <MySpinner />}
   </div>
 
   return (

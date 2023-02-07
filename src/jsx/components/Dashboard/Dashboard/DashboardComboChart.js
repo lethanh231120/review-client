@@ -5,7 +5,7 @@ const DashboardComboChart = ({ data }) => {
   const chartData = []
 
   data?.forEach(element => {
-    chartData.push({ x: element?.timeInterval?.day, y: [parseInt(element?.open), parseInt(element?.high), parseInt(element?.low), parseInt(element?.close)] })
+    chartData.push({ x: element?.timeInterval?.hour, y: [parseFloat(element?.open), parseFloat(element?.high), parseFloat(element?.low), parseFloat(element?.close)] })
   })
 
   const setting = {
@@ -37,6 +37,11 @@ const DashboardComboChart = ({ data }) => {
       },
       xaxis: {
         type: 'datetime'
+      },
+      yaxis: {
+        labels: {
+          formatter: (value) => value?.toFixed(2)
+        }
       }
     },
     seriesBar: [
