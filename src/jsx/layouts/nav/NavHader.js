@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom'
 // import { ThemeContext } from '../../../context/ThemeContext'
 
 // images
-import gear5Logo from './../../../images/logo/gear5-logo.png'
+// import gear5Logo from './../../../images/logo/gear5-logo.png'
 import gear5LogoNotext from './../../../images/logo/gear5_logo_notext.png'
+import gear5LogoWhite from './../../../images/logo/logo-gear5-white.png'
 // import logotext1 from './../../../images/logo/logo-text.png'
 // import logoColor from './../../../images/logo/logo-color.png'
 // import logoColorText from './../../../images/logo/logo-text-color.png'
@@ -29,7 +30,7 @@ const NavHader = () => {
     <div className='nav-header'>
       <Link to='/dashboard' className='brand-logo'>
         <img src={gear5LogoNotext} className='logo-abbr img-fluid' alt='' />
-        <img src={gear5Logo} className='brand-title color-title img-fluid' alt='' />
+        <img src={gear5LogoWhite} className='brand-title color-title img-fluid' alt='' />
       </Link>
 
       <div
