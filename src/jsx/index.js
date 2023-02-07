@@ -17,6 +17,7 @@ import Footer from './layouts/Footer'
 import ScrollToTop from './layouts/ScrollToTop'
 // / Dashboard
 import Home from './components/Dashboard/Home'
+import { ConfirmEmail } from './components/auth/confirm-email/index'
 // import DashboardDark from './components/Dashboard/DashboardDark'
 // import Dashboard2 from './components/Dashboard/Dashboard2'
 // import Dashboard3 from './components/Dashboard/Dashboard3'
@@ -299,6 +300,7 @@ const Markup = () => {
                       element={data.component}
                     />
                   ))}
+                  <Route path='confirm-email' element={<ConfirmEmail />}/>
                   <Route path='/' element={<Home />}></Route>
                   <Route path=''>
                     <Route path=':category'>
