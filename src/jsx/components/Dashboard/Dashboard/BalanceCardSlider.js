@@ -17,10 +17,10 @@ const SummaryRow = ({ data }) => {
 
   return (
     <div className='row'>
-      <SummaryCard title={'Cryptos'} number={tokenData} bg='bgl-primary text-primary' badgeStyle='badge-primary' icon={<FontAwesomeIcon icon={faCoins}/>}/>
-      <SummaryCard title={'Exchanges'} number={exchangeData} bg='bgl-warning text-warning' badgeStyle='badge-warning' icon={<FontAwesomeIcon icon={faExchangeAlt}/>}/>
-      <SummaryCard title={'Ventures'} number={venture} bg='bgl-danger text-danger' badgeStyle='badge-danger' icon={<FontAwesomeIcon icon={faBuilding}/>}/>
-      <SummaryCard title={'IDO/ICOs'} number={idos} bg='bgl-success text-success' badgeStyle='badge-success' icon={<FontAwesomeIcon icon={faRocket}/>}/>
+      <SummaryCard type='crypto' title={'Cryptos'} number={tokenData} bg='bgl-primary text-primary' badgeStyle='badge-primary' icon={<FontAwesomeIcon icon={faCoins}/>}/>
+      <SummaryCard type='exchange' title={'Exchanges'} number={exchangeData} bg='bgl-warning text-warning' badgeStyle='badge-warning' icon={<FontAwesomeIcon icon={faExchangeAlt}/>}/>
+      <SummaryCard type='venture' title={'Ventures'} number={venture} bg='bgl-danger text-danger' badgeStyle='badge-danger' icon={<FontAwesomeIcon icon={faBuilding}/>}/>
+      <SummaryCard type='soon' title={'IDO/ICOs'} number={idos} bg='bgl-success text-success' badgeStyle='badge-success' icon={<FontAwesomeIcon icon={faRocket}/>}/>
     </div>
   )
 }

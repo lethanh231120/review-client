@@ -36,6 +36,7 @@ const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
   const [summaryData, setSummaryData] = useState()
   const [btcChartData, setBtcChartData] = useState()
+  const [scamProjects, setScamProjects] = useState()
 
   const [topCoins, setTopCoins] = useState()
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
@@ -58,6 +59,17 @@ const Home = () => {
     }
 
     getSummaryData()
+  }, [])
+
+  // GET RECENT SCAM
+  useEffect(() => {
+    const getScamProjects = async() => {
+      const res = await get('reviews/hot?isScam=true')
+      if (res?.code === '200') {
+        setScamProjects(res?.data?.products)
+      }
+    }
+    getScamProjects()
   }, [])
 
   // GET TOP COINS DATA
@@ -205,7 +217,7 @@ const Home = () => {
       <div className='row'>
         {/* LIST SCAM  */}
         <div className='col-6'>
-          <RecentlyScam/>
+          {scamProjects ? <RecentlyScam scamList={scamProjects}/> : <MySpinner />}
         </div>
         <div className='col-xl-2 col-sm-2' >
           <div className='card email-susb' >

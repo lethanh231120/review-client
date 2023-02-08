@@ -1,7 +1,14 @@
+import { useNavigate } from 'react-router-dom'
 import { formatMoney } from '../../../../utils/formatNumber'
-export const SummaryCard = ({ title, number, bg, badgeStyle, icon }) => {
-  return <div className='col-xl-3  col-lg-6 col-sm-6'>
-    <div className='widget-stat card'>
+export const SummaryCard = ({ title, number, bg, badgeStyle, icon, type }) => {
+  const navigate = useNavigate()
+
+  const onItemClicked = () => {
+    navigate(`/${type}`)
+  }
+
+  return <div className='col-xl-3  col-lg-6 col-sm-6' onClick={onItemClicked}>
+    <div className='widget-stat card' style={{ cursor: 'pointer' }}>
       <div className='card-body p-4'>
         <div className='media'>
           <span className={`me-2 ${bg}`} >
