@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Modal, Typography, Button, Result } from 'antd'
-// import { accountConfirmEmailStatus } from '../../../constants/statusCode'
+import { accountConfirmEmailStatus } from '../../../constants/statusCode'
 import RecendEmail from './RecendEmail'
 import { useNavigate } from 'react-router-dom'
 const { Text } = Typography
 export const ConfirmEmail = () => {
-  const [message] = useState()
+  const [message, setMessage] = useState()
   const [openModalRecen, setOpenModalRecend] = useState(false)
   const [openModalNoti, setOpanModalNoti] = useState(false)
   const navigate = useNavigate()
@@ -28,26 +28,26 @@ export const ConfirmEmail = () => {
         instance.defaults.headers.common['Authorization'] = token
       }
       try {
-        await instance.get(`/accounts/confirm-email/uuid=${uuid}`)
-        // res && accountConfirmEmailStatus.map((item) => {
-        //   if (item.code === res?.data?.code) {
-        //     setMessage({
-        //       success: item.message
-        //     })
-        //     setOpanModalNoti(true)
-        //   }
-        // })
+        const res = await instance.get(`/accounts/confirm-email/uuid=${uuid}`)
+        res && accountConfirmEmailStatus.map((item) => {
+          if (item.code === res?.data?.code) {
+            setMessage({
+              success: item.message
+            })
+            setOpanModalNoti(true)
+          }
+        })
         setOpanModalNoti(true)
       } catch (error) {
         console.log(error)
-        // error?.response?.data && accountConfirmEmailStatus.map((item) => {
-        //   if (error?.response?.data?.code === item.code) {
-        //     setMessage({
-        //       error: item.message,
-        //       errorToken: error?.response?.data?.code === 500
-        //     })
-        //   }
-        // })
+        error?.response?.data && accountConfirmEmailStatus.map((item) => {
+          if (error?.response?.data?.code === item.code) {
+            setMessage({
+              error: item.message,
+              errorToken: error?.response?.data?.code === 500
+            })
+          }
+        })
       }
     }
     const timer = setTimeout(() => {

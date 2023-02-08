@@ -2,23 +2,23 @@ import { Form, Input, Button, Modal, Typography, Result } from 'antd'
 import React, { useState } from 'react'
 // import { validateEmail } from '../../../../utils/regex'
 import { post } from '../../../../api/BaseRequest'
-// import { mailValidateStatus } from '../../../../constants/statusCode'
+import { mailValidateStatus } from '../../../constants/statusCode'
 const { Text } = Typography
 
 const RecendEmail = ({ setOpenModalRecend }) => {
   const [errorMessage] = useState()
-  const [message] = useState()
+  const [message, setMessage] = useState()
   const [openModalNoti, setOpanModalNoti] = useState(false)
   const [loading, setLoading] = useState(false)
   const onFinish = async(values) => {
     try {
       setLoading(true)
       const res = await post('mails/validate-email', values)
-      //   res && setMessage(mailValidateStatus.map((item) => {
-      //     if (item.code === res.code) {
-      //       return item.message
-      //     }
-      //   }))
+      res && setMessage(mailValidateStatus.map((item) => {
+        if (item.code === res.code) {
+          return item.message
+        }
+      }))
       res && setOpanModalNoti(true)
       res && setOpenModalRecend(false)
       res && setLoading(false)
