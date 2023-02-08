@@ -1,18 +1,67 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useContext } from 'react'
 import axios from 'axios'
-import { Modal, Typography, Button, Result } from 'antd'
-import { accountConfirmEmailStatus } from '../../../constants/statusCode'
-import RecendEmail from './RecendEmail'
-import { useNavigate } from 'react-router-dom'
-const { Text } = Typography
+import Home from './../../Dashboard/Home'
+import Swal from 'sweetalert2'
+import { SignInContext } from '../../../../App'
+
 export const ConfirmEmail = () => {
-  const [message, setMessage] = useState()
-  const [openModalRecen, setOpenModalRecend] = useState(false)
-  const [openModalNoti, setOpanModalNoti] = useState(false)
-  const navigate = useNavigate()
-  const handleRecendEmail = () => {
-    setOpenModalRecend(true)
+  const signContext = useContext(SignInContext)
+
+  const onConfirmEmailSuccess = () =>{
+    Swal.fire({
+      allowOutsideClick: false,
+      icon: 'success',
+      title: 'Success',
+      html: 'You confirmed email successfully.',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      },
+      backdrop: `rgba(4,148,114,0.4)`
+    }).then((result) => {
+      // click out modal notification, or click [OK] in modal
+      if (result?.isDismissed || result?.isConfirmed) {
+        signContext?.handleSetOpenModal(true)
+      }
+    })
   }
+
+  const onConfirmEmailFailed = () =>{
+    Swal.fire({
+      allowOutsideClick: false,
+      icon: 'warning',
+      title: 'Warning',
+      html: 'Active email failed.',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      },
+      backdrop: `rgba(4,148,114,0.4)`
+    })
+  }
+
+  const onAuthorization = async(uuid, token) => {
+    const instance = axios.create({
+      baseURL: process.env.REACT_APP_API_WRITE
+    })
+    if (token) {
+      instance.defaults.headers.common['Authorization'] = token
+    }
+    try {
+      const res = await instance.post(`reviews/auth/confirm/normal?uuid=${uuid}`)
+      if (res.status) {
+        onConfirmEmailSuccess()
+      }
+    } catch (e) {
+      onConfirmEmailFailed()
+    }
+  }
+
+  // get param from url
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search)
     // get uuid by url
@@ -20,72 +69,13 @@ export const ConfirmEmail = () => {
     // get token by url
     const token = queryParams.get('token')
 
-    const authorization = async() => {
-      const instance = axios.create({
-        baseURL: process.env.REACT_APP_API_WRITE
-      })
-      if (token) {
-        instance.defaults.headers.common['Authorization'] = token
-      }
-      try {
-        const res = await instance.get(`reviews/auth/confirm/normal?uuid=${uuid}`)
-        res && accountConfirmEmailStatus.map((item) => {
-          if (item.code === res?.data?.code) {
-            setMessage({
-              success: item.message
-            })
-            setOpanModalNoti(true)
-          }
-        })
-        setOpanModalNoti(true)
-      } catch (error) {
-        console.log(error)
-        error?.response?.data && accountConfirmEmailStatus.map((item) => {
-          if (error?.response?.data?.code === item.code) {
-            setMessage({
-              error: item.message,
-              errorToken: error?.response?.data?.code === 500
-            })
-          }
-        })
-      }
-    }
-    const timer = setTimeout(() => {
-      authorization()
-    }, 2000)
-    return () => clearTimeout(timer)
+    // display url
+    history.pushState({}, null, '/') // home
+
+    onAuthorization(uuid, token)
   }, [])
+
   return (
-    <div style={{ padding: '50px 0' }}>
-      {message?.error ? (
-        <>
-          <Text type='danger'>{message?.error && message?.error}</Text>
-          <Button onClick={handleRecendEmail}>{message?.errorToken && ' Recend email confirm'}</Button>
-        </>
-      )
-        : (
-          <Text>{message?.success && message?.success}</Text>
-        )}
-      <Modal
-        className='forgot-password-modal'
-        open={openModalRecen}
-        onOk={() => setOpenModalRecend(false)}
-        onCancel={() => setOpenModalRecend(false)}
-        footer={null}
-      >
-        <RecendEmail setOpenModalRecend={setOpenModalRecend}/>
-      </Modal>
-      <Modal
-        className='reset-password-modal'
-        open={openModalNoti}
-        onOk={() => navigate('../')}
-        onCancel={() => navigate('../')}
-      >
-        <Result
-          status='success'
-          title={message?.success}
-        />
-      </Modal>
-    </div>
+    <Home />
   )
 }

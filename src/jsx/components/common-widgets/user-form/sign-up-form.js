@@ -58,8 +58,10 @@ export const SignUpComponent = () => {
       const resp = await post('reviews/auth/signup/normal', dataSignin)
       if (resp?.status) {
         Swal.fire({
+          allowOutsideClick: false,
           icon: 'success',
-          title: 'Resgister successfully. Please check email to activate your account',
+          title: 'Resgister successfully. ',
+          html: 'Please check email to activate your account',
           showClass: {
             popup: 'animate__animated animate__fadeInDown'
           },
@@ -76,6 +78,7 @@ export const SignUpComponent = () => {
       }
     } catch (e) {
       Swal.fire({
+        allowOutsideClick: false,
         icon: 'error',
         title: 'Resgister failed.',
         html: e?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later.',

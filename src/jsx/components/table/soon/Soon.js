@@ -26,7 +26,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
 
   return (
     <>
-      <div className='row'>
+      <div className='row' style={{ width: '100%' }}>
         <div className='col-xl-12'>
           <div className='card Infra' style={{ height: '5rem' }}>
             <div className='card-header border-0'>
