@@ -4,7 +4,7 @@ import { post } from '../../../../api/BaseRequest'
 import Swal from 'sweetalert2'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
-import { isValidEmail } from '../../../../utils/regrex'
+import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
 import { SignInContext } from '../../../../App'
 
 export const SignUpComponent = () => {
@@ -31,6 +31,10 @@ export const SignUpComponent = () => {
     }
     if (password === '') {
       errorObj.password = 'Password is Required'
+      error = true
+    }
+    if (!isValidPassword(password)) {
+      errorObj.password = 'Password must has at least 8 characters, contains at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
       error = true
     }
     if (password !== rePassword) {
