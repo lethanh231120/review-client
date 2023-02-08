@@ -1,7 +1,20 @@
 import { Avatar } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 export const TopCoins = ({ data }) => {
   const top6 = data?.slice(0, 5)
+  const navigate = useNavigate()
+
+  const onTopCoinsClicked = (item) => {
+    const type = item?.cryptoId?.split('_')[1]
+    const name = item?.cryptoId?.split('_')[2]
+    if (type === 'coin') {
+      navigate(`products/crypto/${type}/${name}`)
+    } else if (type === 'token') {
+      const address = item?.cryptoId?.split('_')[3]
+      navigate(`products/crypto/${type}/${name}/${address}`)
+    }
+  }
 
   return <div className='row top-coin ' >
     <div className='market-previews'>
@@ -13,7 +26,7 @@ export const TopCoins = ({ data }) => {
         </div>
         <div className='card-body pt-0 px-0'>
           {top6?.map((item, index) => (
-            <div className='previews-info-list' key={index}>
+            <div className='previews-info-list' key={index} style={{ cursor: 'pointer' }} onClick={() => onTopCoinsClicked(item)}>
               <div className='pre-icon' style={{ width: '200px' }}>
                 <span
                   className='top-coin-icon'
