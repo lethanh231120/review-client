@@ -9,7 +9,7 @@ import {
   Row,
   Col
 } from 'antd'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { FilterOutlined } from '@ant-design/icons'
 import './drawer.scss'
@@ -25,12 +25,14 @@ import {
   priceUSDMarks,
   userMarks,
   strategicMarks,
-  scoreMarks,
   volume1mMarks,
   volume7dMarks,
   fundRaisingGoalsMarks,
-  tokenPriceMarks
+  tokenPriceMarks,
+  getScoreMarks
 } from './marks.js'
+import { cryptoFilterDefaultValue, dappFilterDefaultValue, exchangeFilterDefaultValue, fromObjectToArray, soonFilterDefaultValue, ventureFilterDefaultValue } from './defaultValues'
+import { LaunchpadMapContext } from '../../../App'
 
 const tradingOnList = [
   { label: 'Uniswap', value: 'isUniswap' },
@@ -48,6 +50,66 @@ const DrawerFilter = ({ type, handleFilter }) => {
   const [cryptoType, setCryptoType] = useState('')
   const [location, setLocation] = useState([])
   const [roundType, setRoundType] = useState([])
+  const [initialValues, setInititalValues] = useState()
+  const launchpadContext = useContext(LaunchpadMapContext)
+  const [filterCount, setFilterCount] = useState()
+  const [defautlActiveKey, setDefaultActiveKey] = useState([])
+  const scoreMarks = getScoreMarks(type)
+
+  const mapDefaultOpenPanel = () => {
+    const data = []
+    const savedStates = JSON.parse(window.localStorage.getItem(type))
+    Object.keys(savedStates).forEach(key => {
+      data.push(key)
+    })
+
+    setDefaultActiveKey(data)
+  }
+
+  const getNewFormData = (key, defaultValue) => {
+    if (!window.localStorage.getItem(key)) {
+      setInititalValues(defaultValue)
+    } else {
+      setInititalValues(fromObjectToArray(window.localStorage.getItem(key)))
+    }
+  }
+
+  const setFormNewData = () => {
+    if (type) {
+      switch (type) {
+        case 'dapp':
+          getNewFormData('dapp', dappFilterDefaultValue)
+          break
+        case 'crypto':
+          getNewFormData('crypto', cryptoFilterDefaultValue)
+          break
+        case 'exchange':
+          getNewFormData('exchange', exchangeFilterDefaultValue)
+          break
+        case 'soon':
+          getNewFormData('soon', soonFilterDefaultValue)
+          break
+        case 'venture':
+          getNewFormData('venture', ventureFilterDefaultValue)
+          break
+        default:
+          break
+      }
+    }
+  }
+
+  useEffect(() => {
+    let count = 0
+    if (window.localStorage.getItem(type)) {
+      count = Object.keys(JSON.parse(window.localStorage.getItem(type))).length
+    }
+    setFilterCount(count)
+  }, [])
+
+  useEffect(() => {
+    setFormNewData()
+    mapDefaultOpenPanel()
+  }, [])
 
   const openDrawer = (type) => {
     setShowDrawer(true)
@@ -114,6 +176,8 @@ const DrawerFilter = ({ type, handleFilter }) => {
   }, [showDrawer])
 
   const onFinish = (values) => {
+    // SAVE STATE INTO LOCAL STORAGE
+    window.localStorage.setItem(type, JSON.stringify(values))
     const filterParams = {}
 
     // ------=---------TAG
@@ -192,7 +256,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
           seriesMarks[values?.seriesA[1]]?.value
         }`
       }
-      console.log(values?.seriesA)
 
       // Series B
       if (values?.seriesB) {
@@ -293,6 +356,10 @@ const DrawerFilter = ({ type, handleFilter }) => {
           tokenPriceMarks[values?.tokenPrice[0]]?.value
         }.${tokenPriceMarks[values?.tokenPrice[1]]?.value}`
       }
+
+      if (values?.launchpad) {
+        filterParams['launchpad'] = values?.launchpad
+      }
     }
 
     // --SCORE
@@ -312,6 +379,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
     }
 
     console.log(filterParams)
+
     handleFilter(filterParams)
     setShowDrawer(false)
   }
@@ -319,7 +387,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
   return (
     <div className='drawer'>
       <Button onClick={openDrawer} icon={<FilterOutlined />}>
-        Filter
+        Filter({filterCount})
       </Button>
 
       <Drawer
@@ -330,10 +398,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
         placement='right'
         onClose={closeDrawer}
         open={showDrawer}
+        destroyOnClose={true}
         className='filter'
       >
-        <Form form={form} onFinish={onFinish}>
+        <Form form={form} onFinish={onFinish} fields={initialValues} >
           <Collapse
+            defaultActiveKey={defautlActiveKey}
             bordered={false}
             expandIcon={({ isActive }) => (
               <CaretRightOutlined rotate={isActive ? 90 : 0} />
@@ -341,7 +411,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
             style={{ display: 'block' }}
           >
             {type === 'crypto' && (
-              <Panel header='Type' className='filter-item'>
+              <Panel header='Type' className='filter-item' key='type'>
                 <Form.Item name='type'>
                   <Select
                     placeholder='Crypto Type'
@@ -356,13 +426,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'venture' && (
-              <Panel header='SeriesA' className='filter-item'>
+              <Panel header='SeriesA' className='filter-item' key='seriesA'>
                 <Form.Item name='seriesA'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={seriesMarks}
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, seriesMarks.length]}
                     min={0}
                     max={5}
                   />
@@ -371,13 +440,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'venture' && (
-              <Panel header='SeriesB' className='filter-item'>
+              <Panel header='SeriesB' className='filter-item' key='seriesB'>
                 <Form.Item name='seriesB'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={seriesMarks}
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, seriesMarks.length]}
                     min={0}
                     max={5}
                   />
@@ -386,13 +454,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'venture' && (
-              <Panel header='SeriesC' className='filter-item'>
+              <Panel header='SeriesC' className='filter-item' key='seriesC'>
                 <Form.Item name='seriesC'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={seriesMarks}
-                    defaultValue={[0, 5]}
+                    defaultValue={[seriesMarks.length]}
                     min={0}
                     max={5}
                   />
@@ -401,13 +468,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'venture' && (
-              <Panel header='Ico' className='filter-item'>
+              <Panel header='Ico' className='filter-item' key='ico'>
                 <Form.Item name='ico'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={seriesMarks}
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, seriesMarks.length]}
                     min={0}
                     max={5}
                   />
@@ -416,13 +482,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'venture' && (
-              <Panel header='Strategic' className='filter-item'>
+              <Panel header='Strategic' className='filter-item' key='strategic'>
                 <Form.Item name='strategic'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={strategicMarks}
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, strategicMarks.length]}
                     min={0}
                     max={5}
                   />
@@ -431,13 +496,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'venture' && (
-              <Panel header='Total Fund' className='filter-item'>
+              <Panel header='Total Fund' className='filter-item' key='totalFund'>
                 <Form.Item name='totalFund'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={totalFundsMarks}
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, totalFundsMarks.length]}
                     min={0}
                     max={5}
                   />
@@ -446,7 +510,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'soon' && (
-              <Panel header='Round Type' className='filter-item'>
+              <Panel header='Round Type' className='filter-item' key='roundType'>
                 <Form.Item name='roundType'>
                   <Select
                     showSearch
@@ -462,7 +526,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'soon' && (
-              <Panel header='Tag' className='filter-item'>
+              <Panel header='Tag' className='filter-item' key='tag'>
                 <Form.Item name='tag'>
                   <Select
                     showSearch
@@ -478,13 +542,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'soon' && (
-              <Panel header='Fully Diluted Market Cap' className='filter-item'>
+              <Panel header='Fully Diluted Market Cap' className='filter-item' key='fullyDilutedMarketCap'>
                 <Form.Item name='fullyDilutedMarketCap'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={fullyDilutedMarketCapMarks}
-                    defaultValue={[0, 5]}
+                    defaultValue={fullyDilutedMarketCapMarks.length}
                     min={0}
                     max={5}
                   />
@@ -493,13 +556,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'soon' && (
-              <Panel header='Fund Raising Goals' className='filter-item'>
+              <Panel header='Fund Raising Goals' className='filter-item' key='fundRaisingGoals'>
                 <Form.Item name='fundRaisingGoals'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={fundRaisingGoalsMarks}
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, fundRaisingGoalsMarks.length]}
                     min={0}
                     max={5}
                   />
@@ -508,27 +570,38 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'soon' && (
-              <Panel header='Token Price' className='filter-item'>
+              <Panel header='Token Price' className='filter-item' key='tokenPrice'>
                 <Form.Item name='tokenPrice'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={tokenPriceMarks}
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, tokenPriceMarks.length]}
                     min={0}
                     max={5}
                   />
                 </Form.Item>
               </Panel>
             )}
+            {type === 'soon' && (
+              <Panel header='Launchpad' className='filter-item' key='launchpad'>
+                <Form.Item name='launchpad'>
+                  <Select
+                    showSearch
+                    placeholder='Launchpad'
+                    width='100%'
+                    options={Array.from(launchpadContext)?.map(item => ({ label: item[1]?.name, value: item[1]?.launchPadId }))}
+                  ></Select>
+                </Form.Item>
+              </Panel>
+            )}
+
             {type === 'crypto' && (
-              <Panel header='Market Cap' className='filter-item'>
+              <Panel header='Market Cap' className='filter-item' key='marketCap'>
                 <Form.Item name='marketCap'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={marketCapMarks}
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, marketCapMarks.length]}
                     min={0}
                     max={5}
                   />
@@ -537,13 +610,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'crypto' && (
-              <Panel header='Price' className='filter-item'>
+              <Panel header='Price' className='filter-item' key='priceUSD'>
                 <Form.Item name='priceUSD'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={priceUSDMarks}
-                    defaultValue={[0, 6]}
+                    defaultValue={[0, priceUSDMarks.length]}
                     min={0}
                     max={6}
                   />
@@ -552,13 +624,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'crypto' && (
-              <Panel header='Total LP' className='filter-item'>
+              <Panel header='Total LP' className='filter-item' key='totalLpUSD'>
                 <Form.Item name='totalLpUSD'>
                   <Slider
-                    tooltipVisible={false}
                     range
                     marks={marketCapMarks}
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, marketCapMarks.length]}
                     min={0}
                     max={5}
                   />
@@ -567,12 +638,11 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'exchange' && (
-              <Panel header='Pair Count' className='filter-item'>
+              <Panel header='Pair Count' className='filter-item' key='pairCount'>
                 <Form.Item name='pairCount'>
                   <Slider
-                    tooltipVisible={false}
                     range
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, pairCountMarks.length]}
                     marks={pairCountMarks}
                     min={0}
                     max={5}
@@ -582,12 +652,11 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {(type === 'dapp' || type === 'exchange') && (
-              <Panel header='Volume24H' className='filter-item'>
+              <Panel header='Volume24H' className='filter-item' key='volume24h'>
                 <Form.Item name='volume24h'>
                   <Slider
-                    tooltipVisible={false}
                     range
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, marketCapMarks.length]}
                     marks={marketCapMarks}
                     min={0}
                     max={5}
@@ -597,12 +666,11 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'dapp' && (
-              <Panel header='User24H' className='filter-item'>
+              <Panel header='User24H' className='filter-item' key='user24h'>
                 <Form.Item name='user24h'>
                   <Slider
-                    tooltipVisible={false}
                     range
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, userMarks.length]}
                     marks={userMarks}
                     min={0}
                     max={5}
@@ -612,12 +680,11 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'exchange' && (
-              <Panel header='Volume7D' className='filter-item'>
+              <Panel header='Volume7D' className='filter-item' key='volume7d'>
                 <Form.Item name='volume7d'>
                   <Slider
-                    tooltipVisible={false}
                     range
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, volume7dMarks.length]}
                     marks={volume7dMarks}
                     min={0}
                     max={5}
@@ -627,12 +694,11 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'exchange' && (
-              <Panel header='Volume1M' className='filter-item'>
+              <Panel header='Volume1M' className='filter-item' key='volume1m'>
                 <Form.Item name='volume1m'>
                   <Slider
-                    tooltipVisible={false}
                     range
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, volume1mMarks.length]}
                     marks={volume1mMarks}
                     min={0}
                     max={5}
@@ -642,12 +708,11 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'exchange' && (
-              <Panel header='Visit7D' className='filter-item'>
+              <Panel header='Visit7D' className='filter-item' key='visit7d'>
                 <Form.Item name='visit7d'>
                   <Slider
-                    tooltipVisible={false}
                     range
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, visit7dMarks.length]}
                     marks={visit7dMarks}
                     min={0}
                     max={5}
@@ -657,12 +722,11 @@ const DrawerFilter = ({ type, handleFilter }) => {
             )}
 
             {type === 'venture' && (
-              <Panel header='Volume Total Funds' className='filter-item'>
+              <Panel header='Volume Total Funds' className='filter-item' key='volumeTotalFunds'>
                 <Form.Item name='volumeTotalFunds'>
                   <Slider
-                    tooltipVisible={false}
                     range
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, marketCapMarks.length]}
                     marks={marketCapMarks}
                     min={0}
                     max={5}
@@ -671,8 +735,8 @@ const DrawerFilter = ({ type, handleFilter }) => {
               </Panel>
             )}
 
-            {(type === 'venture' || type === 'exchange') && (
-              <Panel header='Location' className='filter-item'>
+            {(type === 'venture') && (
+              <Panel header='Location' className='filter-item' key='location'>
                 <Form.Item name='location'>
                   <Select
                     placeholder='Location'
@@ -686,12 +750,11 @@ const DrawerFilter = ({ type, handleFilter }) => {
               </Panel>
             )}
             {type === 'dapp' && (
-              <Panel header='TVL' className='filter-item'>
+              <Panel header='TVL' className='filter-item' key='tvl'>
                 <Form.Item name='tvl'>
                   <Slider
-                    tooltipVisible={false}
                     range
-                    defaultValue={[0, 5]}
+                    defaultValue={[0, tvlMarks.length]}
                     marks={tvlMarks}
                     min={0}
                     max={5}
@@ -700,7 +763,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
               </Panel>
             )}
             {type === 'crypto' && (
-              <Panel header='Trading On' className='filter-item'>
+              <Panel header='Trading On' className='filter-item' key='tradingOn'>
                 <Form.Item name='tradingOn'>
                   <Select
                     mode='multiple'
@@ -716,7 +779,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
               </Panel>
             )} */}
             {(type === 'crypto' || type === 'dapp') && (
-              <Panel header='Tag' className='filter-item'>
+              <Panel header='Tag' className='filter-item' key='tag'>
                 <Form.Item name='tag'>
                   <Select
                     showSearch
@@ -733,13 +796,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
               type === 'dapp' ||
               type === 'venture' ||
               type === 'exchange') && (
-              <Panel header='Score' className='filter-item'>
+              <Panel header='Score' className='filter-item' key='score'>
                 <Form.Item name='score'>
                   <Slider
-                    tooltipVisible={false}
                     range
-                    marks={scoreMarks}
-                    defaultValue={[0, 5]}
+                    marks={getScoreMarks(type)}
+                    defaultValue={[0, scoreMarks.length]}
                     min={0}
                     max={5}
                   />

@@ -3,15 +3,16 @@ import { Badge } from 'react-bootstrap'
 import './score.scss'
 
 const MyScoreComponent = ({ score }) => {
+  const MAX_SCORE = 100
   let output = 0
   let classname = 'success'
   if (score || score === 0) {
-    if (score > 200) {
+    if (score > MAX_SCORE) {
       output = 10
     } else if (score <= 0) {
       output = 0
     } else {
-      output = (score * 10 / 200)
+      output = (score * 10 / MAX_SCORE)
     }
 
     // color
