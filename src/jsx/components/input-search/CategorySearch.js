@@ -117,7 +117,7 @@ const CategorySearch = ({ type }) => {
     } else {
       setDataSearch({ isActive: false, data: null, loading: false, status: '' })
     }
-  }, 250)
+  }, 400)
 
   const subMitForm = () => {
     if (itemSubmit) {

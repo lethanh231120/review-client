@@ -1,3 +1,8 @@
+/* css custom */
+.cus-modal{
+  background-color: rgba(24, 165, 148, 0.1) !important;
+}
+
 .testimonial-one img {
   display: unset !important;
   width: 90%;

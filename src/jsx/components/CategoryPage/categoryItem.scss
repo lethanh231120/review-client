@@ -67,19 +67,10 @@
     align-items: flex-start !important;
 }
 
-@media (max-width: 1400px) {
-    .category{
-        &-page{
-            padding: 3rem 2rem;
-        }
-    }
+.icon-submit{
+    padding: 0.5rem;
+    cursor: pointer;
 }
-@media (max-width: 1200px) {
-    .category{
-        &-page{
-            padding: 2rem;
-        }
-    }
-}
+
 
   

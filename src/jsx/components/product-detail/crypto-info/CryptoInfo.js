@@ -15,9 +15,10 @@ import { encodeUrl } from '../../../../utils/formatUrl'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 // import { ChainListContext } from '../../../../jsx/index'
 import { ChainListContext } from '../../../../App'
+import { ReportModalContext } from '../../../index'
 import { Button, Dropdown } from 'react-bootstrap'
 // import { Button, Modal, Tab, Nav, Dropdown, Alert } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { LinkOutlined } from '@ant-design/icons'
@@ -29,11 +30,13 @@ import { MySpinner } from '../../common-widgets/my-spinner'
 const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
+  const reportModal = useContext(ReportModalContext)
   const [chartData, setChartData] = useState([])
   const [showInfo, setShowInfo] = useState()
   const [multichain, setMultichain] = useState()
   const [mainExplorer, setMainExplorer] = useState()
 
+  console.log(reportModal)
   useEffect(() => {
     setShowInfo(
       !isShow?.community &&
@@ -101,6 +104,14 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
     }
     getDataVenture()
   }, [productInfo, chainList])
+
+  const handleReportScam = () => {
+    rest?.setData({
+      ...rest.data,
+      isScam: true,
+      star: 1
+    })
+  }
 
   // Header
   const header = <div className='row'>
@@ -185,7 +196,7 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
             {productInfo?.details?.totalIsScam}
           </h3>
           <span>
-          Total Scams
+          Reported Scam
           </span>
         </div>
         <div className='col'>
@@ -198,17 +209,19 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
         </div>
       </div>
       <div className='mt-4'>
-        <Link
-          to='#'
+        <Button
+          as='a'
+          href='#comment'
           className='btn btn-primary mb-1 me-1'
+          onClick={handleReportScam}
         >
         Report Scam
-        </Link>
+        </Button>
         <Button
           as='a'
           href='#comment'
           className='btn btn-primary mb-1 ms-1'
-        // onClick={() => dispatch({ type: 'sendMessage' })}
+          onClick={() => rest?.setData({ ...rest.data, isScam: false, star: 5 })}
         >
         Add Review
         </Button>

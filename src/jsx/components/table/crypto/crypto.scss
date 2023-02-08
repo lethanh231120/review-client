@@ -80,7 +80,7 @@ $mainColor: #039f7f;
     justify-content: center;
   }
 }
-@media (max-width: 1165px) {
+@media (max-width: 1650px) {
   .crypto-table {
     & table .ant-table-thead > tr > th:nth-child(7) {
       display: none;
@@ -90,27 +90,7 @@ $mainColor: #039f7f;
     }
   }
 }
-@media (max-width: 1040px) {
-  .crypto-table {
-    & table .ant-table-thead > tr > th:nth-child(5) {
-      display: none;
-    }
-    & table .ant-table-tbody > tr > td:nth-child(5) {
-      display: none;
-    }
-  }
-}
-@media (max-width: 820px) {
-  .crypto-table {
-    & table .ant-table-thead > tr > th:nth-child(6) {
-      display: none;
-    }
-    & table .ant-table-tbody > tr > td:nth-child(6) {
-      display: none;
-    }
-  }
-}
-@media (max-width: 540px) {
+@media (max-width: 1405px) {
   .crypto-table {
     & table .ant-table-thead > tr > th:last-child {
       display: none;
@@ -120,7 +100,37 @@ $mainColor: #039f7f;
     }
   }
 }
-@media (max-width: 465px) {
+@media (max-width: 1315px) {
+  .crypto-table {
+    & table .ant-table-thead > tr > th:nth-child(6) {
+      display: none;
+    }
+    & table .ant-table-tbody > tr > td:nth-child(6) {
+      display: none;
+    }
+  }
+}
+@media (max-width: 1150px) {
+  .crypto-table {
+    & table .ant-table-thead > tr > th:nth-child(5) {
+      display: none;
+    }
+    & table .ant-table-tbody > tr > td:nth-child(5) {
+      display: none;
+    }
+  }
+}
+@media (max-width: 880px) {
+  .crypto-table {
+    & table .ant-table-thead > tr > th:nth-child(3) {
+      display: none;
+    }
+    & table .ant-table-tbody > tr > td:nth-child(3) {
+      display: none;
+    }
+  }
+}
+@media (max-width: 600px) {
   .crypto-table {
     & table .ant-table-thead > tr > th:nth-child(4) {
       display: none;
@@ -130,12 +140,12 @@ $mainColor: #039f7f;
     }
   }
 }
-@media (max-width: 370px) {
+@media (max-width: 460px) {
   .crypto-table {
-    & table .ant-table-thead > tr > th:nth-child(3) {
+    & table .ant-table-thead > tr > th:nth-child(2) {
       display: none;
     }
-    & table .ant-table-tbody > tr > td:nth-child(3) {
+    & table .ant-table-tbody > tr > td:nth-child(2) {
       display: none;
     }
   }

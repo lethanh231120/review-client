@@ -33,6 +33,14 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     return total
   }
 
+  const handleReportScam = () => {
+    rest?.setData({
+      ...rest.data,
+      isScam: true,
+      star: 1
+    })
+  }
+
   // VENTURE HEADER
   const Header = () => {
     return <div className='profile-head'>
@@ -78,10 +86,19 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       <div className='mt-4'>
         <Button
           as='a'
-          href='#'
-          className='btn btn-primary mb-1 ms-1'
+          href='#comment'
+          className='btn btn-primary mb-1 me-1'
+          onClick={handleReportScam}
         >
-       Report Scam
+                    Report Scam
+        </Button>
+        <Button
+          as='a'
+          href='#comment'
+          className='btn btn-primary mb-1 ms-1'
+          onClick={() => rest?.setData({ ...rest.data, isScam: false, star: 5 })}
+        >
+                  Add Review
         </Button>
       </div>
     </div>

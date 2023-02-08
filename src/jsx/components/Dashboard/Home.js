@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 //  import {NavLink} from 'react-router-dom';
 // Import Components
+import { Button } from 'react-bootstrap'
 import { ThemeContext } from '../../../context/ThemeContext'
 import metaverse from './../../../images/metaverse.png'
 // images
@@ -19,6 +19,9 @@ import _ from 'lodash'
 import { renderRandomColor } from '../../../utils/formatNumber'
 import { API_KEY, bitqueryEndpoint, BITQUERY_QUERY } from './Dashboard/bitquery-query/query'
 import { DonutChartSkeleton } from '../common-widgets/loading-skeleton/donutchart-loading'
+import { ReportModalContext, AddModalContext } from '../../index'
+import { SignInContext } from '../../../App'
+import { getCookie, STORAGEKEY } from '../../../utils/storage'
 
 const fillColors = [
   '#18A594',
@@ -35,6 +38,11 @@ const Home = () => {
   const [btcChartData, setBtcChartData] = useState()
 
   const [topCoins, setTopCoins] = useState()
+  const userInfo = getCookie(STORAGEKEY)
+
+  const reportModal = useContext(ReportModalContext)
+  const addModal = useContext(AddModalContext)
+  const signInContext = useContext(SignInContext)
 
   useEffect(() => {
     changeBackground({ value: 'light', label: 'Light' })
@@ -145,6 +153,13 @@ const Home = () => {
   //   summaryData && setTotalCrytosData(summaryData)
   // }, [summaryData])
 
+  const handleAddProject = () => {
+    if (userInfo) {
+      addModal?.handleSetOpenModal(true)
+    } else {
+      signInContext?.handleSetOpenModal(true)
+    }
+  }
   return (
     <>
       <div className='row'>
@@ -159,9 +174,9 @@ const Home = () => {
                       <p className='join-us-text' style={{ width: '100%' }}>
                       Please join us to warn everyone in the community
                       </p>
-                      <Link to='#' className='btn btn-danger '>
+                      <Button className='btn btn-danger' onClick={() => reportModal?.handleSetOpenModal(true)}>
                         Report&nbsp;now
-                      </Link>
+                      </Button>
                     </div>
                     <div className='coin-img'>
                       <img src={coin} className='img-fluid' alt='' />
@@ -202,9 +217,9 @@ const Home = () => {
                 <h3 className='heading'>2.2M+ Projects</h3>
                 <h5>Contribute new project with us</h5>
               </div>
-              <Link to='#' className='btn btn-primary email-btn'>
+              <Button onClick={handleAddProject} className='btn btn-primary email-btn'>
                    Add Projects
-              </Link>
+              </Button>
             </div>
           </div>
         </div>

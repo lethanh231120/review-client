@@ -105,6 +105,7 @@
             display: flex;
             align-items: center;
             &-title {
+                text-align: left;
                 width: fit-content;
                 max-width: 5rem;
                 display: block;
@@ -164,11 +165,11 @@
 }
 
 // custom width column table
-.width-100{
+.width-120{
     width: fit-content;
-    max-width: 100px;
+    max-width: 120px;
 }
 .width-170{
     width: fit-content;
-    max-width: 150px;
+    max-width: 170px;
 }

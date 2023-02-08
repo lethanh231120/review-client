@@ -43,7 +43,7 @@ const DappTable = ({ loading, listData }) => {
           )}
           <span>
             <div className='data-table-name ms-2'>
-              <div className='table-info-name-title'>
+              <div className='data-table-name-title'>
                 {record?.dAppName ? record?.dAppName : 'Unknown'}
               </div>
             </div>
@@ -98,83 +98,69 @@ const DappTable = ({ loading, listData }) => {
       )
     },
     {
-      title: (
-        <>
-          <span className='dapp-table-tooltip'>Volume 24h</span>
-          <Tooltip
-            overlayClassName='dapp-table-tooltip-box'
-            title='Trading volume in the last 24h'
-          >
-            <InfoCircleOutlined />
-          </Tooltip>
-        </>
+      title: (<span className='crypto-table-tooltip'>Volume 24h
+        <Tooltip
+          overlayClassName='dapp-table-tooltip-box'
+          title='Trading volume in the last 24h'
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>
       ),
       dataIndex: 'volume24h',
       render: (_, record) => (
         <span>
           {record?.volume24h ? renderNumber(record?.volume24h) : '___'}
         </span>
-      ),
-      sorter: (a, b) => a.volume24h - b.volume24h,
-      showSorterTooltip: false
+      )
     },
     {
-      title: (
-        <>
-          <span className='dapp-table-tooltip'>User24h</span>
-          <Tooltip
-            overlayClassName='dapp-table-tooltip-box'
-            title='Amount of users in the last 24h'
-          >
-            <InfoCircleOutlined />
-          </Tooltip>
-        </>
+      title: (<span className='crypto-table-tooltip'>User 24h
+        <Tooltip
+          overlayClassName='dapp-table-tooltip-box'
+          title='Amount of users in the last 24h'
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>
       ),
       dataIndex: 'user24h',
       render: (_, record) => (
         <span>{record?.user24h ? record?.user24h : '__'}</span>
-      ),
-      sorter: (a, b) => a.user24h - b.user24h,
-      showSorterTooltip: false
+      )
     },
     {
-      title: (
-        <>
-          <span className='dapp-table-tooltip'>Balance</span>
-          <Tooltip
-            overlayClassName='dapp-table-tooltip-box'
-            title='Dapp worth in USD'
-          >
-            <InfoCircleOutlined />
-          </Tooltip>
-        </>
+      title: (<span className='crypto-table-tooltip'>Balance
+        <Tooltip
+          overlayClassName='dapp-table-tooltip-box'
+          title='Dapp worth in USD'
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>
       ),
       dataIndex: 'balance',
       render: (_, record) => (
         <span>
           {record?.balance ? renderNumber(record?.balance) : '__'}
         </span>
-      ),
-      sorter: (a, b) => a.tvl - b.tvl,
-      showSorterTooltip: false
+      )
     },
     {
-      title: (
-        <>
-          <span className='dapp-table-tooltip'>Score</span>
-          <Tooltip
-            overlayClassName='dapp-table-tooltip-box'
-            title='Dapp score graded by Gear5'
-          >
-            <InfoCircleOutlined />
-          </Tooltip>
-        </>
+      title: (<span className='crypto-table-tooltip'>Score
+        <Tooltip
+          overlayClassName='dapp-table-tooltip-box'
+          title='The reputation of the product is assessed by Gear5'
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>
       ),
       dataIndex: 'score',
-      render: (_, record) => <MyScoreComponent score={record?.score} />,
-      sorter: (a, b) => a.score - b.score,
-      showSorterTooltip: false,
-      defaultSortOrder: 'descend'
+      render: (_, record) => <MyScoreComponent score={record?.score} />
+      // sorter: (a, b) => a.score - b.score,
+      // showSorterTooltip: false,
+      // defaultSortOrder: 'descend'
     }
   ]
 
