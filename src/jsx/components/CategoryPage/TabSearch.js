@@ -15,15 +15,14 @@ import { SearchOutlined } from '@ant-design/icons'
 import './categoryItem.scss'
 
 // const { TabPane } = Tabs
-const TabSearch = ({ listProduct, keywordSearch, keyword, handleChangeInput, handleSubmitSearch, handleSubmitBtn }) => {
+const TabSearch = (props) => {
+  const { listProduct, keywordSearch, keyword, handleChangeInput, handleSubmitSearch, handleSubmitBtn, setLoading, loading } = props
   const [tab, setTab] = useState(CRYPTO)
   const [listData, setListData] = useState([])
-  const [loading, setLoading] = useState(true)
 
-  console.log(tab)
   useEffect(() => {
-    setLoading(true)
     const getData = async() => {
+      setLoading(true)
       switch (tab) {
         case DAPP: {
           const listDappId = []
@@ -102,45 +101,67 @@ const TabSearch = ({ listProduct, keywordSearch, keyword, handleChangeInput, han
     getData()
   }, [tab, listProduct])
 
-  console.log(loading)
   return (
     <>
-      {/* <Tabs value={tab} onChange={(value) => setTab(value)}>
-        <TabPane tab='Cryptos' key={CRYPTO}>
-          <CryptoTable listData={listData} loading={loading}/>
-        </TabPane>
-        <TabPane tab='DApps' key={DAPP}>
-          <DappTable listData={listData} loading={loading} />
-        </TabPane>
-        <TabPane tab='Exchanges' key={EXCHANGE}>
-          <ExchangeTable listData={listData} loading={loading} />
-        </TabPane>
-        <TabPane tab='Venture' key={VENTURE}>
-          <VentureTable listData={listData} loading={loading} />
-        </TabPane>
-        <TabPane tab='Soons' key={SOON}>
-          <SoonTable listData={listData} loading={loading}/>
-        </TabPane>
-      </Tabs> */}
       <div className='col-xl-12'>
         <div className='card'>
           <Tab.Container defaultActiveKey='crypto'>
             <div className='card-header border-0 row cus-card-header'>
               <div className='col-xl-8'>
                 <Nav as='ul' className='order  nav-tabs' id='pills-tab' role='tablist'>
-                  <Nav.Item as='li' className=' my-1' role='presentation' onClick={() => setTab(CRYPTO)}>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(CRYPTO)
+                    }}
+                  >
                     <Nav.Link as='button' eventKey='crypto' type='button' >Cryptos</Nav.Link>
                   </Nav.Item>
-                  <Nav.Item as='li' className=' my-1' role='presentation' onClick={() => setTab(DAPP)}>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(DAPP)
+                    }}
+                  >
                     <Nav.Link as='button' eventKey='dapp' type='button'>DApps</Nav.Link>
                   </Nav.Item>
-                  <Nav.Item as='li' className=' my-1' role='presentation' onClick={() => setTab(EXCHANGE)}>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(EXCHANGE)
+                    }}
+                  >
                     <Nav.Link as='button' eventKey='exchange' type='button'>Exchanges</Nav.Link>
                   </Nav.Item>
-                  <Nav.Item as='li' className=' my-1' role='presentation' onClick={() => setTab(VENTURE)}>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(VENTURE)
+                    }}
+                  >
                     <Nav.Link as='button' className='me-0' eventKey='venture' type='button'>Ventures</Nav.Link>
                   </Nav.Item>
-                  <Nav.Item as='li' className=' my-1' role='presentation' onClick={() => setTab(SOON)}>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(SOON)
+                    }}
+                  >
                     <Nav.Link as='button' className='me-0' eventKey='soon' type='button'>Soons</Nav.Link>
                   </Nav.Item>
                 </Nav>
@@ -151,7 +172,7 @@ const TabSearch = ({ listProduct, keywordSearch, keyword, handleChangeInput, han
                   placeholder={keyword}
                   onChange={handleChangeInput}
                   onKeyPress={handleSubmitSearch}
-                  suffix={<SearchOutlined onClick={handleSubmitBtn} />}
+                  suffix={<SearchOutlined onClick={handleSubmitBtn} className='icon-submit'/>}
                 />
               </div>
             </div>

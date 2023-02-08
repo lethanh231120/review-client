@@ -7,7 +7,6 @@ import moment from 'moment'
 import { formatMoney, renderNumber } from '../../../../utils/formatNumber'
 import '../../table/venture/venture.scss'
 import nodata from '../../../../images/product/nodata.png'
-import { dapp_score_explain_text } from '../../../constants/data'
 import MyScoreComponent from '../../score/scoreComponent'
 
 const VentureTable = ({ loading, listData }) => {
@@ -23,7 +22,7 @@ const VentureTable = ({ loading, listData }) => {
       render: (_, record) => (
         <Link
           to={`../../../products/venture/${record?.ventureId}`}
-          className='venture-table-info image-list'
+          className='crypto-table-info image-list'
         >
           {record?.ventureLogo ? (
             <Image
@@ -37,8 +36,8 @@ const VentureTable = ({ loading, listData }) => {
             </span>
           )}
           <span>
-            <div className='table-info-name'>
-              <div className='table-info-name-title'>
+            <div className='data-table-name ms-2'>
+              <div className='data-table-name-title'>
                 {record?.ventureName}
               </div>
             </div>
@@ -50,9 +49,6 @@ const VentureTable = ({ loading, listData }) => {
       title: <span className='venture-table-tooltip'>Year Founder</span>,
       key: 'yearFounded',
       dataIndex: 'yearFounded',
-      align: 'right',
-      sorter: (a, b) => a.yearFounded - b.yearFounded,
-      showSorterTooltip: false,
       render: (_, record) => (
         <>
           {record?.yearFounded !== null
@@ -64,8 +60,6 @@ const VentureTable = ({ loading, listData }) => {
     {
       title: <span className='venture-table-tooltip'>Location</span>,
       dataIndex: 'location',
-      sorter: (a, b) => a.location.localeCompare(b.location),
-      showSorterTooltip: false,
       render: (_, record) => (
         <span className='venture-table-location'>
           {record?.location ? record?.location : 'Unknown'}
@@ -74,9 +68,8 @@ const VentureTable = ({ loading, listData }) => {
     },
     {
       title: <span className='venture-table-tooltip'>Seed</span>,
-      sorter: (a, b) => a.seed - b.seed,
-      showSorterTooltip: false,
       dataIndex: 'seed',
+      align: 'right',
       render: (_, record) => (
         <span>
           {record?.seed !== null && record?.seed > 0
@@ -88,10 +81,8 @@ const VentureTable = ({ loading, listData }) => {
     {
       title: <span className='venture-table-tooltip'>Series A</span>,
       key: 'seriesA',
-      align: 'center',
+      align: 'right',
       dataIndex: 'seriesA',
-      sorter: (a, b) => a.seriesA - b.seriesA,
-      showSorterTooltip: false,
       render: (_, record) => (
         <span>
           {record?.seriesA !== null && record?.seriesA > 0
@@ -103,8 +94,7 @@ const VentureTable = ({ loading, listData }) => {
     {
       title: <span className='venture-table-tooltip'>Series B</span>,
       dataIndex: 'seriesB',
-      sorter: (a, b) => a.seriesB - b.seriesB,
-      showSorterTooltip: false,
+      align: 'right',
       render: (_, record) => (
         <span>
           {record?.seriesB !== null && record?.seriesB > 0
@@ -116,8 +106,7 @@ const VentureTable = ({ loading, listData }) => {
     {
       title: <span className='venture-table-tooltip'>Strategic</span>,
       dataIndex: 'strategic',
-      sorter: (a, b) => a.strategic - b.strategic,
-      showSorterTooltip: false,
+      align: 'center',
       render: (_, record) => (
         <span>
           {record?.strategic !== null && record?.strategic > 0
@@ -129,9 +118,7 @@ const VentureTable = ({ loading, listData }) => {
     {
       title: <span className='venture-table-tooltip'>Total Funds</span>,
       dataIndex: 'totalFund',
-      sorter: (a, b) => a.totalFund - b.totalFund,
-      showSorterTooltip: false,
-      defaultSortOrder: 'descend',
+      align: 'right',
       render: (_, record) => (
         <span>
           {record?.totalFund !== null && record?.totalFund > 0
@@ -141,20 +128,18 @@ const VentureTable = ({ loading, listData }) => {
       )
     },
     {
-      title: (
-        <span className='venture-table-tooltip'>
-          Score
-          <Tooltip
-            overlayClassName='venture-table-tooltip-box'
-            title={dapp_score_explain_text}
-          >
-            <InfoCircleOutlined />
-          </Tooltip>
-        </span>
+      title: (<span className='crypto-table-tooltip'>Score
+        <Tooltip
+          overlayClassName='dapp-table-tooltip-box'
+          title='The reputation of the product is assessed by Gear5'
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>
       ),
       dataIndex: 'score',
-      sorter: (a, b) => a.score - b.score,
-      showSorterTooltip: false,
+      // sorter: (a, b) => a.score - b.score,
+      // showSorterTooltip: false,
       render: (_, record) => <MyScoreComponent score={record?.score} />
     }
   ]

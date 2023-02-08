@@ -1,43 +1,20 @@
 import React, { useEffect, useState } from 'react'
-// import React, { useEffect, useState, useContext } from 'react'
 import { Form, Empty, Spin } from 'antd'
-// import { Form, Input, Select, Empty, Spin } from 'antd'
-// import { SearchOutlined } from '@ant-design/icons'
 import './globalSearch.scss'
 import { search } from '../../../api/BaseRequest'
 import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import nodata from '../../../images/product/nodata.png'
-// import { CategoryContext } from '../Main'
-// import { CategoryContext } from '../../../jsx/index'
-// import {
-//   LIST_CRYPTO,
-//   LIST_DAPP,
-//   LIST_EXCHANGE,
-//   LIST_SOON,
-//   LIST_VENTURE
-// } from '../../constants/category'
 import ItemCrypto from './item-crypto/ItemCrypto'
 import ItemDapp from './item-dapp/ItemDapp'
 import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon.js'
 import ItemVenture from './item-venture/ItemVenture'
-// import { Link } from 'react-router-dom'
-
-// const { Option } = Select
-
-// const defaultValue = [
-//   { name: 'category', value: 'all' },
-//   { name: 'address', value: '' }
-// ]
 
 const InputSearch = ({ setOpenModalSearch, type }) => {
-  // const categoryContext = useContext(CategoryContext)
   const [form] = Form.useForm()
   const navigate = useNavigate()
   const [isSubmit, setIsSubmit] = useState(false)
-  // const [categories, setCategories] = useState([])
-  // const [category, setCategory] = useState('all')
   const [listDataSearch, setListDataSearch] = useState()
   const [itemSubmit, setItemSubmit] = useState()
   const [dataSearch, setDataSearch] = useState({
@@ -90,12 +67,6 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
 
   useEffect(() => {
     if (listDataSearch) {
-      // let listData = {}
-      // if (category === 'all') {
-      //   listData = listDataSearch
-      // } else {
-      //   listData[category] = listDataSearch[category]
-      // }
       setDataSearch({
         loading: false,
         data: listDataSearch,
@@ -126,7 +97,6 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
       )
     }
   }, [listDataSearch])
-  // }, [listDataSearch, category])
 
   const subMitForm = () => {
     if (itemSubmit) {
@@ -152,19 +122,12 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                   : 'venture'
         }/${productId}`
       )
+      setKeyWord()
       setDataSearch({
         isActive: false, data: {}, loading: false, status: ''
       })
     }
   }
-
-  // const handleSubmit = () => {
-  //   if (_.isEmpty(dataSearch?.data)) {
-  //     navigate('/notfound')
-  //   } else {
-  //     subMitForm()
-  //   }
-  // }
 
   const handleSubmitSearch = (e) => {
     if (e.key === 'Enter') {
@@ -191,52 +154,6 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
     }
   }, [isSubmit])
 
-  // useEffect(() => {
-  //   const categories = [
-  //     {
-  //       name: 'All filter',
-  //       key: 'all'
-  //     }
-  //   ]
-
-  //   for (const key in categoryContext) {
-  //     let keySearch
-  //     switch (categoryContext[key]?.category?.name) {
-  //       case 'DApps':
-  //         keySearch = LIST_DAPP
-  //         break
-  //       case 'Upcomings':
-  //         keySearch = LIST_SOON
-  //         break
-  //       case 'Ventures':
-  //         keySearch = LIST_VENTURE
-  //         break
-  //       case 'Crypto Projects':
-  //         keySearch = LIST_CRYPTO
-  //         break
-  //       case 'Exchanges':
-  //         keySearch = LIST_EXCHANGE
-  //         break
-
-  //       default:
-  //         break
-  //     }
-  //     if (categoryContext[key]?.category?.name !== 'Scams') {
-  //       categories.push({
-  //         name: categoryContext[key]?.category?.name,
-  //         key: keySearch
-  //       })
-  //     }
-  //   }
-  //   setCategories(categories)
-  // }, [categoryContext])
-
-  // const handleEnterSelect = (e) => {
-  //   if (e.which === 13) {
-  //     handleSubmit()
-  //   }
-  // }
-
   return (
     <div className='input-group search-area cus-input-group'>
       <div className='nav-item d-flex align-items-center'>
@@ -249,16 +166,15 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
               setIsSubmit(true)
             }}
           >
-            {/* <Link to={'#'}> */}
             <svg width='24' height='24' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'>
               <path d='M27.414 24.586L22.337 19.509C23.386 17.928 24 16.035 24 14C24 8.486 19.514 4 14 4C8.486 4 4 8.486 4 14C4 19.514 8.486 24 14 24C16.035 24 17.928 23.386 19.509 22.337L24.586 27.414C25.366 28.195 26.634 28.195 27.414 27.414C28.195 26.633 28.195 25.367 27.414 24.586ZM7 14C7 10.14 10.14 7 14 7C17.86 7 21 10.14 21 14C21 17.86 17.86 21 14 21C10.14 21 7 17.86 7 14Z' fill='var(--secondary)'/>
             </svg>
-            {/* </Link> */}
           </span>
           <input
             type='text'
             className='form-control cus-form-control'
             placeholder='Search here...'
+            value={keyWord}
             onChange={(e) => handleSearch(e, e.target.value)}
             onKeyPress={handleSubmitSearch}
             autoComplete='off'
@@ -267,7 +183,6 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
               e.stopPropagation()
               handleSearch(e, '')
             }}
-
           />
         </div>
       </div>
@@ -290,8 +205,6 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
         //   </Form.Item>
         // }
       /> */}
-      {/* </Form.Item>
-      </Form> */}
       <div
         className={`form-search-data ${dataSearch?.isActive ? 'active' : ''}`}
       >

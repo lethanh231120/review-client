@@ -26,12 +26,12 @@
 }
 
 .content-body {
-  margin-left: 18.563rem;
+  margin-left: 19.5rem;
   z-index: 0;
   transition: all 0.2s ease;
   padding-right: 5.425rem;
   @include respond('laptop') {
-    margin-left: 17rem;
+    margin-left: 19.5rem;
   }
   @include respond('phone-land') {
     padding-right: 0rem;
@@ -274,7 +274,7 @@
 // Sidebar
 //////////////
 .deznav {
-  width: 18.75rem;
+  width: 19.5rem;
   padding-bottom: 10px;
   height: calc(100% - 5rem);
   position: absolute;

@@ -319,27 +319,15 @@ const CategoryItem = () => {
         <Row gutter={[10, 10]}>
           {keyword ? (
             <Col span={24}>
-              {/* <Row>
-                <Col md={{ span: 16 }} sm={{ span: 14 }} xs={{ span: 24 }}>
-                  <TabSearch listProduct={listProduct} />
-                </Col>
-                <Col md={{ span: 8 }} sm={{ span: 10 }} xs={{ span: 24 }}>
-                  <Input
-                    value={keywordSearch}
-                    placeholder={keyword}
-                    onChange={handleChangeInput}
-                    onKeyPress={handleSubmitSearch}
-                    suffix={<SearchOutlined onClick={handleSubmitBtn} />}
-                  />
-                </Col>
-              </Row> */}
               <TabSearch
                 listProduct={listProduct}
                 keywordSearch={keywordSearch}
                 keyword={keyword}
                 handleChangeInput={handleChangeInput}
                 handleSubmitSearch={handleSubmitSearch}
-                handleSubmitBt={handleSubmitBtn}
+                handleSubmitBtn={handleSubmitBtn}
+                setLoading={setLoading}
+                loading={loading}
               />
             </Col>
           ) : (

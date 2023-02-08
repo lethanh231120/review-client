@@ -154,7 +154,7 @@ const Exchange = ({
   ]
 
   return (
-    <div className='crypto-table font-family'>
+    <div className='exchange-table font-family'>
       <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>
         A total of{' '}
         <b>{total ? new Intl.NumberFormat().format(total) : 0}</b> Exchanges

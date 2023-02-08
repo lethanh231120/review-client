@@ -3,7 +3,7 @@ import '../../table/exchange/exchange.scss'
 
 import { Link } from 'react-router-dom'
 // display table
-import { Image, Table, Tooltip, Tag, Empty } from 'antd'
+import { Image, Table, Tooltip, Empty } from 'antd'
 import { PREFIX_DETAIL, EXCHANGE } from '../../../constants/category'
 import { renderNumber } from '../../../../utils/formatNumber'
 import { InfoCircleOutlined } from '@ant-design/icons'
@@ -11,7 +11,8 @@ import { useNavigate } from 'react-router-dom'
 import nodata from '../../../../images/product/nodata.png'
 import MyScoreComponent from '../../score/scoreComponent'
 import { encodeUrl } from '../../../../utils/formatUrl'
-import { mainColorHex } from '../../../constants/color'
+import { Badge } from 'react-bootstrap'
+import { NO_DATA } from '../../../constants/data'
 
 const ExchangeTable = ({ listData, loading }) => {
   const navigate = useNavigate()
@@ -28,7 +29,7 @@ const ExchangeTable = ({ listData, loading }) => {
       render: (_, record) => (
         <Link
           to={`../../../${PREFIX_DETAIL}/${EXCHANGE}/${record?.exchangeId}`}
-          className='exchange-table-info image-list'
+          className='crypto-table-info image-list'
         >
           {record?.smallLogo ? (
             <Image
@@ -42,9 +43,9 @@ const ExchangeTable = ({ listData, loading }) => {
             </span>
           )}
           <span>
-            <div className='table-info-name'>
-              <div className='table-info-name-title'>
-                {record?.name}
+            <div className='data-table-name'>
+              <div className='data-table-name-title'>
+                {record?.name ? record?.name : 'Unknown'}
               </div>
             </div>
           </span>
@@ -56,9 +57,9 @@ const ExchangeTable = ({ listData, loading }) => {
       render: (_, record) => (
         <>
           {record?.subCategory ? (
-            <Tag onClick={(e) => handleClickTag(e, record?.subCategory)} color={mainColorHex}>
+            <Badge bg=' badge-l' className='badge-success' style={{ cursor: 'pointer' }} onClick={(e) => handleClickTag(e, record?.subCategory)}>
               {record?.subCategory}
-            </Tag>
+            </Badge>
           ) : (
             '__'
           )}
@@ -67,23 +68,24 @@ const ExchangeTable = ({ listData, loading }) => {
     },
     {
       title: 'Pair Count',
-      sorter: (a, b) => a.pairCount - b.pairCount,
-      showSorterTooltip: false,
+      align: 'right',
       render: (_, record) => (
-        <span>{record?.pairCount ? record?.pairCount : '__'}</span>
+        <span>
+          {record?.pairCount ? new Intl.NumberFormat().format(record?.pairCount) : NO_DATA }
+        </span>
       ),
       dataIndex: 'pairCount' // override by render but still keep for pass param to server
     },
     {
       title: 'Fee Transaction',
+      align: 'right',
       render: (_, record) => (
         <span>{record?.feeTxs ? renderNumber(record?.feeTxs) : '__'}</span>
       )
     },
     {
       title: 'Volume 24h',
-      sorter: (a, b) => a.volume24h - b.volume24h,
-      showSorterTooltip: false,
+      align: 'right',
       render: (_, record) => (
         <span>
           {record?.volume24h ? renderNumber(record?.volume24h) : '__'}
@@ -93,8 +95,7 @@ const ExchangeTable = ({ listData, loading }) => {
     },
     {
       title: 'Volume 7d',
-      sorter: (a, b) => a.volume7d - b.volume7d,
-      showSorterTooltip: false,
+      align: 'right',
       render: (_, record) => (
         <span>{record?.volume7d ? renderNumber(record?.volume7d) : '__'}</span>
       ),
@@ -102,8 +103,7 @@ const ExchangeTable = ({ listData, loading }) => {
     },
     {
       title: 'Volume 30d',
-      sorter: (a, b) => a.volume1m - b.volume1m,
-      showSorterTooltip: false,
+      align: 'right',
       render: (_, record) => (
         <span>{record?.volume1m ? renderNumber(record?.volume1m) : '__'}</span>
       ),
@@ -111,8 +111,7 @@ const ExchangeTable = ({ listData, loading }) => {
     },
     {
       title: 'Visit 7d',
-      sorter: (a, b) => a.visit7d - b.visit7d,
-      showSorterTooltip: false,
+      align: 'right',
       key: 'visit7d',
       render: (_, record) => (
         <span>
@@ -135,11 +134,12 @@ const ExchangeTable = ({ listData, loading }) => {
           </Tooltip>
         </span>
       ),
-      sorter: (a, b) => a.score - b.score,
-      showSorterTooltip: false,
+      align: 'center',
+      // sorter: (a, b) => a.score - b.score,
+      // showSorterTooltip: false,
       render: (_, record) => <MyScoreComponent score={record?.score} />,
-      dataIndex: 'score', // override by render but still keep for pass param to server
-      defaultSortOrder: 'descend'
+      dataIndex: 'score' // override by render but still keep for pass param to server
+      // defaultSortOrder: 'descend'
     }
   ]
 

@@ -50,9 +50,9 @@
     @include custommq($max: 100rem) {
       width: 18.75rem;
     }
-    @include respond('tab-land') {
-      display: none;
-    }
+    // @include respond('tab-land') {
+    //   display: none;
+    // }
     .form-control {
       border: 0;
       background: #f6f6f6;

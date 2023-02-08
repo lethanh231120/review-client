@@ -469,7 +469,7 @@ const Crypto = ({
           </Tooltip>
         </span>
       ),
-      className: 'width-100',
+      className: 'width-120',
       showSorterTooltip: false,
       dataIndex: 'score',
       align: 'center',

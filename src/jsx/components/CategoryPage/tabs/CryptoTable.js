@@ -15,6 +15,7 @@ import _ from 'lodash'
 import MyScoreComponent from '../../score/scoreComponent'
 import { exchanges } from '../../../../utils/ExchangeImage'
 import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
+import { MAX_PAGE } from '../../../constants/pagination'
 
 const CryptoTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -140,7 +141,7 @@ const CryptoTable = ({ loading, listData }) => {
               <div className='data-table-symbol'>{record?.symbol}</div>
             </div>
             {record?.cryptoId?.split('_')[1] === 'token' && (
-              <div className='crypto-table-info-address'>
+              <div className='data-table-address'>
                 {`${record?.cryptoId
                   ?.split('_')[3]
                   ?.slice(0, 4)}...${record?.cryptoId
@@ -341,6 +342,7 @@ const CryptoTable = ({ loading, listData }) => {
         </span>
       ),
       dataIndex: 'holders',
+      align: 'right',
       render: (_, record) => (<span>
         {new Intl.NumberFormat().format(record?.holders)}
       </span>)
@@ -357,22 +359,23 @@ const CryptoTable = ({ loading, listData }) => {
           </Tooltip>
         </span>
       ),
-      showSorterTooltip: false,
+      // showSorterTooltip: false,
       dataIndex: 'score',
       align: 'center',
-      sorter: (a, b) => a.score - b.score,
-      defaultSortOrder: 'descend',
+      // sorter: (a, b) => a.score - b.score,
+      // defaultSortOrder: 'descend',
       render: (_, record) => <MyScoreComponent score={record?.score} />
     }
   ]
 
+  console.log(listProduct?.length)
   return (
     <div className='crypto-table'>
       {/* {listData ? ( */}
       <Table
         loading={loading}
         columns={columns}
-        dataSource={listProduct}
+        dataSource={(listProduct?.length > MAX_PAGE * 20) ? listProduct?.slice(0, 200) : listProduct}
         pagination={{
           defaultPageSize: 20,
           showSizeChanger: false

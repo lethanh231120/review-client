@@ -1,6 +1,6 @@
 import React from 'react'
 import '../../table/soon/soon.scss'
-import { Image, Table, Avatar, Tooltip, Empty, Tag } from 'antd'
+import { Image, Table, Avatar, Tooltip, Empty } from 'antd'
 import { useNavigate, Link } from 'react-router-dom'
 import nodata from '../../../../images/product/nodata.png'
 import { renderNumber } from '../../../../utils/formatNumber'
@@ -8,7 +8,8 @@ import _ from 'lodash'
 import moment from 'moment'
 import { encodeUrl } from '../../../../utils/formatUrl'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
-import { mainColorHex } from '../../../constants/color'
+// import { mainColorHex } from '../../../constants/color'
+import { Badge } from 'react-bootstrap'
 
 const SoonTable = ({ listData, loading }) => {
   const navigate = useNavigate()
@@ -26,7 +27,7 @@ const SoonTable = ({ listData, loading }) => {
       render: (_, record) => (
         <Link
           to={`../../../${PREFIX_DETAIL}/${SOON}/${record?.projectId}`}
-          className='soon-table-info image-list'
+          className='crypto-table-info image-list'
         >
           {record?.bigLogo ? (
             <Image
@@ -40,11 +41,11 @@ const SoonTable = ({ listData, loading }) => {
             </span>
           )}
           <span>
-            <div className='table-info-name'>
-              <div className='table-info-name-title'>
+            <div className='data-table-name ms-2'>
+              <div className='data-table-name-title'>
                 {record?.projectName?.trim()}
               </div>
-              <div className='table-info-symbol'>
+              <div className='data-table-symbol'>
                 {record?.projectSymbol?.trim()}
               </div>
             </div>
@@ -54,15 +55,16 @@ const SoonTable = ({ listData, loading }) => {
     },
     {
       title: `Subcategory`,
-      sorter: (a, b) => a.subCategory.localeCompare(b.subCategory),
-      showSorterTooltip: false,
       dataIndex: 'subCategory', // override by render but still keep for pass param to server
       render: (_, record) => (
         <>
           {record?.subCategory ? (
-            <Tag onClick={(e) => handleClickTag(e, record?.subCategory)} color={mainColorHex}>
+            // <Tag onClick={(e) => handleClickTag(e, record?.subCategory)} color={mainColorHex}>
+            //   {record?.subCategory}
+            // </Tag>
+            <Badge bg=' badge-l' className='badge-success' style={{ cursor: 'pointer' }} onClick={(e) => handleClickTag(e, record?.subCategory)}>
               {record?.subCategory}
-            </Tag>
+            </Badge>
           ) : (
             '__'
           )}
@@ -109,14 +111,10 @@ const SoonTable = ({ listData, loading }) => {
     },
     {
       title: `Round Type`,
-      sorter: (a, b) => a.roundType.localeCompare(b.roundType),
-      showSorterTooltip: false,
       dataIndex: 'roundType' // override by render but still keep for pass param to server
     },
     {
       title: `Total Raise`,
-      sorter: (a, b) => a.fundRaisingGoals - b.fundRaisingGoals,
-      showSorterTooltip: false,
       render: (_, record) => (
         <span>
           {record?.fundRaisingGoals
@@ -124,6 +122,7 @@ const SoonTable = ({ listData, loading }) => {
             : '__'}
         </span>
       ),
+      align: 'right',
       dataIndex: 'fundRaisingGoals' // override by render but still keep for pass param to server
     },
     {
