@@ -124,7 +124,7 @@ const Dapp = ({
   ]
 
   return (
-    <div className='crypto-table font-family'>
+    <div className='font-family dapp-table'>
       <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>
         A total of{' '}
         <b>{total ? new Intl.NumberFormat().format(total) : 0}</b> Dapps

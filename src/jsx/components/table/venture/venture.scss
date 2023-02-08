@@ -1,7 +1,212 @@
-.venture-table{
-    & .ant-pagination {
-        width: 100%;
-        display: flex;
-        justify-content: center;
+.venture-table {
+  & .ant-pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  width: 100%;
+  & table {
+    width: 100%;
+    overflow: hidden;
+    & .ant-table-thead > tr > th {
+      background-color: #fafafa;
     }
+    & .ant-table-cell-fix-left-first::after,
+    .ant-table-cell-fix-left-last::after {
+      width: 0;
+    }
+    & .ant-table-tbody > tr > td,
+    .ant-table-thead > tr > th {
+      padding: 0.625rem 0.9375rem;
+    }
+    & .ant-table-tbody > tr > td,
+    .ant-table-body > tr > th {
+      padding: 0.625rem 0.9375rem;
+      cursor: pointer;
+    }
+  }
 }
+
+//small menu mode
+@media (max-width: 1730px) {
+  .venture-table {
+    & table .ant-table-thead > tr > th:nth-child(8) { //strategic
+      display: none;
+    }
+    & table .ant-table-tbody > tr > td:nth-child(8) {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 1452px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(7) { //series- c
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(7) {
+        display: none;
+      }
+    }
+  }
+  
+
+  @media (max-width: 1350px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(6) { //series- b
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(6) {
+        display: none;
+      }
+    }
+  }
+
+
+  @media (max-width: 1258px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(5) { //series- a
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(5) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 1166px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(4) { //seed
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 1080px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(9) { //total fund
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(9) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 950px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(3) { //Location
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(3) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 810px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(2) { //Year found
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(2) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 510px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:last-child { //score
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:last-child {
+        display: none;
+      }
+    }
+  }
+
+
+//big menu mode
+@media (max-width: 2000px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(8) { //strategic
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(8) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 1820px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(7) { //series-c
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(7) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 1720px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(6) { //series-b
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(6) {
+        display: none;
+      }
+    }
+  }
+
+
+  @media (max-width: 1445px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(5) { //series-a
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(5) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 1355px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(4) { //seed
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+
+
+  @media (max-width: 1260px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(9) { //total fund
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(9) {
+        display: none;
+      }
+    }
+  }
+
+
+  @media (max-width: 1140px) {
+    .venture-table {
+      & table .ant-table-thead > tr > th:nth-child(3) { //location
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(3) {
+        display: none;
+      }
+    }
+  }
