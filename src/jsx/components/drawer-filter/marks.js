@@ -54,11 +54,45 @@ const volume1mMarks = {
 
 const scoreMarks = {
   0: { label: '0', value: 0 },
-  1: { label: '40', value: 40 },
-  2: { label: '80', value: 80 },
-  3: { label: '120', value: 120 },
-  4: { label: '160', value: 160 },
-  5: { label: '200', value: 200 }
+  1: { label: '2', value: 40 },
+  2: { label: '4', value: 80 },
+  3: { label: '6', value: 120 },
+  4: { label: '8', value: 160 },
+  5: { label: '10', value: 200 }
+}
+
+const getScoreMarks = (type) => {
+  const labels = ['0', '2', '4', '6', '8', '10']
+  const MUL_CRYPTO = 10
+  const MUL_DAPP = 10
+  const MUL_EX_VEN = 20
+  const scores = {}
+  let mul
+
+  switch (type) {
+    case 'crypto':
+      mul = MUL_CRYPTO
+      break
+    case 'dapp':
+      mul = MUL_DAPP
+      break
+    case 'exchange':
+      mul = MUL_EX_VEN
+      break
+    case 'venture':
+      mul = MUL_EX_VEN
+      break
+    default:
+      mul = 0
+      break
+  }
+
+  labels.forEach((item, index) => {
+    scores[index] = { label: item, value: parseInt(item) * mul }
+  })
+
+  // console.log(scores)
+  return scores
 }
 
 const userMarks = {
@@ -143,6 +177,7 @@ export {
   userMarks,
   strategicMarks,
   scoreMarks,
+  getScoreMarks,
   volume1mMarks,
   volume7dMarks,
   fundRaisingGoalsMarks,
