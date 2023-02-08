@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useContext, useEffect } from 'react'
 import './add.scss'
 import { Select, Form, Row, Col, Input, Checkbox, Upload, Button, notification } from 'antd'
 // import { DAPP, EXCHANGE, CRYPTO } from '../../../constants/category'
@@ -10,6 +10,7 @@ import { post } from '../../../../api/BaseRequest'
 import moment from 'moment'
 import { explorers } from '../../../../utils/ExplorerScan'
 import { CheckCircleOutlined } from '@ant-design/icons'
+import { CategoryContext } from '../../../../App'
 
 const { Option } = Select
 const defaultValue = [
@@ -33,14 +34,15 @@ const defaultValue = [
 ]
 const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
   const TOKEN = 'token'
-  // const categoryContext = useContext(CategoryContext)
+  // const ref = useRef()
+  const categoryContext = useContext(CategoryContext)
   const [form] = Form.useForm()
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
   const categories = [
     {
       value: CRYPTO,
-      label: 'Cryptos'
+      label: 'Crypto Projects'
     },
     {
       value: EXCHANGE,
@@ -56,7 +58,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
   const [fileList, setFileList] = useState([])
   const [isRecaptcha, setIsRecaptcha] = useState(false)
   // const [listCategory, setListCategory] = useState()
-  // const [subCategories, setSubCategories] = useState()
+  const [subCategories, setSubCategories] = useState()
   const [data, setData] = useState({
     isScam: false,
     content: '',
@@ -105,6 +107,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
       openNotification(`Unable to add products. Please check again`, error)
     }
   }
+
   const onFinish = async(values) => {
     const recaptchaValue = recapcharRef.current.getValue()
     if (recaptchaValue) {
@@ -114,7 +117,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
           name: values?.name,
           type: values?.type,
           symbol: values?.symbol,
-          address: values?.name,
+          address: values?.address,
           chainName: values?.chainName,
           thumbLogo: data?.image,
           bigLogo: data?.image,
@@ -224,39 +227,30 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
     }
   }
 
-  // useEffect(() => {
-  //     const list = {}
-  //     for (const key in categoryContext) {
-  //         let categoryName
-  //         switch (categoryContext[key]?.category?.name) {
-  //             case 'DApps':
-  //                 categoryName = DAPP
-  //                 break;
-  //             case 'Upcomings':
-  //                 categoryName = SOON
-  //                 break;
-  //             case 'Ventures':
-  //                 categoryName = VENTURE
-  //                 break;
-  //             case 'Cryptos':
-  //                 categoryName = CRYPTO
-  //                 break;
-  //             case 'Exchanges':
-  //                 categoryName = EXCHANGE
-  //                 break;
+  useEffect(() => {
+    const list = {}
+    for (const key in categoryContext) {
+      let categoryName
+      switch (categoryContext[key]?.category?.name) {
+        case 'DApps':
+          categoryName = DAPP
+          break
+        case 'Crypto Projects':
+          categoryName = CRYPTO
+          break
+        case 'Exchanges':
+          categoryName = EXCHANGE
+          break
 
-  //             default:
-  //                 break;
-  //         }
-  //         list[categoryName] = categoryContext[key]?.subCategories
-  //         if (categoryName === category) {
-  //             setSubCategories(categoryContext[key]?.subCategories)
-  //         }
-  //     }
-  //     if (!_.isEmpty(list)) {
-  //         setListCategory(list)
-  //     }
-  // }, [categoryContext])
+        default:
+          break
+      }
+      list[categoryName] = categoryContext[key]?.subCategories
+      if (categoryName === category) {
+        setSubCategories(categoryContext[key]?.subCategories)
+      }
+    }
+  }, [categoryContext, category])
 
   const handleReset = () => {
     form.resetFields()
@@ -326,21 +320,18 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
     })
   }
 
+  // const handleResetForm = () => {
+  //   ref.current.reset()
+  // }
+
   return (
     <>
-      {/* <Select
-                defaultValue={category}
-                style={{
-                    width: 120,
-                }}
-                onChange={handleChangeCategory}
-                options={categories}
-            /> */}
       <Form
         form={form}
         onFinish={onFinish}
         fields={defaultValue}
         layout='vertical'
+        className='add'
       >
         <Row gutter={[12]}>
           <Col span={12}>
@@ -510,8 +501,9 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                   placeholder='Sub Category'
                   showSearch
                 >
-                  <Option value='DEX'>DEX</Option>
-                  <Option value='CEX'>CEX</Option>
+                  {subCategories && subCategories?.map((item, index) => (
+                    <Option value={item?.name} key={index}>{item?.name}</Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -618,6 +610,111 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
           </Col>
         </Row>
       </Form>
+      {/* <form
+        ref={ref}
+        onSubmit={(e) => {
+          e.preventDefault()
+          console.log(e.target.category.value)
+          console.log(e.target.abc.value)
+          console.log(e.target.desc.value)
+          console.log(e.target.checked.checked)
+          console.log(e.target.multiple.value)
+        }}
+        className='form-valide'
+      >
+        <div className='row'>
+          <div className='form-group mb-3 col-md-6'>
+            <label
+              className='col-lg-4 col-form-label'
+              htmlFor='category'
+            >
+              Category <span className='text-danger'>*</span>
+            </label>
+            <input
+              type='text'
+              className='form-control'
+              id='category'
+              name='category'
+              placeholder='Your valid email..'
+            />
+          </div>
+          <div className='form-group mb-3 col-md-6'>
+            <label
+              className='col-lg-4 col-form-label'
+              htmlFor='abc'
+            >
+              abc <span className='text-danger'>*</span>
+            </label>
+            <select
+              defaultValue={'option'}
+              id='abc'
+              name='abc'
+              className='form-control'
+            >
+              <option>Option 1</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+            </select>
+          </div>
+          <div className='form-group mb-3 col-md-6'>
+            <label
+              className='col-lg-4 col-form-label'
+              htmlFor='abc'
+            >
+              abc <span className='text-danger'>*</span>
+            </label>
+            <select
+              defaultValue={'option'}
+              id='multiple'
+              name='multiple'
+              className='form-control'
+            >
+              <option>Option 1</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+            </select>
+          </div>
+          <div className='form-group mb-3 col-md-6'>
+            <div className='form-check custom-checkbox mb-3 checkbox-success'>
+              <input
+                type='checkbox'
+                defaultChecked
+                className='form-check-input'
+                id='checked'
+                name='checked'
+              />
+              <label
+                className='form-check-label'
+                htmlFor='checked'
+              >
+                      Checkbox 3
+              </label>
+
+            </div>
+          </div>
+          <div className='form-group mb-3 col-12'>
+            <label
+              className='form-check-label'
+              htmlFor='desc'
+            >
+                      Description
+            </label>
+            <textarea
+              className='form-txtarea form-control'
+              rows='4'
+              id='desc'
+              name='desc'
+            ></textarea>
+
+          </div>
+        </div>
+        <button type='submit' className='btn btn-primary'>
+                   submit
+        </button>
+        <button onClick={handleResetForm} className='btn btn-primary'>
+                            Submit
+        </button>
+      </form> */}
     </>
   )
 }

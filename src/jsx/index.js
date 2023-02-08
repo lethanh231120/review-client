@@ -119,7 +119,7 @@ const Markup = () => {
         <ScrollToTop />
         <Modal className='fade cus-modal' show={openModalReport} size='lg'>
           <Modal.Header className='cus-modal'>
-            <Modal.Title>Modal title</Modal.Title>
+            <Modal.Title>Report Scam</Modal.Title>
             <Button
               variant=''
               className='btn-close'
@@ -134,7 +134,7 @@ const Markup = () => {
         </Modal>
         <Modal className='fade cus-modal' show={openModalAdd} size='lg'>
           <Modal.Header className='cus-modal'>
-            <Modal.Title>Modal title</Modal.Title>
+            <Modal.Title>Add Product</Modal.Title>
             <Button
               variant=''
               className='btn-close'

@@ -172,11 +172,15 @@ const ModalReport = ({ openModalReport, setOpenModalReport, logout }) => {
         : (item?.ventureId ? item?.ventureId
           : (item?.soonId ? item?.soonId
             : item?.exchangeId)))
+    console.log(id)
     if (id?.split('_')[1] === 'token' || id?.split('_')[1] === 'coin') {
       const productId = `products/crypto/${id?.split('_')[1]}/${id?.split('_')[2]}/${id?.split('_')[1] === 'token' ? id?.split('_')[3] : ''}`
+      console.log(productId)
       setProductId(productId)
     } else {
-      const productId = `products/${id?.split('_')[1]}/${(id?.split('_')[1] === 'soon') ? `${item?.soonId?.split('_')[2]}${item?.soonId?.split('_')[3] ? `/${item?.soonId?.split('_')[3]}` : ''}` : `${id?.split('_')[2]}/${id?.split('_')[3]}`}`
+      const productId = `products/${id?.split('_')[1]}/${(id?.split('_')[1] === 'soon') ? `${item?.soonId?.split('_')[2]}${item?.soonId?.split('_')[3] ? `/${item?.soonId?.split('_')[3]}` : ''}` : `${id?.split('_')[2]}`}`
+      console.log(productId)
+      // const productId = `products/${id?.split('_')[1]}/${(id?.split('_')[1] === 'soon') ? `${item?.soonId?.split('_')[2]}${item?.soonId?.split('_')[3] ? `/${item?.soonId?.split('_')[3]}` : ''}` : `${id?.split('_')[2]}/${id?.split('_')[3]}`}`
       setProductId(productId)
     }
   }, [item])

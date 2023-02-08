@@ -38,7 +38,7 @@ const Home = () => {
   const [btcChartData, setBtcChartData] = useState()
 
   const [topCoins, setTopCoins] = useState()
-  const userInfo = getCookie(STORAGEKEY)
+  const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
   const reportModal = useContext(ReportModalContext)
   const addModal = useContext(AddModalContext)
