@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
-// import { Modal } from 'antd'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal } from 'antd'
+// import { Modal, Button } from 'react-bootstrap'
 
 // / Image
 import imgMoon from '../../../images/moon.png'
@@ -78,18 +78,19 @@ const Header = () => {
 
   return (
     <>
-      {/* <Modal
+      <Modal
         open={signContext?.openModalSignIn}
         onCancel={() => signContext?.handleSetOpenModal(false)}
         onOk={() => signContext?.handleSetOpenModal(false)}
         footer={false}
         destroyOnClose={true}
+        show={signContext?.openModalSignIn}
       >
         <AccountTab activeTabKey={activeTabKey} />
-      </Modal> */}
+      </Modal>
 
-      <Modal className='fade cus-modal' show={signContext?.openModalSignIn}>
-        <Modal.Header className='cus-modal'>
+      {/* <Modal className='fade cus-modal' show={signContext?.openModalSignIn}> */}
+      {/* <Modal.Header className='cus-modal'>
           <Modal.Title>Modal title</Modal.Title>
           <Button
             variant=''
@@ -101,8 +102,8 @@ const Header = () => {
         </Modal.Header>
         <Modal.Body className='cus-modal'>
           <AccountTab activeTabKey={activeTabKey} />
-        </Modal.Body>
-        {/* <Modal.Footer>
+        </Modal.Body> */}
+      {/* <Modal.Footer>
           <Button
             onClick={() => setBasicModal(false)}
             variant='danger light'
@@ -111,7 +112,7 @@ const Header = () => {
           </Button>
           <Button variant='primary'>Save changes</Button>
         </Modal.Footer> */}
-      </Modal>
+      {/* </Modal> */}
       <div className={`header ${headerFix ? 'is-fixed' : ''}`}>
         <div className='header-content'>
           <nav className='navbar navbar-expand'>
@@ -136,6 +137,7 @@ const Header = () => {
                     onClick={() => onChangeTheme()}
                   >
                     <img
+                      hidden={true}
                       src={isLightTheme ? imgMoon : imgSun}
                       alt=''
                       className='mx-2'

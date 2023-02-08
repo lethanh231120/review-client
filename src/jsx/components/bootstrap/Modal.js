@@ -52,7 +52,7 @@ const UiModal = () => {
                   Basic modal
                 </Button>
                 {/* <!-- Modal --> */}
-                <Modal className='fade' show={basicModal}>
+                <Modal className='fade' show={basicModal} width={700}>
                   <Modal.Header>
                     <Modal.Title>Modal title</Modal.Title>
                     <Button

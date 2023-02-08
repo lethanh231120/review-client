@@ -15,9 +15,9 @@ export function NavMenuToggle() {
   setTimeout(() => {
     const mainwrapper = document.querySelector('#main-wrapper')
     if (mainwrapper.classList.contains('menu-toggle')) {
-      mainwrapper.classList.remove('menu-toggle')
+      mainwrapper.classList.remove('menu-toggle') // big menu
     } else {
-      mainwrapper.classList.add('menu-toggle')
+      mainwrapper.classList.add('menu-toggle') // small menu
     }
   }, 200)
 }
@@ -28,9 +28,8 @@ const NavHader = () => {
   //   useContext(ThemeContext)
   return (
     <div className='nav-header'>
-      <Link to='/dashboard' className='brand-logo'>
-        <img src={gear5LogoNotext} className='logo-abbr img-fluid' alt='' />
-        <img src={gear5LogoWhite} className='brand-title color-title img-fluid' alt='' />
+      <Link to='/' className='brand-logo'>
+        {toggle ? <img src={gear5LogoNotext} className='logo-abbr img-fluid' alt='' /> : <img src={gear5LogoWhite} className='brand-title img-fluid' alt='' />}
       </Link>
 
       <div
