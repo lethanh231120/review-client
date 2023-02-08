@@ -24,7 +24,7 @@ const MyScoreComponent = ({ score }) => {
       classname = 'badge-danger'
     }
   }
-  return <Badge bg=' badge-l' className={classname}>{output.toFixed(1)}</Badge>
+  return <Badge bg='badge-l' className={classname}>{output.toFixed(1)}</Badge>
 }
 
 export default MyScoreComponent

@@ -25,6 +25,7 @@ import TabSearch from './TabSearch'
 import { PAGE_SIZE, MAX_PAGE } from '../../constants/pagination'
 import { useNavigate } from 'react-router-dom'
 import { decodeUrl } from '../../../utils/formatUrl'
+import _ from 'lodash'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -36,64 +37,51 @@ const CategoryItem = () => {
   const { category, subCategory, keyword } = useParams()
   const [keywordSearch, setKeyWordSearch] = useState(keyword)
 
-  useEffect(() => {
-    const getData = async() => {
-      if (category) {
-        switch (category) {
-          case DAPP:
-            setParams({
-              page: 1,
-              sort: 'desc',
-              orderBy: 'score',
-              tag: subCategory || ''
-            })
-            break
-          case CRYPTO:
-            setParams({
-              type:
-                subCategory === CRYPTO_COIN || subCategory === CRYPTO_TOKEN
-                  ? subCategory
-                  : '',
-              tag:
-                subCategory && subCategory !== CRYPTO_COIN && subCategory !== CRYPTO_TOKEN
-                  ? subCategory
-                  : '',
-              orderBy: 'score',
-              sort: 'desc',
-              page: 1
-            })
-            break
-          case EXCHANGE:
-            setParams({
-              page: 1,
-              sort: 'desc',
-              orderBy: 'score',
-              tag: subCategory || ''
-            })
-            break
-          case VENTURE:
-            setParams({
-              location: '',
-              orderBy: 'score',
-              sort: 'desc',
-              page: 1
-            })
-            break
-          case SOON:
-            setParams({
-              roundType: '',
-              tag: subCategory || '',
-              orderBy: 'startDate',
-              sort: 'desc',
-              page: 1
-            })
-            break
-          default:
-            break
-        }
+  const defaultParams = {
+    dapp: { page: 1, sort: 'desc', orderBy: 'score', tag: subCategory || '' },
+    crypto: {
+      type:
+        subCategory === CRYPTO_COIN || subCategory === CRYPTO_TOKEN
+          ? subCategory
+          : '',
+      tag:
+        subCategory && subCategory !== CRYPTO_COIN && subCategory !== CRYPTO_TOKEN
+          ? subCategory
+          : '',
+      orderBy: 'score',
+      sort: 'desc',
+      page: 1
+    },
+    exchange: { page: 1, sort: 'desc', orderBy: 'score', tag: subCategory || '' },
+    venture: { location: '', orderBy: 'score', sort: 'desc', page: 1 },
+    soon: { roundType: '', tag: subCategory || '', orderBy: 'startDate', sort: 'desc', page: 1 }
+  }
+  // check category and set params
+  const setParram = async() => {
+    if (category) {
+      switch (category) {
+        case DAPP:
+          setParams(defaultParams?.dapp)
+          break
+        case CRYPTO:
+          setParams(defaultParams?.crypto)
+          break
+        case EXCHANGE:
+          setParams(defaultParams?.exchange)
+          break
+        case VENTURE:
+          setParams(defaultParams?.venture)
+          break
+        case SOON:
+          setParams(defaultParams?.soon)
+          break
+        default:
+          break
       }
     }
-    getData()
+  }
+  useEffect(() => {
+    setParram()
   }, [category, subCategory])
 
   const getData = async(category, paramSort) => {
@@ -276,11 +264,15 @@ const CategoryItem = () => {
   }, [params, category])
 
   const handleFilter = (param) => {
-    setParams({
-      ...params,
-      ...param,
-      page: params?.page
-    })
+    if (_.isEmpty(param)) {
+      setParram()
+    } else {
+      setParams({
+        ...params,
+        ...param,
+        page: params?.page
+      })
+    }
   }
 
   const handleChangeInput = (e) => {

@@ -11,7 +11,10 @@ import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon.js'
 import ItemVenture from './item-venture/ItemVenture'
 
-const InputSearch = ({ setOpenModalSearch, type }) => {
+const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchFormReport, setItem }) => {
+  // isFormReport={true}
+  // setDataSearch={setDataSearch}
+  // setItem={setItem}
   const [form] = Form.useForm()
   const navigate = useNavigate()
   const [isSubmit, setIsSubmit] = useState(false)
@@ -63,7 +66,7 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
     } else {
       setDataSearch({ isActive: false, data: {}, loading: false, status: '' })
     }
-  }, 250)
+  }, 400)
 
   useEffect(() => {
     if (listDataSearch) {
@@ -138,9 +141,9 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
   useEffect(() => {
     if (isSubmit) {
       if (!dataSearch?.isNull) {
-        if (type) {
-          setOpenModalSearch(false)
-        }
+        // if (type) {
+        //   setOpenModalSearch(false)
+        // }
         form.resetFields()
         // form.setFieldsValue({
         //   category: 'all'
@@ -153,6 +156,10 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
       }
     }
   }, [isSubmit])
+
+  useEffect(() => {
+    setDataSearchFormReport && setDataSearchFormReport(dataSearch)
+  }, [dataSearch])
 
   return (
     <div className='input-group search-area cus-input-group'>
@@ -175,7 +182,10 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
             className='form-control cus-form-control'
             placeholder='Search here...'
             value={keyWord}
-            onChange={(e) => handleSearch(e, e.target.value)}
+            onChange={(e) => {
+              if (isFormReport) setItem()
+              handleSearch(e, e.target.value)
+            }}
             onKeyPress={handleSubmitSearch}
             autoComplete='off'
             onBlur={(e) => {
@@ -186,27 +196,9 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
           />
         </div>
       </div>
-      {/* <input
-        // suffix={
-        //   <Form.Item>
-        //     <SearchOutlineds
-        //       onClick={(e) => {
-        //         e.preventDefault()
-        //         e.stopPropagation()
-        //         setIsSubmit(true)
-        //       }}
-        //       style={{
-        //         color: '#fff',
-        //         fontSize: '2rem',
-        //         backgroundColor: '#039F7F',
-        //         borderRadius: '0px 10px 10px 0px'
-        //       }}
-        //     />
-        //   </Form.Item>
-        // }
-      /> */}
       <div
         className={`form-search-data ${dataSearch?.isActive ? 'active' : ''}`}
+        style={{ position: isFormReport ? '' : 'absolute' }}
       >
         {dataSearch?.loading ? (
           <>
@@ -229,9 +221,16 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                                 item={item}
                                 index={index}
                                 itemSubmit={itemSubmit}
-                                setOpenModalSearch={setOpenModalSearch}
+                                // use in component modal search
+                                // setOpenModalSearch={setOpenModalSearch}
                                 setItemSubmit={setItemSubmit}
+                                // if global === true, search global reverse, search in table of category
                                 global={true}
+                                // use in form report
+                                setDataSearchFormReport={setDataSearchFormReport}
+                                setItem={setItem}
+                                isFormReport={isFormReport}
+                                dataSearch={dataSearch}
                               />
                             </>
                           )
@@ -249,7 +248,7 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                               item={item}
                               index={index}
                               itemSubmit={itemSubmit}
-                              setOpenModalSearch={setOpenModalSearch}
+                              // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
                               global={true}
                             />
@@ -268,7 +267,7 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                               item={item}
                               index={index}
                               itemSubmit={itemSubmit}
-                              setOpenModalSearch={setOpenModalSearch}
+                              // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
                               global={true}
                             />
@@ -285,72 +284,10 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                             key={item?.soonId}
                             item={item}
                             itemSubmit={itemSubmit}
-                            setOpenModalSearch={setOpenModalSearch}
+                            // setOpenModalSearch={setOpenModalSearch}
                             setItemSubmit={setItemSubmit}
                             global={true}
                           />
-                          // <Link
-                          //   to={`../../products/soon/${item?.soonId?.split('_')[2]}${item?.soonId?.split('_')[3] ? `/${item?.soonId?.split('_')[3]}` : ''}`}
-                          //   key={item?.soonId}
-                          //   className={`${
-                          //     itemSubmit?.soonId === item?.soonId
-                          //       ? "hover"
-                          //       : ""
-                          //   } form-search-data-item`}
-                          //   onClick={() => {
-                          //     navigate(`../../products/soon/${item?.soonId?.split('_')[2]}${item?.soonId?.split('_')[3] ? `/${item?.soonId?.split('_')[3]}` : ''}`)
-                          //     setOpenModalSearch(false)
-                          //   }}
-                          //   onMouseEnter={() => setItemSubmit(item)}
-                          // >
-                          //   <div className="form-search-data-item-data">
-                          //     {item?.image ? (
-                          //       <Image src={item?.image} preview={false} />
-                          //     ) : (
-                          //       <span className="table-icon-coin-logo">
-                          //         {item?.name?.slice(0, 3)?.toUpperCase()}
-                          //       </span>
-                          //     )}
-                          //     <div>
-                          //       <div className="form-search-data-item-data-content">
-                          //         <div className="form-search-data-item-data-name">
-                          //           {item?.name}
-                          //         </div>
-                          //         <div className="form-search-data-item-data-symbol">
-                          //           ({item?.symbol})
-                          //         </div>
-                          //         {item?.isScam ? (
-                          //           <Image src={scam} preview={false} />
-                          //         ) : item?.isWarning ? (
-                          //           <Image src={warning} preview={false} />
-                          //         ) : (
-                          //           ""
-                          //         )}
-                          //       </div>
-                          //       <div className="form-search-data-item-data-list">
-                          //         {item?.roundType && (
-                          //           <div className="form-search-data-item-data-tag">
-                          //             {item?.roundType}
-                          //           </div>
-                          //         )}
-                          //         {item?.blockchain && (
-                          //           <span className="form-search-data-item-data-content-list">
-                          //             {item?.blockchain
-                          //               ?.split("")
-                          //               ?.map((itemSoon) => (
-                          //                 <div
-                          //                   className="form-search-data-item-data-tag"
-                          //                   key={itemSoon}
-                          //                 >
-                          //                   {itemSoon}
-                          //                 </div>
-                          //               ))}
-                          //           </span>
-                          //         )}
-                          //       </div>
-                          //     </div>
-                          //   </div>
-                          // </Link>
                         ))}
                       </div>
                     )}
@@ -365,7 +302,7 @@ const InputSearch = ({ setOpenModalSearch, type }) => {
                               item={item}
                               index={index}
                               itemSubmit={itemSubmit}
-                              setOpenModalSearch={setOpenModalSearch}
+                              // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
                               global={true}
                             />

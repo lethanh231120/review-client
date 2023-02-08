@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 
-const ItemVenture = ({ item, index, itemSubmit, setOpenModalSearch, setItemSubmit, global }) => {
+const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -15,9 +15,9 @@ const ItemVenture = ({ item, index, itemSubmit, setOpenModalSearch, setItemSubmi
       } form-search-data-item`}
       onClick={() => {
         navigate(`../../products/venture/${item?.ventureId?.split('_')[2]}`)
-        if (setOpenModalSearch !== undefined) {
-          setOpenModalSearch(false)
-        }
+        // if (setOpenModalSearch !== undefined) {
+        //   setOpenModalSearch(false)
+        // }
       }}
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >

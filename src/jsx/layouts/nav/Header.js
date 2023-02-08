@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
-import { Modal } from 'antd'
+// import { Modal } from 'antd'
+import { Modal, Button } from 'react-bootstrap'
 
 // / Image
 import imgMoon from '../../../images/moon.png'
@@ -79,7 +80,7 @@ const Header = () => {
 
   return (
     <>
-      <Modal
+      {/* <Modal
         open={signContext?.openModalSignIn}
         onCancel={() => signContext?.handleSetOpenModal(false)}
         onOk={() => signContext?.handleSetOpenModal(false)}
@@ -87,6 +88,31 @@ const Header = () => {
         destroyOnClose={true}
       >
         <AccountTab activeTabKey={activeTabKey} />
+      </Modal> */}
+
+      <Modal className='fade cus-modal' show={signContext?.openModalSignIn}>
+        <Modal.Header className='cus-modal'>
+          <Modal.Title>Modal title</Modal.Title>
+          <Button
+            variant=''
+            className='btn-close'
+            onClick={() => signContext?.handleSetOpenModal(false)}
+          >
+
+          </Button>
+        </Modal.Header>
+        <Modal.Body className='cus-modal'>
+          <AccountTab activeTabKey={activeTabKey} />
+        </Modal.Body>
+        {/* <Modal.Footer>
+          <Button
+            onClick={() => setBasicModal(false)}
+            variant='danger light'
+          >
+                      Close
+          </Button>
+          <Button variant='primary'>Save changes</Button>
+        </Modal.Footer> */}
       </Modal>
       <div className={`header ${headerFix ? 'is-fixed' : ''}`}>
         <div className='header-content'>

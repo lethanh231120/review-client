@@ -21,7 +21,7 @@ import smile from '../../../../images/product/smile.png'
 import user from '../../../../images/product/user.png'
 import FilterReview from '../../product-detail/filter-review/FilterReview'
 
-const FormReport = ({ numberReviews, rest }) => {
+const FormReport = ({ numberReviews, rest, isFormReport }) => {
   const {
     data,
     setData,
@@ -165,11 +165,13 @@ const FormReport = ({ numberReviews, rest }) => {
 
   return (
     <>
-      <FilterReview
-        defaultFilter={rest?.defaultFilter}
-        setDefaultFilter={rest?.setDefaultFilter}
-        numberReviews={numberReviews}
-      />
+      {isFormReport && (
+        <FilterReview
+          defaultFilter={rest?.defaultFilter}
+          setDefaultFilter={rest?.setDefaultFilter}
+          numberReviews={numberReviews}
+        />
+      )}
       <div className='product-detail-form'>
         {showUser && (
           <div className='product-detail-form-avatar'>
