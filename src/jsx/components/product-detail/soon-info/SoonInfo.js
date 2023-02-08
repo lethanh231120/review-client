@@ -437,21 +437,24 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           elementClassNames='row sp4'
         >
           {itemDetail && Object.keys(itemDetail?.media)?.map((keyScreenshotName, index) => (
-            <div
-              data-src={itemDetail?.media[keyScreenshotName]}
-              className='col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1'
-              key={index}
-            >
-              <Tooltip
-                title={keyScreenshotName}
+            <>
+              <div
+                data-src={itemDetail?.media[keyScreenshotName]}
+                className='col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1'
+                key={index}
               >
-                <img
-                  src={itemDetail?.media[keyScreenshotName]}
-                  style={{ width: '100%', height: '100%' }}
-                  alt={keyScreenshotName}
-                />
-              </Tooltip>
-            </div>
+                <Tooltip
+                  title={keyScreenshotName}
+                >
+                  <img
+                    src={itemDetail?.media[keyScreenshotName]}
+                    style={{ width: '100%', height: '8rem' }}
+                    alt={keyScreenshotName}
+                  />
+                </Tooltip>
+
+              </div>
+            </>
           ))}
         </LightGallery>
       </div>

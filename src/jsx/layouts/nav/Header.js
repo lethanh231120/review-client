@@ -5,7 +5,7 @@ import { Modal } from 'antd'
 // / Image
 import imgMoon from '../../../images/moon.png'
 import imgSun from '../../../images/sun.png'
-import profile from '../../../images/profile/avatar_facebook.jpg'
+import profile from '../../../images/product/user.png'
 import { ThemeContext } from '../../../context/ThemeContext'
 import AccountTab, { logInKey, signUpKey } from '../../components/common-widgets/user-form/account-tab'
 import { SignInContext, Authenticated } from '../../../App'
@@ -15,7 +15,7 @@ import { getCookie, removeCookie, STORAGEKEY } from '../../../utils/storage'
 import ExpiredJWTChecker from '../../components/auth/ExpiredJWTChecker'
 import Swal from 'sweetalert2'
 
-const Header = ({ onNote }) => {
+const Header = () => {
   const [isLightTheme, setIsLightTheme] = useState(true)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
@@ -168,7 +168,9 @@ const Header = ({ onNote }) => {
                             <img
                               src={userInfo?.image ? userInfo?.image : profile}
                               width={20}
+                              height={20}
                               alt=''
+                              style={{ backgroundColor: '#EFECE8' }} // same background of image
                             />
                           </Dropdown.Toggle>
                           <Dropdown.Menu

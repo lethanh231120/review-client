@@ -28,7 +28,7 @@ export const ConfirmEmail = () => {
         instance.defaults.headers.common['Authorization'] = token
       }
       try {
-        const res = await instance.get(`/accounts/confirm-email/uuid=${uuid}`)
+        const res = await instance.get(`reviews/auth/confirm/normal?uuid=${uuid}`)
         res && accountConfirmEmailStatus.map((item) => {
           if (item.code === res?.data?.code) {
             setMessage({
