@@ -28,12 +28,12 @@ export const ConfirmEmail = () => {
     })
   }
 
-  const onConfirmEmailFailed = (msg) =>{
+  const onConfirmEmailFailed = () =>{
     Swal.fire({
       allowOutsideClick: false,
       icon: 'warning',
       title: 'Warning',
-      html: msg,
+      html: 'Active email failed.',
       showClass: {
         popup: 'animate__animated animate__fadeInDown'
       },
@@ -57,7 +57,7 @@ export const ConfirmEmail = () => {
         onConfirmEmailSuccess()
       }
     } catch (e) {
-      onConfirmEmailFailed(e?.response?.data?.error)
+      onConfirmEmailFailed()
     }
   }
 

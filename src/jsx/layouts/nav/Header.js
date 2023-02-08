@@ -36,6 +36,7 @@ const Header = () => {
     if (backgroundOption.length === 2) {
       // Current: Light theme --> change to Dark theme
       if (isLightTheme) {
+        // alert(`light theme`)
         changeBackground(backgroundOption[1]) // { value: 'dark', label: 'Dark' }
         // Dark purple at position 4 in array
         if (colors.length >= 4) {
@@ -44,6 +45,7 @@ const Header = () => {
         }
       } else {
         // Current: Dark theme --> change to Light theme
+        // alert(`light theme`)
         changeBackground(backgroundOption[0]) // { value: 'light', label: 'Light' }
         // White at position 4 in array
         if (colors.length >= 1) {
