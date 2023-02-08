@@ -19,6 +19,7 @@ const ExpiredJWTChecker = ({ logout }) => {
       const expiredJWT = await isJWTExpired()
       if (expiredJWT) {
         Swal.fire({
+          allowOutsideClick: false,
           icon: 'info',
           title: 'Please log in again',
           showClass: {

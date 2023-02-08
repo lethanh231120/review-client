@@ -88,6 +88,7 @@ export const SignInComponent = () => {
       }
     } catch (e) {
       Swal.fire({
+        allowOutsideClick: false,
         icon: 'error',
         title: 'Log In failed.',
         html: e?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later.',
