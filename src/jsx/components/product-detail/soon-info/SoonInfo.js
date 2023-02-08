@@ -420,7 +420,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     ) : ''
 
   // wait load finish modal, avoid excpetion
-  const description = itemDetail ? (
+  const description = itemDetail?.fullDesc ? (
     <div>
       <div className='card-header border-0 pb-0'>
         <h5 className='text-primary'>About {itemDetail?.projectName}</h5>
@@ -435,41 +435,43 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </div>
   ) : ''
 
-  const about = <div className='card'>
-    <div className='card-header border-0 pb-0'>
-      <h5 className='text-primary '>Screenshots</h5>
-    </div>
-    <div className='card-body pt-3'>
-      <div className='profile-interest'>
-        <LightGallery
-          speed={500}
-          plugins={[lgThumbnail, lgZoom]}
-          elementClassNames='row sp4'
-        >
-          {itemDetail && Object.keys(itemDetail?.media)?.map((keyScreenshotName, index) => (
-            <>
-              <div
-                data-src={itemDetail?.media[keyScreenshotName]}
-                className='col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1'
-                key={index}
-              >
-                <Tooltip
-                  title={keyScreenshotName}
-                >
-                  <img
-                    src={itemDetail?.media[keyScreenshotName]}
-                    style={{ width: '100%', height: '8rem' }}
-                    alt={keyScreenshotName}
-                  />
-                </Tooltip>
+  const about = itemDetail?.media
+    ? (
+      <div className='card'>
+        <div className='card-header border-0 pb-0'>
+          <h5 className='text-primary '>Screenshots</h5>
+        </div>
+        <div className='card-body pt-3'>
+          <div className='profile-interest'>
+            <LightGallery
+              speed={500}
+              plugins={[lgThumbnail, lgZoom]}
+              elementClassNames='row sp4'
+            >
+              { Object.keys(itemDetail?.media)?.map((keyScreenshotName, index) => (
+                <>
+                  <div
+                    data-src={itemDetail?.media[keyScreenshotName]}
+                    className='col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1'
+                    key={index}
+                  >
+                    <Tooltip
+                      title={keyScreenshotName}
+                    >
+                      <img
+                        src={itemDetail?.media[keyScreenshotName]}
+                        style={{ width: '100%', height: '8rem' }}
+                        alt={keyScreenshotName}
+                      />
+                    </Tooltip>
 
-              </div>
-            </>
-          ))}
-        </LightGallery>
-      </div>
-    </div>
-  </div>
+                  </div>
+                </>
+              ))}
+            </LightGallery>
+          </div>
+        </div>
+      </div>) : null
 
   return (
     <DetailLayout
