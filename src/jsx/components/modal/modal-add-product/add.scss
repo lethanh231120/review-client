@@ -15,7 +15,7 @@
     }
     & .ant-form-item{
         margin-bottom: 0;
-        margin-top: 1.6rem;
+        margin-top: 1rem;
     }
     &-btn{
         width: 100%;
@@ -40,7 +40,7 @@
     }
     & .ant-form-item-label{
         & label{
-            font-size: 1.6rem;
+            font-size: 1rem;
             font-weight: 500;
             color: rgba(0, 0, 0, 0.8);
         }
@@ -63,7 +63,7 @@
         border-bottom-left-radius: 0.6rem;
     }
     & .ant-select{
-        width: 100%;
+        width: 100% !important;
     }
     & .ant-select:not(.ant-select-disabled):hover .ant-select-selector{
         border-color: #00826889;
