@@ -1,4 +1,4 @@
-import PerfectScrollbar from 'react-perfect-scrollbar'
+// import PerfectScrollbar from 'react-perfect-scrollbar'
 import { TopDiscussedItem } from './top-disussed-item'
 import { useState, useEffect } from 'react'
 import { get } from '../../../../../api/BaseRequest'
@@ -21,7 +21,7 @@ export const TopDiscussed = () => {
       <h2 className='heading'>Top Discussed Projects</h2>
     </div>
     <div className='card-body'>
-      <PerfectScrollbar
+      <div
         style={{ height: '370px' }}
         id='DZ_W_Todo2'
         className='widget-media dz-scroll height370 ps ps--active-y'
@@ -30,7 +30,7 @@ export const TopDiscussed = () => {
           {hotList?.map((item, index) => <TopDiscussedItem key={index} item={item}/>
           )}
         </ul>
-      </PerfectScrollbar>
+      </div>
     </div>
   </div>
 }
