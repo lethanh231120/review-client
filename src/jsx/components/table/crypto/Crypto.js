@@ -159,7 +159,7 @@ const Crypto = ({
           }`}
           className='crypto-table-info image-list'
         >
-          {record?.cryptoId && record?.smallLogo
+          {record?.cryptoId && record?.bigLogo
             ? <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} />
             : (
               <span className='image-list-no-data'>
@@ -501,7 +501,7 @@ const Crypto = ({
   }
 
   return (
-    <div className='crypto-table font-family'>
+    <div className='font-family crypto-table'>
       <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>
         A total of{' '}
         <b>{total ? new Intl.NumberFormat().format(total) : 0}</b> Coins /

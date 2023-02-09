@@ -14,6 +14,7 @@ import InputSearch from '../../components/input-search/GlobalSearch'
 import { getCookie, removeCookie, STORAGEKEY } from '../../../utils/storage'
 import ExpiredJWTChecker from '../../components/auth/ExpiredJWTChecker'
 import Swal from 'sweetalert2'
+import { Tooltip } from 'antd'
 
 const Header = () => {
   const [isLightTheme, setIsLightTheme] = useState(true)
@@ -192,12 +193,14 @@ const Header = () => {
                             as='a'
                             className='nav-link i-false c-pointer'
                           >
-                            <img
-                              src={userInfo?.image ? userInfo?.image : profile}
-                              width={20}
-                              alt=''
-                              style={{ backgroundColor: '#EFECE8' }} // same background of image
-                            />
+                            <Tooltip title={userInfo?.userName} placement='left'>
+                              <img
+                                src={userInfo?.image ? userInfo?.image : profile}
+                                width={20}
+                                alt=''
+                                style={{ backgroundColor: '#EFECE8' }} // same background of image
+                              />
+                            </Tooltip>
                           </Dropdown.Toggle>
                           <Dropdown.Menu
                             align='right'
@@ -227,7 +230,6 @@ const Header = () => {
                             </>
                           </Dropdown.Menu>
                         </Dropdown>
-                        <div style={{ wordBreak: 'break-all' }}>{userInfo?.userName}</div>
                       </>
                     ) : (
                       <>
