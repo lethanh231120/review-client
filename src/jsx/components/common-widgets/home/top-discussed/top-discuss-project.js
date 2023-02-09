@@ -10,7 +10,11 @@ export const TopDiscussed = () => {
     const getHotList = async() => {
       const res = await get('reviews/hot')
       if (res?.code === '200') {
-        setHotList(res?.data?.products)
+        if (res?.data?.products?.length > 5) {
+          setHotList(res?.data?.products?.slice(0, 5))
+        } else {
+          setHotList(res?.data?.products)
+        }
       }
     }
     getHotList()
@@ -18,11 +22,11 @@ export const TopDiscussed = () => {
 
   return <div className='card pb-0'>
     <div className='card-header border-0 pb-0'>
-      <h2 className='heading'>Top Discussed Projects</h2>
+      <h2 className='heading'>Hot Topics</h2>
     </div>
     <div className='card-body'>
       <div
-        style={{ height: '370px' }}
+        style={{ height: '100%' }}
         id='DZ_W_Todo2'
         className='widget-media dz-scroll height370 ps ps--active-y'
       >

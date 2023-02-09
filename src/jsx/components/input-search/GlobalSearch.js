@@ -164,6 +164,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
   }, [isSubmit])
 
   return (
+
     <div className='input-group search-area cus-input-group'>
       <div className='nav-item d-flex align-items-center cus-nav-item'>
         <div className='input-group search-area'>

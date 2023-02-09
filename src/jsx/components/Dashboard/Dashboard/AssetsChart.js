@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactApexChart from 'react-apexcharts'
+import { formatMoney } from '../../../../utils/formatNumber'
 
 function AssetsChart({ data }) {
   const chartData = {
@@ -31,7 +32,10 @@ function AssetsChart({ data }) {
                 show: true,
                 fontSize: '14px',
                 fontFamily: 'Arial',
-                offsetY: 5
+                offsetY: 5,
+                formatter: function(value) {
+                  return formatMoney(value)?.replace('$', '')
+                }
               },
               total: {
                 show: true,
@@ -40,9 +44,11 @@ function AssetsChart({ data }) {
                 fontFamily: 'Arial',
                 label: 'Total Projects',
                 formatter: function(w) {
-                  return w.globals.seriesTotals.reduce((a, b) => {
-                    return a + b
-                  }, 0)
+                  let total = 0
+                  data?.forEach(item => {
+                    total += item?.amount
+                  })
+                  return formatMoney(total)?.replace('$', '')
                 }
               }
             }
