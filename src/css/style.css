@@ -1756,6 +1756,16 @@ progress {
   border-radius: 0.75rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; 
 }
+.form-control {
+  background: #fff;
+  color: #6e6e6e;
+  line-height: 2.4;
+  font-size: 1rem;
+  height: 3rem;
+  border-radius: 0.625rem;
+  border-color: #eeee; 
+}
+
   @media (prefers-reduced-motion: reduce) {
     .form-control {
       transition: none; } }
@@ -1940,7 +1950,8 @@ textarea.form-control-lg {
   background-size: contain;
   border: 1px solid rgba(0, 0, 0, 0.25);
   appearance: none;
-  color-adjust: exact; }
+  color-adjust: exact; 
+}
   .form-check-input[type="checkbox"] {
     border-radius: 0.25em; }
   .form-check-input[type="radio"] {
@@ -2134,7 +2145,6 @@ textarea.form-control-lg {
   color: #A098AE;
   text-align: center;
   white-space: nowrap;
-  background-color: red;
   border: 1px solid #eeee;
   border-radius: 0.75rem; 
 }
@@ -21696,14 +21706,6 @@ input#checkAll.form-check-input:checked {
   width: auto;
   height: 21.875rem; }
 
-.form-control {
-  background: #fff;
-  color: #6e6e6e;
-  line-height: 2.4;
-  font-size: 1rem;
-  height: 3rem;
-  border-radius: 0.625rem;
-  border-color: #eeee; }
   .form-control:hover, .form-control:focus, .form-control.active {
     box-shadow: none;
     background: #fff;
@@ -21983,6 +21985,7 @@ input#checkAll.form-check-input:checked {
 .input-group-text {
   background-color: var(--rgba-primary-1);
   color: var(--primary); }
+
 
 .right-radius {
   border-top-right-radius: 0 !important;
