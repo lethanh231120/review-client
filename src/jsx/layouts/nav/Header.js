@@ -130,6 +130,7 @@ const Header = () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <div className='nav-item d-flex align-items-center ' >
 =======
                 <div className='nav-item d-flex align-items-center' >
@@ -140,6 +141,9 @@ const Header = () => {
 =======
                 <div className='nav-item d-flex align-items-center ' >
 >>>>>>> d4ecb1c (fix home page)
+=======
+                <div className='nav-item d-flex align-items-center' >
+>>>>>>> 14f43f4 (fix bugs)
                   <InputSearch />
                 </div>
                 {/* side-bar right */}
