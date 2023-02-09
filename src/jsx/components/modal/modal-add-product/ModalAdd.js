@@ -337,7 +337,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
         onFinish={onFinish}
         fields={defaultValue}
         layout='vertical'
-        className='add'
+        className='cus-form'
       >
         <Row gutter={[12]}>
           <Col span={12}>
@@ -508,6 +508,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                 <Select
                   placeholder='Sub Category'
                   showSearch
+                  className='cus-multiple-select select-search'
                 >
                   {subCategories && subCategories?.map((item, index) => (
                     <Option value={item?.name} key={index}>{item?.name}</Option>

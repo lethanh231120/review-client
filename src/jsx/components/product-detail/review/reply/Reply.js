@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 // import React, { useEffect, useState, useContext } from 'react'
 import { Image } from 'antd'
 import './reply.scss'
@@ -8,16 +8,17 @@ import _ from 'lodash'
 import user from '../../../../../images/product/user.png'
 import ListEmoji from '../emoji/ListEmoji'
 import { getCookie, STORAGEKEY } from '../../../../../utils/storage'
-// import { SignInContext, Authenticated } from '../../layout/Main'
+import { SignInContext, Authenticated } from '../../../../../App'
 
-const ReplyComment = ({ data, productId, userInfo }) => {
+const ReplyComment = ({ data, productId }) => {
   const TYPE_REPLY = 1
   const [isReaction, setIsReaction] = useState(false)
   const [currenReaction, setCurrenReaction] = useState()
   const [newData, setNewData] = useState(data)
-  // const signInContext = useContext(SignInContext)
-  // const authenticated = useContext(Authenticated)
+  const signInContext = useContext(SignInContext)
+  const authenticated = useContext(Authenticated)
   const [token, setToken] = useState()
+  const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
   useEffect(() => {
     if (!_.isEmpty(data?.reactions)) {
@@ -27,8 +28,7 @@ const ReplyComment = ({ data, productId, userInfo }) => {
 
   useEffect(() => {
     setToken(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
-  // }, [authenticated?.isAuthenticated])
-  }, [])
+  }, [authenticated?.isAuthenticated])
 
   useEffect(() => {
     newData?.reactions?.forEach((item) => {
@@ -58,8 +58,7 @@ const ReplyComment = ({ data, productId, userInfo }) => {
 
   const handleClickReaction = async(value) => {
     if (!token) {
-      console.log('call fc open modal signin')
-      // signInContext?.handleSetOpenModal(true)
+      signInContext?.handleSetOpenModal(true)
     } else {
       if (isReaction) {
         const body = {

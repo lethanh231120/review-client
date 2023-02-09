@@ -243,13 +243,14 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
     ) : ''}
   </>
 
+  console.log('productInfo', productInfo)
   const more = <>
     <div className='card-header pb-0 border-0 flex-wrap'>
       <div>
         <h4 className='heading mb-0'>More</h4>
       </div>
     </div>
-    <div className='card-body pt-3'>
+    <div className='card-body'>
       <div className='basic-form'>
         {!_.isEmpty(productInfo?.details?.exchanges) && (
           <div className='crypto-info-item item-list'>
@@ -411,6 +412,77 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
           </>
 
         )}
+      </div>
+
+      <div className='row mt-3'>
+        <div className='col-xxl-6 col-6'>
+          <div className='form-check custom-checkbox mb-3 checkbox-success'>
+            <input
+              type='checkbox'
+              defaultChecked={productInfo?.details?.isCoingecko}
+              className='form-check-input'
+              id='customCheckBox3'
+              disabled
+            />
+            <label
+              className='form-check-label'
+              htmlFor='customCheckBox3'
+            >
+              Coingecko
+            </label>
+          </div>
+        </div>
+        <div className='col-xxl-6 col-6'>
+          <div className='form-check custom-checkbox mb-3 checkbox-success'>
+            <input
+              type='checkbox'
+              defaultChecked={productInfo?.details?.isCoinmarketcap}
+              className='form-check-input'
+              id='customCheckBox3'
+              disabled
+            />
+            <label
+              className='form-check-label'
+              htmlFor='customCheckBox3'
+            >
+              Coinmarketcap
+            </label>
+          </div>
+        </div>
+        <div className='col-xxl-6 col-6'>
+          <div className='form-check custom-checkbox mb-3 checkbox-success'>
+            <input
+              type='checkbox'
+              defaultChecked={productInfo?.details?.isProxy}
+              className='form-check-input'
+              id='customCheckBox3'
+              disabled
+            />
+            <label
+              className='form-check-label'
+              htmlFor='customCheckBox3'
+            >
+              Proxy
+            </label>
+          </div>
+        </div>
+        <div className='col-xxl-6 col-6'>
+          <div className='form-check custom-checkbox mb-3 checkbox-success'>
+            <input
+              type='checkbox'
+              defaultChecked={productInfo?.details?.contractVerified}
+              className='form-check-input'
+              id='customCheckBox3'
+              disabled
+            />
+            <label
+              className='form-check-label'
+              htmlFor='customCheckBox3'
+            >
+              Contract Verify
+            </label>
+          </div>
+        </div>
       </div>
     </div>
   </>

@@ -16,7 +16,7 @@ import './categoryItem.scss'
 
 // const { TabPane } = Tabs
 const TabSearch = (props) => {
-  const { listProduct, keywordSearch, keyword, handleChangeInput, handleSubmitSearch, handleSubmitBtn, setLoading, loading } = props
+  const { listProduct, keyword, handleChangeInput, handleSubmitSearch, handleSubmitBtn, setLoading, loading } = props
   const [tab, setTab] = useState(CRYPTO)
   const [listData, setListData] = useState([])
 
@@ -97,6 +97,7 @@ const TabSearch = (props) => {
         default:
           break
       }
+      setLoading(false)
     }
     getData()
   }, [tab, listProduct])
@@ -168,7 +169,8 @@ const TabSearch = (props) => {
               </div>
               <div className='col-xl-4'>
                 <Input
-                  value={keywordSearch}
+                  // value={keywordSearch}
+                  defaultValue={keyword}
                   placeholder={keyword}
                   onChange={handleChangeInput}
                   onKeyPress={handleSubmitSearch}

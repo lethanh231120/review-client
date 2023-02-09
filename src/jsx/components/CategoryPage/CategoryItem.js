@@ -278,9 +278,9 @@ const CategoryItem = () => {
     }
   }
 
-  const handleChangeInput = (e) => {
+  const handleChangeInput = _.debounce(async(e) => {
     setKeyWordSearch(e.target.value)
-  }
+  }, 200)
 
   const getDataSearch = async(content) => {
     const data = await search('search/suggest', { keyword: content })
