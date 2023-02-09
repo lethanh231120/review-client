@@ -126,24 +126,8 @@ const Header = () => {
                 </div>
               </div>
               {/* header: search elk input */}
-              <div className='navbar-nav header-right' >
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                <div className='nav-item d-flex align-items-center ' >
-=======
-                <div className='nav-item d-flex align-items-center' >
->>>>>>> 14f43f4 (fix bugs)
-=======
-                <div className='nav-item d-flex align-items-center' >
->>>>>>> f60d8f5 (fix bugs)
-=======
-                <div className='nav-item d-flex align-items-center ' >
->>>>>>> d4ecb1c (fix home page)
-=======
-                <div className='nav-item d-flex align-items-center' >
->>>>>>> 14f43f4 (fix bugs)
+              <div className='navbar-nav header-right'>
+                <div className='nav-item d-flex align-items-center'>
                   <InputSearch />
                 </div>
                 {/* side-bar right */}
