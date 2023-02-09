@@ -129,6 +129,7 @@ const Header = () => {
               <div className='navbar-nav header-right' >
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <div className='nav-item d-flex align-items-center ' >
 =======
                 <div className='nav-item d-flex align-items-center' >
@@ -136,6 +137,9 @@ const Header = () => {
 =======
                 <div className='nav-item d-flex align-items-center' >
 >>>>>>> f60d8f5 (fix bugs)
+=======
+                <div className='nav-item d-flex align-items-center ' >
+>>>>>>> d4ecb1c (fix home page)
                   <InputSearch />
                 </div>
                 {/* side-bar right */}
