@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
-const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global }) => {
+const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -14,11 +14,14 @@ const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global }) => {
           ? 'hover'
           : ''
       } form-search-data-item`}
-      onClick={() => {
-        navigate(`../../products/exchange/${item?.exchangeId?.split('_')[2]}`)
-        // if (setOpenModalSearch !== undefined) {
-        //   setOpenModalSearch(false)
-        // }
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        if (isFormReport) {
+          setItem(item)
+        } else {
+          navigate(`../../products/exchange/${item?.exchangeId?.split('_')[2]}`)
+        }
       }}
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >

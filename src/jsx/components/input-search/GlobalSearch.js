@@ -161,9 +161,9 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
     }
   }, [isSubmit])
 
-  useEffect(() => {
-    setDataSearchFormReport && setDataSearchFormReport(dataSearch)
-  }, [dataSearch])
+  // useEffect(() => {
+  //   setDataSearchFormReport && setDataSearchFormReport(dataSearch)
+  // }, [dataSearch])
 
   return (
     <div className='input-group search-area cus-input-group'>
@@ -235,10 +235,9 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
                                 // if global === true, search global reverse, search in table of category
                                 global={true}
                                 // use in form report
-                                setDataSearchFormReport={setDataSearchFormReport}
+                                // setDataSearchFormReport={setDataSearchFormReport}
                                 setItem={setItem}
                                 isFormReport={isFormReport}
-                                dataSearch={dataSearch}
                               />
                             </>
                           )
@@ -259,6 +258,9 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
                               // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
                               global={true}
+
+                              setItem={setItem}
+                              isFormReport={isFormReport}
                             />
                           )
                         )}
@@ -278,6 +280,9 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
                               // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
                               global={true}
+
+                              setItem={setItem}
+                              isFormReport={isFormReport}
                             />
                           )
                         )}
@@ -295,6 +300,9 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
                             // setOpenModalSearch={setOpenModalSearch}
                             setItemSubmit={setItemSubmit}
                             global={true}
+
+                            setItem={setItem}
+                            isFormReport={isFormReport}
                           />
                         ))}
                       </div>
@@ -313,6 +321,9 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
                               // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
                               global={true}
+
+                              setItem={setItem}
+                              isFormReport={isFormReport}
                             />
                           )
                         )}
