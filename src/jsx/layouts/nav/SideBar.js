@@ -49,11 +49,11 @@ const SideBar = () => {
   const categoryContext = useContext(CategoryContext)
 
   const mapCategoriesMenuIcon = new Map() // match with data from BE
-  mapCategoriesMenuIcon.set(headerItem1, 'currency_bitcoin')
-  mapCategoriesMenuIcon.set(headerItem2, 'polymer')
-  mapCategoriesMenuIcon.set(headerItem3, 'monetization_on')
+  mapCategoriesMenuIcon.set(headerItem1, 'paid')
+  mapCategoriesMenuIcon.set(headerItem2, 'apps')
+  mapCategoriesMenuIcon.set(headerItem3, 'volunteer_activism')
   mapCategoriesMenuIcon.set(headerItem4, 'currency_exchange')
-  mapCategoriesMenuIcon.set(headerItem5, 'query_stats')
+  mapCategoriesMenuIcon.set(headerItem5, 'auto_graph')
 
   const { iconHover, sidebarposition, headerposition, sidebarLayout } =
     useContext(ThemeContext)

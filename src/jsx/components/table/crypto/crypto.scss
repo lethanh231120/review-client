@@ -4,6 +4,10 @@ $mainColor: #039f7f;
 .crypto-table {
   width: 100%;
   & table {
+    //fix bug overriden 
+    position: relative;
+    z-index: 0;
+
     width: 100%;
     overflow: hidden;
     & .ant-table-thead > tr > th {

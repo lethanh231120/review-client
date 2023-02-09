@@ -193,7 +193,7 @@ const Header = () => {
                             as='a'
                             className='nav-link i-false c-pointer'
                           >
-                            <Tooltip title={userInfo?.userName}>
+                            <Tooltip title={userInfo?.userName} placement='left'>
                               <img
                                 src={userInfo?.image ? userInfo?.image : profile}
                                 width={20}

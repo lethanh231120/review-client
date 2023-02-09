@@ -60,7 +60,6 @@ const ExpiredJWTChecker = ({ logout }) => {
       const nowTimeMilSec = Date.now()
       const nowTimeSec = nowTimeMilSec / millSecPerSec
 
-      console.log(nowTimeSec, jwtExpiredTimeSec, (jwtExpiredTimeSec - secPerHour))
       const durationCheckSec = secPerHour
       // valid jwt
       if (nowTimeSec < (jwtExpiredTimeSec - durationCheckSec)) {
