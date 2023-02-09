@@ -97,7 +97,6 @@ const ReviewItem = ({ data, productId }) => {
   }
 
   const handleSend = async(e) => {
-    console.log('send data')
     if (!token) {
       signContext?.handleSetOpenModal(true)
     } else {
@@ -238,7 +237,6 @@ const ReviewItem = ({ data, productId }) => {
     } else {
       signContext?.handleSetOpenModal(true)
     }
-    console.log('add resaction')
   }
 
   const handleChangeComment = _.debounce(async(e) => {
@@ -250,7 +248,6 @@ const ReviewItem = ({ data, productId }) => {
     }
   }, 1000)
 
-  console.log('newData', newData)
   return (
     <>
       {!Loading && (
@@ -327,7 +324,7 @@ const ReviewItem = ({ data, productId }) => {
               {addReply && token && (
                 <div className='add-reply'>
                   <div className='add-reply-form-avatar'>
-                    <Image src={userInfo?.image} preview={false} style={{ width: '2.1875rem' }}/>
+                    <Image src={userInfo?.image ? userInfo?.image : user} preview={false} style={{ width: '2.1875rem' }}/>
                   </div>
                   <Form.Item
                     name={`reply ${newData?.review?.id}`}

@@ -4,7 +4,6 @@ import { Image, Table, Avatar, Tooltip, Empty } from 'antd'
 import { useNavigate, Link } from 'react-router-dom'
 import nodata from '../../../../images/product/nodata.png'
 import { renderNumber } from '../../../../utils/formatNumber'
-import _ from 'lodash'
 import moment from 'moment'
 import { encodeUrl } from '../../../../utils/formatUrl'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
@@ -202,9 +201,8 @@ const SoonTable = ({ listData, loading }) => {
   }
 
   return (
-    <div className='soon-table'
-    >
-      {!_.isEmpty(listData) ? (
+    <div className='soon-table'>
+      {listData ? (
         <Table
           columns={columns}
           dataSource={listData}

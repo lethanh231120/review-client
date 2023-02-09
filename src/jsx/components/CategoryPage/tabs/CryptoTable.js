@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Table, Image, Tooltip, Avatar, message } from 'antd'
+import { Table, Image, Tooltip, Avatar, message, Empty } from 'antd'
 import {
   CopyOutlined,
   CheckCircleOutlined,
@@ -18,11 +18,12 @@ import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatTex
 import { MAX_PAGE } from '../../../constants/pagination'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
+import nodata from '../../../../images/product/nodata.png'
 
 const CryptoTable = ({ loading, listData }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
-  const [listProduct, setListProduct] = useState()
+  const [listProduct, setListProduct] = useState([])
 
   const copyAddress = (e, address) => {
     e.stopPropagation()
@@ -36,6 +37,7 @@ const CryptoTable = ({ loading, listData }) => {
 
   useEffect(() => {
     const getChain = async() => {
+      setListProduct()
       if (!_.isEmpty(listData)) {
         const newListData = []
         listData?.forEach((itemProduct) => {
@@ -80,7 +82,7 @@ const CryptoTable = ({ loading, listData }) => {
           }
         })
         if (!_.isEmpty(newListData)) {
-          setListProduct(newListData)
+          setListProduct((newListData?.length > MAX_PAGE * 20) ? newListData?.slice(0, 200) : newListData)
         }
       }
     }
@@ -132,7 +134,6 @@ const CryptoTable = ({ loading, listData }) => {
               {record?.name?.slice(0, 3)}
             </span>
           )}
-
           <span>
             <div className='data-table-name'>
               <div className='data-table-name-title'>{record?.name}</div>
@@ -366,42 +367,40 @@ const CryptoTable = ({ loading, listData }) => {
     }
   ]
 
-  console.log(listProduct?.length)
   return (
     <div className='crypto-table'>
-      {/* {listData ? ( */}
-      <Table
-        loading={loading}
-        columns={columns}
-        dataSource={(listProduct?.length > MAX_PAGE * 20) ? listProduct?.slice(0, 200) : listProduct}
-        pagination={{
-          defaultPageSize: 20,
-          showSizeChanger: false
-        }}
-        rowKey={(record) => record?.cryptoId}
-        onRow={(record) => ({
-          onClick: () => {
-            handleRowClicked(record)
-          }
-        })}
-        scroll={{ x: 'max-content' }}
-      />
-      {/* ) : (
+      {listData ? (
+        <Table
+          loading={loading}
+          columns={columns}
+          dataSource={listProduct}
+          pagination={{
+            defaultPageSize: 20,
+            showSizeChanger: false
+          }}
+          rowKey={(record) => record?.cryptoId}
+          onRow={(record) => ({
+            onClick: () => {
+              handleRowClicked(record)
+            }
+          })}
+        />
+      ) : (
         <>
           <Empty
             image={nodata}
             description={
               <span>
                 <span
-                  style={{ fontSize: "1.8em", color: "red", fontWeight: 600 }}
+                  style={{ fontSize: '1.8em', color: 'red', fontWeight: 600 }}
                 >
-                  SORRY{" "}
+                  SORRY{' '}
                 </span>
                 <span
                   style={{
-                    fontSize: "1.6rem",
-                    color: "rgba(0, 0, 0, 0.6)",
-                    fontWeight: "600",
+                    fontSize: '1.6rem',
+                    color: 'rgba(0, 0, 0, 0.6)',
+                    fontWeight: '600'
                   }}
                 >
                   NO DATA FOUND
@@ -410,7 +409,7 @@ const CryptoTable = ({ loading, listData }) => {
             }
           />
         </>
-      )} */}
+      )}
     </div>
   )
 }

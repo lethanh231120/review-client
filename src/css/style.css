@@ -30582,7 +30582,7 @@ div#mCSB_1 {
 .market_chart .custome-tooltip .apexcharts-xaxistooltip-bottom:after {
   border-bottom-color: var(--primary); }
 
-.crypto-list {
+/* .crypto-list {
   font-family: "poppins", sans-serif, sans-serif !important;
   font-weight: 400 !important; }
   .crypto-list .card-body {
@@ -30598,7 +30598,7 @@ div#mCSB_1 {
     content: none; }
   .crypto-list .marquee-container .marquee .card {
     margin-left: 8px;
-    margin-right: 8px; }
+    margin-right: 8px; } */
 
 .market-previews-2 {
   height: auto; }

@@ -80,6 +80,7 @@ export const DetailLayout = ({ Header, roundSale, portfolioOrChart, summary, mor
         <div className='product-detail' id='comment'>
           <FormReport
             // use in filter review
+            isFormReport={true}
             numberReviews={numberReviews}
             rest={rest}
           />

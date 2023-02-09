@@ -20,6 +20,7 @@ import { post } from '../../../../api/BaseRequest'
 import smile from '../../../../images/product/smile.png'
 import user from '../../../../images/product/user.png'
 import FilterReview from '../../product-detail/filter-review/FilterReview'
+import '../../../../scss/base/cus-form.scss'
 
 const FormReport = ({ numberReviews, rest, isFormReport }) => {
   const {
@@ -163,9 +164,10 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     }
   }
 
+  console.log(isFormReport)
   return (
     <>
-      {isFormReport && (
+      {(isFormReport === true) && (
         <FilterReview
           defaultFilter={rest?.defaultFilter}
           setDefaultFilter={rest?.setDefaultFilter}
@@ -181,7 +183,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
             />
           </div>
         )}
-        <div className='product-detail-form-content'>
+        <div className='product-detail-form-content cus-form'>
           <div className='product-detail-form-content-text'>
             <div className='product-detail-form-content-rate'>
               <Rate
@@ -191,7 +193,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
               />
             </div>
             <Input.TextArea
-              className={`${
+              className={`form-text-area${
                 validateTextArea ? 'product-detail-form-content-textarea' : ''
               }`}
               ref={ref}
@@ -217,7 +219,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
               </div>
             </Popover>
             {data?.isScam && (
-              <div style={{ marginBottom: '1rem' }}>
+              <div style={{ marginBottom: '0.325rem' }}>
                 <Select
                   value={data?.sources}
                   placeholder='Please enter proof link …'
@@ -225,13 +227,14 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                   dropdownStyle={{ background: 'red', display: 'none' }}
                   onChange={handleChangeLink}
                   onSelect={changeSelect}
+                  className='cus-multiple-select'
                 />
               </div>
             )}
             {errorLink && <span style={{ color: 'red' }}>{errorLink}</span>}
             {data?.isScam && (
               <Upload
-                action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                // action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
                 listType='picture-card'
                 fileList={fileList}
                 onChange={handleChangeFile}

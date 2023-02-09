@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Form, Empty, Spin } from 'antd'
 import './globalSearch.scss'
 import { search } from '../../../api/BaseRequest'
@@ -15,6 +15,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
   // isFormReport={true}
   // setDataSearch={setDataSearch}
   // setItem={setItem}
+  const refInput = useRef()
   const [form] = Form.useForm()
   const navigate = useNavigate()
   const [isSubmit, setIsSubmit] = useState(false)
@@ -28,14 +29,14 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
   })
   const [keyWord, setKeyWord] = useState()
 
-  const handleSearch = _.debounce(async(e, value) => {
+  const handleSearch = _.debounce(async(value) => {
     if (value !== '') {
+      setKeyWord(value)
       setDataSearch({
         ...dataSearch,
         loading: true,
         isActive: true
       })
-      setKeyWord(value)
       const data = await search('search/suggest', { keyword: value })
       if (data) {
         setListDataSearch({
@@ -134,6 +135,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
         })
       }
     }
+    refInput.current.value = ''
   }
 
   const handleSubmitSearch = (e) => {
@@ -161,10 +163,6 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
     }
   }, [isSubmit])
 
-  // useEffect(() => {
-  //   setDataSearchFormReport && setDataSearchFormReport(dataSearch)
-  // }, [dataSearch])
-
   return (
     <div className='input-group search-area cus-input-group'>
       <div className='nav-item d-flex align-items-center cus-nav-item'>
@@ -172,11 +170,11 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
           <span
             className={`input-group-text cus-input-group-text ${isFormReport ? 'cus-no-bg' : ''}`}
             onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
               if (isFormReport) {
                 subMitForm()
               } else {
-                e.preventDefault()
-                e.stopPropagation()
                 setIsSubmit(true)
               }
             }}
@@ -186,22 +184,41 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
             </svg>
           </span>
           <input
+            ref={refInput}
             type='text'
             className={`form-control cus-form-control`}
-            placeholder='Search here...'
-            value={keyWord}
+            placeholder={`${isFormReport ? 'Report scam projects with us' : 'Search here'}`}
             onChange={(e) => {
               if (isFormReport) setItem()
-              handleSearch(e, e.target.value)
+              handleSearch(e.target.value)
             }}
             onKeyPress={handleSubmitSearch}
             autoComplete='off'
+            // value={keyWord}
+            onBlur={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              handleSearch('')
+            }}
+          />
+          {/* <Input
+            type='text'
+            className={`form-control cus-form-control`}
+            placeholder='Search here...'
+            onChange={(e) => {
+              if (isFormReport) setItem()
+              handleSearch(e, e.target.value)
+              // setKeyWord(e.target.value)
+            }}
+            onKeyPress={handleSubmitSearch}
+            autoComplete='off'
+            // value={keyWord}
             onBlur={(e) => {
               e.preventDefault()
               e.stopPropagation()
               handleSearch(e, '')
             }}
-          />
+          /> */}
         </div>
       </div>
       <div
