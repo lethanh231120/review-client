@@ -120,6 +120,11 @@ const DrawerFilter = ({ type, handleFilter }) => {
   }
 
   const onResetClicked = () => {
+    console.log(window.localStorage.getItem(type))
+    if (window.localStorage.getItem(type)) {
+      console.log('remove')
+      window.localStorage.removeItem(type)
+    }
     form.resetFields()
   }
 
@@ -378,16 +383,14 @@ const DrawerFilter = ({ type, handleFilter }) => {
       filterParams['isWarning'] = values?.isWarning
     }
 
-    console.log(filterParams)
-
     handleFilter(filterParams)
     setShowDrawer(false)
   }
 
   return (
-    <div className='drawer'>
-      <Button onClick={openDrawer} icon={<FilterOutlined />}>
-        Filter({filterCount === 0 ? null : filterCount})
+    <div className='drawer' >
+      <Button onClick={openDrawer} icon={<FilterOutlined />} style={{ background: filterCount === 0 ? '#fff' : '#18A594', color: filterCount === 0 ? 'black' : '#fff' }}>
+        Filter{filterCount === 0 ? null : `(${(filterCount)})`}
       </Button>
 
       <Drawer

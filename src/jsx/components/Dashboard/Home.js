@@ -5,23 +5,27 @@ import { Button } from 'react-bootstrap'
 import { ThemeContext } from '../../../context/ThemeContext'
 import metaverse from './../../../images/metaverse.png'
 // images
-import coin from './../../../images/coin.png'
+import safe from './../../../images/ket-sat.png'
+import lite from './../../../images/lite.png'
+import eth from './../../../images/ethereum.png'
+import btc from './../../../images/bitcoin.png'
 import { TopCoins } from '../common-widgets/home/top-coin'
 import { RecentlyScam } from '../common-widgets/home/recently-scam/recently-scam'
 import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-project'
 import SummaryRow from './Dashboard/BalanceCardSlider'
 import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
-import { BitcoinChartAndData } from '../common-widgets/home/bitcoin-chart'
+// import { BitcoinChartAndData } from '../common-widgets/home/bitcoin-chart'
 import { ScamEachChainsList } from '../common-widgets/home/scam-each-chain-chart'
 import { get } from '../../../api/BaseRequest'
 import { MySpinner } from '../common-widgets/my-spinner'
 import _ from 'lodash'
 import { renderRandomColor } from '../../../utils/formatNumber'
-import { API_KEY, bitqueryEndpoint, BITQUERY_QUERY } from './Dashboard/bitquery-query/query'
+// import { API_KEY, bitqueryEndpoint, BITQUERY_QUERY } from './Dashboard/bitquery-query/query'
 import { DonutChartSkeleton } from '../common-widgets/loading-skeleton/donutchart-loading'
 import { ReportModalContext, AddModalContext } from '../../index'
 import { SignInContext } from '../../../App'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
+import { ReviewList } from '../common-widgets/home/reviews/review-list'
 
 const fillColors = [
   '#18A594',
@@ -35,7 +39,7 @@ const fillColors = [
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
   const [summaryData, setSummaryData] = useState()
-  const [btcChartData, setBtcChartData] = useState()
+  // const [btcChartData, setBtcChartData] = useState()
   const [scamProjects, setScamProjects] = useState()
 
   const [topCoins, setTopCoins] = useState()
@@ -84,29 +88,29 @@ const Home = () => {
   }, [])
 
   // GET DATA FOR BTC CHART
-  useEffect(() => {
-    const queryData = async() => {
-      const ressp = await fetch(bitqueryEndpoint, {
-        method: 'POST',
-        body: JSON.stringify({
-          query: BITQUERY_QUERY(
-            'ethereum',
-            'Uniswap',
-            '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
-            '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+  // useEffect(() => {
+  //   const queryData = async() => {
+  //     const ressp = await fetch(bitqueryEndpoint, {
+  //       method: 'POST',
+  //       body: JSON.stringify({
+  //         query: BITQUERY_QUERY(
+  //           'ethereum',
+  //           'Uniswap',
+  //           '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+  //           '0xdAC17F958D2ee523a2206206994597C13D831ec7'
 
-          )
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          'X-API-KEY': API_KEY
-        }
-      })
-      const rawData = await ressp.json()
-      setBtcChartData(rawData?.data?.ethereum?.dexTrades)
-    }
-    queryData()
-  }, [])
+  //         )
+  //       }),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'X-API-KEY': API_KEY
+  //       }
+  //     })
+  //     const rawData = await ressp.json()
+  //     setBtcChartData(rawData?.data?.ethereum?.dexTrades)
+  //   }
+  //   queryData()
+  // }, [])
 
   const setScamAliveProjectsData = (data) => {
     return [
@@ -186,12 +190,15 @@ const Home = () => {
                       <p className='join-us-text' style={{ width: '100%' }}>
                       Please join us to warn everyone in the community
                       </p>
-                      <Button className='btn btn-danger' onClick={() => reportModal?.handleSetOpenModal(true)}>
+                      <Button className='btn-danger' onClick={() => reportModal?.handleSetOpenModal(true)} style={{ backgroundColor: '#EB5757', borderColor: '#EB5757' }}>
                         Report&nbsp;now
                       </Button>
                     </div>
+                    <img src={lite} className='decoration lite'/>
+                    <img src={eth} className='decoration eth'/>
+                    <img src={btc} className='decoration btc'/>
                     <div className='coin-img'>
-                      <img src={coin} className='img-fluid' alt='' />
+                      <img src={safe} className='img-fluid' alt='' />
                     </div>
                   </div>
                 </div>
@@ -208,7 +215,8 @@ const Home = () => {
 
       <div className='row'>
         <div className='col-8 assets-al' >
-          <BitcoinChartAndData chartData={btcChartData} headerData={topCoins && topCoins[0]}/>
+          {/* <BitcoinChartAndData chartData={btcChartData} headerData={topCoins && topCoins[0]}/> */}
+          <ReviewList />
         </div>
         <div className='col-4 col-xl-4'>
           {topCoins ? <TopCoins data={topCoins}/> : <MySpinner />}
