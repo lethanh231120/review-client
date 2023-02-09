@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { LinkOutlined } from '@ant-design/icons'
-import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
+import { formatImgUrlFromProductId, formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
 import { DetailLayout } from '../detail-layout'
 import getCryptoDetailChartData from './HandleChartData.js'
 import { MySpinner } from '../../common-widgets/my-spinner'
@@ -119,12 +119,8 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
       <div className='profile-info'>
         <div className='profile-details'>
           <div className='profile-photo'>
-            {productInfo?.details?.bigLogo !== null ? (
-              <Image src={productInfo?.details?.bigLogo} preview={false} />
-            ) : productInfo?.details?.smallLogo !== null ? (
-              <Image src={productInfo?.details?.smallLogo} preview={false} />
-            ) : productInfo?.details?.thumbLogo !== null ? (
-              <Image src={productInfo?.details?.thumbLogo} preview={false} />
+            {productInfo?.details?.cryptoId ? (
+              <Image src={formatImgUrlFromProductId(productInfo?.details?.cryptoId)} preview={false} />
             ) : (
               <span className='image-list-no-data-detail'>
                 {productInfo?.details?.name?.slice(0, 3)}

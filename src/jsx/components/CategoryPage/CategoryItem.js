@@ -135,6 +135,9 @@ const CategoryItem = () => {
       ...params,
       page: value
     })
+    // scroll to the top page
+    const [xCoord, yCoord] = [0, 0]
+    window.scrollTo(xCoord, yCoord)
   }
 
   const handleChangeTable = (pagination, filters, sorter, extra) => {
