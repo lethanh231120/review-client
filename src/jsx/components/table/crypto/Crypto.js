@@ -159,7 +159,7 @@ const Crypto = ({
           }`}
           className='crypto-table-info image-list'
         >
-          {record?.cryptoId && record?.smallLogo
+          {record?.cryptoId && record?.bigLogo
             ? <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} />
             : (
               <span className='image-list-no-data'>
