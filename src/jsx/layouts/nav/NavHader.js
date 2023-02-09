@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 // images
 // import gear5Logo from './../../../images/logo/gear5-logo.png'
-import gear5LogoNotext from './../../../images/logo/gear5_logo_notext.png'
+import gear5LogoNotext from './../../../images/logo/gear5_logo_notext1.png'
 import gear5LogoWhite from './../../../images/logo/logo-gear5-white.png'
 // import logotext1 from './../../../images/logo/logo-text.png'
 // import logoColor from './../../../images/logo/logo-color.png'
