@@ -387,7 +387,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
   return (
     <div className='drawer'>
       <Button onClick={openDrawer} icon={<FilterOutlined />}>
-        Filter({filterCount})
+        Filter({filterCount === 0 ? null : filterCount})
       </Button>
 
       <Drawer

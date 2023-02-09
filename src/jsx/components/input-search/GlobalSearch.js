@@ -162,9 +162,10 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
   }, [dataSearch])
 
   return (
+
     <div className='input-group search-area cus-input-group'>
       <div className='nav-item d-flex align-items-center'>
-        <div className='input-group search-area'>
+        <div className='input-group search-area' style={{ width: '100%' }}>
           <span
             className='input-group-text cus-input-group-text'
             onClick={(e) => {

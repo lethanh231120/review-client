@@ -28443,6 +28443,7 @@ table.dataTable thead .sorting_asc {
   width: 500px; }
 
 .buy-coin {
+ 
   margin-left: 2.2rem;
   margin-bottom: 1.2rem;
   display: flex; }
@@ -34388,3 +34389,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 .testCss{
   background-color: #fff;
 }
+
+/* .banner{
+  background-image: url('../images/Homepaner.jpg');
+  width:  100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.9;
+} */

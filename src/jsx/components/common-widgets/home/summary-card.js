@@ -7,7 +7,7 @@ export const SummaryCard = ({ title, number, bg, badgeStyle, icon, type }) => {
     navigate(`/${type}`)
   }
 
-  return <div className='col-xl-3  col-lg-6 col-sm-6' onClick={onItemClicked}>
+  return <div className='col-xl-3  col-sm-6' onClick={onItemClicked}>
     <div className='widget-stat card' style={{ cursor: 'pointer' }}>
       <div className='card-body p-4'>
         <div className='media'>

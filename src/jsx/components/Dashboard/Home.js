@@ -203,7 +203,7 @@ const Home = () => {
           </div>
         </div>
         {summaryData ? <div className='col-4 '>
-          <DataAllocationChart header={'Scam/Alive Projects Allocation'} data={setScamAliveProjectsData(summaryData)}/> </div> : <DonutChartSkeleton />}
+          <DataAllocationChart header={'Projects Allocation'} data={setScamAliveProjectsData(summaryData)}/> </div> : <DonutChartSkeleton />}
       </div>
 
       <div className='row'>
@@ -216,10 +216,10 @@ const Home = () => {
       </div>
       <div className='row'>
         {/* LIST SCAM  */}
-        <div className='col-6'>
+        <div className='col-6 col-lg-6'>
           {scamProjects ? <RecentlyScam scamList={scamProjects}/> : <MySpinner />}
         </div>
-        <div className='col-xl-2 col-sm-2' >
+        <div className='col-2 ' >
           <div className='card email-susb' >
             <div className='card-body text-center' >
               <div className='pt-2'>
@@ -236,7 +236,7 @@ const Home = () => {
           </div>
         </div>
         {/* LIST HOT DISCUSS  */}
-        <div className='col-4'>
+        <div className=' col-4 col-lg-4'>
           <TopDiscussed />
         </div>
       </div>
