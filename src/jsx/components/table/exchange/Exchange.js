@@ -30,7 +30,7 @@ const Exchange = ({
     {
       title: 'Name',
       render: (_, record) => (<Link to='#' className='crypto-table-info image-list'>
-        {record?.exchangeId ? (
+        {record?.exchangeId && record?.smallLogo ? (
           <Image src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
         )
           : (<span className='image-list-no-data-detail'>

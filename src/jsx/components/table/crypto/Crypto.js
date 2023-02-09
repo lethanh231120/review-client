@@ -16,7 +16,8 @@ import _ from 'lodash'
 import {
   renderNumber,
   formatMoneyLessOneDollar,
-  formatMoneyGreaterEqualOneDollar
+  formatMoneyGreaterEqualOneDollar,
+  formatLargeNumber
 } from '../../../../utils/formatNumber'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { crypto_score_explain_text } from '../../../constants/data'
@@ -158,7 +159,7 @@ const Crypto = ({
           }`}
           className='crypto-table-info image-list'
         >
-          {record?.cryptoId
+          {record?.cryptoId && record?.smallLogo
             ? <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} />
             : (
               <span className='image-list-no-data'>
@@ -451,7 +452,7 @@ const Crypto = ({
             : 'ascend'
           : '',
       render: (_, record) => (<span>
-        {new Intl.NumberFormat().format(record?.holders)}
+        {formatLargeNumber(record?.holders)}
       </span>)
     },
     {

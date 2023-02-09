@@ -31,7 +31,7 @@ const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem,
     >
       <div className='form-search-data-item-data'>
 
-        {item?.exchangeId ? (
+        {item?.exchangeId && item?.image ? (
           <Image src={isValidProductId(item?.exchangeId) ? formatImgUrlFromProductId(item?.exchangeId) : imgAbsentImageExchange} preview={false} />
         )
           : (<span className='table-icon-coin-logo'>

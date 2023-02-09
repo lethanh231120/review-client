@@ -28,7 +28,7 @@ const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItem, isFormRepo
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {item?.soonId ? (
+        {item?.soonId && item?.image ? (
           <Image src={isValidProductId(item?.soonId) ? formatImgUrlFromProductId(item?.soonId) : imgAbsentImageSoon} preview={false} />
         )
           : (

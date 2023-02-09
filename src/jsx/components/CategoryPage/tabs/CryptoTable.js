@@ -125,10 +125,10 @@ const CryptoTable = ({ loading, listData }) => {
           }`}
           className='crypto-table-info image-list'
         >
-          {record?.cryptoId ? (
+          {record?.cryptoId && record?.smallLogo ? (
             <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} />
           ) : (
-            <span className='image-list-no-data-detail'>
+            <span className='image-list-no-data'>
               {record?.name?.slice(0, 3)}
             </span>
           )}

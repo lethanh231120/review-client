@@ -33,7 +33,7 @@ const ExchangeTable = ({ listData, loading }) => {
           to={`../../../${PREFIX_DETAIL}/${EXCHANGE}/${record?.exchangeId}`}
           className='crypto-table-info image-list'
         >
-          {record?.exchangeId ? (
+          {record?.exchangeId && record?.smallLogo ? (
             <Image src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
           )
             : (<span className='image-list-no-data'>

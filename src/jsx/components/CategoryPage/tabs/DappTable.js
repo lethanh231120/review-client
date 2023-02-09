@@ -32,10 +32,10 @@ const DappTable = ({ loading, listData }) => {
           to={`../../../${PREFIX_DETAIL}/${DAPP}/${record?.dAppId}`}
           className='crypto-table-info image-list'
         >
-          {record?.dAppId ? (
+          {record?.dAppId && record?.dAppLogo ? (
             <Image src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
           )
-            : (<span className='image-list-no-data-detail'>
+            : (<span className='image-list-no-data'>
               {record?.dAppName?.slice(0, 3)}
             </span>)
           }
