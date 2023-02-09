@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { Modal } from 'antd'
-<<<<<<< HEAD
-// import { Modal, Button } from 'react-bootstrap'
-=======
->>>>>>> 9d0536a (thanhlv fix css form report, add)
 
 // / Image
 import imgMoon from '../../../images/moon.png'
@@ -91,7 +87,6 @@ const Header = () => {
       >
         <AccountTab activeTabKey={activeTabKey} />
       </Modal>
-<<<<<<< HEAD
 
       {/* <Modal className='fade cus-modal' show={signContext?.openModalSignIn}> */}
       {/* <Modal.Header className='cus-modal'>
@@ -117,8 +112,6 @@ const Header = () => {
           <Button variant='primary'>Save changes</Button>
         </Modal.Footer> */}
       {/* </Modal> */}
-=======
->>>>>>> 9d0536a (thanhlv fix css form report, add)
       <div className={`header ${headerFix ? 'is-fixed' : ''}`}>
         <div className='header-content'>
           <nav className='navbar navbar-expand'>
