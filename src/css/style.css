@@ -34384,3 +34384,9 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   flex-wrap: wrap;
   line-height: 2.5rem;
 }
+
+.cursor-pointer {cursor: pointer;}
+
+.testCss{
+  background-color: #fff;
+}

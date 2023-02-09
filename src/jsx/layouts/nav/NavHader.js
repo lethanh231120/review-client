@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 // images
 // import gear5Logo from './../../../images/logo/gear5-logo.png'
-import gear5LogoNotext from './../../../images/logo/gear5_logo_notext.png'
+import gear5LogoNotext from './../../../images/logo/gear5_logo_notext1.png'
 import gear5LogoWhite from './../../../images/logo/logo-gear5-white.png'
 // import logotext1 from './../../../images/logo/logo-text.png'
 // import logoColor from './../../../images/logo/logo-color.png'
@@ -15,9 +15,9 @@ export function NavMenuToggle() {
   setTimeout(() => {
     const mainwrapper = document.querySelector('#main-wrapper')
     if (mainwrapper.classList.contains('menu-toggle')) {
-      mainwrapper.classList.remove('menu-toggle')
+      mainwrapper.classList.remove('menu-toggle') // big menu
     } else {
-      mainwrapper.classList.add('menu-toggle')
+      mainwrapper.classList.add('menu-toggle') // small menu
     }
   }, 200)
 }
@@ -28,9 +28,8 @@ const NavHader = () => {
   //   useContext(ThemeContext)
   return (
     <div className='nav-header'>
-      <Link to='/dashboard' className='brand-logo'>
-        <img src={gear5LogoNotext} className='logo-abbr img-fluid' alt='' />
-        <img src={gear5LogoWhite} className='brand-title color-title img-fluid' alt='' />
+      <Link to='/' className='brand-logo'>
+        {toggle ? <img src={gear5LogoNotext} className='logo-abbr img-fluid' alt='' /> : <img src={gear5LogoWhite} className='brand-title img-fluid' alt='' />}
       </Link>
 
       <div
