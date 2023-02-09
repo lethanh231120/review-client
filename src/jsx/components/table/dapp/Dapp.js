@@ -32,7 +32,7 @@ const Dapp = ({
     {
       title: 'Name',
       render: (_, record) => (<Link className='crypto-table-info image-list' to='#'>
-        {record?.dAppId ? (
+        {record?.dAppId && record?.dAppLogo ? (
           <Image src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
         )
           : (<span className='image-list-no-data-detail'>

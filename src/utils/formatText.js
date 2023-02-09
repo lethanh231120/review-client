@@ -61,7 +61,7 @@ export const formatImgUrlFromProductId = (productId) => {
       folderImgPath = 'smallLogo'
       break
     case SOON:
-      folderImgPath = `nativeLogo`
+      folderImgPath = `bigLogo`
       break
   }
   const imgUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${productImgType}/${folderImgPath}/${productId}.png`

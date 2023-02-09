@@ -63,14 +63,14 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             <div className='card-body align-items-center flex-wrap'>
                               <div className='d-flex align-items-center mb-4'>
                                 <div>
-                                  {item?.projectId ? (
-                                    <Image src={isValidProductId(item?.projectId) ? formatImgUrlFromProductId(item?.projectId) : imgAbsentImageSoon} preview={false} className='image-list' height={64} width={64} />
+                                  {item?.projectId && item?.bigLogo ? (
+                                    <Image src={isValidProductId(item?.projectId) ? formatImgUrlFromProductId(item?.projectId) : imgAbsentImageSoon} preview={false} className='image-list' height={36} width={36} />
                                   )
                                     : (
                                       <NoImage
                                         alt={item?.projectName?.slice(0, 3)}
-                                        height={64}
-                                        width={64}
+                                        height={36}
+                                        width={36}
                                       />
                                     )}
                                 </div>

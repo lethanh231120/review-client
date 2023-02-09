@@ -26,7 +26,7 @@ const VentureTable = ({ loading, listData }) => {
           to={`../../../products/venture/${record?.ventureId}`}
           className='crypto-table-info image-list'
         >
-          {record?.ventureId ? (
+          {record?.ventureId && record?.ventureLogo ? (
             <Image src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
           )
             : (<span className='image-list-no-data'>

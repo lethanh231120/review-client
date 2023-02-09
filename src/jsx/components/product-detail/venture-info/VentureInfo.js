@@ -48,7 +48,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     return <div className='profile-head'>
       <div className='profile-info mb-1'>
         <div className='profile-photo'>
-          {detail?.ventureId ? (
+          {detail?.ventureId && detail?.ventureLogo ? (
             <Image src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false} height={64} width={64}/>
           )
             : (<span className='image-list-no-data-detail'>

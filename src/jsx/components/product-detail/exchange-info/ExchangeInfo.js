@@ -37,7 +37,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
     return <div className='profile-head'>
       <div className='profile-info mb-1'>
         <div className='profile-photo'>
-          {detail?.exchangeId ? (
+          {detail?.exchangeId && detail?.smallLogo ? (
             <Image src={isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageExchange} preview={false} height={64} width={64}/>
           )
             : (<span className='image-list-no-data-detail'>

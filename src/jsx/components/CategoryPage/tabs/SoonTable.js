@@ -32,14 +32,14 @@ const SoonTable = ({ listData, loading }) => {
           to={`../../../${PREFIX_DETAIL}/${SOON}/${record?.projectId}`}
           className='crypto-table-info image-list'
         >
-          {record?.projectId ? (
+          {record?.projectId && record?.bigLogo ? (
             <Image src={isValidProductId(record?.projectId) ? formatImgUrlFromProductId(record?.projectId) : imgAbsentImageSoon} preview={false} />
           )
             : (
               <NoImage
                 alt={record?.projectName?.slice(0, 3)}
-                height={64}
-                width={64}
+                height={52}
+                width={52}
               />
             )}
           <span>
