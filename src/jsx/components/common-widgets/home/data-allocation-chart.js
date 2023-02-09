@@ -1,5 +1,6 @@
 import loadable from '@loadable/component'
 import pMinDelay from 'p-min-delay'
+import { formatMoney } from '../../../../utils/formatNumber'
 
 // ../../../Dashboard/AssetsChart
 const AssetsChart = loadable(() =>
@@ -8,8 +9,8 @@ const AssetsChart = loadable(() =>
 
 export const DataAllocationChart = ({ data, header }) => {
   return <div className='card summary-chart'>
-    <div className='card-header border-0 pb-0'>
-      <h2 className='heading'>{header}</h2>
+    <div className='card-header border-0 pb-0 '>
+      <h2 className='heading text-center'>{header}</h2>
     </div>
     <div className='card-body text-center pt-0 '>
       <div id='morris_donught' className='custome-donut'>
@@ -39,7 +40,7 @@ export const DataAllocationChart = ({ data, header }) => {
                     </svg>
                     {data?.datatitle}
                   </span>
-                  <h5>{new Intl.NumberFormat().format(data?.amount)}</h5>
+                  <h5>{formatMoney(data?.amount)?.replace('$', '')}</h5>
                 </div>
               ))}
             </div>

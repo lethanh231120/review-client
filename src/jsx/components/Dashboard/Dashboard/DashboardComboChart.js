@@ -40,7 +40,31 @@ const DashboardComboChart = ({ data }) => {
       },
       yaxis: {
         labels: {
-          formatter: (value) => value?.toFixed(2)
+          formatter: (value) => parseInt(value?.toFixed(2))
+        }
+      },
+      tooltip: {
+        custom: function({ seriesIndex, dataPointIndex, w }) {
+          const o = w.globals.seriesCandleO[seriesIndex][dataPointIndex]
+          const h = w.globals.seriesCandleH[seriesIndex][dataPointIndex]
+          const l = w.globals.seriesCandleL[seriesIndex][dataPointIndex]
+          const c = w.globals.seriesCandleC[seriesIndex][dataPointIndex]
+          return (
+            '<div class="apexcharts-tooltip-candlestick p-2">' +
+            '<div>Open: <span class="value">' +
+           o?.toFixed(2) +
+            '</span></div>' +
+            '<div>High: <span class="value">' +
+            h?.toFixed(2) +
+            '</span></div>' +
+            '<div>Low: <span class="value">' +
+            l?.toFixed(2) +
+            '</span></div>' +
+            '<div>Close: <span class="value">' +
+            c?.toFixed(2) +
+            '</span></div>' +
+            '</div>'
+          )
         }
       }
     },
