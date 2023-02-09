@@ -1,6 +1,9 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
+import NoImage from './../../common-widgets/no-image/NoImage'
 
 const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   const navigate = useNavigate()
@@ -25,13 +28,16 @@ const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItem, isFormRepo
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {item?.image ? (
-          <Image src={item?.image} preview={false} />
-        ) : (
-          <span className='table-icon-coin-logo'>
-            {item?.name?.slice(0, 3)?.toUpperCase()}
-          </span>
-        )}
+        {item?.soonId ? (
+          <Image src={isValidProductId(item?.soonId) ? formatImgUrlFromProductId(item?.soonId) : imgAbsentImageSoon} preview={false} />
+        )
+          : (
+            <NoImage
+              alt={item?.name?.slice(0, 3)}
+              height={64}
+              width={64}
+            />
+          )}
         <div>
           <div className='form-search-data-item-data-content'>
             <h6 className='cus-h6'>{item?.name}</h6>

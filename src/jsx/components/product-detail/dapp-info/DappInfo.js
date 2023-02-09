@@ -9,7 +9,9 @@ import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 import { LoadingOutlined } from '@ant-design/icons'
 import Description from '../description/Description'
-//  import styles
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
+import { Image } from 'antd'
 
 const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -37,12 +39,13 @@ const DappInfo = ({ productInfo, ...rest }) => {
     return <div className='profile-head'>
       <div className='profile-info mb-1'>
         <div className='profile-photo'>
-          <Avatar
-            size={50}
-            src={detail?.dAppLogo}
-            className='img-fluid rounded-circle'
-            alt='profile'
-          />
+          {productInfo?.details?.dAppId ? (
+            <Image src={isValidProductId(productInfo?.details?.dAppId) ? formatImgUrlFromProductId(productInfo?.details?.dAppId) : imgAbsentImageDapp} preview={false} />
+          )
+            : (<span className='image-list-no-data-detail'>
+              {productInfo?.details?.dAppName?.slice(0, 3)}
+            </span>)
+          }
         </div>
         <div className='profile-details'>
           <div className='profile-name px-3 ms-2 '>

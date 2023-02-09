@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
+
 const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   const navigate = useNavigate()
   return (
@@ -26,13 +29,13 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isF
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {item?.image ? (
-          <Image src={item?.image} preview={false} />
-        ) : (
-          <span className='table-icon-coin-logo'>
-            {item?.name?.slice(0, 3)?.toUpperCase()}
-          </span>
-        )}
+        {item?.dappId ? (
+          <Image src={isValidProductId(item?.dappId) ? formatImgUrlFromProductId(item?.dappId) : imgAbsentImageDapp} preview={false} />
+        )
+          : (<span className='table-icon-coin-logo'>
+            {item?.name?.slice(0, 3)}
+          </span>)
+        }
         <div>
           <div className='form-search-data-item-data-content'>
             <h6 className='cus-h6'>

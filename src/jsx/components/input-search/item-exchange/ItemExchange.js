@@ -3,7 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
+
 const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
+  console.log(item)
   const navigate = useNavigate()
   return (
     <Link
@@ -26,13 +30,14 @@ const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem,
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {item?.image ? (
-          <Image src={item?.image} preview={false} />
-        ) : (
-          <span className='table-icon-coin-logo'>
-            {item?.name?.slice(0, 3)?.toUpperCase()}
-          </span>
-        )}
+
+        {item?.exchangeId ? (
+          <Image src={isValidProductId(item?.exchangeId) ? formatImgUrlFromProductId(item?.exchangeId) : imgAbsentImageExchange} preview={false} />
+        )
+          : (<span className='table-icon-coin-logo'>
+            {item?.name?.slice(0, 3)}
+          </span>)
+        }
         <div>
           <div className='form-search-data-item-data-content'>
             <h6 className='cus-h6'>

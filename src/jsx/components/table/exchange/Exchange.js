@@ -8,6 +8,8 @@ import { NO_DATA } from '../../../constants/data'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import CategorySearch from '../../input-search/CategorySearch'
 import MyScoreComponent from '../../score/scoreComponent'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 
 const Exchange = ({
   listProduct,
@@ -28,9 +30,13 @@ const Exchange = ({
     {
       title: 'Name',
       render: (_, record) => (<Link to='#' className='crypto-table-info image-list'>
-        {record?.smallLogo ? <Image src={record?.smallLogo} preview={false} /> : <span className='image-list-no-data'>
-          {record?.name?.slice(0, 3)}
-        </span>}
+        {record?.exchangeId ? (
+          <Image src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
+        )
+          : (<span className='image-list-no-data-detail'>
+            {record?.name?.slice(0, 3)}
+          </span>)
+        }
         <span>
           <div className='data-table-name ms-2'>
             <div>{record?.name ? record?.name : 'Unknown'}</div>

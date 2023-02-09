@@ -1,4 +1,4 @@
-import { Avatar, Spin, Tooltip } from 'antd'
+import { Avatar, Image, Spin, Tooltip } from 'antd'
 import React, { useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
@@ -9,6 +9,8 @@ import moment from 'moment'
 import Description from '../description/Description'
 import FormReport from '../../Forms/form-report/FormReport'
 import { LoadingOutlined } from '@ant-design/icons'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 
 const ExchangeInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -35,12 +37,13 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
     return <div className='profile-head'>
       <div className='profile-info mb-1'>
         <div className='profile-photo'>
-          <Avatar
-            size={50}
-            src={detail?.smallLogo}
-            className='img-fluid rounded-circle'
-            alt='profile'
-          />
+          {detail?.exchangeId ? (
+            <Image src={isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageExchange} preview={false} />
+          )
+            : (<span className='image-list-no-data-detail'>
+              {detail?.name?.slice(0, 3)}
+            </span>)
+          }
         </div>
         <div className='profile-details'>
           <div className='profile-name px-3 ms-2 '>

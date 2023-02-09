@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Avatar } from 'antd'
 import CoinChart from '../../charts/coinchart/CoinChart'
 import Description from '../description/Description'
@@ -22,10 +22,11 @@ import { useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { LinkOutlined } from '@ant-design/icons'
-import { formatImgUrlFromProductId, formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
+import { isValidProductId, formatImgUrlFromProductId, formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
 import { DetailLayout } from '../detail-layout'
 import getCryptoDetailChartData from './HandleChartData.js'
 import { MySpinner } from '../../common-widgets/my-spinner'
+import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 
 const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
   const navigate = useNavigate()
@@ -120,7 +121,7 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
         <div className='profile-details'>
           <div className='profile-photo'>
             {productInfo?.details?.cryptoId ? (
-              <Image src={formatImgUrlFromProductId(productInfo?.details?.cryptoId)} preview={false} />
+              <Image src={isValidProductId(productInfo?.details?.cryptoId) ? formatImgUrlFromProductId(productInfo?.details?.cryptoId) : imgAbsentImageCrypto} preview={false} />
             ) : (
               <span className='image-list-no-data-detail'>
                 {productInfo?.details?.name?.slice(0, 3)}
@@ -285,7 +286,7 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
               <div className='crypto-info-item-key'>Tag(s): </div>
               {productInfo?.mores?.tag?.map((item, index) => (
                 <div
-                  className='highlight-tag'
+                  className='mb-0 btn btn-primary light btn-xs mb-1 me-1'
                   onClick={() => handleClickTag(item?.name)}
                   key={index}
                 >
@@ -296,15 +297,17 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
           </div>
         )}
         {!showInfo && (
-          <div className='d-flex align-items-center'>
-            {isShow?.community && (
-              <div className='basic-dropdown' style={{ marginRight: '10px' }}>
-                <Dropdown>
-                  <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
+          <>
+            <div className='crypto-info-item-key my-2'>Website(s): </div>
+            <div className='d-flex align-items-center'>
+              {isShow?.community && (
+                <div className='basic-dropdown' style={{ marginRight: '10px' }}>
+                  <Dropdown>
+                    <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
                     Community
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {productInfo?.details &&
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {productInfo?.details &&
                       Object.keys(productInfo?.details?.community).map(
                         (key) => {
                           return (<React.Fragment key={key}>
@@ -333,18 +336,18 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
                           )
                         }
                       )}
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            )}
-            {isShow?.sourceCode && (
-              <div className='basic-dropdown' style={{ marginRight: '10px' }}>
-                <Dropdown>
-                  <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+              )}
+              {isShow?.sourceCode && (
+                <div className='basic-dropdown' style={{ marginRight: '10px' }}>
+                  <Dropdown>
+                    <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
                     Source Code
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {productInfo?.details?.sourceCode &&
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {productInfo?.details?.sourceCode &&
                       Object.keys(productInfo?.details?.sourceCode)?.map(
                         (key) => {
                           return (
@@ -367,43 +370,45 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
                           )
                         }
                       )}
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            )}
-            {multichain && (
-              <div className='basic-dropdown'>
-                <Dropdown>
-                  <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+              )}
+              {multichain && (
+                <div className='basic-dropdown'>
+                  <Dropdown>
+                    <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
                     Contract
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className='cus-dropdown-menu'>
-                    {multichain?.map((item, index) => (
-                      <Dropdown.Item
-                        href={`${item?.exploreWebsite}${item?.path}${item?.address}`}
-                        target='_blank'
-                        key={index}
-                        className='crypto-tag-item-list-children-contract'
-                      >
-                        <Image src={item?.image} preview={false} />
-                        <span className='crypto-tag-item-list-children-contract-address'>
-                          {item?.address}
-                        </span>
-                        <CopyOutlined
-                          style={{ padding: '0, 1rem' }}
-                          onClick={(e) => {
-                            e.preventDefault()
-                            e.stopPropagation()
-                            copyAddress(e, item?.address)
-                          }}
-                        />
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            )}
-          </div>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className='cus-dropdown-menu'>
+                      {multichain?.map((item, index) => (
+                        <Dropdown.Item
+                          href={`${item?.exploreWebsite}${item?.path}${item?.address}`}
+                          target='_blank'
+                          key={index}
+                          className='crypto-tag-item-list-children-contract'
+                        >
+                          <Image src={item?.image} preview={false} />
+                          <span className='crypto-tag-item-list-children-contract-address'>
+                            {item?.address}
+                          </span>
+                          <CopyOutlined
+                            style={{ padding: '0, 1rem' }}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              copyAddress(e, item?.address)
+                            }}
+                          />
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+              )}
+            </div>
+          </>
+
         )}
       </div>
     </div>

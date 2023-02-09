@@ -5,8 +5,10 @@ import { Link } from 'react-router-dom'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
-import { Col } from 'antd'
+import { Col, Image } from 'antd'
 import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
@@ -61,19 +63,16 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             <div className='card-body align-items-center flex-wrap'>
                               <div className='d-flex align-items-center mb-4'>
                                 <div>
-                                  {item?.bigLogo ? (
-                                    <img
-                                      src={item?.bigLogo}
-                                      height={32}
-                                      width={32}
-                                    />
-                                  ) : (
-                                    <NoImage
-                                      alt={item?.projectName?.slice(0, 3)}
-                                      height={32}
-                                      width={32}
-                                    />
-                                  )}
+                                  {item?.projectId ? (
+                                    <Image src={isValidProductId(item?.projectId) ? formatImgUrlFromProductId(item?.projectId) : imgAbsentImageSoon} preview={false} className='image-list' />
+                                  )
+                                    : (
+                                      <NoImage
+                                        alt={item?.projectName?.slice(0, 3)}
+                                        height={64}
+                                        width={64}
+                                      />
+                                    )}
                                 </div>
                                 <div
                                   className='ms-4 text-etc-overflow'
