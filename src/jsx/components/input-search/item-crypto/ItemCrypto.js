@@ -4,10 +4,7 @@ import { Image } from 'antd'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 
-const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setDataSearchFormReport, setItem, isFormReport, dataSearch }) => {
-  // setDataSearchFormReport = { setDataSearchFormReport }
-  // setItem = { setItem }
-  // isFormReport = { isFormReport }
+const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -22,13 +19,9 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setDataSea
         e.stopPropagation()
         e.preventDefault()
         if (isFormReport) {
-          setDataSearchFormReport({ ...dataSearch, isActive: false })
           setItem(item)
         } else {
           navigate(`../../products/crypto/${item?.cryptoId?.split('_')[1]}/${item?.cryptoId?.split('_')[2]}/${item?.cryptoId?.split('_')[1] === 'token' ? item?.cryptoId?.split('_')[3] : ''}`)
-          // if (setOpenModalSearch !== undefined) {
-          //   setOpenModalSearch(false)
-          // }
         }
       }}
       onMouseEnter={() => global ? setItemSubmit(item) : ''}

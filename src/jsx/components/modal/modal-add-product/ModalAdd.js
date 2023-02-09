@@ -1,15 +1,15 @@
 import React, { useState, useRef, useContext, useEffect } from 'react'
 import './add.scss'
-import { Select, Form, Row, Col, Input, Checkbox, Upload, Button, notification } from 'antd'
+import { Select, Form, Row, Col, Input, Checkbox, Upload } from 'antd'
+import { Button } from 'react-bootstrap'
 // import { DAPP, EXCHANGE, CRYPTO } from '../../../constants/category'
 import { DAPP, EXCHANGE, CRYPTO } from '../../../constants/category'
 import ReCAPTCHA from 'react-google-recaptcha'
-import _ from 'lodash'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
 import { post } from '../../../../api/BaseRequest'
 import moment from 'moment'
 import { explorers } from '../../../../utils/ExplorerScan'
-import { CheckCircleOutlined } from '@ant-design/icons'
+// import { CheckCircleOutlined } from '@ant-design/icons'
 import { CategoryContext } from '../../../../App'
 
 const { Option } = Select
@@ -74,122 +74,128 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
     setCategory(value)
   }
 
-  const openNotification = (title, content) => {
-    notification.open({
-      message: title,
-      description: content,
-      duration: 2,
-      icon: (
-        <CheckCircleOutlined style={{ color: 'green' }}/>
-      )
-    })
-  }
+  // const openNotification = (title, content) => {
+  //   notification.open({
+  //     message: title,
+  //     description: content,
+  //     duration: 2,
+  //     icon: (
+  //       <CheckCircleOutlined style={{ color: 'green' }}/>
+  //     )
+  //   })
+  // }
 
-  const sendData = async(data) => {
-    try {
-      let res
-      if (category === CRYPTO) {
-        res = await post('reviews/crypto/upload', data)
-      }
-      if (category === EXCHANGE) {
-        res = await post('reviews/exchange/upload', data)
-      }
-      if (category === DAPP) {
-        res = await post('reviews/dapp/upload', data)
-      }
-      if (res?.status) {
-        setOpenModalAdd(false)
-        handleReset()
-        openNotification(`Add ${category} successfully. Please wait for admin to confirm`)
-      }
-    } catch (error) {
-      console.log(error)
-      openNotification(`Unable to add products. Please check again`, error)
-    }
-  }
+  // const sendData = async(data) => {
+  //   try {
+  //     let res
+  //     if (category === CRYPTO) {
+  //       res = await post('reviews/crypto/upload', data)
+  //     }
+  //     if (category === EXCHANGE) {
+  //       res = await post('reviews/exchange/upload', data)
+  //     }
+  //     if (category === DAPP) {
+  //       res = await post('reviews/dapp/upload', data)
+  //     }
+  //     if (res?.status) {
+  //       setOpenModalAdd(false)
+  //       handleReset()
+  //       openNotification(`Add ${category} successfully. Please wait for admin to confirm`)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //     openNotification(`Unable to add products. Please check again`, error)
+  //   }
+  // }
 
-  const onFinish = async(values) => {
-    const recaptchaValue = recapcharRef.current.getValue()
-    if (recaptchaValue) {
-      let body = {}
-      if (category === CRYPTO) {
-        body = {
-          name: values?.name,
-          type: values?.type,
-          symbol: values?.symbol,
-          address: values?.address,
-          chainName: values?.chainName,
-          thumbLogo: data?.image,
-          bigLogo: data?.image,
-          smallLogo: data?.image,
-          description: values?.description,
-          website: values?.website,
-          explorer: values?.explorer,
-          socials: values?.socials,
-          isScam: data?.isScam,
-          isWarning: values?.isWarning,
-          proof: (!data?.isScam && !data?.isWarning) ? null : {
-            'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
-            'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
-          },
-          chainId: values?.chainId,
-          decimal: null
-        }
-      }
-      if (category === EXCHANGE) {
-        console.log(values)
-        body = {
-          name: values?.name,
-          subCategory: values?.subCategory,
-          thumbLogo: data?.image,
-          smallLogo: data?.image,
-          bigLogo: data?.image,
-          description: values?.description,
-          website: values?.website,
-          socials: values?.socials,
-          isScam: values?.isScam,
-          isWarning: values?.isWarning,
-          proof: (!data?.isScam && !data?.isWarning) ? null : {
-            'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
-            'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
-          }
-        }
-      }
-      if (category === DAPP) {
-        // "chains":{
-        //     "ethereum": "1"
-        // }
-        const chains = {}
-        console.log(values)
-        chains[values?.chainName] = values?.chainId
-        body = {
-          name: values?.name,
-          logo: data?.image,
-          description: values?.description,
-          website: values?.website,
-          subCategory: values?.subCategory,
-          socials: values?.socials,
-          isScam: values?.isScam,
-          isWarning: values?.isWarning,
-          chains: chains,
-          proof: (!data?.isScam && !data?.isWarning) ? null : {
-            'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
-            'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
-          }
-        }
-      }
-      if (data?.isScam) {
-        if (!_.isEmpty(data?.sources)) {
-          sendData(body)
-        } else {
-          setErrorLink('Link proof is required')
-        }
-      } else {
-        sendData(body)
-      }
-    } else {
-      setIsRecaptcha(true)
-    }
+  const onFinish = async(e) => {
+    e.preventDefault()
+    console.log(e.target.category.value)
+    console.log(e.target.abc.value)
+    console.log(e.target.desc.value)
+    console.log(e.target.checked.checked)
+    console.log(e.target.multiple.value)
+    // const recaptchaValue = recapcharRef.current.getValue()
+    // if (recaptchaValue) {
+    //   let body = {}
+    //   if (category === CRYPTO) {
+    //     body = {
+    //       name: values?.name,
+    //       type: values?.type,
+    //       symbol: values?.symbol,
+    //       address: values?.address,
+    //       chainName: values?.chainName,
+    //       thumbLogo: data?.image,
+    //       bigLogo: data?.image,
+    //       smallLogo: data?.image,
+    //       description: values?.description,
+    //       website: values?.website,
+    //       explorer: values?.explorer,
+    //       socials: values?.socials,
+    //       isScam: data?.isScam,
+    //       isWarning: values?.isWarning,
+    //       proof: (!data?.isScam && !data?.isWarning) ? null : {
+    //         'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
+    //         'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
+    //       },
+    //       chainId: values?.chainId,
+    //       decimal: null
+    //     }
+    //   }
+    //   if (category === EXCHANGE) {
+    //     console.log(values)
+    //     body = {
+    //       name: values?.name,
+    //       subCategory: values?.subCategory,
+    //       thumbLogo: data?.image,
+    //       smallLogo: data?.image,
+    //       bigLogo: data?.image,
+    //       description: values?.description,
+    //       website: values?.website,
+    //       socials: values?.socials,
+    //       isScam: values?.isScam,
+    //       isWarning: values?.isWarning,
+    //       proof: (!data?.isScam && !data?.isWarning) ? null : {
+    //         'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
+    //         'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
+    //       }
+    //     }
+    //   }
+    //   if (category === DAPP) {
+    //     // "chains":{
+    //     //     "ethereum": "1"
+    //     // }
+    //     const chains = {}
+    //     console.log(values)
+    //     chains[values?.chainName] = values?.chainId
+    //     body = {
+    //       name: values?.name,
+    //       logo: data?.image,
+    //       description: values?.description,
+    //       website: values?.website,
+    //       subCategory: values?.subCategory,
+    //       socials: values?.socials,
+    //       isScam: values?.isScam,
+    //       isWarning: values?.isWarning,
+    //       chains: chains,
+    //       proof: (!data?.isScam && !data?.isWarning) ? null : {
+    //         'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
+    //         'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
+    //       }
+    //     }
+    //   }
+    //   if (data?.isScam) {
+    //     if (!_.isEmpty(data?.sources)) {
+    //       sendData(body)
+    //     } else {
+    //       setErrorLink('Link proof is required')
+    //     }
+    //   } else {
+    //     sendData(body)
+    //   }
+    // } else {
+    //   setIsRecaptcha(true)
+    // }
   }
 
   // chose file in select
@@ -337,10 +343,11 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
           <Col span={12}>
             <Form.Item
               label='Category'
+              className='cus-select'
             >
               <Select
                 defaultValue={category}
-                style={{ width: '100%' }}
+                // style={{ width: '100%' }}
                 onChange={handleChangeCategory}
                 options={categories}
               />
@@ -357,6 +364,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                     message: 'Please select type!'
                   }
                 ]}
+                className='cus-select'
               >
                 <Select
                   defaultValue={category}
@@ -371,7 +379,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
           )}
         </Row>
         <Row gutter={[12]}>
-          <Col span={12}>
+          <Col span={12} className='form-group'>
             <Form.Item
               name='name'
               label='Name'
@@ -382,7 +390,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                 }
               ]}
             >
-              <Input/>
+              <Input autoComplete={false}/>
             </Form.Item>
           </Col>
           {category === CRYPTO && (
@@ -460,13 +468,13 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                 }
               ]}
             >
-              <Input addonBefore='https://'/>
+              <Input/>
             </Form.Item>
           </Col>
           {category === CRYPTO && (
             <Col span={12}>
               <Form.Item name='explorer' label='Explore Website'>
-                <Input addonBefore='https://'/>
+                <Input/>
               </Form.Item>
             </Col>
           )}
@@ -558,6 +566,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                 dropdownStyle={{ background: 'red', display: 'none' }}
                 onChange={handleChangeLink}
                 onSelect={changeSelect}
+                className='cus-multiple-select'
               />
               {errorLink && (<span style={{ color: 'red' }}>
                 {errorLink}
@@ -593,36 +602,61 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
             sitekey='6Lcab8wjAAAAAEeXUCE7iFIga2fynoCIZn4W8Q-l'
           />
         </div>
-        <Row gutter={12}>
-          <Col span={12}>
-            <Form.Item>
-              <Button border className='add-btn' onClick={handleReset}>
-                                Reset Data
-              </Button>
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item>
-              <Button type='primary' htmlType='submit' className='add-btn'>
-                                Add Product
-              </Button>
-            </Form.Item>
-          </Col>
-        </Row>
+        <div className='d-flex'>
+          <Form.Item>
+            <Button className='me-2' variant='danger' onClick={handleReset}>
+                Reset Data
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <Button variant='success' htmlType='submit' className='me-2'>
+                Add Product
+            </Button>
+          </Form.Item>
+        </div>
       </Form>
       {/* <form
         ref={ref}
-        onSubmit={(e) => {
-          e.preventDefault()
-          console.log(e.target.category.value)
-          console.log(e.target.abc.value)
-          console.log(e.target.desc.value)
-          console.log(e.target.checked.checked)
-          console.log(e.target.multiple.value)
-        }}
+        onSubmit={(e) => onFinish(e)}
         className='form-valide'
       >
         <div className='row'>
+          <div className='form-group mb-3 col-md-6'>
+            <label
+              className='col-lg-4 col-form-label'
+              htmlFor='category'
+            >
+              Category
+            </label>
+            <select
+              defaultValue={category}
+              id='category'
+              className='form-control'
+              onChange={handleChangeCategory}
+            >
+              <option value={CRYPTO}>Crypto Project</option>
+              <option value={EXCHANGE}>Exchange</option>
+              <option value={DAPP}>DApp</option>
+            </select>
+          </div>
+          <div className='form-group mb-3 col-md-6'>
+            <label
+              className='col-lg-4 col-form-label'
+              htmlFor='category'
+            >
+              Type
+              <span className='text-danger'>*</span>
+            </label>
+            <select
+              defaultValue={data?.type}
+              id='category'
+              className='form-control'
+              onChange={handleChangeType}
+            >
+              <option value='token'>Token</option>
+              <option value='coin'>Coin</option>
+            </select>
+          </div>
           <div className='form-group mb-3 col-md-6'>
             <label
               className='col-lg-4 col-form-label'

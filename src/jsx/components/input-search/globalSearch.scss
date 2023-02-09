@@ -158,8 +158,20 @@
     position: relative;
     width: 100% !important;
 }
+.cus-no-bg{
+    background-color: #fff !important;
+    border: none !important;
+}
 .cus-form-control {
     border: 0 !important;
+}
+.cus-nav-item{
+    width: 100% !important;
+}
+
+// custom input 
+.boder-input{
+    background-color: rgba(24, 165, 148, 0.1) !important;
 }
 
 .item{

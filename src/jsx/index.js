@@ -132,8 +132,8 @@ const Markup = () => {
             <ModalReport/>
           </Modal.Body>
         </Modal>
-        <Modal className='fade cus-modal' show={openModalAdd} size='lg'>
-          <Modal.Header className='cus-modal'>
+        <Modal className='fade' show={openModalAdd} size='lg'>
+          <Modal.Header>
             <Modal.Title>Add Product</Modal.Title>
             <Button
               variant=''
@@ -142,7 +142,7 @@ const Markup = () => {
             >
             </Button>
           </Modal.Header>
-          <Modal.Body className='cus-modal'>
+          <Modal.Body>
             <ModalAdd/>
           </Modal.Body>
         </Modal>

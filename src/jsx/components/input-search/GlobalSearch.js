@@ -102,33 +102,37 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
   }, [listDataSearch])
 
   const subMitForm = () => {
-    if (itemSubmit) {
-      const productId = itemSubmit?.cryptoId
-        ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
-        : itemSubmit?.dappId
-          ? `${itemSubmit?.dappId?.split('_')[2]}/${itemSubmit?.dappId?.split('_')[3]}`
-          : itemSubmit?.exchangeId
-            ? `${itemSubmit?.exchangeId?.split('_')[2]}/${itemSubmit?.exchangeId?.split('_')[3]}`
-            : itemSubmit?.soonId
-              ? `${itemSubmit?.soonId?.split('_')[2]}${itemSubmit?.soonId?.split('_')[3] ? `/${itemSubmit?.soonId?.split('_')[3]}` : ''}`
-              : `${itemSubmit?.ventureId?.split('_')[2]}/${itemSubmit?.ventureId?.split('_')[3]}`
-      navigate(
-        `../../products/${
-          itemSubmit?.cryptoId
-            ? 'crypto'
-            : itemSubmit?.dappId
-              ? 'dapp'
-              : itemSubmit?.exchangeId
-                ? 'exchange'
-                : itemSubmit?.soonId
-                  ? 'soon'
-                  : 'venture'
-        }/${productId}`
-      )
-      setKeyWord()
-      setDataSearch({
-        isActive: false, data: {}, loading: false, status: ''
-      })
+    if (isFormReport) {
+      setItem(itemSubmit)
+    } else {
+      if (itemSubmit) {
+        const productId = itemSubmit?.cryptoId
+          ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
+          : itemSubmit?.dappId
+            ? `${itemSubmit?.dappId?.split('_')[2]}/${itemSubmit?.dappId?.split('_')[3]}`
+            : itemSubmit?.exchangeId
+              ? `${itemSubmit?.exchangeId?.split('_')[2]}/${itemSubmit?.exchangeId?.split('_')[3]}`
+              : itemSubmit?.soonId
+                ? `${itemSubmit?.soonId?.split('_')[2]}${itemSubmit?.soonId?.split('_')[3] ? `/${itemSubmit?.soonId?.split('_')[3]}` : ''}`
+                : `${itemSubmit?.ventureId?.split('_')[2]}/${itemSubmit?.ventureId?.split('_')[3]}`
+        navigate(
+          `../../products/${
+            itemSubmit?.cryptoId
+              ? 'crypto'
+              : itemSubmit?.dappId
+                ? 'dapp'
+                : itemSubmit?.exchangeId
+                  ? 'exchange'
+                  : itemSubmit?.soonId
+                    ? 'soon'
+                    : 'venture'
+          }/${productId}`
+        )
+        setKeyWord()
+        setDataSearch({
+          isActive: false, data: {}, loading: false, status: ''
+        })
+      }
     }
   }
 
@@ -157,20 +161,24 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
     }
   }, [isSubmit])
 
-  useEffect(() => {
-    setDataSearchFormReport && setDataSearchFormReport(dataSearch)
-  }, [dataSearch])
+  // useEffect(() => {
+  //   setDataSearchFormReport && setDataSearchFormReport(dataSearch)
+  // }, [dataSearch])
 
   return (
     <div className='input-group search-area cus-input-group'>
-      <div className='nav-item d-flex align-items-center'>
+      <div className='nav-item d-flex align-items-center cus-nav-item'>
         <div className='input-group search-area'>
           <span
-            className='input-group-text cus-input-group-text'
+            className={`input-group-text cus-input-group-text ${isFormReport ? 'cus-no-bg' : ''}`}
             onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              setIsSubmit(true)
+              if (isFormReport) {
+                subMitForm()
+              } else {
+                e.preventDefault()
+                e.stopPropagation()
+                setIsSubmit(true)
+              }
             }}
           >
             <svg width='24' height='24' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -179,7 +187,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
           </span>
           <input
             type='text'
-            className='form-control cus-form-control'
+            className={`form-control cus-form-control`}
             placeholder='Search here...'
             value={keyWord}
             onChange={(e) => {
@@ -227,10 +235,9 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
                                 // if global === true, search global reverse, search in table of category
                                 global={true}
                                 // use in form report
-                                setDataSearchFormReport={setDataSearchFormReport}
+                                // setDataSearchFormReport={setDataSearchFormReport}
                                 setItem={setItem}
                                 isFormReport={isFormReport}
-                                dataSearch={dataSearch}
                               />
                             </>
                           )
@@ -251,6 +258,9 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
                               // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
                               global={true}
+
+                              setItem={setItem}
+                              isFormReport={isFormReport}
                             />
                           )
                         )}
@@ -270,6 +280,9 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
                               // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
                               global={true}
+
+                              setItem={setItem}
+                              isFormReport={isFormReport}
                             />
                           )
                         )}
@@ -287,6 +300,9 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
                             // setOpenModalSearch={setOpenModalSearch}
                             setItemSubmit={setItemSubmit}
                             global={true}
+
+                            setItem={setItem}
+                            isFormReport={isFormReport}
                           />
                         ))}
                       </div>
@@ -305,6 +321,9 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
                               // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
                               global={true}
+
+                              setItem={setItem}
+                              isFormReport={isFormReport}
                             />
                           )
                         )}

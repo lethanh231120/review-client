@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
-const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global }) => {
+const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -15,10 +15,13 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global }) => {
           : ''
       } form-search-data-item`}
       onClick={(e) => {
-        navigate(`../../products/dapp/${item?.dappId?.split('_')[2]}`)
-        // if (setOpenModalSearch !== undefined) {
-        //   setOpenModalSearch(false)
-        // }
+        e.stopPropagation()
+        e.preventDefault()
+        if (isFormReport) {
+          setItem(item)
+        } else {
+          navigate(`../../products/dapp/${item?.dappId?.split('_')[2]}`)
+        }
       }}
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
