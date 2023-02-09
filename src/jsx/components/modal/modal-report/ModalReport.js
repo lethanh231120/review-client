@@ -11,6 +11,7 @@ import Description from '../../product-detail/description/Description'
 import FormReport from '../../Forms/form-report/FormReport'
 import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE } from '../../../constants/category'
 import { ReportModalContext } from '../../../index'
+import InputSearch from '../../input-search/GlobalSearch'
 
 const { Option } = Select
 
@@ -342,7 +343,7 @@ const ModalReport = ({ openModalReport, setOpenModalReport, logout }) => {
 
   return (
     <>
-      <Form form={form} onFinish={handleSubmit} fields={defaultValue}>
+      {/* <Form form={form} onFinish={handleSubmit} fields={defaultValue}>
         <Form.Item name='keyword'>
           <Input
             placeholder='Search by Token / Coin / Exchange / Dapp / Venture...'
@@ -375,8 +376,8 @@ const ModalReport = ({ openModalReport, setOpenModalReport, logout }) => {
             }}
           />
         </Form.Item>
-      </Form>
-      <div className={`report-data ${dataSearch?.isActive ? 'active' : ''}`}>
+      </Form> */}
+      {/* <div className={`report-data ${dataSearch?.isActive ? 'active' : ''}`}>
         {dataSearch?.loading ? (
           <>
             <Spin size='large' />
@@ -546,12 +547,17 @@ const ModalReport = ({ openModalReport, setOpenModalReport, logout }) => {
             )}
           </>
         )}
-      </div>
+      </div> */}
+      <InputSearch
+        isFormReport={true}
+        setDataSearchFormReport={setDataSearch}
+        setItem={setItem}
+      />
       {item ? (
         <>
-          <div className='report-item'>
-            <div className='dapp'>
-              <div className='dapp-overview'>
+          {/* <div className='report-item'> */}
+          {/* <div className='crypto'>
+              <div className='report-item-overview'>
                 {item?.image ? (
                   <Image
                     src={item?.image}
@@ -591,9 +597,56 @@ const ModalReport = ({ openModalReport, setOpenModalReport, logout }) => {
                   </div>
                 </div>
               </div>
+            </div> */}
+          <div className='row report-item-overview'>
+            <div className='col-lg-12'>
+              <div className='profile card card-body px-3 pt-3 pb-0 mt-3'>
+                <div className='profile-head'>
+                  <div className='profile-info'>
+                    <div className='profile-details'>
+                      <div className='profile-photo'>
+                        {item?.image ? (
+                          <Image src={item?.image} preview={false} />
+                        ) : (
+                          <span className='image-list-no-data-detail'>
+                            {item?.name?.slice(0, 3)}
+                          </span>
+                        )}
+                      </div>
+                      <div className='profile-name px-3 pt-2'>
+                        <h4 className='text-primary mb-2 cus-h4'>
+                          <span className='crypto-overview-name'>
+                            {item?.name}
+                          </span>
+                          {item?.symbol ? (
+                            <span className='crypto-overview-symbol'>
+                              {item?.symbol}
+                            </span>
+                          ) : (
+                            ''
+                          )}
+                        </h4>
+                        {/* {item?.address && (
+                          <p className='crypto-info-item-address'>
+                            <CopyOutlined
+                              style={{ padding: '0, 1rem' }}
+                              onClick={(e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                                copyAddress(e, item?.address)
+                              }}
+                            />
+                          </p>
+                        )} */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <Description text={item?.description}/>
           </div>
+          <Description text={item?.description}/>
+          {/* </div> */}
           <FormReport
             isFormReport={false}
             rest={{
