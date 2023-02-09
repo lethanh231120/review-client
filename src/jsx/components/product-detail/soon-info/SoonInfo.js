@@ -452,7 +452,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 <>
                   <div
                     data-src={itemDetail?.media[keyScreenshotName]}
-                    className='col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1'
+                    className='col-lg-4 col-xl-4 col-sm-4 col-6 int-col mb-1 cursor-pointer'
                     key={index}
                   >
                     <Tooltip
@@ -460,7 +460,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                     >
                       <img
                         src={itemDetail?.media[keyScreenshotName]}
-                        style={{ width: '100%', height: '8rem' }}
+                        style={{ width: '100%', height: '5rem' }}
                         alt={keyScreenshotName}
                       />
                     </Tooltip>
