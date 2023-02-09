@@ -64,7 +64,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                               <div className='d-flex align-items-center mb-4'>
                                 <div>
                                   {item?.projectId ? (
-                                    <Image src={isValidProductId(item?.projectId) ? formatImgUrlFromProductId(item?.projectId) : imgAbsentImageSoon} preview={false} className='image-list' />
+                                    <Image src={isValidProductId(item?.projectId) ? formatImgUrlFromProductId(item?.projectId) : imgAbsentImageSoon} preview={false} className='image-list' height={64} width={64} />
                                   )
                                     : (
                                       <NoImage

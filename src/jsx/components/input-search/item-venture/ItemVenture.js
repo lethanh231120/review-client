@@ -28,13 +28,6 @@ const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global, setItem, 
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {item?.image ? (
-          <Image src={item?.image} preview={false} />
-        ) : (
-          <span className='table-icon-coin-logo'>
-            {item?.name?.slice(0, 3)?.toUpperCase()}
-          </span>
-        )}
         {item?.ventureId ? (
           <Image src={isValidProductId(item?.ventureId) ? formatImgUrlFromProductId(item?.ventureId) : imgAbsentImageVenture} preview={false} />
         )

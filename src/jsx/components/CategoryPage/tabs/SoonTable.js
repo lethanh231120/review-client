@@ -202,7 +202,8 @@ const SoonTable = ({ listData, loading }) => {
   }
 
   return (
-    <div className='soon-table'>
+    <div className='soon-table'
+    >
       {!_.isEmpty(listData) ? (
         <Table
           columns={columns}

@@ -49,7 +49,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       <div className='profile-info mb-1'>
         <div className='profile-photo'>
           {detail?.ventureId ? (
-            <Image src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false} />
+            <Image src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false} height={64} width={64}/>
           )
             : (<span className='image-list-no-data-detail'>
               {detail?.ventureName?.slice(0, 3)}

@@ -38,7 +38,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
       <div className='profile-info mb-1'>
         <div className='profile-photo'>
           {detail?.exchangeId ? (
-            <Image src={isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageExchange} preview={false} />
+            <Image src={isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageExchange} preview={false} height={64} width={64}/>
           )
             : (<span className='image-list-no-data-detail'>
               {detail?.name?.slice(0, 3)}

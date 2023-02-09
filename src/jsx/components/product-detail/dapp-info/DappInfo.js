@@ -40,7 +40,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
       <div className='profile-info mb-1'>
         <div className='profile-photo'>
           {productInfo?.details?.dAppId ? (
-            <Image src={isValidProductId(productInfo?.details?.dAppId) ? formatImgUrlFromProductId(productInfo?.details?.dAppId) : imgAbsentImageDapp} preview={false} />
+            <Image src={isValidProductId(productInfo?.details?.dAppId) ? formatImgUrlFromProductId(productInfo?.details?.dAppId) : imgAbsentImageDapp} preview={false} height={64} width={64}/>
           )
             : (<span className='image-list-no-data-detail'>
               {productInfo?.details?.dAppName?.slice(0, 3)}

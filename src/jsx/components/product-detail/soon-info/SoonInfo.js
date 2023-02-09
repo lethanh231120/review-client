@@ -94,7 +94,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       <div className='profile-info'>
         <div className='profile-photo'>
           {itemDetail?.projectId ? (
-            <Image src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false} />
+            <Image src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false} height={64} width={64}/>
           )
             : (
               <NoImage

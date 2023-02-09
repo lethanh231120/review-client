@@ -1,0 +1,112 @@
+.soon-table{
+  background-color: red;
+    & .ant-pagination {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    width: 100%;
+    & table {
+      width: 100%;
+      overflow: hidden;
+      & .ant-table-thead > tr > th {
+        background-color: #fafafa;
+      }
+      & .ant-table-cell-fix-left-first::after,
+      .ant-table-cell-fix-left-last::after {
+        width: 0;
+      }
+      & .ant-table-tbody > tr > td,
+      .ant-table-thead > tr > th {
+        padding: 0.625rem 0.9375rem;
+      }
+      & .ant-table-tbody > tr > td,
+      .ant-table-body > tr > th {
+        padding: 0.625rem 0.9375rem;
+        cursor: pointer;
+      }
+    }
+  }
+
+//small menu mode
+@media (max-width: 1100px) {
+    .soon-table {
+      & table .ant-table-thead > tr > th:nth-child(3) { // chain
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(3) {
+        display: none;
+      }
+    }
+  }
+
+
+  @media (max-width: 1100px) {
+    .soon-table {
+      & table .ant-table-thead > tr > th:last-child { // launch pad
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:last-child {
+        display: none;
+      }
+    }
+  }
+
+
+  @media (max-width: 930px) {
+    .soon-table {
+      & table .ant-table-thead > tr > th:nth-child(7) { // end date
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(7) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 870px) {
+    .soon-table {
+      & table .ant-table-thead > tr > th:nth-child(6) { // start date
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(6) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 815px) {
+    .soon-table {
+      & table .ant-table-thead > tr > th:nth-child(5) { // total raise
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(5) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 530px) {
+    .soon-table {
+      & table .ant-table-thead > tr > th:nth-child(4) { // round type
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 455px) {
+    .soon-table {
+      & table .ant-table-thead > tr > th:nth-child(2) { // subcategory
+        display: none;
+      }
+      & table .ant-table-tbody > tr > td:nth-child(2) {
+        display: none;
+      }
+    }
+  }
+
+//big menu mode
+

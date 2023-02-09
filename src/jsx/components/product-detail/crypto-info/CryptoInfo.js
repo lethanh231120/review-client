@@ -121,7 +121,7 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
         <div className='profile-details'>
           <div className='profile-photo'>
             {productInfo?.details?.cryptoId ? (
-              <Image src={isValidProductId(productInfo?.details?.cryptoId) ? formatImgUrlFromProductId(productInfo?.details?.cryptoId) : imgAbsentImageCrypto} preview={false} />
+              <Image src={isValidProductId(productInfo?.details?.cryptoId) ? formatImgUrlFromProductId(productInfo?.details?.cryptoId) : imgAbsentImageCrypto} preview={false} height={64} width={64}/>
             ) : (
               <span className='image-list-no-data-detail'>
                 {productInfo?.details?.name?.slice(0, 3)}
