@@ -138,6 +138,8 @@
 
 .cus-input-group-text{
     cursor: pointer;
+    background: #18A594 !important;
+    
 }
 
 .cus-btn{
@@ -159,11 +161,22 @@
     width: 100% !important;
 }
 .cus-no-bg{
-    background-color: #fff !important;
+    // background-color: #fff !important;
     border: none !important;
 }
+
+@keyframes typewriter{
+    from{width: 0;}
+    to{width: 24em;}
+  }
+  @keyframes blinkTextCursor{
+    from{border-right-color: rgba(255,255,255,.75);}
+    to{border-right-color: transparent;}
+  }
 .cus-form-control {
     border: 0 !important;
+    animation: typewriter 4s steps(44) 1s 1 normal both,
+             blinkTextCursor 500ms steps(44) infinite normal;
 }
 .cus-nav-item{
     width: 100% !important;
@@ -172,6 +185,13 @@
 // custom input 
 .boder-input{
     background-color: rgba(24, 165, 148, 0.1) !important;
+}
+
+.custom-search-area{
+    width: 100% !important;
+    & .form-control{
+        background: #fff !important;
+    }
 }
 
 .item{
