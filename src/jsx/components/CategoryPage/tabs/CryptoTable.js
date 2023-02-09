@@ -16,6 +16,8 @@ import MyScoreComponent from '../../score/scoreComponent'
 import { exchanges } from '../../../../utils/ExchangeImage'
 import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
 import { MAX_PAGE } from '../../../constants/pagination'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 
 const CryptoTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -123,14 +125,10 @@ const CryptoTable = ({ loading, listData }) => {
           }`}
           className='crypto-table-info image-list'
         >
-          {record?.bigLogo ? (
-            <Image src={record?.bigLogo} preview={false}/>
-          ) : record?.thumbLogo ? (
-            <Image src={record?.thumbLogo} preview={false}/>
-          ) : record?.smallLogo ? (
-            <Image src={record?.smallLogo} preview={false}/>
+          {record?.cryptoId ? (
+            <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} />
           ) : (
-            <span className='image-list-no-data'>
+            <span className='image-list-no-data-detail'>
               {record?.name?.slice(0, 3)}
             </span>
           )}

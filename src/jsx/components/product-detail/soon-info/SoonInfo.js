@@ -12,7 +12,7 @@ import moment from 'moment'
 // import FormReport from '../../Forms/form-report/FormReport'
 import Description from '../description/Description'
 import { LoadingOutlined } from '@ant-design/icons'
-import { Spin, Tooltip } from 'antd'
+import { Image, Spin, Tooltip } from 'antd'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import LightGallery from 'lightgallery/react'
 import lgThumbnail from 'lightgallery/plugins/thumbnail'
@@ -21,7 +21,8 @@ import lgZoom from 'lightgallery/plugins/zoom'
 import 'lightgallery/css/lightgallery.css'
 import 'lightgallery/css/lg-zoom.css'
 import 'lightgallery/css/lg-thumbnail.css'
-
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 const txtTBA = 'TBA'
 
 // match with BE
@@ -92,19 +93,16 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     <div className='profile-head'>
       <div className='profile-info'>
         <div className='profile-photo'>
-          {itemDetail?.bigLogo ? (
-            <img
-              src={itemDetail?.bigLogo}
-              height={64}
-              width={64}
-            />
-          ) : (
-            <NoImage
-              alt={itemDetail?.projectName?.slice(0, 3)}
-              height={64}
-              width={64}
-            />
-          )}
+          {itemDetail?.projectId ? (
+            <Image src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false} />
+          )
+            : (
+              <NoImage
+                alt={itemDetail?.projectName?.slice(0, 3)}
+                height={64}
+                width={64}
+              />
+            )}
         </div>
         <div className='profile-details'>
           <div className='profile-name px-3 pt-2'>

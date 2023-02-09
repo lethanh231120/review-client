@@ -8,6 +8,8 @@ import { DAPP } from '../../../constants/category'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import CategorySearch from '../../input-search/CategorySearch'
 import MyScoreComponent from '../../score/scoreComponent'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 
 const Dapp = ({
   listProduct,
@@ -30,9 +32,13 @@ const Dapp = ({
     {
       title: 'Name',
       render: (_, record) => (<Link className='crypto-table-info image-list' to='#'>
-        {record?.dAppLogo ? <Image src={record?.dAppLogo} preview={false} /> : <span className='image-list-no-data'>
-          {record?.name?.slice(0, 3)}
-        </span>}
+        {record?.dAppId ? (
+          <Image src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
+        )
+          : (<span className='image-list-no-data-detail'>
+            {record?.dAppName?.slice(0, 3)}
+          </span>)
+        }
         <span>
           <div className='data-table-name ms-2'>
             <div>{record?.dAppName ? record?.dAppName : 'Unknown'}</div>

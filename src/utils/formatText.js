@@ -1,5 +1,4 @@
-import { PREFIX_DETAIL, DAPP, VENTURE, EXCHANGE, CRYPTO, CRYPTO_COIN, CRYPTO_TOKEN } from '../jsx/constants/category'
-
+import { PREFIX_DETAIL, DAPP, VENTURE, EXCHANGE, CRYPTO, CRYPTO_COIN, CRYPTO_TOKEN, SOON } from '../jsx/constants/category'
 export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
@@ -32,22 +31,37 @@ export const formatUrlDetailFromExchangeId = (exchangeId) => {
   return endpoint
 }
 
+export const isValidProductId = (productId) =>{
+  const productIdParts = productId?.split('_')
+  return productIdParts?.length >= 3
+}
+
 export const formatImgUrlFromProductId = (productId) => {
   const productIdParts = productId?.split('_')
   // not valid product id, Ex: gear5_coin_ethereum
-  if (productIdParts?.length !== 3) {
+  if (productIdParts?.length < 3) {
     return null
   }
   let productImgType = productIdParts[1]
-  let folderImgPath = 'bigLogo' // default
+  let folderImgPath
   // special case
   switch (productImgType) {
     case CRYPTO_COIN :
     case CRYPTO_TOKEN:
+      folderImgPath = 'bigLogo'
       productImgType = CRYPTO
       break
     case DAPP:
-      folderImgPath = `dappLogo`
+      folderImgPath = `dAppLogo`
+      break
+    case VENTURE:
+      folderImgPath = `ventureLogo`
+      break
+    case EXCHANGE :
+      folderImgPath = 'smallLogo'
+      break
+    case SOON:
+      folderImgPath = `nativeLogo`
       break
   }
   const imgUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${productImgType}/${folderImgPath}/${productId}.png`

@@ -8,6 +8,8 @@ import { formatMoney, renderNumber } from '../../../../utils/formatNumber'
 import '../../table/venture/venture.scss'
 import nodata from '../../../../images/product/nodata.png'
 import MyScoreComponent from '../../score/scoreComponent'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 
 const VentureTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -24,17 +26,13 @@ const VentureTable = ({ loading, listData }) => {
           to={`../../../products/venture/${record?.ventureId}`}
           className='crypto-table-info image-list'
         >
-          {record?.ventureLogo ? (
-            <Image
-              // style={{ width: "5rem" }}
-              src={record?.ventureLogo}
-              preview={false}
-            />
-          ) : (
-            <span className='image-list-no-data'>
+          {record?.ventureId ? (
+            <Image src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
+          )
+            : (<span className='image-list-no-data'>
               {record?.ventureName?.slice(0, 3)}
-            </span>
-          )}
+            </span>)
+          }
           <span>
             <div className='data-table-name ms-2'>
               <div className='data-table-name-title'>

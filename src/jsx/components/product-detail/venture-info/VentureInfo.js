@@ -1,4 +1,4 @@
-import { Avatar, Spin, Table, Tooltip } from 'antd'
+import { Avatar, Image, Spin, Table, Tooltip } from 'antd'
 import React, { useState } from 'react'
 import { Badge, Button } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
@@ -10,6 +10,8 @@ import moment from 'moment'
 import FormReport from '../../Forms/form-report/FormReport'
 import { useNavigate } from 'react-router-dom'
 import { LoadingOutlined } from '@ant-design/icons'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 
 const VentureInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -46,12 +48,13 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     return <div className='profile-head'>
       <div className='profile-info mb-1'>
         <div className='profile-photo'>
-          <Avatar
-            size={50}
-            src={detail?.ventureLogo}
-            className='img-fluid rounded-circle'
-            alt='profile'
-          />
+          {detail?.ventureId ? (
+            <Image src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false} />
+          )
+            : (<span className='image-list-no-data-detail'>
+              {detail?.ventureName?.slice(0, 3)}
+            </span>)
+          }
         </div>
         <div className='profile-details'>
           <div className='profile-name px-3 ms-2 '>

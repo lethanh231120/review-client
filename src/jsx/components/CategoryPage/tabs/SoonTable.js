@@ -10,6 +10,9 @@ import { encodeUrl } from '../../../../utils/formatUrl'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
 // import { mainColorHex } from '../../../constants/color'
 import { Badge } from 'react-bootstrap'
+import NoImage from './../../common-widgets/no-image/NoImage'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 
 const SoonTable = ({ listData, loading }) => {
   const navigate = useNavigate()
@@ -29,17 +32,16 @@ const SoonTable = ({ listData, loading }) => {
           to={`../../../${PREFIX_DETAIL}/${SOON}/${record?.projectId}`}
           className='crypto-table-info image-list'
         >
-          {record?.bigLogo ? (
-            <Image
-              // style={{ width: "5rem", height: "5rem", marginRight: "1.5rem" }}
-              src={record?.bigLogo}
-              preview={false}
-            />
-          ) : (
-            <span className='image-list-no-data'>
-              {record?.projectName?.slice(0, 3)}
-            </span>
-          )}
+          {record?.projectId ? (
+            <Image src={isValidProductId(record?.projectId) ? formatImgUrlFromProductId(record?.projectId) : imgAbsentImageSoon} preview={false} />
+          )
+            : (
+              <NoImage
+                alt={record?.projectName?.slice(0, 3)}
+                height={64}
+                width={64}
+              />
+            )}
           <span>
             <div className='data-table-name ms-2'>
               <div className='data-table-name-title'>

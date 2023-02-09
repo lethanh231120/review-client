@@ -10,6 +10,8 @@ import nodata from '../../../../images/product/nodata.png'
 import MyScoreComponent from '../../score/scoreComponent'
 import { encodeUrl } from '../../../../utils/formatUrl'
 import { Badge } from 'react-bootstrap'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 
 const DappTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -21,7 +23,6 @@ const DappTable = ({ loading, listData }) => {
     }
   }
 
-  console.log(listData)
   const colunms = [
     {
       title: 'Name',
@@ -31,16 +32,13 @@ const DappTable = ({ loading, listData }) => {
           to={`../../../${PREFIX_DETAIL}/${DAPP}/${record?.dAppId}`}
           className='crypto-table-info image-list'
         >
-          {record?.dAppLogo ? (
-            <Image
-              src={record?.dAppLogo}
-              preview={false}
-            />
-          ) : (
-            <span className='image-list-no-data'>
+          {record?.dAppId ? (
+            <Image src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
+          )
+            : (<span className='image-list-no-data-detail'>
               {record?.dAppName?.slice(0, 3)}
-            </span>
-          )}
+            </span>)
+          }
           <span>
             <div className='data-table-name ms-2'>
               <div className='data-table-name-title'>

@@ -1,9 +1,12 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 
 const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   const navigate = useNavigate()
+  console.log(item)
   return (
     <Link
       to={`../../products/venture/${item?.ventureId?.split('_')[2]}`}
@@ -32,6 +35,13 @@ const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global, setItem, 
             {item?.name?.slice(0, 3)?.toUpperCase()}
           </span>
         )}
+        {item?.ventureId ? (
+          <Image src={isValidProductId(item?.ventureId) ? formatImgUrlFromProductId(item?.ventureId) : imgAbsentImageVenture} preview={false} />
+        )
+          : (<span className='image-list-no-data'>
+            {item?.name?.slice(0, 3)}
+          </span>)
+        }
         <div>
           <div className='form-search-data-item-data-content'>
             <h6 className='cus-h6'>

@@ -13,6 +13,8 @@ import MyScoreComponent from '../../score/scoreComponent'
 import { encodeUrl } from '../../../../utils/formatUrl'
 import { Badge } from 'react-bootstrap'
 import { NO_DATA } from '../../../constants/data'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 
 const ExchangeTable = ({ listData, loading }) => {
   const navigate = useNavigate()
@@ -31,17 +33,13 @@ const ExchangeTable = ({ listData, loading }) => {
           to={`../../../${PREFIX_DETAIL}/${EXCHANGE}/${record?.exchangeId}`}
           className='crypto-table-info image-list'
         >
-          {record?.smallLogo ? (
-            <Image
-              // style={{ width: "5rem", height: "5rem", marginRight: "1.5rem" }}
-              src={record?.smallLogo}
-              preview={false}
-            />
-          ) : (
-            <span className='image-list-no-data'>
+          {record?.exchangeId ? (
+            <Image src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
+          )
+            : (<span className='image-list-no-data'>
               {record?.name?.slice(0, 3)}
-            </span>
-          )}
+            </span>)
+          }
           <span>
             <div className='data-table-name'>
               <div className='data-table-name-title'>

@@ -22,7 +22,7 @@ import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { crypto_score_explain_text } from '../../../constants/data'
 // import MyScoreComponent from '../../../utils/components/scoreComponent'
 import MyScoreComponent from '../../score/scoreComponent'
-import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
+import { isValidProductId, formatImgUrlFromProductId, formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 import {
@@ -35,6 +35,7 @@ import { NO_DATA } from '../../../constants/data'
 // import CategorySearch from '../../layout/input-search/CategorySearch'
 import CategorySearch from '../../input-search/CategorySearch'
 import '../../../../scss/base/table.scss'
+import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 
 const Crypto = ({
   listProduct,
@@ -157,17 +158,13 @@ const Crypto = ({
           }`}
           className='crypto-table-info image-list'
         >
-          {record?.bigLogo ? (
-            <Image src={record?.bigLogo} preview={false} />
-          ) : record?.thumbLogo ? (
-            <Image src={record?.thumbLogo} preview={false} />
-          ) : record?.smallLogo ? (
-            <Image src={record?.smallLogo} preview={false} />
-          ) : (
-            <span className='image-list-no-data'>
-              {record?.name?.slice(0, 3)}
-            </span>
-          )}
+          {record?.cryptoId
+            ? <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} />
+            : (
+              <span className='image-list-no-data'>
+                {record?.name?.slice(0, 3)}
+              </span>
+            )}
           <span>
             <div className='data-table-name'>
               <div className='data-table-name-title'>{record?.name}</div>

@@ -7,6 +7,8 @@ import { NO_DATA } from '../../../constants/data'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import CategorySearch from '../../input-search/CategorySearch'
 import MyScoreComponent from '../../score/scoreComponent'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 
 const Venture = ({
   listProduct,
@@ -27,9 +29,13 @@ const Venture = ({
     {
       title: 'Name',
       render: (_, record) => (<Link to='#' className='crypto-table-info image-list'>
-        {record?.ventureLogo ? <Image src={record?.ventureLogo} preview={false} /> : <span className='image-list-no-data'>
-          {record?.ventureName?.slice(0, 3)}
-        </span>}
+        {record?.ventureId ? (
+          <Image src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
+        )
+          : (<span className='image-list-no-data-detail'>
+            {record?.ventureName?.slice(0, 3)}
+          </span>)
+        }
         <span>
           <div className='data-table-name ms-2'>
             <div>{record?.ventureName ? record?.ventureName : 'Unknown'}</div>
