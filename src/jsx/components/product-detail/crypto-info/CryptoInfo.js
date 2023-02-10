@@ -243,7 +243,6 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
     ) : ''}
   </>
 
-  console.log('productInfo', productInfo)
   const more = <>
     <div className='card-header pb-0 border-0 flex-wrap'>
       <div>
@@ -421,12 +420,13 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
               type='checkbox'
               defaultChecked={productInfo?.details?.isCoingecko}
               className='form-check-input'
-              id='customCheckBox3'
-              disabled
+              id='coingecko'
+              style={{ pointerEvents: 'none' }}
             />
             <label
               className='form-check-label'
-              htmlFor='customCheckBox3'
+              htmlFor='coingecko'
+              style={{ pointerEvents: 'none' }}
             >
               Coingecko
             </label>
@@ -438,12 +438,13 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
               type='checkbox'
               defaultChecked={productInfo?.details?.isCoinmarketcap}
               className='form-check-input'
-              id='customCheckBox3'
-              disabled
+              id='coinmarketcap'
+              style={{ pointerEvents: 'none' }}
             />
             <label
               className='form-check-label'
-              htmlFor='customCheckBox3'
+              htmlFor='coinmarketcap'
+              style={{ pointerEvents: 'none' }}
             >
               Coinmarketcap
             </label>
@@ -455,12 +456,13 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
               type='checkbox'
               defaultChecked={productInfo?.details?.isProxy}
               className='form-check-input'
-              id='customCheckBox3'
-              disabled
+              id='proxy'
+              style={{ pointerEvents: 'none' }}
             />
             <label
               className='form-check-label'
-              htmlFor='customCheckBox3'
+              htmlFor='proxy'
+              style={{ pointerEvents: 'none' }}
             >
               Proxy
             </label>
@@ -472,12 +474,13 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
               type='checkbox'
               defaultChecked={productInfo?.details?.contractVerified}
               className='form-check-input'
-              id='customCheckBox3'
-              disabled
+              id='contract'
+              style={{ pointerEvents: 'none' }}
             />
             <label
               className='form-check-label'
-              htmlFor='customCheckBox3'
+              htmlFor='contract'
+              style={{ pointerEvents: 'none' }}
             >
               Contract Verify
             </label>

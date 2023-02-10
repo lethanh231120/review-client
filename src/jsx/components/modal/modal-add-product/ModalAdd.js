@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext, useEffect } from 'react'
 import './add.scss'
 import { Select, Form, Row, Col, Input, Checkbox, Upload } from 'antd'
-import { Button } from 'react-bootstrap'
+// import { Button } from 'react-bootstrap'
 // import { DAPP, EXCHANGE, CRYPTO } from '../../../constants/category'
 import { DAPP, EXCHANGE, CRYPTO } from '../../../constants/category'
 import ReCAPTCHA from 'react-google-recaptcha'
@@ -11,6 +11,9 @@ import moment from 'moment'
 import { explorers } from '../../../../utils/ExplorerScan'
 // import { CheckCircleOutlined } from '@ant-design/icons'
 import { CategoryContext } from '../../../../App'
+import _ from 'lodash'
+import Swal from 'sweetalert2'
+import { AddModalContext } from '../../../index'
 
 const { Option } = Select
 const defaultValue = [
@@ -32,10 +35,11 @@ const defaultValue = [
   { name: 'isScam', value: false },
   { name: 'isWarning', value: false }
 ]
-const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
+const ModalAdd = () => {
   const TOKEN = 'token'
   // const ref = useRef()
   const categoryContext = useContext(CategoryContext)
+  const addModal = useContext(AddModalContext)
   const [form] = Form.useForm()
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
@@ -74,128 +78,134 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
     setCategory(value)
   }
 
-  // const openNotification = (title, content) => {
-  //   notification.open({
-  //     message: title,
-  //     description: content,
-  //     duration: 2,
-  //     icon: (
-  //       <CheckCircleOutlined style={{ color: 'green' }}/>
-  //     )
-  //   })
-  // }
+  const sendData = async(data) => {
+    try {
+      let res
+      if (category === CRYPTO) {
+        res = await post('reviews/crypto/upload', data)
+      }
+      if (category === EXCHANGE) {
+        res = await post('reviews/exchange/upload', data)
+      }
+      if (category === DAPP) {
+        res = await post('reviews/dapp/upload', data)
+      }
+      if (res?.status) {
+        addModal.handleSetOpenModal(false)
+        handleReset()
+        Swal.fire({
+          allowOutsideClick: false,
+          icon: 'success',
+          title: 'Success',
+          html: `Add ${category} successfully. Please wait for admin to confirm`,
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          },
+          backdrop: `rgba(4,148,114,0.4)`
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        allowOutsideClick: false,
+        icon: 'error',
+        title: 'Unable to add products. Please check again.',
+        html: error?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later.',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        backdrop: `rgba(4,148,114,0.4)`
+      })
+    }
+  }
 
-  // const sendData = async(data) => {
-  //   try {
-  //     let res
-  //     if (category === CRYPTO) {
-  //       res = await post('reviews/crypto/upload', data)
-  //     }
-  //     if (category === EXCHANGE) {
-  //       res = await post('reviews/exchange/upload', data)
-  //     }
-  //     if (category === DAPP) {
-  //       res = await post('reviews/dapp/upload', data)
-  //     }
-  //     if (res?.status) {
-  //       setOpenModalAdd(false)
-  //       handleReset()
-  //       openNotification(`Add ${category} successfully. Please wait for admin to confirm`)
-  //     }
-  //   } catch (error) {
-  //     console.log(error)
-  //     openNotification(`Unable to add products. Please check again`, error)
-  //   }
-  // }
-
-  const onFinish = async(e) => {
-    e.preventDefault()
-    console.log(e.target.category.value)
-    console.log(e.target.abc.value)
-    console.log(e.target.desc.value)
-    console.log(e.target.checked.checked)
-    console.log(e.target.multiple.value)
-    // const recaptchaValue = recapcharRef.current.getValue()
-    // if (recaptchaValue) {
-    //   let body = {}
-    //   if (category === CRYPTO) {
-    //     body = {
-    //       name: values?.name,
-    //       type: values?.type,
-    //       symbol: values?.symbol,
-    //       address: values?.address,
-    //       chainName: values?.chainName,
-    //       thumbLogo: data?.image,
-    //       bigLogo: data?.image,
-    //       smallLogo: data?.image,
-    //       description: values?.description,
-    //       website: values?.website,
-    //       explorer: values?.explorer,
-    //       socials: values?.socials,
-    //       isScam: data?.isScam,
-    //       isWarning: values?.isWarning,
-    //       proof: (!data?.isScam && !data?.isWarning) ? null : {
-    //         'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
-    //         'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
-    //       },
-    //       chainId: values?.chainId,
-    //       decimal: null
-    //     }
-    //   }
-    //   if (category === EXCHANGE) {
-    //     console.log(values)
-    //     body = {
-    //       name: values?.name,
-    //       subCategory: values?.subCategory,
-    //       thumbLogo: data?.image,
-    //       smallLogo: data?.image,
-    //       bigLogo: data?.image,
-    //       description: values?.description,
-    //       website: values?.website,
-    //       socials: values?.socials,
-    //       isScam: values?.isScam,
-    //       isWarning: values?.isWarning,
-    //       proof: (!data?.isScam && !data?.isWarning) ? null : {
-    //         'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
-    //         'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
-    //       }
-    //     }
-    //   }
-    //   if (category === DAPP) {
-    //     // "chains":{
-    //     //     "ethereum": "1"
-    //     // }
-    //     const chains = {}
-    //     console.log(values)
-    //     chains[values?.chainName] = values?.chainId
-    //     body = {
-    //       name: values?.name,
-    //       logo: data?.image,
-    //       description: values?.description,
-    //       website: values?.website,
-    //       subCategory: values?.subCategory,
-    //       socials: values?.socials,
-    //       isScam: values?.isScam,
-    //       isWarning: values?.isWarning,
-    //       chains: chains,
-    //       proof: (!data?.isScam && !data?.isWarning) ? null : {
-    //         'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
-    //         'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
-    //       }
-    //     }
-    //   }
-    //   if (data?.isScam) {
-    //     if (!_.isEmpty(data?.sources)) {
-    //       sendData(body)
-    //     } else {
-    //       setErrorLink('Link proof is required')
-    //     }
-    //   } else {
-    //     sendData(body)
-    //   }
-    // } else {
-    //   setIsRecaptcha(true)
-    // }
+  const onFinish = async(values) => {
+    const recaptchaValue = recapcharRef.current.getValue()
+    if (recaptchaValue) {
+      let body = {}
+      if (category === CRYPTO) {
+        body = {
+          name: values?.name,
+          type: values?.type,
+          symbol: values?.symbol,
+          address: values?.address,
+          chainName: values?.chainName,
+          thumbLogo: data?.image,
+          bigLogo: data?.image,
+          smallLogo: data?.image,
+          description: values?.description,
+          website: values?.website,
+          explorer: values?.explorer,
+          socials: values?.socials,
+          isScam: data?.isScam,
+          isWarning: values?.isWarning,
+          proof: (!data?.isScam && !data?.isWarning) ? null : {
+            'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
+            'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
+          },
+          chainId: values?.chainId,
+          decimal: null
+        }
+      }
+      if (category === EXCHANGE) {
+        console.log(values)
+        body = {
+          name: values?.name,
+          subCategory: values?.subCategory,
+          thumbLogo: data?.image,
+          smallLogo: data?.image,
+          bigLogo: data?.image,
+          description: values?.description,
+          website: values?.website,
+          socials: values?.socials,
+          isScam: values?.isScam,
+          isWarning: values?.isWarning,
+          proof: (!data?.isScam && !data?.isWarning) ? null : {
+            'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
+            'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
+          }
+        }
+      }
+      if (category === DAPP) {
+        // "chains":{
+        //     "ethereum": "1"
+        // }
+        const chains = {}
+        console.log(values)
+        chains[values?.chainName] = values?.chainId
+        body = {
+          name: values?.name,
+          logo: data?.image,
+          description: values?.description,
+          website: values?.website,
+          subCategory: values?.subCategory,
+          socials: values?.socials,
+          isScam: values?.isScam,
+          isWarning: values?.isWarning,
+          chains: chains,
+          proof: (!data?.isScam && !data?.isWarning) ? null : {
+            'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
+            'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
+          }
+        }
+      }
+      if (data?.isScam) {
+        if (!_.isEmpty(data?.sources)) {
+          sendData(body)
+        } else {
+          setErrorLink('Link proof is required')
+        }
+      } else {
+        sendData(body)
+      }
+    } else {
+      setIsRecaptcha(true)
+    }
   }
 
   // chose file in select
@@ -390,7 +400,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                 }
               ]}
             >
-              <Input autoComplete={false}/>
+              <Input autoComplete={false} placeholder='Project name'/>
             </Form.Item>
           </Col>
           {category === CRYPTO && (
@@ -405,7 +415,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                   }
                 ]}
               >
-                <Input/>
+                <Input placeholder='Project symbol'/>
               </Form.Item>
             </Col>
           )}
@@ -421,7 +431,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                   }
                 ]}
               >
-                <Input/>
+                <Input placeholder='Token Address'/>
               </Form.Item>
             </Col>
           )}
@@ -437,7 +447,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                   }
                 ]}
               >
-                <Input/>
+                <Input placeholder='Chain name'/>
               </Form.Item>
             </Col>
           )}
@@ -453,7 +463,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                   }
                 ]}
               >
-                <Input/>
+                <Input placeholder='Chain ID'/>
               </Form.Item>
             </Col>
           )}
@@ -468,29 +478,29 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                 }
               ]}
             >
-              <Input/>
+              <Input placeholder='Link website'/>
             </Form.Item>
           </Col>
           {category === CRYPTO && (
             <Col span={12}>
               <Form.Item name='explorer' label='Explore Website'>
-                <Input/>
+                <Input placeholder='Link explorer'/>
               </Form.Item>
             </Col>
           )}
           <Col span={12}>
             <Form.Item name={['socials', 'twitter']} label='Twitter'>
-              <Input/>
+              <Input placeholder='Twitter'/>
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item name={['socials', 'discord']} label='Discord'>
-              <Input/>
+              <Input placeholder='Discord'/>
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item name={['socials', 'telegram']} label='Telegram'>
-              <Input/>
+              <Input placeholder='Telegram'/>
             </Form.Item>
           </Col>
           {category !== CRYPTO && (
@@ -585,7 +595,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
                 }
               ]}
             >
-              <Input.TextArea rows={4}/>
+              <Input.TextArea rows={4} placeholder='Enter description'/>
             </Form.Item>
           </Col>
         </Row>
@@ -593,7 +603,7 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
           style={{
             background: isRecaptcha ? 'red' : '',
             border: `0.1px solid ${isRecaptcha ? 'red' : 'rgba(0, 0, 0, 0.01'}`,
-            width: '305px',
+            width: '303px',
             marginTop: '1.6rem'
           }}
         >
@@ -605,151 +615,19 @@ const ModalAdd = ({ openModalAdd, setOpenModalAdd, logout }) => {
         </div>
         <div className='d-flex'>
           <Form.Item>
-            <Button className='me-2' variant='danger' onClick={handleReset}>
-                Reset Data
-            </Button>
+            {/* <Button className='add-btn me-2' type='primary' danger border onClick={handleReset}>
+                Reset
+            </Button> */}
+            <button type='submit' className='me-2 btn btn-danger' onClick={handleReset}>Reset</button>
           </Form.Item>
           <Form.Item>
-            <Button variant='success' htmlType='submit' className='me-2'>
+            <button className='me-2 btn btn-success'>Add Product</button>
+            {/* <Button type='primary' htmlType='submit' className='me-2 add-btn'>
                 Add Product
-            </Button>
+            </Button> */}
           </Form.Item>
         </div>
       </Form>
-      {/* <form
-        ref={ref}
-        onSubmit={(e) => onFinish(e)}
-        className='form-valide'
-      >
-        <div className='row'>
-          <div className='form-group mb-3 col-md-6'>
-            <label
-              className='col-lg-4 col-form-label'
-              htmlFor='category'
-            >
-              Category
-            </label>
-            <select
-              defaultValue={category}
-              id='category'
-              className='form-control'
-              onChange={handleChangeCategory}
-            >
-              <option value={CRYPTO}>Crypto Project</option>
-              <option value={EXCHANGE}>Exchange</option>
-              <option value={DAPP}>DApp</option>
-            </select>
-          </div>
-          <div className='form-group mb-3 col-md-6'>
-            <label
-              className='col-lg-4 col-form-label'
-              htmlFor='category'
-            >
-              Type
-              <span className='text-danger'>*</span>
-            </label>
-            <select
-              defaultValue={data?.type}
-              id='category'
-              className='form-control'
-              onChange={handleChangeType}
-            >
-              <option value='token'>Token</option>
-              <option value='coin'>Coin</option>
-            </select>
-          </div>
-          <div className='form-group mb-3 col-md-6'>
-            <label
-              className='col-lg-4 col-form-label'
-              htmlFor='category'
-            >
-              Category <span className='text-danger'>*</span>
-            </label>
-            <input
-              type='text'
-              className='form-control'
-              id='category'
-              name='category'
-              placeholder='Your valid email..'
-            />
-          </div>
-          <div className='form-group mb-3 col-md-6'>
-            <label
-              className='col-lg-4 col-form-label'
-              htmlFor='abc'
-            >
-              abc <span className='text-danger'>*</span>
-            </label>
-            <select
-              defaultValue={'option'}
-              id='abc'
-              name='abc'
-              className='form-control'
-            >
-              <option>Option 1</option>
-              <option>Option 2</option>
-              <option>Option 3</option>
-            </select>
-          </div>
-          <div className='form-group mb-3 col-md-6'>
-            <label
-              className='col-lg-4 col-form-label'
-              htmlFor='abc'
-            >
-              abc <span className='text-danger'>*</span>
-            </label>
-            <select
-              defaultValue={'option'}
-              id='multiple'
-              name='multiple'
-              className='form-control'
-            >
-              <option>Option 1</option>
-              <option>Option 2</option>
-              <option>Option 3</option>
-            </select>
-          </div>
-          <div className='form-group mb-3 col-md-6'>
-            <div className='form-check custom-checkbox mb-3 checkbox-success'>
-              <input
-                type='checkbox'
-                defaultChecked
-                className='form-check-input'
-                id='checked'
-                name='checked'
-              />
-              <label
-                className='form-check-label'
-                htmlFor='checked'
-              >
-                      Checkbox 3
-              </label>
-
-            </div>
-          </div>
-          <div className='form-group mb-3 col-12'>
-            <label
-              className='form-check-label'
-              htmlFor='desc'
-            >
-                      Description
-            </label>
-            <textarea
-              className='form-txtarea form-control'
-              rows='4'
-              id='desc'
-              name='desc'
-            ></textarea>
-
-          </div>
-        </div>
-        <button type='submit' className='btn btn-primary'>
-                   submit
-        </button>
-        <button onClick={handleResetForm} className='btn btn-primary'>
-                            Submit
-        </button>
-      </form> */}
     </>
   )
 }
