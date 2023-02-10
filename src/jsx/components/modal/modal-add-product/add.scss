@@ -39,25 +39,29 @@
     }
     &-btn{
         width: 100%;
-        &.ant-btn{
-            background: transparent;
-        }
-        &.ant-btn-primary{
-            background-color: #008267;
-            border-color: #008267;
-        }
-        &.ant-btn-primary:active{
-            background: #008267;
-            border-color: #008267;
-        }
-        &.ant-btn-primary:hover, .ant-btn-primary:focus{
-            background: #008267 !important;
-            border-color: #008267 !important;
-        }
-        // &:last-child{
-        //     background: transparent;
-        // }
     }
+    & .ant-btn{
+        background: transparent;
+        border-radius: 0.5rem !important;
+        font-weight: 600 !important;
+        padding: 0.625rem 1rem !important;
+        font-size: 0.813rem !important;
+    }
+    & .ant-btn-primary{
+        background-color: #008267 !important;
+        border-color: #008267 !important;
+    }
+    & .ant-btn-primary:active{
+        background: #008267;
+        border-color: #008267;
+    }
+    & .ant-btn-primary:hover, .ant-btn-primary:focus{
+        background: #008267 !important;
+        border-color: #008267 !important;
+    }
+    // &:last-child{
+    //     background: transparent;
+    // }
     // & .ant-form-item-label{
     //     & label{
     //         font-size: 1rem;

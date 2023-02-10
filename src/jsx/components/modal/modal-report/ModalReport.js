@@ -12,8 +12,9 @@ import './report.scss'
 import Description from '../../product-detail/description/Description'
 import FormReport from '../../Forms/form-report/FormReport'
 // import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE } from '../../../constants/category'
-import { ReportModalContext } from '../../../index'
+import { ReportModalContext, AddModalContext } from '../../../index'
 import InputSearch from '../../input-search/GlobalSearch'
+import { getCookie, STORAGEKEY } from '../../../../utils/storage'
 
 // const { Option } = Select
 
@@ -21,9 +22,11 @@ const ModalReport = ({ openModalReport, setOpenModalReport, logout }) => {
   const categoryContext = useContext(CategoryContext)
   const signInContext = useContext(SignInContext)
   const reportModal = useContext(ReportModalContext)
+  const addModal = useContext(AddModalContext)
   const auth = useContext(Authenticated)
 
   const recapcharRef = useRef(null)
+  const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
   // const [form] = Form.useForm()
   const navigate = useNavigate()
@@ -339,6 +342,15 @@ const ModalReport = ({ openModalReport, setOpenModalReport, logout }) => {
   //   }
   // }, [isSubmit])
 
+  const handleAddProject = () => {
+    if (userInfo) {
+      addModal?.handleSetOpenModal(true)
+    } else {
+      signInContext?.handleSetOpenModal(true)
+    }
+    reportModal?.handleSetOpenModal(false)
+  }
+
   return (
     <>
       <InputSearch
@@ -442,6 +454,16 @@ const ModalReport = ({ openModalReport, setOpenModalReport, logout }) => {
       //   ) : ('')}
       // </>)
       }
+      <div className='text-center mt-3 '>
+        If you can’t find it, please add a new project here.
+        <span
+          className='btn btn-link text-primary'
+          style={{ padding: '0.3rem' }}
+          onClick={handleAddProject}
+        >
+          Add Project
+        </span>
+      </div>
     </>
   )
 }

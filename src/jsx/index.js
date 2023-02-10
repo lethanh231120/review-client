@@ -119,7 +119,7 @@ const Markup = () => {
         <ScrollToTop />
         <Modal className='fade cus-modal' show={openModalReport} size='lg'>
           <Modal.Header className='cus-modal'>
-            <Modal.Title>Report Scam</Modal.Title>
+            <Modal.Title>Report scam projects with us</Modal.Title>
             <Button
               variant=''
               className='btn-close'

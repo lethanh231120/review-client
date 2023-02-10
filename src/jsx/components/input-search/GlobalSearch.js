@@ -192,7 +192,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
             ref={refInput}
             type='text'
             className={`form-control cus-form-control`}
-            placeholder={`${isFormReport ? 'Report scam projects with us' : 'Search here'}`}
+            placeholder={`${isFormReport ? 'Search for the project you want to report to us' : 'Search here'}`}
             onChange={(e) => {
               if (isFormReport) setItem()
               handleSearch(e.target.value)
