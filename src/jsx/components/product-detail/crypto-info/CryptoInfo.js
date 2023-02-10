@@ -243,7 +243,7 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
     ) : ''}
   </>
 
-  console.log('productInfo', productInfo)
+  // console.log('productInfo', productInfo)
   const more = <>
     <div className='card-header pb-0 border-0 flex-wrap'>
       <div>
@@ -502,7 +502,7 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
     </div>
   </>
 
-  const coinChart = <div className='cus-height-chart'>
+  const coinChart = <div className=''>
     {chartData ? <CoinChart symbol={productInfo?.details?.symbol}
       price={productInfo?.details?.priceUSD}
       marketCap={productInfo?.details?.marketcapUSD}
@@ -516,6 +516,7 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
     <>
       <DetailLayout
         Header={header}
+        type='crypto'
         summary={summary}
         scam={scam}
         more={more}

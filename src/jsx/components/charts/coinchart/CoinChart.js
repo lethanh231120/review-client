@@ -1,16 +1,16 @@
 import React from 'react'
-import loadable from '@loadable/component'
-import pMinDelay from 'p-min-delay'
+// import loadable from '@loadable/component'
+// import pMinDelay from 'p-min-delay'
 import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
-import _ from 'lodash'
+// import _ from 'lodash'
 
-const BitCoinChart = loadable(() => pMinDelay(import('../../Crypto/Coin/BitCoinChart'), 1000))
+// const BitCoinChart = loadable(() => pMinDelay(import('../../Crypto/Coin/BitCoinChart'), 1000))
 
 const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, chartData }) => {
   return (
     <>
-      <div className='card coin-content'>
-        <div className='card-header border-0 flex-wrap'>
+      <div className='card coin-content '>
+        <div className='card-header border-0 flex-wrap cus-card-header'>
           <div className='mb-2'>
             <h4 className='heading m-0'>{symbol} Market Info</h4>
             {/* <span className='fs-16'>
@@ -59,7 +59,7 @@ const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, c
             </div> */}
           </div>
           {/* <div id="bitcoinhChart"></div> */}
-          {!_.isEmpty(chartData) ? <BitCoinChart chartData={chartData}/> : null}
+          {/* {!_.isEmpty(chartData) ? <BitCoinChart chartData={chartData}/> : null} */}
         </div>
       </div>
     </>

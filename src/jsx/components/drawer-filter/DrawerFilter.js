@@ -52,7 +52,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
   const [roundType, setRoundType] = useState([])
   const [initialValues, setInititalValues] = useState()
   const launchpadContext = useContext(LaunchpadMapContext)
-  const [filterCount, setFilterCount] = useState()
+  const [filterCount, setFilterCount] = useState(0)
   const [defautlActiveKey, setDefaultActiveKey] = useState([])
   const scoreMarks = getScoreMarks(type)
 
@@ -390,7 +390,8 @@ const DrawerFilter = ({ type, handleFilter }) => {
   return (
     <div className='drawer' >
       <Button onClick={openDrawer} icon={<FilterOutlined />} style={{ background: filterCount === 0 ? '#fff' : '#18A594', color: filterCount === 0 ? 'black' : '#fff' }}>
-        Filter{filterCount === 0 ? null : `(${(filterCount)})`}
+        Filter{ filterCount === 0 ? '' : `(${(filterCount)})`}
+        {console.log(filterCount)}
       </Button>
 
       <Drawer
