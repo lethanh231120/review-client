@@ -263,7 +263,7 @@ const ReviewItem = ({ data, productId }) => {
               </div>
               <div className='review-item-content'>
                 {newData?.review?.content}
-                {!_.isEmpty(newData?.review?.sources[0]) && (
+                {!_.isEmpty(newData?.review?.sources) && (
                   <div className='review-item-content-source'>
                     {newData?.review?.sources?.map((item, index) => (
                       <span key={index}>

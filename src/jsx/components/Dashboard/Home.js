@@ -3,51 +3,53 @@ import React, { useContext, useEffect, useState } from 'react'
 // Import Components
 import { Button } from 'react-bootstrap'
 import { ThemeContext } from '../../../context/ThemeContext'
-import metaverse from './../../../images/metaverse.png'
+// import metaverse from './../../../images/metaverse.png'
 // images
 import safe from './../../../images/ket-sat.png'
 import lite from './../../../images/lite.png'
 import eth from './../../../images/ethereum.png'
 import btc from './../../../images/bitcoin.png'
 import { TopCoins } from '../common-widgets/home/top-coin'
-import { RecentlyScam } from '../common-widgets/home/recently-scam/recently-scam'
+// import { RecentlyScam } from '../common-widgets/home/recently-scam/recently-scam'
 import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-project'
 import SummaryRow from './Dashboard/BalanceCardSlider'
 import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
-// import { BitcoinChartAndData } from '../common-widgets/home/bitcoin-chart'
+import { BitcoinChartAndData } from '../common-widgets/home/bitcoin-chart'
 import { ScamEachChainsList } from '../common-widgets/home/scam-each-chain-chart'
 import { get } from '../../../api/BaseRequest'
 import { MySpinner } from '../common-widgets/my-spinner'
 import _ from 'lodash'
 import { renderRandomColor } from '../../../utils/formatNumber'
 // import { API_KEY, bitqueryEndpoint, BITQUERY_QUERY } from './Dashboard/bitquery-query/query'
-import { DonutChartSkeleton } from '../common-widgets/loading-skeleton/donutchart-loading'
-import { ReportModalContext, AddModalContext } from '../../index'
-import { SignInContext } from '../../../App'
-import { getCookie, STORAGEKEY } from '../../../utils/storage'
+// import { DonutChartSkeleton } from '../common-widgets/loading-skeleton/donutchart-loading'
+import { ReportModalContext
+  //  AddModalContext
+} from '../../index'
+// import { SignInContext } from '../../../App'
+// import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import { ReviewList } from '../common-widgets/home/reviews/review-list'
+import { API_KEY, bitqueryEndpoint, BITQUERY_QUERY } from './Dashboard/bitquery-query/query'
 
 const fillColors = [
   '#18A594',
-  '#DB4439',
-  '#3B5998',
-  '#1DA1F2',
-  '#FF8019',
-  '#886CC4'
+  '#58BAD7',
+  '#F0A901',
+  '#EB5757',
+  '#362465'
 ]
 
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
   const [summaryData, setSummaryData] = useState()
-  // const [btcChartData, setBtcChartData] = useState()
-  const [scamProjects, setScamProjects] = useState()
+  const [btcChartData, setBtcChartData] = useState()
+  // const [scamProjects, setScamProjects] = useState()
 
   const [topCoins, setTopCoins] = useState()
-  const userInfo = getCookie(STORAGEKEY.USER_INFO)
+  // const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
   const reportModal = useContext(ReportModalContext)
-  const addModal = useContext(AddModalContext)
-  const signInContext = useContext(SignInContext)
+  // const addModal = useContext(AddModalContext)
+  // const signInContext = useContext(SignInContext)
 
   useEffect(() => {
     changeBackground({ value: 'light', label: 'Light' })
@@ -66,15 +68,15 @@ const Home = () => {
   }, [])
 
   // GET RECENT SCAM
-  useEffect(() => {
-    const getScamProjects = async() => {
-      const res = await get('reviews/hot?isScam=true')
-      if (res?.code === '200') {
-        setScamProjects(res?.data?.products)
-      }
-    }
-    getScamProjects()
-  }, [])
+  // useEffect(() => {
+  //   const getScamProjects = async() => {
+  //     const res = await get('reviews/hot?isScam=true')
+  //     if (res?.code === '200') {
+  //       setScamProjects(res?.data?.products)
+  //     }
+  //   }
+  //   getScamProjects()
+  // }, [])
 
   // GET TOP COINS DATA
   useEffect(() => {
@@ -88,36 +90,36 @@ const Home = () => {
   }, [])
 
   // GET DATA FOR BTC CHART
-  // useEffect(() => {
-  //   const queryData = async() => {
-  //     const ressp = await fetch(bitqueryEndpoint, {
-  //       method: 'POST',
-  //       body: JSON.stringify({
-  //         query: BITQUERY_QUERY(
-  //           'ethereum',
-  //           'Uniswap',
-  //           '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
-  //           '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+  useEffect(() => {
+    const queryData = async() => {
+      const ressp = await fetch(bitqueryEndpoint, {
+        method: 'POST',
+        body: JSON.stringify({
+          query: BITQUERY_QUERY(
+            'ethereum',
+            'Uniswap',
+            '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+            '0xdAC17F958D2ee523a2206206994597C13D831ec7'
 
-  //         )
-  //       }),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'X-API-KEY': API_KEY
-  //       }
-  //     })
-  //     const rawData = await ressp.json()
-  //     setBtcChartData(rawData?.data?.ethereum?.dexTrades)
-  //   }
-  //   queryData()
-  // }, [])
+          )
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-KEY': API_KEY
+        }
+      })
+      const rawData = await ressp.json()
+      setBtcChartData(rawData?.data?.ethereum?.dexTrades)
+    }
+    queryData()
+  }, [])
 
-  const setScamAliveProjectsData = (data) => {
-    return [
-      { fillcolor: '#18A594', datatitle: 'Alive Projects', amount: data?.coins + data?.exchanges + data?.tokens + data?.ventures - data?.cryptoScams + data?.dAppScams + data?.exchangeScams + data?.ventureScams },
-      { fillcolor: '#15073A', datatitle: 'Scam or Dead Projects', amount: data?.cryptoScams + data?.dAppScams + data?.exchangeScams + data?.ventureScams }
-    ]
-  }
+  // const setScamAliveProjectsData = (data) => {
+  //   return [
+  //     { fillcolor: '#18A594', datatitle: 'Alive Projects', amount: data?.coins + data?.exchanges + data?.tokens + data?.ventures - data?.cryptoScams + data?.dAppScams + data?.exchangeScams + data?.ventureScams },
+  //     { fillcolor: '#15073A', datatitle: 'Scam or Dead Projects', amount: data?.cryptoScams + data?.dAppScams + data?.exchangeScams + data?.ventureScams }
+  //   ]
+  // }
 
   const setTotalCrytosData = (data) => {
     const SHOW_DATA_NUMBER = 4
@@ -169,13 +171,13 @@ const Home = () => {
   //   summaryData && setTotalCrytosData(summaryData)
   // }, [summaryData])
 
-  const handleAddProject = () => {
-    if (userInfo) {
-      addModal?.handleSetOpenModal(true)
-    } else {
-      signInContext?.handleSetOpenModal(true)
-    }
-  }
+  // const handleAddProject = () => {
+  //   if (userInfo) {
+  //     addModal?.handleSetOpenModal(true)
+  //   } else {
+  //     signInContext?.handleSetOpenModal(true)
+  //   }
+  // }
   return (
     <>
       <div className='row'>
@@ -209,25 +211,22 @@ const Home = () => {
             </div>
           </div>
         </div>
-        {summaryData ? <div className='col-4 '>
-          <DataAllocationChart header={'Projects Allocation'} data={setScamAliveProjectsData(summaryData)}/> </div> : <DonutChartSkeleton />}
+        <div className='col-4'>
+          <TopDiscussed />
+        </div>
+        <div className='col-12 ' >
+          <ReviewList />
+        </div>
+        {/* {summaryData ? <div className='col-4 '>
+          <DataAllocationChart header={'Projects Allocation'} data={setScamAliveProjectsData(summaryData)}/> </div> : <DonutChartSkeleton />} */}
       </div>
 
       <div className='row'>
-        <div className='col-8 assets-al' >
-          {/* <BitcoinChartAndData chartData={btcChartData} headerData={topCoins && topCoins[0]}/> */}
-          <ReviewList />
-        </div>
-        <div className='col-4 col-xl-4'>
-          {topCoins ? <TopCoins data={topCoins}/> : <MySpinner />}
-        </div>
-      </div>
-      <div className='row'>
         {/* LIST SCAM  */}
-        <div className='col-6 col-lg-6'>
-          {scamProjects ? <RecentlyScam scamList={scamProjects}/> : <MySpinner />}
+        <div className='col-8 col-lg-8'>
+          <BitcoinChartAndData chartData={btcChartData} headerData={topCoins && topCoins[0]}/>
         </div>
-        <div className='col-2 ' >
+        {/* <div className='col-2 ' >
           <div className='card email-susb' >
             <div className='card-body text-center' >
               <div className='pt-2'>
@@ -242,10 +241,10 @@ const Home = () => {
               </Button>
             </div>
           </div>
-        </div>
+        </div> */}
         {/* LIST HOT DISCUSS  */}
         <div className=' col-4 col-lg-4'>
-          <TopDiscussed />
+          {topCoins ? <TopCoins data={topCoins}/> : <MySpinner />}
         </div>
       </div>
 

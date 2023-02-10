@@ -29150,8 +29150,8 @@ table.dataTable thead .sorting_asc {
     width: unset; } }
 
 @media only screen and (min-width: 1199px) and (max-width: 1500px) {
-  .email-susb {
-    display: none; }
+  /* .email-susb {
+    display: none; } */
   .market-previews
   /* .assets-al  */
   {
@@ -34285,9 +34285,9 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 /*# sourceMappingURL=style.css.map */
 /*--------------------------------------------------------CUSTOM CSS------------------------------------------------------------------------------------------------------*/
 /*----------------------Top coin - home custom------------------------------------------------------*/
-/* .top-coin{
+.top-coin{
   height: 100%;
-} */
+}
 
 .chart-legend{
   margin-top: 6rem;
@@ -34422,4 +34422,14 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   50% {
     transform: translateY(-30px);
   }
+}
+
+/* custom coin content */
+.cus-card-header{
+  padding:  1.5rem 1.875rem 0rem !important;
+}
+
+/* Custom review card body */
+.cus-review-card-item{
+  padding: 1.25rem !important;
 }
