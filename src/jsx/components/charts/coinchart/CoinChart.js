@@ -1,7 +1,7 @@
 import React from 'react'
 import loadable from '@loadable/component'
 import pMinDelay from 'p-min-delay'
-import { formatMoney } from '../../../../utils/formatNumber'
+import { formatMoneyLessOneDollar, formatMoneyGreaterEqualOneDollar, formatLargeNumberMoneyUSD, formatLargeNumber } from '../../../../utils/formatNumber'
 import _ from 'lodash'
 
 const BitCoinChart = loadable(() => pMinDelay(import('../../Crypto/Coin/BitCoinChart'), 1000))
@@ -23,7 +23,7 @@ const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, c
             <div className='d-flex align-items-center justify-content-between flex-wrap'>
               <div className='price-content'>
                 <span className='fs-18 d-block mb-2'>Price</span>
-                <h4 className='fs-20 font-w600'>${price}</h4>
+                <h4 className='fs-20 font-w600'>{price < 1 ? formatMoneyLessOneDollar(price) : formatMoneyGreaterEqualOneDollar(price) }</h4>
               </div>
               {/* <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>24h% change</span>
@@ -34,19 +34,19 @@ const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, c
               </div> */}
               <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Market Cap</span>
-                <h4 className='font-w600'>{formatMoney(marketCap)}</h4>
+                <h4 className='font-w600'>{formatLargeNumberMoneyUSD(marketCap)}</h4>
               </div>
               <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Total Supply</span>
-                <h4 className='font-w600'>{formatMoney(totalSupply)}</h4>
+                <h4 className='font-w600'>{formatLargeNumber(totalSupply)}</h4>
               </div>
               <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Holders</span>
-                <h4 className='font-w600'>{formatMoney(holders)}</h4>
+                <h4 className='font-w600'>{formatLargeNumber(holders)}</h4>
               </div>
               <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Trannsfer</span>
-                <h4 className='font-w600'>{formatMoney(transfer)}</h4>
+                <h4 className='font-w600'>{formatLargeNumber(transfer)}</h4>
               </div>
             </div>
             {/* <div className='d-flex align-items-center'>
