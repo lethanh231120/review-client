@@ -167,22 +167,6 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
   //   setDataSearchFormReport && setDataSearchFormReport(dataSearch)
   // }, [dataSearch])
 
-  useEffect(() => {
-    function typewriter(elementID, text, n) {
-      if (n < text.length) {
-        document.getElementById(elementID).placeholder += text.charAt(n)
-        n++
-        setTimeout(function() {
-          typewriter(elementID, text, n)
-        }, 900)
-      }
-    }
-
-    setInterval(() => {
-      typewriter('input-search', 'Search Coins/ Tokens/ Dapps/ Exchanges/ ICOs....', 0)
-    }, 900)
-  })
-
   return (
 
     <div className='input-group search-area cus-input-group'>

@@ -1,5 +1,5 @@
 export const ReviewItem = ({ title, star, reason }) => {
-  return <div className='card'>
+  return <div className='card '>
     <div className='card-body'>
       <div className='row m-b-30'>
         <div className='col-md-5'>
