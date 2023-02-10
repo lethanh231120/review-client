@@ -388,13 +388,13 @@ const DrawerFilter = ({ type, handleFilter }) => {
   }
 
   return (
-    <div className='drawer' >
+    <div className='drawer'>
       <Button onClick={openDrawer} icon={<FilterOutlined />} style={{ background: filterCount === 0 ? '#fff' : '#18A594', color: filterCount === 0 ? 'black' : '#fff' }}>
         Filter{filterCount === 0 ? null : `(${(filterCount)})`}
       </Button>
 
       <Drawer
-        width='35%'
+        width='50%'
         title={`Filter ${
           type.toString()[0].toUpperCase() + type.toString().substring(1)
         }`}
