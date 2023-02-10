@@ -10,6 +10,7 @@ export const CategoryContext = createContext()
 export const Authenticated = createContext()
 export const SignInContext = createContext()
 export const LaunchpadMapContext = createContext()
+export const SignInFromAddProductContext = createContext()
 
 const App = () => {
   const [openModalSignIn, setOpenModalSignIn] = useState(false)
