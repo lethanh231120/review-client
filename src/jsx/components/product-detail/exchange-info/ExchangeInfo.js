@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
-import { renderNumber } from '../../../../utils/formatNumber'
+import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
 import _ from 'lodash'
 import moment from 'moment'
 import Description from '../description/Description'
@@ -65,14 +65,14 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
     return <div className='text-center'>
       <div className='row'>
         <div className='col'>
-          <h3 className='m-b-0'>{detail?.totalReviews}</h3>
+          <h3 className='m-b-0'>{formatLargeNumber(detail?.totalReviews)}</h3>
           <span>Reviews</span>
         </div>
         <div className='col'>
-          <h3 className='m-b-0'>{detail?.totalIsScam}</h3> <span>Reported Scam</span>
+          <h3 className='m-b-0'>{formatLargeNumber(detail?.totalIsScam)}</h3> <span>Reported Scam</span>
         </div>
         <div className='col'>
-          <h3 className='m-b-0'>{detail?.score}</h3> <span>Score</span>
+          <h3 className='m-b-0'>{formatLargeNumber(detail?.score)}</h3> <span>Score</span>
         </div>
       </div>
       <div className='mt-4'>

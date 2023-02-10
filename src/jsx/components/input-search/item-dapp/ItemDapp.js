@@ -5,6 +5,7 @@ import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
+import { formatLargeNumber } from '../../../../utils/formatNumber'
 
 const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   const navigate = useNavigate()
@@ -57,12 +58,7 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isF
             )}
             {item?.user24h > 0 && (
               <div className='btn btn-primary light cus-btn'>
-                {item?.user24h
-                  ?.toFixed(2)
-                  .replace(
-                    /\d(?=(\d{3})+\.)/g,
-                    '$&,'
-                  )}{' '}
+                {formatLargeNumber(item?.user24h)}{' '}
                             User 24H
               </div>
             )}
