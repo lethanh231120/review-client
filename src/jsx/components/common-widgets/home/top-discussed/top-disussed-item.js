@@ -30,7 +30,7 @@ export const TopDiscussedItem = ({ item }) => {
           </div>
         </div>
       </li>
-    case 'dapp':
+    case 'exchange':
       return <div></div>
     case 'venture':
       return <li onClick={() => onItemClicked(item?.type, item?.detail, navigate)} style={{ cursor: 'pointer' }}>

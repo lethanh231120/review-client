@@ -2,7 +2,7 @@ import { Avatar } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
 export const TopCoins = ({ data }) => {
-  const top6 = data?.slice(0, 5)
+  const top6 = data?.slice(0, 6)
   const navigate = useNavigate()
 
   const onTopCoinsClicked = (item) => {
@@ -16,7 +16,7 @@ export const TopCoins = ({ data }) => {
     }
   }
 
-  return <div className='row top-coin ' >
+  return <div className='row top-coin' >
     <div className='market-previews'>
       <div className='card'>
         <div className='card-header border-0 pb-0'>
