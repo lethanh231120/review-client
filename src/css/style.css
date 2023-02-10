@@ -34318,9 +34318,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
  }
 /* list soon text total project(dapp/ crypto project/ exchange/ ...) */
 .text-total-soon-project{
-  font-size: 1.6rem;
-  padding: 1rem 0;
-  /* font-weight */
+  font-size: 1rem;
 }
 
 /* list soon background of items */
@@ -34386,10 +34384,6 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 .website-soon{
   flex-wrap: wrap;
   line-height: 2.5rem;
-}
-
-.testCss{
-  background-color: #fff;
 }
 
 .decoration{
