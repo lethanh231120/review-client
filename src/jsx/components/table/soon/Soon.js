@@ -17,17 +17,17 @@ const Soon = ({ listProduct, handleFilter, total }) => {
       <div className='row' style={{ width: '100%' }}>
         <div className='col-xl-12'>
           <div className='card Infra' style={{ height: '5rem' }}>
-            <div className='card-header border-0'>
-              <Col md={{ span: 12 }} sm={{ span: 14 }} xs={{ span: 24 }}>
+            <div className='card-header border-0' style={{ display: 'flex', alignItems: 'start' }}
+            >
+              <Col md={{ span: 16 }} sm={{ span: 16 }} xs={{ span: 18 }}>
                 <div
-                  className='site-filters clearfix center m-b40'
-                  style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}
+                  className='site-filters clearfix center m-b40 text-total-soon-project'
                 >
-                  A total of {total} Upcoming Projects found.
+                  A total of&nbsp;<b>{total}</b>&nbsp;Upcoming Projects found.
                 </div>
               </Col>
-              <Col md={{ span: 12 }} sm={{ span: 10 }} xs={{ span: 24 }}>
-                <DrawerFilter type={SOON} handleFilter={handleFilter} />
+              <Col md={{ span: 8 }} sm={{ span: 8 }} xs={{ span: 6 }}>
+                <DrawerFilter type={SOON} handleFilter={handleFilter}/>
               </Col>
             </div>
           </div>

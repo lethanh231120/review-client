@@ -294,13 +294,13 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               <LaunchpadIconList listLaunchpad={itemDetail?.launchPads} />
             </span>
           </div>
-          <div className='profile-blog mb-3'>
+          <div className='profile-blog'>
             <Link to={'#'} >
               <h4>Website(s):</h4>
             </Link>
             <p className='mb-0 d-flex website-soon'>
               {
-                itemDetail?.whitepaperUrl ? <div className='basic-dropdown mx-2'>
+                itemDetail?.whitepaperUrl ? <div className='basic-dropdown mx-2 mb-2'>
                   <Dropdown variant='primary' className='cus-dropdown-select btn btn-primary light sharp' onClick={() => window.open(itemDetail?.website)}>
                   Homepage
                   </Dropdown>
@@ -308,7 +308,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               }
 
               {
-                itemDetail?.whitepaperUrl ? <div className='basic-dropdown mx-2'>
+                itemDetail?.whitepaperUrl ? <div className='basic-dropdown mx-2 mb-2'>
                   <Dropdown variant='primary' className='cus-dropdown-select btn btn-primary light sharp' onClick={() => window.open(itemDetail?.whitepaperUrl)}>
                   Whitepaper
                   </Dropdown>
@@ -336,7 +336,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
               {
                 itemDetail?.additionalLinks
-                  ? <div className='basic-dropdown mx-2'>
+                  ? <div className='basic-dropdown mx-2 mb-2'>
                     <Dropdown>
                       <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
                     Additional Links
@@ -354,27 +354,8 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               }
 
               {
-                itemDetail?.socials
-                  ? <div className='basic-dropdown'>
-                    <Dropdown>
-                      <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
-                        Social
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu className='cus-dropdown-menu'>
-                        {
-                          Object.keys(itemDetail?.socials)?.map((keyName, index) => (
-                            <Dropdown.Item onClick={() => window.open(itemDetail?.socials[keyName])} key={index}>{keyName}</Dropdown.Item>
-                          ))
-                        }
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                  : ''
-              }
-
-              {
                 itemDetail?.sourceCode
-                  ? <div className='basic-dropdown mx-2'>
+                  ? <div className='basic-dropdown mx-2 mb-2'>
                     <Dropdown>
                       <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
                         Source Code
@@ -393,7 +374,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
               {
                 itemDetail?.blockchain
-                  ? <div className='basic-dropdown mx-2'>
+                  ? <div className='basic-dropdown mx-2 mb-2'>
                     <Dropdown>
                       <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
                         Blockchain

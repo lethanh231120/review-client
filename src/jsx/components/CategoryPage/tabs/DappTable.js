@@ -3,7 +3,7 @@ import '../../table/dapp/dapp.scss'
 import { Image, Table, Avatar, Tooltip, Empty } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { renderNumber } from '../../../../utils/formatNumber'
+import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
 import { PREFIX_DETAIL, DAPP } from '../../../constants/category'
 import { ChainListContext } from '../../../../App'
 import nodata from '../../../../images/product/nodata.png'
@@ -124,7 +124,7 @@ const DappTable = ({ loading, listData }) => {
       ),
       dataIndex: 'user24h',
       render: (_, record) => (
-        <span>{record?.user24h ? record?.user24h : '__'}</span>
+        <span>{record?.user24h ? formatLargeNumber(record?.user24h) : '__'}</span>
       )
     },
     {

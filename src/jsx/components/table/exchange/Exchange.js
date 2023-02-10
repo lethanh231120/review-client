@@ -2,7 +2,7 @@ import { Row, Col, Table, Image } from 'antd'
 import React from 'react'
 import { Badge } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import { renderNumber } from '../../../../utils/formatNumber'
+import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
 import { EXCHANGE } from '../../../constants/category'
 import { NO_DATA } from '../../../constants/data'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
@@ -139,7 +139,7 @@ const Exchange = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <span>{record?.visit7d ? renderNumber(record?.visit7d) : 'Unknown' }</span>
+        <span>{record?.visit7d ? formatLargeNumber(record?.visit7d) : 'Unknown' }</span>
       )
     },
     {

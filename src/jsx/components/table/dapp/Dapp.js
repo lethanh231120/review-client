@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { Badge } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { ChainListContext } from '../../../../App'
-import { renderNumber } from '../../../../utils/formatNumber'
+import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
 import { DAPP } from '../../../constants/category'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import CategorySearch from '../../input-search/CategorySearch'
@@ -94,7 +94,7 @@ const Dapp = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <span>{record?.user24h ? renderNumber(record?.user24h) : 'Unknown' }</span>
+        <span>{record?.user24h ? formatLargeNumber(record?.user24h) : 'Unknown' }</span>
       )
     },
     {

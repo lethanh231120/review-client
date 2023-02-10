@@ -3,7 +3,7 @@ import _ from 'lodash'
 import React, { useContext, useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { ChainListContext } from '../../../../App'
-import { formatMoney } from '../../../../utils/formatNumber'
+import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
 import FormReport from '../../Forms/form-report/FormReport'
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
@@ -67,14 +67,14 @@ const DappInfo = ({ productInfo, ...rest }) => {
             return <div className='text-center'>
               <div className='row'>
                 <div className='col'>
-                  <h3 className='m-b-0'>{detail?.totalReviews}</h3>
+                  <h3 className='m-b-0'>{formatLargeNumber(detail?.totalReviews)}</h3>
                   <span>Reviews</span>
                 </div>
                 <div className='col'>
-                  <h3 className='m-b-0'>{detail?.totalIsScam}</h3> <span>Reported Scam</span>
+                  <h3 className='m-b-0'>{formatLargeNumber(detail?.totalIsScam)}</h3> <span>Reported Scam</span>
                 </div>
                 <div className='col'>
-                  <h3 className='m-b-0'>{detail?.score}</h3> <span>Score</span>
+                  <h3 className='m-b-0'>{formatLargeNumber(detail?.score)}</h3> <span>Score</span>
                 </div>
               </div>
               <div className='mt-4'>
@@ -192,7 +192,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
               )}
             </div>
             <div className='col-6'>
-              {dataItem('User 24h', formatMoney(detail?.user24h)?.replace('$', ''))}
+              {dataItem('User 24h', formatLargeNumber(detail?.user24h)?.replace('$', ''))}
               {dataItem('Volume 24h', formatMoney(detail?.volume24h))}
               {detail?.totalUser > 0 && dataItem('Total Users', detail?.totalUser)}
             </div>

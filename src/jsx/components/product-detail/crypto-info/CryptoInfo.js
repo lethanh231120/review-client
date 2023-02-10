@@ -27,6 +27,7 @@ import { DetailLayout } from '../detail-layout'
 import getCryptoDetailChartData from './HandleChartData.js'
 import { MySpinner } from '../../common-widgets/my-spinner'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
+import { formatLargeNumber } from '../../../../utils/formatNumber'
 
 const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
   const navigate = useNavigate()
@@ -185,13 +186,13 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
       <div className='row'>
         <div className='col'>
           <h3 className='m-b-0'>
-            {productInfo?.details?.totalReviews}
+            {formatLargeNumber(productInfo?.details?.totalReviews)}
           </h3>
           <span>Reviews</span>
         </div>
         <div className='col'>
           <h3 className='m-b-0'>
-            {productInfo?.details?.totalIsScam}
+            {formatLargeNumber(productInfo?.details?.totalIsScam)}
           </h3>
           <span>
           Reported Scam
@@ -199,7 +200,7 @@ const CryptoInfo = ({ copyAddress, isShow, productInfo, ...rest }) => {
         </div>
         <div className='col'>
           <h3 className='m-b-0'>
-            {productInfo?.details?.score}
+            {formatLargeNumber(productInfo?.details?.score)}
           </h3>
           <span>
           Score
