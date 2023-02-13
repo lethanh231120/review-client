@@ -50,9 +50,25 @@ const Header = () => {
     if (userInfo) {
       addModal?.handleSetOpenModal(true)
     } else {
-      // keep state in context, login form raise when click add project
-      signInFromAddProductContext?.setIsOpenModalAddProduct(true)
-      signContext?.handleSetOpenModal(true)
+      Swal.fire({
+        allowOutsideClick: false,
+        icon: 'info',
+        title: 'Please log in first',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        backdrop: `rgba(4,148,114,0.4)`
+      }).then((result) => {
+        // click out modal notification, or click [OK] in modal
+        if (result?.isDismissed || result?.isConfirmed) {
+          // keep state in context, login form raise when click add project
+          signInFromAddProductContext?.setIsOpenModalAddProduct(true)
+          signContext?.handleSetOpenModal(true)
+        }
+      })
     }
   }
 
@@ -165,7 +181,7 @@ const Header = () => {
                           role='button'
                         >
                           <Tooltip title={txtScamTooltip} placement='left'>
-                            <svg width='800px' height='800px' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
+                            <svg width='24' height='24' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
                               <g id='Layer_2' data-name='Layer 2'>
                                 <g id='invisible_box' data-name='invisible box'>
                                   <rect width='48' height='48' fill='none'/>
