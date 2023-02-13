@@ -10,6 +10,19 @@ export const formatUrlDetailFromUrlImageExchange = (urlImage) => {
   return endpoint
 }
 
+export const getExchangeNameFromUrlImageExchage = (urlImage) =>{
+  const productId = urlImage?.split('/')[6]?.split('.')[0]?.split('_')[2]
+  let productName = productId.replaceAll('-', ' ')
+  // to cammel case
+  productName = toCammelCase(productName)
+  return productName
+}
+
+export const toCammelCase = (string) =>{
+  return string.replace(/(\w)(\w*)/g,
+    function(g0, g1, g2) { return g1.toUpperCase() + g2.toLowerCase() })
+}
+
 export const formatUrlDetailFromDappId = (dappId) => {
   const dappText = DAPP
   const productId = `${dappId?.split('_')[2]}`

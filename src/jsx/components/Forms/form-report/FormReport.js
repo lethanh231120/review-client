@@ -164,7 +164,6 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     }
   }
 
-  console.log(isFormReport)
   return (
     <>
       {(isFormReport === true) && (
