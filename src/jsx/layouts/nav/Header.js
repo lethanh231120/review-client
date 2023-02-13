@@ -11,7 +11,7 @@ import AccountTab, {
   logInKey,
   signUpKey
 } from '../../components/common-widgets/user-form/account-tab'
-import { SignInContext, Authenticated } from '../../../App'
+import { SignInContext, Authenticated, SignInFromAddProductContext } from '../../../App'
 
 import InputSearch from '../../components/input-search/GlobalSearch'
 import { getCookie, removeCookie, STORAGEKEY } from '../../../utils/storage'
@@ -43,12 +43,15 @@ const Header = () => {
   const signContext = useContext(SignInContext)
   const reportModal = useContext(ReportModalContext)
   const addModal = useContext(AddModalContext)
+  const signInFromAddProductContext = useContext(SignInFromAddProductContext)
 
   const handleAddProject = () => {
-    // not log in before
+    // already log in
     if (userInfo) {
       addModal?.handleSetOpenModal(true)
     } else {
+      // keep state in context, login form raise when click add project
+      signInFromAddProductContext?.setIsOpenModalAddProduct(true)
       signContext?.handleSetOpenModal(true)
     }
   }

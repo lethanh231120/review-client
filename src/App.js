@@ -18,6 +18,7 @@ const App = () => {
   const [categories, setCategories] = useState([])
   const [chainList, setChainList] = useState([])
   const [launchpadMap, setLaunchpadMap] = useState([])
+  const [isOpenModalAddProduct, setIsOpenModalAddProduct] = useState(false)
 
   // const [data, setData] = useState({
   //   chainList: [],
@@ -26,6 +27,10 @@ const App = () => {
   //   isAuthenticated: false,
   //   openModalSignIn: false
   // })
+  const stateOpenAddProduct = {
+    isOpenModalAddProduct: isOpenModalAddProduct,
+    setIsOpenModalAddProduct: (isOpen) => setIsOpenModalAddProduct(isOpen)
+  }
 
   const stateSignIn = {
     openModalSignIn: openModalSignIn,
@@ -89,18 +94,20 @@ const App = () => {
         <LaunchpadMapContext.Provider value={launchpadMap}>
           <Authenticated.Provider value={stateAuthenticated}>
             <CategoryContext.Provider value={categories}>
-              <Suspense fallback={
-                <div id='preloader'>
-                  <div className='sk-three-bounce'>
-                    <div className='sk-child sk-bounce1'></div>
-                    <div className='sk-child sk-bounce2'></div>
-                    <div className='sk-child sk-bounce3'></div>
+              <SignInFromAddProductContext.Provider value={stateOpenAddProduct}>
+                <Suspense fallback={
+                  <div id='preloader'>
+                    <div className='sk-three-bounce'>
+                      <div className='sk-child sk-bounce1'></div>
+                      <div className='sk-child sk-bounce2'></div>
+                      <div className='sk-child sk-bounce3'></div>
+                    </div>
                   </div>
-                </div>
-              }
-              >
-                <Index />
-              </Suspense>
+                }
+                >
+                  <Index />
+                </Suspense>
+              </SignInFromAddProductContext.Provider>
             </CategoryContext.Provider>
           </Authenticated.Provider>
         </LaunchpadMapContext.Provider>

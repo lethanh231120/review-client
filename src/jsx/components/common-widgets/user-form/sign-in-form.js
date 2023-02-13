@@ -3,17 +3,19 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { post } from '../../../../api/BaseRequest'
 import { notification } from 'antd'
 import { setCookie, STORAGEKEY } from '../../../../utils/storage'
-// import { SignInContext, Authenticated } from '../../../index'
-import { SignInContext, Authenticated } from '../../../../App'
+import { SignInContext, Authenticated, SignInFromAddProductContext } from '../../../../App'
 import { CloseCircleOutlined } from '@ant-design/icons'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import Swal from 'sweetalert2'
 import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
+import { AddModalContext } from '../../../index'
 
 export const SignInComponent = () => {
   const authenticated = useContext(Authenticated)
   const signContext = useContext(SignInContext)
+  const signInFromAddProductContext = useContext(SignInFromAddProductContext)
+  const addModal = useContext(AddModalContext)
 
   const responseFacebook = async(response) => {
     try {
@@ -110,6 +112,12 @@ export const SignInComponent = () => {
     setCookie(STORAGEKEY.USER_INFO, userInfo)
     signContext?.handleSetOpenModal(false)
     authenticated.handleSetAuthenticated(true)
+    // login from add product form
+    if (signInFromAddProductContext?.isOpenModalAddProduct) {
+      addModal?.handleSetOpenModal(true)
+      // reset state not login from add product form, after login successful
+      signInFromAddProductContext?.setIsOpenModalAddProduct(false)
+    }
   }
 
   return <div className='login-form style-2'>
