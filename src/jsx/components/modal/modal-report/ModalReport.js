@@ -1,24 +1,20 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import { Image } from 'antd'
-// import { Form, Input, Select, Spin, Image, Empty } from 'antd'
-// import { SearchOutlined } from '@ant-design/icons'
-// import { search, post } from '../../../../api/BaseRequest'
 import { post } from '../../../../api/BaseRequest'
 import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { CategoryContext, SignInContext, Authenticated } from '../../../../App'
 import './report.scss'
-// import nodata from '../../../../images/product/nodata.png'
 import Description from '../../product-detail/description/Description'
 import FormReport from '../../Forms/form-report/FormReport'
-// import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE } from '../../../constants/category'
 import { ReportModalContext, AddModalContext } from '../../../index'
 import InputSearch from '../../input-search/GlobalSearch'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
+import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import imgAbsentImage from '../../../../images/absent_image.png'
+import NoImage from '../../common-widgets/no-image/NoImage'
 
-// const { Option } = Select
-
-const ModalReport = ({ openModalReport, setOpenModalReport, logout }) => {
+const ModalReport = () => {
   const categoryContext = useContext(CategoryContext)
   const signInContext = useContext(SignInContext)
   const reportModal = useContext(ReportModalContext)
@@ -360,6 +356,7 @@ const ModalReport = ({ openModalReport, setOpenModalReport, logout }) => {
       />
       {item && (
         <>
+          {console.log(item)}
           <div className='row report-item-overview'>
             <div className='col-lg-12'>
               <div className='profile card card-body px-3 pt-3 pb-0 mt-3 cus-card'>
@@ -367,12 +364,14 @@ const ModalReport = ({ openModalReport, setOpenModalReport, logout }) => {
                   <div className='profile-info cus-profile-info'>
                     <div className='profile-details'>
                       <div className='profile-photo'>
-                        {item?.image ? (
-                          <Image src={item?.image} preview={false} />
+                        {item?.image && (item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? (
+                          <Image src={isValidProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? formatImgUrlFromProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) : imgAbsentImage} preview={false} className='image-list' height={64} width={64} />
                         ) : (
-                          <span className='image-list-no-data-detail'>
-                            {item?.name?.slice(0, 3)}
-                          </span>
+                          <NoImage
+                            alt={item?.name?.slice(0, 3)}
+                            height={64}
+                            width={64}
+                          />
                         )}
                       </div>
                       <div className='profile-name px-3 pt-2'>

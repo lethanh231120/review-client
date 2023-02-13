@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
+import NoImage from '../../common-widgets/no-image/NoImage'
 
 const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   const navigate = useNavigate()
@@ -31,9 +32,13 @@ const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global, setItem, 
         {item?.ventureId && item?.image ? (
           <Image src={isValidProductId(item?.ventureId) ? formatImgUrlFromProductId(item?.ventureId) : imgAbsentImageVenture} preview={false} />
         )
-          : (<span className='image-list-no-data'>
-            {item?.name?.slice(0, 3)}
-          </span>)
+          : (
+            <NoImage
+              alt={item?.name?.slice(0, 3)}
+              height={48}
+              width={48}
+            />
+          )
         }
         <div>
           <div className='form-search-data-item-data-content'>

@@ -5,6 +5,7 @@ import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
+import NoImage from './../../common-widgets/no-image/NoImage'
 
 const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   const navigate = useNavigate()
@@ -32,9 +33,13 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
         {item?.cryptoId && item?.image ? (
           <Image src={isValidProductId(item?.cryptoId) ? formatImgUrlFromProductId(item?.cryptoId) : imgAbsentImageCrypto} preview={false} />
         ) : (
-          <span className='table-icon-coin-logo'>
-            {item?.name?.slice(0, 3)?.toUpperCase()}
-          </span>
+          (
+            <NoImage
+              alt={item?.name?.slice(0, 3)?.toUpperCase()}
+              height={48}
+              width={48}
+            />
+          )
         )}
         <div>
           <div className='form-search-data-item-data-content'>

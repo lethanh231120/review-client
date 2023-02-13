@@ -34,8 +34,8 @@ const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItem, isFormRepo
           : (
             <NoImage
               alt={item?.name?.slice(0, 3)}
-              height={64}
-              width={64}
+              height={48}
+              width={48}
             />
           )}
         <div>
