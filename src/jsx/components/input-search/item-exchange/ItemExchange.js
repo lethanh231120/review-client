@@ -5,6 +5,7 @@ import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
+import NoImage from '../../common-widgets/no-image/NoImage'
 
 const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   console.log(item)
@@ -34,9 +35,13 @@ const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem,
         {item?.exchangeId && item?.image ? (
           <Image src={isValidProductId(item?.exchangeId) ? formatImgUrlFromProductId(item?.exchangeId) : imgAbsentImageExchange} preview={false} />
         )
-          : (<span className='table-icon-coin-logo'>
-            {item?.name?.slice(0, 3)}
-          </span>)
+          : (
+            <NoImage
+              alt={item?.name?.slice(0, 3)?.toUpperCase()}
+              height={48}
+              width={48}
+            />
+          )
         }
         <div>
           <div className='form-search-data-item-data-content'>

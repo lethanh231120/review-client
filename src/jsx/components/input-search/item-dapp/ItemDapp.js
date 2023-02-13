@@ -6,6 +6,7 @@ import warning from '../../../../images/product/warning.png'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import { formatLargeNumber } from '../../../../utils/formatNumber'
+import NoImage from '../../common-widgets/no-image/NoImage'
 
 const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   const navigate = useNavigate()
@@ -33,9 +34,13 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isF
         {item?.dappId && item?.image ? (
           <Image src={isValidProductId(item?.dappId) ? formatImgUrlFromProductId(item?.dappId) : imgAbsentImageDapp} preview={false} />
         )
-          : (<span className='table-icon-coin-logo'>
-            {item?.name?.slice(0, 3)}
-          </span>)
+          : (
+            <NoImage
+              alt={item?.name?.slice(0, 3)?.toUpperCase()}
+              height={48}
+              width={48}
+            />
+          )
         }
         <div>
           <div className='form-search-data-item-data-content'>
