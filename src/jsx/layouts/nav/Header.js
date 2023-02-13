@@ -100,12 +100,17 @@ const Header = () => {
     })
   }
 
+  const onCloseLoginSignupForm = () => {
+    signContext?.handleSetOpenModal(false)
+    signInFromAddProductContext?.setIsOpenModalAddProduct(false) // reset state add product form when close login form
+  }
+
   return (
     <>
       <Modal
         open={signContext?.openModalSignIn}
-        onCancel={() => signContext?.handleSetOpenModal(false)}
-        onOk={() => signContext?.handleSetOpenModal(false)}
+        onCancel={onCloseLoginSignupForm}
+        onOk={onCloseLoginSignupForm}
         footer={false}
         destroyOnClose={true}
         show={signContext?.openModalSignIn}
