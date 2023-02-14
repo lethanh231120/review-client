@@ -3,13 +3,8 @@ import _ from 'lodash'
 import React, { useContext, useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { ChainListContext } from '../../../../App'
-<<<<<<< HEAD
 import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
-import FormReport from '../../Forms/form-report/FormReport'
-=======
-import { formatMoney } from '../../../../utils/formatNumber'
 // import FormReport from '../../Forms/form-report/FormReport'
->>>>>>> db3b29d (thanhlv fix form report)
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 import { LoadingOutlined } from '@ant-design/icons'
@@ -25,16 +20,13 @@ const DappInfo = ({ productInfo, ...rest }) => {
   const chainList = useContext(ChainListContext)
   const [loading, setLoading] = useState(false)
 
-<<<<<<< HEAD
-=======
-  const onOpenDapp = (link) => {
-    setLoading(true)
-    setTimeout(() => {
-      link && window.open(link)
-      setLoading(false)
-    }, 3000)
-  }
->>>>>>> db3b29d (thanhlv fix form report)
+  // const onOpenDapp = (link) => {
+  //   setLoading(true)
+  //   setTimeout(() => {
+  //     link && window.open(link)
+  //     setLoading(false)
+  //   }, 3000)
+  // }
   const handleReportScam = () => {
     rest?.setData({
       ...rest.data,
