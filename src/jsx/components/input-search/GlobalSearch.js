@@ -168,16 +168,16 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
 
   // runner text
   useEffect(() => {
-    sleepFor(100)
+    runnerTextSearch()
+  }, [txtDisplaySearchHeader])
+
+  const sleep = ms => new Promise(r => setTimeout(r, ms))
+  const runnerTextSearch = async() =>{
+    await sleep(85)
     if (txtDisplaySearchHeader) {
       const newString = txtDisplaySearchHeader.substring(1) + txtDisplaySearchHeader.substring(0, 1)
       setTxtDisplaySearchHeader(newString)
     }
-  }, [txtDisplaySearchHeader])
-
-  function sleepFor(sleepDuration) {
-    var now = new Date().getTime()
-    while (new Date().getTime() < now + sleepDuration) { /* Do nothing */ }
   }
 
   return (
