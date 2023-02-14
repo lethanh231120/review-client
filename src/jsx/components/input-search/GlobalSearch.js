@@ -30,7 +30,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
     isActive: false
   })
   const [keyWord, setKeyWord] = useState()
-  const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState('Search your crypto projects/ dApps/ ventures/ exchanges/ upcoming projects')
+  const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState('Search your crypto projects/ dApps/ ventures/ exchanges/ upcoming projects                         ')
 
   const handleSearch = _.debounce(async(value) => {
     if (value !== '') {
@@ -168,18 +168,21 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
 
   // runner text first
   useEffect(() => {
-    setInterval(() => {
-      if (txtDisplaySearchHeader.length > 0) {
-        setTxtDisplaySearchHeader(setTxtDisplaySearchHeader)
-        const firstChar = txtDisplaySearchHeader.substring(0, 1)
-        const otherChars = txtDisplaySearchHeader.substring(1)
-        console.log(otherChars + firstChar)
-      }
-    }, 1000)
-  }, [])
+    sleepFor(150)
+    if (txtDisplaySearchHeader) {
+      console.log(`1===`, txtDisplaySearchHeader)
+      const newData = txtDisplaySearchHeader.substring(1) + txtDisplaySearchHeader.substring(0, 1)
+      setTxtDisplaySearchHeader(newData)
+      console.log(txtDisplaySearchHeader, newData)
+    }
+  }, [txtDisplaySearchHeader])
+
+  function sleepFor(sleepDuration) {
+    var now = new Date().getTime()
+    while (new Date().getTime() < now + sleepDuration) { /* Do nothing */ }
+  }
 
   return (
-
     <div className='input-group search-area cus-input-group'>
       <div className='nav-item d-flex align-items-center ' style={{ width: '100%' }}>
         <div className='input-group search-area '>
