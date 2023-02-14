@@ -11,7 +11,7 @@ import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon.js'
 import ItemVenture from './item-venture/ItemVenture'
 
-const SEARCH_PLACEHOLDER_TEXT = 'Search for Coins/ Tokens/ DApps/ Ventures/ Upcoming Projects...'
+const SEARCH_PLACEHOLDER_TEXT = 'Search for Coins/ Tokens/ DApps/ Ventures/ Exchanges/ Upcoming Projects...             '
 
 const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchFormReport, setItem }) => {
   // isFormReport={true}
@@ -30,7 +30,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
     isActive: false
   })
   const [keyWord, setKeyWord] = useState()
-  // const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState('Search your crypto projects/ dApps/ ventures/ exchanges/ upcoming projects                         ')
+  const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState(SEARCH_PLACEHOLDER_TEXT)
 
   const handleSearch = _.debounce(async(value) => {
     if (value !== '') {
@@ -166,21 +166,19 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
     }
   }, [isSubmit])
 
-  // runner text first
-  // useEffect(() => {
-  //   sleepFor(150)
-  //   if (txtDisplaySearchHeader) {
-  //     console.log(`1===`, txtDisplaySearchHeader)
-  //     const newData = txtDisplaySearchHeader.substring(1) + txtDisplaySearchHeader.substring(0, 1)
-  //     setTxtDisplaySearchHeader(newData)
-  //     console.log(txtDisplaySearchHeader, newData)
-  //   }
-  // }, [txtDisplaySearchHeader])
+  // runner text
+  useEffect(() => {
+    sleepFor(100)
+    if (txtDisplaySearchHeader) {
+      const newString = txtDisplaySearchHeader.substring(1) + txtDisplaySearchHeader.substring(0, 1)
+      setTxtDisplaySearchHeader(newString)
+    }
+  }, [txtDisplaySearchHeader])
 
-  // function sleepFor(sleepDuration) {
-  //   var now = new Date().getTime()
-  //   while (new Date().getTime() < now + sleepDuration) { /* Do nothing */ }
-  // }
+  function sleepFor(sleepDuration) {
+    var now = new Date().getTime()
+    while (new Date().getTime() < now + sleepDuration) { /* Do nothing */ }
+  }
 
   return (
     <div className='input-group search-area cus-input-group'>
@@ -206,7 +204,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
             ref={refInput}
             type='text'
             className={`form-control cus-form-control`}
-            placeholder={`${isFormReport ? 'Search for the project you want to report to us' : SEARCH_PLACEHOLDER_TEXT}`}
+            placeholder={`${isFormReport ? 'Search for the project you want to report to us' : txtDisplaySearchHeader}`}
             onChange={(e) => {
               if (isFormReport) setItem()
               handleSearch(e.target.value)
