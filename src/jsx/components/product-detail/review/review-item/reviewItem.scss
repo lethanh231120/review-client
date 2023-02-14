@@ -20,7 +20,6 @@
         }
         &-data{
             text-align: left;
-            width: max-content;
             background: rgb(240,242,245);
             padding: 0.5rem 0.75rem;
             border-radius: 0.625rem;
@@ -48,10 +47,19 @@
             @include font-medium-500;
             margin: 0.1875rem 0 0 0;
             line-height: 1.4;
+            // width: 100%;
+            word-wrap: break-word;
             &-source{
                 padding: 0.2rem 0 0 0;
                 & span{
                     margin-right: 0.625rem;
+                    & a{
+                        display: flex;
+                        align-items: center;
+                        & span{
+                            margin-right: 0.3rem;
+                        }
+                    }
                 }
             }
         }

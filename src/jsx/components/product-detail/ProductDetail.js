@@ -1,4 +1,8 @@
 import React, { useEffect, useState, useRef, useContext } from 'react'
+// import React, { useEffect, useState, useRef, useContext } from 'react'
+import { Form } from 'antd'
+// import { DownOutlined, CodeOutlined, CaretUpOutlined, SendOutlined, CopyOutlined, LinkOutlined } from '@ant-design/icons'
+// import moment from 'moment'
 import './productDetail.scss'
 import { get, post } from '../../../api/BaseRequest'
 import { useLocation, useParams } from 'react-router-dom'
@@ -20,6 +24,7 @@ import {
 import DetailLoading from '../loading/DetailLoading'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import user from '../../../images/product/user.png'
+import Swal from 'sweetalert2'
 
 const ProductDetail = () => {
   const { pathname } = useLocation()
@@ -27,6 +32,8 @@ const ProductDetail = () => {
   const DEFAULT_SCAM = 'scam'
   const DEFAULT_NOT_SCAM = 'notScam'
   const [productId, setProductId] = useState()
+
+  const [form] = Form.useForm()
 
   const { type, productName, path, categoryName } = useParams()
   // type coin thi khong co product Id, token thi co productId
@@ -42,10 +49,23 @@ const ProductDetail = () => {
     isScam: false,
     content: '',
     sources: [],
-    image: '',
-    star: 5
+    image: null,
+    star: 5,
+    // title: '',
+    scamAmountUSD: null
   })
-  const [validateTextArea, setValidateTextArea] = useState(false)
+
+  const [validateText, setValidateText] = useState({
+    title: {
+      isError: false,
+      message: ''
+    },
+    textArear: {
+      isError: false,
+      message: ''
+    }
+  })
+
   const [fileList, setFileList] = useState([])
   const [dataFilter, setDataFilter] = useState()
   const [isShow, setIsShow] = useState()
@@ -291,11 +311,26 @@ const ProductDetail = () => {
   useEffect(() => {
     if (typeComment === 'login') {
       if (!auth?.isAuthenticated) {
-        console.log('log in')
         signInContext?.handleSetOpenModal(true)
       }
     }
   }, [typeComment, signInContext, auth])
+
+  // noti report success
+  const notifyTopRight = () => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true
+    })
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Post comemnt successfully!'
+    })
+  }
 
   const handleAddComment = async(params, type) => {
     let dataAdd
@@ -305,6 +340,7 @@ const ProductDetail = () => {
       dataAdd = await post('reviews/review', params)
     }
     if (dataAdd) {
+      notifyTopRight()
       const newReview = {
         reactions: [],
         replies: [],
@@ -340,56 +376,35 @@ const ProductDetail = () => {
         star: 5
       })
       setFileList([])
-      setValidateTextArea(false)
+      setValidateText(false)
       setTypeComment()
       recapcharRef.current.reset()
+      form.resetFields()
+      form.setFieldsValue({ 'isScam': false })
     }
   }
 
   // submit btn
-  const handleSubmitComment = async() => {
+  const handleSubmitComment = async(values) => {
     const params = {
       ...data,
-      productId: productId
+      productId: productId,
+      ...values
     }
     if (typeComment) {
-      if (data?.content !== '') {
-        const recaptchaValue = recapcharRef.current.getValue()
-        if (recaptchaValue) {
-          if (data?.isScam) {
-            if (!_.isEmpty(data?.sources)) {
-              handleAddComment(params, 'anonymous')
-            } else {
-              setErrorLink('Link proof is required')
-            }
-          } else {
-            handleAddComment(params, 'anonymous')
-          }
-        } else {
-          setIsRecaptcha(true)
-        }
+      const recaptchaValue = recapcharRef.current.getValue()
+      if (recaptchaValue) {
+        handleAddComment(params, 'anonymous')
       } else {
-        setValidateTextArea(true)
+        setIsRecaptcha(true)
       }
     } else {
       if (auth?.isAuthenticated) {
-        if (data?.content !== '') {
-          const recaptchaValue = recapcharRef.current.getValue()
-          if (recaptchaValue) {
-            if (data?.isScam) {
-              if (!_.isEmpty(data?.sources)) {
-                handleAddComment(params, 'auth')
-              } else {
-                setErrorLink('Link proof is required')
-              }
-            } else {
-              handleAddComment(params, 'auth')
-            }
-          } else {
-            setIsRecaptcha(true)
-          }
+        const recaptchaValue = recapcharRef.current.getValue()
+        if (recaptchaValue) {
+          handleAddComment(params, 'auth')
         } else {
-          setValidateTextArea(true)
+          setIsRecaptcha(true)
         }
       } else {
         signInContext?.handleSetOpenModal(true)
@@ -399,96 +414,96 @@ const ProductDetail = () => {
 
   // enter
   const handleComment = async(e) => {
-    if (e.ctrlKey && e.key === 'Enter') {
-      setData({
-        ...data,
-        content: `${data?.content}\n`
-      })
-    } else {
-      e.preventDefault()
-      const params = {
-        ...data,
-        productId: productId
-      }
-      if (data?.content !== '') {
-        const recaptchaValue = recapcharRef.current.getValue()
-        if (recaptchaValue) {
-          if (data?.isScam) {
-            if (!_.isEmpty(data?.sources)) {
-              if (typeComment) {
-                handleAddComment(params, 'anonymous')
-              } else {
-                if (auth?.isAuthenticated) {
-                  handleAddComment(params, 'auth')
-                } else {
-                  signInContext?.handleSetOpenModal(true)
-                }
-              }
-            } else {
-              setErrorLink('Link proof is required')
-            }
-          } else {
-            if (typeComment) {
-              handleAddComment(params, 'anonymous')
-            } else {
-              if (auth?.isAuthenticated) {
-                handleAddComment(params, 'auth')
-              } else {
-                signInContext?.handleSetOpenModal(true)
-              }
-            }
-          }
-        } else {
-          setIsRecaptcha(true)
-        }
-      } else {
-        setValidateTextArea(true)
-      }
-      // if (typeComment) {
-      //   if (data?.content !== '') {
-      //     const recaptchaValue = recapcharRef.current.getValue()
-      //     if (recaptchaValue) {
-      //       if (data?.isScam) {
-      //         if (!_.isEmpty(data?.sources)) {
-      //           handleAddComment(params, 'anonymous')
-      //         } else {
-      //           setErrorLink('Link proof is required')
-      //         }
-      //       } else {
-      //         handleAddComment(params, 'anonymous')
-      //       }
-      //     } else {
-      //       setIsRecaptcha(true)
-      //     }
-      //   } else {
-      //     setValidateTextArea(true)
-      //   }
-      // } else {
-      //   if (auth?.isAuthenticated) {
-      //     console.log(222222)
-      //     if (data?.content !== '') {
-      //       const recaptchaValue = recapcharRef.current.getValue()
-      //       if (recaptchaValue) {
-      //         if (data?.isScam) {
-      //           if (!_.isEmpty(data?.sources)) {
-      //             handleAddComment(params, 'auth')
-      //           } else {
-      //             setErrorLink('Link proof is required')
-      //           }
-      //         } else {
-      //           handleAddComment(params, 'auth')
-      //         }
-      //       } else {
-      //         setIsRecaptcha(true)
-      //       }
-      //     } else {
-      //       setValidateTextArea(true)
-      //     }
-      //   } else {
-      //     signInContext?.handleSetOpenModal(true)
-      //   }
-      // }
-    }
+    // if (e.ctrlKey && e.key === 'Enter') {
+    //   setData({
+    //     ...data,
+    //     content: `${data?.content}\n`
+    //   })
+    // } else {
+    //   e.preventDefault()
+    //   const params = {
+    //     ...data,
+    //     productId: productId
+    //   }
+    //   if (data?.content !== '') {
+    //     const recaptchaValue = recapcharRef.current.getValue()
+    //     if (recaptchaValue) {
+    //       if (data?.isScam) {
+    //         if (!_.isEmpty(data?.sources)) {
+    //           if (typeComment) {
+    //             handleAddComment(params, 'anonymous')
+    //           } else {
+    //             if (auth?.isAuthenticated) {
+    //               handleAddComment(params, 'auth')
+    //             } else {
+    //               signInContext?.handleSetOpenModal(true)
+    //             }
+    //           }
+    //         } else {
+    //           setErrorLink('Link proof is required')
+    //         }
+    //       } else {
+    //         if (typeComment) {
+    //           handleAddComment(params, 'anonymous')
+    //         } else {
+    //           if (auth?.isAuthenticated) {
+    //             handleAddComment(params, 'auth')
+    //           } else {
+    //             signInContext?.handleSetOpenModal(true)
+    //           }
+    //         }
+    //       }
+    //     } else {
+    //       setIsRecaptcha(true)
+    //     }
+    //   } else {
+    //     setValidateText(true)
+    //   }
+    //   // if (typeComment) {
+    //   //   if (data?.content !== '') {
+    //   //     const recaptchaValue = recapcharRef.current.getValue()
+    //   //     if (recaptchaValue) {
+    //   //       if (data?.isScam) {
+    //   //         if (!_.isEmpty(data?.sources)) {
+    //   //           handleAddComment(params, 'anonymous')
+    //   //         } else {
+    //   //           setErrorLink('Link proof is required')
+    //   //         }
+    //   //       } else {
+    //   //         handleAddComment(params, 'anonymous')
+    //   //       }
+    //   //     } else {
+    //   //       setIsRecaptcha(true)
+    //   //     }
+    //   //   } else {
+    //   //     setValidateText(true)
+    //   //   }
+    //   // } else {
+    //   //   if (auth?.isAuthenticated) {
+    //   //     console.log(222222)
+    //   //     if (data?.content !== '') {
+    //   //       const recaptchaValue = recapcharRef.current.getValue()
+    //   //       if (recaptchaValue) {
+    //   //         if (data?.isScam) {
+    //   //           if (!_.isEmpty(data?.sources)) {
+    //   //             handleAddComment(params, 'auth')
+    //   //           } else {
+    //   //             setErrorLink('Link proof is required')
+    //   //           }
+    //   //         } else {
+    //   //           handleAddComment(params, 'auth')
+    //   //         }
+    //   //       } else {
+    //   //         setIsRecaptcha(true)
+    //   //       }
+    //   //     } else {
+    //   //       setValidateText(true)
+    //   //     }
+    //   //   } else {
+    //   //     signInContext?.handleSetOpenModal(true)
+    //   //   }
+    //   // }
+    // }
   }
 
   useEffect(() => {
@@ -508,8 +523,8 @@ const ProductDetail = () => {
     data={data}
     setData={setData}
     handleSubmitComment={handleSubmitComment}
-    setValidateTextArea={setValidateTextArea}
-    validateTextArea={validateTextArea}
+    setValidateText={setValidateText}
+    validateText={validateText}
     handleComment={handleComment}
     recapcharRef={recapcharRef}
     setFileList={setFileList}
@@ -524,6 +539,7 @@ const ProductDetail = () => {
     setErrorType={setErrorType}
     errorType={errorType}
     id={productInfo?.details?.id}
+    form={form}
 
     // use in list review
     dataFilter={dataFilter}
@@ -543,8 +559,8 @@ const ProductDetail = () => {
     data={data}
     setData={setData}
     handleSubmitComment={handleSubmitComment}
-    setValidateTextArea={setValidateTextArea}
-    validateTextArea={validateTextArea}
+    setValidateText={setValidateText}
+    validateText={validateText}
     handleComment={handleComment}
     recapcharRef={recapcharRef}
     setFileList={setFileList}
@@ -559,6 +575,7 @@ const ProductDetail = () => {
     setErrorType={setErrorType}
     errorType={errorType}
     id={productInfo?.details?.id}
+    form={form}
 
     // use in list review
     dataFilter={dataFilter}
@@ -578,8 +595,8 @@ const ProductDetail = () => {
     data={data}
     setData={setData}
     handleSubmitComment={handleSubmitComment}
-    setValidateTextArea={setValidateTextArea}
-    validateTextArea={validateTextArea}
+    setValidateText={setValidateText}
+    validateText={validateText}
     handleComment={handleComment}
     recapcharRef={recapcharRef}
     setFileList={setFileList}
@@ -594,6 +611,7 @@ const ProductDetail = () => {
     setErrorType={setErrorType}
     errorType={errorType}
     id={productInfo?.details?.id}
+    form={form}
 
     // use in list review
     dataFilter={dataFilter}
@@ -613,8 +631,8 @@ const ProductDetail = () => {
     data={data}
     setData={setData}
     handleSubmitComment={handleSubmitComment}
-    setValidateTextArea={setValidateTextArea}
-    validateTextArea={validateTextArea}
+    setValidateText={setValidateText}
+    validateText={validateText}
     handleComment={handleComment}
     recapcharRef={recapcharRef}
     setFileList={setFileList}
@@ -629,6 +647,7 @@ const ProductDetail = () => {
     setErrorType={setErrorType}
     errorType={errorType}
     id={productInfo?.details?.id}
+    form={form}
 
     // use in list review
     dataFilter={dataFilter}
@@ -648,8 +667,8 @@ const ProductDetail = () => {
     data={data}
     setData={setData}
     handleSubmitComment={handleSubmitComment}
-    setValidateTextArea={setValidateTextArea}
-    validateTextArea={validateTextArea}
+    setValidateText={setValidateText}
+    validateText={validateText}
     handleComment={handleComment}
     recapcharRef={recapcharRef}
     setFileList={setFileList}
@@ -664,6 +683,7 @@ const ProductDetail = () => {
     setErrorType={setErrorType}
     errorType={errorType}
     id={productInfo?.details?.id}
+    form={form}
 
     // use in list review
     dataFilter={dataFilter}

@@ -7,7 +7,7 @@ import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
 import _ from 'lodash'
 import moment from 'moment'
 import Description from '../description/Description'
-import FormReport from '../../Forms/form-report/FormReport'
+// import FormReport from '../../Forms/form-report/FormReport'
 import { LoadingOutlined } from '@ant-design/icons'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
@@ -27,8 +27,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
   const handleReportScam = () => {
     rest?.setData({
       ...rest.data,
-      isScam: true,
-      star: 1
+      isScam: true
+      // star: 1
+    })
+    rest?.form?.setFieldsValue({
+      'isScam': true,
+      'star': 1
     })
   }
 
@@ -88,7 +92,14 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
           as='a'
           href='#comment'
           className='btn btn-primary mb-1 ms-1'
-          onClick={() => rest?.setData({ ...rest.data, isScam: false, star: 5 })}
+          onClick={() => {
+            rest?.setData({ ...rest.data, isScam: false })
+            rest?.form.setFieldsValue({
+              isScam: false,
+              star: undefined,
+              sources: []
+            })
+          }}
         >
                   Add Review
         </Button>
@@ -224,7 +235,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
       more={<More />}
       about={<About />}
       isScam={detail?.isScam}
-      report={<FormReport />}
+      // report={<FormReport />}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
     />

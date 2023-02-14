@@ -105,11 +105,11 @@ const TabSearch = (props) => {
   return (
     <>
       <div className='col-xl-12'>
-        <div className='card'>
+        <div>
           <Tab.Container defaultActiveKey='crypto'>
-            <div className='card-header border-0 row cus-card-header'>
-              <div className='col-xl-8'>
-                <Nav as='ul' className='order  nav-tabs' id='pills-tab' role='tablist'>
+            <div className='row'>
+              <div className='col-xl-8 col-lg-9 col-md-8'>
+                <Nav as='ul' className='order nav-tabs' id='pills-tab' role='tablist'>
                   <Nav.Item
                     as='li'
                     className=' my-1'
@@ -167,7 +167,7 @@ const TabSearch = (props) => {
                   </Nav.Item>
                 </Nav>
               </div>
-              <div className='col-xl-4'>
+              <div className='col-xl-4 col-lg-3 col-md-4'>
                 <Input
                   // value={keywordSearch}
                   defaultValue={keyword}
@@ -178,7 +178,7 @@ const TabSearch = (props) => {
                 />
               </div>
             </div>
-            <div className='card-body pt-0'>
+            <div className='mt-4'>
               <Tab.Content className='tab-content' >
                 <Tab.Pane eventKey='crypto'>
                   <div className='table-responsive dataTablemarket'>

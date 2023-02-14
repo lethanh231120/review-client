@@ -7,7 +7,7 @@ import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
 import _ from 'lodash'
 import Description from '../description/Description'
 import moment from 'moment'
-import FormReport from '../../Forms/form-report/FormReport'
+// import FormReport from '../../Forms/form-report/FormReport'
 import { useNavigate } from 'react-router-dom'
 import { LoadingOutlined } from '@ant-design/icons'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
@@ -38,8 +38,12 @@ const VentureInfo = ({ productInfo, ...rest }) => {
   const handleReportScam = () => {
     rest?.setData({
       ...rest.data,
-      isScam: true,
-      star: 1
+      isScam: true
+      // star: 1
+    })
+    rest?.form?.setFieldsValue({
+      'isScam': true,
+      'star': 1
     })
   }
 
@@ -99,7 +103,14 @@ const VentureInfo = ({ productInfo, ...rest }) => {
           as='a'
           href='#comment'
           className='btn btn-primary mb-1 ms-1'
-          onClick={() => rest?.setData({ ...rest.data, isScam: false, star: 5 })}
+          onClick={() => {
+            rest?.setData({ ...rest.data, isScam: false })
+            rest?.form.setFieldsValue({
+              isScam: false,
+              star: undefined,
+              sources: []
+            })
+          }}
         >
                   Add Review
         </Button>
@@ -280,7 +291,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       more={<More />}
       about={<About />}
       portfolioOrChart={<PortfolioTable />}
-      report={<FormReport />}
+      // report={<FormReport />}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
     />
