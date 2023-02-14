@@ -29,6 +29,7 @@ import { ReportModalContext
 // import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import { ReviewList } from '../common-widgets/home/reviews/review-list'
 import { API_KEY, bitqueryEndpoint, BITQUERY_QUERY } from './Dashboard/bitquery-query/query'
+import imgReportProject from '../../../images/svg/report-project-white.svg'
 
 const fillColors = [
   '#18A594',
@@ -193,6 +194,8 @@ const Home = () => {
                       Please join us to warn everyone in the community
                       </p>
                       <Button className='btn-danger' onClick={() => reportModal?.handleSetOpenModal(true)} style={{ backgroundColor: '#EB5757', borderColor: '#EB5757' }}>
+                        <img src={imgReportProject} alt='err' />
+                        &nbsp;
                         Report&nbsp;now
                       </Button>
                     </div>

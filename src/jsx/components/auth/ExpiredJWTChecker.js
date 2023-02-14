@@ -21,7 +21,7 @@ const ExpiredJWTChecker = ({ logout }) => {
         Swal.fire({
           allowOutsideClick: false,
           icon: 'info',
-          title: 'Please log in again',
+          title: 'Please log-in again',
           showClass: {
             popup: 'animate__animated animate__fadeInDown'
           },
