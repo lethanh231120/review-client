@@ -34290,7 +34290,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 .chart-legend{
-  margin-top: 6rem;
+  margin-top: 4rem;
 }
 
 .summary-item{
@@ -34429,7 +34429,8 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   padding:  1.5rem 1.875rem 0rem !important;
 }
 
-/* Custom review card body */
-.cus-review-card-item{
-  padding: 1.25rem !important;
+
+.banner-body{
+  height: 100%;
+ 
 }

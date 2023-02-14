@@ -2,6 +2,8 @@ import { Avatar } from 'antd'
 import { Badge } from 'react-bootstrap'
 import { onItemClicked } from '../click-function'
 import { useNavigate } from 'react-router-dom'
+import NoImage from '../../no-image/NoImage'
+import './top-discussed.scss'
 
 export const TopDiscussedItem = ({ item }) => {
   const navigate = useNavigate()
@@ -15,7 +17,7 @@ export const TopDiscussedItem = ({ item }) => {
       return <li onClick={() => onItemClicked(item?.type, item?.detail, navigate)} style={{ cursor: 'pointer' }}>
         <div className='timeline-panel'>
           <div className='media me-2'>
-            <Avatar width='50' src={item?.detail?.bigLogo}/>
+            {item?.detail?.bigLogo ? <Avatar size={35} src={item?.detail?.bigLogo}/> : <NoImage width={35} height={35} alt={item?.detail?.symbol?.substring(0, 2)}/>}
           </div>
           <div className='media-body'>
             <h5 className='mb-1'>{shortenString(item?.detail?.name)}

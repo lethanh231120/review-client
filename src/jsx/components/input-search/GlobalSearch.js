@@ -11,6 +11,8 @@ import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon.js'
 import ItemVenture from './item-venture/ItemVenture'
 
+const SEARCH_PLACEHOLDER_TEXT = 'Search for Coins/ Tokens/ DApps/ Ventures/ Upcoming Projects...'
+
 const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchFormReport, setItem }) => {
   // isFormReport={true}
   // setDataSearch={setDataSearch}
@@ -192,7 +194,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
             ref={refInput}
             type='text'
             className={`form-control cus-form-control`}
-            placeholder={`${isFormReport ? 'Search for the project you want to report to us' : 'Search here'}`}
+            placeholder={`${isFormReport ? 'Search for the project you want to report to us' : SEARCH_PLACEHOLDER_TEXT}`}
             onChange={(e) => {
               if (isFormReport) setItem()
               handleSearch(e.target.value)

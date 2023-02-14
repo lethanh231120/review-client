@@ -2,6 +2,10 @@ import { Avatar } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
 export const TopCoins = ({ data }) => {
+  const sparklineIndex = [
+    1, 279, 325, 825, 6319, 44
+  ]
+
   const top6 = data?.slice(0, 6)
   const navigate = useNavigate()
 
@@ -24,7 +28,7 @@ export const TopCoins = ({ data }) => {
             <h2 className='heading'>Top Coins</h2>
           </div>
         </div>
-        <div className='card-body pt-0 px-0'>
+        <div className='card-body pt-0 px-0' style={{ padding: '0px' }}>
           {top6?.map((item, index) => (
             <div className='previews-info-list' key={index} style={{ cursor: 'pointer' }} onClick={() => onTopCoinsClicked(item)}>
               <div className='pre-icon' style={{ width: '200px' }}>
@@ -45,7 +49,7 @@ export const TopCoins = ({ data }) => {
                 </span> */}
               </div>
               <div className='chart-img' >
-                <img className='img-fluid' alt='' src={`https://www.coingecko.com/coins/${index + 1}/sparkline`} width={100} height={40} />
+                <img className='img-fluid' alt='' src={`https://www.coingecko.com/coins/${sparklineIndex[index]}/sparkline`} width={100} height={40} />
               </div>
             </div>
           ))}
