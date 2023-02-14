@@ -176,7 +176,7 @@ const Crypto = ({
             </div>
             {record?.cryptoId?.split('_')[1] === CRYPTO_TOKEN && (
               <div className='data-table-address'>
-                <span style={{ color: 'blue' }}>
+                <span className='product-name-text text-primary' style={{ cursor: 'pointer' }}>
                   {`${record?.cryptoId
                     ?.split('_')[3]
                     ?.slice(0, 4)}...${record?.cryptoId

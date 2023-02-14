@@ -136,7 +136,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
             </h4>
             {productInfo?.details?.address && (
               <p className='crypto-info-item-address'>
-                <a href={mainExplorer} target='_blank' rel='noreferrer' style={{ color: 'blue' }}>
+                <a href={mainExplorer} target='_blank' rel='noreferrer' className='product-name-text text-primary' style={{ cursor: 'pointer' }}>
                   {`${productInfo?.details?.address?.slice(
                     0,
                     5
@@ -295,7 +295,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
         {!showInfo && (
           <>
-            <div className='crypto-info-item-key my-2'>Website(s): </div>
+            <div className='crypto-info-item-key my-2'>Explorer(s): </div>
             <div className='d-flex align-items-center'>
               {isShow?.community && (
                 <div className='basic-dropdown' style={{ marginRight: '10px' }}>
@@ -388,7 +388,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                         >
                           <Image src={item?.image} preview={false} />
                           <Tooltip title={toCammelCase(item?.chainName)}>
-                            <span className='crypto-tag-item-list-children-contract-address' style={{ color: 'blue' }}>
+                            <span className='crypto-tag-item-list-children-contract-address product-name-text text-primary' style={{ cursor: 'pointer' }}>
                               {item?.address}
                             </span>
                           </Tooltip>
@@ -417,21 +417,21 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               <div className='crypto-info-item-key mt-3'>Contract detail: </div>
               <div className='row mt-3'>
                 <div className='col-xxl-12 col-12'>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0', display: 'flex' }}>
                     {
                       productInfo?.details?.contractVerifie !== null &&
             (
               productInfo?.details?.contractVerified ? (
                 <>
                   <CheckCircleOutlined
-                    style={{ color: 'green', padding: '0 5px' }}
+                    style={{ color: 'green', display: 'flex', alignItems: 'center', paddingRight: '0.3rem' }}
                   />
                   {productInfo?.details?.name} contract has been verified
                 </>
               ) : (
                 <>
                   <CloseCircleOutlined
-                    style={{ color: 'red', padding: '0 5px' }}
+                    style={{ color: 'red', display: 'flex', alignItems: 'center', paddingRight: '0.3rem' }}
                   />
                   {productInfo?.details?.name} contract has not been verified
                 </>
@@ -442,21 +442,21 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                   </div>
                 </div>
                 <div className='col-xxl-12 col-12'>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0', display: 'flex' }}>
                     {
                       productInfo?.details?.isProxy !== null &&
             (
               productInfo?.details?.isProxy ? (
                 <>
                   <ApartmentOutlined
-                    style={{ color: 'red', padding: '0 5px' }}
+                    style={{ color: 'red', display: 'flex', alignItems: 'center', paddingRight: '0.3rem' }}
                   />
                   {productInfo?.details?.name} contract is a proxy contract
                 </>
               ) : (
                 <>
                   <ApartmentOutlined
-                    style={{ color: 'green', padding: '0 5px' }}
+                    style={{ color: 'green', display: 'flex', alignItems: 'center', paddingRight: '0.3rem' }}
                   />
                   {productInfo?.details?.name} contract is not a proxy contract
                 </>
@@ -478,21 +478,21 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               <div className='crypto-info-item-key mt-3'>Available on: </div>
               <div className='row mt-3'>
                 <div className='col-xxl-12 col-12'>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0', display: 'flex' }}>
                     {
                       productInfo?.details?.isCoinmarketcap !== null &&
             (
               productInfo?.details?.isCoinmarketcap ? (
                 <>
                   <CheckCircleOutlined
-                    style={{ color: 'green', padding: '0 5px' }}
+                    style={{ color: 'green', display: 'flex', alignItems: 'center', paddingRight: '0.3rem' }}
                   />
                   {productInfo?.details?.name} are existing on Coinmarketcap
                 </>
               ) : (
                 <>
                   <CloseCircleOutlined
-                    style={{ color: 'red', padding: '0 5px' }}
+                    style={{ color: 'red', display: 'flex', alignItems: 'center', paddingRight: '0.3rem' }}
                   />
                   {productInfo?.details?.name} are not existing on Coinmarketcap
                 </>
@@ -503,21 +503,21 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                   </div>
                 </div>
                 <div className='col-xxl-12 col-12'>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0', display: 'flex' }}>
                     {
                       productInfo?.details?.isCoingecko !== null &&
             (
               productInfo?.details?.isCoingecko ? (
                 <>
                   <CheckCircleOutlined
-                    style={{ color: 'green', padding: '0 5px' }}
+                    style={{ color: 'green', display: 'flex', alignItems: 'center', paddingRight: '0.3rem' }}
                   />
                   {productInfo?.details?.name} are existing on Coingecko
                 </>
               ) : (
                 <>
                   <CloseCircleOutlined
-                    style={{ color: 'red', padding: '0 5px' }}
+                    style={{ color: 'red', display: 'flex', alignItems: 'center', paddingRight: '0.3rem' }}
                   />
                   {productInfo?.details?.name} are not existing on Coingecko
                 </>
