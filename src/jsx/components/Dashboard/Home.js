@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { ThemeContext } from '../../../context/ThemeContext'
 // import metaverse from './../../../images/metaverse.png'
+import imgReportProject from '../../../images/svg/report-project-white.svg'
 // images
 import safe from './../../../images/ket-sat.png'
 import lite from './../../../images/lite.png'
@@ -12,7 +13,6 @@ import btc from './../../../images/bitcoin.png'
 import { TopCoins } from '../common-widgets/home/top-coin'
 // import { RecentlyScam } from '../common-widgets/home/recently-scam/recently-scam'
 import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-project'
-import SummaryRow from './Dashboard/BalanceCardSlider'
 import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
 import { TopCoinChart } from '../common-widgets/home/home-chart/bitcoin-chart'
 import { ScamEachChainsList } from '../common-widgets/home/scam-each-chain-chart'
@@ -28,6 +28,7 @@ import { ReportModalContext
 // import { SignInContext } from '../../../App'
 // import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import { ReviewList } from '../common-widgets/home/reviews/review-list'
+import SummaryRow from '../common-widgets/home/summary/BalanceCardSlider'
 
 const fillColors = [
   '#18A594',
