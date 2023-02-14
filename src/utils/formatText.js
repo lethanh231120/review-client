@@ -48,7 +48,7 @@ export const formatImgUrlFromProductId = (productId) => {
   switch (productImgType) {
     case CRYPTO_COIN :
     case CRYPTO_TOKEN:
-      folderImgPath = 'smallLogo'
+      folderImgPath = 'bigLogo'
       productImgType = CRYPTO
       break
     case DAPP:
