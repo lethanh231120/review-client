@@ -43,7 +43,6 @@ const queryFetch = async(network,
 
 const getCryptoDetailChartData = async(network, baseCurrency) => {
   const quoteTokenList = ChainsTokenMap[network]
-  console.log(network)
   let chartData = []
   if (quoteTokenList) {
     chartData = await queryFetch(network, quoteTokenList[0], baseCurrency, quoteTokenList[1])

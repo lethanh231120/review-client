@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Table, Image, Tooltip, Avatar, message, Empty } from 'antd'
+import { Table, Image, Tooltip, Avatar, Empty } from 'antd'
 import {
   CopyOutlined,
   CheckCircleOutlined,
@@ -19,21 +19,12 @@ import { MAX_PAGE } from '../../../constants/pagination'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import nodata from '../../../../images/product/nodata.png'
+import { copyContractAddress } from '../../../../utils/effect'
 
 const CryptoTable = ({ loading, listData }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
   const [listProduct, setListProduct] = useState([])
-
-  const copyAddress = (e, address) => {
-    e.stopPropagation()
-    e.preventDefault()
-    navigator.clipboard.writeText(address)
-    message.success({
-      content: 'Copy address successfully',
-      duration: 3
-    })
-  }
 
   useEffect(() => {
     const getChain = async() => {
@@ -151,7 +142,7 @@ const CryptoTable = ({ loading, listData }) => {
                   )}`}
                 <CopyOutlined
                   onClick={(e) =>
-                    copyAddress(e, record?.cryptoId?.split('_')[3])
+                    copyContractAddress(e, record?.cryptoId?.split('_')[3])
                   }
                 />
               </div>

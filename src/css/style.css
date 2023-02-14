@@ -34433,3 +34433,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 .cus-review-card-item{
   padding: 1.25rem !important;
 }
+
+/* overriden tooltip library antd */
+.ant-tooltip-inner {
+  color: #fff !important;
+  /* font-family: ; */
+  background-color: #18A594 !important;
+  font-family: "poppins", sans-serif, sans-serif !important;
+}

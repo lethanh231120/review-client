@@ -28,6 +28,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
     isActive: false
   })
   const [keyWord, setKeyWord] = useState()
+  const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState('Search your crypto projects/ dApps/ ventures/ exchanges/ upcoming projects')
 
   const handleSearch = _.debounce(async(value) => {
     if (value !== '') {
@@ -163,9 +164,17 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
     }
   }, [isSubmit])
 
-  // useEffect(() => {
-  //   setDataSearchFormReport && setDataSearchFormReport(dataSearch)
-  // }, [dataSearch])
+  // runner text first
+  useEffect(() => {
+    setInterval(() => {
+      if (txtDisplaySearchHeader.length > 0) {
+        setTxtDisplaySearchHeader(setTxtDisplaySearchHeader)
+        const firstChar = txtDisplaySearchHeader.substring(0, 1)
+        const otherChars = txtDisplaySearchHeader.substring(1)
+        console.log(otherChars + firstChar)
+      }
+    }, 1000)
+  }, [])
 
   return (
 
@@ -192,7 +201,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
             ref={refInput}
             type='text'
             className={`form-control cus-form-control`}
-            placeholder={`${isFormReport ? 'Search for the project you want to report to us' : 'Search here'}`}
+            placeholder={`${isFormReport ? 'Search for the project you want to report to us' : txtDisplaySearchHeader}`}
             onChange={(e) => {
               if (isFormReport) setItem()
               handleSearch(e.target.value)

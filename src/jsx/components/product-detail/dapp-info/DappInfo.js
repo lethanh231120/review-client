@@ -12,19 +12,13 @@ import Description from '../description/Description'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import { Image } from 'antd'
+import { openWebsite } from '../../../../utils/effect'
 
 const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
+  const waitMillSecOpenWebsite = 3000
   const chainList = useContext(ChainListContext)
   const [loading, setLoading] = useState(false)
-
-  const onOpenDapp = (link) => {
-    setLoading(true)
-    setTimeout(() => {
-      link && window.open(link)
-      setLoading(false)
-    }, 3000)
-  }
 
   const handleReportScam = () => {
     rest?.setData({
@@ -53,9 +47,10 @@ const DappInfo = ({ productInfo, ...rest }) => {
             </h4>
             <Badge className='badge-sm' >{detail?.subCategory}</Badge>
           </div>
-          <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
-            {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
-    Open Dapp</Button>
+          <Button className='ms-auto' onClick={() => openWebsite(detail?.website, setLoading, waitMillSecOpenWebsite)}>
+            {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : ''}
+            Open Dapp
+          </Button>
         </div>
       </div>
     </div>

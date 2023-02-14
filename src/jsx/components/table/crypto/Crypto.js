@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import './crypto.scss'
-import { Image, message, Table, Avatar, Tooltip, Row, Col } from 'antd'
+import { Image, Table, Avatar, Tooltip, Row, Col } from 'antd'
 import { Link } from 'react-router-dom'
 import {
   CopyOutlined,
@@ -21,9 +21,8 @@ import {
 } from '../../../../utils/formatNumber'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { crypto_score_explain_text } from '../../../constants/data'
-// import MyScoreComponent from '../../../utils/components/scoreComponent'
 import MyScoreComponent from '../../score/scoreComponent'
-import { isValidProductId, formatImgUrlFromProductId, formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
+import { isValidProductId, formatImgUrlFromProductId, formatUrlDetailFromUrlImageExchange, getExchangeNameFromUrlImageExchage, toCammelCase } from '../../../../utils/formatText'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 import {
@@ -37,6 +36,7 @@ import { NO_DATA } from '../../../constants/data'
 import CategorySearch from '../../input-search/CategorySearch'
 import '../../../../scss/base/table.scss'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
+import { copyContractAddress } from '../../../../utils/effect'
 
 const Crypto = ({
   listProduct,
@@ -49,16 +49,6 @@ const Crypto = ({
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
   const [listData, setListData] = useState([])
-
-  const copyAddress = (e, address) => {
-    e.stopPropagation()
-    e.preventDefault()
-    navigator.clipboard.writeText(address)
-    message.success({
-      content: 'Copy address successfully',
-      duration: 3
-    })
-  }
 
   useEffect(() => {
     const getChain = async() => {
@@ -144,6 +134,10 @@ const Crypto = ({
     navigate(`../../${urlDetail}`)
   }
 
+  const onCancelClick = (e) =>{
+    e.stopPropagation()
+  }
+
   const columns = [
     {
       title: 'Name',
@@ -182,17 +176,19 @@ const Crypto = ({
             </div>
             {record?.cryptoId?.split('_')[1] === CRYPTO_TOKEN && (
               <div className='data-table-address'>
-                {`${record?.cryptoId
-                  ?.split('_')[3]
-                  ?.slice(0, 4)}...${record?.cryptoId
-                  ?.split('_')[3]
-                  ?.slice(
-                    record?.cryptoId?.split('_')[3]?.length - 4,
-                    record?.cryptoId?.split('_')[3]?.length
-                  )}`}
+                <span style={{ color: 'blue' }}>
+                  {`${record?.cryptoId
+                    ?.split('_')[3]
+                    ?.slice(0, 4)}...${record?.cryptoId
+                    ?.split('_')[3]
+                    ?.slice(
+                      record?.cryptoId?.split('_')[3]?.length - 4,
+                      record?.cryptoId?.split('_')[3]?.length
+                    )}`}
+                </span>
                 <CopyOutlined
                   onClick={(e) =>
-                    copyAddress(e, record?.cryptoId?.split('_')[3])
+                    copyContractAddress(e, record?.cryptoId?.split('_')[3])
                   }
                 />
               </div>
@@ -251,58 +247,54 @@ const Crypto = ({
       key: 'chains',
       render: (_, record) => (
         record?.multichain
-          ? <Avatar.Group
-            maxCount={2}
-            size={25}
-            maxStyle={{
-              color: '#f56a00',
-              backgroundColor: '#fde3cf',
-              cursor: 'pointer'
-            }}
+          ? <div onClick={(e) => onCancelClick(e)}
           >
-            {record?.multichain?.map((item, index) => (
-              <React.Fragment key={item?.cryptoId}>
-                {chainList[item?.chainName] && (
-                  <Avatar
-                    size={25}
-                    src={chainList[item?.chainName]?.image}
-                    key={index}
-                    className='crypto-table-chain'
-                    // onClick={(e) => handleClickExplorer(e, item)}
-                  />
-                )}
-              </React.Fragment>
-            ))}
-          </Avatar.Group>
-          : chainList[record?.chainName]
-            ? <Avatar
+            <Avatar.Group
+              maxCount={2}
               size={25}
-              src={chainList[record?.chainName]?.image}
-              key={record}
-              className='crypto-table-chain'
-              // onClick={(e) => handleClickExplorer(e, item)}
-            />
+              maxStyle={{
+                color: '#f56a00',
+                backgroundColor: '#fde3cf',
+                cursor: 'pointer'
+              }}
+            >
+              {record?.multichain?.map((item, index) => (
+                <React.Fragment key={item?.cryptoId}>
+                  {chainList[item?.chainName] && (
+                    <Tooltip title={toCammelCase(chainList[item?.chainName]?.chainName)}>
+                      <Avatar
+                        size={25}
+                        src={chainList[item?.chainName]?.image}
+                        key={index}
+                        className='crypto-table-chain'
+                        onClick={(e) => onCancelClick(e)}
+                      />
+                    </Tooltip>
+                  )}
+                </React.Fragment>
+              ))}
+            </Avatar.Group>
+          </div>
+          : chainList[record?.chainName]
+            ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
+              <Avatar
+                size={25}
+                src={chainList[record?.chainName]?.image}
+                key={record}
+                className='crypto-table-chain'
+                onClick={(e) => onCancelClick(e)}
+              />
+            </Tooltip>
             : record?.bigLogo ? (
-              <Avatar
-                src={record?.bigLogo}
-                preview={false}
-                size={25}
-                key={record}
-              />
-            ) : record?.thumbLogo ? (
-              <Avatar
-                src={record?.thumbLogo}
-                preview={false}
-                size={25}
-                key={record}
-              />
-            ) : record?.smallLogo ? (
-              <Avatar
-                src={record?.smallLogo}
-                preview={false}
-                size={25}
-                key={record}
-              />
+              <Tooltip title={record?.name}>
+                <Avatar
+                  src={formatImgUrlFromProductId(record?.cryptoId)}
+                  preview={false}
+                  size={25}
+                  key={record}
+                  onClick={(e) => onCancelClick(e)}
+                />
+              </Tooltip>
             ) : (
               <span className='crypto-table-info-logo image-list-no-data'>
                 {record?.name?.slice(0, 3)}
@@ -337,13 +329,16 @@ const Crypto = ({
           {record?.exchanges?.map((item, index) => (
             <React.Fragment key={index}>
               {item && (
-                <Avatar
-                  size={25}
-                  src={item}
-                  key={index}
-                  className='crypto-table-exchange'
-                  onClick={(e) => handleClickExchange(e, item)}
-                />
+                <Tooltip title={getExchangeNameFromUrlImageExchage(item)} >
+                  <Avatar
+                    size={25}
+                    src={item}
+                    key={index}
+                    className='crypto-table-exchange'
+                    onClick={(e) => handleClickExchange(e, item)}
+                  />
+                </Tooltip>
+
               )}
             </React.Fragment>
           ))}
@@ -369,7 +364,8 @@ const Crypto = ({
       render: (_, record) => (
         <span>
           {record?.contractVerified !== null && (
-            <div style={{ display: 'flex', padding: '0 5px' }}>
+            <div style={{ display: 'flex', padding: '0 5px' }} onClick={(e) => onCancelClick(e)}
+            >
               <Tooltip
                 title={
                   record?.contractVerified
