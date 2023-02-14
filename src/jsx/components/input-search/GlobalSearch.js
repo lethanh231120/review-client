@@ -147,7 +147,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
 
   useEffect(() => {
     if (isSubmit) {
-      if (!dataSearch?.isNull) {
+      if (keyWord) {
         // if (type) {
         //   setOpenModalSearch(false)
         // }
@@ -182,7 +182,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
       <div className='nav-item d-flex align-items-center ' style={{ width: '100%' }}>
         <div className='input-group search-area '>
           <span
-            className={`input-group-text cus-input-group-text ${isFormReport ? 'cus-no-bg' : ''}`}
+            className={`input-group-text cus-input-group-text ${isFormReport ? 'cus-form-report' : ''}`}
             onClick={(e) => {
               e.preventDefault()
               e.stopPropagation()
@@ -201,7 +201,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
             ref={refInput}
             type='text'
             className={`form-control cus-form-control`}
-            placeholder={`${isFormReport ? 'Search for the project you want to report to us' : txtDisplaySearchHeader}`}
+            placeholder={`${isFormReport ? 'Search for the project you want to report with us' : 'Search for Coins/ Tokens/ DApps/ Ventures/ Upcoming Projects...'}`}
             onChange={(e) => {
               if (isFormReport) setItem()
               handleSearch(e.target.value)

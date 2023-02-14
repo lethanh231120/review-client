@@ -1,9 +1,8 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { Image } from 'antd'
+import { Image, Form } from 'antd'
 import { post } from '../../../../api/BaseRequest'
-import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
-import { CategoryContext, SignInContext, Authenticated } from '../../../../App'
+import { SignInContext, Authenticated } from '../../../../App'
 import './report.scss'
 import Description from '../../product-detail/description/Description'
 import FormReport from '../../Forms/form-report/FormReport'
@@ -13,31 +12,24 @@ import { getCookie, STORAGEKEY } from '../../../../utils/storage'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImage from '../../../../images/absent_image.png'
 import NoImage from '../../common-widgets/no-image/NoImage'
+import Swal from 'sweetalert2'
+import image from '../../../../images/product/gear5_coin_bitcoin.png'
+import { Badge, Button } from 'react-bootstrap'
+import hot from '../../../../images/product/hot.png'
+import { DAPP, CRYPTO, SOON, EXCHANGE, VENTURE } from '../../../constants/category'
 
 const ModalReport = () => {
-  const categoryContext = useContext(CategoryContext)
   const signInContext = useContext(SignInContext)
   const reportModal = useContext(ReportModalContext)
   const addModal = useContext(AddModalContext)
   const auth = useContext(Authenticated)
+  const [form] = Form.useForm()
 
   const recapcharRef = useRef(null)
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
-  // const [form] = Form.useForm()
   const navigate = useNavigate()
 
-  // const [dataSearch, setDataSearch] = useState({
-  //   data: {},
-  //   loading: false,
-  //   status: '',
-  //   isActive: false
-  // })
-  // const [listDataSearch, setListDataSearch] = useState()
-  // const [isSubmit, setIsSubmit] = useState(false)
-  // const [categories, setCategories] = useState([])
-  // const [defaultValue, setDefaultValue] = useState()
-  // const [category, setCategory] = useState(LIST_CRYPTO)
   const [item, setItem] = useState()
   const [validateTextArea, setValidateTextArea] = useState(false)
   const [fileList, setFileList] = useState([])
@@ -46,77 +38,15 @@ const ModalReport = () => {
   const [errorLink, setErrorLink] = useState()
   const [errorType, setErrorType] = useState()
   const [productId, setProductId] = useState()
-  // const [itemSubmit, setItem] = useState()
   const [data, setData] = useState({
     isScam: false,
     content: '',
     sources: [],
-    image: '',
-    star: 5
+    image: null,
+    star: 5,
+    // title: '',
+    scamAmountUSD: null
   })
-
-  // const handleSearch = _.debounce(async(value) => {
-  //   if (value !== '') {
-  //     setDataSearch({
-  //       ...dataSearch,
-  //       loading: true,
-  //       isActive: true
-  //     })
-  //     const data = await search('search/suggest', { keyword: value })
-  //     if (data) {
-  //       setListDataSearch({
-  //         listCrypto: {
-  //           cryptos: (data?.data['listCrypto']?.cryptos !== null) ? data?.data['listCrypto']?.cryptos?.splice(0, 10) : null
-  //         },
-  //         listDapp: {
-  //           dapps: (data?.data['listDapp']?.dapps !== null) ? data?.data['listDapp']?.dapps?.splice(0, 10) : null
-  //         },
-  //         listExchange: {
-  //           exchanges: (data?.data['listExchange']?.exchanges !== null) ? data?.data['listExchange']?.exchanges?.splice(0, 10) : null
-  //         },
-  //         listSoon: {
-  //           soons: (data?.data['listSoon']?.soons !== null) ? data?.data['listSoon']?.soons?.splice(0, 10) : null
-  //         },
-  //         listVenture: {
-  //           ventures: (data?.data['listVenture']?.ventures !== null) ? data?.data['listVenture']?.ventures?.splice(0, 10) : null
-  //         }
-  //       })
-  //     } else {
-  //       setDataSearch({
-  //         loading: false,
-  //         data: {},
-  //         status: 'done',
-  //         isActive: true
-  //       })
-  //     }
-  //   } else {
-  //     setDataSearch({ isActive: false, data: {}, loading: false, status: '' })
-  //   }
-  // }, 250)
-
-  // useEffect(() => {
-  //   if (listDataSearch) {
-  //     let listData = {}
-  //     if (category === 'all') {
-  //       listData = listDataSearch
-  //     } else {
-  //       listData[category] = listDataSearch[category]
-  //     }
-  //     setDataSearch({
-  //       loading: false,
-  //       data: listData,
-  //       status: 'done',
-  //       isActive: true,
-  //       isNull:
-  //                   listDataSearch?.listCrypto?.cryptos === null &&
-  //                   listDataSearch?.listDapp?.dapps === null &&
-  //                   listDataSearch?.listExchange?.exchanges === null &&
-  //                   listDataSearch?.listSoon?.soons === null &&
-  //                   listDataSearch?.listVenture?.ventures === null
-  //     })
-  //     setItem()
-  //   }
-  // }, [listDataSearch, category])
 
   useEffect(() => {
     if (typeComment === 'login') {
@@ -125,46 +55,6 @@ const ModalReport = () => {
       }
     }
   }, [typeComment, signInContext, auth])
-
-  // const subMitForm = () => {
-  //   switch (category) {
-  //     case 'all':
-  //       setItem((dataSearch?.data?.listCrypto !== null && !_.isEmpty(dataSearch?.data?.listCrypto?.cryptos)) && dataSearch?.data?.listCrypto?.cryptos[0])
-  //       break
-  //     case 'listDapp':
-  //       setItem((dataSearch?.data?.listDapp !== null && !_.isEmpty(dataSearch?.data?.listDapp?.dapps)) && dataSearch?.data?.listDapp?.dapps[0])
-  //       break
-  //     case 'listSoon':
-  //       setItem((dataSearch?.data?.listSoon !== null && !_.isEmpty(dataSearch?.data?.listSoon?.soons)) && dataSearch?.data?.listSoon?.soons[0])
-  //       break
-  //     case 'listVenture':
-  //       setItem((dataSearch?.data?.listVenture !== null && !_.isEmpty(dataSearch?.data?.listVenture?.ventures)) && dataSearch?.data?.listVenture?.ventures[0])
-  //       break
-  //     case 'listCrypto':
-  //       setItem((dataSearch?.data?.listCrypto !== null && !_.isEmpty(dataSearch?.data?.listCrypto?.cryptos)) && dataSearch?.data?.listCrypto?.cryptos[0])
-  //       break
-  //     case 'listExchange':
-  //       setItem((dataSearch?.data?.listExchange !== null && !_.isEmpty(dataSearch?.data?.listExchange?.exchanges)) && dataSearch?.data?.listExchange?.exchanges[0])
-  //       break
-
-  //     default:
-  //       break
-  //   }
-  // }
-
-  // const handleSubmit = () => {
-  //   if (_.isEmpty(dataSearch?.data)) {
-  //     navigate('/notfound')
-  //   } else {
-  //     subMitForm()
-  //   }
-  // }
-
-  // const handleSubmitSearch = (e) => {
-  //   if (e.key === 'Enter') {
-  //     subMitForm()
-  //   }
-  // }
 
   // Process to get the url for product detail after the report is done
   // Report scam will be redirected to detail product screen
@@ -183,6 +73,22 @@ const ModalReport = () => {
     }
   }, [item])
 
+  // noti report success
+  const notifyTopRight = () => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true
+    })
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Post comemnt successfully!'
+    })
+  }
+
   // function handle more scam report
   // input: params: data to method , type: type of comment: auth or anonymous
   const submitComment = async(params, type) => {
@@ -193,6 +99,7 @@ const ModalReport = () => {
       dataAdd = await post('reviews/review', params)
     }
     if (dataAdd) {
+      notifyTopRight()
       // reset the value of state data
       setData({
         isScam: false,
@@ -206,7 +113,6 @@ const ModalReport = () => {
       // reset the value of state error textarea( input)
       setValidateTextArea(false)
       // close modal report scam
-      //   setOpenModalReport(false)
       reportModal?.handleSetOpenModal(false)
       // reset the value of state type comment
       setTypeComment()
@@ -215,6 +121,9 @@ const ModalReport = () => {
       recapcharRef.current.reset()
       // redirect to detail product
       navigate(`../../../${productId}`)
+
+      form.resetFields()
+      form.setFieldsValue({ 'isScam': false })
     }
   }
 
@@ -232,53 +141,30 @@ const ModalReport = () => {
     }
   }
 
-  const functionAddComment = (content) => {
+  const functionAddComment = (values, content) => {
     const params = {
       ...data,
       productId: item?.cryptoId ? item?.cryptoId
         : (item?.dappId ? item?.dappId
           : (item?.ventureId ? item?.ventureId
             : (item?.soonId ? item?.soonId
-              : item?.exchangeId)))
+              : item?.exchangeId))),
+      ...values
     }
     if (typeComment) {
-      if (content !== '') {
-        const recaptchaValue = recapcharRef.current.getValue()
-        if (recaptchaValue) {
-          if (data?.isScam) {
-            if (!_.isEmpty(data?.sources)) {
-              submitComment(params, 'anonymous')
-            } else {
-              setErrorLink('Link proof is required')
-            }
-          } else {
-            submitComment(params, 'anonymous')
-          }
-        } else {
-          setIsRecaptcha(true)
-        }
+      const recaptchaValue = recapcharRef.current.getValue()
+      if (recaptchaValue) {
+        submitComment(params, 'anonymous')
       } else {
-        setValidateTextArea(true)
+        setIsRecaptcha(true)
       }
     } else {
       if (auth?.isAuthenticated) {
-        if (content !== '') {
-          const recaptchaValue = recapcharRef.current.getValue()
-          if (recaptchaValue) {
-            if (data?.isScam) {
-              if (!_.isEmpty(data?.sources)) {
-                submitComment(params, 'auth')
-              } else {
-                setErrorLink('Link proof is required')
-              }
-            } else {
-              submitComment(params, 'auth')
-            }
-          } else {
-            setIsRecaptcha(true)
-          }
+        const recaptchaValue = recapcharRef.current.getValue()
+        if (recaptchaValue) {
+          submitComment(params, 'auth')
         } else {
-          setValidateTextArea(true)
+          setIsRecaptcha(true)
         }
       } else {
         signInContext?.handleSetOpenModal(true)
@@ -286,57 +172,9 @@ const ModalReport = () => {
     }
   }
 
-  const handleSubmitComment = async() => {
-    functionAddComment(data?.content)
+  const handleSubmitComment = async(values) => {
+    functionAddComment(values, data?.content)
   }
-
-  useEffect(() => {
-    // const categories = [{
-    //   name: 'All filter',
-    //   key: 'all'
-    // }]
-
-    // for (const key in categoryContext) {
-    //   let keySearch
-    //   switch (categoryContext[key]?.category?.name) {
-    //     case 'DApps':
-    //       keySearch = LIST_DAPP
-    //       break
-    //     case 'Upcomings':
-    //       keySearch = LIST_SOON
-    //       break
-    //     case 'Ventures':
-    //       keySearch = LIST_VENTURE
-    //       break
-    //     case 'Crypto Projects':
-    //       keySearch = LIST_CRYPTO
-    //       break
-    //     case 'Exchanges':
-    //       keySearch = LIST_EXCHANGE
-    //       break
-
-    //     default:
-    //       break
-    //   }
-    //   if (categoryContext[key]?.category?.name !== 'Scams') {
-    //     categories.push({
-    //       name: categoryContext[key]?.category?.name,
-    //       key: keySearch
-    //     })
-    //   }
-    // }
-    // setDefaultValue([
-    //   { name: 'category', value: LIST_CRYPTO },
-    //   { name: 'keyword', value: '' }
-    // ])
-    // setCategories(categories)
-  }, [categoryContext])
-
-  // useEffect(() => {
-  //   if (isSubmit) {
-  //     handleSubmit()
-  //   }
-  // }, [isSubmit])
 
   const handleAddProject = () => {
     if (userInfo) {
@@ -347,11 +185,36 @@ const ModalReport = () => {
     reportModal?.handleSetOpenModal(false)
   }
 
+  const handleDetailProjectHot = (data) => {
+    const type = data?.cryptoId ? 'crypto' : data?.soonId ? 'soon' : data?.ventureId ? 'venture' : data?.exchangeId ? 'exchange' : 'dapp'
+    let url
+    switch (type) {
+      case DAPP:
+        url = `products/dapp/${data?.dappId?.split('_')[1]}/${data?.dappId?.split('_')[2]}`
+        break
+      case CRYPTO:
+        url = `products/crypto/${data?.cryptoId?.split('_')[1]}/${data?.cryptoId?.split('_')[2]}${data?.cryptoId?.split('_')[1] === 'token' ? `/${data?.cryptoId?.split('_')[3]}` : ''}`
+        break
+      case EXCHANGE:
+        url = `products/exchange/${data?.exchangeId?.split('_')[1]}/${data?.exchangeId?.split('_')[2]}`
+        break
+      case VENTURE:
+        url = `products/venture/${data?.ventureId?.split('_')[2]}`
+        break
+      case SOON:
+        url = `products/soon/${data?.soonId?.split('_')[2]}`
+        break
+      default:
+        break
+    }
+    navigate(`../../../${url}`)
+    reportModal?.handleSetOpenModal(false)
+  }
+
   return (
     <>
       <InputSearch
         isFormReport={true}
-        // setDataSearchFormReport={setDataSearch}
         setItem={setItem}
       />
       {item && (
@@ -407,7 +270,6 @@ const ModalReport = () => {
               </div>
             </div>
           </div>
-          {/* </div> */}
           <FormReport
             isFormReport={false}
             rest={{
@@ -420,6 +282,7 @@ const ModalReport = () => {
               setIsRecaptcha: setIsRecaptcha,
               setTypeComment: setTypeComment,
               setErrorType: setErrorType,
+              form: form,
               showUser: false,
               data: data,
               validateTextArea: validateTextArea,
@@ -437,32 +300,72 @@ const ModalReport = () => {
             }}
           />
         </>
-      )
-      // : (<>
-      //   {!dataSearch?.isActive ? (
-      //     <Empty
-      //       style={{ marginTop: '2rem' }}
-      //       image={nodata}
-      //       description={
-      //         <span>
-      //           <span style={{ fontSize: '1.8em', color: 'red', fontWeight: 600 }}>SORRY </span>
-      //           <span style={{ fontSize: '1.6rem', color: 'rgba(0, 0, 0, 0.6)', fontWeight: '600' }}>NO DATA FOUND</span>
-      //         </span>
-      //       }
-      //     />
-      //   ) : ('')}
-      // </>)
-      }
+      )}
+
+      <h4 className='project-hot-title'>Project Hot <Image src={hot} preview={false}/></h4>
+      <div className='mt-3 row'>
+        <div className='col-lg-3 cus-col'>
+          <div className='project-hot' onClick={() => handleDetailProjectHot({ ventureId: 'gear5_venture_andreessen-horowitz' })}>
+            <Image src={image} preview={false}/>
+            <div className='project-hot-content'>
+              <div className='project-hot-content-name'>
+                Bitcoin
+                <div className='project-hot-content-symbol'>BTC</div>
+              </div>
+              <Badge bg='' className='badge-success light'>Coin</Badge>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-3 cus-col'>
+          <div className='project-hot' onClick={() => handleDetailProjectHot({ ventureId: 'gear5_venture_andreessen-horowitz' })}>
+            <Image src={image} preview={false}/>
+            <div className='project-hot-content'>
+              <div className='project-hot-content-name'>
+                Bitcoin
+                <div className='project-hot-content-symbol'>BTC</div>
+              </div>
+              <Badge bg='' className='badge-success light'>Coin</Badge>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-3 cus-col'>
+          <div className='project-hot' onClick={() => handleDetailProjectHot({ ventureId: 'gear5_venture_andreessen-horowitz' })}>
+            <Image src={image} preview={false}/>
+            <div className='project-hot-content'>
+              <div className='project-hot-content-name'>
+                Bitcoin
+                <div className='project-hot-content-symbol'>BTC</div>
+              </div>
+              <Badge bg='' className='badge-success light'>Coin</Badge>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-3 cus-col'>
+          <div className='project-hot' onClick={() => handleDetailProjectHot({ ventureId: 'gear5_venture_andreessen-horowitz' })}>
+            <Image src={image} preview={false}/>
+            <div className='project-hot-content'>
+              <div className='project-hot-content-name'>
+                Bitcoin
+                <div className='project-hot-content-symbol'>BTC</div>
+              </div>
+              <Badge bg='' className='badge-success light'>Coin</Badge>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className='text-center mt-3 '>
         If you can’t find it, please add a new project here.
-        <span
-          className='btn btn-link text-primary'
-          style={{ padding: '0.3rem' }}
+        <Button
+          className='me-2 ml-2'
+          variant='success'
+          style={{ marginLeft: '0.3rem', padding: '0.5rem' }}
           onClick={handleAddProject}
         >
           Add Project
-        </span>
+        </Button>
       </div>
+
     </>
   )
 }

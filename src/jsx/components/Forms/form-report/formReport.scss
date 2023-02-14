@@ -1,0 +1,22 @@
+.form-report{
+    & .ant-form-item{
+        margin-top: 0rem !important;
+        margin-bottom: 1rem !important;
+        &.no-margin-bottom{
+            margin-bottom:  0 !important;
+        }
+    }
+    & .ant-form-item-label label{
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        color: rgba(0, 0, 0, 0.6) !important;
+    }
+}
+.star{
+    color: #fadb14;
+    &-icon{
+        margin-right: 0.5rem;
+    }
+}

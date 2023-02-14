@@ -29,27 +29,28 @@ const FilterReview = (props) => {
                 onClick={() => handleFilter(DEFAULT_ALL)}
               >
                 <div className='list-review-header-popover-title'>All Review</div>
-                <div className='list-review-header-popover-content'>
+                {/* <div className='list-review-header-popover-content'>
                   Show all reviews including possible spam. The latest reviews will show up first
-                </div>
+                </div> */}
               </Dropdown.Item>
               <Dropdown.Item
                 className={`${defaultFilter === DEFAULT_SCAM ? 'active' : ''} list-review-header-popover-item cus-dropdown-item`}
                 onClick={() => handleFilter(DEFAULT_SCAM)}
+                style={{ color: 'red' }}
               >
                 <div className='list-review-header-popover-title'>Report Scam</div>
-                <div className='list-review-header-popover-content'>
+                {/* <div className='list-review-header-popover-content'>
                   Show all reviews reporting scam, The latest reviews will show up first
-                </div>
+                </div> */}
               </Dropdown.Item>
               <Dropdown.Item
                 className={`${defaultFilter === DEFAULT_NOT_SCAM ? 'active' : ''} list-review-header-popover-item cus-dropdown-item`}
                 onClick={() => handleFilter(DEFAULT_NOT_SCAM)}
               >
                 <div className='list-review-header-popover-title'>Not Scam</div>
-                <div className='list-review-header-popover-content'>
+                {/* <div className='list-review-header-popover-content'>
                   Show all non-scam project review. The latest reviews will show up first
-                </div>
+                </div> */}
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

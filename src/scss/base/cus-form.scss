@@ -75,6 +75,10 @@
         &.g-recaptcha-response{
             display: none !important;
         }
+        // custom css textarea when error form report
+        &.product-detail-form-content-textarea{
+            border: 1px solid red !important;
+        }
     }
 
     // custome ant-upload
@@ -129,6 +133,9 @@
     & .ant-select{
         width: 100% !important;
     }
+    & .ant-select-multiple .ant-select-selection-overflow-item{
+        width: 100% !important;
+    }
     & .ant-select-single .ant-select-selector .ant-select-selection-search{
         inset-inline-start: 0px !important;
         inset-inline-end: 0px !important;
@@ -143,6 +150,10 @@
             // padding: 0 !important;
         }
     }
+    & .ant-select:not(.ant-select-customize-input) .ant-select-selector input{
+        width: 100% !important;
+        padding: 0.4rem !important ;
+    }
     & .ant-select-single:not(.ant-select-customize-input) .ant-select-selector{
         height: 3.11rem !important;
         // border: 0px !important;
@@ -154,6 +165,11 @@
     & .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector{
         border-color: #00826889;
     }
+    // custom css font family error antd
+    & .ant-form-item .ant-form-item-explain-error{
+        @include font-family;
+        font-size: 0.875rem !important;
+    }
 }
 
 // custom css textarea
@@ -161,5 +177,5 @@ textarea.form-text-area{
     padding: 0.6rem 0.625rem !important;
     // height: auto !important;
     border-radius: 0.375rem !important;
-    min-height: 3rem !important;
+    // min-height: 3rem !important;
 }

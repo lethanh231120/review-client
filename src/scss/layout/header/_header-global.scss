@@ -9,7 +9,7 @@
   padding: 0rem;
   background: var(--headerbg);
   z-index: 3;
-  padding-left: 18.563rem;
+  padding-left: 19.5rem;
   padding-right: 100px;
   padding-top: 0rem;
   transition: all 0.2s ease;
@@ -190,7 +190,7 @@ svg.pulse-svg {
     width: 100%;
     @include respond('laptop') {
       width: 100%;
-      padding-left: 17rem;
+      padding-left: 19.5rem;
     }
     @include custommq($max: 63.9375rem) {
       width: 100%;

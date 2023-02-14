@@ -84,8 +84,12 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const handleReportScam = () => {
     rest?.setData({
       ...rest.data,
-      isScam: true,
-      star: 1
+      isScam: true
+      // star: 1
+    })
+    rest?.form?.setFieldsValue({
+      'isScam': true,
+      'star': 1
     })
   }
 
@@ -255,7 +259,14 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           as='a'
           href='#comment'
           className='btn btn-primary mb-1 ms-1'
-          onClick={() => rest?.setData({ ...rest.data, isScam: false, star: 5 })}
+          onClick={() => {
+            rest?.setData({ ...rest.data, isScam: false })
+            rest?.form.setFieldsValue({
+              isScam: false,
+              star: undefined,
+              sources: []
+            })
+          }}
         >
                   Add Review
         </Button>

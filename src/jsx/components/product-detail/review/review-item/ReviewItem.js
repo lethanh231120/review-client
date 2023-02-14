@@ -262,6 +262,9 @@ const ReviewItem = ({ data, productId }) => {
                 </span>
               </div>
               <div className='review-item-content'>
+                <div>
+                  <strong>{newData?.review?.title}</strong>
+                </div>
                 {newData?.review?.content}
                 {!_.isEmpty(newData?.review?.sources) && (
                   <div className='review-item-content-source'>
@@ -269,7 +272,7 @@ const ReviewItem = ({ data, productId }) => {
                       <span key={index}>
                         {item !== '' && (
                           <a href={item} target='_blank' rel='noreferrer'>
-                            <LinkOutlined style={{ marginRight: '0rem' }}/>
+                            <LinkOutlined/>
                             {item?.split('/')[2]}
                           </a>
                         )}

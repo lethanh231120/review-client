@@ -7853,10 +7853,18 @@ h1, .h1, .h1, h2, .h2, .h2, h3, .h3, .h3, h4, .h4, .h4, h5, .h5, .h5, h6, .h6, .
 .content-body .container {
   margin-top: 2.5rem; }
 
-.content-body .container-fluid, .content-body .container-sm, .content-body .container-md, .content-body .container-lg, .content-body .container-xl, .content-body .container-xxl {
+.content-body .container-sm, .content-body .container-md, .content-body .container-lg, .content-body .container-xl, .content-body .container-xxl {
   padding-top: 1.875rem;
   padding-right: 1.875rem;
   padding-left: 1.875rem; }
+/* // custom containner */
+@media only screen and (max-width: 1200px) {
+  .content-body .container-fluid {
+      padding-top: 16px;
+      padding-right: 16px;
+      padding-left: 16px;
+  }
+}
   @media only screen and (max-width: 47.9375rem) {
     .content-body .container-fluid, .content-body .container-sm, .content-body .container-md, .content-body .container-lg, .content-body .container-xl, .content-body .container-xxl {
       padding-top: 1.25rem;
@@ -8703,13 +8711,13 @@ label {
   padding: 0rem;
   background: var(--headerbg);
   z-index: 3;
-  padding-left: 18.563rem;
+  padding-left: 19.5rem;
   padding-right: 100px;
   padding-top: 0rem;
   transition: all .2s ease; }
   @media only screen and (max-width: 100rem) {
     .header {
-      padding-right: 90px; } }
+      padding-right: 78px; } }
   @media only screen and (max-width: 47.9375rem) {
     .header {
       padding-right: 0px; } }

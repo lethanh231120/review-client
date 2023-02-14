@@ -2,33 +2,41 @@ import React, { useRef } from 'react'
 // import React, { useRef, useContext } from 'react'
 import {
   Image,
-  Rate,
+  // Rate,
   Input,
   Select,
   Checkbox,
   Upload,
-  Popover
+  Form,
+  Button
 } from 'antd'
-// import { SendOutlined } from '@ant-design/icons'
+import { StarFilled } from '@ant-design/icons'
 import ReCAPTCHA from 'react-google-recaptcha'
 // import EmojiPicker from 'emoji-picker-react'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
 // import { SignInContext } from '../../layout/Main'
-import { explorers } from '../../../../utils/ExplorerScan'
+// import { explorers } from '../../../../utils/ExplorerScan'
 import moment from 'moment'
 import { post } from '../../../../api/BaseRequest'
-import smile from '../../../../images/product/smile.png'
+// import smile from '../../../../images/product/smile.png'
 import user from '../../../../images/product/user.png'
 import FilterReview from '../../product-detail/filter-review/FilterReview'
 import '../../../../scss/base/cus-form.scss'
+import './formReport.scss'
 
+const { Option } = Select
+const defaultValue = [
+  { name: 'scamAmountUSD', value: '' },
+  { name: 'isScam', value: false },
+  { name: 'star', value: undefined }
+]
 const FormReport = ({ numberReviews, rest, isFormReport }) => {
   const {
     data,
     setData,
-    handleComment,
-    validateTextArea,
-    setValidateTextArea,
+    // handleComment,
+    validateText,
+    // setValidateText,
     fileList,
     recapcharRef,
     isRecaptcha,
@@ -42,10 +50,10 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     typeComment,
     setErrorType,
     errorType,
-    id
+    id,
+    form
   } = rest
   const ref = useRef(null)
-  // const token = Boolean(getCookie(STORAGEKEY.ACCESS_TOKEN))
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
   // const signInContext = useContext(SignInContext)
 
@@ -59,26 +67,48 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
   // }
 
   // change comment in textarea
-  const handleChangeTextArea = (e) => {
-    // if (!token) {
-    //     signInContext?.handleSetOpenModal(true)
-    // } else {
-    if (e.target.value !== '') {
-      setValidateTextArea(false)
-      setData({
-        ...data,
-        content: e.target.value
-      })
-    } else {
-      setData({
-        ...data,
-        content: ''
-      })
-      setValidateTextArea(true)
-    }
-    // setOpenEmoji(false)
-    // }
+
+  const onFinish = (values) => {
+    handleSubmitComment(values)
   }
+
+  // const handleChangeTextArea = (e) => {
+  //   if (e.target.value !== '') {
+  //     if (e.target.value.length < 20 || e.target.value.length > 500) {
+  //       setValidateText({
+  //         ...rest?.validateText,
+  //         textArea: {
+  //           isError: true,
+  //           message: 'Content must be more than 20 characters and less than 500 characters'
+  //         }
+  //       })
+  //     } else {
+  //       setValidateText({
+  //         ...rest?.validateText,
+  //         textArea: {
+  //           isError: false,
+  //           message: ''
+  //         }
+  //       })
+  //     }
+  //     setData({
+  //       ...data,
+  //       content: e.target.value
+  //     })
+  //   } else {
+  //     setData({
+  //       ...data,
+  //       content: ''
+  //     })
+  //     setValidateText({
+  //       ...rest?.validateText,
+  //       textArea: {
+  //         isError: true,
+  //         message: 'Please enter comment'
+  //       }
+  //     })
+  //   }
+  // }
 
   // chose file in select
   const handleChangeFile = async(e) => {
@@ -106,17 +136,14 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
 
   const handleChangeLink = (value) => {
     const newLink = []
-    explorers?.forEach((item) => {
-      value?.forEach((itemLink) => {
-        const isCorrect = itemLink?.includes(item)
-        if (isCorrect) {
-          newLink.push(itemLink)
-        }
-      })
+    const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
+    value?.forEach((itemLink) => {
+      if (itemLink.match(reg)) {
+        newLink.push(itemLink)
+      }
     })
-    setData({
-      ...data,
-      sources: newLink
+    form.setFieldsValue({
+      'sources': newLink
     })
   }
 
@@ -124,8 +151,14 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
   const handleChangeChecked = (e) => {
     setData({
       ...data,
-      isScam: e?.target?.checked,
-      star: e?.target?.checked ? 1 : 5
+      isScam: e?.target?.checked
+      // star: e?.target?.checked ? 1 : 5
+    })
+
+    form.setFieldsValue({
+      'star': e?.target?.checked ? 1 : 5,
+      'isScam': e.target.checked,
+      'scamAmountUSD': ''
     })
     if (e?.target?.checked === false) {
       setErrorLink()
@@ -133,14 +166,23 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
   }
 
   const changeSelect = (value) => {
-    const correct = []
-    explorers?.forEach((item) => {
-      const isCorrect = value?.includes(item)
-      correct.push(isCorrect)
-    })
-    setErrorLink(
-      correct?.some((item) => item === true) ? '' : 'Link explorer is not valid'
-    )
+    const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
+    if (value === '') {
+      setErrorLink('Proof link is required')
+    } else {
+      if (value.match(reg)) {
+        setData({
+          ...data,
+          sources: [
+            ...data.sources,
+            value
+          ]
+        })
+        setErrorLink()
+      } else {
+        setErrorLink('Link explorer is not valid')
+      }
+    }
   }
 
   const onPreview = async(file) => {
@@ -173,129 +215,268 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
           numberReviews={numberReviews}
         />
       )}
-      <div className='product-detail-form'>
-        {showUser && (
-          <div className='product-detail-form-avatar'>
-            <Image
-              src={userInfo?.image ? userInfo?.image : user}
-              preview={false}
-            />
-          </div>
-        )}
-        <div className='product-detail-form-content cus-form'>
-          <div className='product-detail-form-content-text'>
-            <div className='product-detail-form-content-rate'>
-              <Rate
-                value={data?.star}
-                disabled={data?.isScam}
-                onChange={(value) => setData({ ...data, star: value })}
+      <Form
+        name='nest-messages'
+        form={form}
+        onFinish={onFinish}
+        layout='vertical'
+        fields={defaultValue}
+      >
+        <div className='product-detail-form'>
+          {showUser && (
+            <div className='product-detail-form-avatar'>
+              <Image
+                src={userInfo?.image ? userInfo?.image : user}
+                preview={false}
               />
             </div>
-            <Input.TextArea
-              className={`form-text-area${
-                validateTextArea ? 'product-detail-form-content-textarea' : ''
-              }`}
-              ref={ref}
-              value={data?.content}
-              minLength={0}
-              autoFocus
-              placeholder={`${
-                validateTextArea ? 'Please enter comment' : 'Enter comment...'
-              }`}
-              autoSize={{ minRows: 1 }}
-              onChange={handleChangeTextArea}
-              onPressEnter={handleComment}
-            />
-
-            <Popover
-              content='Click to report scam project'
-              overlayClassName='product-detail-form-content-popover'
-            >
-              <div style={{ marginBottom: '1rem', width: 'fit-content' }}>
-                <Checkbox onChange={handleChangeChecked} checked={data?.isScam}>
-                  Is Scam
-                </Checkbox>
-              </div>
-            </Popover>
-            {data?.isScam && (
-              <div style={{ marginBottom: '0.325rem' }}>
+          )}
+          <div className='product-detail-form-content cus-form form-report'>
+            <div className='product-detail-form-content-text'>
+              {/* <Form.Item
+                name='title'
+                label='Title'
+                rules={[
+                  {
+                    min: 20,
+                    message: 'Title must be minimum 20 characters.' },
+                  {
+                    max: 500,
+                    message: 'You can enter 500 characters only.'
+                  }
+                ]}
+              >
+                <Input
+                  // defaultValue={''}
+                  autoComplete={false}
+                  // placeholder={`${
+                  //   validateText?.title?.isError ? validateText?.title?.message : 'Enter title...'
+                  // }`}
+                  // onChange={(e) => handleChangeTitle(e)}
+                  className={`${
+                    validateText?.title?.isError ? 'product-detail-form-content-textarea' : ''
+                  }`}
+                />
+              </Form.Item> */}
+              <Form.Item
+                name='content'
+                label='Content'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter content.'
+                  },
+                  {
+                    min: 100,
+                    message: 'Content must be minimum 100 characters.'
+                  },
+                  {
+                    max: 5000,
+                    message: 'You can enter 5000 characters only.'
+                  }
+                ]}
+              >
+                <Input.TextArea
+                  className={`form-text-area ${
+                    validateText?.textArea?.isError ? 'product-detail-form-content-textarea' : ''
+                  }`}
+                  ref={ref}
+                  // value={data?.content}
+                  autoFocus
+                  // placeholder={`${
+                  //   validateText?.textArea?.isError ? validateText?.textArea?.message : 'Enter comment...'
+                  // }`}
+                  autoSize={{ minRows: 2 }}
+                  // onChange={handleChangeTextArea}
+                  // onPressEnter={(e) => {
+                  //   if (!validateText?.title?.isError) {
+                  //     handleComment(e)
+                  //   }
+                  // }}
+                />
+              </Form.Item>
+              <Form.Item
+                name='star'
+                label='Rating'
+                className='cus-select'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Rating'
+                  }
+                ]}
+              >
                 <Select
-                  value={data?.sources}
-                  placeholder='Please enter proof link …'
-                  mode='tags'
-                  dropdownStyle={{ background: 'red', display: 'none' }}
-                  onChange={handleChangeLink}
-                  onSelect={changeSelect}
-                  className='cus-multiple-select'
+                  // defaultValue={5}
+                  style={{ width: '100%' }}
+                >
+                  <Option value={1}>
+                    <div className='d-flex align-items-center'>
+                      <span className='star-icon'>
+                        <StarFilled className='star'/>
+                      </span>
+                       Scam, Run Away
+                    </div>
+                  </Option>
+                  <Option value={2}>
+                    <div className='d-flex align-items-center'>
+                      <span className='star-icon'>
+                        <StarFilled className='star'/>
+                        <StarFilled className='star'/>
+                      </span>
+                    Warning, Be Careful
+                    </div>
+                  </Option>
+                  <Option value={3}>
+                    <div className='d-flex align-items-center'>
+                      <span className='star-icon'>
+                        <StarFilled className='star'/>
+                        <StarFilled className='star'/>
+                        <StarFilled className='star'/>
+                      </span>
+                    Okay, Not bad
+                    </div>
+                  </Option>
+                  <Option value={4}>
+                    <div className='d-flex align-items-center'>
+                      <span className='star-icon'>
+                        <StarFilled className='star'/>
+                        <StarFilled className='star'/>
+                        <StarFilled className='star'/>
+                        <StarFilled className='star'/>
+                      </span>
+                     Good, Should try
+                    </div>
+                  </Option>
+                  <Option value={5}>
+                    <div className='d-flex align-items-center'>
+                      <span className='star-icon'>
+                        <StarFilled className='star'/>
+                        <StarFilled className='star'/>
+                        <StarFilled className='star'/>
+                        <StarFilled className='star'/>
+                        <StarFilled className='star'/>
+                      </span>
+                     Great, To the moon
+                    </div>
+                  </Option>
+                </Select>
+              </Form.Item>
+
+              <div className='d-flex align-items-center'>
+                {/* <Popover
+                  content='Click to report scam project'
+                  overlayClassName='product-detail-form-content-popover'
+                > */}
+                <div style={{ marginRight: '0.675rem', width: 'fit-content' }}>
+                  <Form.Item
+                    name='isScam'
+                    className='no-margin-bottom'
+                  >
+                    <Checkbox onChange={handleChangeChecked} checked={data?.isScam}>
+                        Report scam
+                    </Checkbox>
+                  </Form.Item>
+                </div>
+                {/* </Popover> */}
+                <div className='product-detail-type'>
+                  <Checkbox
+                    onChange={(e) => {
+                      setTypeComment(e.target.checked)
+                      setErrorType()
+                    }}
+                    checked={typeComment}
+                  >
+                  Anonymous
+                  </Checkbox>
+                  {errorType && <div style={{ color: 'red' }}>{errorType}</div>}
+                </div>
+              </div>
+              {data?.isScam && (
+                <Form.Item
+                  name='scamAmountUSD'
+                  label='How much money have you been scammed?'
+                  className='cus-select'
+                  // defaultValue=''
+                >
+                  <Select
+                    style={{ width: '100%' }}
+                  >
+                    <Option value=''></Option>
+                    <Option value='-.1000'>Less than 1000 dollars</Option>
+                    <Option value='1000.10000'>From 1000 dollars to 10000 dollars</Option>
+                    <Option value='10000.100000'>From 10000 dollars to 100000 dollars</Option>
+                    <Option value='100000.1000000'>From 100000 dollars to 1000000 dollars</Option>
+                    <Option value='1000000.+'>Greater than 1000000 dollars</Option>
+                  </Select>
+                </Form.Item>
+              )}
+              {data?.isScam && (
+                <div style={{ marginBottom: '0.325rem' }}>
+                  <Form.Item
+                    name='sources'
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please enter proof link.'
+                      }
+                    ]}
+                  >
+                    <Select
+                      value={data?.sources}
+                      placeholder='Please enter proof link …'
+                      mode='tags'
+                      dropdownStyle={{ background: 'red', display: 'none' }}
+                      onChange={handleChangeLink}
+                      onSelect={changeSelect}
+                      className='cus-multiple-select'
+                    />
+                  </Form.Item>
+                </div>
+              )}
+              {errorLink && <span style={{ color: 'red' }}>{errorLink}</span>}
+              {data?.isScam && (
+                <Upload
+                // action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                  listType='picture-card'
+                  fileList={fileList}
+                  onChange={handleChangeFile}
+                  onPreview={onPreview}
+                >
+                  {fileList.length < 1 && '+ Upload'}
+                </Upload>
+              )}
+              <div
+                style={{
+                  background: isRecaptcha ? 'red' : '',
+                  border: `0.1px solid ${
+                    isRecaptcha ? 'red' : 'rgba(0, 0, 0, 0.01'
+                  }`,
+                  width: '305px'
+                }}
+              >
+                <ReCAPTCHA
+                  ref={recapcharRef}
+                  onChange={handleChangeRecapchar}
+                  sitekey='6Lcab8wjAAAAAEeXUCE7iFIga2fynoCIZn4W8Q-l'
                 />
               </div>
-            )}
-            {errorLink && <span style={{ color: 'red' }}>{errorLink}</span>}
-            {data?.isScam && (
-              <Upload
-                // action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
-                listType='picture-card'
-                fileList={fileList}
-                onChange={handleChangeFile}
-                onPreview={onPreview}
-              >
-                {fileList.length < 1 && '+ Upload'}
-              </Upload>
-            )}
-            <div
-              style={{
-                background: isRecaptcha ? 'red' : '',
-                border: `0.1px solid ${
-                  isRecaptcha ? 'red' : 'rgba(0, 0, 0, 0.01'
-                }`,
-                width: '305px'
-              }}
-            >
-              <ReCAPTCHA
-                ref={recapcharRef}
-                onChange={handleChangeRecapchar}
-                sitekey='6Lcab8wjAAAAAEeXUCE7iFIga2fynoCIZn4W8Q-l'
-              />
             </div>
-          </div>
-          <div className='product-detail-type'>
-            <Checkbox
-              onChange={(e) => {
-                setTypeComment(e.target.checked)
-                setErrorType()
-              }}
-              checked={typeComment}
-            >
-              Anonymous
-            </Checkbox>
-            {errorType && <div style={{ color: 'red' }}>{errorType}</div>}
-          </div>
-          <div className='product-detail-form-footer'>
-            <div className='product-detail-form-footer-item'>
-              <Image src={smile} preview={false} />
-              {/* <div className='product-detail-form-icon-emoji'>
-                              <EmojiPicker
-                                  emojiStyle='facebook'
-                                  height={270}
-                                  width={250}
-                                  lazyLoadEmojis={true}
-                                  onEmojiClick={handleClickEmoji}
-                              />
-                          </div> */}
-            </div>
-            <div
-              className='product-detail-form-footer-item'
-              onClick={handleSubmitComment}
-            >
-              {/* <SendOutlined
-                              style={{ cursor: 'pointer' }}
-                              onClick={handleSubmitComment}
-                          /> */}
-              Send
+            <div className='product-detail-form-footer'>
+              <Form.Item>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  className='product-detail-form-footer-item'
+                  // onClick={handleSubmitComment}
+                >
+                  Submit
+                </Button>
+              </Form.Item>
             </div>
           </div>
         </div>
-      </div>
+      </Form>
     </>
   )
 }

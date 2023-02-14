@@ -3,8 +3,13 @@ import _ from 'lodash'
 import React, { useContext, useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { ChainListContext } from '../../../../App'
+<<<<<<< HEAD
 import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
 import FormReport from '../../Forms/form-report/FormReport'
+=======
+import { formatMoney } from '../../../../utils/formatNumber'
+// import FormReport from '../../Forms/form-report/FormReport'
+>>>>>>> db3b29d (thanhlv fix form report)
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 import { LoadingOutlined } from '@ant-design/icons'
@@ -20,11 +25,25 @@ const DappInfo = ({ productInfo, ...rest }) => {
   const chainList = useContext(ChainListContext)
   const [loading, setLoading] = useState(false)
 
+<<<<<<< HEAD
+=======
+  const onOpenDapp = (link) => {
+    setLoading(true)
+    setTimeout(() => {
+      link && window.open(link)
+      setLoading(false)
+    }, 3000)
+  }
+>>>>>>> db3b29d (thanhlv fix form report)
   const handleReportScam = () => {
     rest?.setData({
       ...rest.data,
-      isScam: true,
-      star: 1
+      isScam: true
+      // star: 1
+    })
+    rest?.form?.setFieldsValue({
+      'isScam': true,
+      'star': 1
     })
   }
 
@@ -85,7 +104,14 @@ const DappInfo = ({ productInfo, ...rest }) => {
                   as='a'
                   href='#comment'
                   className='btn btn-primary mb-1 ms-1'
-                  onClick={() => rest?.setData({ ...rest.data, isScam: false, star: 5 })}
+                  onClick={() => {
+                    rest?.setData({ ...rest.data, isScam: false })
+                    rest?.form.setFieldsValue({
+                      isScam: false,
+                      star: undefined,
+                      sources: []
+                    })
+                  }}
                 >
                   Add Review
                 </Button>
@@ -234,7 +260,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
     more={<More/>}
     about={<About />}
     isScam={detail?.isScam}
-    report={<FormReport />}
+    // report={<FormReport />}
     numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
     rest={rest}/>
 }
