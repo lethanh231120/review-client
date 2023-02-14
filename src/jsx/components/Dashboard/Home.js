@@ -28,7 +28,7 @@ import { ReportModalContext
 // import { SignInContext } from '../../../App'
 // import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import { ReviewList } from '../common-widgets/home/reviews/review-list'
-import SummaryRow from '../common-widgets/home/summary/BalanceCardSlider'
+import SummaryRow from '../../components/common-widgets/home/summary/BalanceCardSlider'
 
 const fillColors = [
   '#18A594',
