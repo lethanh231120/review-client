@@ -1,0 +1,28 @@
+.username-text{
+    font-size: 1rem;
+    font-weight: 600;
+    color: black;
+}
+
+.comment-review{
+    margin-bottom: 0px !important;
+
+}
+
+.star-rating{
+    margin-bottom: 0px !important;
+}
+
+/* Custom review card body */
+.cus-review-card-item{
+    padding: 1.25rem !important;
+}
+
+.cus-review-card:hover{
+    transform: scale(1.05);
+    transition-duration: 300ms;
+}
+  
+.product-name-text:hover{
+    text-decoration: underline;
+}

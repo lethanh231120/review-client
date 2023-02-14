@@ -1,0 +1,9 @@
+.cus-summary-card{
+    cursor: pointer ;
+}
+
+.cus-summary-card:hover{
+    transform: scale(1.05);
+    transition-duration: 200ms;
+   
+}

@@ -1,6 +1,7 @@
 import loadable from '@loadable/component'
 import pMinDelay from 'p-min-delay'
 import { formatMoney } from '../../../../utils/formatNumber'
+import { capitalizeFirstLetter } from '../../../../utils/formatText'
 
 // ../../../Dashboard/AssetsChart
 const AssetsChart = loadable(() =>
@@ -38,7 +39,7 @@ export const DataAllocationChart = ({ data, header }) => {
                         fill={data.fillcolor}
                       />
                     </svg>
-                    {data?.datatitle}
+                    {capitalizeFirstLetter(data?.datatitle)}
                   </span>
                   <h5>{formatMoney(data?.amount)?.replace('$', '')}</h5>
                 </div>
