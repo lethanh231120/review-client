@@ -34,28 +34,28 @@ export const renderNumber = (value) => {
       if (value >= dividendShortcutTrillion) {
         return (
           <span>
-            ${formatBigMoney(value / dividendShortcutTrillion)}{' '}T
+            ${formatBigMoney(value / dividendShortcutTrillion)}T
           </span>
         )
       }
       if (value >= dividendShortcutBillion) {
         return (
           <span>
-            ${formatBigMoney(value / dividendShortcutBillion)}{' '}B
+            ${formatBigMoney(value / dividendShortcutBillion)}B
           </span>
         )
       }
       if (value >= dividendShortcutMillion) {
         return (
           <span>
-            ${formatBigMoney(value / dividendShortcutMillion)}{' '}M
+            ${formatBigMoney(value / dividendShortcutMillion)}M
           </span>
         )
       }
       if (value >= dividendShortcutKilo) {
         return (
           <span>
-            ${formatBigMoney(value / dividendShortcutKilo)}{' '}K
+            ${formatBigMoney(value / dividendShortcutKilo)}K
           </span>
         )
       }

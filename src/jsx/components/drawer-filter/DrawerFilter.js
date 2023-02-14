@@ -389,9 +389,9 @@ const DrawerFilter = ({ type, handleFilter }) => {
 
   return (
     <div className='drawer'>
-      <Button onClick={openDrawer} icon={<FilterOutlined />} style={{ background: filterCount === 0 ? '#fff' : '#18A594', color: filterCount === 0 ? 'black' : '#fff' }}>
+      <Button onClick={openDrawer} style={{ background: filterCount === 0 ? '#fff' : '#18A594', color: filterCount === 0 ? 'black' : '#fff' }}>
+        <FilterOutlined />
         Filter{ filterCount === 0 ? '' : `(${(filterCount)})`}
-        {console.log(filterCount)}
       </Button>
 
       <Drawer

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import './crypto.scss'
-import { Image, message, Table, Avatar, Tooltip, Row, Col } from 'antd'
+import { Image, Table, Avatar, Tooltip, Row, Col } from 'antd'
 import { Link } from 'react-router-dom'
 import {
   CopyOutlined,
@@ -21,7 +21,6 @@ import {
 } from '../../../../utils/formatNumber'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { crypto_score_explain_text } from '../../../constants/data'
-// import MyScoreComponent from '../../../utils/components/scoreComponent'
 import MyScoreComponent from '../../score/scoreComponent'
 import { isValidProductId, formatImgUrlFromProductId, formatUrlDetailFromUrlImageExchange, getExchangeNameFromUrlImageExchage, toCammelCase } from '../../../../utils/formatText'
 import scam from '../../../../images/product/scam.png'
@@ -37,6 +36,7 @@ import { NO_DATA } from '../../../constants/data'
 import CategorySearch from '../../input-search/CategorySearch'
 import '../../../../scss/base/table.scss'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
+import { copyContractAddress } from '../../../../utils/effect'
 
 const Crypto = ({
   listProduct,
@@ -49,16 +49,6 @@ const Crypto = ({
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
   const [listData, setListData] = useState([])
-
-  const copyAddress = (e, address) => {
-    e.stopPropagation()
-    e.preventDefault()
-    navigator.clipboard.writeText(address)
-    message.success({
-      content: 'Copy address successfully',
-      duration: 3
-    })
-  }
 
   useEffect(() => {
     const getChain = async() => {
@@ -144,7 +134,7 @@ const Crypto = ({
     navigate(`../../${urlDetail}`)
   }
 
-  const onClickBlockChain = (e) =>{
+  const onCancelClick = (e) =>{
     e.stopPropagation()
   }
 
@@ -186,17 +176,19 @@ const Crypto = ({
             </div>
             {record?.cryptoId?.split('_')[1] === CRYPTO_TOKEN && (
               <div className='data-table-address'>
-                {`${record?.cryptoId
-                  ?.split('_')[3]
-                  ?.slice(0, 4)}...${record?.cryptoId
-                  ?.split('_')[3]
-                  ?.slice(
-                    record?.cryptoId?.split('_')[3]?.length - 4,
-                    record?.cryptoId?.split('_')[3]?.length
-                  )}`}
+                <span style={{ color: 'blue' }}>
+                  {`${record?.cryptoId
+                    ?.split('_')[3]
+                    ?.slice(0, 4)}...${record?.cryptoId
+                    ?.split('_')[3]
+                    ?.slice(
+                      record?.cryptoId?.split('_')[3]?.length - 4,
+                      record?.cryptoId?.split('_')[3]?.length
+                    )}`}
+                </span>
                 <CopyOutlined
                   onClick={(e) =>
-                    copyAddress(e, record?.cryptoId?.split('_')[3])
+                    copyContractAddress(e, record?.cryptoId?.split('_')[3])
                   }
                 />
               </div>
@@ -255,7 +247,7 @@ const Crypto = ({
       key: 'chains',
       render: (_, record) => (
         record?.multichain
-          ? <div onClick={(e) => onClickBlockChain(e)}
+          ? <div onClick={(e) => onCancelClick(e)}
           >
             <Avatar.Group
               maxCount={2}
@@ -275,7 +267,7 @@ const Crypto = ({
                         src={chainList[item?.chainName]?.image}
                         key={index}
                         className='crypto-table-chain'
-                        onClick={(e) => onClickBlockChain(e)}
+                        onClick={(e) => onCancelClick(e)}
                       />
                     </Tooltip>
                   )}
@@ -290,7 +282,7 @@ const Crypto = ({
                 src={chainList[record?.chainName]?.image}
                 key={record}
                 className='crypto-table-chain'
-                onClick={(e) => onClickBlockChain(e)}
+                onClick={(e) => onCancelClick(e)}
               />
             </Tooltip>
             : record?.bigLogo ? (
@@ -300,7 +292,7 @@ const Crypto = ({
                   preview={false}
                   size={25}
                   key={record}
-                  onClick={(e) => onClickBlockChain(e)}
+                  onClick={(e) => onCancelClick(e)}
                 />
               </Tooltip>
             ) : (
@@ -372,7 +364,8 @@ const Crypto = ({
       render: (_, record) => (
         <span>
           {record?.contractVerified !== null && (
-            <div style={{ display: 'flex', padding: '0 5px' }}>
+            <div style={{ display: 'flex', padding: '0 5px' }} onClick={(e) => onCancelClick(e)}
+            >
               <Tooltip
                 title={
                   record?.contractVerified

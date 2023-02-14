@@ -1,25 +1,14 @@
 import React, { useEffect, useState, useRef, useContext } from 'react'
-// import React, { useEffect, useState, useRef, useContext } from 'react'
-import { message } from 'antd'
-// import { DownOutlined, CodeOutlined, CaretUpOutlined, SendOutlined, CopyOutlined, LinkOutlined } from '@ant-design/icons'
-// import moment from 'moment'
 import './productDetail.scss'
 import { get, post } from '../../../api/BaseRequest'
-// import ReviewItem from './review/review-item/ReviewItem'
 import { useLocation, useParams } from 'react-router-dom'
 import _ from 'lodash'
-// import { getCookie, STORAGEKEY } from '../../../utils/storage'
-// import FilterReview from './filter-review/FilterReview'
-// import ListReview from '../../components/detail-product/list-review/ListReview'
-// import { SignInContext } from '../../components/layout/Main'
-// import { SignInContext, Authenticated } from '../../index'
 import { SignInContext, Authenticated } from '../../../App'
 import CryptoInfo from './crypto-info/CryptoInfo'
 import ExchangeInfo from './exchange-info/ExchangeInfo'
 import DappInfo from './dapp-info/DappInfo'
 import SoonInfo from './soon-info/SoonInfo'
 import VentureInfo from './venture-info/VentureInfo'
-// import Scam from '../../components/detail-product/scam/Scam'
 import { exchanges } from '../../../utils/ExchangeImage'
 import {
   DAPP,
@@ -28,13 +17,8 @@ import {
   EXCHANGE,
   CRYPTO
 } from '../../constants/category'
-// import FormReport from '../Forms/form-report/FormReport'
-// import FormReport from '../../components/detail-product/form-report/FormReport'
-// import user from '../../../images/product/user.png'
-// import { Authenticated } from '../../components/layout/Main'
 import DetailLoading from '../loading/DetailLoading'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
-// import DetailLoading from '../../components/layout/detail-loading/DetailLoading'
 import user from '../../../images/product/user.png'
 
 const ProductDetail = () => {
@@ -284,15 +268,6 @@ const ProductDetail = () => {
     productId && getData()
   }, [productId, categoryName])
 
-  const copyAddress = (e, address) => {
-    e.stopPropagation()
-    navigator.clipboard.writeText(address)
-    message.success({
-      content: 'Copy address successfully',
-      duration: 3
-    })
-  }
-
   useEffect(() => {
     if (defaultFilter === DEFAULT_ALL) {
       setDataFilter(productInfo)
@@ -523,7 +498,6 @@ const ProductDetail = () => {
   const crypto = <CryptoInfo
     // use in crypto info
     isShow={isShow}
-    copyAddress={copyAddress}
 
     // use in filter review component
     productInfo={productInfo}
@@ -559,7 +533,6 @@ const ProductDetail = () => {
   const soon = <SoonInfo
   // use in crypto info
     isShow={isShow}
-    copyAddress={copyAddress}
 
     // use in filter review component
     productInfo={productInfo}
@@ -595,7 +568,6 @@ const ProductDetail = () => {
   const dapp = <DappInfo
   // use in crypto info
     isShow={isShow}
-    copyAddress={copyAddress}
 
     // use in filter review component
     productInfo={productInfo}
@@ -631,7 +603,6 @@ const ProductDetail = () => {
   const exchange = <ExchangeInfo
   // use in crypto info
     isShow={isShow}
-    copyAddress={copyAddress}
 
     // use in filter review component
     productInfo={productInfo}
@@ -667,7 +638,6 @@ const ProductDetail = () => {
   const venture = <VentureInfo
   // use in crypto info
     isShow={isShow}
-    copyAddress={copyAddress}
 
     // use in filter review component
     productInfo={productInfo}

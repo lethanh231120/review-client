@@ -394,7 +394,7 @@ const ModalReport = () => {
                               onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
-                                copyAddress(e, item?.address)
+                                copyContractAddress(e, item?.address)
                               }}
                             />
                           </p>
