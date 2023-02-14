@@ -20,10 +20,13 @@ export const ScamEachChainsList = ({ data }) => {
   }
 
   const tableItem = (index, chainName, scamPercent, scamAmount, totalAmount, img, color) => {
-    return <tr className='text-center'>
-      <th >{index}</th>
-      <td className='d-flex align-items-center '><Avatar size={25} src={img}/>
-        <span className='ms-2'>{capitalizeFirstLetter(chainName)}</span>
+    return <tr className='text-center' key={index}>
+      <td >{index}</td>
+      <td >
+        <div className='d-flex justify-content-center'>
+          <Avatar size={25} src={img}/>
+          <span className='ms-2'>{capitalizeFirstLetter(chainName)}</span>
+        </div>
       </td>
       <td>
         {scamAmount}
@@ -46,8 +49,8 @@ export const ScamEachChainsList = ({ data }) => {
       <Table responsive hover className='header-border verticle-middle'>
         <thead className='text-center'>
           <tr>
-            <th scope='col'>#</th>
-            <th scope='col'>Chainname</th>
+            <th scope='col' >#</th>
+            <th scope='col' >Chain Name</th>
             <th scope='col'>Scam or Dead Projects</th>
             <th scope='col' >Total Projects</th>
             <th scope='col'>Scam Percentage</th>
@@ -66,5 +69,5 @@ export const ScamEachChainsList = ({ data }) => {
 }
 
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
+  return string && string.charAt(0).toUpperCase() + string.slice(1)
 }

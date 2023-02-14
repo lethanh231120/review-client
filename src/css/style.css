@@ -34298,7 +34298,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 .chart-legend{
-  margin-top: 6rem;
+  margin-top: 4rem;
 }
 
 .summary-item{
@@ -34448,4 +34448,9 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   /* font-family: ; */
   background-color: #18A594 !important;
   font-family: "poppins", sans-serif, sans-serif !important;
+}
+
+.banner-body{
+  height: 100%;
+ 
 }

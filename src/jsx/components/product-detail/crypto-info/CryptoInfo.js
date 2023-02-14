@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Avatar, Spin, Tooltip } from 'antd'
-import CoinChart from '../../charts/coinchart/CoinChart'
 import Description from '../description/Description'
 import {
   CopyOutlined,
@@ -21,8 +20,6 @@ import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { LinkOutlined } from '@ant-design/icons'
 import { isValidProductId, formatImgUrlFromProductId, formatUrlDetailFromUrlImageExchange, getExchangeNameFromUrlImageExchage, toCammelCase } from '../../../../utils/formatText'
 import { DetailLayout } from '../detail-layout'
-import getCryptoDetailChartData from './HandleChartData.js'
-import { MySpinner } from '../../common-widgets/my-spinner'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import MyScoreComponent from '../../score/scoreComponent'
 import { copyContractAddress, openWebsite } from '../../../../utils/effect'
@@ -32,7 +29,7 @@ import imgReportProject from '../../../../images/svg/report-project-white.svg'
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
-  const [chartData, setChartData] = useState([])
+  // const reportModal = useContext(ReportModalContext)
   const [showInfo, setShowInfo] = useState()
   const [multichain, setMultichain] = useState()
   const [mainExplorer, setMainExplorer] = useState()
@@ -48,17 +45,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         !isShow?.sourceCode
     )
   }, [isShow, productInfo])
-
-  useEffect(() => {
-    const getChartData = async(wrappedTokenId) => {
-      const network = wrappedTokenId?.split('_')[2]
-      const baseCurrency = wrappedTokenId?.split('_')[3]
-      const data = await getCryptoDetailChartData(network, baseCurrency)
-      setChartData(data)
-    }
-
-    !_.isEmpty(productInfo) && getChartData(productInfo?.details?.wrapTokenId)
-  }, [productInfo])
 
   const handleClickExchange = (e, item) => {
     e.stopPropagation()
@@ -586,16 +572,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     </div>
   </>
 
-  const coinChart = <div className=''>
-    {chartData ? <CoinChart symbol={productInfo?.details?.symbol}
-      price={productInfo?.details?.priceUSD}
-      marketCap={productInfo?.details?.marketcapUSD}
-      totalSupply={productInfo?.details?.totalSupply}
-      holders={productInfo?.details?.holders}
-      transfer={productInfo?.details?.transfers}
-      chartData={chartData}/> : <MySpinner />}
-  </div>
-
   return (
     <>
       <DetailLayout
@@ -606,7 +582,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         more={more}
         about={about}
         topDiscus={(<TopDiscussed/>)}
-        coinChart={coinChart}
         // report={report}
         numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
         rest={rest}

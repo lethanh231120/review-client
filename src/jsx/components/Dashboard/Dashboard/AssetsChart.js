@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { formatMoney } from '../../../../utils/formatNumber'
+import { capitalizeFirstLetter } from '../../../../utils/formatText'
 
 function AssetsChart({ data }) {
   const chartData = {
@@ -59,7 +60,7 @@ function AssetsChart({ data }) {
         show: false
       },
       colors: data?.map(item => item?.fillcolor),
-      labels: data?.map(item => item?.datatitle),
+      labels: data?.map(item => capitalizeFirstLetter(item?.datatitle)),
       dataLabels: {
         enabled: false
       },

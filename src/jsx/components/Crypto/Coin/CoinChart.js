@@ -23,11 +23,11 @@ const CoinChart = () => {
             </span>
           </div>
           <div className='dropdown bootstrap-select'>
-            {/* <select className="image-select default-select dashboard-select" aria-label="Default" tabindex="0">
-                            <option selected="">USD ($ US Dollar)</option>
-                            <option value="1">BTC ($ US Dollar)</option>
-                            <option value="2">USD ($ US Dollar)</option>
-                        </select> */}
+            <select className='image-select default-select dashboard-select' aria-label='Default' tabIndex='0'>
+              <option selected=''>USD ($ US Dollar)</option>
+              <option value='1'>BTC ($ US Dollar)</option>
+              <option value='2'>USD ($ US Dollar)</option>
+            </select>
             <Select
               className='custom-react-select mb-xl-0 mb-3'
               options={options}

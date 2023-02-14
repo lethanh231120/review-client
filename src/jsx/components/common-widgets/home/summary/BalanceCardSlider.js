@@ -3,7 +3,7 @@ import React from 'react'
 //  import { Autoplay } from "swiper";
 
 import 'swiper/css'
-import { SummaryCard } from '../../common-widgets/home/summary-card'
+import { SummaryCard } from './summary-card'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBuilding, faCoins, faExchangeAlt, faRocket } from '@fortawesome/free-solid-svg-icons'
 // import ProfitLossArea from './ProfitLossArea'
