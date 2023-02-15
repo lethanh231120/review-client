@@ -286,6 +286,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
 
   return (
     <DetailLayout
+      type={'venture'}
       Header={<Header />}
       summary={<Summary />}
       more={<More />}

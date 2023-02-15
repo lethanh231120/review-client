@@ -254,7 +254,7 @@ const Home = () => {
           {summaryData ? <ScamEachChainsList data={setScamDataEachChains(summaryData)}/> : <MySpinner/>}
         </div>
         <div className='col-4 col-xl-4'>
-          {summaryData ? <DataAllocationChart header={'Blockchains Data Allocation'} data={setTotalCrytosData(summaryData)}/> : <MySpinner/>}
+          {summaryData ? <DataAllocationChart header={'Blockchains Data Allocation In Gear5'} data={setTotalCrytosData(summaryData)}/> : <MySpinner/>}
         </div>
       </div>
     </>
