@@ -2,4 +2,3 @@ App.test.js
 *.map
 bootstrap.bundle.min.js
 trading-view-chart.js
-GlobalSearchAnimation.js
