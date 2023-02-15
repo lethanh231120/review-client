@@ -1,0 +1,48 @@
+  
+  @keyframes MoveUpAndDown{
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-30px);
+    }
+  }
+  
+
+.decoration{
+    margin-top: 30px;
+    animation: MoveUpAndDown 3s linear infinite;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    
+  }
+
+  .lite{
+    animation: MoveUpAndDown 3s linear infinite;
+    z-index: -1;
+    left: 20px;
+    top : 50px;
+  }
+  
+  .eth{
+     animation: MoveUpAndDown 3s linear infinite;
+    z-index: 100;
+      left: 500px;
+      top : 100px;
+  }
+  
+  .btc-1{
+    animation: MoveUpAndDown 3s linear infinite;
+    z-index: 100;
+    left:700px;
+  }
+  
+  .btc-2{
+    animation: MoveUpAndDown 3s linear infinite;
+    z-index: 100;
+    left: 950px;
+    top: 100px;
+    width: 100px;
+    height: 100px;
+  }
