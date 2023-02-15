@@ -573,12 +573,15 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     </div>
   </>
 
+  const NO_CHART_LIST = ['DAI', 'USDT', 'USDC']
   let symbol = ''
-  if (productInfo?.details?.isBinance) {
-    symbol = `BINANCE:${productInfo?.details?.symbol}USDT`
-  } else {
-    if (productInfo?.details?.isCoinbase) {
-      symbol = `COINBASE${productInfo?.details?.symbol}USDT`
+  if (!NO_CHART_LIST.includes(productInfo?.details?.symbol)) {
+    if (productInfo?.details?.isBinance) {
+      symbol = `BINANCE:${productInfo?.details?.symbol}USDT`
+    } else {
+      if (productInfo?.details?.isCoinbase) {
+        symbol = `COINBASE${productInfo?.details?.symbol}USDT`
+      }
     }
   }
 
