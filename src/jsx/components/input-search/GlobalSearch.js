@@ -10,13 +10,18 @@ import ItemDapp from './item-dapp/ItemDapp'
 import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon.js'
 import ItemVenture from './item-venture/ItemVenture'
+const FIRST_SEARCH_PLACEHOLDER_TEXT = 'Search for Coins'
+const LAST_SEARCH_PLACEHOLDER_TEXT = 'Search for Upcoming Projects'
+const SEARCH_PLACEHOLDER_TEXT = [
+  FIRST_SEARCH_PLACEHOLDER_TEXT,
+  'Search for Tokens',
+  'Search for DApps',
+  'Search for Ventures',
+  'Search for Exchanges',
+  LAST_SEARCH_PLACEHOLDER_TEXT
+]
 
-const SEARCH_PLACEHOLDER_TEXT = 'Search for Coins/ Tokens/ DApps/ Ventures/ Exchanges/ Upcoming Projects...             '
-
-const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchFormReport, setItem }) => {
-  // isFormReport={true}
-  // setDataSearch={setDataSearch}
-  // setItem={setItem}
+const InputSearch = ({ isFormReport, setItem }) => {
   const refInput = useRef()
   const [form] = Form.useForm()
   const navigate = useNavigate()
@@ -30,7 +35,7 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
     isActive: false
   })
   const [keyWord, setKeyWord] = useState()
-  const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState(SEARCH_PLACEHOLDER_TEXT)
+  const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState(FIRST_SEARCH_PLACEHOLDER_TEXT)
 
   const handleSearch = _.debounce(async(value) => {
     if (value !== '') {
@@ -172,11 +177,35 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
   }, [txtDisplaySearchHeader])
 
   const sleep = ms => new Promise(r => setTimeout(r, ms))
+  const millSecChangeText = 1000
+  const millSecAppendChar = 150
   const runnerTextSearch = async() =>{
-    await sleep(85)
+    await sleep(millSecChangeText)
     if (txtDisplaySearchHeader) {
-      const newString = txtDisplaySearchHeader.substring(1) + txtDisplaySearchHeader.substring(0, 1)
-      setTxtDisplaySearchHeader(newString)
+      // reset for begin text in arrary
+      if (txtDisplaySearchHeader === LAST_SEARCH_PLACEHOLDER_TEXT) {
+        await runnerEachCharOfText(FIRST_SEARCH_PLACEHOLDER_TEXT)
+      }
+      let isFind = false
+      for (const txtItem of SEARCH_PLACEHOLDER_TEXT) {
+        if (isFind) {
+          await runnerEachCharOfText(txtItem)
+          break
+        }
+        // current text --> set value again for next value
+        if (txtItem === txtDisplaySearchHeader) {
+          isFind = true
+        }
+      }
+    }
+  }
+
+  const runnerEachCharOfText = async(text) =>{
+    let chars = ''
+    for (const char of text) {
+      await sleep(millSecAppendChar)
+      chars += char
+      setTxtDisplaySearchHeader(chars)
     }
   }
 
@@ -217,25 +246,8 @@ const InputSearch = ({ setOpenModalSearch, type, isFormReport, setDataSearchForm
               e.stopPropagation()
               handleSearch('')
             }}
+            id='search'
           />
-          {/* <Input
-            type='text'
-            className={`form-control cus-form-control`}
-            placeholder='Search here...'
-            onChange={(e) => {
-              if (isFormReport) setItem()
-              handleSearch(e, e.target.value)
-              // setKeyWord(e.target.value)
-            }}
-            onKeyPress={handleSubmitSearch}
-            autoComplete='off'
-            // value={keyWord}
-            onBlur={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              handleSearch(e, '')
-            }}
-          /> */}
         </div>
       </div>
       <div
