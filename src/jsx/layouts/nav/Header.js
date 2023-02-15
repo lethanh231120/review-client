@@ -24,8 +24,8 @@ import imgReportProject from '../../../images/svg/report-project-primary.svg'
 import imgLogIn from '../../../images/svg/log-in-primary.svg'
 import imgSignUp from '../../../images/svg/sign-up-primary.svg'
 
-const txtScamTooltip = 'Report scam token/ coin/ exchange/ dapp here.'
-const txtAddProjectTooltip = 'Contribute us new project(token/ coin/ exchange/ dapp) here.'
+const txtScamTooltip = 'Report Scam'
+const txtAddProjectTooltip = 'Add New Project'
 const txtLoginTooltip = 'Log In'
 const txtSignUpTooltip = 'Sign Up'
 
