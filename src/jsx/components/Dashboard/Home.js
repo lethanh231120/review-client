@@ -6,8 +6,8 @@ import { ThemeContext } from '../../../context/ThemeContext'
 // import metaverse from './../../../images/metaverse.png'
 import imgReportProject from '../../../images/svg/report-project-white.svg'
 // images
-import safe from './../../../images/ket-sat.png'
-import lite from './../../../images/lite.png'
+import safe from './../../../images/22.png'
+// import lite from './../../../images/lite.png'
 import eth from './../../../images/ethereum.png'
 import btc from './../../../images/bitcoin.png'
 import { TopCoins } from '../common-widgets/home/top-coin'
@@ -29,6 +29,7 @@ import { ReportModalContext
 // import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import { ReviewList } from '../common-widgets/home/reviews/review-list'
 import SummaryRow from '../../components/common-widgets/home/summary/BalanceCardSlider'
+import './home.scss'
 
 const fillColors = [
   '#18A594',
@@ -174,7 +175,6 @@ const Home = () => {
     getReviews()
   }, [])
 
-  console.log(1)
   return (
     <>
       <div className='row'>
@@ -195,9 +195,10 @@ const Home = () => {
                         Report&nbsp;now
                       </Button>
                     </div>
-                    <img src={lite} className='decoration lite'/>
+                    {/* <img src={lite} className='decoration lite'/> */}
                     <img src={eth} className='decoration eth'/>
-                    <img src={btc} className='decoration btc'/>
+                    <img src={btc} className='decoration btc-1'/>
+                    <img src={btc} className='decoration btc-2'/>
                     <div className='coin-img'>
                       <img src={safe} className='img-fluid' alt='' />
                     </div>
