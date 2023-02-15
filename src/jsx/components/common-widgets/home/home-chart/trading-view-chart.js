@@ -28,7 +28,7 @@ export default function TradingViewWidget({ symbol }) {
 
       function createWidget() {
         if (document.getElementById('tradingview_02bd5') && 'TradingView' in window) {
-          new window.TradingView.widget({
+          const view = new window.TradingView.widget({
             symbol: symbol,
             width: '100%',
             height: 450,
@@ -45,6 +45,8 @@ export default function TradingViewWidget({ symbol }) {
             container_id: 'tradingview_02bd5',
             save_image: false,
           })
+
+          console.log(view)
         }
       }
     },

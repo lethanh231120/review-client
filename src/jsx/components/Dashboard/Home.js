@@ -16,7 +16,7 @@ import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-p
 import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
 import { TopCoinChart } from '../common-widgets/home/home-chart/bitcoin-chart'
 import { ScamEachChainsList } from '../common-widgets/home/scam-each-chain-chart'
-import { get, post } from '../../../api/BaseRequest'
+import { get, getPrice, post } from '../../../api/BaseRequest'
 import { MySpinner } from '../common-widgets/my-spinner'
 import _ from 'lodash'
 import { renderRandomColor } from '../../../utils/formatNumber'
@@ -69,11 +69,12 @@ const Home = () => {
   // GET TOP COINS DATA
   useEffect(() => {
     const getTopCoinData = async() => {
-      const res = await get('reviews/crypto/filter?orderBy=marketcapUSD&sort=desc&page=1')
-      if (res?.code === '200') {
-        setTopCoins(res?.data?.cryptos)
+      const res = await getPrice('prices/crypto/top')
+      if (res?.code === 'B.200') {
+        setTopCoins(res?.data)
       }
     }
+
     getTopCoinData()
   }, [])
 
@@ -173,6 +174,7 @@ const Home = () => {
     getReviews()
   }, [])
 
+  console.log(1)
   return (
     <>
       <div className='row'>
@@ -241,7 +243,7 @@ const Home = () => {
         </div> */}
         {/* LIST HOT DISCUSS  */}
         <div className=' col-4 col-lg-4'>
-          {topCoins ? <TopCoins data={topCoins}/> : <MySpinner />}
+          <TopCoins />
         </div>
       </div>
 

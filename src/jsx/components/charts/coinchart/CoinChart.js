@@ -17,10 +17,10 @@ const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, s
         <div className='card-body'>
           <div className='d-flex align-items-center justify-content-between flex-wrap'>
             <div className='d-flex align-items-center justify-content-between flex-wrap'>
-              <div className='price-content'>
+              {price && <div className='price-content'>
                 <span className='fs-18 d-block mb-2'>Price</span>
                 <h4 className='fs-20 font-w600'>{price < 1 ? formatMoneyLessOneDollar(price) : formatMoneyGreaterEqualOneDollar(price) }</h4>
-              </div>
+              </div>}
               {/* <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>24h% change</span>
                 <h4 className='font-w600 text-success'>
@@ -28,22 +28,22 @@ const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, s
                   <i className='fa-solid fa-caret-up ms-1 text-success'></i>
                 </h4>
               </div> */}
-              <div className='price-content'>
+              {marketCap && <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Market Cap</span>
                 <h4 className='font-w600'>{formatLargeNumberMoneyUSD(marketCap)}</h4>
-              </div>
-              <div className='price-content'>
+              </div>}
+              {totalSupply && <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Total Supply</span>
                 <h4 className='font-w600'>{formatLargeNumber(totalSupply)}</h4>
-              </div>
-              <div className='price-content'>
+              </div>}
+              {holders && <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Holders</span>
                 <h4 className='font-w600'>{formatLargeNumber(holders)}</h4>
-              </div>
-              <div className='price-content'>
+              </div>}
+              {transfer && <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Transfer</span>
                 <h4 className='font-w600'>{formatLargeNumber(transfer)}</h4>
-              </div>
+              </div>}
             </div>
           </div>
           {/* <div id="bitcoinhChart"></div> */}
