@@ -35,7 +35,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     data,
     setData,
     // handleComment,
-    validateText,
+    // validateText,
     // setValidateText,
     fileList,
     recapcharRef,
@@ -277,9 +277,9 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                 ]}
               >
                 <Input.TextArea
-                  className={`form-text-area ${
-                    validateText?.textArea?.isError ? 'product-detail-form-content-textarea' : ''
-                  }`}
+                  // className={`form-text-area ${
+                  //   validateText?.textArea?.isError ? 'product-detail-form-content-textarea' : ''
+                  // }`}
                   ref={ref}
                   autoFocus
                   placeholder='Content must be greater than 100 characters and less than 500 characters'
@@ -311,7 +311,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                       <span className='star-icon'>
                         <StarFilled className='star'/>
                       </span>
-                       Scam, Run Away
+                       Scam, Fucking Run Away
                     </div>
                   </Option>
                   <Option value={2}>
@@ -330,7 +330,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                         <StarFilled className='star'/>
                         <StarFilled className='star'/>
                       </span>
-                    Okay, Not bad
+                    Okay, Not Bad
                     </div>
                   </Option>
                   <Option value={4}>
@@ -341,7 +341,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                         <StarFilled className='star'/>
                         <StarFilled className='star'/>
                       </span>
-                     Good, Should try
+                     Good, Should Try
                     </div>
                   </Option>
                   <Option value={5}>
@@ -353,7 +353,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                         <StarFilled className='star'/>
                         <StarFilled className='star'/>
                       </span>
-                     Great, To the moon
+                     Great, To The Moon
                     </div>
                   </Option>
                 </Select>
