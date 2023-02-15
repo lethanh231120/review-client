@@ -34393,43 +34393,8 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   line-height: 2.5rem;
 }
 
-.decoration{
-  margin-top: 30px;
-  animation: MoveUpAndDown 3s linear infinite;
-  width: 60px;
-  height: 60px;
-  position: absolute;
-  
-}
 
-.lite{
-  animation: MoveUpAndDown 3s linear infinite;
-  z-index: -1;
-  left: 20px;
-  top : 50px;
-}
 
-.eth{
-   animation: MoveUpAndDown 3s linear infinite;
-  z-index: 100;
-    left: 500px;
-    top : 100px;
-}
-
-.btc{
-  animation: MoveUpAndDown 3s linear infinite;
-  z-index: 100;
-  left: 800px;
-}
-
-@keyframes MoveUpAndDown{
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-30px);
-  }
-}
 
 /* custom coin content */
 .cus-card-header{

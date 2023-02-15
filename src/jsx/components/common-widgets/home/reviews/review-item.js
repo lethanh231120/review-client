@@ -3,6 +3,7 @@ import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 import './reviews-item.scss'
 import imgshit from './shit-icon.svg'
+import profile from '../../../../../images/product/user.png'
 
 export const ReviewItem = ({ data }) => {
   const navigate = useNavigate()
@@ -33,7 +34,7 @@ export const ReviewItem = ({ data }) => {
       <div className='card-body cus-review-card-item'>
         <div className='new-arrival-content'>
           <div className='d-flex '>
-            <Avatar className='mt-1' size={40} src={data?.avatar} />
+            <Avatar className='mt-1' size={40} src={data?.avatar ? data?.avatar : profile } />
             <div className=' ms-2 mt-1'>
               {reviewStarsRender(data?.star, data?.isScam)}
               {moment.utc(data?.updatedDate)?.fromNow()}
