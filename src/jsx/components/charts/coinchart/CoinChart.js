@@ -1,15 +1,11 @@
 import React from 'react'
-// import loadable from '@loadable/component'
-// import pMinDelay from 'p-min-delay'
 import { formatMoneyLessOneDollar, formatMoneyGreaterEqualOneDollar, formatLargeNumberMoneyUSD, formatLargeNumber } from '../../../../utils/formatNumber'
-// import _ from 'lodash'
+import TradingViewWidget from '../../common-widgets/home/home-chart/trading-view-chart'
 
-// const BitCoinChart = loadable(() => pMinDelay(import('../../Crypto/Coin/BitCoinChart'), 1000))
-
-const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, chartData }) => {
+const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, symbolForChart }) => {
   return (
     <>
-      <div className='card coin-content '>
+      <div className=' coin-content '>
         <div className='card-header border-0 flex-wrap cus-card-header'>
           <div className='mb-2'>
             <h4 className='heading m-0'>{symbol} Market Info</h4>
@@ -49,17 +45,11 @@ const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, c
                 <h4 className='font-w600'>{formatLargeNumber(transfer)}</h4>
               </div>
             </div>
-            {/* <div className='d-flex align-items-center'>
-              <h4 className='me-5 font-w600 mb-0'>
-                <span className='text-success me-2'>BUY</span> $5,673
-              </h4>
-              <h4 className='font-w600 mb-0'>
-                <span className='text-danger me-2'>SELL</span> $5,982
-              </h4>
-            </div> */}
           </div>
           {/* <div id="bitcoinhChart"></div> */}
-          {/* {!_.isEmpty(chartData) ? <BitCoinChart chartData={chartData}/> : null} */}
+          <div className='mt-2'>
+            {symbolForChart && <TradingViewWidget symbol={symbolForChart}/> }
+          </div>
         </div>
       </div>
     </>
