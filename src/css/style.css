@@ -4315,7 +4315,6 @@ textarea.form-control-lg {
 @media (min-width: 1200px) {
   .modal-xl {
     max-width: 1140px; } }
-
 .modal-fullscreen {
   width: 100vw;
   max-width: none;

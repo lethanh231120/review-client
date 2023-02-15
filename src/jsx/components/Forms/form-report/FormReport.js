@@ -282,7 +282,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                   }`}
                   ref={ref}
                   autoFocus
-                  placeholder='Content phải lớn hơn 100 ký tự và nhỏ hơn 500 ký tự'
+                  placeholder='Content must be greater than 100 characters and less than 500 characters'
                   autoSize={{ minRows: 2 }}
                   // onChange={handleChangeTextArea}
                   // onPressEnter={(e) => {

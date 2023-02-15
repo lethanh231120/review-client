@@ -203,7 +203,6 @@ const InputSearch = ({ isFormReport, setItem }) => {
     }
   }
 
-  console.log('3333333')
   return (
     <div className='input-group search-area cus-input-group'>
       <div className='nav-item d-flex align-items-center ' style={{ width: '100%' }}>

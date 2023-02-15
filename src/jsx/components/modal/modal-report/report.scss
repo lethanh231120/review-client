@@ -230,6 +230,7 @@
     cursor: pointer;
     border-radius: 0.625rem;
     display: flex;
+    height: 100%;
     align-items: center;
     &-content{
         &-name{
@@ -275,5 +276,20 @@
             border-radius: 50%;
             border: 1px solid rgba(0, 0, 0, 0.1);
         }
+    }
+    &-no-data{
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+        background-color: #039F7F;
+        color: #fff;
+        font-size: 1rem;
+        padding: 0.5rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+        margin-right: 0.5rem;
     }
 }
