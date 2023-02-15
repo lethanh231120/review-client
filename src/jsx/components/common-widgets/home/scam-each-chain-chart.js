@@ -43,7 +43,9 @@ export const ScamEachChainsList = ({ data }) => {
 
   return <Card>
     <Card.Header>
-      <Card.Title>Blockchains Data</Card.Title>
+      <Card.Title>
+        <h2 className='heading text-center'> {`Blockchains Data In Gear5`}</h2>
+      </Card.Title>
     </Card.Header>
     <Card.Body>
       <Table responsive hover className='header-border verticle-middle'>

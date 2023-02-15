@@ -25,7 +25,7 @@ export const DetailLayout = ({ Header, type, roundSale, portfolioOrChart, summar
         : ''
     }
 
-    {type === 'crypto'
+    {type === 'crypto' || type === 'venture'
       ? <>
         <div className='row'>
         </div>
