@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from 'react'
 import { Image, Form } from 'antd'
 import { post } from '../../../../api/BaseRequest'
 import { useNavigate } from 'react-router-dom'
-import { SignInContext, Authenticated } from '../../../../App'
+import { SignInContext, Authenticated, HotTopicsContext } from '../../../../App'
 import './report.scss'
 import Description from '../../product-detail/description/Description'
 import FormReport from '../../Forms/form-report/FormReport'
@@ -13,15 +13,16 @@ import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/f
 import imgAbsentImage from '../../../../images/absent_image.png'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import Swal from 'sweetalert2'
-import image from '../../../../images/product/gear5_coin_bitcoin.png'
-import { Badge, Button } from 'react-bootstrap'
+// import image from '../../../../images/product/gear5_coin_bitcoin.png'
+import { Button } from 'react-bootstrap'
 import hot from '../../../../images/product/hot.png'
-import { DAPP, CRYPTO, SOON, EXCHANGE, VENTURE } from '../../../constants/category'
+import ProjectHot from './ProjectHot'
 
 const ModalReport = () => {
   const signInContext = useContext(SignInContext)
   const reportModal = useContext(ReportModalContext)
   const addModal = useContext(AddModalContext)
+  const hotList = useContext(HotTopicsContext)
   const auth = useContext(Authenticated)
   const [form] = Form.useForm()
 
@@ -56,6 +57,7 @@ const ModalReport = () => {
     }
   }, [typeComment, signInContext, auth])
 
+  console.log(item)
   // Process to get the url for product detail after the report is done
   // Report scam will be redirected to detail product screen
   useEffect(() => {
@@ -185,32 +187,6 @@ const ModalReport = () => {
     reportModal?.handleSetOpenModal(false)
   }
 
-  const handleDetailProjectHot = (data) => {
-    const type = data?.cryptoId ? 'crypto' : data?.soonId ? 'soon' : data?.ventureId ? 'venture' : data?.exchangeId ? 'exchange' : 'dapp'
-    let url
-    switch (type) {
-      case DAPP:
-        url = `products/dapp/${data?.dappId?.split('_')[1]}/${data?.dappId?.split('_')[2]}`
-        break
-      case CRYPTO:
-        url = `products/crypto/${data?.cryptoId?.split('_')[1]}/${data?.cryptoId?.split('_')[2]}${data?.cryptoId?.split('_')[1] === 'token' ? `/${data?.cryptoId?.split('_')[3]}` : ''}`
-        break
-      case EXCHANGE:
-        url = `products/exchange/${data?.exchangeId?.split('_')[1]}/${data?.exchangeId?.split('_')[2]}`
-        break
-      case VENTURE:
-        url = `products/venture/${data?.ventureId?.split('_')[2]}`
-        break
-      case SOON:
-        url = `products/soon/${data?.soonId?.split('_')[2]}`
-        break
-      default:
-        break
-    }
-    navigate(`../../../${url}`)
-    reportModal?.handleSetOpenModal(false)
-  }
-
   return (
     <>
       <InputSearch
@@ -304,7 +280,15 @@ const ModalReport = () => {
 
       <h4 className='project-hot-title'>Project Hot <Image src={hot} preview={false}/></h4>
       <div className='mt-3 row'>
-        <div className='col-lg-3 cus-col'>
+        {hotList && hotList?.slice(0, 4)?.map((item, index) => (
+          <>
+            <ProjectHot
+              data={item}
+              setItem={setItem}
+            />
+          </>
+        ))}
+        {/* <div className='col-lg-3 cus-col'>
           <div className='project-hot' onClick={() => handleDetailProjectHot({ ventureId: 'gear5_venture_andreessen-horowitz' })}>
             <Image src={image} preview={false}/>
             <div className='project-hot-content'>
@@ -339,19 +323,7 @@ const ModalReport = () => {
               <Badge bg='' className='badge-success light'>Coin</Badge>
             </div>
           </div>
-        </div>
-        <div className='col-lg-3 cus-col'>
-          <div className='project-hot' onClick={() => handleDetailProjectHot({ ventureId: 'gear5_venture_andreessen-horowitz' })}>
-            <Image src={image} preview={false}/>
-            <div className='project-hot-content'>
-              <div className='project-hot-content-name'>
-                Bitcoin
-                <div className='project-hot-content-symbol'>BTC</div>
-              </div>
-              <Badge bg='' className='badge-success light'>Coin</Badge>
-            </div>
-          </div>
-        </div>
+        </div> */}
       </div>
 
       <div className='text-center mt-3 '>

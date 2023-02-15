@@ -155,13 +155,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
   useEffect(() => {
     if (isSubmit) {
       if (keyWord) {
-        // if (type) {
-        //   setOpenModalSearch(false)
-        // }
         form.resetFields()
-        // form.setFieldsValue({
-        //   category: 'all'
-        // })
         setIsSubmit(false)
         navigate(`../../../search/${keyWord}`)
         setDataSearch({

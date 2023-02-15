@@ -281,11 +281,8 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                     validateText?.textArea?.isError ? 'product-detail-form-content-textarea' : ''
                   }`}
                   ref={ref}
-                  // value={data?.content}
                   autoFocus
-                  // placeholder={`${
-                  //   validateText?.textArea?.isError ? validateText?.textArea?.message : 'Enter comment...'
-                  // }`}
+                  placeholder='Content must be greater than 100 characters and less than 500 characters'
                   autoSize={{ minRows: 2 }}
                   // onChange={handleChangeTextArea}
                   // onPressEnter={(e) => {
@@ -307,7 +304,6 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                 ]}
               >
                 <Select
-                  // defaultValue={5}
                   style={{ width: '100%' }}
                 >
                   <Option value={1}>
@@ -403,17 +399,18 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                     style={{ width: '100%' }}
                   >
                     <Option value=''></Option>
-                    <Option value='-.1000'>Less than 1000 dollars</Option>
-                    <Option value='1000.10000'>From 1000 dollars to 10000 dollars</Option>
-                    <Option value='10000.100000'>From 10000 dollars to 100000 dollars</Option>
-                    <Option value='100000.1000000'>From 100000 dollars to 1000000 dollars</Option>
-                    <Option value='1000000.+'>Greater than 1000000 dollars</Option>
+                    <Option value='-.1000'>Less than $1k</Option>
+                    <Option value='1000.10000'>From $1K to $10K</Option>
+                    <Option value='10000.100000'>From $10K to $100K</Option>
+                    <Option value='100000.1000000'>From $100K to $1M</Option>
+                    <Option value='1000000.+'>Greater than $1M</Option>
                   </Select>
                 </Form.Item>
               )}
               {data?.isScam && (
                 <div style={{ marginBottom: '0.325rem' }}>
                   <Form.Item
+                    label='Proof Link'
                     name='sources'
                     rules={[
                       {
@@ -468,7 +465,6 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                   type='primary'
                   htmlType='submit'
                   className='product-detail-form-footer-item'
-                  // onClick={handleSubmitComment}
                 >
                   Submit
                 </Button>
