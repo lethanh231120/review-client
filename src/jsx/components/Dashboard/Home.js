@@ -66,17 +66,6 @@ const Home = () => {
     getSummaryData()
   }, [])
 
-  // GET RECENT SCAM
-  // useEffect(() => {
-  //   const getScamProjects = async() => {
-  //     const res = await get('reviews/hot?isScam=true')
-  //     if (res?.code === '200') {
-  //       setScamProjects(res?.data?.products)
-  //     }
-  //   }
-  //   getScamProjects()
-  // }, [])
-
   // GET TOP COINS DATA
   useEffect(() => {
     const getTopCoinData = async() => {
@@ -87,13 +76,6 @@ const Home = () => {
     }
     getTopCoinData()
   }, [])
-
-  // const setScamAliveProjectsData = (data) => {
-  //   return [
-  //     { fillcolor: '#18A594', datatitle: 'Alive Projects', amount: data?.coins + data?.exchanges + data?.tokens + data?.ventures - data?.cryptoScams + data?.dAppScams + data?.exchangeScams + data?.ventureScams },
-  //     { fillcolor: '#15073A', datatitle: 'Scam or Dead Projects', amount: data?.cryptoScams + data?.dAppScams + data?.exchangeScams + data?.ventureScams }
-  //   ]
-  // }
 
   const setTotalCrytosData = (data) => {
     const SHOW_DATA_NUMBER = 4
@@ -141,17 +123,6 @@ const Home = () => {
     }
     return dataArr
   }
-  // useEffect(() => {
-  //   summaryData && setTotalCrytosData(summaryData)
-  // }, [summaryData])
-
-  // const handleAddProject = () => {
-  //   if (userInfo) {
-  //     addModal?.handleSetOpenModal(true)
-  //   } else {
-  //     signInContext?.handleSetOpenModal(true)
-  //   }
-  // }
 
   // REVIEWS
   useEffect(() => {

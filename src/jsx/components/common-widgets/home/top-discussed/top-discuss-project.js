@@ -1,30 +1,10 @@
 // import PerfectScrollbar from 'react-perfect-scrollbar'
 import { TopDiscussedItem } from './top-disussed-item'
-import { useState, useEffect } from 'react'
-import { get } from '../../../../../api/BaseRequest'
-import _ from 'lodash'
+import { HotTopicsContext } from '../../../../../App'
+import { useContext } from 'react'
 
 export const TopDiscussed = () => {
-  const [hotList, setHotList] = useState()
-
-  useEffect(() => {
-    const getHotList = async() => {
-      const res = await get('reviews/hot')
-      if (res?.code === '200') {
-        if (res?.data?.products && !_.isEmpty(res?.data?.products)) {
-          const list = res?.data?.products
-
-          const sorted = list?.sort((a, b) => parseInt(a?.totalReviews) - parseInt(b?.totalReviews))
-          if (sorted?.length > 5) {
-            setHotList(sorted?.slice(0, 5))
-          } else {
-            setHotList(res?.data?.products)
-          }
-        }
-      }
-    }
-    getHotList()
-  }, [])
+  const hotList = useContext(HotTopicsContext)
 
   return <div className='card pb-0'>
     <div className='card-header border-0 pb-0'>
