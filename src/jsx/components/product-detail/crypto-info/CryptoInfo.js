@@ -25,6 +25,7 @@ import MyScoreComponent from '../../score/scoreComponent'
 import { copyContractAddress, openWebsite } from '../../../../utils/effect'
 import { LoadingOutlined } from '@ant-design/icons'
 import imgReportProject from '../../../../images/svg/report-project-white.svg'
+import CoinChart from '../../charts/coinchart/CoinChart'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const navigate = useNavigate()
@@ -572,6 +573,25 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     </div>
   </>
 
+  let symbol = ''
+  if (productInfo?.details?.isBinance) {
+    symbol = `BINANCE:${productInfo?.details?.symbol}USDT`
+  } else {
+    if (productInfo?.details?.isCoinbase) {
+      symbol = `COINBASE${productInfo?.details?.symbol}USDT`
+    }
+  }
+
+  const priceChart = <CoinChart
+    symbol={productInfo?.details?.symbol}
+    price={productInfo?.details?.priceUSD}
+    holders={productInfo?.details?.holders}
+    marketCap={productInfo?.details?.marketcapUSD}
+    totalSupply={productInfo?.details?.totalSupply}
+    transfer={productInfo?.details?.transfers}
+    symbolForChart={symbol}
+  />
+
   return (
     <>
       <DetailLayout
@@ -583,6 +603,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         about={about}
         topDiscus={(<TopDiscussed/>)}
         // report={report}
+        portfolioOrChart={priceChart}
         numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
         rest={rest}
       />
