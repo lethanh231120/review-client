@@ -4,21 +4,21 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons'
 
 const Description = ({ text }) => {
   // max length displayed first time(more length withh display show more, less length withh display all)
-  const length = 600
+  const length = 635
   const [showLess, setShowLess] = React.useState(true)
 
   return (
     <>
       <div className='description-list'>
         <div className='card-content'>
-          {text.length < length ? (
-            <p className={`text-justify`} dangerouslySetInnerHTML={{ __html: text }}></p>
+          {text?.length < length ? (
+            <p className='text-justify cus-text-justify' dangerouslySetInnerHTML={{ __html: text }}></p>
           ) : (
             <>
               <p
-                className={`text-justify`}
+                className='text-justify cus-text-justify'
                 dangerouslySetInnerHTML={{
-                  __html: showLess ? `${text.slice(0, length)}...` : text
+                  __html: showLess ? `${text?.slice(0, length)}...` : text
                 }}
               ></p>
               <span

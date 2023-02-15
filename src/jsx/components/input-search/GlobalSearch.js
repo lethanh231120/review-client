@@ -155,13 +155,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
   useEffect(() => {
     if (isSubmit) {
       if (keyWord) {
-        // if (type) {
-        //   setOpenModalSearch(false)
-        // }
         form.resetFields()
-        // form.setFieldsValue({
-        //   category: 'all'
-        // })
         setIsSubmit(false)
         navigate(`../../../search/${keyWord}`)
         setDataSearch({
@@ -209,6 +203,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
     }
   }
 
+  console.log('3333333')
   return (
     <div className='input-group search-area cus-input-group'>
       <div className='nav-item d-flex align-items-center ' style={{ width: '100%' }}>
