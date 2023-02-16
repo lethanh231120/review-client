@@ -28,6 +28,7 @@ import './formReport.scss'
 const { Option } = Select
 const defaultValue = [
   { name: 'scamAmountUSD', value: '' },
+  { name: 'sources', value: [] },
   { name: 'isScam', value: false },
   { name: 'star', value: undefined }
 ]
@@ -218,6 +219,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     }
   }
 
+  console.log(form.getFieldValue('isScam'))
   return (
     <>
       {(isFormReport === true) && (
@@ -234,7 +236,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
         layout='vertical'
         fields={[
           ...defaultValue,
-          { name: 'isScam', value: form.getFieldValue('isScam') },
+          { name: 'isScam', value: form.getFieldValue('isScam') || false },
           { name: 'star', value: form.getFieldValue('isScam') ? 1 : form.getFieldValue('star') }
         ]}
       >

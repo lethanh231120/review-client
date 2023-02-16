@@ -292,4 +292,15 @@
         text-transform: uppercase;
         margin-right: 0.5rem;
     }
+    &-num{
+        display: flex;
+        align-items: center;
+        & p{
+            margin-bottom: 0 !important;
+        }
+        & h6{
+            margin-bottom: 0 !important;
+            margin-left: 0.4rem;
+        }
+    }
 }

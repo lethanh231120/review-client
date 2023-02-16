@@ -228,7 +228,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
             ref={refInput}
             type='text'
             className={`form-control cus-form-control`}
-            // placeholder={`${isFormReport ? 'Search for the project you want to report to us' : txtDisplaySearchHeader}`}
+            placeholder={`${isFormReport ? 'Search for the project you want to report with us' : txtDisplaySearchHeader}`}
             onChange={(e) => {
               handleSearch(e.target.value)
               if (isFormReport) {

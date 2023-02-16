@@ -1,6 +1,5 @@
 import React from 'react'
 import { Image } from 'antd'
-import { Badge } from 'react-bootstrap'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 
@@ -9,6 +8,7 @@ const ProjectHot = ({ data, setItem }) => {
     return text?.length > 10 ? `${text?.substring(0, 10)}...` : text
   }
 
+  console.log(data)
   switch (data?.type) {
     case 'crypto':
       return <div className='col-lg-3 cus-col'>
@@ -25,7 +25,17 @@ const ProjectHot = ({ data, setItem }) => {
               {shortenString(data?.detail?.name)}
               <div className='project-hot-content-symbol'>{data?.detail?.symbol ? data?.detail?.symbol : '' }</div>
             </div>
-            <Badge bg='' className='badge-success light'>{data?.type}</Badge>
+            <div>
+              <span className='post-comment' style={{ color: '#18A594' }}>
+                <i className='far fa-comment me-1' />
+                {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
+              </span>
+              <span style={{ padding: '0 0.5rem' }}>/</span>
+              <span className='post-comment' style={{ color: 'red' }}>
+                <i className='fa-regular fa-flag me-1'></i>
+                {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -43,7 +53,17 @@ const ProjectHot = ({ data, setItem }) => {
             <div className='project-hot-content-name'>
               {shortenString(data?.detail?.name)}
             </div>
-            <Badge bg='' className='badge-success light'>{data?.type}</Badge>
+            <div>
+              <span className='post-comment' style={{ color: '#18A594' }}>
+                <i className='far fa-comment me-1' />
+                {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
+              </span>
+              <span style={{ padding: '0 0.5rem' }}>/</span>
+              <span className='post-comment' style={{ color: 'red' }}>
+                <i className='fa-regular fa-flag me-1'></i>
+                {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -61,7 +81,17 @@ const ProjectHot = ({ data, setItem }) => {
             <div className='project-hot-content-name'>
               {shortenString(data?.detail?.dAppName)}
             </div>
-            <Badge bg='' className='badge-success light'>{data?.type}</Badge>
+            <div>
+              <span className='post-comment' style={{ color: '#18A594' }}>
+                <i className='far fa-comment me-1' />
+                {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
+              </span>
+              <span style={{ padding: '0 0.5rem' }}>/</span>
+              <span className='post-comment' style={{ color: 'red' }}>
+                <i className='fa-regular fa-flag me-1'></i>
+                {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -79,7 +109,17 @@ const ProjectHot = ({ data, setItem }) => {
             <div className='project-hot-content-name'>
               {shortenString(data?.detail?.ventureName)}
             </div>
-            <Badge bg='' className='badge-success light'>{data?.type}</Badge>
+            <div>
+              <span className='post-comment' style={{ color: '#18A594' }}>
+                <i className='far fa-comment me-1' />
+                {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
+              </span>
+              <span style={{ padding: '0 0.5rem' }}>/</span>
+              <span className='post-comment' style={{ color: 'red' }}>
+                <i className='fa-regular fa-flag me-1'></i>
+                {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -98,7 +138,17 @@ const ProjectHot = ({ data, setItem }) => {
               {shortenString(data?.detail?.projectName)}
               <div className='project-hot-content-symbol'>{data?.detail?.projectSymbol ? data?.detail?.projectSymbol : '' }</div>
             </div>
-            <Badge bg='' className='badge-success light'>{data?.detail?.type}</Badge>
+            <div>
+              <span className='post-comment' style={{ color: '#18A594' }}>
+                <i className='far fa-comment me-1' />
+                {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
+              </span>
+              <span style={{ padding: '0 0.5rem' }}>/</span>
+              <span className='post-comment' style={{ color: 'red' }}>
+                <i className='fa-regular fa-flag me-1'></i>
+                {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
