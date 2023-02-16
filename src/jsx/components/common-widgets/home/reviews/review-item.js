@@ -1,13 +1,20 @@
 import Avatar from 'antd/es/avatar/avatar'
-import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 import './reviews-item.scss'
 import imgshit from './shit-icon.svg'
 import profile from '../../../../../images/product/user.png'
+import { Image } from 'antd'
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
 
+TimeAgo.addDefaultLocale(en)
 export const ReviewItem = ({ data }) => {
+  const timeAgo = new TimeAgo('en-US')
   const navigate = useNavigate()
-
+  const NOW = Date.parse(new Date(Date.now()))
+  console.log(Date.parse(data?.createdDate))
+  // const [reviewList, setReviewList] = useState()
+  console.log(NOW - Date.parse(data?.createdDate))
   const onClicked = () => {
     const id = data?.productId
     console.log(id)
@@ -33,13 +40,21 @@ export const ReviewItem = ({ data }) => {
     <div className='card cus-review-card'>
       <div className='card-body cus-review-card-item'>
         <div className='new-arrival-content'>
-          <div className='d-flex '>
-            <Avatar className='mt-1' size={40} src={data?.avatar ? data?.avatar : profile } />
-            <div className=' ms-2 mt-1'>
-              {reviewStarsRender(data?.star, data?.isScam)}
-              {moment.utc(data?.updatedDate)?.fromNow()}
+          <div className='row'>
+            <div className='col-10 d-flex '>
+              <Avatar className='mt-1' size={40} src={data?.avatar ? data?.avatar : profile } />
+              <div className=' ms-2 mt-1'>
+                {reviewStarsRender(data?.star, data?.isScam)}
+                {timeAgo.format(NOW - Date.parse(data?.createdDate), 'round')}
+              </div>
+            </div>
+            <div className='col-2'>
+              {data?.image && <div className=''>
+                <Image className='img-fluid' style={{ width: '50px', height: '50px' }} src={data?.image} preview={true}/>
+              </div>}
             </div>
           </div>
+
           <div className='username-text mt-2' >{data?.name}&nbsp;
             {data?.productName && <span><span className={data?.isScam ? 'text-danger' : ''}>{data?.isScam && data?.isScam ? 'reported' : 'reviewed'}&nbsp;</span>
               <span onClick={ onClicked} className='text-primary'style={{ cursor: 'pointer' }}>
@@ -60,7 +75,7 @@ export const ReviewItem = ({ data }) => {
 }
 
 const shortenContent = (content) => {
-  const WORDS_SHOW = 80
+  const WORDS_SHOW = 60
   if (content) {
     if (content?.length >= WORDS_SHOW) {
       return `${content?.slice(0, WORDS_SHOW)}...`

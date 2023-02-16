@@ -72,13 +72,8 @@ const App = () => {
     if (res?.code === '200') {
       if (res?.data?.products && !_.isEmpty(res?.data?.products)) {
         const list = res?.data?.products
-
         const sorted = list?.sort((a, b) => parseInt(a?.totalReviews) - parseInt(b?.totalReviews))
-        if (sorted?.length > 5) {
-          setHotTopics(sorted?.slice(0, 5))
-        } else {
-          setHotTopics(res?.data?.products)
-        }
+        setHotTopics(sorted)
       }
     }
   }

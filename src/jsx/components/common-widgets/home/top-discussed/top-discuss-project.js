@@ -5,6 +5,12 @@ import { useContext } from 'react'
 
 export const TopDiscussed = () => {
   const hotList = useContext(HotTopicsContext)
+  let list = []
+  if (hotList?.length > 5) {
+    list = hotList?.slice(0, 5)
+  } else {
+    list = hotList
+  }
 
   return <div className='card pb-0'>
     <div className='card-header border-0 pb-0'>
@@ -17,7 +23,7 @@ export const TopDiscussed = () => {
         className='widget-media dz-scroll height370 ps ps--active-y'
       >
         <ul className='timeline'>
-          {hotList?.map((item, index) => <TopDiscussedItem key={index} item={item}/>
+          {list?.map((item, index) => <TopDiscussedItem key={index} item={item}/>
           )}
         </ul>
       </div>

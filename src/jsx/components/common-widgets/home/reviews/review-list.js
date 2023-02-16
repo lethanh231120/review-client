@@ -1,17 +1,46 @@
 import _ from 'lodash'
+import { useEffect, useState } from 'react'
 import { ReviewItem } from './review-item'
 
-export const ReviewList = ({ data }) => {
-  let list = []
-  const NO_OF_REVIEWS_SHOW = 9
-  if (data?.length > NO_OF_REVIEWS_SHOW) {
-    list = data?.slice(0, NO_OF_REVIEWS_SHOW)
-  } else {
-    list = data
-  }
+const REVIEW_WS_URL = 'wss://dev-be.client.gear5.guru/reviews/review/latest'
+// const ANONYMOUS_ID = '00000000-0000-0000-0000-000000000000'
+export const ReviewList = () => {
+  const [reviewList, setReviewList] = useState([])
+
+  useEffect(() => {
+    const socket = new WebSocket(REVIEW_WS_URL)
+
+    socket?.addEventListener('open', () => {
+      console.log('WS opened')
+    })
+
+    socket?.addEventListener('close', () => {
+      console.log('WS closed')
+    })
+
+    socket?.addEventListener('error', (error) => {
+      console.log('WS error' + error)
+    })
+
+    socket?.addEventListener('message', (data) => {
+      const temp = JSON.parse(data?.data)
+      if (temp !== 'ping') {
+        setReviewList(reviewList => [temp, ...reviewList])
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    if (reviewList?.length > 9) {
+      const copyArr = [...reviewList]
+      copyArr.pop()
+      setReviewList(copyArr)
+    }
+  }, [reviewList?.length])
+
   return <div className='row ' >
     <div className='col-12 mb-2'> <h2 className='heading' >Recent Reviews</h2></div>
-    {!_.isEmpty(list) && list?.map((item, index) => <ReviewItem
+    {!_.isEmpty(reviewList) && reviewList?.map((item, index) => <ReviewItem
       key={index}
       data={item && item}
     />)}
