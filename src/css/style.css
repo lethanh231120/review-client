@@ -28485,11 +28485,11 @@ table.dataTable thead .sorting_asc {
       .buy-coin p {
         width: 100%; } }
   .buy-coin .coin-img img {
-    transform: matrix(-1, 0, 0, 1, 0, 0);
+    transform: matrix(1, 0, 0, 1, 0, 0);
     width: 300px;
     position: absolute;
     bottom: -16px;
-    right: 0rem; }
+    right: 2rem; }
     @media only screen and (max-width: 105rem) {
       .buy-coin .coin-img img {
         width: 300px;

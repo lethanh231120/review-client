@@ -58,7 +58,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
 
   const mapDefaultOpenPanel = () => {
     const data = []
-    const savedStates = JSON.parse(window.localStorage.getItem(type))
+    const savedStates = window.localStorage.getItem(type) && JSON.parse(window.localStorage.getItem(type))
     savedStates && Object.keys(savedStates)?.forEach(key => {
       data.push(key)
     })
