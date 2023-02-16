@@ -13,11 +13,11 @@ const Description = ({ text }) => {
         <div className='description-list'>
           <div className='card-content'>
             {text?.length < length ? (
-              <p className='text-justify cus-text-justify' dangerouslySetInnerHTML={{ __html: text }}></p>
+              <p className='cus-text-justify' dangerouslySetInnerHTML={{ __html: text }}></p>
             ) : (
               <>
                 <p
-                  className='text-justify cus-text-justify'
+                  className='cus-text-justify'
                   dangerouslySetInnerHTML={{
                     __html: showLess ? `${text?.slice(0, length)}...` : text
                   }}

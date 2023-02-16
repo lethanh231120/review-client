@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Avatar, Spin, Tooltip } from 'antd'
+import { Avatar, Spin, Tooltip, Table } from 'antd'
 import Description from '../description/Description'
 import {
   CopyOutlined,
@@ -98,13 +98,52 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     rest?.setData({
       ...rest.data,
       isScam: true
-      // star: 1
     })
     rest?.form?.setFieldsValue({
       'isScam': true,
       'star': 1
     })
   }
+
+  const columns = [
+    {
+      title: 'Exchange',
+      dataIndex: 'exchange',
+      key: 'exchange',
+      render: (text) => <a>{text}</a>
+    },
+    {
+      title: 'Pair',
+      dataIndex: 'age',
+      key: 'age'
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+      key: 'address'
+    }
+  ]
+
+  const data = [
+    {
+      key: '1',
+      exchange: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park'
+    },
+    {
+      key: '2',
+      exchange: 'Jim Green',
+      age: 42,
+      address: 'London No. 1 Lake Park'
+    },
+    {
+      key: '3',
+      exchange: 'Joe Black',
+      age: 32,
+      address: 'Sydney No. 1 Lake Park'
+    }
+  ]
 
   // Header
   const header = <div className='row'>
@@ -555,7 +594,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       </div>
 
     </div>
-
   </>
 
   const about = <>
@@ -570,6 +608,15 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
             : ''}
         />
       </div>
+    </div>
+  </>
+
+  const exchange = <>
+    <div className='card-header border-0 pb-0'>
+      <h5 className='text-primary'>Trading On</h5>
+    </div>
+    <div className='card-body pt-3'>
+      <Table columns={columns} dataSource={data} pagination={false}/>
     </div>
   </>
 
@@ -604,8 +651,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         scam={scam}
         more={more}
         about={about}
+        exchange={exchange}
         topDiscus={(<TopDiscussed/>)}
-        // report={report}
         portfolioOrChart={priceChart}
         numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
         rest={rest}

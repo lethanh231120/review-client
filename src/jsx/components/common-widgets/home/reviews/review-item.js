@@ -12,12 +12,9 @@ export const ReviewItem = ({ data }) => {
   const timeAgo = new TimeAgo('en-US')
   const navigate = useNavigate()
   const NOW = Date.parse(new Date(Date.now()))
-  console.log(Date.parse(data?.createdDate))
   // const [reviewList, setReviewList] = useState()
-  console.log(NOW - Date.parse(data?.createdDate))
   const onClicked = () => {
     const id = data?.productId
-    console.log(id)
     const splitted = id && id?.split('_')
     const type = splitted && splitted[1]
 
