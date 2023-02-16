@@ -16,7 +16,7 @@ const SummaryRow = ({ data }) => {
   const idos = data?.soons
 
   return (
-    <div className='row'>
+    <div className='row' style={{ width: '100%' }}>
       <SummaryCard type='crypto' title={'Coins/Tokens'} number={tokenData} bg='bgl-primary text-primary' badgeStyle='badge-primary' icon={<FontAwesomeIcon icon={faCoins}/>}/>
       <SummaryCard type='exchange' title={'Exchanges'} number={exchangeData} bg='bgl-warning text-warning' badgeStyle='badge-warning' icon={<FontAwesomeIcon icon={faExchangeAlt}/>}/>
       <SummaryCard type='venture' title={'Ventures'} number={venture} bg='bgl-danger text-danger' badgeStyle='badge-danger' icon={<FontAwesomeIcon icon={faBuilding}/>}/>
