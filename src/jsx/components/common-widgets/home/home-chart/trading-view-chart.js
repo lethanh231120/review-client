@@ -46,7 +46,6 @@ export default function TradingViewWidget({ symbol }) {
             save_image: false,
           })
 
-          console.log(view)
         }
       }
     },

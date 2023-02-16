@@ -16,7 +16,7 @@ import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-p
 import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
 import { TopCoinChart } from '../common-widgets/home/home-chart/bitcoin-chart'
 import { ScamEachChainsList } from '../common-widgets/home/scam-each-chain-chart'
-import { get, getPrice, post } from '../../../api/BaseRequest'
+import { get, getPrice } from '../../../api/BaseRequest'
 import { MySpinner } from '../common-widgets/my-spinner'
 import _ from 'lodash'
 import { renderRandomColor } from '../../../utils/formatNumber'
@@ -39,8 +39,6 @@ const fillColors = [
   '#362465'
 ]
 
-const ANONYMOUS_ID = '00000000-0000-0000-0000-000000000000'
-
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
   const [summaryData, setSummaryData] = useState()
@@ -50,7 +48,7 @@ const Home = () => {
   const reportModal = useContext(ReportModalContext)
   // const addModal = useContext(AddModalContext)
   // const signInContext = useContext(SignInContext)
-  const [latestReviews, setLatestReviews] = useState([])
+
   useEffect(() => {
     changeBackground({ value: 'light', label: 'Light' })
   }, [])
@@ -127,53 +125,6 @@ const Home = () => {
   }
 
   // REVIEWS
-  useEffect(() => {
-    const getReviews = async() =>{
-      const res = await get('reviews/review/latest')
-      const reviewData = []
-      if (res?.code === '200') {
-        let latestReviews = []
-        latestReviews = res?.data
-
-        const accounts = []
-        const listAccountID = []
-
-        res?.data && res?.data?.forEach(item => {
-          listAccountID.push(item?.accountId)
-        })
-        // get accounts information
-        const accountRes = await post('reviews/auth/profiles', { accountIds: listAccountID })
-        if (accountRes?.code === '200') {
-          accountRes?.data?.accounts && accountRes?.data?.accounts?.forEach(item => {
-            accounts?.push({ accountId: item?.id, image: item?.image, name: item?.userName })
-          })
-        }
-
-        // merge accounts with reviews information
-        latestReviews && latestReviews?.forEach((review, index) => {
-          let temp
-          if (review?.accountId === ANONYMOUS_ID) {
-            const userData = { image: null, name: 'Anonymous', id: ANONYMOUS_ID }
-            temp = {
-              ...review,
-              ...userData
-            }
-          } else {
-            const tempData = accounts?.find(account => account?.accountId === review?.accountId)
-            temp = {
-              ...review,
-              ...tempData
-            }
-          }
-
-          reviewData.push(temp)
-          setLatestReviews(reviewData)
-        })
-      }
-    }
-
-    getReviews()
-  }, [])
 
   return (
     <>
@@ -215,7 +166,7 @@ const Home = () => {
           <TopDiscussed />
         </div>
         <div className='col-12 ' >
-          { latestReviews ? <ReviewList data={latestReviews}/> : <MySpinner />}
+          <ReviewList />
         </div>
         {/* {summaryData ? <div className='col-4 '>
           <DataAllocationChart header={'Projects Allocation'} data={setScamAliveProjectsData(summaryData)}/> </div> : <DonutChartSkeleton />} */}
