@@ -125,7 +125,7 @@ const Header = () => {
     signInFromAddProductContext?.setIsOpenModalAddProduct(false) // reset state add product form when close login form
   }
 
-  console.log(123123)
+  // console.log(123123)
   return (
     <>
       <Modal
