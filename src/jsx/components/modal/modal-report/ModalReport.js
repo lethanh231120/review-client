@@ -57,7 +57,6 @@ const ModalReport = () => {
     }
   }, [typeComment, signInContext, auth])
 
-  console.log(item)
   // Process to get the url for product detail after the report is done
   // Report scam will be redirected to detail product screen
   useEffect(() => {
@@ -195,7 +194,6 @@ const ModalReport = () => {
       />
       {item && (
         <>
-          {console.log(item)}
           <div className='row report-item-overview'>
             <div className='col-lg-12'>
               <div className='profile card card-body px-3 pt-3 pb-0 mt-3 cus-card'>

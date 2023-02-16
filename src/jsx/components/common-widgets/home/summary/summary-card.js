@@ -11,7 +11,7 @@ export const SummaryCard = ({ title, number, bg, badgeStyle, icon, type }) => {
   }
 
   return <div className='col-xl-3 col-sm-6' onClick={onItemClicked}>
-    <div className='widget-stat card cus-summary-card' >
+    <div className='widget-stat card cus-summary-card' style={{ marginBottom: '0', marginTop: '1rem' }} >
       <div className='card-body p-3'>
         <div className='media'>
           <span className={`${bg}`} >

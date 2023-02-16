@@ -199,10 +199,11 @@ const InputSearch = ({ isFormReport, setItem }) => {
     for (const char of text) {
       await sleep(millSecAppendChar)
       chars += char
-      setTxtDisplaySearchHeader(chars)
+      document.querySelector('#globalSearch').placeholder = chars
     }
+    setTxtDisplaySearchHeader(chars) // active effect
   }
-
+  console.log(6546556)
   return (
     <div className='input-group search-area cus-input-group'>
       <div className='nav-item d-flex align-items-center ' style={{ width: '100%' }}>
@@ -240,7 +241,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
               e.stopPropagation()
               handleSearch('')
             }}
-            id='search'
+            id='globalSearch'
           />
         </div>
       </div>

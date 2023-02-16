@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-//  import {NavLink} from 'react-router-dom';
-// Import Components
 import { Button } from 'react-bootstrap'
 import { ThemeContext } from '../../../context/ThemeContext'
-// import metaverse from './../../../images/metaverse.png'
 import imgReportProject from '../../../images/svg/report-project-white.svg'
 // images
 import safe from './../../../images/22.png'
@@ -11,7 +8,6 @@ import safe from './../../../images/22.png'
 import eth from './../../../images/ethereum.png'
 import btc from './../../../images/bitcoin.png'
 import { TopCoins } from '../common-widgets/home/top-coin'
-// import { RecentlyScam } from '../common-widgets/home/recently-scam/recently-scam'
 import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-project'
 import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
 import { TopCoinChart } from '../common-widgets/home/home-chart/bitcoin-chart'
@@ -20,13 +16,7 @@ import { get, getPrice } from '../../../api/BaseRequest'
 import { MySpinner } from '../common-widgets/my-spinner'
 import _ from 'lodash'
 import { renderRandomColor } from '../../../utils/formatNumber'
-// import { API_KEY, bitqueryEndpoint, BITQUERY_QUERY } from './Dashboard/bitquery-query/query'
-// import { DonutChartSkeleton } from '../common-widgets/loading-skeleton/donutchart-loading'
-import { ReportModalContext
-  //  AddModalContext
-} from '../../index'
-// import { SignInContext } from '../../../App'
-// import { getCookie, STORAGEKEY } from '../../../utils/storage'
+import { ReportModalContext } from '../../index'
 import { ReviewList } from '../common-widgets/home/reviews/review-list'
 import SummaryRow from '../../components/common-widgets/home/summary/BalanceCardSlider'
 import './home.scss'
@@ -128,11 +118,13 @@ const Home = () => {
 
   return (
     <>
+      {/* row 1 */}
       <div className='row'>
+        {/* banner, summary */}
         <div className='col-8 col-xl-8'>
-          <div className='row gy-5'>
-            <div className='col-xl-12'>
-              <div className='card bubles banner-body'>
+          <div className='row' style={{ height: '100%' }}>
+            <div className='col-xl-12' >
+              <div className='card bubles banner-body' style={{ marginBottom: '30%' }}>
                 <div className='card-body '>
                   <div className='buy-coin bubles-down'>
                     <div>
@@ -157,55 +149,46 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className='col-xl-12'>
+            <div className='col-xl-12' style={{ display: 'flex', alignItems: 'end', justifyContent: 'center' }}>
               {summaryData ? <SummaryRow data={summaryData}/> : <MySpinner />}
             </div>
           </div>
         </div>
+        {/* hot topic */}
         <div className='col-4'>
           <TopDiscussed />
         </div>
+      </div>
+
+      {/* row 2 */}
+      <div className='row mt-4'>
+        {/* Recent Reviews */}
         <div className='col-12 ' >
           <ReviewList />
         </div>
-        {/* {summaryData ? <div className='col-4 '>
-          <DataAllocationChart header={'Projects Allocation'} data={setScamAliveProjectsData(summaryData)}/> </div> : <DonutChartSkeleton />} */}
       </div>
 
-      <div className='row'>
-        {/* LIST SCAM  */}
+      {/* row 3 */}
+      <div className='row mt-4'>
+        {/* top coin chart  */}
         <div className='col-8 col-lg-8'>
           {topCoins ? <TopCoinChart topCoinList = {topCoins}/> : <MySpinner />}
         </div>
-        {/* <div className='col-2 ' >
-          <div className='card email-susb' >
-            <div className='card-body text-center' >
-              <div className='pt-2'>
-                <img src={metaverse} alt='' />
-              </div>
-              <div className='toatal-email' >
-                <h3 className='heading'>2.2M+ Projects</h3>
-                <h5>Contribute new project with us</h5>
-              </div>
-              <Button onClick={handleAddProject} className='btn btn-primary email-btn'>
-                   Add Projects
-              </Button>
-            </div>
-          </div>
-        </div> */}
-        {/* LIST HOT DISCUSS  */}
+        {/* top coin  */}
         <div className=' col-4 col-lg-4'>
           <TopCoins />
         </div>
       </div>
 
-      <div className='row'>
+      {/* row 4 */}
+      <div className='row mt-4 mb-4'>
         {/* Scam percentage each chains chart */}
         <div className='col-8'>
           {summaryData ? <ScamEachChainsList data={setScamDataEachChains(summaryData)}/> : <MySpinner/>}
         </div>
-        <div className='col-4 col-xl-4'>
-          {summaryData ? <DataAllocationChart header={'Blockchains Data Allocation In Gear5'} data={setTotalCrytosData(summaryData)}/> : <MySpinner/>}
+        {/* blockchain data allocation */}
+        <div className='col-4 col-xl-4' style={{ textTransform: 'none' }}>
+          {summaryData ? <DataAllocationChart header={`Gear5's Blockchains Data Allocation`} data={setTotalCrytosData(summaryData)}/> : <MySpinner/>}
         </div>
       </div>
     </>
