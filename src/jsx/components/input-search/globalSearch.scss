@@ -165,19 +165,20 @@
     border: none !important;
 }
 
-@keyframes typewriter{
-    from{width: 0;}
-    to{width: 24em;}
-  }
-  @keyframes blinkTextCursor{
-    from{border-right-color: rgba(255,255,255,.75);}
-    to{border-right-color: transparent;}
-  }
-.cus-form-control {
-    border: 0 !important;
-    animation: typewriter 4s steps(44) 1s 1 normal both,
-             blinkTextCursor 500ms steps(44) infinite normal;
-}
+// @keyframes typewriter{
+//     from{width: 0;}
+//     to{width: 100%;}
+// }
+// @keyframes blinkTextCursor{
+//     from{border-right-color: rgba(255,255,255,.75);}
+//     to{border-right-color: rgba(255,255,255,.75);}
+// }
+// .cus-form-control {
+//     width: 100%;
+//     // border: 0 !important;
+//     animation: typewriter 4s steps(44) 1s 1 normal both,
+//              blinkTextCursor 500ms steps(44) infinite normal;
+// }
 .cus-form-report{
     background-color: rgba(255, 0, 0, 0.47) !important;
 }
@@ -219,34 +220,33 @@
 }
 
 
-//START: Effect search input
-::-webkit-input-placeholder {
-    display: inline-block;
-    opacity: 0.2;
-    transition: all 0.3s ease-in-out;
-    padding-right: .15em;
-    white-space: nowrap;
-  }
+// ::-webkit-input-placeholder {
+//     display: inline-block;
+//     opacity: 0.2;
+//     transition: all 0.3s ease-in-out;
+//     padding-right: .15em;
+//     white-space: nowrap;
+//   }
   
-  input:focus::-webkit-input-placeholder {
-    -webkit-transform: translateY(-125%);
-    font-size: 75%;
-    opacity: 0.05
-  }
+//   input:focus::-webkit-input-placeholder {
+//     -webkit-transform: translateY(-125%);
+//     font-size: 75%;
+//     opacity: 0.05
+//   }
   
-  input.imitatefocus::-webkit-input-placeholder {
-    -webkit-transform: translateY(-125%);
-    opacity: 0.05
-  }
+//   input.imitatefocus::-webkit-input-placeholder {
+//     -webkit-transform: translateY(-125%);
+//     opacity: 0.05
+//   }
   
-  input {
-    font-family: monospace;
-    display: block;
-    font-size: 35px;
-    color: #666;
-    padding-left: 0px;
-    padding-right: 10px;
-    width: 100%;
-  }
-//END: Effect search input
+//   input {
+//     font-family: monospace;
+//     display: block;
+//     font-size: 35px;
+//     color: #666;
+//     padding-left: 0px;
+//     padding-right: 10px;
+//     width: 100%;
+//   }
+  
   

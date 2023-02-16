@@ -22,7 +22,7 @@ const ReviewItem = ({ data, productId }) => {
   const [form] = Form.useForm()
   const [addReply, setAddReply] = useState(false)
   const [isReaction, setIsReaction] = useState(false)
-  const [Loading, setLoading] = useState(true)
+  // const [Loading, setLoading] = useState(true)
   const [comment, setComment] = useState('')
   const signContext = useContext(SignInContext)
   const authenticated = useContext(Authenticated)
@@ -68,7 +68,7 @@ const ReviewItem = ({ data, productId }) => {
     if (!_.isEmpty(newData?.reactions)) {
       setIsReaction(newData?.reactions?.some((item) => (item?.accountId === userInfo?.id)))
     }
-    setLoading(false)
+    // setLoading(false)
 
     const listReactionType = []
     newData?.reactions?.forEach((item) => {
@@ -97,7 +97,7 @@ const ReviewItem = ({ data, productId }) => {
     }
   }
 
-  const functionSendReply = async(params) => {
+  const functionAddReply = async(params) => {
     const dataAdd = await post('reviews/reply', params)
     if (dataAdd) {
       const newReply = [
@@ -115,13 +115,13 @@ const ReviewItem = ({ data, productId }) => {
         ...newData.replies
       ]
       setNewData({
-        ...newData,
+        ...data,
         replies: newReply
       })
       form.resetFields()
       setIsCollapse({
         ...isCollapse,
-        reviewId: ''
+        reviewId: data?.review?.id
       })
       setValidateTextArea(false)
       setComment('')
@@ -129,32 +129,99 @@ const ReviewItem = ({ data, productId }) => {
   }
 
   const handleSend = async(e) => {
-    setNewData()
-    if (comment !== '') {
-      const params = {
-        content: comment,
-        reviewId: data?.review?.id,
-        productId: productId,
-        image: ''
-      }
-      functionSendReply(params)
+    if (!token) {
+      signContext?.handleSetOpenModal(true)
     } else {
-      setValidateTextArea(true)
+      if (comment !== '') {
+        setNewData()
+        const params = {
+          content: comment,
+          reviewId: data?.review?.id,
+          productId: productId,
+          image: ''
+        }
+        functionAddReply(params)
+        // const dataAdd = await post('reviews/reply', params)
+        // if (dataAdd) {
+        //   setNewData()
+        //   const newReply = [
+        //     {
+        //       reply: {
+        //         ...dataAdd?.data,
+        //         accountType: userInfo?.accountType,
+        //         email: userInfo?.email,
+        //         acountImage: userInfo?.image,
+        //         role: userInfo?.role,
+        //         userName: userInfo?.userName
+        //       },
+        //       reactions: []
+        //     },
+        //     ...newData.replies
+        //   ]
+        //   setNewData({
+        //     ...data,
+        //     replies: newReply
+        //   })
+        //   form.resetFields()
+        //   setIsCollapse({
+        //     ...isCollapse,
+        //     reviewId: data?.review?.id
+        //   })
+        //   setValidateTextArea(false)
+        //   setComment('')
+        // }
+      } else {
+        setValidateTextArea(true)
+      }
     }
   }
 
   const handleSubmit = async(e) => {
-    if (e.target.value !== '') {
-      setNewData()
-      const params = {
-        content: e.target.value,
-        reviewId: data?.review?.id,
-        productId: productId,
-        image: ''
-      }
-      functionSendReply(params)
+    // setLoading(false)
+    if (!token) {
+      signContext?.handleSetOpenModal(true)
     } else {
-      setValidateTextArea(true)
+      if (e.target.value !== '') {
+        setNewData()
+        const params = {
+          content: e.target.value,
+          reviewId: data?.review?.id,
+          productId: productId,
+          image: ''
+        }
+        functionAddReply(params)
+        // const dataAdd = await post('reviews/reply', params)
+        // if (dataAdd) {
+        //   const newReply = [
+        //     {
+        //       reply: {
+        //         ...dataAdd?.data,
+        //         accountType: userInfo?.accountType,
+        //         email: userInfo?.email,
+        //         acountImage: userInfo?.image,
+        //         role: userInfo?.role,
+        //         userName: userInfo?.userName
+        //       },
+        //       reactions: []
+        //     },
+        //     ...newData.replies
+        //   ]
+        //   setNewData({
+        //     ...newData,
+        //     replies: newReply
+        //   })
+        //   // setLoading(true)
+        //   form.resetFields()
+        //   setIsCollapse({
+        //     ...isCollapse,
+        //     reviewId: ''
+        //   })
+        //   setValidateTextArea(false)
+        //   setComment('')
+        // }
+      } else {
+        setValidateTextArea(true)
+      }
     }
   }
 
@@ -219,121 +286,120 @@ const ReviewItem = ({ data, productId }) => {
 
   return (
     <>
-      {!Loading && (
-        <div className='review-item'>
-          <Image src={newData?.review?.acountImage ? newData?.review?.acountImage : user} preview={false}/>
-          <div className='review-item-description'>
-            <div className='review-item-data'>
-              <div className='review-item-name'>
-                {newData?.review?.userName ? newData?.review?.userName : 'Anonymous'}
-                <span>
-                  {newData?.review?.isScam && (<Image src={scam} preview={false}/>)}
-                </span>
-              </div>
-              <div className='review-item-content'>
-                <div>
-                  <strong>{newData?.review?.title}</strong>
-                </div>
-                <Description text={newData?.review?.content}/>
-                {/* {newData?.review?.content} */}
-                {!_.isEmpty(newData?.review?.sources) && (
-                  <div className='review-item-content-source'>
-                    {newData?.review?.sources?.map((item, index) => (
-                      <span key={index}>
-                        {item !== '' && (
-                          <a href={item} target='_blank' rel='noreferrer'>
-                            <LinkOutlined/>
-                            {item?.split('/')[2]}
-                          </a>
-                        )}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+      {/* {!Loading && ( */}
+      <div className='review-item'>
+        <Image src={newData?.review?.acountImage ? newData?.review?.acountImage : user} preview={false}/>
+        <div className='review-item-description'>
+          <div className='review-item-data'>
+            <div className='review-item-name'>
+              {newData?.review?.userName ? newData?.review?.userName : 'Anonymous'}
+              <span>
+                {newData?.review?.isScam && (<Image src={scam} preview={false}/>)}
+              </span>
             </div>
-            {newData?.review?.image && (
-              <div className='review-item-comment-image'>
-                <Image src={newData?.review?.image} preview={true}/>
+            <div className='review-item-content'>
+              <div>
+                <strong>{newData?.review?.title}</strong>
               </div>
-            )}
-            <div className='review-item-action'>
-              <div className='review-item-action-list'>
-                <ListEmoji
-                  currenReaction={currenReaction}
-                  handleClickReaction={handleClickReaction}
-                />
-                <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
-                <span className='review-item-action-item-time'>
-                  {moment.utc(newData?.review?.updatedDate).fromNow()}
-                </span>
-              </div>
-              {!_.isEmpty(reactionType) && (
-                <div className='review-item-action-reaction'>
-                  {reactionType?.map((item, index) => (
-                    <div className='review-item-action-reaction-item' key={index}>
-                      {item}
-                    </div>
+              <Description text={newData?.review?.content}/>
+              {!_.isEmpty(newData?.review?.sources) && (
+                <div className='review-item-content-source'>
+                  {newData?.review?.sources?.map((item, index) => (
+                    <span key={index}>
+                      {item !== '' && (
+                        <a href={item} target='_blank' rel='noreferrer'>
+                          <LinkOutlined/>
+                          {item?.split('/')[2]}
+                        </a>
+                      )}
+                    </span>
                   ))}
-                  <div className='review-item-action-reaction-item'>{newData?.reactions?.length}</div>
                 </div>
               )}
-            </div>
-            {newData?.replies?.length > 2 && (
-              <div
-                className='review-item-replies'
-                onClick={() => {
-                  setIsCollapse({
-                    isCollapse: !isCollapse?.isCollapse,
-                    reviewId: ''
-                  })
-                }}
-              >
-                <CaretDownOutlined/>
-                {newData?.replies?.length} reply
-              </div>
-            )}
-            <Form form={form}>
-              {addReply && token && (
-                <div className='add-reply'>
-                  <div className='add-reply-form-avatar'>
-                    <Image src={userInfo?.image ? userInfo?.image : user} preview={false} style={{ width: '2.1875rem' }}/>
-                  </div>
-                  <Form.Item
-                    name={`reply ${newData?.review?.id}`}
-                  >
-                    <Input
-                      name={`reply ${newData?.review?.id}`}
-                      className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
-                      autoFocus
-                      suffix={<>
-                        <SendOutlined
-                          style={{ cursor: 'pointer' }}
-                          onClick={handleSend}
-                        />
-                      </>}
-                      placeholder={`${validateTextArea ? 'Please enter reply' : 'Enter reply...'}`}
-                      onChange={handleChangeComment}
-                      onPressEnter={handleSubmit}
-                    />
-                  </Form.Item>
-                </div>
-              )}
-            </Form>
-            <div
-              className={`${(isCollapse?.isCollapse && isCollapse?.reviewId === '') ? 'isCollapse' : 'comment-reply'}`}
-            >
-              {newData?.replies?.map((item, index) => (
-                <ReplyComment
-                  key={index}
-                  data={item}
-                  productId={productId}
-                />
-              ))}
             </div>
           </div>
+          {newData?.review?.image && (
+            <div className='review-item-comment-image'>
+              <Image src={newData?.review?.image} preview={true}/>
+            </div>
+          )}
+          <div className='review-item-action'>
+            <div className='review-item-action-list'>
+              <ListEmoji
+                currenReaction={currenReaction}
+                handleClickReaction={handleClickReaction}
+              />
+              <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
+              <span className='review-item-action-item-time'>
+                {moment.utc(newData?.review?.updatedDate).fromNow()}
+              </span>
+            </div>
+            {!_.isEmpty(reactionType) && (
+              <div className='review-item-action-reaction'>
+                {reactionType?.map((item, index) => (
+                  <div className='review-item-action-reaction-item' key={index}>
+                    {item}
+                  </div>
+                ))}
+                <div className='review-item-action-reaction-item'>{newData?.reactions?.length}</div>
+              </div>
+            )}
+          </div>
+          {newData?.replies?.length > 2 && (
+            <div
+              className='review-item-replies'
+              onClick={() => {
+                setIsCollapse({
+                  isCollapse: !isCollapse?.isCollapse,
+                  reviewId: ''
+                })
+              }}
+            >
+              <CaretDownOutlined/>
+              {newData?.replies?.length} reply
+            </div>
+          )}
+          <Form form={form}>
+            {addReply && token && (
+              <div className='add-reply'>
+                <div className='add-reply-form-avatar'>
+                  <Image src={userInfo?.image ? userInfo?.image : user} preview={false} style={{ width: '2.1875rem' }}/>
+                </div>
+                <Form.Item
+                  name={`reply ${newData?.review?.id}`}
+                >
+                  <Input
+                    name={`reply ${newData?.review?.id}`}
+                    className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
+                    autoFocus
+                    suffix={<>
+                      <SendOutlined
+                        style={{ cursor: 'pointer' }}
+                        onClick={handleSend}
+                      />
+                    </>}
+                    placeholder={`${validateTextArea ? 'Please enter reply' : 'Enter reply...'}`}
+                    onChange={handleChangeComment}
+                    onPressEnter={handleSubmit}
+                  />
+                </Form.Item>
+              </div>
+            )}
+          </Form>
+          <div
+            className={`${(isCollapse?.isCollapse && isCollapse?.reviewId === '') ? 'isCollapse' : 'comment-reply'}`}
+          >
+            {newData?.replies?.map((item, index) => (
+              <ReplyComment
+                key={index}
+                data={item}
+                productId={productId}
+              />
+            ))}
+          </div>
         </div>
-      )}
+      </div>
+      {/* )} */}
     </>
   )
 }

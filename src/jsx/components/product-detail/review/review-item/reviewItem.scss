@@ -169,6 +169,10 @@
         height: 2.1875rem;
         @include font-family;
         border-radius: 6px !important;
+        &::placeholder{
+            color: #000 !important;
+            opacity: 0.4;
+        }
     }
     & .ant-form-item{
         margin-bottom: 0;

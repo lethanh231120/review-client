@@ -7,7 +7,7 @@ import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/f
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import NoImage from './../../common-widgets/no-image/NoImage'
 
-const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
+const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -25,6 +25,7 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
           setItem(item)
         } else {
           navigate(`../../products/crypto/${item?.cryptoId?.split('_')[1]}/${item?.cryptoId?.split('_')[2]}/${item?.cryptoId?.split('_')[1] === 'token' ? item?.cryptoId?.split('_')[3] : ''}`)
+          refInput.current.value = ''
         }
       }}
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
