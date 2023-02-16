@@ -181,14 +181,14 @@ const Home = () => {
       </div>
 
       {/* row 4 */}
-      <div className='row mt-4'>
+      <div className='row mt-4 mb-4'>
         {/* Scam percentage each chains chart */}
         <div className='col-8'>
           {summaryData ? <ScamEachChainsList data={setScamDataEachChains(summaryData)}/> : <MySpinner/>}
         </div>
         {/* blockchain data allocation */}
-        <div className='col-4 col-xl-4'>
-          {summaryData ? <DataAllocationChart header={'Blockchains Data Allocation In Gear5'} data={setTotalCrytosData(summaryData)}/> : <MySpinner/>}
+        <div className='col-4 col-xl-4' style={{ textTransform: 'none' }}>
+          {summaryData ? <DataAllocationChart header={`Gear5's Blockchains Data Allocation`} data={setTotalCrytosData(summaryData)}/> : <MySpinner/>}
         </div>
       </div>
     </>
