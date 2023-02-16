@@ -205,7 +205,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
   }
   return (
     <div className='input-group search-area cus-input-group'>
-      <div className='nav-item d-flex align-items-center ' style={{ width: '100%' }}>
+      <div className='nav-item d-flex align-items-center' style={{ width: '100%' }}>
         <div className='input-group search-area '>
           <span
             className={`input-group-text cus-input-group-text ${isFormReport ? 'cus-form-report' : ''}`}

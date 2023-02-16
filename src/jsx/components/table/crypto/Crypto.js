@@ -49,6 +49,7 @@ const Crypto = ({
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
   const [listData, setListData] = useState([])
+  const [mainExplorerMap, setMainExplorerMap] = useState()
 
   useEffect(() => {
     const getChain = async() => {
@@ -138,6 +139,56 @@ const Crypto = ({
     e.stopPropagation()
   }
 
+  const getAddressFromCryptoId = async(cryptoId) =>{
+    const parts = await cryptoId?.split('_')
+    if (parts.length < 4) {
+      return null
+    }
+    return parts[3]
+  }
+
+  const getMainExplorer = async records => {
+    const mainExplorerMapLocal = new Map()
+    console.log(records)
+    for (const record of records) {
+      if (!_.isEmpty(record?.multichain)) {
+        const newMultiChain = []
+        record?.multichain?.forEach(async(itemMulti) => {
+          const itemChain = chainList[itemMulti?.chainName]
+          if (itemChain) {
+            newMultiChain.push({
+              ...itemChain,
+              ...itemMulti
+            })
+            // main address to display
+            if (record.chainName === itemMulti?.chainName) {
+              const address = await getAddressFromCryptoId(record.cryptoId)
+              const url = itemChain?.exploreWebsite + itemChain?.path + address
+              // if (record?.cryptoId === 'gear5_token_ethereum_0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48') {
+              // }
+              alert(url)
+
+              mainExplorerMapLocal.set(record?.cryptoId, url)
+            }
+          }
+        })
+      } else {
+        // don't have multiple chain
+        const dataChain = chainList[record.chainName]
+        // have data in chain list
+        if (dataChain) {
+          return (
+            `${dataChain?.exploreWebsite}${dataChain?.path}${record.address}`
+          )
+        }
+      }
+    }
+    setMainExplorerMap(mainExplorerMapLocal)
+  }
+  useEffect(() => {
+    getMainExplorer(listData)
+  }, [])
+
   const columns = [
     {
       title: 'Name',
@@ -176,7 +227,7 @@ const Crypto = ({
             </div>
             {record?.cryptoId?.split('_')[1] === CRYPTO_TOKEN && (
               <div className='data-table-address'>
-                <span className='product-name-text text-primary' style={{ cursor: 'pointer' }}>
+                <a href={mainExplorerMap?.get(record?.cryptoId)} target='_blank' className='product-name-text text-primary' style={{ cursor: 'pointer' }} onClick={(e) => onCancelClick(e) } rel='noreferrer' >
                   {`${record?.cryptoId
                     ?.split('_')[3]
                     ?.slice(0, 4)}...${record?.cryptoId
@@ -185,7 +236,7 @@ const Crypto = ({
                       record?.cryptoId?.split('_')[3]?.length - 4,
                       record?.cryptoId?.split('_')[3]?.length
                     )}`}
-                </span>
+                </a>
                 <CopyOutlined
                   onClick={(e) =>
                     copyContractAddress(e, record?.cryptoId?.split('_')[3])

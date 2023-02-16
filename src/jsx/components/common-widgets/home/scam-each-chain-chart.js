@@ -41,7 +41,7 @@ export const ScamEachChainsList = ({ data }) => {
     </tr>
   }
 
-  return <Card>
+  return <Card style={{ height: '100%' }}>
     <Card.Header>
       <Card.Title>
         <h2 className='heading text-center' style={{ textTransform: 'none' }}>Gear5&lsquo;s Blockchains Data</h2>

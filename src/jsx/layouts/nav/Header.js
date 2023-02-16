@@ -144,9 +144,11 @@ const Header = () => {
               {/* header: text */}
               <div className='header-left'>
                 <div
-                  className='dashboard_bar'
-                  style={{ textTransform: 'capitalize' }}
-                ></div>
+                  className='dashboard_bar text-etc-overflow'
+                  style={{ textTransform: 'capitalize', padding: '0 2rem', fontSize: '1.5rem' }}
+                >
+                  {`Don't trust verify`}
+                </div>
               </div>
               {/* header: search elk input */}
               <div className='navbar-nav header-right'>

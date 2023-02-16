@@ -164,7 +164,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className='col-xl-12' style={{ display: 'flex', alignItems: 'end', justifyContent: 'center' }}>
+            <div className='col-xl-12 col-lg-12' style={{ display: 'flex', alignItems: 'end', justifyContent: 'center', padding: '0' }}>
               {summaryData ? <SummaryRow data={summaryData}/> : <MySpinner />}
             </div>
           </div>

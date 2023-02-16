@@ -35,7 +35,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const [multichain, setMultichain] = useState()
   const [mainExplorer, setMainExplorer] = useState()
   const [loading, setLoading] = useState(false)
-  const waitMillSecOpenWebsite = 500
+  const waitMillSecOpenWebsite = 3000
 
   useEffect(() => {
     setShowInfo(
@@ -289,7 +289,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const more = <>
     <div className='card-header pb-0 border-0 flex-wrap'>
       <div>
-        <h4 className='heading mb-0'>More</h4>
+        <h4 className='heading mb-0'>More Info</h4>
       </div>
     </div>
     <div className='card-body'>
