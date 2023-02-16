@@ -29,7 +29,7 @@ export const TopCoinChart = ({ topCoinList }) => {
     setCurrentSelection(value?.value)
   }
 
-  return <div className='card'>
+  return <div className='card' style={{ height: '100%', marginBottom: '0' }}>
     <div className='card-header border-0 align-items-start flex-wrap pb-0'>
       <div>
         <h2 className='heading'>Top Coin Chart</h2>

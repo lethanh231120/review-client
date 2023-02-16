@@ -169,7 +169,7 @@ const Home = () => {
       </div>
 
       {/* row 3 */}
-      <div className='row'>
+      <div className='row mt-4'>
         {/* top coin chart  */}
         <div className='col-8 col-lg-8'>
           {topCoins ? <TopCoinChart topCoinList = {topCoins}/> : <MySpinner />}
@@ -181,7 +181,7 @@ const Home = () => {
       </div>
 
       {/* row 4 */}
-      <div className='row'>
+      <div className='row mt-4'>
         {/* Scam percentage each chains chart */}
         <div className='col-8'>
           {summaryData ? <ScamEachChainsList data={setScamDataEachChains(summaryData)}/> : <MySpinner/>}

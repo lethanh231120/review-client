@@ -43,10 +43,10 @@ export const TopCoins = () => {
 
   return <div className='row top-coin' >
     <div className='market-previews'>
-      <div className='card'>
+      <div className='card' style={{ height: '100%' }}>
         <div className='card-header border-0 pb-0'>
           <div >
-            <h2 className='heading'>Top Coins</h2>
+            <h2 className='heading'>Top&nbsp;Coins</h2>
           </div>
         </div>
         {topCoins ? <div className='card-body pt-0 px-0' style={{ padding: '0px' }}>
