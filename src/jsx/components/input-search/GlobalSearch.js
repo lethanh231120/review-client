@@ -75,7 +75,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
     } else {
       setDataSearch({ isActive: false, data: {}, loading: false, status: '' })
     }
-  }, 400)
+  }, 600)
 
   useEffect(() => {
     if (listDataSearch) {
@@ -203,7 +203,6 @@ const InputSearch = ({ isFormReport, setItem }) => {
     }
     setTxtDisplaySearchHeader(chars) // active effect
   }
-  console.log(6546556)
   return (
     <div className='input-group search-area cus-input-group'>
       <div className='nav-item d-flex align-items-center ' style={{ width: '100%' }}>
@@ -217,6 +216,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                 subMitForm()
               } else {
                 setIsSubmit(true)
+                refInput.current.value = ''
               }
             }}
           >
@@ -228,21 +228,24 @@ const InputSearch = ({ isFormReport, setItem }) => {
             ref={refInput}
             type='text'
             className={`form-control cus-form-control`}
-            placeholder={`${isFormReport ? 'Search for the project you want to report to us' : txtDisplaySearchHeader}`}
+            // placeholder={`${isFormReport ? 'Search for the project you want to report to us' : txtDisplaySearchHeader}`}
             onChange={(e) => {
-              if (isFormReport) setItem()
               handleSearch(e.target.value)
+              if (isFormReport) {
+                setItem()
+              }
             }}
             onKeyPress={handleSubmitSearch}
             autoComplete='off'
             // value={keyWord}
             onBlur={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
+              // e.preventDefault()
+              // e.stopPropagation()
               handleSearch('')
             }}
             id='globalSearch'
           />
+
         </div>
       </div>
       <div
@@ -273,6 +276,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                                 // use in component modal search
                                 // setOpenModalSearch={setOpenModalSearch}
                                 setItemSubmit={setItemSubmit}
+                                refInput={refInput}
                                 // if global === true, search global reverse, search in table of category
                                 global={true}
                                 // use in form report
@@ -298,6 +302,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                               itemSubmit={itemSubmit}
                               // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
+                              refInput={refInput}
                               global={true}
 
                               setItem={setItem}
@@ -320,6 +325,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                               itemSubmit={itemSubmit}
                               // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
+                              refInput={refInput}
                               global={true}
 
                               setItem={setItem}
@@ -340,6 +346,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                             itemSubmit={itemSubmit}
                             // setOpenModalSearch={setOpenModalSearch}
                             setItemSubmit={setItemSubmit}
+                            refInput={refInput}
                             global={true}
 
                             setItem={setItem}
@@ -361,6 +368,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                               itemSubmit={itemSubmit}
                               // setOpenModalSearch={setOpenModalSearch}
                               setItemSubmit={setItemSubmit}
+                              refInput={refInput}
                               global={true}
 
                               setItem={setItem}

@@ -5,7 +5,7 @@ import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/f
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import NoImage from './../../common-widgets/no-image/NoImage'
 
-const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
+const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -23,6 +23,7 @@ const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItem, isFormRepo
           setItem(item)
         } else {
           navigate(`../../products/soon/${item?.soonId?.split('_')[2]}${item?.soonId?.split('_')[3] ? `/${item?.soonId?.split('_')[3]}` : ''}`)
+          refInput.current.value = ''
         }
       }}
       onMouseEnter={() => global ? setItemSubmit(item) : ''}

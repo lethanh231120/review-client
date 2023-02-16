@@ -71,6 +71,14 @@
     & textarea{
         @include cus-form-control;
         height: unset !important;
+        overflow-x: hidden !important;
+        &::placeholder{
+            color: #000 !important;
+            opacity: 0.7;
+            word-wrap: break-word;
+            height: 100%;
+            word-break: break-all;
+        }
         // display none response recaptcha
         &.g-recaptcha-response{
             display: none !important;

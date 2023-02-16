@@ -8,7 +8,8 @@ import {
   Checkbox,
   Upload,
   Form,
-  Button
+  Button,
+  message
 } from 'antd'
 import { StarFilled } from '@ant-design/icons'
 import ReCAPTCHA from 'react-google-recaptcha'
@@ -53,6 +54,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     id,
     form
   } = rest
+
   const ref = useRef(null)
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
   // const signInContext = useContext(SignInContext)
@@ -112,26 +114,38 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
 
   // chose file in select
   const handleChangeFile = async(e) => {
-    // if (userInfo) {
-    setFileList(e.fileList)
-    const formData = new FormData()
-    formData.append('file', e?.fileList[0]?.originFileObj)
-
-    const time = moment().unix()
-    const fileName = `${
-      userInfo?.id ? userInfo?.id : id || 'anonymous'
-    }_${time}`
-    const dataImage = await post(
-      `reviews/upload/image?storeEndpoint=test&fileName=${fileName}`,
-      formData
-    )
-    setData({
-      ...data,
-      image: dataImage?.data
-    })
-    // } else {
-    //     signInContext?.handleSetOpenModal(true)
-    // }
+    let error = false
+    if (e.file) {
+      const isJpgOrPng = e.file.type === 'image/jpeg' || e.file.type === 'image/png' || e.file.type === 'image/jpg'
+      // validat type file png/jpg
+      if (!isJpgOrPng) {
+        message.error('You can only upload JPG/PNG file!')
+        error = true
+      }
+      // validate size file
+      const isLt10M = e.file.size / 1024 / 1024 < 10
+      if (!isLt10M) {
+        error = true
+        message.error('Image must smaller than 10MB!')
+      }
+      if (!error) {
+        setFileList(e.fileList)
+        const formData = new FormData()
+        formData.append('file', e?.fileList[0]?.originFileObj)
+        const time = moment().unix()
+        const fileName = `${
+          userInfo?.id ? userInfo?.id : id || 'anonymous'
+        }_${time}`
+        const dataImage = await post(
+          `reviews/upload/image?storeEndpoint=test&fileName=${fileName}`,
+          formData
+        )
+        setData({
+          ...data,
+          image: dataImage?.data
+        })
+      }
+    }
   }
 
   const handleChangeLink = (value) => {
@@ -167,9 +181,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
 
   const changeSelect = (value) => {
     const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
-    if (value === '') {
-      setErrorLink('Proof link is required')
-    } else {
+    if (value !== '') {
       if (value.match(reg)) {
         setData({
           ...data,
@@ -220,7 +232,11 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
         form={form}
         onFinish={onFinish}
         layout='vertical'
-        fields={defaultValue}
+        fields={[
+          ...defaultValue,
+          { name: 'isScam', value: form.getFieldValue('isScam') },
+          { name: 'star', value: form.getFieldValue('isScam') ? 1 : form.getFieldValue('star') }
+        ]}
       >
         <div className='product-detail-form'>
           {showUser && (
@@ -283,15 +299,14 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                   ref={ref}
                   autoFocus
                   placeholder='Content must be greater than 100 characters and less than 500 characters'
-                  autoSize={{ minRows: 2 }}
+                  autoSize={{ minRows: 5 }}
                   // onChange={handleChangeTextArea}
                   // onPressEnter={(e) => {
-                  //   if (!validateText?.title?.isError) {
-                  //     handleComment(e)
-                  //   }
+                  //   handleComment(e.target.value)
                   // }}
                 />
               </Form.Item>
+
               <Form.Item
                 name='star'
                 label='Rating'
@@ -360,21 +375,16 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
               </Form.Item>
 
               <div className='d-flex align-items-center'>
-                {/* <Popover
-                  content='Click to report scam project'
-                  overlayClassName='product-detail-form-content-popover'
-                > */}
                 <div style={{ marginRight: '0.675rem', width: 'fit-content' }}>
                   <Form.Item
                     name='isScam'
                     className='no-margin-bottom'
                   >
-                    <Checkbox onChange={handleChangeChecked} checked={data?.isScam}>
+                    <Checkbox onChange={handleChangeChecked} checked={form.getFieldValue('isScam')}>
                         Report scam
                     </Checkbox>
                   </Form.Item>
                 </div>
-                {/* </Popover> */}
                 <div className='product-detail-type'>
                   <Checkbox
                     onChange={(e) => {
@@ -388,12 +398,12 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                   {errorType && <div style={{ color: 'red' }}>{errorType}</div>}
                 </div>
               </div>
-              {data?.isScam && (
+
+              {form.getFieldValue('isScam') && (
                 <Form.Item
                   name='scamAmountUSD'
                   label='How much money have you been scammed?'
                   className='cus-select'
-                  // defaultValue=''
                 >
                   <Select
                     style={{ width: '100%' }}
@@ -407,17 +417,12 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                   </Select>
                 </Form.Item>
               )}
-              {data?.isScam && (
+
+              {form.getFieldValue('isScam') && (
                 <div style={{ marginBottom: '0.325rem' }}>
                   <Form.Item
                     label='Proof Link'
                     name='sources'
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please enter proof link.'
-                      }
-                    ]}
                   >
                     <Select
                       value={data?.sources}
@@ -431,10 +436,11 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                   </Form.Item>
                 </div>
               )}
+
               {errorLink && <span style={{ color: 'red' }}>{errorLink}</span>}
-              {data?.isScam && (
+
+              {form.getFieldValue('isScam') && (
                 <Upload
-                // action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
                   listType='picture-card'
                   fileList={fileList}
                   onChange={handleChangeFile}
@@ -443,6 +449,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                   {fileList.length < 1 && '+ Upload'}
                 </Upload>
               )}
+
               <div
                 style={{
                   background: isRecaptcha ? 'red' : '',
@@ -458,6 +465,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                   sitekey='6Lcab8wjAAAAAEeXUCE7iFIga2fynoCIZn4W8Q-l'
                 />
               </div>
+
             </div>
             <div className='product-detail-form-footer'>
               <Form.Item>
@@ -466,7 +474,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                   htmlType='submit'
                   className='product-detail-form-footer-item'
                 >
-                  Submit
+                  Report
                 </Button>
               </Form.Item>
             </div>

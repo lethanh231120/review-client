@@ -49,6 +49,11 @@ const ModalReport = () => {
     scamAmountUSD: null
   })
 
+  console.log(hotList)
+  useEffect(() => {
+    form.setFieldsValue({ isScam: true })
+  }, [reportModal])
+
   useEffect(() => {
     if (typeComment === 'login') {
       if (!auth?.isAuthenticated) {
@@ -224,18 +229,6 @@ const ModalReport = () => {
                             ''
                           )}
                         </h4>
-                        {/* {item?.address && (
-                          <p className='crypto-info-item-address'>
-                            <CopyOutlined
-                              style={{ padding: '0, 1rem' }}
-                              onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                                copyContractAddress(e, item?.address)
-                              }}
-                            />
-                          </p>
-                        )} */}
                       </div>
                     </div>
                   </div>

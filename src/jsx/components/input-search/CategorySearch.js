@@ -23,7 +23,7 @@ const CategorySearch = ({ type }) => {
   })
   const [itemSubmit, setItemSubmit] = useState()
 
-  const handleSearch = _.debounce(async(e, value) => {
+  const handleSearch = _.debounce(async(value) => {
     if (value !== '') {
       setDataSearch({
         ...dataSearch,
@@ -116,8 +116,9 @@ const CategorySearch = ({ type }) => {
       }
     } else {
       setDataSearch({ isActive: false, data: null, loading: false, status: '' })
+      setItemSubmit()
     }
-  }, 400)
+  }, 600)
 
   const subMitForm = () => {
     if (itemSubmit) {
@@ -146,15 +147,6 @@ const CategorySearch = ({ type }) => {
     }
   }
 
-  // const handleBlurInput = () => {
-  //   setDataSearch({
-  //     data: null,
-  //     loading: false,
-  //     status: '',
-  //     isActive: false
-  //   })
-  // }
-
   const handleSubmitSearch = (e) => {
     if (e.key === 'Enter') {
       subMitForm()
@@ -162,16 +154,16 @@ const CategorySearch = ({ type }) => {
   }
 
   return (
-    <div className='item-search'>
+    <div className='item-search cus-form'>
       <Input
+        className='form-control cus-form-control'
         placeholder='Search by Token / Coin / Exchange / Dapp / Venture...'
-        onChange={(e) => handleSearch(e, e.target.value)}
+        onChange={(e) => handleSearch(e.target.value)}
         autoComplete='off'
-        // onBlur={handleBlurInput}
         onBlur={(e) => {
           e.preventDefault()
           e.stopPropagation()
-          handleSearch(e, '')
+          handleSearch('')
         }}
         onKeyPress={handleSubmitSearch}
       />
@@ -184,8 +176,7 @@ const CategorySearch = ({ type }) => {
           <>
             {!dataSearch?.isNull ? (
               <>
-                {dataSearch?.data?.listCrypto &&
-                        dataSearch?.data?.listCrypto?.cryptos !== null && (
+                {dataSearch?.data?.listCrypto && dataSearch?.data?.listCrypto?.cryptos !== null && (
                   <div className='form-search-data-box'>
                     {dataSearch?.data?.listCrypto?.cryptos?.map(
                       (item, index) => (
@@ -200,8 +191,7 @@ const CategorySearch = ({ type }) => {
                     )}
                   </div>
                 )}
-                {dataSearch?.data?.listDapp &&
-                        dataSearch?.data?.listDapp?.dapps !== null && (
+                {dataSearch?.data?.listDapp && dataSearch?.data?.listDapp?.dapps !== null && (
                   <div className='form-search-data-box'>
                     {dataSearch?.data?.listDapp?.dapps?.map(
                       (item, index) => (
@@ -216,8 +206,7 @@ const CategorySearch = ({ type }) => {
                     )}
                   </div>
                 )}
-                {dataSearch?.data?.listExchange &&
-                        dataSearch?.data?.listExchange?.exchanges !== null && (
+                {dataSearch?.data?.listExchange && dataSearch?.data?.listExchange?.exchanges !== null && (
                   <div className='form-search-data-box'>
                     {dataSearch?.data?.listExchange?.exchanges?.map(
                       (item, index) => (
@@ -232,8 +221,7 @@ const CategorySearch = ({ type }) => {
                     )}
                   </div>
                 )}
-                {dataSearch?.data?.listSoon &&
-                        dataSearch?.data?.listSoon?.soons !== null && (
+                {dataSearch?.data?.listSoon && dataSearch?.data?.listSoon?.soons !== null && (
                   <div className='form-search-data-box'>
                     {dataSearch?.data?.listSoon?.soons?.map((item) => (
                       <ItemSoon
@@ -245,47 +233,10 @@ const CategorySearch = ({ type }) => {
                     ))}
                   </div>
                 )}
-                {dataSearch?.data?.listVenture &&
-                        dataSearch?.data?.listVenture?.ventures !== null && (
+                {dataSearch?.data?.listVenture && dataSearch?.data?.listVenture?.ventures !== null && (
                   <div className='form-search-data-box'>
                     {dataSearch?.data?.listVenture?.ventures?.map(
                       (item, index) => (
-                        // <Link
-                        //   to={`../../products/venture/${item?.ventureId?.split('_')[2]}/${item?.ventureId?.split('_')[3]}`}
-                        //   key={index}
-                        //   className='form-search-data-item'
-                        //   onClick={(e) => {
-                        //     e.stopPropagation()
-                        //     e.preventDefault()
-                        //     navigate(`../../products/venture/${item?.ventureId?.split('_')[2]}/${item?.ventureId?.split('_')[3]}`)
-                        //   }}
-                        // >
-                        //   <div className='form-search-data-item-data'>
-                        //     {item?.image ? (
-                        //       <Image src={item?.image} preview={false} />
-                        //     ) : (
-                        //       <span className='table-icon-coin-logo'>
-                        //         {item?.name?.slice(0, 3)?.toUpperCase()}
-                        //       </span>
-                        //     )}
-                        //     <div>
-                        //       <div className='form-search-data-item-data-content'>
-                        //         <div className='form-search-data-item-data-name'>
-                        //           {item?.name}
-                        //         </div>
-                        //       </div>
-                        //       {item?.location && (
-                        //         <span className='form-search-data-item-data-content-list'>
-                        //           <div
-                        //             className='form-search-data-item-data-tag'
-                        //           >
-                        //             {item?.location}
-                        //           </div>
-                        //         </span>
-                        //       )}
-                        //     </div>
-                        //   </div>
-                        // </Link>
                         <ItemVenture
                           key={index}
                           item={item}
@@ -302,10 +253,10 @@ const CategorySearch = ({ type }) => {
               <Empty
                 image={nodata}
                 description={
-                  <span>
+                  <span style={{ padding: '1rem' }}>
                     <span
                       style={{
-                        fontSize: '1.8em',
+                        fontSize: '1.125rem',
                         color: 'red',
                         fontWeight: 600
                       }}
@@ -314,7 +265,7 @@ const CategorySearch = ({ type }) => {
                     </span>
                     <span
                       style={{
-                        fontSize: '1.6rem',
+                        fontSize: '1rem',
                         color: 'rgba(0, 0, 0, 0.6)',
                         fontWeight: '600'
                       }}

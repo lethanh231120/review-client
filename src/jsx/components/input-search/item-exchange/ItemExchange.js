@@ -7,7 +7,7 @@ import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/f
 import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 import NoImage from '../../common-widgets/no-image/NoImage'
 
-const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
+const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -25,6 +25,7 @@ const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem,
           setItem(item)
         } else {
           navigate(`../../products/exchange/${item?.exchangeId?.split('_')[2]}`)
+          refInput.current.value = ''
         }
       }}
       onMouseEnter={() => global ? setItemSubmit(item) : ''}

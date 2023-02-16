@@ -8,7 +8,7 @@ import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import { formatLargeNumber } from '../../../../utils/formatNumber'
 import NoImage from '../../common-widgets/no-image/NoImage'
 
-const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
+const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -26,6 +26,7 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isF
           setItem(item)
         } else {
           navigate(`../../products/dapp/${item?.dappId?.split('_')[2]}`)
+          refInput.current.value = ''
         }
       }}
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
