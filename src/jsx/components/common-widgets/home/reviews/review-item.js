@@ -4,20 +4,15 @@ import './reviews-item.scss'
 import imgshit from './shit-icon.svg'
 import profile from '../../../../../images/product/user.png'
 import { Image } from 'antd'
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
+import moment from 'moment-timezone'
 
-TimeAgo.addDefaultLocale(en)
 export const ReviewItem = ({ data }) => {
-  const timeAgo = new TimeAgo('en-US')
+  // const timeAgo = new TimeAgo('en-US')
   const navigate = useNavigate()
-  const NOW = Date.parse(new Date(Date.now()))
-  console.log(Date.parse(data?.createdDate))
-  // const [reviewList, setReviewList] = useState()
-  console.log(NOW - Date.parse(data?.createdDate))
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+
   const onClicked = () => {
     const id = data?.productId
-    console.log(id)
     const splitted = id && id?.split('_')
     const type = splitted && splitted[1]
 
@@ -45,7 +40,7 @@ export const ReviewItem = ({ data }) => {
               <Avatar className='mt-1' size={40} src={data?.avatar ? data?.avatar : profile } />
               <div className=' ms-2 mt-1'>
                 {reviewStarsRender(data?.star, data?.isScam)}
-                {timeAgo.format(NOW - Date.parse(data?.createdDate), 'round')}
+                {moment(data?.createdDate).tz(tz).fromNow()}
               </div>
             </div>
             <div className='col-2'>
@@ -65,26 +60,13 @@ export const ReviewItem = ({ data }) => {
           {/* <h4>
             {title || 'No Title'}
           </h4> */}
-          <p className='mt-1'>
-            {shortenContent(data?.content) || 'No Content'}
+          <p className='mt-1 text-etc-overflow'>
+            {data?.content || 'No Content'}
           </p>
         </div>
       </div>
     </div>
   </div>
-}
-
-const shortenContent = (content) => {
-  const WORDS_SHOW = 60
-  if (content) {
-    if (content?.length >= WORDS_SHOW) {
-      return `${content?.slice(0, WORDS_SHOW)}...`
-    } else {
-      return content
-    }
-  } else {
-    return ''
-  }
 }
 
 const reviewStarsRender = (star, isScam) => {

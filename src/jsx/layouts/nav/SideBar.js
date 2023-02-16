@@ -117,6 +117,7 @@ const SideBar = () => {
 
     sortCategory?.forEach((item) => {
       // filter data name !== other
+
       const sortSubCategory = item[1]?.subCategories
         ?.filter(
           (itemSub) => itemSub?.name !== 'Others' && itemSub?.name !== 'Other'
@@ -129,8 +130,10 @@ const SideBar = () => {
 
       const newContent = []
       // format data item subcategory
+
       sortSubCategory?.forEach((itemContent) => {
         newContent.push({
+          category: item[1]?.category?.name,
           title: itemContent?.name,
           to: `${item[1]?.category?.path}/${itemContent?.name?.replace(' ', '+')}`
         })
@@ -154,6 +157,31 @@ const SideBar = () => {
     })
     setCategories(objCategories)
   }, [categoryContext])
+
+  const saveFilterTag = (type, tag) => {
+    let tempType = ''
+    switch (type) {
+      case 'Crypto Projects':
+        tempType = 'crypto'
+        break
+      case 'DApps':
+        tempType = 'dapp'
+        break
+      case 'Exchanges':
+        tempType = 'exchange'
+        break
+      case 'Upcomings':
+        tempType = 'soon'
+        break
+    }
+
+    if (window.localStorage.getItem(tempType) !== '') {
+      window.localStorage.removeItem(tempType)
+      window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
+    } else {
+      window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
+    }
+  }
 
   return (
     <div
@@ -212,6 +240,10 @@ const SideBar = () => {
                         data.content.map((data, index) => {
                           return (
                             <li
+                              onClick={() => {
+                                console.log(data)
+                                saveFilterTag(data?.category, data?.title)
+                              }}
                               key={index}
                               className={`${
                                 state.activeSubmenu === data.title
@@ -225,7 +257,7 @@ const SideBar = () => {
                                     to={data?.to}
                                     className={data.hasMenu ? 'has-arrow' : ''}
                                     onClick={() => {
-                                      handleSubmenuActive(data.title)
+                                      handleSubmenuActive(data?.title)
                                     }}
                                   >
                                     {data.title}
@@ -248,6 +280,7 @@ const SideBar = () => {
                                             <>
                                               <li key={index}>
                                                 <Link
+
                                                   className={`${
                                                     path === data?.to
                                                       ? 'mm-active'
