@@ -3,7 +3,8 @@ import { Button } from 'react-bootstrap'
 import { ThemeContext } from '../../../context/ThemeContext'
 import imgReportProject from '../../../images/svg/report-project-white.svg'
 // images
-import safe from './../../../images/22.png'
+// import hacker from './../../../images/crack.png'
+import steal from './../../../images/crack44.png'
 // import lite from './../../../images/lite.png'
 import eth from './../../../images/ethereum.png'
 import btc from './../../../images/bitcoin.png'
@@ -126,7 +127,7 @@ const Home = () => {
             <div className='col-xl-12' >
               <div className='card bubles banner-body' style={{ marginBottom: '30%' }}>
                 <div className='card-body '>
-                  <div className='buy-coin bubles-down'>
+                  <div className='buy-coin '>
                     <div>
                       <h2 className='report-title' style={{ width: '100%' }}>You got scammed <br></br>lost money</h2>
                       <p className='join-us-text' style={{ width: '100%' }}>
@@ -141,9 +142,12 @@ const Home = () => {
                     {/* <img src={lite} className='decoration lite'/> */}
                     <img src={eth} className='decoration eth'/>
                     <img src={btc} className='decoration btc-1'/>
-                    <img src={btc} className='decoration btc-2'/>
+                    {/* <img src={btc} className='decoration btc-2'/> */}
+                    {/* <div className='coin-img'>
+                      <img src={hacker} className='img-fluid' alt='' />
+                    </div> */}
                     <div className='coin-img'>
-                      <img src={safe} className='img-fluid' alt='' />
+                      <img src={steal} className='img-fluid' alt='' style={{ width: '200px' }} />
                     </div>
                   </div>
                 </div>
