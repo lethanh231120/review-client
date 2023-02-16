@@ -9,7 +9,7 @@ const AssetsChart = loadable(() =>
 )
 
 export const DataAllocationChart = ({ data, header }) => {
-  return <div className='card summary-chart'>
+  return <div className='card summary-chart' style={{ height: '100%' }}>
     <div className='card-header border-0 pb-0 '>
       <h2 className='heading text-center'>{header}</h2>
     </div>
