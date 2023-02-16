@@ -6,7 +6,7 @@ import { useContext } from 'react'
 export const TopDiscussed = () => {
   const hotList = useContext(HotTopicsContext)
 
-  return <div className='card pb-0'>
+  return <div className='card pb-0' style={{ height: '100%' }}>
     <div className='card-header border-0 pb-0'>
       <h2 className='heading' style={{ marginBottom: '-10px' }}>Hot Topics</h2>
     </div>

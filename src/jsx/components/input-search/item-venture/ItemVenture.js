@@ -7,7 +7,6 @@ import NoImage from '../../common-widgets/no-image/NoImage'
 
 const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
   const navigate = useNavigate()
-  console.log(item)
   return (
     <Link
       to={`../../products/venture/${item?.ventureId?.split('_')[2]}`}

@@ -8,7 +8,6 @@ import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png
 import NoImage from '../../common-widgets/no-image/NoImage'
 
 const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport }) => {
-  console.log(item)
   const navigate = useNavigate()
   return (
     <Link
