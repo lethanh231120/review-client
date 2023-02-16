@@ -3,11 +3,15 @@ import { Button } from 'react-bootstrap'
 import { ThemeContext } from '../../../context/ThemeContext'
 import imgReportProject from '../../../images/svg/report-project-white.svg'
 // images
-// import hacker from './../../../images/crack.png'
-import steal from './../../../images/crack44.png'
-// import lite from './../../../images/lite.png'
-import eth from './../../../images/ethereum.png'
-import btc from './../../../images/bitcoin.png'
+import hacker from './../../../images/crack.png'
+// import steal from './../../../images/crack44.png'
+import lite from './../../../images/litecoin.png'
+import tether from './../../../images/tether.png'
+import btc from './../../../images/btc.png'
+import avalanche from './../../../images/avalanche.png'
+import ethereum from './../../../images/ethereum.png'
+import bnb from './../../../images/binance.png'
+import polygon from './../../../images/polygon.png'
 import { TopCoins } from '../common-widgets/home/top-coin'
 import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-project'
 import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
@@ -136,21 +140,26 @@ const Home = () => {
                       Please join us to warn everyone in the community
                       </p>
                       <Button className='btn-danger' onClick={() => reportModal?.handleSetOpenModal(true)} style={{ backgroundColor: '#EB5757', borderColor: '#EB5757' }}>
-                        <img src={imgReportProject} alt='err' />
+                        <img src={imgReportProject} className='img-fluid noti ms-2'/>
                         &nbsp;
                         Report&nbsp;now
                       </Button>
+
                     </div>
                     {/* <img src={lite} className='decoration lite'/> */}
-                    <img src={eth} className='decoration eth'/>
-                    <img src={btc} className='decoration btc-1'/>
-                    {/* <img src={btc} className='decoration btc-2'/> */}
-                    {/* <div className='coin-img'>
-                      <img src={hacker} className='img-fluid' alt='' />
-                    </div> */}
+                    <img src={btc} className='decoration btc'/>
+                    <img src={ethereum} className='decoration ethereum'/>
+                    <img src={bnb} className='decoration bnb'/>
+                    <img src={avalanche} className='decoration avalanche'/>
+                    <img src={tether} className='decoration tether'/>
+                    <img src={polygon} className='decoration polygon'/>
+                    <img src={lite} className='decoration lite'/>
                     <div className='coin-img'>
-                      <img src={steal} className='img-fluid' alt='' style={{ width: '200px' }} />
+                      <img src={hacker} className='img-fluid' alt='' />
                     </div>
+                    {/* <div className='coin-img'>
+                      <img src={steal} className='img-fluid' alt='' style={{ width: '200px' }} />
+                    </div> */}
                   </div>
                 </div>
               </div>

@@ -1,48 +1,122 @@
   
+  
   @keyframes MoveUpAndDown{
     0%, 100% {
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-30px);
+      transform: translateY(var(--y));
     }
   }
   
 
 .decoration{
     margin-top: 30px;
-    animation: MoveUpAndDown 3s linear infinite;
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     position: absolute;
     
   }
 
+  
+  .ethereum{
+    --y: -20px;
+     animation: MoveUpAndDown 2s linear infinite;
+    z-index: 100;
+      left: 33rem;
+      top : 5rem;
+      width: 100px;
+      height: 100px;
+  }
+  
+  .bnb{
+    --y: -20px;
+    animation: MoveUpAndDown 3s linear infinite;
+    z-index: 100;
+    left:45rem;
+    // animation: rotateAnimation 1s linear infinite;
+  }
+  
+  .btc{
+    --y: -30px;
+    animation: MoveUpAndDown 3s linear infinite;
+    z-index: 100;
+    left: 60rem;
+    top: 8rem;
+    width: 120px;
+    height: 120px;
+  }
+
+
+  .tether{
+    --y: 40px;
+    animation: MoveUpAndDown 3s linear infinite;
+    z-index: -100;
+    left: 40rem;
+    top: 200px;
+  }
+
+  .avalanche{
+    --y: 15px;
+    animation: MoveUpAndDown 3s linear infinite;
+    z-index: -100;
+    left: 25rem;
+    top:10rem;
+  }
+
+  .polygon{
+    --y: 15px;
+    animation: MoveUpAndDown 3s linear infinite;
+    z-index: -100;
+    left: 50rem;
+    top:8rem;
+  }
+
   .lite{
+    --y: 30px;
     animation: MoveUpAndDown 3s linear infinite;
-    z-index: -1;
-    left: 20px;
-    top : 50px;
+    z-index: -100;
+    left: 70rem;
+    top:0rem;
+    width: 120px;
+    height: 120px;
   }
-  
-  .eth{
-     animation: MoveUpAndDown 3s linear infinite;
-    z-index: 100;
-      left: 500px;
-      top : 100px;
+.noti{
+  // width: 36px;
+  // height: 36px;
+  animation: ring 4s .1s ease-in-out infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+  @keyframes rotateAnimation {
+    from {transform: rotateY(45deg);}
+    to {transform: rotateY(225deg);}
   }
-  
-  .btc-1{
-    animation: MoveUpAndDown 3s linear infinite;
-    z-index: 100;
-    left:700px;
-  }
-  
-  .btc-2{
-    animation: MoveUpAndDown 3s linear infinite;
-    z-index: 100;
-    left: 950px;
-    top: 100px;
-    width: 100px;
-    height: 100px;
+
+  @keyframes shake {
+    0% { transform: rotate(0); }
+  1% { transform: rotate(30deg); }
+  3% { transform: rotate(-28deg); }
+  5% { transform: rotate(34deg); }
+  7% { transform: rotate(-32deg); }
+  9% { transform: rotate(30deg); }
+  11% { transform: rotate(-28deg); }
+  13% { transform: rotate(26deg); }
+  15% { transform: rotate(-24deg); }
+  17% { transform: rotate(22deg); }
+  19% { transform: rotate(-20deg); }
+  21% { transform: rotate(18deg); }
+  23% { transform: rotate(-16deg); }
+  25% { transform: rotate(14deg); }
+  27% { transform: rotate(-12deg); }
+  29% { transform: rotate(10deg); }
+  31% { transform: rotate(-8deg); }
+  33% { transform: rotate(6deg); }
+  35% { transform: rotate(-4deg); }
+  37% { transform: rotate(2deg); }
+  39% { transform: rotate(-1deg); }
+  41% { transform: rotate(1deg); }
+
+  43% { transform: rotate(0); }
+  100% { transform: rotate(0); }
   }
