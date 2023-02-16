@@ -92,18 +92,21 @@ const CategoryItem = () => {
         const dataDapp = await get('reviews/dapp/filter', paramSort)
         setListProduct(dataDapp?.data?.dApps)
         setTotal(dataDapp?.data?.dAppCount)
+
         break
       }
       case CRYPTO: {
         const dataCrypto = await get('reviews/crypto/filter', paramSort)
         setListProduct(dataCrypto?.data?.cryptos)
         setTotal(dataCrypto?.data?.cryptoCount)
+
         break
       }
       case EXCHANGE: {
         const dataExchange = await get('reviews/exchange/filter', paramSort)
         setListProduct(dataExchange?.data?.exchanges)
         setTotal(dataExchange?.data?.exchangeCount)
+
         break
       }
       case VENTURE: {

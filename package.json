@@ -31,6 +31,7 @@
     "lightgallery": "^2.7.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.40",
     "node-sass": "^8.0.0",
     "nouislider": "^14.7.0",
     "nouislider-react": "^3.4.1",
