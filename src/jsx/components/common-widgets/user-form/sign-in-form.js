@@ -30,10 +30,11 @@ export const SignInComponent = () => {
         }
         const resp = await post('reviews/auth/signin/social', dataSignin)
         if (resp?.status) {
-          setStateLoginSuccess(resp?.data.jwt.token, resp?.data.profile)
+          setStateLoginSuccess(resp?.data?.password, resp?.data.profile)
         }
       }
     } catch (error) {
+      console.error(error)
       openNotification()
     }
   }
@@ -84,7 +85,9 @@ export const SignInComponent = () => {
         password: password
       }
       setIsLoading(true)
+      alert(123)
       const resp = await post('reviews/auth/signin/normal', dataSignin)
+      alert(resp?.status)
       if (resp?.status) {
         setStateLoginSuccess(resp?.data.jwt.token, resp?.data.profile)
       }

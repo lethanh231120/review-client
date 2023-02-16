@@ -124,7 +124,9 @@ const Home = () => {
         <div className='col-8 col-xl-8'>
           <div className='row' style={{ height: '100%' }}>
             <div className='col-xl-12' >
-              <div className='card bubles banner-body' style={{ marginBottom: '30%' }}>
+              <div className='card bubles banner-body'
+              // style={{ marginBottom: '30%' }}
+              >
                 <div className='card-body '>
                   <div className='buy-coin bubles-down'>
                     <div>
@@ -149,7 +151,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className='col-xl-12' style={{ display: 'flex', alignItems: 'end', justifyContent: 'center', padding: '0' }}>
+            <div className='col-xl-12 col-lg-12' style={{ display: 'flex', alignItems: 'end', justifyContent: 'center', padding: '0' }}>
               {summaryData ? <SummaryRow data={summaryData}/> : <MySpinner />}
             </div>
           </div>
