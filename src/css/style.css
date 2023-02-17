@@ -13657,7 +13657,6 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   z-index: 9999; }
   .sidebar-right .bg-label-pattern {
     background: transparent;
-    background-image: url("../images/pattern/pattern5.png");
     background-size: 130%; }
   .sidebar-right .bootstrap-select {
     height: 3rem;
@@ -20940,7 +20939,6 @@ input#checkAll.form-check-input:checked {
 .photo-content {
   position: relative; }
   .photo-content .cover-photo {
-    background: url(../images/profile/cover.jpg);
     background-size: cover;
     background-position: center;
     min-height: 15.625rem;
@@ -28062,7 +28060,6 @@ table.dataTable thead .sorting_asc {
   width: 60px;
   height: 60px;
   display: inline-block;
-  background: url("../images/like.png");
   cursor: pointer;
   margin: -25px -15px; }
 
