@@ -35,15 +35,15 @@ const Banner = () => {
 
         </div>
         {/* <img src={lite} className='decoration lite'/> */}
-        <img src={btc} className='decoration btc' style={{ zIndex: 1 }}/>
-        <img src={ethereum} className='decoration ethereum'style={{ zIndex: 1 }}/>
-        <img src={bnb} className='decoration bnb'style={{ zIndex: 1 }}/>
-        <img src={avalanche} className='decoration avalanche'style={{ zIndex: 1 }}/>
-        <img src={tether} className='decoration tether'style={{ zIndex: 1 }}/>
-        <img src={polygon} className='decoration polygon'style={{ zIndex: 1 }}/>
-        <img src={lite} className='decoration lite'style={{ zIndex: 1 }}/>
+        <img src={btc} className='decoration btc' style={{ zIndex: 0 }}/>
+        <img src={ethereum} className='decoration ethereum' style={{ zIndex: 0 }}/>
+        <img src={bnb} className='decoration bnb' style={{ zIndex: 0 }}/>
+        <img src={avalanche} className='decoration avalanche' style={{ zIndex: 0 }}/>
+        <img src={tether} className='decoration tether' style={{ zIndex: 0 }}/>
+        <img src={polygon} className='decoration polygon' style={{ zIndex: 0 }}/>
+        <img src={lite} className='decoration lite' style={{ zIndex: 0 }}/>
         <div className='coin-img'>
-          <img src={hacker} className='img-fluid' alt='' />
+          <img src={hacker} className='img-fluid' alt='' style={{ zIndex: 1 }}/>
         </div>
         {/* <div className='coin-img'>
             <img src={steal} className='img-fluid' alt='' style={{ width: '200px' }} />

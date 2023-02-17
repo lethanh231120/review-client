@@ -34383,6 +34383,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   overflow: hidden;
   white-space: nowrap;
 }
+.text-etc-overflow:hover{
+  overflow: visible; 
+  white-space: normal;
+  height:auto;  /* just added this line */
+}
 
 /* Soon detail */
 .website-soon{
@@ -34416,16 +34421,19 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 
+/* START: reponsive row 1(banner, summary, top coin) in home */
 /* small menu */
 @media screen and (min-width: 576px) and (max-width: 960px){
   .banner-body{
-    margin-bottom: 30%;
+    /* cmt cuz using boostrap < 992px */
+    /* margin-bottom: 30%;  */
   }
 }
 
 @media screen and (min-width: 961px) and (max-width: 990px){
   .banner-body{
-    margin-bottom: 25%;
+    /* cmt cuz using boostrap < 992px */
+    /* margin-bottom: 25%; */
   }
 }
 
@@ -34436,7 +34444,6 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 /* 1024px has big menu */
-/* small menu */
 
 /* big menu */
 @media screen and (min-width: 1024px) and (max-width: 1199px){
@@ -34487,17 +34494,44 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     margin-bottom: 8%;
   }
 }
+/*END: reponsive row 1(banner, summary, top coin) in home */
 
-/* unchecked */
 
-/* @media screen and (min-width: 1200px) and (max-width: 1283px) {
-  .banner-body{
-    margin-bottom: 35%;
+/*START: Summary home responsive */
+@media screen and (min-width: 1200px) and (max-width: 1350px){
+  .summary-icon{
+    width: 2rem !important;
+    height: 2rem !important;
+    min-width: 2rem !important;
+  }
+  .summary-title{
+    font-size: 0.7rem !important
+  }
+  .summary-statistic{
+    font-size: 1rem !important
   }
 }
 
-@media screen and (min-width: 1284px) and (max-width: 1383px) {
-  .banner-body{
-    margin-bottom: 30%;
+@media screen and (min-width: 1351px) and (max-width: 1500px){
+  .summary-title{
+    font-size: 0.75rem !important
   }
-} */
+  .summary-statistic{
+    font-size: 1.15rem !important
+  }
+}
+/*END: Summary home responsive */
+
+/*START: reponsive input search */
+.header-right .search-area{
+  width: 100% !important
+}
+/*END: reponsive input search */
+
+/*START: reponsive login/signup in */
+@media screen and (max-width: 767px){
+  .header.is-fixed{
+    height: auto !important
+  }
+}
+/*END: reponsive login/signup in */

@@ -103,7 +103,7 @@ const Home = () => {
       {/* row 1 */}
       <div className='row'>
         {/* banner, summary */}
-        <div className='col-8 col-xl-8'>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 mb-4'>
           <div className='row' style={{ height: '100%' }}>
             <div className='col-xl-12' >
               <Banner />
@@ -114,13 +114,13 @@ const Home = () => {
           </div>
         </div>
         {/* hot topic */}
-        <div className='col-4'>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4'>
           <TopDiscussed />
         </div>
       </div>
 
       {/* row 2 */}
-      <div className='row mt-4'>
+      <div className='row'>
         {/* Recent Reviews */}
         <div className='col-12 ' >
           <ReviewList />
@@ -128,25 +128,25 @@ const Home = () => {
       </div>
 
       {/* row 3 */}
-      <div className='row mt-4'>
+      <div className='row'>
         {/* top coin chart  */}
-        <div className='col-8 col-lg-8'>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 mb-4'>
           <TopCoinChart />
         </div>
         {/* top coin  */}
-        <div className=' col-4 col-lg-4'>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4'>
           <TopCoins />
         </div>
       </div>
 
       {/* row 4 */}
-      <div className='row mt-4 mb-4'>
+      <div className='row'>
         {/* Scam percentage each chains chart */}
-        <div className='col-8'>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 mb-4'>
           {summaryData ? <ScamEachChainsList data={setScamDataEachChains(summaryData)}/> : <MySpinner/>}
         </div>
         {/* blockchain data allocation */}
-        <div className='col-4 col-xl-4' style={{ textTransform: 'none' }}>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4' style={{ textTransform: 'none' }}>
           {summaryData ? <DataAllocationChart header={`Gear5's Blockchains Data Allocation`} data={setTotalCrytosData(summaryData)}/> : <MySpinner/>}
         </div>
       </div>
