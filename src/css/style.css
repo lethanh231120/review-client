@@ -34416,3 +34416,89 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
  
 }
 
+
+/* small menu */
+@media screen and (min-width: 576px) and (max-width: 960px){
+  .banner-body{
+    margin-bottom: 30%;
+  }
+}
+
+@media screen and (min-width: 961px) and (max-width: 990px){
+  .banner-body{
+    margin-bottom: 25%;
+  }
+}
+
+@media screen and (min-width: 991px) and (max-width: 1023px){
+  .banner-body{
+    margin-bottom: 20%;
+  }
+}
+
+/* 1024px has big menu */
+/* small menu */
+
+/* big menu */
+@media screen and (min-width: 1024px) and (max-width: 1199px){
+  .banner-body{
+    margin-bottom: 20%;
+  }
+}
+
+@media screen and (min-width: 1200px)  and (max-width: 1280px){
+  .banner-body{
+    margin-bottom: 35%;
+  }
+}
+
+@media screen and (min-width: 1281px)  and (max-width: 1344px) {
+  .banner-body{
+    margin-bottom: 30%;
+  }
+}
+
+@media screen and (min-width: 1345px)  and (max-width: 1365px) {
+  .banner-body{
+    margin-bottom: 25%;
+  }
+}
+
+@media screen and (min-width: 1366px)  and (max-width: 1400px) {
+  .banner-body{
+    margin-bottom: 20%;
+  }
+}
+
+@media screen and (min-width: 1401px)  and (max-width: 1473px) {
+  .banner-body{
+    margin-bottom: 15%;
+  }
+}
+
+
+@media screen and (min-width: 1474px)  and (max-width: 1973px) {
+  .banner-body{
+    margin-bottom: 10%;
+  }
+}
+
+@media screen and (min-width: 1974px) {
+  .banner-body{
+    margin-bottom: 8%;
+  }
+}
+
+/* unchecked */
+
+/* @media screen and (min-width: 1200px) and (max-width: 1283px) {
+  .banner-body{
+    margin-bottom: 35%;
+  }
+}
+
+@media screen and (min-width: 1284px) and (max-width: 1383px) {
+  .banner-body{
+    margin-bottom: 30%;
+  }
+} */
