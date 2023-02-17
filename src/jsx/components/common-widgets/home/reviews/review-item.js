@@ -37,7 +37,7 @@ export const ReviewItem = ({ data }) => {
         <div className='new-arrival-content'>
           <div className='row'>
             <div className='col-10 d-flex '>
-              <Avatar className='mt-1' size={40} src={data?.avatar ? data?.avatar : profile } />
+              <Avatar className='mt-1' size={40} src={data?.userImage ? data?.userImage : profile } />
               <div className=' ms-2 mt-1'>
                 {reviewStarsRender(data?.star, data?.isScam)}
                 {moment(data?.createdDate).tz(tz).fromNow()}
@@ -50,7 +50,7 @@ export const ReviewItem = ({ data }) => {
             </div>
           </div>
 
-          <div className='username-text mt-2' >{data?.name}&nbsp;
+          <div className='username-text mt-2' >{data?.userName || 'Anonymous'}&nbsp;
             {data?.productName && <span><span className={data?.isScam ? 'text-danger' : ''}>{data?.isScam && data?.isScam ? 'reported' : 'reviewed'}&nbsp;</span>
               <span onClick={ onClicked} className='text-primary'style={{ cursor: 'pointer' }}>
                 <span className='product-name-text'>{data?.productName}</span>
