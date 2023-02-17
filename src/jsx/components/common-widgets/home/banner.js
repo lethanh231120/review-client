@@ -22,7 +22,7 @@ const Banner = () => {
   >
     <div className='card-body '>
       <div className='buy-coin '>
-        <div>
+        <div style={{ zIndex: 2 }}>
           <h2 className='report-title' style={{ width: '100%' }}>You got scammed <br></br>lost money</h2>
           <p className='join-us-text' style={{ width: '100%' }}>
             Please join us to warn everyone in the community
@@ -35,13 +35,13 @@ const Banner = () => {
 
         </div>
         {/* <img src={lite} className='decoration lite'/> */}
-        <img src={btc} className='decoration btc'/>
-        <img src={ethereum} className='decoration ethereum'/>
-        <img src={bnb} className='decoration bnb'/>
-        <img src={avalanche} className='decoration avalanche'/>
-        <img src={tether} className='decoration tether'/>
-        <img src={polygon} className='decoration polygon'/>
-        <img src={lite} className='decoration lite'/>
+        <img src={btc} className='decoration btc' style={{ zIndex: 1 }}/>
+        <img src={ethereum} className='decoration ethereum'style={{ zIndex: 1 }}/>
+        <img src={bnb} className='decoration bnb'style={{ zIndex: 1 }}/>
+        <img src={avalanche} className='decoration avalanche'style={{ zIndex: 1 }}/>
+        <img src={tether} className='decoration tether'style={{ zIndex: 1 }}/>
+        <img src={polygon} className='decoration polygon'style={{ zIndex: 1 }}/>
+        <img src={lite} className='decoration lite'style={{ zIndex: 1 }}/>
         <div className='coin-img'>
           <img src={hacker} className='img-fluid' alt='' />
         </div>
