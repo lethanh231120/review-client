@@ -34383,7 +34383,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   overflow: hidden;
   white-space: nowrap;
 }
-.text-etc-overflow:hover{
+.text-etc-overflow-hover:hover{
   overflow: visible; 
   white-space: normal;
   height:auto;  /* just added this line */
@@ -34535,3 +34535,15 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   }
 }
 /*END: reponsive login/signup in */
+
+
+/*START: hr for items in table list(hot project) */
+.hr-custome {
+  background-color: #fff;
+  padding: 0;
+  border: 0;
+  height: 0.1rem;
+  margin: 0;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+/*END: hr for items in table list(hot project) */

@@ -18,7 +18,7 @@ export const SummaryCard = ({ title, number, bg, badgeStyle, icon, type }) => {
             {icon}
           </span>
           <div className='media-body custom-media-body text-etc-overflow' >
-            <p className='mb-1 text-etc-overflow summary-title'>{title}</p>
+            <p className='mb-1 text-etc-overflow summary-title text-etc-overflow-hover'>{title}</p>
             <h4 className='mb-0'><span className='text-etc-overflow summary-statistic'>{number > 0 && `${formatMoney(number)}`.replace('$', '')}+</span></h4>
             {/* <span className={`badge ${badgeStyle}`}>3.5%</span> */}
           </div>
