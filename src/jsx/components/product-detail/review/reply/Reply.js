@@ -10,19 +10,20 @@ import ListEmoji from '../emoji/ListEmoji'
 import { getCookie, STORAGEKEY } from '../../../../../utils/storage'
 import { SignInContext, Authenticated } from '../../../../../App'
 
-const ReplyComment = ({ data, productId }) => {
+const ReplyComment = ({ data, productId, listAcount, dataReaction }) => {
   const TYPE_REPLY = 1
   const [isReaction, setIsReaction] = useState(false)
   const [currenReaction, setCurrenReaction] = useState()
   const [newData, setNewData] = useState(data)
   const signInContext = useContext(SignInContext)
   const authenticated = useContext(Authenticated)
+  const [reactionType, setReactionType] = useState([])
   const [token, setToken] = useState()
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
   useEffect(() => {
-    if (!_.isEmpty(data?.reactions)) {
-      setIsReaction(data?.reactions?.some((item) => item?.accountId === userInfo?.id))
+    if (!_.isEmpty(dataReaction)) {
+      setIsReaction(dataReaction?.some((item) => (item?.accountId === userInfo?.id)))
     }
   }, [data, userInfo])
 
@@ -31,7 +32,7 @@ const ReplyComment = ({ data, productId }) => {
   }, [authenticated?.isAuthenticated])
 
   useEffect(() => {
-    newData?.reactions?.forEach((item) => {
+    dataReaction?.forEach((item) => {
       if (item?.accountId === userInfo?.id) {
         switch (item?.reactionType) {
           case '😆':
@@ -54,6 +55,15 @@ const ReplyComment = ({ data, productId }) => {
         }
       }
     })
+    const listReactionType = []
+    dataReaction?.forEach((item) => {
+      listReactionType.push(item?.reactionType)
+    })
+    const onlyUnique = (item, index, self) => {
+      return (self.indexOf(item) === index)
+    }
+    const unique = listReactionType?.filter(onlyUnique)
+    setReactionType(unique)
   }, [newData])
 
   const handleClickReaction = async(value) => {
@@ -62,7 +72,7 @@ const ReplyComment = ({ data, productId }) => {
     } else {
       if (isReaction) {
         const body = {
-          commentId: data?.reply?.id,
+          commentId: data?.id,
           type: TYPE_REPLY,
           reactionType: value,
           productId: productId
@@ -84,7 +94,7 @@ const ReplyComment = ({ data, productId }) => {
         }
       } else {
         const body = {
-          commentId: data?.reply?.id,
+          commentId: data?.id,
           type: TYPE_REPLY,
           reactionType: value,
           productId: productId
@@ -108,20 +118,19 @@ const ReplyComment = ({ data, productId }) => {
 
   return (
     <div className='reply'>
-      <Image src={newData?.reply?.acountImage ? newData?.reply?.acountImage : user} preview={false}/>
+      <Image src={newData?.acountImage ? newData?.acountImage : user} preview={false}/>
       <div className='reply-description'>
         <div className='reply-data'>
           <div className='reply-name'>
-            {newData?.reply?.userName}
-            {/* <span>{moment(newData?.reply?.updatedDate).startOf('day').fromNow()}</span> */}
+            {listAcount?.find((item) => item?.id === newData?.accountId) ? listAcount?.find((item) => item?.id === newData?.accountId)?.userName : 'Anonymous'}
           </div>
           <div className='reply-content'>
-            {newData?.reply?.content}
+            {newData?.content}
           </div>
         </div>
-        {newData?.reply?.image && (
+        {newData?.image && (
           <div className='reply-item-comment-image'>
-            <Image src={newData?.reply?.image} preview={true}/>
+            <Image src={newData?.image} preview={true}/>
           </div>
         )}
         <div className='review-item-action'>
@@ -131,15 +140,19 @@ const ReplyComment = ({ data, productId }) => {
               handleClickReaction={handleClickReaction}
             />
             <span className='review-item-action-item-time'>
-              {moment.utc(newData?.review?.updatedDate).fromNow()}
+              {moment.utc(newData?.updatedDate).fromNow()}
             </span>
           </div>
-          {!_.isEmpty(newData?.reactions) && (
+          {!_.isEmpty(dataReaction) && (
             <div className='review-item-action-reaction'>
-              {newData?.reactions?.map((item, index) => (
-                <div className='review-item-action-reaction-item' key={index}>{item?.reactionType}</div>
+              {reactionType?.map((item, index) => (
+                <div className='review-item-action-reaction-item' key={index}>
+                  {item}
+                </div>
               ))}
-              <div className='review-item-action-reaction-item'>{newData?.reactions?.length}</div>
+              <div className='review-item-action-reaction-item'>
+                {reactionType?.length}
+              </div>
             </div>
           )}
         </div>

@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from 'react'
-// import React, { useEffect, useState, useRef, useContext } from 'react'
 import { Form } from 'antd'
-// import { DownOutlined, CodeOutlined, CaretUpOutlined, SendOutlined, CopyOutlined, LinkOutlined } from '@ant-design/icons'
 // import moment from 'moment'
 import './productDetail.scss'
 import { get, post } from '../../../api/BaseRequest'
@@ -28,13 +26,7 @@ import Swal from 'sweetalert2'
 
 const ProductDetail = () => {
   const { pathname } = useLocation()
-  const DEFAULT_ALL = 'all'
-  const DEFAULT_SCAM = 'scam'
-  const DEFAULT_NOT_SCAM = 'notScam'
-  const [productId, setProductId] = useState()
-
   const [form] = Form.useForm()
-
   const { type, productName, path, categoryName } = useParams()
   // type coin thi khong co product Id, token thi co productId
 
@@ -43,8 +35,13 @@ const ProductDetail = () => {
   const signInContext = useContext(SignInContext)
   const auth = useContext(Authenticated)
 
+  const [productId, setProductId] = useState()
   const [productInfo, setProductInfo] = useState()
-  const [defaultFilter, setDefaultFilter] = useState(DEFAULT_ALL)
+  const [defaultFilter, setDefaultFilter] = useState({
+    productId: undefined,
+    page: 1,
+    orderBy: 'createdDate'
+  })
   const [data, setData] = useState({
     isScam: false,
     content: '',
@@ -54,7 +51,6 @@ const ProductDetail = () => {
     // title: '',
     scamAmountUSD: null
   })
-
   const [validateText, setValidateText] = useState({
     title: {
       isError: false,
@@ -65,17 +61,26 @@ const ProductDetail = () => {
       message: ''
     }
   })
-
   const [fileList, setFileList] = useState([])
-  const [dataFilter, setDataFilter] = useState()
   const [isShow, setIsShow] = useState()
   const [errorLink, setErrorLink] = useState()
   const [isRecaptcha, setIsRecaptcha] = useState(false)
   const [typeComment, setTypeComment] = useState(false)
   const [errorType, setErrorType] = useState()
-
+  const [dataReview, setDataReview] = useState({
+    data: [],
+    accountId: []
+  })
+  const [dataReply, setDataReply] = useState({
+    data: [],
+    accountId: []
+  })
+  const [dataReaction, setDataReaction] = useState({
+    data: [],
+    accountId: []
+  })
+  const [listAcount, setListAccount] = useState()
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
-  // const token = Boolean(getCookie(STORAGEKEY.ACCESS_TOKEN))
 
   useEffect(() => {
     let id
@@ -93,220 +98,219 @@ const ProductDetail = () => {
       }
     }
     setProductId(id)
+    setDefaultFilter({
+      ...defaultFilter,
+      productId: id
+    })
   }, [type, productName, path, categoryName])
 
+  // get data detail products
   useEffect(() => {
-    const getData = async() => {
-      const product = await get(`reviews/product/detail?productId=${productId}`)
-      // check show data
-      const shows = {
-        sourceCode: false,
-        community: false,
-        founders: false,
-        explorer: false
-      }
-      const sourceCode = {}
-      const community = {}
-      if (product?.data?.details) {
-        if (product?.data?.details?.socials) {
-          const isSourceCode = []
-          const isCommunity = []
-          Object.keys(product?.data?.details?.socials).forEach((key) => {
-            // source code
-            if (key === 'github' || key === 'bitbucket') {
-              sourceCode[key] = product?.data?.details?.socials[key]
-              if (product?.data?.details?.socials[key]) {
-                isSourceCode.push(true)
-              } else {
-                isSourceCode.push(false)
-              }
-            } else {
-              // community
-              community[key] = product?.data?.details?.socials[key]
-              if (product?.data?.details?.socials[key]) {
-                isCommunity.push(true)
-              } else {
-                isCommunity.push(false)
-              }
-            }
-          })
-          shows['sourceCode'] = !_.isEmpty(isSourceCode) && isSourceCode?.some((item) => item === true)
-          shows['community'] = !_.isEmpty(isCommunity) && isCommunity?.some((item) => item === true)
+    const getData = () => {
+      get(`reviews/product/detail?productId=${productId}`).then(res => {
+        // check show data
+        const shows = {
+          sourceCode: false,
+          community: false,
+          founders: false,
+          explorer: false
         }
-        if (product?.data?.details?.founders) {
-          const isFounder = []
-          Object.keys(product?.data?.details?.founders).forEach((key) => {
-            if (product?.data?.details?.founders[key].length === 0) {
-              isFounder.push(false)
-            } else {
-              isFounder.push(true)
-            }
-          })
-          shows['founders'] = !_.isEmpty(isFounder) && isFounder?.some((item) => item === true)
-        }
-        if (product?.data?.details?.multichain) {
-          const isExplorer = []
-          product?.data?.details?.multichain?.forEach((item) => {
-            if (_.isEmpty(item)) {
-              isExplorer.push(false)
-            } else {
-              isExplorer.push(true)
-            }
-          })
-          shows['explorer'] = !_.isEmpty(isExplorer) && isExplorer?.some((item) => item === true)
-        }
-      }
-      setIsShow(shows)
-      const accountId = []
-      if (product?.data?.reviews !== null) {
-        let newReviews = []
-        product?.data?.reviews?.forEach((itemReview) => {
-          accountId.push(itemReview?.review?.accountId)
-          itemReview?.reactions?.forEach((itemReaction) => {
-            accountId.push(itemReaction?.accountId)
-          })
-          itemReview?.replies?.forEach((itemReplies) => {
-            accountId.push(itemReplies?.reply?.accountId)
-            itemReplies?.reactions?.forEach((itemReactionInReplies) => {
-              accountId.push(itemReactionInReplies?.accountId)
-            })
-          })
-        })
-        if (!_.isEmpty(accountId)) {
-          const onlyUnique = (value, index, self) => {
-            return (self.indexOf(value) === index && value !== '')
-          }
-          const unique = accountId?.filter(onlyUnique)
-          // get list account
-          const listUser = await post('reviews/auth/profiles', { 'accountIds': unique })
-          if (!_.isEmpty(listUser?.data?.accounts)) {
-            product?.data?.reviews?.forEach((itemReview) => {
-              const account = listUser?.data?.accounts?.find(item => item?.id === itemReview?.review?.accountId)
-              const newReview = {
-                ...itemReview?.review,
-                accountType: account?.ccountType,
-                email: account?.email,
-                acountImage: account?.image,
-                role: account?.role,
-                userName: account?.userName
-              }
-              // reactions
-              const newReactions = []
-              itemReview?.reactions?.forEach((itemReaction) => {
-                const accountReaction = listUser?.data?.accounts?.find(item => item?.id === itemReaction?.accountId)
-                newReactions.push({
-                  ...itemReaction,
-                  accountType: accountReaction?.accountType,
-                  email: accountReaction?.email,
-                  acountImage: accountReaction?.image,
-                  userName: accountReaction?.userName,
-                  role: accountReaction?.role
-                })
-              })
-              // replies
-              const replies = []
-              itemReview?.replies?.forEach((itemReplies) => {
-                const accountReply = listUser?.data?.accounts?.find(item => item?.id === itemReplies?.reply?.accountId)
-                const newReply = {
-                  ...itemReplies.reply,
-                  accountType: accountReply?.accountType,
-                  email: accountReply?.email,
-                  acountImage: accountReply?.image,
-                  userName: accountReply?.userName,
-                  role: accountReply?.role
+        const sourceCode = {}
+        const community = {}
+        if (res?.data?.details) {
+          if (res?.data?.details?.socials) {
+            const isSourceCode = []
+            const isCommunity = []
+            Object.keys(res?.data?.details?.socials).forEach((key) => {
+              // source code
+              if (key === 'github' || key === 'bitbucket') {
+                sourceCode[key] = res?.data?.details?.socials[key]
+                if (res?.data?.details?.socials[key]) {
+                  isSourceCode.push(true)
+                } else {
+                  isSourceCode.push(false)
                 }
-                const newListReactionInReplies = []
-                itemReplies?.reactions?.forEach((itemReactionInReplies) => {
-                  const newReactionInReplies = listUser?.data?.accounts?.find(item => item?.id === itemReactionInReplies?.accountId)
-                  newListReactionInReplies.push({
-                    ...itemReactionInReplies,
-                    accountType: newReactionInReplies?.accountType,
-                    email: newReactionInReplies?.email,
-                    acountImage: newReactionInReplies?.image,
-                    userName: newReactionInReplies?.userName,
-                    role: newReactionInReplies?.role
-                  })
-                })
-                replies.push({
-                  reply: newReply,
-                  reactions: newListReactionInReplies
-                })
-              })
-              newReviews.push({
-                reactions: newReactions,
-                review: newReview,
-                replies: replies
-              })
+              } else {
+                // community
+                community[key] = res?.data?.details?.socials[key]
+                if (res?.data?.details?.socials[key]) {
+                  isCommunity.push(true)
+                } else {
+                  isCommunity.push(false)
+                }
+              }
             })
-          } else {
-            const data = product?.data?.reviews
-            newReviews = [...data]
+            shows['sourceCode'] = !_.isEmpty(isSourceCode) && isSourceCode?.some((item) => item === true)
+            shows['community'] = !_.isEmpty(isCommunity) && isCommunity?.some((item) => item === true)
+          }
+          if (res?.data?.details?.founders) {
+            const isFounder = []
+            Object.keys(res?.data?.details?.founders).forEach((key) => {
+              if (res?.data?.details?.founders[key].length === 0) {
+                isFounder.push(false)
+              } else {
+                isFounder.push(true)
+              }
+            })
+            shows['founders'] = !_.isEmpty(isFounder) && isFounder?.some((item) => item === true)
+          }
+          if (res?.data?.details?.multichain) {
+            const isExplorer = []
+            res?.data?.details?.multichain?.forEach((item) => {
+              if (_.isEmpty(item)) {
+                isExplorer.push(false)
+              } else {
+                isExplorer.push(true)
+              }
+            })
+            shows['explorer'] = !_.isEmpty(isExplorer) && isExplorer?.some((item) => item === true)
           }
         }
+        setIsShow(shows)
         setProductInfo({
-          ...product?.data,
+          ...res?.data,
           details: {
-            ...product?.data?.details,
+            ...res?.data?.details,
             sourceCode: sourceCode,
             community: community,
-            // priceUSD: price?.data?.isCoingecko ? (price?.data?.price) : smallNumber(price?.data?.price / (Math.pow(10, product?.data?.details?.decimal))),
+            // priceUSD: price?.data?.isCoingecko ? (price?.data?.price) : smallNumber(price?.data?.price / (Math.pow(10, res?.data?.details?.decimal))),
             exchanges: [
-              (product?.data?.details?.isBinance !== null && product?.data?.details?.isBinance)
+              (res?.data?.details?.isBinance !== null && res?.data?.details?.isBinance)
                 ? [exchanges?.binance] : [],
-              (product?.data?.details?.isCoinbase && product?.data?.details?.isCoinbase !== null)
+              (res?.data?.details?.isCoinbase && res?.data?.details?.isCoinbase !== null)
                 ? [exchanges?.coinbase] : [],
-              (product?.data?.details?.isPancakeSwap && product?.data?.details?.isPancakeSwap !== null)
+              (res?.data?.details?.isPancakeSwap && res?.data?.details?.isPancakeSwap !== null)
                 ? [exchanges?.pancakeswap] : [],
-              (product?.data?.details?.isUniSwap && product?.data?.details?.isUniSwap !== null)
-                ? [exchanges?.uniswap] : []
-            ]?.flat(1)
-          },
-          reviews: newReviews
-        })
-      } else {
-        setProductInfo({
-          ...product?.data,
-          details: {
-            ...product?.data?.details,
-            sourceCode: sourceCode,
-            community: community,
-            // priceUSD: price?.data?.isCoingecko ? (price?.data?.price) : smallNumber(price?.data?.price / (Math.pow(10, product?.data?.details?.decimal))),
-            exchanges: [
-              (product?.data?.details?.isBinance !== null && product?.data?.details?.isBinance)
-                ? [exchanges?.binance] : [],
-              (product?.data?.details?.isCoinbase && product?.data?.details?.isCoinbase !== null)
-                ? [exchanges?.coinbase] : [],
-              (product?.data?.details?.isPancakeSwap && product?.data?.details?.isPancakeSwap !== null)
-                ? [exchanges?.pancakeswap] : [],
-              (product?.data?.details?.isUniSwap && product?.data?.details?.isUniSwap !== null)
+              (res?.data?.details?.isUniSwap && res?.data?.details?.isUniSwap !== null)
                 ? [exchanges?.uniswap] : []
             ]?.flat(1)
           }
         })
-      }
+      })
     }
     productId && getData()
   }, [productId, categoryName])
 
   useEffect(() => {
-    if (defaultFilter === DEFAULT_ALL) {
-      setDataFilter(productInfo)
+    if (productId) {
+      get(`reviews/reply?productId=${productId}`)
+        .then(res => {
+          const listAccount = []
+          res?.data?.forEach((itemReply) => {
+            listAccount.push(itemReply?.accountId)
+          })
+          const groupByCoinId = _.groupBy(res?.data, (item) => {
+            if (item?.reviewId) {
+              return item?.reviewId
+            }
+          })
+          setDataReply({
+            data: groupByCoinId,
+            accountId: listAccount
+          })
+        })
+      get(`reviews/reaction?productId=${productId}`)
+        .then(res => {
+          const listAccount = []
+          res?.data?.forEach((itemReply) => {
+            listAccount.push(itemReply?.accountId)
+          })
+          const groupByType = _.groupBy(res?.data, (item) => {
+            return item?.type
+          })
+          setDataReaction({
+            data: groupByType,
+            accountId: listAccount
+          })
+        })
     }
-    if (defaultFilter === DEFAULT_NOT_SCAM) {
-      const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === false)
-      setDataFilter({
-        ...productInfo,
-        reviews: listReview
-      })
+  }, [productId])
+  // get data review
+  useEffect(() => {
+    if (defaultFilter?.productId) {
+      get(`reviews/review`, defaultFilter)
+        .then(res => {
+          const listAccount = []
+          res?.data?.forEach((itemReview) => {
+            listAccount.push(itemReview?.accountId)
+          })
+          setDataReview({
+            data: res?.data !== null ? res?.data : [],
+            accountId: listAccount
+          })
+        })
+      // get(`reviews/reply?productId=${defaultFilter?.productId}`)
+      //   .then(res => {
+      //     const listAccount = []
+      //     res?.data?.forEach((itemReply) => {
+      //       listAccount.push(itemReply?.accountId)
+      //     })
+      //     const groupByCoinId = _.groupBy(res?.data, (item) => {
+      //       if (item?.reviewId) {
+      //         return item?.reviewId
+      //       }
+      //     })
+      //     setDataReply({
+      //       data: groupByCoinId,
+      //       accountId: listAccount
+      //     })
+      //   })
+      // get(`reviews/reaction?productId=${defaultFilter?.productId}`)
+      //   .then(res => {
+      //     const listAccount = []
+      //     console.log(res?.data)
+      //     res?.data?.forEach((itemReply) => {
+      //       listAccount.push(itemReply?.accountId)
+      //     })
+      //     console.log(listAccount)
+      //     const groupByType = _.groupBy(res?.data, (item) => {
+      //       return item?.type
+      //     })
+      //     setDataReaction({
+      //       data: groupByType,
+      //       accountId: listAccount
+      //     })
+      //   })
     }
-    if (defaultFilter === DEFAULT_SCAM) {
-      const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === true)
-      setDataFilter({
-        ...productInfo,
-        reviews: listReview
-      })
+  }, [defaultFilter])
+
+  useEffect(() => {
+    if (!_.isEmpty(dataReaction?.accountId) && !_.isEmpty(dataReply?.accountId) && !_.isEmpty(dataReview?.accountId)) {
+      const listAcount = [
+        ...dataReaction.accountId,
+        ...dataReply.accountId,
+        ...dataReview.accountId
+      ]
+      if (!_.isEmpty(listAcount)) {
+        const onlyUnique = (value, index, self) => {
+          return (self.indexOf(value) === index && value !== '')
+        }
+        const unique = listAcount?.filter(onlyUnique)
+        // get list account
+        post('reviews/auth/profiles', { 'accountIds': unique }).then(res => setListAccount(res?.data?.accounts))
+      }
     }
-  }, [defaultFilter, productInfo])
+  }, [dataReaction, dataReply, dataReview])
+
+  // useEffect(() => {
+  //   if (defaultFilter === DEFAULT_ALL) {
+  //     setDataFilter(productInfo)
+  //   }
+  //   if (defaultFilter === DEFAULT_NOT_SCAM) {
+  //     const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === false)
+  //     setDataFilter({
+  //       ...productInfo,
+  //       reviews: listReview
+  //     })
+  //   }
+  //   if (defaultFilter === DEFAULT_SCAM) {
+  //     const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === true)
+  //     setDataFilter({
+  //       ...productInfo,
+  //       reviews: listReview
+  //     })
+  //   }
+  // }, [defaultFilter, productInfo])
 
   useEffect(() => {
     if (typeComment === 'login') {
@@ -540,9 +544,13 @@ const ProductDetail = () => {
     errorType={errorType}
     id={productInfo?.details?.id}
     form={form}
+    dataReview={dataReview?.data}
+    dataReply={dataReply?.data}
+    dataReaction={dataReaction?.data}
+    listAcount={listAcount}
 
     // use in list review
-    dataFilter={dataFilter}
+    // dataFilter={dataFilter}
     productId={productId}
   />
 
@@ -578,7 +586,7 @@ const ProductDetail = () => {
     form={form}
 
     // use in list review
-    dataFilter={dataFilter}
+    // dataFilter={dataFilter}
     productId={productId}
   />
 
@@ -614,7 +622,7 @@ const ProductDetail = () => {
     form={form}
 
     // use in list review
-    dataFilter={dataFilter}
+    // dataFilter={dataFilter}
     productId={productId}
   />
 
@@ -650,7 +658,7 @@ const ProductDetail = () => {
     form={form}
 
     // use in list review
-    dataFilter={dataFilter}
+    // dataFilter={dataFilter}
     productId={productId}
   />
 
@@ -686,7 +694,7 @@ const ProductDetail = () => {
     form={form}
 
     // use in list review
-    dataFilter={dataFilter}
+    // dataFilter={dataFilter}
     productId={productId}
   />
 
@@ -694,19 +702,18 @@ const ProductDetail = () => {
     <div className='section'>
       {!productInfo ? <DetailLoading /> : ''}
       <div className='product' ref={ref} hidden={!productInfo}>
-        {/* <div className='product detail' ref={ref} hidden={!productInfo}> */}
         {categoryName === DAPP ? (
-          <React.Fragment>{dapp}</React.Fragment>
+          <>{dapp}</>
         ) : categoryName === CRYPTO ? (
-          <React.Fragment>{crypto}</React.Fragment>
+          <>{crypto}</>
         ) : categoryName === EXCHANGE ? (
-          <React.Fragment>{exchange}</React.Fragment>
+          <>{exchange}</>
         ) : categoryName === SOON ? (
-          <React.Fragment>{soon}</React.Fragment>
+          <>{soon}</>
         ) : categoryName === VENTURE ? (
-          <React.Fragment>{venture}</React.Fragment>
+          <>{venture}</>
         ) : type === 'coin' || type === 'token' ? (
-          <React.Fragment>{crypto}</React.Fragment>
+          <>{crypto}</>
         ) : ''}
 
       </div>
