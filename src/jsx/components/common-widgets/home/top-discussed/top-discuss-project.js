@@ -14,18 +14,16 @@ export const TopDiscussed = () => {
 
   return <div className='card pb-0' style={{ height: '100%' }}>
     <div className='card-header border-0 pb-0'>
-      <h2 className='heading' style={{ marginBottom: '-10px' }}>Hot Topics</h2>
+      <h2 className='heading' style={{ marginBottom: '1rem' }}>Hot Topics</h2>
     </div>
-    <div className='card-body'>
+    <div className='card-body' style={{ padding: '0 0.7rem' }}>
       <div
         style={{ height: '100%' }}
         id='DZ_W_Todo2'
         className='widget-media dz-scroll height370 ps ps--active-y'
       >
-        <ul className='timeline'>
-          {list?.map((item, index) => <TopDiscussedItem key={index} item={item}/>
-          )}
-        </ul>
+        {list?.map((item, index) => <TopDiscussedItem key={index} item={item}/>
+        )}
       </div>
     </div>
   </div>

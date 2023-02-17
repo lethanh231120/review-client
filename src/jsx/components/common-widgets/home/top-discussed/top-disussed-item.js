@@ -14,26 +14,25 @@ export const TopDiscussedItem = ({ item }) => {
 
   switch (item?.type) {
     case 'crypto':
-      return <li onClick={() => onItemClicked(item?.type, item?.detail, navigate)} style={{ cursor: 'pointer' }}>
-        <div className='timeline-panel'>
-          <div className='media me-2'>
-            {item?.detail?.bigLogo ? <Avatar size={35} src={item?.detail?.bigLogo}/> : <NoImage width={35} height={35} alt={item?.detail?.symbol?.substring(0, 2)}/>}
+      return <>
+        <div className='previews-info-list' onClick={() => onItemClicked(item?.type, item?.detail, navigate)} style={{ cursor: 'pointer', width: '100%', padding: '0.825rem 0' }}>
+          <div className='pre-icon'>
+            <span className={`icon-box icon-box-sm`}>
+              {item?.detail?.bigLogo ? <Avatar size={35} src={item?.detail?.bigLogo}/> : <NoImage width={35} height={35} alt={item?.detail?.symbol?.substring(0, 2)}/>}
+            </span>
+            <div className='ms-2'>
+              <h6 className='text-etc-overflow'>{shortenString(item?.detail?.name)}/{item?.detail?.symbol}</h6>
+              <span><Badge className='badge-sm ms-2'>{item?.type}</Badge></span>
+            </div>
           </div>
-          <div className='media-body'>
-            <h5 className='mb-1'>{shortenString(item?.detail?.name)}
-             ({item?.detail?.symbol})
-              <Badge className='badge-sm ms-2'>{item?.type}</Badge></h5>
-            <small className='d-block'>
-             23-12-2021 13.00
-            </small>
-          </div>
-          <div>
-            {item?.detail?.totalReviews} Reviews
-            <br />
-            {item?.detail?.totalIsScam} Reports
+          <div className='count'>
+            <span className='text-primary'>{item?.detail?.totalIsScam}&nbsp;Reviews</span>
+            <h6 className='text-danger'>{item?.detail?.totalReviews}&nbsp;Reports</h6>
           </div>
         </div>
-      </li>
+        <hr className='hr-custome'></hr>
+      </>
+
     case 'exchange':
       return <div></div>
     case 'venture':
