@@ -10,20 +10,25 @@ import TradingViewWidget from './trading-view-chart'
 // const DashboardComboChart = loadable(() =>
 //   pMinDelay(import('../../../Dashboard/Dashboard/DashboardComboChart'), 1000)
 // )
-export const TopCoinChart = ({ topCoinList }) => {
+
+const imageLink = (name) => `https://gear5.s3.ap-northeast-1.amazonaws.com/image/crypto/bigLogo/gear5_coin_${name}.png`
+
+const coinList = [
+  { symbol: 'BTC', name: 'Bitcoin' },
+  { symbol: 'ETH', name: 'Ethereum' },
+  { symbol: 'BNB', name: 'Binance' }
+]
+
+export const TopCoinChart = () => {
   const options = []
 
-  if (topCoinList?.length > 6) {
-    topCoinList?.slice(0, 6)?.forEach(item => {
-      if (item?.symbol !== 'USDT' && item?.symbol !== 'USDC') {
-        options.push({ value: `${item?.symbol}USDT`, label:
+  coinList.forEach(item => {
+    options.push({ value: `${item?.symbol}USDT`, label:
         <>
-          <Avatar size={30} className='me-2' src={item?.thumbLogo}/>
+          <Avatar size={30} className='me-2' src={imageLink(item?.name.toLowerCase())}/>
           {item?.name}
         </> })
-      }
-    })
-  }
+  })
   const [currentSelection, setCurrentSelection] = useState(options[0]?.value)
   const onSelected = (value) => {
     setCurrentSelection(value?.value)

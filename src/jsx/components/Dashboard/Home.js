@@ -1,30 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button } from 'react-bootstrap'
 import { ThemeContext } from '../../../context/ThemeContext'
-import imgReportProject from '../../../images/svg/report-project-white.svg'
-// images
-import hacker from './../../../images/crack.png'
-// import steal from './../../../images/crack44.png'
-import lite from './../../../images/litecoin.png'
-import tether from './../../../images/tether.png'
-import btc from './../../../images/btc.png'
-import avalanche from './../../../images/avalanche.png'
-import ethereum from './../../../images/ethereum.png'
-import bnb from './../../../images/binance.png'
-import polygon from './../../../images/polygon.png'
+
 import { TopCoins } from '../common-widgets/home/top-coin'
 import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-project'
 import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
 import { TopCoinChart } from '../common-widgets/home/home-chart/bitcoin-chart'
 import { ScamEachChainsList } from '../common-widgets/home/scam-each-chain-chart'
-import { get, getPrice } from '../../../api/BaseRequest'
+import { get } from '../../../api/BaseRequest'
 import { MySpinner } from '../common-widgets/my-spinner'
 import _ from 'lodash'
 import { renderRandomColor } from '../../../utils/formatNumber'
-import { ReportModalContext } from '../../index'
 import { ReviewList } from '../common-widgets/home/reviews/review-list'
 import SummaryRow from '../../components/common-widgets/home/summary/BalanceCardSlider'
 import './home.scss'
+import Banner from '../common-widgets/home/banner'
 
 const fillColors = [
   '#18A594',
@@ -38,9 +27,7 @@ const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
   const [summaryData, setSummaryData] = useState()
   // const [scamProjects, setScamProjects] = useState()
-  const [topCoins, setTopCoins] = useState()
   // const userInfo = getCookie(STORAGEKEY.USER_INFO)
-  const reportModal = useContext(ReportModalContext)
   // const addModal = useContext(AddModalContext)
   // const signInContext = useContext(SignInContext)
 
@@ -61,16 +48,6 @@ const Home = () => {
   }, [])
 
   // GET TOP COINS DATA
-  useEffect(() => {
-    const getTopCoinData = async() => {
-      const res = await getPrice('prices/crypto/top')
-      if (res?.code === 'B.200') {
-        setTopCoins(res?.data)
-      }
-    }
-
-    getTopCoinData()
-  }, [])
 
   const setTotalCrytosData = (data) => {
     const SHOW_DATA_NUMBER = 4
@@ -129,40 +106,7 @@ const Home = () => {
         <div className='col-8 col-xl-8'>
           <div className='row' style={{ height: '100%' }}>
             <div className='col-xl-12' >
-              <div className='card bubles banner-body'
-              // style={{ marginBottom: '30%' }}
-              >
-                <div className='card-body '>
-                  <div className='buy-coin '>
-                    <div>
-                      <h2 className='report-title' style={{ width: '100%' }}>You got scammed <br></br>lost money</h2>
-                      <p className='join-us-text' style={{ width: '100%' }}>
-                      Please join us to warn everyone in the community
-                      </p>
-                      <Button className='btn-danger' onClick={() => reportModal?.handleSetOpenModal(true)} style={{ backgroundColor: '#EB5757', borderColor: '#EB5757' }}>
-                        <img src={imgReportProject} className='img-fluid noti ms-2'/>
-                        &nbsp;
-                        Report&nbsp;now
-                      </Button>
-
-                    </div>
-                    {/* <img src={lite} className='decoration lite'/> */}
-                    <img src={btc} className='decoration btc'/>
-                    <img src={ethereum} className='decoration ethereum'/>
-                    <img src={bnb} className='decoration bnb'/>
-                    <img src={avalanche} className='decoration avalanche'/>
-                    <img src={tether} className='decoration tether'/>
-                    <img src={polygon} className='decoration polygon'/>
-                    <img src={lite} className='decoration lite'/>
-                    <div className='coin-img'>
-                      <img src={hacker} className='img-fluid' alt='' />
-                    </div>
-                    {/* <div className='coin-img'>
-                      <img src={steal} className='img-fluid' alt='' style={{ width: '200px' }} />
-                    </div> */}
-                  </div>
-                </div>
-              </div>
+              <Banner />
             </div>
             <div className='col-xl-12 col-lg-12' style={{ display: 'flex', alignItems: 'end', justifyContent: 'center', padding: '0' }}>
               {summaryData ? <SummaryRow data={summaryData}/> : <MySpinner />}
@@ -187,7 +131,7 @@ const Home = () => {
       <div className='row mt-4'>
         {/* top coin chart  */}
         <div className='col-8 col-lg-8'>
-          {topCoins ? <TopCoinChart topCoinList = {topCoins}/> : <MySpinner />}
+          <TopCoinChart />
         </div>
         {/* top coin  */}
         <div className=' col-4 col-lg-4'>
