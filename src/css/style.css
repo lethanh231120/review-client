@@ -34383,6 +34383,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   overflow: hidden;
   white-space: nowrap;
 }
+.text-etc-overflow-hover:hover{
+  overflow: visible; 
+  white-space: normal;
+  height:auto;  /* just added this line */
+}
 
 /* Soon detail */
 .website-soon{
@@ -34413,6 +34418,132 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 .banner-body{
   height: 100%;
- 
 }
 
+
+/* START: reponsive row 1(banner, summary, top coin) in home */
+/* small menu */
+@media screen and (min-width: 576px) and (max-width: 960px){
+  .banner-body{
+    /* cmt cuz using boostrap < 992px */
+    /* margin-bottom: 30%;  */
+  }
+}
+
+@media screen and (min-width: 961px) and (max-width: 990px){
+  .banner-body{
+    /* cmt cuz using boostrap < 992px */
+    /* margin-bottom: 25%; */
+  }
+}
+
+@media screen and (min-width: 991px) and (max-width: 1023px){
+  .banner-body{
+    margin-bottom: 20%;
+  }
+}
+
+/* 1024px has big menu */
+
+/* big menu */
+@media screen and (min-width: 1024px) and (max-width: 1199px){
+  .banner-body{
+    margin-bottom: 20%;
+  }
+}
+
+@media screen and (min-width: 1200px)  and (max-width: 1280px){
+  .banner-body{
+    margin-bottom: 35%;
+  }
+}
+
+@media screen and (min-width: 1281px)  and (max-width: 1344px) {
+  .banner-body{
+    margin-bottom: 30%;
+  }
+}
+
+@media screen and (min-width: 1345px)  and (max-width: 1365px) {
+  .banner-body{
+    margin-bottom: 25%;
+  }
+}
+
+@media screen and (min-width: 1366px)  and (max-width: 1400px) {
+  .banner-body{
+    margin-bottom: 20%;
+  }
+}
+
+@media screen and (min-width: 1401px)  and (max-width: 1473px) {
+  .banner-body{
+    margin-bottom: 15%;
+  }
+}
+
+
+@media screen and (min-width: 1474px)  and (max-width: 1973px) {
+  .banner-body{
+    margin-bottom: 10%;
+  }
+}
+
+@media screen and (min-width: 1974px) {
+  .banner-body{
+    margin-bottom: 8%;
+  }
+}
+/*END: reponsive row 1(banner, summary, top coin) in home */
+
+
+/*START: Summary home responsive */
+@media screen and (min-width: 1200px) and (max-width: 1350px){
+  .summary-icon{
+    width: 2rem !important;
+    height: 2rem !important;
+    min-width: 2rem !important;
+  }
+  .summary-title{
+    font-size: 0.7rem !important
+  }
+  .summary-statistic{
+    font-size: 1rem !important
+  }
+}
+
+@media screen and (min-width: 1351px) and (max-width: 1500px){
+  .summary-title{
+    font-size: 0.75rem !important
+  }
+  .summary-statistic{
+    font-size: 1.15rem !important
+  }
+}
+/*END: Summary home responsive */
+
+/*START: reponsive input search */
+.header-right .search-area{
+  width: 100% !important
+}
+/*END: reponsive input search */
+
+/*START: reponsive login/signup in */
+@media screen and (max-width: 767px){
+  .header.is-fixed{
+    height: auto !important
+  }
+}
+/*END: reponsive login/signup in */
+
+
+/*START: hr for items in table list(hot project) */
+.hr-custome {
+  background-color: #fff;
+  padding: 0;
+  border: 0;
+  height: 0.1rem;
+  margin: 0;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+/*END: hr for items in table list(hot project) */

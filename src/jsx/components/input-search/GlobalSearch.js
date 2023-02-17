@@ -204,9 +204,9 @@ const InputSearch = ({ isFormReport, setItem }) => {
     setTxtDisplaySearchHeader(chars) // active effect
   }
   return (
-    <div className='input-group search-area cus-input-group'>
+    <div className='input-group search-area cus-input-group' style={{ width: '100%' }}>
       <div className='nav-item d-flex align-items-center' style={{ width: '100%' }}>
-        <div className='input-group search-area '>
+        <div className='input-group search-area' style={{ width: '100%' }}>
           <span
             className={`input-group-text cus-input-group-text ${isFormReport ? 'cus-form-report' : ''}`}
             onClick={(e) => {

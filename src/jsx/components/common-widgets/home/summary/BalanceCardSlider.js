@@ -1,13 +1,9 @@
 import React from 'react'
-// import { Swiper, SwiperSlide } from 'swiper/react'
-//  import { Autoplay } from "swiper";
 
 import 'swiper/css'
 import { SummaryCard } from './summary-card'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBuilding, faCoins, faExchangeAlt, faRocket } from '@fortawesome/free-solid-svg-icons'
-// import ProfitLossArea from './ProfitLossArea'
-// import TotaldipositChart from './TotaldipositChart'
 
 const SummaryRow = ({ data }) => {
   const tokenData = data?.coins + data?.tokens
