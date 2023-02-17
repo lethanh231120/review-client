@@ -14,12 +14,12 @@ export const SummaryCard = ({ title, number, bg, badgeStyle, icon, type }) => {
     <div className='widget-stat card cus-summary-card' style={{ marginBottom: '0', marginTop: '1rem' }} >
       <div className='card-body p-3'>
         <div className='media'>
-          <span className={`${bg}`} >
+          <span className={`${bg} summary-icon`}>
             {icon}
           </span>
-          <div className='media-body custom-media-body' >
-            <p className='mb-1'>{title}</p>
-            <h4 className='mb-0'>{number > 0 && `${formatMoney(number)}`.replace('$', '')}+</h4>
+          <div className='media-body custom-media-body text-etc-overflow' >
+            <p className='mb-1 text-etc-overflow summary-title'>{title}</p>
+            <h4 className='mb-0'><span className='text-etc-overflow summary-statistic'>{number > 0 && `${formatMoney(number)}`.replace('$', '')}+</span></h4>
             {/* <span className={`badge ${badgeStyle}`}>3.5%</span> */}
           </div>
         </div>

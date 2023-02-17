@@ -121,8 +121,8 @@ const Header = () => {
                 </div>
               </div>
               {/* header: search elk input */}
-              <div className='navbar-nav header-right'>
-                <div className='nav-item d-flex align-items-center '>
+              <div className='navbar-nav header-right' style={{ width: '100%' }}>
+                <div className='nav-item d-flex align-items-center' style={{ width: '100%' }}>
                   <InputSearch />
                 </div>
                 {/* side-bar right */}
@@ -134,7 +134,7 @@ const Header = () => {
                     <ul className=''>
                       <Dropdown
                         as='li'
-                        className='nav-item dropdown notification_dropdown '
+                        className='nav-item dropdown notification_dropdown'
                         onClick={() => reportModal?.handleSetOpenModal(true)}
                       >
                         <Tooltip title={txtScamTooltip} placement='left'>

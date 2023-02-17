@@ -31,7 +31,7 @@ export const ReviewList = () => {
   }, [])
 
   useEffect(() => {
-    if (reviewList?.length > 9) {
+    if (reviewList?.length > 12) {
       const copyArr = [...reviewList]
       copyArr.pop()
       setReviewList(copyArr)

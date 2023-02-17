@@ -29,6 +29,8 @@ export const TopDiscussedItem = ({ item }) => {
           </div>
           <div>
             {item?.detail?.totalReviews} Reviews
+            <br />
+            {item?.detail?.totalIsScam} Reports
           </div>
         </div>
       </li>
