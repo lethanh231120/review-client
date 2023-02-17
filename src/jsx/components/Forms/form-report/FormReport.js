@@ -219,7 +219,6 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     }
   }
 
-  console.log(form.getFieldValue('isScam'))
   return (
     <>
       {(isFormReport === true) && (

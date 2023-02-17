@@ -13,8 +13,9 @@ import scam from '../../../../../images/product/scam.png'
 import ListEmoji from '../emoji/ListEmoji'
 import Description from '../../description/Description'
 
-const ReviewItem = ({ data, productId }) => {
+const ReviewItem = ({ data, productId, dataReply, listAcount, dataReaction }) => {
   const TYPE_REVIEW = 0
+  const TYPE_REPLY = 1
   const [isCollapse, setIsCollapse] = useState({
     isCollapse: true,
     reviewId: ''
@@ -42,8 +43,8 @@ const ReviewItem = ({ data, productId }) => {
   }, [data])
 
   useEffect(() => {
-    newData?.reactions?.forEach((item) => {
-      if (item?.accountId === userInfo?.id) {
+    dataReaction[`${TYPE_REVIEW}`]?.forEach((item) => {
+      if ((item?.accountId === userInfo?.id) && (item?.commentId === data?.id)) {
         switch (item?.reactionType) {
           case '😆':
             setCurrenReaction('Haha')
@@ -65,14 +66,16 @@ const ReviewItem = ({ data, productId }) => {
         }
       }
     })
-    if (!_.isEmpty(newData?.reactions)) {
-      setIsReaction(newData?.reactions?.some((item) => (item?.accountId === userInfo?.id)))
+    if (!_.isEmpty(dataReaction[`${TYPE_REVIEW}`])) {
+      setIsReaction(dataReaction[`${TYPE_REVIEW}`]?.some((item) => ((item?.accountId === userInfo?.id) && (item?.commentId === data?.id))))
     }
     // setLoading(false)
 
     const listReactionType = []
-    newData?.reactions?.forEach((item) => {
-      listReactionType.push(item?.reactionType)
+    dataReaction[`${TYPE_REVIEW}`]?.forEach((item) => {
+      if (item?.commentId === data?.id) {
+        listReactionType.push(item?.reactionType)
+      }
     })
     const onlyUnique = (item, index, self) => {
       return (self.indexOf(item) === index)
@@ -111,8 +114,8 @@ const ReviewItem = ({ data, productId }) => {
             userName: userInfo?.userName
           },
           reactions: []
-        },
-        ...newData.replies
+        }
+        // ...newData.replies
       ]
       setNewData({
         ...data,
@@ -136,40 +139,11 @@ const ReviewItem = ({ data, productId }) => {
         setNewData()
         const params = {
           content: comment,
-          reviewId: data?.review?.id,
+          reviewId: data?.id,
           productId: productId,
           image: ''
         }
         functionAddReply(params)
-        // const dataAdd = await post('reviews/reply', params)
-        // if (dataAdd) {
-        //   setNewData()
-        //   const newReply = [
-        //     {
-        //       reply: {
-        //         ...dataAdd?.data,
-        //         accountType: userInfo?.accountType,
-        //         email: userInfo?.email,
-        //         acountImage: userInfo?.image,
-        //         role: userInfo?.role,
-        //         userName: userInfo?.userName
-        //       },
-        //       reactions: []
-        //     },
-        //     ...newData.replies
-        //   ]
-        //   setNewData({
-        //     ...data,
-        //     replies: newReply
-        //   })
-        //   form.resetFields()
-        //   setIsCollapse({
-        //     ...isCollapse,
-        //     reviewId: data?.review?.id
-        //   })
-        //   setValidateTextArea(false)
-        //   setComment('')
-        // }
       } else {
         setValidateTextArea(true)
       }
@@ -185,51 +159,23 @@ const ReviewItem = ({ data, productId }) => {
         setNewData()
         const params = {
           content: e.target.value,
-          reviewId: data?.review?.id,
+          reviewId: data?.id,
           productId: productId,
           image: ''
         }
         functionAddReply(params)
-        // const dataAdd = await post('reviews/reply', params)
-        // if (dataAdd) {
-        //   const newReply = [
-        //     {
-        //       reply: {
-        //         ...dataAdd?.data,
-        //         accountType: userInfo?.accountType,
-        //         email: userInfo?.email,
-        //         acountImage: userInfo?.image,
-        //         role: userInfo?.role,
-        //         userName: userInfo?.userName
-        //       },
-        //       reactions: []
-        //     },
-        //     ...newData.replies
-        //   ]
-        //   setNewData({
-        //     ...newData,
-        //     replies: newReply
-        //   })
-        //   // setLoading(true)
-        //   form.resetFields()
-        //   setIsCollapse({
-        //     ...isCollapse,
-        //     reviewId: ''
-        //   })
-        //   setValidateTextArea(false)
-        //   setComment('')
-        // }
       } else {
         setValidateTextArea(true)
       }
     }
   }
 
+  console.log(isReaction)
   const handleClickReaction = async(value) => {
     if (token) {
       if (isReaction) {
         const body = {
-          commentId: data?.review?.id,
+          commentId: data?.id,
           type: TYPE_REVIEW,
           reactionType: value,
           productId: productId
@@ -251,7 +197,7 @@ const ReviewItem = ({ data, productId }) => {
         }
       } else {
         const body = {
-          commentId: data?.review?.id,
+          commentId: data?.id,
           type: TYPE_REVIEW,
           reactionType: value,
           productId: productId
@@ -286,25 +232,24 @@ const ReviewItem = ({ data, productId }) => {
 
   return (
     <>
-      {/* {!Loading && ( */}
       <div className='review-item'>
         <Image src={newData?.review?.acountImage ? newData?.review?.acountImage : user} preview={false}/>
         <div className='review-item-description'>
           <div className='review-item-data'>
             <div className='review-item-name'>
-              {newData?.review?.userName ? newData?.review?.userName : 'Anonymous'}
+              {listAcount?.find((item) => item?.id === newData?.accountId) ? listAcount?.find((item) => item?.id === newData?.accountId)?.userName : 'Anonymous'}
               <span>
                 {newData?.review?.isScam && (<Image src={scam} preview={false}/>)}
               </span>
             </div>
             <div className='review-item-content'>
               <div>
-                <strong>{newData?.review?.title}</strong>
+                <strong>{newData?.title}</strong>
               </div>
-              <Description text={newData?.review?.content}/>
-              {!_.isEmpty(newData?.review?.sources) && (
+              <Description text={newData?.content}/>
+              {!_.isEmpty(newData?.sources) && (
                 <div className='review-item-content-source'>
-                  {newData?.review?.sources?.map((item, index) => (
+                  {newData?.sources?.map((item, index) => (
                     <span key={index}>
                       {item !== '' && (
                         <a href={item} target='_blank' rel='noreferrer'>
@@ -331,7 +276,7 @@ const ReviewItem = ({ data, productId }) => {
               />
               <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
               <span className='review-item-action-item-time'>
-                {moment.utc(newData?.review?.updatedDate).fromNow()}
+                {moment.utc(newData?.updatedDate).fromNow()}
               </span>
             </div>
             {!_.isEmpty(reactionType) && (
@@ -341,11 +286,13 @@ const ReviewItem = ({ data, productId }) => {
                     {item}
                   </div>
                 ))}
-                <div className='review-item-action-reaction-item'>{newData?.reactions?.length}</div>
+                <div className='review-item-action-reaction-item'>
+                  {reactionType?.length}
+                </div>
               </div>
             )}
           </div>
-          {newData?.replies?.length > 2 && (
+          {dataReply?.length > 2 && (
             <div
               className='review-item-replies'
               onClick={() => {
@@ -356,7 +303,7 @@ const ReviewItem = ({ data, productId }) => {
               }}
             >
               <CaretDownOutlined/>
-              {newData?.replies?.length} reply
+              {dataReply?.length} reply
             </div>
           )}
           <Form form={form}>
@@ -389,17 +336,19 @@ const ReviewItem = ({ data, productId }) => {
           <div
             className={`${(isCollapse?.isCollapse && isCollapse?.reviewId === '') ? 'isCollapse' : 'comment-reply'}`}
           >
-            {newData?.replies?.map((item, index) => (
+            {dataReply?.map((item, index) => (<>
               <ReplyComment
                 key={index}
                 data={item}
                 productId={productId}
+                listAcount={listAcount}
+                dataReaction={dataReaction[`${TYPE_REPLY}`]?.filter((itemReact) => (itemReact?.commentId === item?.id))}
               />
+            </>
             ))}
           </div>
         </div>
       </div>
-      {/* )} */}
     </>
   )
 }
