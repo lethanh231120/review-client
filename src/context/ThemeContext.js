@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useReducer } from 'react'
-import { dezThemeSet } from './ThemeDemo'
 
 export const ThemeContext = createContext()
 const reducer = (previousState, updatedState) => ({
@@ -211,49 +210,6 @@ const ThemeContextProvider = (props) => {
       changeSideBarStyle({ value: 'overlay', label: 'Overlay' })
   }
 
-  const setDemoTheme = (theme, direction) => {
-    var setAttr = {}
-
-    var themeSettings = dezThemeSet[theme]
-
-    body.setAttribute('data-typography', themeSettings.typography)
-
-    setAttr.value = themeSettings.version
-    changeBackground(setAttr)
-
-    setAttr.value = themeSettings.layout
-    changeSideBarLayout(setAttr)
-
-    // setAttr.value = themeSettings.primary;
-    changePrimaryColor(themeSettings.primary)
-    changeSecondaryColor(themeSettings.secondary)
-
-    // setAttr.value = themeSettings.navheaderBg;
-    changeNavigationHader(themeSettings.navheaderBg)
-
-    // setAttr.value = themeSettings.headerBg;
-    chnageHaderColor(themeSettings.headerBg)
-
-    setAttr.value = themeSettings.sidebarStyle
-    changeSideBarStyle(setAttr)
-
-    // setAttr.value = themeSettings.sidebarBg;
-    chnageSidebarColor(themeSettings.sidebarBg)
-
-    setAttr.value = themeSettings.sidebarPosition
-    changeSideBarPostion(setAttr)
-
-    setAttr.value = themeSettings.headerPosition
-    changeHeaderPostion(setAttr)
-
-    setAttr.value = themeSettings.containerLayout
-    changeContainerPosition(setAttr)
-
-    // setAttr.value = themeSettings.direction;
-    setAttr.value = direction
-    changeDirectionLayout(setAttr)
-  }
-
   useEffect(() => {
     const body = document.querySelector('body')
     body.setAttribute('data-typography', 'poppins')
@@ -327,8 +283,7 @@ const ThemeContextProvider = (props) => {
         changeBackground,
         background,
         // containerPosition_,
-        containerPositionSize,
-        setDemoTheme
+        containerPositionSize
       }}
     >
       {props.children}

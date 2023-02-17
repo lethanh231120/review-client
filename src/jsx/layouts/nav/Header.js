@@ -3,10 +3,7 @@ import { Dropdown } from 'react-bootstrap'
 import { Modal } from 'antd'
 
 // / Image
-import imgMoon from '../../../images/moon.png'
-import imgSun from '../../../images/sun.png'
 import profile from '../../../images/product/user.png'
-import { ThemeContext } from '../../../context/ThemeContext'
 import AccountTab, {
   logInKey,
   signUpKey
@@ -30,7 +27,6 @@ const txtLoginTooltip = 'Log In'
 const txtSignUpTooltip = 'Sign Up'
 
 const Header = () => {
-  const [isLightTheme, setIsLightTheme] = useState(true)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
   const [activeTabKey, setActiveTabKey] = useState('')
@@ -41,8 +37,6 @@ const Header = () => {
     })
   }, [])
 
-  const { changeBackground, backgroundOption, colors, chnageHaderColor } =
-    useContext(ThemeContext)
   const authenticated = useContext(Authenticated)
   const signContext = useContext(SignInContext)
   const reportModal = useContext(ReportModalContext)
@@ -73,30 +67,6 @@ const Header = () => {
           signContext?.handleSetOpenModal(true)
         }
       })
-    }
-  }
-
-  const onChangeTheme = () => {
-    // only 2 state: light or dark in config
-    if (backgroundOption.length === 2) {
-      // Current: Light theme --> change to Dark theme
-      if (isLightTheme) {
-        changeBackground(backgroundOption[1]) // { value: 'dark', label: 'Dark' }
-        // Dark purple at position 4 in array
-        if (colors.length >= 4) {
-          const colorDarkPurple = colors[3]
-          chnageHaderColor(colorDarkPurple)
-        }
-      } else {
-        // Current: Dark theme --> change to Light theme
-        changeBackground(backgroundOption[0]) // { value: 'light', label: 'Light' }
-        // White at position 4 in array
-        if (colors.length >= 1) {
-          const colorWhite = colors[0]
-          chnageHaderColor(colorWhite)
-        }
-      }
-      setIsLightTheme(!isLightTheme)
     }
   }
 
@@ -157,19 +127,6 @@ const Header = () => {
                 </div>
                 {/* side-bar right */}
                 <div className='dz-side-menu'>
-                  <div
-                    className='search-coundry d-flex align-items-center'
-                    onClick={() => onChangeTheme()}
-                  >
-                    <img
-                      hidden={true}
-                      src={isLightTheme ? imgMoon : imgSun}
-                      alt=''
-                      className='mx-2'
-                      height={24}
-                      width={24}
-                    />
-                  </div>
 
                   {/* Scam report, add product */}
                   <div className='sidebar-social-link '>
