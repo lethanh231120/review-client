@@ -40,9 +40,9 @@ export const ReviewList = () => {
 
   return <div className='row ' >
     <div className='col-12 mb-2'> <h2 className='heading' >Recent Reviews</h2></div>
-    {!_.isEmpty(reviewList) && reviewList?.map((item, index) => <ReviewItem
+    {!_.isEmpty(reviewList) ? reviewList?.map((item, index) => <ReviewItem
       key={index}
       data={item && item}
-    />)}
+    />) : <div>There are currently no reviews</div>}
   </div>
 }
