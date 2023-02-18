@@ -141,7 +141,7 @@ const Header = () => {
                           <Dropdown.Toggle
                             variant=''
                             as='a'
-                            className='nav-link  ai-icon i-false c-pointer'
+                            className='nav-link  ai-icon i-false c-pointer button-report-scam-home'
                             role='button'
                           >
                             <img src={imgReportProject} alt='err' />
@@ -160,7 +160,7 @@ const Header = () => {
                           <Dropdown.Toggle
                             variant=''
                             as='a'
-                            className='nav-link  ai-icon i-false c-pointer'
+                            className='nav-link  ai-icon i-false c-pointer button-add-project-home'
                             role='button'
                           >
                             <img src={imgAddProject} alt='err' />
@@ -245,7 +245,7 @@ const Header = () => {
                               <Dropdown.Toggle
                                 variant=''
                                 as='a'
-                                className='nav-link  ai-icon i-false c-pointer'
+                                className='nav-link  ai-icon i-false c-pointer button-login-home'
                                 role='button'
                               >
                                 <img src={imgLogIn} alt='err' />
@@ -267,7 +267,7 @@ const Header = () => {
                               <Dropdown.Toggle
                                 variant=''
                                 as='a'
-                                className='nav-link  ai-icon i-false c-pointer'
+                                className='nav-link  ai-icon i-false c-pointer button-signup-home'
                                 role='button'
                               >
                                 <img src={imgSignUp} alt='err' />
