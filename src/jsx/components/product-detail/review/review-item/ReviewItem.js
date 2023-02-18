@@ -35,9 +35,6 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
   const [listReaction, setListReaction] = useState(dataReaction[`${TYPE_REVIEW}`]?.filter((itemReaction) => itemReaction?.commentId === data?.id))
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
-  console.log(listReaction)
-  console.log(isReaction)
-
   useEffect(() => {
     setNewData({
       dataComment: data,
@@ -177,15 +174,12 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
         }
         const dataAddReact = await post('reviews/reaction', body)
         if (dataAddReact) {
-          console.log(dataAddReact)
           if (!_.isEmpty(listReaction)) {
-            console.log(1111111111)
             setListReaction([
               dataAddReact?.data,
               ...listReaction
             ])
           } else {
-            console.log(2222222)
             setListReaction([dataAddReact?.data])
           }
         }
@@ -195,7 +189,6 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
     }
   }
 
-  console.log(listReaction)
   const handleChangeComment = _.debounce(async(e) => {
     if (e.target.value === '') {
       setValidateTextArea(true)
@@ -206,7 +199,6 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
   }, 1000)
 
   useEffect(() => {
-    console.log(88888)
     listReaction?.forEach((item) => {
       if ((item?.accountId === userInfo?.id) && (item?.commentId === data?.id)) {
         switch (item?.reactionType) {

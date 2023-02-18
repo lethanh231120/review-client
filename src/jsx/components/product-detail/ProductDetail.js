@@ -504,6 +504,8 @@ const ProductDetail = () => {
     errorType={errorType}
     id={productInfo?.details?.id}
     form={form}
+
+    totalReview={productInfo?.details?.totalReviews}
     dataReview={dataReview}
     dataReply={dataReply?.data}
     dataReaction={dataReaction?.data}
@@ -545,6 +547,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
+    totalReview={productInfo?.details?.totalReviews}
     dataReview={dataReview}
     dataReply={dataReply?.data}
     dataReaction={dataReaction?.data}
@@ -586,6 +589,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
+    totalReview={productInfo?.details?.totalReviews}
     dataReview={dataReview}
     dataReply={dataReply?.data}
     dataReaction={dataReaction?.data}
@@ -627,6 +631,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
+    totalReview={productInfo?.details?.totalReviews}
     dataReview={dataReview}
     dataReply={dataReply?.data}
     dataReaction={dataReaction?.data}
@@ -668,6 +673,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
+    totalReview={productInfo?.details?.totalReviews}
     dataReview={dataReview}
     dataReply={dataReply?.data}
     dataReaction={dataReaction?.data}

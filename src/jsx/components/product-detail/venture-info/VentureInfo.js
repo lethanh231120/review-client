@@ -292,7 +292,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       more={<More />}
       about={<About />}
       portfolioOrChart={<PortfolioTable />}
-      // report={<FormReport />}
+
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
     />

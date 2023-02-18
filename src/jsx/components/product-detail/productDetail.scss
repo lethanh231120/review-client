@@ -513,8 +513,10 @@
 .EmojiPickerReact li.epr-emoji-category>.epr-emoji-category-label{
     display: none !important;
 }
-.ant-select-dropdown{
-    // display: none;
+// css custom 
+.cus-category-paginate{
+    padding: 1.5rem 0 !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
 }
 .box{
     background-color: #fff;
