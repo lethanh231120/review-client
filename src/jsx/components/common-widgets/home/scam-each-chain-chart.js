@@ -23,9 +23,9 @@ export const ScamEachChainsList = ({ data }) => {
     return <tr className='text-center' key={index}>
       <td >{index}</td>
       <td >
-        <div className='d-flex justify-content-start ms-5'>
+        <div className='d-flex justify-content-start ms-5 align-items-center'>
           <Avatar size={25} src={img}/>
-          <span className='ms-1'>{capitalizeFirstLetter(chainName)}</span>
+          <span className='ms-2'>{capitalizeFirstLetter(chainName)}</span>
         </div>
       </td>
       <td>
