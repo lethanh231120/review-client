@@ -654,7 +654,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         exchange={exchange}
         topDiscus={(<TopDiscussed/>)}
         portfolioOrChart={priceChart}
-        numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
         rest={rest}
       />
     </>

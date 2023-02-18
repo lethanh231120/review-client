@@ -8,8 +8,7 @@ import {
   Checkbox,
   Upload,
   Form,
-  Button,
-  message
+  Button
 } from 'antd'
 import { StarFilled } from '@ant-design/icons'
 import ReCAPTCHA from 'react-google-recaptcha'
@@ -24,6 +23,7 @@ import user from '../../../../images/product/user.png'
 import FilterReview from '../../product-detail/filter-review/FilterReview'
 import '../../../../scss/base/cus-form.scss'
 import './formReport.scss'
+import Swal from 'sweetalert2'
 
 const { Option } = Select
 const defaultValue = [
@@ -58,7 +58,6 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
 
   const ref = useRef(null)
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
-  // const signInContext = useContext(SignInContext)
 
   // const handleClickEmoji = (value) => {
   //   const cursor = ref.current.selectionStart
@@ -69,49 +68,26 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
   //   })
   // }
 
-  // change comment in textarea
-
+  // submit form
   const onFinish = (values) => {
     handleSubmitComment(values)
   }
 
-  // const handleChangeTextArea = (e) => {
-  //   if (e.target.value !== '') {
-  //     if (e.target.value.length < 20 || e.target.value.length > 500) {
-  //       setValidateText({
-  //         ...rest?.validateText,
-  //         textArea: {
-  //           isError: true,
-  //           message: 'Content must be more than 20 characters and less than 500 characters'
-  //         }
-  //       })
-  //     } else {
-  //       setValidateText({
-  //         ...rest?.validateText,
-  //         textArea: {
-  //           isError: false,
-  //           message: ''
-  //         }
-  //       })
-  //     }
-  //     setData({
-  //       ...data,
-  //       content: e.target.value
-  //     })
-  //   } else {
-  //     setData({
-  //       ...data,
-  //       content: ''
-  //     })
-  //     setValidateText({
-  //       ...rest?.validateText,
-  //       textArea: {
-  //         isError: true,
-  //         message: 'Please enter comment'
-  //       }
-  //     })
-  //   }
-  // }
+  // toast message
+  const notifyTopRight = (content) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true
+    })
+
+    Toast.fire({
+      icon: 'error',
+      title: content
+    })
+  }
 
   // chose file in select
   const handleChangeFile = async(e) => {
@@ -120,27 +96,22 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
       const isJpgOrPng = e.file.type === 'image/jpeg' || e.file.type === 'image/png' || e.file.type === 'image/jpg'
       // validat type file png/jpg
       if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!')
+        notifyTopRight('You can only upload JPG/PNG file!')
         error = true
       }
       // validate size file
       const isLt10M = e.file.size / 1024 / 1024 < 10
       if (!isLt10M) {
         error = true
-        message.error('Image must smaller than 10MB!')
+        notifyTopRight('Image must smaller than 10MB!')
       }
       if (!error) {
         setFileList(e.fileList)
         const formData = new FormData()
         formData.append('file', e?.fileList[0]?.originFileObj)
         const time = moment().unix()
-        const fileName = `${
-          userInfo?.id ? userInfo?.id : id || 'anonymous'
-        }_${time}`
-        const dataImage = await post(
-          `reviews/upload/image?storeEndpoint=test&fileName=${fileName}`,
-          formData
-        )
+        const fileName = `${userInfo?.id ? userInfo?.id : id || 'anonymous'}_${time}`
+        const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
         setData({
           ...data,
           image: dataImage?.data
@@ -149,16 +120,23 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     }
   }
 
+  // call when onChange proof link
   const handleChangeLink = (value) => {
     const newLink = []
+    // const reg = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
     const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
     value?.forEach((itemLink) => {
       if (itemLink.match(reg)) {
         newLink.push(itemLink)
       }
     })
+    console.log(newLink)
     form.setFieldsValue({
       'sources': newLink
+    })
+    setData({
+      ...data,
+      sources: newLink
     })
   }
 
@@ -167,7 +145,6 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     setData({
       ...data,
       isScam: e?.target?.checked
-      // star: e?.target?.checked ? 1 : 5
     })
 
     form.setFieldsValue({
@@ -181,16 +158,17 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
   }
 
   const changeSelect = (value) => {
+    // const reg = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
     const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
     if (value !== '') {
       if (value.match(reg)) {
-        setData({
-          ...data,
-          sources: [
-            ...data.sources,
-            value
-          ]
-        })
+        // setData({
+        //   ...data,
+        //   sources: [
+        //     ...data.sources,
+        //     value
+        //   ]
+        // })
         setErrorLink()
       } else {
         setErrorLink('Link explorer is not valid')
@@ -198,6 +176,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     }
   }
 
+  console.log(data)
   const onPreview = async(file) => {
     let src = file.url
     if (!src) {
@@ -217,6 +196,16 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     if (value) {
       setIsRecaptcha(false)
     }
+  }
+
+  const handleChangeRating = (value) => {
+    form.setFieldsValue({
+      'isScam': value === 1
+    })
+    setData({
+      ...data,
+      isScam: value === 1
+    })
   }
 
   return (
@@ -321,6 +310,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
               >
                 <Select
                   style={{ width: '100%' }}
+                  onChange={(value) => handleChangeRating(value)}
                 >
                   <Option value={1}>
                     <div className='d-flex align-items-center'>
@@ -421,23 +411,17 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
 
               {form.getFieldValue('isScam') && (
                 <div style={{ marginBottom: '0.325rem' }}>
-                  <Form.Item
-                    label='Proof Link'
-                    name='sources'
-                  >
-                    <Select
-                      value={data?.sources}
-                      placeholder='Please enter proof link …'
-                      mode='tags'
-                      dropdownStyle={{ background: 'red', display: 'none' }}
-                      onChange={handleChangeLink}
-                      onSelect={changeSelect}
-                      className='cus-multiple-select'
-                    />
-                  </Form.Item>
+                  <Select
+                    value={data?.sources}
+                    placeholder='Please enter proof link …'
+                    mode='tags'
+                    dropdownStyle={{ background: 'red', display: 'none' }}
+                    onChange={handleChangeLink}
+                    onSelect={changeSelect}
+                    className='cus-multiple-select'
+                  />
                 </div>
               )}
-
               {errorLink && <span style={{ color: 'red' }}>{errorLink}</span>}
 
               {form.getFieldValue('isScam') && (

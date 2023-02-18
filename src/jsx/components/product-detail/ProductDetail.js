@@ -244,40 +244,18 @@ const ProductDetail = () => {
   }, [defaultFilter])
 
   useEffect(() => {
-    // if (!_.isEmpty(dataReaction?.accountId) && !_.isEmpty(dataReply?.accountId) && !_.isEmpty(dataReview?.accountId)) {
     const listAccount = [
       dataReaction?.accountId,
       dataReply?.accountId,
       dataReview?.accountId
     ]
     const onlyUnique = (value, index, self) => {
-      return (self.indexOf(value) === index && value !== '00000000-0000-0000-0000-000000000000')
+      return (self.indexOf(value) === index && value !== '00000000-0000-0000-0000-000000000000' && value !== null)
     }
     const unique = listAccount?.flat(1)?.filter(onlyUnique)
     // get list account
     !_.isEmpty(unique) && post('reviews/auth/profiles', { 'accountIds': unique }).then(res => setListAccount(res?.data?.accounts))
-    // }
   }, [dataReaction, dataReply, dataReview])
-
-  // useEffect(() => {
-  //   if (defaultFilter === DEFAULT_ALL) {
-  //     setDataFilter(productInfo)
-  //   }
-  //   if (defaultFilter === DEFAULT_NOT_SCAM) {
-  //     const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === false)
-  //     setDataFilter({
-  //       ...productInfo,
-  //       reviews: listReview
-  //     })
-  //   }
-  //   if (defaultFilter === DEFAULT_SCAM) {
-  //     const listReview = productInfo?.reviews?.filter((item) => item?.review?.isScam === true)
-  //     setDataFilter({
-  //       ...productInfo,
-  //       reviews: listReview
-  //     })
-  //   }
-  // }, [defaultFilter, productInfo])
 
   useEffect(() => {
     if (typeComment === 'login') {
