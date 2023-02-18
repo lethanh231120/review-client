@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
 // / React router dom
 import { Link } from 'react-router-dom'
-// import { ThemeContext } from '../../../context/ThemeContext'
 
 // images
-// import gear5Logo from './../../../images/logo/gear5-logo.png'
-import gear5LogoNotext from './../../../images/logo/gear5_logo_notext1.png'
-import gear5LogoWhite from './../../../images/logo/logo-gear5-white.png'
-// import logotext1 from './../../../images/logo/logo-text.png'
-// import logoColor from './../../../images/logo/logo-color.png'
-// import logoColorText from './../../../images/logo/logo-text-color.png'
+import logo1 from './../../../images/logo/gear5_logo_notext1.png'
+import logotext1 from './../../../images/logo/logo-text.png'
+import logoColor from './../../../images/logo/gear5_logo_notext.png'
 
 export function NavMenuToggle() {
   setTimeout(() => {
@@ -24,12 +20,19 @@ export function NavMenuToggle() {
 
 const NavHader = () => {
   const [toggle, setToggle] = useState(false)
-  // const { navigationHader, openMenuToggle, background } =
-  //   useContext(ThemeContext)
+
   return (
     <div className='nav-header'>
       <Link to='/' className='brand-logo'>
-        {toggle ? <img src={gear5LogoNotext} className='logo-abbr img-fluid' alt='' /> : <img src={gear5LogoWhite} className='brand-title img-fluid' alt='' />}
+        {/* no meunu left: screen width <  767px */}
+        <img src={logoColor} className='logo-color' alt='' />
+
+        {/* small menu left (can't expand): screen width >= 767px && < 1024px */}
+        {/* big menu left (when expand): screen >= 1024px */}
+        <img src={logo1} className='logo-abbr' alt='' />
+
+        {/* big menu left (when expand): screen >= 1024px */}
+        <img src={logotext1} className='brand-title' alt='' />
       </Link>
 
       <div

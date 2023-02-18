@@ -34533,7 +34533,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   .header.is-fixed{
     -webkit-backdrop-filter: unset !important;
     backdrop-filter: unset !important;
-    background-color: rgb(153 151 161 / 40%);
+    background-color: rgb(153 151 161 / 40%) !important;
   }
   .nav-item.dropdown.notification_dropdown{
     position:fixed;

@@ -22,7 +22,7 @@ const Banner = () => {
   >
     <div className='card-body '>
       <div className='buy-coin '>
-        <div style={{ zIndex: 2 }}>
+        <div style={{ zIndex: 1 }}>
           <h2 className='report-title' style={{ width: '100%' }}>You got scammed <br></br>lost money</h2>
           <p className='join-us-text' style={{ width: '100%' }}>
             Please join us to warn everyone in the community
