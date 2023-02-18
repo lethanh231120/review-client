@@ -82,7 +82,7 @@ export const TopCoins = () => {
                   <img className='img-fluid' alt='' src={`https://www.coingecko.com/coins/${sparklineIndex[index]}/sparkline`} width={100} height={40} />
                 </div>
               </div>
-            )) : <div>No Top coins Available</div>}
+            )) : <div className='ms-2'>No Top coins Available</div>}
           </div> : <MySpinner />}
       </div>
     </div>
