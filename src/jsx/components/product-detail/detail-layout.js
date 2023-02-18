@@ -4,12 +4,16 @@ import FormReport from '../Forms/form-report/FormReport'
 import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
 
-export const DetailLayout = ({ Header, type, roundSale, portfolioOrChart, summary, more, about, scam, exchange, topDiscus, numberReviews, rest }) => {
+export const DetailLayout = (props) => {
+  const { Header, type, roundSale, portfolioOrChart, summary, more, about, scam, exchange, topDiscus, numberReviews, rest } = props
   const [reviews, setReviews] = useState()
+  const PAGE_SIZE = 50
+
   useEffect(() => {
     setReviews(rest?.dataReview?.data)
   }, [rest?.dataReview])
 
+  console.log(rest)
   return <>
     <div className='row'>
       {/* detail header: icon, name, score */}
@@ -104,18 +108,19 @@ export const DetailLayout = ({ Header, type, roundSale, portfolioOrChart, summar
                   />
                 </>
               ))}
-              <div className='category-paginate'>
-                <Pagination
-                // total={total}
-                  total= {1000}
-                  current={rest?.defaultFilter?.page}
-                  pageSize={20}
-                  showSizeChanger={false}
-                  onChange={(value) => rest?.setDefaultFilter({
-                    ...rest.defaultFilter,
-                    page: value
-                  })}
-                />
+              <div className='category-paginate cus-category-paginate'>
+                {rest?.totalReview > PAGE_SIZE && (
+                  <Pagination
+                    total= {rest?.totalReview}
+                    current={rest?.defaultFilter?.page}
+                    pageSize={PAGE_SIZE}
+                    showSizeChanger={false}
+                    onChange={(value) => rest?.setDefaultFilter({
+                      ...rest.defaultFilter,
+                      page: value
+                    })}
+                  />
+                )}
               </div>
             </div>
           </div>

@@ -235,7 +235,6 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
       more={<More />}
       about={<About />}
       isScam={detail?.isScam}
-      // report={<FormReport />}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
     />

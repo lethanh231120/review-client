@@ -471,7 +471,6 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       more={more}
       portfolioOrChart={description}
       about={about}
-      // report={<FormReport />}
 
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
