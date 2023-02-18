@@ -191,6 +191,7 @@ const ModalReport = () => {
     reportModal?.handleSetOpenModal(false)
   }
 
+  console.log(item)
   return (
     <>
       <InputSearch

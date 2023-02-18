@@ -10,6 +10,8 @@ import { LoadingOutlined } from '@ant-design/icons'
 import Swal from 'sweetalert2'
 import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
 import { AddModalContext } from '../../../index'
+import { GoogleOAuthProvider } from '@react-oauth/google'
+import { GoogleLogin } from '@react-oauth/google'
 
 export const SignInComponent = () => {
   const authenticated = useContext(Authenticated)
@@ -121,6 +123,13 @@ export const SignInComponent = () => {
     }
   }
 
+  const responseMessage = (response) => {
+    console.log(response)
+  }
+  const errorMessage = (error) => {
+    console.log(error)
+  }
+
   return <div className='login-form style-2'>
     <div className='card-body'>
       <div className='nav nav-tabs border-bottom-0'>
@@ -221,6 +230,9 @@ export const SignInComponent = () => {
                       rel='noreferrer'
                     ></a>
                   </li>
+                  <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_ID}>
+                    <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+                  </GoogleOAuthProvider>
                   <li>
                     <a
                       target='_blank'

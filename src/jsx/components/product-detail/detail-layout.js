@@ -93,7 +93,7 @@ export const DetailLayout = (props) => {
               <FormReport
                 // use in filter review
                 isFormReport={true}
-                numberReviews={numberReviews}
+                numberReviews={rest?.totalReview}
                 rest={rest}
               />
               {reviews && reviews?.map((item) => (
