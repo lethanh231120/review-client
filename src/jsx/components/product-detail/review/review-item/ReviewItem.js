@@ -13,9 +13,8 @@ import scam from '../../../../../images/product/scam.png'
 import ListEmoji from '../emoji/ListEmoji'
 import Description from '../../description/Description'
 
-const ReviewItem = ({ data, productId, dataReply, listAcount, dataReaction }) => {
+const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) => {
   const TYPE_REVIEW = 0
-  const TYPE_REPLY = 1
   const [isCollapse, setIsCollapse] = useState({
     isCollapse: true,
     reviewId: ''
@@ -29,21 +28,186 @@ const ReviewItem = ({ data, productId, dataReply, listAcount, dataReaction }) =>
   const authenticated = useContext(Authenticated)
   // // const [isShowSource, setIsShowSource] = useState(false)
   const [currenReaction, setCurrenReaction] = useState()
-  const [newData, setNewData] = useState(data)
+  const [newData, setNewData] = useState()
   const [validateTextArea, setValidateTextArea] = useState(false)
   const [token, setToken] = useState()
   const [reactionType, setReactionType] = useState([])
+  const [listReaction, setListReaction] = useState(dataReaction[`${TYPE_REVIEW}`]?.filter((itemReaction) => itemReaction?.commentId === data?.id))
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
-  useEffect(() => {
-    setIsCollapse({
-      isCollapse: data?.replies?.length > 2,
-      reviewId: data?.replies?.length > 2 ? '' : data?.review?.id
-    })
-  }, [data])
+  console.log(listReaction)
+  console.log(isReaction)
 
   useEffect(() => {
-    dataReaction[`${TYPE_REVIEW}`]?.forEach((item) => {
+    setNewData({
+      dataComment: data,
+      dataReply: dataReply || null
+    })
+    setIsCollapse({
+      isCollapse: dataReply?.length > 2,
+      reviewId: dataReply?.length > 2 ? '' : data?.id
+    })
+  }, [data, dataReply])
+
+  // useEffect(() => {
+  //   setIsCollapse({
+  //     isCollapse: dataReply?.length > 2,
+  //     reviewId: dataReply?.length > 2 ? '' : data?.id
+  //   })
+  // }, [data, dataReply])
+
+  useEffect(() => {
+    setToken(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
+  }, [authenticated?.isAuthenticated])
+
+  const handleAddReply = () => {
+    if (token) {
+      setAddReply(!addReply)
+      setIsCollapse({
+        isCollapse: false,
+        reviewId: ''
+      })
+    } else {
+      signContext?.handleSetOpenModal(true)
+    }
+  }
+
+  const functionAddReply = async(params) => {
+    const dataAdd = await post('reviews/reply', params)
+    if (dataAdd) {
+      const newReply = {
+        ...dataAdd?.data,
+        accountType: userInfo?.accountType,
+        email: userInfo?.email,
+        acountImage: userInfo?.image,
+        role: userInfo?.role,
+        userName: userInfo?.userName
+      }
+      if (newData?.dataReply === null) {
+        setNewData({
+          ...newData,
+          dataReply: [newReply]
+        })
+      } else {
+        setNewData({
+          ...newData,
+          dataReply: [
+            newReply,
+            ...newData.dataReply
+          ]
+        })
+      }
+
+      form.resetFields()
+      setIsCollapse({
+        ...isCollapse,
+        reviewId: data?.id
+      })
+      setValidateTextArea(false)
+      setComment('')
+    }
+  }
+
+  const handleSend = async(e) => {
+    if (!token) {
+      signContext?.handleSetOpenModal(true)
+    } else {
+      if (comment !== '') {
+        // setNewData()
+        const params = {
+          content: comment,
+          reviewId: data?.id,
+          productId: productId,
+          image: ''
+        }
+        functionAddReply(params)
+      } else {
+        setValidateTextArea(true)
+      }
+    }
+  }
+
+  const handleSubmit = async(e) => {
+    // setLoading(false)
+    if (!token) {
+      signContext?.handleSetOpenModal(true)
+    } else {
+      if (e.target.value !== '') {
+        // setNewData()
+        const params = {
+          content: e.target.value,
+          reviewId: data?.id,
+          productId: productId,
+          image: ''
+        }
+        functionAddReply(params)
+      } else {
+        setValidateTextArea(true)
+      }
+    }
+  }
+
+  const handleClickReaction = async(value) => {
+    if (token) {
+      if (isReaction) {
+        const body = {
+          commentId: data?.id,
+          type: TYPE_REVIEW,
+          reactionType: value,
+          productId: productId
+        }
+        const dataUpdate = await patch('reviews/reaction', body)
+        if (dataUpdate) {
+          const index = listReaction?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
+          if (index !== -1) {
+            const newListReaction = [...listReaction]
+            newListReaction[index] = {
+              ...newListReaction[index],
+              reactionType: body?.reactionType
+            }
+            setListReaction(newListReaction)
+          }
+        }
+      } else {
+        const body = {
+          commentId: data?.id,
+          type: TYPE_REVIEW,
+          reactionType: value,
+          productId: productId
+        }
+        const dataAddReact = await post('reviews/reaction', body)
+        if (dataAddReact) {
+          console.log(dataAddReact)
+          if (!_.isEmpty(listReaction)) {
+            console.log(1111111111)
+            setListReaction([
+              dataAddReact?.data,
+              ...listReaction
+            ])
+          } else {
+            console.log(2222222)
+            setListReaction([dataAddReact?.data])
+          }
+        }
+      }
+    } else {
+      signContext?.handleSetOpenModal(true)
+    }
+  }
+
+  console.log(listReaction)
+  const handleChangeComment = _.debounce(async(e) => {
+    if (e.target.value === '') {
+      setValidateTextArea(true)
+    } else {
+      setComment(e.target.value)
+      setValidateTextArea(false)
+    }
+  }, 1000)
+
+  useEffect(() => {
+    console.log(88888)
+    listReaction?.forEach((item) => {
       if ((item?.accountId === userInfo?.id) && (item?.commentId === data?.id)) {
         switch (item?.reactionType) {
           case '😆':
@@ -66,190 +230,46 @@ const ReviewItem = ({ data, productId, dataReply, listAcount, dataReaction }) =>
         }
       }
     })
-    if (!_.isEmpty(dataReaction[`${TYPE_REVIEW}`])) {
-      setIsReaction(dataReaction[`${TYPE_REVIEW}`]?.some((item) => ((item?.accountId === userInfo?.id) && (item?.commentId === data?.id))))
+
+    if (!_.isEmpty(listReaction)) {
+      setIsReaction(listReaction?.some((item) => item?.accountId === userInfo?.id))
     }
-    // setLoading(false)
 
     const listReactionType = []
-    dataReaction[`${TYPE_REVIEW}`]?.forEach((item) => {
+    listReaction?.forEach((item) => {
       if (item?.commentId === data?.id) {
         listReactionType.push(item?.reactionType)
       }
     })
+
     const onlyUnique = (item, index, self) => {
       return (self.indexOf(item) === index)
     }
+
     const unique = listReactionType?.filter(onlyUnique)
     setReactionType(unique)
-  }, [newData])
-
-  useEffect(() => {
-    setToken(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
-  }, [authenticated?.isAuthenticated])
-
-  const handleAddReply = () => {
-    if (token) {
-      setAddReply(!addReply)
-      setIsCollapse({
-        isCollapse: false,
-        reviewId: ''
-      })
-    } else {
-      signContext?.handleSetOpenModal(true)
-    }
-  }
-
-  const functionAddReply = async(params) => {
-    const dataAdd = await post('reviews/reply', params)
-    if (dataAdd) {
-      const newReply = [
-        {
-          reply: {
-            ...dataAdd?.data,
-            accountType: userInfo?.accountType,
-            email: userInfo?.email,
-            acountImage: userInfo?.image,
-            role: userInfo?.role,
-            userName: userInfo?.userName
-          },
-          reactions: []
-        }
-        // ...newData.replies
-      ]
-      setNewData({
-        ...data,
-        replies: newReply
-      })
-      form.resetFields()
-      setIsCollapse({
-        ...isCollapse,
-        reviewId: data?.review?.id
-      })
-      setValidateTextArea(false)
-      setComment('')
-    }
-  }
-
-  const handleSend = async(e) => {
-    if (!token) {
-      signContext?.handleSetOpenModal(true)
-    } else {
-      if (comment !== '') {
-        setNewData()
-        const params = {
-          content: comment,
-          reviewId: data?.id,
-          productId: productId,
-          image: ''
-        }
-        functionAddReply(params)
-      } else {
-        setValidateTextArea(true)
-      }
-    }
-  }
-
-  const handleSubmit = async(e) => {
-    // setLoading(false)
-    if (!token) {
-      signContext?.handleSetOpenModal(true)
-    } else {
-      if (e.target.value !== '') {
-        setNewData()
-        const params = {
-          content: e.target.value,
-          reviewId: data?.id,
-          productId: productId,
-          image: ''
-        }
-        functionAddReply(params)
-      } else {
-        setValidateTextArea(true)
-      }
-    }
-  }
-
-  console.log(isReaction)
-  const handleClickReaction = async(value) => {
-    if (token) {
-      if (isReaction) {
-        const body = {
-          commentId: data?.id,
-          type: TYPE_REVIEW,
-          reactionType: value,
-          productId: productId
-        }
-        const dataUpdate = await patch('reviews/reaction', body)
-        if (dataUpdate) {
-          const index = newData?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
-          if (index !== -1) {
-            const newListReaction = [...newData.reactions]
-            newListReaction[index] = {
-              ...newListReaction[index],
-              reactionType: body?.reactionType
-            }
-            setNewData({
-              ...newData,
-              reactions: newListReaction
-            })
-          }
-        }
-      } else {
-        const body = {
-          commentId: data?.id,
-          type: TYPE_REVIEW,
-          reactionType: value,
-          productId: productId
-        }
-        const dataAddReact = await post('reviews/reaction', body)
-        if (dataAddReact) {
-          const newListReaction = [...newData.reactions]
-          const newReview = {
-            ...newData,
-            reactions: [
-              dataAddReact?.data,
-              ...newListReaction
-            ]
-          }
-          setNewData(newReview)
-          setIsReaction(!isReaction)
-        }
-      }
-    } else {
-      signContext?.handleSetOpenModal(true)
-    }
-  }
-
-  const handleChangeComment = _.debounce(async(e) => {
-    if (e.target.value === '') {
-      setValidateTextArea(true)
-    } else {
-      setComment(e.target.value)
-      setValidateTextArea(false)
-    }
-  }, 1000)
+  }, [listReaction])
 
   return (
     <>
       <div className='review-item'>
-        <Image src={newData?.review?.acountImage ? newData?.review?.acountImage : user} preview={false}/>
+        <Image src={newData?.dataComment?.acountImage ? newData?.dataComment?.acountImage : user} preview={false}/>
         <div className='review-item-description'>
           <div className='review-item-data'>
             <div className='review-item-name'>
-              {listAcount?.find((item) => item?.id === newData?.accountId) ? listAcount?.find((item) => item?.id === newData?.accountId)?.userName : 'Anonymous'}
+              {listAccount?.find((item) => item?.id === newData?.dataComment?.accountId) ? listAccount?.find((item) => item?.id === newData?.dataComment?.accountId)?.userName : 'Anonymous'}
               <span>
-                {newData?.review?.isScam && (<Image src={scam} preview={false}/>)}
+                {newData?.dataComment?.isScam && (<Image src={scam} preview={false}/>)}
               </span>
             </div>
             <div className='review-item-content'>
               <div>
                 <strong>{newData?.title}</strong>
               </div>
-              <Description text={newData?.content}/>
-              {!_.isEmpty(newData?.sources) && (
+              <Description text={newData?.dataComment?.content}/>
+              {!_.isEmpty(newData?.dataComment?.sources) && newData?.dataComment?.sources !== null && (
                 <div className='review-item-content-source'>
-                  {newData?.sources?.map((item, index) => (
+                  {newData?.dataComment?.sources?.map((item, index) => (
                     <span key={index}>
                       {item !== '' && (
                         <a href={item} target='_blank' rel='noreferrer'>
@@ -263,9 +283,9 @@ const ReviewItem = ({ data, productId, dataReply, listAcount, dataReaction }) =>
               )}
             </div>
           </div>
-          {newData?.review?.image && (
+          {newData?.dataComment?.image && (
             <div className='review-item-comment-image'>
-              <Image src={newData?.review?.image} preview={true}/>
+              <Image src={newData?.dataComment?.image} preview={true}/>
             </div>
           )}
           <div className='review-item-action'>
@@ -276,7 +296,7 @@ const ReviewItem = ({ data, productId, dataReply, listAcount, dataReaction }) =>
               />
               <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
               <span className='review-item-action-item-time'>
-                {moment.utc(newData?.updatedDate).fromNow()}
+                {moment.utc(newData?.dataComment?.updatedDate).fromNow()}
               </span>
             </div>
             {!_.isEmpty(reactionType) && (
@@ -287,12 +307,12 @@ const ReviewItem = ({ data, productId, dataReply, listAcount, dataReaction }) =>
                   </div>
                 ))}
                 <div className='review-item-action-reaction-item'>
-                  {reactionType?.length}
+                  {listReaction?.length}
                 </div>
               </div>
             )}
           </div>
-          {dataReply?.length > 2 && (
+          {newData?.dataReply?.length > 2 && (
             <div
               className='review-item-replies'
               onClick={() => {
@@ -303,7 +323,7 @@ const ReviewItem = ({ data, productId, dataReply, listAcount, dataReaction }) =>
               }}
             >
               <CaretDownOutlined/>
-              {dataReply?.length} reply
+              {newData?.dataReply?.length} reply
             </div>
           )}
           <Form form={form}>
@@ -336,13 +356,13 @@ const ReviewItem = ({ data, productId, dataReply, listAcount, dataReaction }) =>
           <div
             className={`${(isCollapse?.isCollapse && isCollapse?.reviewId === '') ? 'isCollapse' : 'comment-reply'}`}
           >
-            {dataReply?.map((item, index) => (<>
+            {newData?.dataReply !== null && newData?.dataReply?.map((item, index) => (<>
               <ReplyComment
                 key={index}
                 data={item}
                 productId={productId}
-                listAcount={listAcount}
-                dataReaction={dataReaction[`${TYPE_REPLY}`]?.filter((itemReact) => (itemReact?.commentId === item?.id))}
+                listAccount={listAccount}
+                dataReaction={dataReaction}
               />
             </>
             ))}

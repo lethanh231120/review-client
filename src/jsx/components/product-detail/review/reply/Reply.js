@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react'
-// import React, { useEffect, useState, useContext } from 'react'
 import { Image } from 'antd'
 import './reply.scss'
 import moment from 'moment'
@@ -10,29 +9,23 @@ import ListEmoji from '../emoji/ListEmoji'
 import { getCookie, STORAGEKEY } from '../../../../../utils/storage'
 import { SignInContext, Authenticated } from '../../../../../App'
 
-const ReplyComment = ({ data, productId, listAcount, dataReaction }) => {
+const ReplyComment = ({ data, productId, listAccount, dataReaction }) => {
   const TYPE_REPLY = 1
   const [isReaction, setIsReaction] = useState(false)
   const [currenReaction, setCurrenReaction] = useState()
-  const [newData, setNewData] = useState(data)
   const signInContext = useContext(SignInContext)
   const authenticated = useContext(Authenticated)
   const [reactionType, setReactionType] = useState([])
+  const [listReaction, setListReaction] = useState(dataReaction[`${TYPE_REPLY}`]?.filter((itemReact) => (itemReact?.commentId === data?.id)))
   const [token, setToken] = useState()
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
-
-  useEffect(() => {
-    if (!_.isEmpty(dataReaction)) {
-      setIsReaction(dataReaction?.some((item) => (item?.accountId === userInfo?.id)))
-    }
-  }, [data, userInfo])
 
   useEffect(() => {
     setToken(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
   }, [authenticated?.isAuthenticated])
 
   useEffect(() => {
-    dataReaction?.forEach((item) => {
+    listReaction?.forEach((item) => {
       if (item?.accountId === userInfo?.id) {
         switch (item?.reactionType) {
           case '😆':
@@ -55,16 +48,21 @@ const ReplyComment = ({ data, productId, listAcount, dataReaction }) => {
         }
       }
     })
+    if (!_.isEmpty(listReaction)) {
+      setIsReaction(listReaction?.some((item) => (item?.accountId === userInfo?.id)))
+    }
     const listReactionType = []
-    dataReaction?.forEach((item) => {
-      listReactionType.push(item?.reactionType)
+    listReaction?.forEach((item) => {
+      if (item?.commentId === data?.id) {
+        listReactionType.push(item?.reactionType)
+      }
     })
     const onlyUnique = (item, index, self) => {
       return (self.indexOf(item) === index)
     }
     const unique = listReactionType?.filter(onlyUnique)
     setReactionType(unique)
-  }, [newData])
+  }, [listReaction, data])
 
   const handleClickReaction = async(value) => {
     if (!token) {
@@ -79,17 +77,14 @@ const ReplyComment = ({ data, productId, listAcount, dataReaction }) => {
         }
         const dataUpdate = await patch('reviews/reaction', body)
         if (dataUpdate) {
-          const index = newData?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
+          const index = listReaction?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
           if (index !== -1) {
-            const newListReaction = [...newData.reactions]
+            const newListReaction = [...listReaction]
             newListReaction[index] = {
               ...newListReaction[index],
               reactionType: body?.reactionType
             }
-            setNewData({
-              ...newData,
-              reactions: newListReaction
-            })
+            setListReaction(newListReaction)
           }
         }
       } else {
@@ -101,16 +96,14 @@ const ReplyComment = ({ data, productId, listAcount, dataReaction }) => {
         }
         const dataAddReact = await post('reviews/reaction', body)
         if (dataAddReact) {
-          const newListReaction = [...newData.reactions]
-          const newReply = {
-            ...newData,
-            reactions: [
+          if (!_.isEmpty(listReaction)) {
+            setListReaction([
               dataAddReact?.data,
-              ...newListReaction
-            ]
+              ...listReaction
+            ])
+          } else {
+            setListReaction([dataAddReact?.data])
           }
-          setNewData(newReply)
-          setIsReaction(!isReaction)
         }
       }
     }
@@ -118,19 +111,19 @@ const ReplyComment = ({ data, productId, listAcount, dataReaction }) => {
 
   return (
     <div className='reply'>
-      <Image src={newData?.acountImage ? newData?.acountImage : user} preview={false}/>
+      <Image src={data?.acountImage ? data?.acountImage : user} preview={false}/>
       <div className='reply-description'>
         <div className='reply-data'>
           <div className='reply-name'>
-            {listAcount?.find((item) => item?.id === newData?.accountId) ? listAcount?.find((item) => item?.id === newData?.accountId)?.userName : 'Anonymous'}
+            {listAccount?.find((item) => item?.id === data?.accountId) ? listAccount?.find((item) => item?.id === data?.accountId)?.userName : 'Anonymous'}
           </div>
           <div className='reply-content'>
-            {newData?.content}
+            {data?.content}
           </div>
         </div>
-        {newData?.image && (
+        {data?.image && (
           <div className='reply-item-comment-image'>
-            <Image src={newData?.image} preview={true}/>
+            <Image src={data?.image} preview={true}/>
           </div>
         )}
         <div className='review-item-action'>
@@ -140,10 +133,10 @@ const ReplyComment = ({ data, productId, listAcount, dataReaction }) => {
               handleClickReaction={handleClickReaction}
             />
             <span className='review-item-action-item-time'>
-              {moment.utc(newData?.updatedDate).fromNow()}
+              {moment.utc(data?.updatedDate).fromNow()}
             </span>
           </div>
-          {!_.isEmpty(dataReaction) && (
+          {!_.isEmpty(reactionType) && (
             <div className='review-item-action-reaction'>
               {reactionType?.map((item, index) => (
                 <div className='review-item-action-reaction-item' key={index}>
@@ -151,7 +144,7 @@ const ReplyComment = ({ data, productId, listAcount, dataReaction }) => {
                 </div>
               ))}
               <div className='review-item-action-reaction-item'>
-                {reactionType?.length}
+                {listReaction?.length}
               </div>
             </div>
           )}

@@ -1,11 +1,16 @@
 // import { scaleBand } from 'd3-scale'
-import { Fragment } from 'react'
+import { useEffect, useState } from 'react'
 import FormReport from '../Forms/form-report/FormReport'
 import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
 
 export const DetailLayout = ({ Header, type, roundSale, portfolioOrChart, summary, more, about, scam, exchange, topDiscus, numberReviews, rest }) => {
-  return <Fragment>
+  const [reviews, setReviews] = useState()
+  useEffect(() => {
+    setReviews(rest?.dataReview?.data)
+  }, [rest?.dataReview])
+
+  return <>
     <div className='row'>
       {/* detail header: icon, name, score */}
       <div className='col-lg-12'>
@@ -87,15 +92,17 @@ export const DetailLayout = ({ Header, type, roundSale, portfolioOrChart, summar
                 numberReviews={numberReviews}
                 rest={rest}
               />
-              {rest?.dataReview?.map((item) => (
-                <ReviewItem
-                  key={item?.review?.id}
-                  data={item}
-                  productId={rest?.productId}
-                  dataReply={rest?.dataReply[`${item?.id}`]}
-                  listAcount={rest?.listAcount}
-                  dataReaction={rest?.dataReaction}
-                />
+              {reviews && reviews?.map((item) => (
+                <>
+                  <ReviewItem
+                    key={item?.id}
+                    data={item}
+                    productId={rest?.productId}
+                    dataReply={rest?.dataReply[`${item?.id}`]?.filter((itemReply) => itemReply?.reviewId === item?.id)}
+                    listAccount={rest?.listAccount}
+                    dataReaction={rest?.dataReaction}
+                  />
+                </>
               ))}
               <div className='category-paginate'>
                 <Pagination
@@ -151,18 +158,43 @@ export const DetailLayout = ({ Header, type, roundSale, portfolioOrChart, summar
                 numberReviews={numberReviews}
                 rest={rest}
               />
-              {(rest?.dataFilter)?.reviews?.map((item) => (
+              {/* {(rest?.dataFilter)?.reviews?.map((item) => (
                 <ReviewItem
                   key={item?.review?.id}
                   data={item}
                   productId={rest?.productId}
                 />
+              ))} */}
+              {reviews && reviews?.map((item) => (
+                <>
+                  <ReviewItem
+                    key={item?.id}
+                    data={item}
+                    productId={rest?.productId}
+                    dataReply={rest?.dataReply[`${item?.id}`]?.filter((itemReply) => itemReply?.reviewId === item?.id)}
+                    listAccount={rest?.listAccount}
+                    dataReaction={rest?.dataReaction}
+                  />
+                </>
               ))}
+              <div className='category-paginate'>
+                <Pagination
+                // total={total}
+                  total= {1000}
+                  current={rest?.defaultFilter?.page}
+                  pageSize={20}
+                  showSizeChanger={false}
+                  onChange={(value) => rest?.setDefaultFilter({
+                    ...rest.defaultFilter,
+                    page: value
+                  })}
+                />
+              </div>
             </div>
           </div>
         </div>
 
       </>}
 
-  </Fragment>
+  </>
 }
