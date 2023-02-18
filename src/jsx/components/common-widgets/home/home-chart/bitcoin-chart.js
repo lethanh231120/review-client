@@ -16,7 +16,8 @@ const imageLink = (name) => `https://gear5.s3.ap-northeast-1.amazonaws.com/image
 const coinList = [
   { symbol: 'BTC', name: 'Bitcoin' },
   { symbol: 'ETH', name: 'Ethereum' },
-  { symbol: 'BNB', name: 'Binance' }
+  { symbol: 'BNB', name: 'Binance' },
+  { symbol: 'XRP', name: 'XRP' }
 ]
 
 export const TopCoinChart = () => {

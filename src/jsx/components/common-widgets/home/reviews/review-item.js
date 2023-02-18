@@ -7,9 +7,11 @@ import { Image } from 'antd'
 import moment from 'moment-timezone'
 
 export const ReviewItem = ({ data }) => {
-  // const timeAgo = new TimeAgo('en-US')
   const navigate = useNavigate()
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+  var actionTime = moment(data?.createdDate + '-07:00', 'YYYY-MM-DD HH:mm:ssZ')
+
+  var timeAgo = actionTime.fromNow()
 
   const onClicked = () => {
     const id = data?.productId
@@ -40,7 +42,7 @@ export const ReviewItem = ({ data }) => {
               <Avatar className='mt-1' size={40} src={data?.userImage ? data?.userImage : profile } />
               <div className=' ms-2 mt-1'>
                 {reviewStarsRender(data?.star, data?.isScam)}
-                {moment(data?.createdDate).tz(tz).fromNow()}
+                {timeAgo}
               </div>
             </div>
             <div className='col-2'>

@@ -175,11 +175,20 @@ const SideBar = () => {
         break
     }
 
-    if (window.localStorage.getItem(tempType) !== '') {
-      window.localStorage.removeItem(tempType)
-      window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
+    if (tempType === 'soon') {
+      if (window.localStorage.getItem(tempType) !== '') {
+        window.localStorage.removeItem(tempType)
+        window.localStorage.setItem(tempType, JSON.stringify({ launchpad: tag }))
+      } else {
+        window.localStorage.setItem(tempType, JSON.stringify({ launchpad: tag }))
+      }
     } else {
-      window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
+      if (window.localStorage.getItem(tempType) !== '') {
+        window.localStorage.removeItem(tempType)
+        window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
+      } else {
+        window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
+      }
     }
   }
 
