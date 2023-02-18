@@ -52,8 +52,18 @@ const ExpiredJWTChecker = ({ logout }) => {
     return JSON.parse(jsonPayload)
   }
 
+  const convertType = function(value) {
+    try {
+      return (new Function('return ' + value + ';'))()
+    } catch (e) {
+      return value
+    }
+  }
+
   const isJWTExpired = async() => {
-    const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
+    let token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
+    // 'undefined' to undefined
+    token = convertType(token)
     // already log in
     if (token) {
       const jwtExpiredTimeSec = parseJwt(token)?.exp
@@ -65,11 +75,9 @@ const ExpiredJWTChecker = ({ logout }) => {
       if (nowTimeSec < (jwtExpiredTimeSec - durationCheckSec)) {
         return false
       }
-      return true
     }
+    return true
   }
-
-  return null
 }
 
 export default ExpiredJWTChecker

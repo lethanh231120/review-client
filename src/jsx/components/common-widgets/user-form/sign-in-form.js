@@ -85,9 +85,7 @@ export const SignInComponent = () => {
         password: password
       }
       setIsLoading(true)
-      alert(123)
       const resp = await post('reviews/auth/signin/normal', dataSignin)
-      alert(resp?.status)
       if (resp?.status) {
         setStateLoginSuccess(resp?.data.jwt.token, resp?.data.profile)
       }

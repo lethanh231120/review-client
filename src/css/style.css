@@ -34531,7 +34531,26 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 /*START: reponsive login/signup in */
 @media screen and (max-width: 767px){
   .header.is-fixed{
-    height: auto !important
+    -webkit-backdrop-filter: unset !important;
+    backdrop-filter: unset !important;
+    background-color: rgb(153 151 161 / 40%) !important;
+  }
+  .nav-item.dropdown.notification_dropdown{
+    position:fixed;
+    right:0.5rem;
+    bottom: 0;
+  }
+  .button-login-home{
+    bottom:13rem;
+  }
+  .button-signup-home{
+    bottom:9rem;
+  }
+  .button-report-scam-home{
+    bottom:5rem;
+  }
+  .button-add-project-home{
+    bottom:1rem;
   }
 }
 /*END: reponsive login/signup in */
