@@ -8,9 +8,9 @@ export const TopDiscussed = () => {
   const hotList = useContext(HotTopicsContext)
   let list = []
   if (hotList?.length > 5) {
-    list = hotList?.slice(0, 5)
+    list = hotList?.sort((a, b) => parseInt(b?.detail?.totalReviews) - parseInt(a?.detail?.totalReviews))?.slice(0, 5)
   } else {
-    list = hotList
+    list = hotList?.sort((a, b) => parseInt(b?.detail?.totalReviews) - parseInt(a?.detail?.totalReviews))
   }
 
   return <div className='card pb-0' style={{ height: '100%' }}>
