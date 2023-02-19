@@ -25,13 +25,6 @@ const App = () => {
   const [hotTopics, setHotTopics] = useState([])
   const [summaryHome, setSummaryHome] = useState()
 
-  // const [data, setData] = useState({
-  //   chainList: [],
-  //   launchpadMap: [],
-  //   categories: [],
-  //   isAuthenticated: false,
-  //   openModalSignIn: false
-  // })
   const stateOpenAddProduct = {
     isOpenModalAddProduct: isOpenModalAddProduct,
     setIsOpenModalAddProduct: (isOpen) => setIsOpenModalAddProduct(isOpen)
@@ -88,7 +81,7 @@ const App = () => {
 
   const getLaunchpad = async() => {
     try {
-      const resp = await get(`reviews/launchpad`)
+      const resp = await get(`reviews/launchpad/list`)
       const launchpadList = resp?.data?.launchPads
       const launchpadMapLocal = new Map()
       // convert list to map
