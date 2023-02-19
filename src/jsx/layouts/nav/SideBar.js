@@ -28,6 +28,7 @@ const headerItem2 = `DApps`
 const headerItem3 = `Ventures`
 const headerItem4 = `Exchanges`
 const headerItem5 = `Upcomings`
+const headerItem6 = `Launchpads`
 
 const SideBar = () => {
   // set defaul category when no data
@@ -36,7 +37,8 @@ const SideBar = () => {
     headerItem2,
     headerItem3,
     headerItem4,
-    headerItem5
+    headerItem5,
+    headerItem6
   ]
   const [categories, setCategories] = useState([])
   const mapOrderedCategories = new Map() // match with data from BE
@@ -45,6 +47,7 @@ const SideBar = () => {
   mapOrderedCategories.set(headerItem3, false)
   mapOrderedCategories.set(headerItem4, false)
   mapOrderedCategories.set(headerItem5, false)
+  mapOrderedCategories.set(headerItem6, false)
   // get category context
   const categoryContext = useContext(CategoryContext)
 
@@ -54,6 +57,7 @@ const SideBar = () => {
   mapCategoriesMenuIcon.set(headerItem3, 'volunteer_activism')
   mapCategoriesMenuIcon.set(headerItem4, 'currency_exchange')
   mapCategoriesMenuIcon.set(headerItem5, 'auto_graph')
+  mapCategoriesMenuIcon.set(headerItem6, 'rocket_launch')
 
   const { iconHover, sidebarposition, headerposition, sidebarLayout } =
     useContext(ThemeContext)

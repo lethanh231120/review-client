@@ -18,7 +18,7 @@ export const ReviewItem = ({ data }) => {
     const splitted = id && id?.split('_')
     const type = splitted && splitted[1]
 
-    if (type === 'crypto') {
+    if (type === 'coin') {
       navigate(`../../../../../products/crypto/${type}/${splitted[2]}`)
     } else if (type === 'token') {
       navigate(`../../../../../products/crypto/${type}/${splitted[2]}/${splitted[3]}`)
