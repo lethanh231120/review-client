@@ -13,6 +13,7 @@ export const SignInContext = createContext()
 export const LaunchpadMapContext = createContext()
 export const SignInFromAddProductContext = createContext()
 export const HotTopicsContext = createContext()
+export const SummaryHomeContext = createContext()
 
 const App = () => {
   const [openModalSignIn, setOpenModalSignIn] = useState(false)
@@ -22,6 +23,7 @@ const App = () => {
   const [launchpadMap, setLaunchpadMap] = useState([])
   const [isOpenModalAddProduct, setIsOpenModalAddProduct] = useState(false)
   const [hotTopics, setHotTopics] = useState([])
+  const [summaryHome, setSummaryHome] = useState()
 
   // const [data, setData] = useState({
   //   chainList: [],
@@ -99,8 +101,17 @@ const App = () => {
     }
   }
 
+  // GET SUMMARY DATA
+  const getSummaryDataHome = async() => {
+    const response = await get('reviews/summary')
+    if (response?.code === '200') {
+      setSummaryHome(response?.data)
+    }
+  }
+
   useEffect(() => {
     getLaunchpad()
+    getSummaryDataHome()
   }, [])
 
   return (
@@ -111,18 +122,20 @@ const App = () => {
             <CategoryContext.Provider value={categories}>
               <SignInFromAddProductContext.Provider value={stateOpenAddProduct}>
                 <HotTopicsContext.Provider value={hotTopics}>
-                  <Suspense fallback={
-                    <div id='preloader'>
-                      <div className='sk-three-bounce'>
-                        <div className='sk-child sk-bounce1'></div>
-                        <div className='sk-child sk-bounce2'></div>
-                        <div className='sk-child sk-bounce3'></div>
+                  <SummaryHomeContext.Provider value={summaryHome}>
+                    <Suspense fallback={
+                      <div id='preloader'>
+                        <div className='sk-three-bounce'>
+                          <div className='sk-child sk-bounce1'></div>
+                          <div className='sk-child sk-bounce2'></div>
+                          <div className='sk-child sk-bounce3'></div>
+                        </div>
                       </div>
-                    </div>
-                  }
-                  >
-                    <Index />
-                  </Suspense>
+                    }
+                    >
+                      <Index />
+                    </Suspense>
+                  </SummaryHomeContext.Provider>
                 </HotTopicsContext.Provider>
               </SignInFromAddProductContext.Provider>
             </CategoryContext.Provider>

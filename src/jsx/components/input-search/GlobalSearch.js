@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 import { Form, Empty, Spin } from 'antd'
 import './globalSearch.scss'
 import { search } from '../../../api/BaseRequest'
@@ -10,18 +10,21 @@ import ItemDapp from './item-dapp/ItemDapp'
 import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon.js'
 import ItemVenture from './item-venture/ItemVenture'
-const FIRST_SEARCH_PLACEHOLDER_TEXT = 'Search for Coins'
-const LAST_SEARCH_PLACEHOLDER_TEXT = 'Search for Upcoming Projects'
-const SEARCH_PLACEHOLDER_TEXT = [
-  FIRST_SEARCH_PLACEHOLDER_TEXT,
-  'Search for Tokens',
-  'Search for DApps',
-  'Search for Ventures',
-  'Search for Exchanges',
-  LAST_SEARCH_PLACEHOLDER_TEXT
-]
+import { SummaryHomeContext } from '../../../App'
+import { formatLargeNumber } from '../../../utils/formatNumber'
 
 const InputSearch = ({ isFormReport, setItem }) => {
+  const summaryData = useContext(SummaryHomeContext)
+  const FIRST_SEARCH_PLACEHOLDER_TEXT = `Search for ${summaryData?.coins ? `${formatLargeNumber(summaryData?.coins)}+ ` : ''}Coins`
+  const LAST_SEARCH_PLACEHOLDER_TEXT = `Search for ${summaryData?.soons ? `${formatLargeNumber(summaryData?.soons)}+ ` : ''}ICOs/ IDOs`
+  const SEARCH_PLACEHOLDER_TEXT = [
+    FIRST_SEARCH_PLACEHOLDER_TEXT,
+    `Search for ${summaryData?.tokens ? `${formatLargeNumber(summaryData?.tokens)}+ ` : ''}Tokens`,
+    `Search for ${summaryData?.dApps ? `${formatLargeNumber(summaryData?.dApps)}+ ` : ''}DApps`,
+    `Search for ${summaryData?.ventures ? `${formatLargeNumber(summaryData?.ventures)}+ ` : ''}Ventures`,
+    `Search for ${summaryData?.exchanges ? `${formatLargeNumber(summaryData?.exchanges)}+ ` : ''}Exchanges`,
+    LAST_SEARCH_PLACEHOLDER_TEXT
+  ]
   const refInput = useRef()
   const [form] = Form.useForm()
   const navigate = useNavigate()
