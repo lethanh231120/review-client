@@ -22,12 +22,9 @@ const Banner = () => {
   >
     <div className='card-body '>
       <div className='buy-coin '>
-        <div style={{ zIndex: 1 }}>
-          <h2 className='report-title' style={{ width: '100%' }}>You got scammed <br></br>lost money?</h2>
-          {/* <p className='join-us-text' style={{ width: '100%' }}>
-            Please join us to warn everyone in the community
-          </p> */}
-          <Button className='btn-danger mt-3' onClick={() => reportModal?.handleSetOpenModal(true)} style={{ backgroundColor: '#EB5757', borderColor: '#EB5757' }}>
+        <div style={{ zIndex: 2 }}>
+          <h2 className='report-title' style={{ width: '100%' }}>You got scammed <br></br>lost money</h2>
+          <Button className='btn-danger' onClick={() => reportModal?.handleSetOpenModal(true)} style={{ backgroundColor: '#EB5757', borderColor: '#EB5757' }}>
             <img src={imgReportProject} className='img-fluid noti ms-2'/>
               &nbsp;
               Report&nbsp;now
