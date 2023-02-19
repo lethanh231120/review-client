@@ -43,6 +43,7 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
   useEffect(() => {
     window.addEventListener('scroll', () => {
       setheaderFix(window.scrollY > 50)
+      setIsShowFullSearchSmallMode(false)
     })
     window.addEventListener('resize', () => {
       setIsSmallMode(window.innerWidth < minimumWidthBigScreenMode)
@@ -237,11 +238,11 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
     </Dropdown>
   </ul>
 
-  const miniSearchHtml = <Dropdown className='sidebar-dropdown me-2 mt-2 mx-2' id='mini-search' onClick={() => setIsShowFullSearchSmallMode(!isShowFullSearchSmallMode)} style={{ display: 'flex', alignItems: 'center' }}>
-    <Dropdown.Toggle as='div' className='i-false sidebar-select'>
+  const miniSearchHtml = <Dropdown className='sidebar-dropdown me-2 mt-2' id='mini-search' onClick={() => setIsShowFullSearchSmallMode(!isShowFullSearchSmallMode)} style={{ display: 'flex', alignItems: 'center' }}>
+    <Dropdown.Toggle as='div' className='i-false'>
       {/* image search */}
       { isShowFullSearchSmallMode ? '' : <img src={imgMiniSearch} alt='err' /> }
-      <i className='fa-solid fa-angle-right ms-1' />
+      <i className={`fa-solid fa-angle-${isShowFullSearchSmallMode ? 'left' : 'right'} mx-1`} />
       {/* image search */}
       { isShowFullSearchSmallMode ? <img src={imgCancelMiniSearch} alt='err' /> : '' }
     </Dropdown.Toggle>
@@ -261,7 +262,7 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
         <AccountTab activeTabKey={activeTabKey} />
       </Modal>
       <div className={`header ${headerFix ? 'is-fixed' : ''} ${isShowFullSearchSmallMode ? 'p-0' : ''}`}>
-        <div className={`header-content ${isShowFullSearchSmallMode ? 'p-0' : ''}`}>
+        <div className={`header-content ${isShowFullSearchSmallMode ? 'p-0 margin-left-0-3rem' : ''}`}>
           <nav className='navbar navbar-expand'>
             <div className='collapse navbar-collapse justify-content-between'>
               {/* header: text */}
