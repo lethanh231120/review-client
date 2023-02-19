@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ThemeContext } from '../../../context/ThemeContext'
 
 import { TopCoins } from '../common-widgets/home/top-coin'
@@ -6,7 +6,6 @@ import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-p
 import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
 import { TopCoinChart } from '../common-widgets/home/home-chart/bitcoin-chart'
 import { ScamEachChainsList } from '../common-widgets/home/scam-each-chain-chart'
-import { get } from '../../../api/BaseRequest'
 import { MySpinner } from '../common-widgets/my-spinner'
 import _ from 'lodash'
 import { renderRandomColor } from '../../../utils/formatNumber'
@@ -14,6 +13,7 @@ import { ReviewList } from '../common-widgets/home/reviews/review-list'
 import SummaryRow from '../../components/common-widgets/home/summary/BalanceCardSlider'
 import './home.scss'
 import Banner from '../common-widgets/home/banner'
+import { SummaryHomeContext } from '../../../App'
 
 const fillColors = [
   '#18A594',
@@ -25,26 +25,10 @@ const fillColors = [
 
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
-  const [summaryData, setSummaryData] = useState()
-  // const [scamProjects, setScamProjects] = useState()
-  // const userInfo = getCookie(STORAGEKEY.USER_INFO)
-  // const addModal = useContext(AddModalContext)
-  // const signInContext = useContext(SignInContext)
+  const summaryData = useContext(SummaryHomeContext)
 
   useEffect(() => {
     changeBackground({ value: 'light', label: 'Light' })
-  }, [])
-
-  // GET SUMMARY DATA
-  useEffect(() => {
-    const getSummaryData = async() => {
-      const response = await get('reviews/summary')
-      if (response?.code === '200') {
-        setSummaryData(response?.data)
-      }
-    }
-
-    getSummaryData()
   }, [])
 
   // GET TOP COINS DATA
