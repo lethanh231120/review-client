@@ -200,7 +200,7 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
     </Dropdown>
   </ul>
 
-  const reportScamHtml = <ul className=''>
+  const reportScamHtml = <ul className='report-scam'>
     <Dropdown
       as='li'
       className='nav-item dropdown notification_dropdown'
@@ -219,7 +219,7 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
     </Dropdown>
   </ul>
 
-  const addProjectHtml = <ul className=''>
+  const addProjectHtml = <ul className='add-project'>
     <Dropdown
       as='li'
       className='nav-item dropdown notification_dropdown '
@@ -297,8 +297,8 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
                   </div>
                   <div className='sidebar-social-link '>
                     <ul className=''>
-                      {isShowFullSearchSmallMode ? '' : reportScamHtml}
-                      {isShowFullSearchSmallMode ? '' : addProjectHtml}
+                      {reportScamHtml}
+                      {addProjectHtml}
                       {isSmallMode ? (isShowFullSearchSmallMode || authenticated?.isAuthenticated ? '' : signupHtml) : '' }
                     </ul>
                   </div>
