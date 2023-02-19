@@ -3,6 +3,7 @@ import { Badge } from 'react-bootstrap'
 import { onItemClicked } from '../click-function'
 import { useNavigate } from 'react-router-dom'
 import NoImage from '../../no-image/NoImage'
+
 import './top-discussed.scss'
 
 const singleTopItem = (logo, name, symbol, type, reviews, reports, detail, navigate) => {

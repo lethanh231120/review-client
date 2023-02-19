@@ -23,6 +23,7 @@ const Description = ({ text }) => {
                   }}
                 ></p>
                 <span
+                  style={{ color: '#18A594' }}
                   className='read-or-hide'
                   onClick={() => setShowLess(!showLess)}
                 >

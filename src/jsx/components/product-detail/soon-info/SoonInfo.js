@@ -23,6 +23,7 @@ import 'lightgallery/css/lg-zoom.css'
 import 'lightgallery/css/lg-thumbnail.css'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
+import { websiteIcon } from '../../common-widgets/icons'
 const txtTBA = 'TBA'
 
 // match with BE
@@ -136,7 +137,8 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             }}
           >
             {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '1rem', verticalAlign: 'center' }} /> : ''}
-            Website
+            {websiteIcon}
+            Open Website
           </Button>
         </div>
       </div>

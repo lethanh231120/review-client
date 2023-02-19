@@ -1,9 +1,10 @@
-import { Avatar, Image, Spin, Table, Tooltip } from 'antd'
+import { Avatar, Spin, Table, Tooltip } from 'antd'
 import React, { useState } from 'react'
 import { Badge, Button } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
-import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
+import { renderNumber } from '../../../../utils/formatNumber'
+import imgReportProject from '../../../../images/svg/report-project-white.svg'
 import _ from 'lodash'
 import Description from '../description/Description'
 import moment from 'moment'
@@ -12,6 +13,9 @@ import { useNavigate } from 'react-router-dom'
 import { LoadingOutlined } from '@ant-design/icons'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
+import { websiteIcon } from '../../common-widgets/icons'
+import MyScoreComponent from '../../score/scoreComponent'
+import './ventureInfo.scss'
 
 const VentureInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -53,7 +57,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       <div className='profile-info mb-1'>
         <div className='profile-photo'>
           {detail?.ventureId && detail?.ventureLogo ? (
-            <Image src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false} height={64} width={64}/>
+            <Avatar size={60} src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false} height={64} width={64}/>
           )
             : (<span className='image-list-no-data-detail'>
               {detail?.ventureName?.slice(0, 3)}
@@ -68,55 +72,72 @@ const VentureInfo = ({ productInfo, ...rest }) => {
           </div>
           {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
             {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
-    Open Website</Button>}
+            {websiteIcon}
+    Open Website
+          </Button>}
         </div>
       </div>
     </div>
   }
 
   // VENTURE SUMMARY
-  const Summary =
-  () => {
-    return <div className='text-center'>
-      <div className='row'>
-        <div className='col'>
-          <h3 className='m-b-0'>{formatLargeNumber(detail?.totalReviews)}</h3>
-          <span>Reviews</span>
-        </div>
-        <div className='col'>
-          <h3 className='m-b-0'>{formatLargeNumber(detail?.totalIsScam)}</h3> <span>Reported Scam</span>
-        </div>
-        <div className='col'>
-          <h3 className='m-b-0'>{parseFloat(detail?.score) / 20}</h3> <span>Score</span>
-        </div>
+  const summary =
+  <div className='text-center'>
+    <div className='row'>
+      <div className='col'>
+        <h3 className='m-b-0'>
+          <Badge bg='badge-l' className='badge-success'>{productInfo?.details?.totalReviews}</Badge>
+        </h3>
+        <span>Reviews</span>
       </div>
-      <div className='mt-4'>
-        <Button
-          as='a'
-          href='#comment'
-          className='btn btn-primary mb-1 me-1'
-          onClick={handleReportScam}
-        >
-                    Report Scam
-        </Button>
-        <Button
-          as='a'
-          href='#comment'
-          className='btn btn-primary mb-1 ms-1'
-          onClick={() => {
-            rest?.setData({ ...rest.data, isScam: false })
-            rest?.form.setFieldsValue({
-              isScam: false,
-              star: undefined,
-              sources: []
-            })
-          }}
-        >
-                  Add Review
-        </Button>
+      <div className='col'>
+        <h3 className='m-b-0'>
+          <Badge bg='badge-l' className='badge-warning'>{productInfo?.details?.totalIsScam}</Badge>
+        </h3>
+        <span>
+        Reported Scam
+        </span>
+      </div>
+      <div className='col'>
+        <h3 className='m-b-0'>
+          <MyScoreComponent score={productInfo?.details?.score} />
+        </h3>
+        <span>
+        Score
+        </span>
       </div>
     </div>
-  }
+    <div className='mt-4'>
+      <Button
+        as='a'
+        href='#comment'
+        className='mb-1 me-1'
+        variant='danger'
+        onClick={handleReportScam}
+      >
+        <img src={imgReportProject} alt='err' />
+        &nbsp;
+      Report&nbsp;Scam
+      </Button>
+      <Button
+        as='a'
+        href='#comment'
+        className='btn btn-primary mb-1 ms-1'
+        onClick={() => {
+          rest?.setData({ ...rest.data, isScam: false })
+          rest?.form.setFieldsValue({
+            isScam: false,
+            star: undefined,
+            sources: []
+          })
+        }}
+      >
+        <svg width='24' height='24' viewBox='0 0 1024 1024' className='icon' version='1.1' xmlns='http://www.w3.org/2000/svg'><path d='M687.542857 965.485714H182.857143c-87.771429 0-160.914286-73.142857-160.914286-160.914285V256c0-87.771429 73.142857-160.914286 160.914286-160.914286h336.457143V146.285714H182.857143C124.342857 146.285714 73.142857 197.485714 73.142857 256v541.257143c0 58.514286 51.2 109.714286 109.714286 109.714286h504.685714c58.514286 0 109.714286-51.2 109.714286-109.714286V533.942857h58.514286v263.314286c-7.314286 95.085714-80.457143 168.228571-168.228572 168.228571z' fill='#fff' /><path d='M877.714286 95.085714l109.714285 138.971429c7.314286 7.314286 0 14.628571-7.314285 21.942857L629.028571 526.628571c-7.314286 7.314286-160.914286-7.314286-160.914285-7.314285s29.257143-146.285714 36.571428-153.6l351.085715-270.628572c7.314286-7.314286 14.628571-7.314286 21.942857 0z' fill='#F4B1B2' /><path d='M607.085714 555.885714c-21.942857 0-65.828571 0-138.971428-7.314285H438.857143V512c29.257143-160.914286 36.571429-160.914286 43.885714-168.228571L833.828571 73.142857c21.942857-14.628571 43.885714-14.628571 58.514286 7.314286L1002.057143 219.428571c14.628571 14.628571 7.314286 43.885714-7.314286 58.514286L643.657143 548.571429c-7.314286 7.314286-7.314286 7.314286-36.571429 7.314285z m-109.714285-58.514285c51.2 0 95.085714 7.314286 117.028571 7.314285L950.857143 241.371429l-87.771429-117.028572-336.457143 263.314286c-7.314286 14.628571-14.628571 58.514286-29.257142 109.714286z' fill='#fff' /></svg>
+        &nbsp;
+      Add Review
+      </Button>
+    </div>
+  </div>
 
   // VENTURE MORE
   const dataItem = (title, content) =>{
@@ -238,10 +259,10 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     },
     {
       title: 'Announcement',
-      render: (_, record) => <a onClick={(e) =>{
+      render: (_, record) => <a className='announcement-link' onClick={(e) =>{
         e.stopPropagation()
         window.open(record?.announcementUrl)
-      }}>Link</a>
+      }}><i className='fas fa-link me-1'></i>Link</a>
     }
   ]
 
@@ -268,6 +289,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
         <div className='profile-blog '>
           <Table
             // loading={loading}
+            rowClassName='portfolio-item'
             columns={portfolioColumns}
             dataSource={productInfo?.mores?.fund}
             // onChange={handleChangeTable}
@@ -288,7 +310,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     <DetailLayout
       type={'venture'}
       Header={<Header />}
-      summary={<Summary />}
+      summary={summary}
       more={<More />}
       about={<About />}
       portfolioOrChart={<PortfolioTable />}
