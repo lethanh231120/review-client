@@ -163,7 +163,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
           (socialName) => {
             return content[socialName] !== '' ? (
               <Tooltip
-                className='me-'
+
                 placementTooltip='topLeft'
                 title={socialName}
                 key={socialName}
@@ -211,23 +211,9 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
           <div className='row'>
             <div className='col-6'>
               {detail?.minTokenToParticipate > 0 && dataItem('Entry Threshold', `${detail?.minTokenToParticipate} ${detail?.symbol}`)}
-              {detail?.avgRoiCurrent > 0 && <div className='d-flex text-align-center mb-1'>
-                <p className='mb-0 mt-1'>Current AVG ROI:</p>
-                <h5 className='ms-1 mt-1 d-flex align-items-center' >{detail?.avgRoiCurrent?.toFixed(2)}x
-                  {detail?.avgRoiCurrentPercent !== 0 && <span className={detail?.avgRoiCurrentPercent > 0 ? ' text-success' : ' text-danger'} style={{ fontSize: '14px', marginLeft: '5px' }}>{detail?.avgRoiCurrentPercent?.toFixed(2)}%</span>}
-                </h5>
-              </div>}
-              {detail?.avgRoiATH > 0 && <div className='d-flex text-align-center mb-1'>
-                <p className='mb-0 mt-1'>ATH AVG ROI:</p>
-                <h5 className='ms-1 mt-1 d-flex align-items-center' >{detail?.avgRoiATH?.toFixed(2)}x
-                  {detail?.avgRoiATHPercent !== 0 && <span className={detail?.avgRoiATHPercent > 0 ? ' text-success' : ' text-danger'} style={{ fontSize: '14px', marginLeft: '5px' }}>{detail?.avgRoiATHPercent?.toFixed(2)}%</span>}
-                </h5>
-              </div>}
             </div>
             <div className='col-6'>
               {detail?.yearFounded && dataItem('Year Of Foundation', detail?.yearFounded)}
-              {detail?.marketCap && dataItem('Watchlist Marketcap', formatMoney(detail?.marketCap))}
-              {detail?.volume24h && dataItem('Watchlist Volume 24h', formatMoney(detail?.volume24h))}
             </div>
             <div className='col-6'>
               {!_.isEmpty(detail?.chains) && (
@@ -262,9 +248,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
                   </Avatar.Group>
                 </div>
               )}
-
             </div>
-
             <div className='col-6'>
               {communityItem('Socials', detail?.socials)}
             </div>
@@ -322,15 +306,15 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               </>
             ))}
           </Avatar.Group>
-        </div>
-
+        </div>,
+      responsive: ['xxl']
     },
     {
       title: 'Status',
-      render: (_, record) => (<Badge className='bg-success badge-l badge' style={{ textTransform: 'capitalize' }}>{record?.status}</Badge>)
+      render: (_, record) => (<Badge className='bg-success badge-sm badge' style={{ textTransform: 'capitalize' }}>{record?.status}</Badge>)
     },
     {
-      title: 'Total Supply',
+      title: 'Supply',
       render: (_, record) => <span>{formatLargeNumber(record?.totalSupply)}</span>
     },
     {
@@ -338,7 +322,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       render: (_, record) => <span>{formatMoney(record?.fullyDilutedMarketcap)}</span>
     },
     {
-      title: 'Raising Goal',
+      title: 'Goal',
       render: (_, record) => <span>{formatMoney(record?.fundRaisingGoals)}</span>
     }
 
@@ -355,30 +339,64 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
 
   const IDOList = () => {
     return <>
-      <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>{detail?.name} Investment List</h5>
-      </div>
-      <div className='card-body pt-3'>
-        <div className='profile-blog'>
-          <Table
-            className='invest-table'
-            // loading={loading}
-            rowClassName='portfolio-item'
-            columns={portfolioColumns}
-            dataSource={productInfo?.mores?.soon}
-            // rowClassName=''
-            // onChange={handleChangeTable}
-            onRow={(record) => ({
-              onClick: () => {
-                handleInvestItemClicked(record?.projectId)
-              }
-            })}
-            rowKey={(record, index) => index}
-            pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
-            // scroll={{ x: 'max-content' }}
-          />
+      <div className=' coin-content '>
+        <div className='card-header border-0 flex-wrap cus-card-header'>
+          <div className='mb-2'>
+            <h4 className='heading m-0'>{detail?.name} Invest Data</h4>
+          </div>
         </div>
-      </div></>
+        <div className='card-body'>
+          <div className='d-flex align-items-center justify-content-between flex-wrap'>
+            <div className='d-flex align-items-center justify-content-between flex-wrap'>
+              {detail?.avgRoiCurrent && <div className='price-content'>
+                <span className='fs-18 d-block mb-2'>Current AVG ROI
+                </span>
+                <h4 className='fs-20 font-w600'>
+                  {detail?.avgRoiCurrent?.toFixed(2)}x
+                  {detail?.avgRoiCurrentPercent !== 0 && <span className={detail?.avgRoiCurrentPercent > 0 ? ' text-success' : ' text-danger'} style={{ fontSize: '14px', marginLeft: '5px' }}>{detail?.avgRoiCurrentPercent?.toFixed(2)}%</span>}
+                </h4>
+              </div>}
+              {detail?.avgRoiATH && <div className='price-content'>
+                <span className='fs-18 d-block mb-2'>ATH AVG ROI
+                </span>
+                <h4 className='fs-20 font-w600'>
+                  {detail?.avgRoiATH?.toFixed(2)}x
+                  {detail?.avgRoiATHPercent !== 0 && <span className={detail?.avgRoiATHPercent > 0 ? ' text-success' : ' text-danger'} style={{ fontSize: '14px', marginLeft: '5px' }}>{detail?.avgRoiATHPercent?.toFixed(2)}%</span>}
+                </h4>
+              </div>}
+              {detail?.marketCap && <div className='price-content'>
+                <span className='fs-18 d-block mb-2'>Market Cap
+                </span>
+                <h4 className='fs-20 font-w600'>
+                  {formatMoney(detail?.marketCap)}
+                </h4>
+              </div>}
+              {detail?.volume24h && <div className='price-content'>
+                <span className='fs-18 d-block mb-2'>Volume 24H
+                </span>
+                <h4 className='fs-20 font-w600'>
+                  {formatMoney(detail?.volume24h)}
+                </h4>
+              </div>}
+            </div>
+          </div>
+          <div className='mt-5'>
+            <Table
+              className='invest-table'
+              columns={portfolioColumns}
+              dataSource={productInfo?.mores?.soon}
+              onRow={(record) => ({
+                onClick: () => {
+                  handleInvestItemClicked(record?.projectId)
+                }
+              })}
+              rowKey={(record) => record?.projectId}
+              pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
+            />
+          </div>
+        </div>
+      </div>
+    </>
   }
 
   return (
