@@ -15,6 +15,7 @@ import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
 import { ChainListContext } from '../../../../App'
 import _ from 'lodash'
 import './LaunchpadInfo.scss'
+import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 
 const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -70,7 +71,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
           {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
             {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
             {websiteIcon}
-    Open Website
+  Website
           </Button>}
         </div>
       </div>
@@ -146,7 +147,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
 
   const communityItem = (title, content) => {
     return <div className='d-flex'>
-      <p className='mt-2 me-2'>{title}:</p>
+      <p className=' me-2'>{title}:</p>
       {content && (
         // <Avatar.Group
         //   size={25}
@@ -162,7 +163,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
           (socialName) => {
             return content[socialName] !== '' ? (
               <Tooltip
-                className='me-1 mt-2'
+                className='me-'
                 placementTooltip='topLeft'
                 title={socialName}
                 key={socialName}
@@ -209,17 +210,17 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
         <div className='profile-blog'>
           <div className='row'>
             <div className='col-6'>
-              {detail?.minTokenToParticipate && dataItem('Entry Threshold', `${detail?.minTokenToParticipate} ${detail?.symbol}`)}
+              {detail?.minTokenToParticipate > 0 && dataItem('Entry Threshold', `${detail?.minTokenToParticipate} ${detail?.symbol}`)}
               {detail?.avgRoiCurrent > 0 && <div className='d-flex text-align-center mb-1'>
-                <p className='mb-0 mt-1'>Current AVG ROI(USD):</p>
+                <p className='mb-0 mt-1'>Current AVG ROI:</p>
                 <h5 className='ms-1 mt-1 d-flex align-items-center' >{detail?.avgRoiCurrent?.toFixed(2)}x
-                  {detail?.avgRoiCurrentPercent && <span className={detail?.avgRoiCurrentPercent > 0 ? ' text-success' : ' text-danger'} style={{ fontSize: '14px', marginLeft: '5px' }}>{detail?.avgRoiCurrentPercent?.toFixed(2)}%</span>}
+                  {detail?.avgRoiCurrentPercent !== 0 && <span className={detail?.avgRoiCurrentPercent > 0 ? ' text-success' : ' text-danger'} style={{ fontSize: '14px', marginLeft: '5px' }}>{detail?.avgRoiCurrentPercent?.toFixed(2)}%</span>}
                 </h5>
               </div>}
               {detail?.avgRoiATH > 0 && <div className='d-flex text-align-center mb-1'>
-                <p className='mb-0 mt-1'>ATH AVG ROI(USD):</p>
+                <p className='mb-0 mt-1'>ATH AVG ROI:</p>
                 <h5 className='ms-1 mt-1 d-flex align-items-center' >{detail?.avgRoiATH?.toFixed(2)}x
-                  {detail?.avgRoiATHPercent && <span className={detail?.avgRoiATHPercent > 0 ? ' text-success' : ' text-danger'} style={{ fontSize: '14px', marginLeft: '5px' }}>{detail?.avgRoiATHPercent?.toFixed(2)}%</span>}
+                  {detail?.avgRoiATHPercent !== 0 && <span className={detail?.avgRoiATHPercent > 0 ? ' text-success' : ' text-danger'} style={{ fontSize: '14px', marginLeft: '5px' }}>{detail?.avgRoiATHPercent?.toFixed(2)}%</span>}
                 </h5>
               </div>}
             </div>
@@ -228,11 +229,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               {detail?.marketCap && dataItem('Watchlist Marketcap', formatMoney(detail?.marketCap))}
               {detail?.volume24h && dataItem('Watchlist Volume 24h', formatMoney(detail?.volume24h))}
             </div>
-
-            <div className='col-12'>
-              {communityItem('Socials', detail?.socials)}
-            </div>
-            <div className='col-12'>
+            <div className='col-6'>
               {!_.isEmpty(detail?.chains) && (
                 <div className='d-flex text-align-center mb-2'>
                   <p className='mb-0'> Chains:</p>
@@ -267,6 +264,11 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               )}
 
             </div>
+
+            <div className='col-6'>
+              {communityItem('Socials', detail?.socials)}
+            </div>
+
           </div>
         </div>
       </div>
@@ -372,7 +374,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               }
             })}
             rowKey={(record, index) => index}
-            pagination={{ pageSize: 10, showSizeChanger: false }}
+            pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
             // scroll={{ x: 'max-content' }}
           />
         </div>
@@ -386,9 +388,10 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       summary={summary}
       more={<More />}
       about={<About />}
-      portfolioOrChart={productInfo?.mores ? <IDOList /> : null}
+      portfolioOrChart={productInfo?.mores?.soon ? <IDOList /> : null}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
+      topDiscus={<TopDiscussed />}
     />
   )
 }

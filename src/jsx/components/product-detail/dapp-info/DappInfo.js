@@ -15,6 +15,7 @@ import { openWebsite } from '../../../../utils/effect'
 import { websiteIcon } from '../../common-widgets/icons'
 import MyScoreComponent from '../../score/scoreComponent'
 import imgReportProject from '../../../../images/svg/report-project-white.svg'
+import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 
 const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -63,7 +64,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
           <Button className='ms-auto' onClick={() => openWebsite(detail?.website, setLoading, waitMillSecOpenWebsite)}>
             {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : ''}
             {websiteIcon}
-            Open Dapp
+             Website
           </Button>
         </div>
       </div>
@@ -139,13 +140,13 @@ const DappInfo = ({ productInfo, ...rest }) => {
 
   const communityItem = (title, content) => {
     return <div className='d-flex'>
-      <p className='mt-2 '>{title}:</p>
+      <p className=' '>{title}:</p>
       {content && (
 
         Object.keys(content).map(
           (socialName) => {
             return content[socialName] !== '' ? (
-              <Tooltip className='mt-2 ms-1'
+              <Tooltip className=' ms-1'
                 placementTooltip='topLeft'
                 title={socialName}
                 key={socialName}
@@ -194,6 +195,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
           <div className='row'>
             <div className='col-6'>
               {dataItem('Balance', formatMoney(detail?.balance))}
+              {detail?.totalUser > 0 && dataItem('Total Users', detail?.totalUser)}
               {!_.isEmpty(detail?.chains) && (
                 <div className='d-flex text-align-center mb-2'>
                   <p className='mb-0'> Chains:</p>
@@ -225,10 +227,11 @@ const DappInfo = ({ productInfo, ...rest }) => {
             <div className='col-6'>
               {dataItem('User 24h', formatLargeNumber(detail?.user24h)?.replace('$', ''))}
               {dataItem('Volume 24h', formatMoney(detail?.volume24h))}
-              {detail?.totalUser > 0 && dataItem('Total Users', detail?.totalUser)}
+              {communityItem('Socials', detail?.socials)}
+
             </div>
             <div className='col-12'>
-              {communityItem('Socials', detail?.socials)}
+
             </div>
 
             {!_.isEmpty(detail?.sourceCode) && <div className='col-12'>
@@ -271,7 +274,9 @@ const DappInfo = ({ productInfo, ...rest }) => {
     about={<About />}
     isScam={detail?.isScam}
     numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
-    rest={rest}/>
+    rest={rest}
+    topDiscus={<TopDiscussed />}
+  />
 }
 
 export default DappInfo

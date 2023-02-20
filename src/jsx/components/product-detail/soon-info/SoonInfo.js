@@ -24,6 +24,7 @@ import 'lightgallery/css/lg-thumbnail.css'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import { websiteIcon } from '../../common-widgets/icons'
+import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 const txtTBA = 'TBA'
 
 // match with BE
@@ -138,7 +139,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           >
             {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '1rem', verticalAlign: 'center' }} /> : ''}
             {websiteIcon}
-            Open Website
+            Website
           </Button>
         </div>
       </div>
@@ -476,6 +477,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
+      topDiscus={<TopDiscussed />}
     />
   )
 }

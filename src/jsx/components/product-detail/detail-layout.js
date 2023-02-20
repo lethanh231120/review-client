@@ -126,7 +126,6 @@ export const DetailLayout = (props) => {
         </div></>
       : <>
         {/* DAPP, EXCHANGE, VENTURE, SOON */}
-
         <div className='row'>
           <div className='col-5'>
             <div className='card'>
@@ -150,6 +149,10 @@ export const DetailLayout = (props) => {
             {/* About */}
             <div className='card'>
               {about}
+            </div>
+
+            <div className='col-lg-12'>
+              {topDiscus}
             </div>
           </div>
 

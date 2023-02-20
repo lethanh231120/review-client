@@ -16,6 +16,7 @@ import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 import { websiteIcon } from '../../common-widgets/icons'
 import MyScoreComponent from '../../score/scoreComponent'
 import './ventureInfo.scss'
+import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 
 const VentureInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -73,7 +74,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
           {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
             {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
             {websiteIcon}
-    Open Website
+    Website
           </Button>}
         </div>
       </div>
@@ -300,7 +301,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
               }
             })}
             rowKey={(record, index) => index}
-            pagination={{ pageSize: 10, showSizeChanger: false }}
+            pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
             // scroll={{ x: 'max-content' }}
           />
         </div>
@@ -317,6 +318,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       portfolioOrChart={<PortfolioTable />}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
+      topDiscus={<TopDiscussed />}
     />
   )
 }

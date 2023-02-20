@@ -55,7 +55,12 @@ export const ventureFilterDefaultValue = [
   { name: 'ico', value: [0, seriesMarks.length] },
   { name: 'strategic', value: [0, strategicMarks.length] },
   { name: 'totalFund', value: [0, totalFundsMarks.length] },
-  { name: 'lcoation', value: '' },
+  { name: 'location', value: '' },
   { name: 'score', value: [0, scoreMarks.length] }
+]
+
+export const launchpadFilterDefaultValue = [
+  { name: 'fullyDilutedMarketCap', value: [0, fullyDilutedMarketCapMarks.length] },
+  { name: 'fundRaisingGoals', value: [0, fundRaisingGoalsMarks.length] }
 ]
 

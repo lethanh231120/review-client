@@ -1,3 +1,4 @@
+
 const pairCountMarks = {
   0: { label: '0', value: 0 },
   1: { label: '100', value: 100 },
@@ -65,6 +66,7 @@ const getScoreMarks = (type) => {
   const labels = ['0', '2', '4', '6', '8', '10']
   const MUL_CRYPTO = 10
   const MUL_DAPP = 10
+  const MUL_LAUNCHPAD = 10
   const MUL_EX_VEN = 20
   const scores = {}
   let mul
@@ -81,6 +83,9 @@ const getScoreMarks = (type) => {
       break
     case 'venture':
       mul = MUL_EX_VEN
+      break
+    case 'launchpad':
+      mul = MUL_LAUNCHPAD
       break
     default:
       mul = 0
@@ -165,6 +170,59 @@ const tokenPriceMarks = {
   5: { label: '5', value: 5 }
 }
 
+const launchpadFundRaisedMarks = {
+  0: { label: '0', value: 0 },
+  1: { label: '10K', value: 1e4 },
+  2: { label: '100K', value: 1e5 },
+  3: { label: '1M', value: 1e6 },
+  4: { label: '100M', value: 1e8 },
+  5: { label: '10B', value: 1e10 }
+}
+
+const launchpadAvgRoiCurrentMarks = {
+  0: { label: '0', value: 0 },
+  1: { label: '5', value: 5 },
+  2: { label: '10', value: 10 },
+  3: { label: '20', value: 20 },
+  4: { label: '30', value: 30 },
+  5: { label: '40', value: 40 }
+}
+
+const launchpadAvgRoiATHMarks = {
+  0: { label: '0', value: 0 },
+  1: { label: '40', value: 40 },
+  2: { label: '80', value: 80 },
+  3: { label: '120', value: 120 },
+  4: { label: '160', value: 160 },
+  5: { label: '200', value: 200 }
+}
+
+const launchpadMarketcapMarks = {
+  0: { label: '0', value: 0 },
+  1: { label: '1M', value: 1e6 },
+  2: { label: '100M', value: 1e8 },
+  3: { label: '10B', value: 1e10 },
+  4: { label: '50B', value: 5e10 },
+  5: { label: '100B', value: 1e11 }
+}
+
+const launchpadVolume24hMarks = {
+  0: { label: '0', value: 0 },
+  1: { label: '10K', value: 1e4 },
+  2: { label: '100K', value: 1e5 },
+  3: { label: '1M', value: 1e6 },
+  4: { label: '100M', value: 1e8 },
+  5: { label: '10B', value: 1e10 }
+}
+
+const launchpadFoundedYearMarks = {
+  0: { label: '2010', value: 2010 },
+  1: { label: '2015', value: 2015 },
+  2: { label: '2020', value: 2020 },
+  3: { label: '2025', value: 2025 },
+  4: { label: '2030', value: 2030 }
+}
+
 export {
   pairCountMarks,
   visit7dMarks,
@@ -181,5 +239,11 @@ export {
   volume1mMarks,
   volume7dMarks,
   fundRaisingGoalsMarks,
-  tokenPriceMarks
+  tokenPriceMarks,
+  launchpadFundRaisedMarks,
+  launchpadAvgRoiCurrentMarks,
+  launchpadAvgRoiATHMarks,
+  launchpadMarketcapMarks,
+  launchpadVolume24hMarks,
+  launchpadFoundedYearMarks
 }

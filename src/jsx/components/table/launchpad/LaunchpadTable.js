@@ -6,6 +6,7 @@ import MyScoreComponent from '../../score/scoreComponent'
 import { ChainListContext } from '../../../../App'
 import { toCammelCase } from '../../../../utils/formatText'
 import { myLogo } from '../../common-widgets/logo/logo'
+import DrawerFilter from '../../drawer-filter/DrawerFilter'
 // import DrawerFilter from '../../drawer-filter/DrawerFilter'
 
 const LaunchpadList = ({ listProduct,
@@ -26,11 +27,7 @@ const LaunchpadList = ({ listProduct,
     {
       title: 'Name',
       render: (_, record) => (<Link className='crypto-table-info image-list' to='#'>
-        { myLogo('thumbLogo', record?.launchPadId, 'launchpad') ||
-         myLogo('bigLogo', record?.launchPadId, 'launchpad') ||
-         myLogo('nativeLogo', record?.launchPadId, 'launchpad') ||
-         myLogo('smallLogo', record?.launchPadId, 'launchpad') }
-        {/* <Avatar src={record?.bigLogo || record?.smallLogo || record?.thumbLogo || record?.nativeLogo} alt={record?.dAppName?.slice(0, 3)}/> */}
+        { myLogo('bigLogo', record?.launchPadId, 'launchpad') }
         <span>
           <div className='data-table-name ms-2'>
             <div>{record?.name ? record?.name : 'Unknown'}</div>
@@ -194,7 +191,7 @@ const LaunchpadList = ({ listProduct,
           {/* <CategorySearch type={DAPP}/> */}
         </Col>
         <Col md={{ span: 12 }} sm={{ span: 10 }} xs={{ span: 24 }}>
-          {/* <DrawerFilter type='dapp' handleFilter={handleFilter} /> */}
+          <DrawerFilter type='launchpad' handleFilter={handleFilter} />
         </Col>
       </Row>
       <Table
