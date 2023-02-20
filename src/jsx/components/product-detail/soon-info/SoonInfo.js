@@ -72,7 +72,41 @@ const getStatusBackgroundFromSoonStatus = (status) => {
   }
 }
 
-// const getStatusFromStartDateAnd
+const convertStringDDMMYYYYToUnix = (ddmmyyyy) =>{
+  const minusOffset = new Date().getTimezoneOffset()
+  const miliSecOffset = minusOffset * 60 * 1000
+  let dateUnix = new Date(ddmmyyyy?.replace(/(\d{2})-(\d{2})-(\d{4})/, '$2/$1/$3'))
+  dateUnix.setTime(dateUnix?.getTime() - miliSecOffset) // Local user to GMT + 0
+  dateUnix = dateUnix?.getTime()
+  return (dateUnix)
+}
+
+const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
+  const minusOffset = new Date().getTimezoneOffset()
+  const miliSecOffset = minusOffset * 60 * 1000
+  let myCurrentDateTimeUnix = (new Date())
+  myCurrentDateTimeUnix.setTime(myCurrentDateTimeUnix?.getTime() - miliSecOffset) // Local user to GMT + 0
+  myCurrentDateTimeUnix = myCurrentDateTimeUnix?.getTime()
+
+  // string "15-05-2018" to date unix time
+  const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
+
+  const endDateUnix = convertStringDDMMYYYYToUnix(endDate)
+
+  // Ongoing
+  if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
+    return statusOngoing
+  } else
+  // Past
+  if (myCurrentDateTimeUnix > endDateUnix) {
+    return statusPast
+  } else
+  // Upcoming
+  if (myCurrentDateTimeUnix < startDateUnix) {
+    return statusUpcoming
+  }
+  return ''
+}
 
 const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
@@ -121,9 +155,8 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           </div>
           <div className='profile-email px-2 pt-2'>
             <h4 className='text-muted mb-0'>
-              <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(itemDetail?.status)}`}>
-                {/* {itemDetail?.status?.toUpperCase()} */}
-                {itemDetail?.type}
+              <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
+                {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
               </span>
             </h4>
             <p >
@@ -294,7 +327,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 <h4>Start date:</h4>
               </Link>
               <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
-                {moment(itemDetail?.startDate).format(formatDateStyle)}
+                {moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle)}
               </p>
             </div> : ''}
 
@@ -304,7 +337,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 <h4>End date:</h4>
               </Link>
               <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
-                {moment(itemDetail?.endDate).format(formatDateStyle)}
+                {moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle)}
               </p>
             </div> : ''}
 

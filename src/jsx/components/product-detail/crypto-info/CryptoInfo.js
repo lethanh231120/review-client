@@ -105,10 +105,22 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       if (itemExchange?.exchangeId) {
         const newItemExchange = exchanges?.find((itemExchangeInList) => itemExchangeInList?.exchangeId === itemExchange?.exchangeId)
         if (newItemExchange) {
-          newListExchange.push({
-            ...itemExchange,
-            ...newItemExchange
-          })
+          if (itemExchange?.exchangeId === 'gear5_exchange_binance') {
+            newListExchange.push({
+              ...itemExchange,
+              ...newItemExchange,
+              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`,
+              website: `${newItemExchange?.website}/${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`
+            })
+          }
+          if (itemExchange?.exchangeId?.includes('coinbase-pro')) {
+            newListExchange.push({
+              ...itemExchange,
+              ...newItemExchange,
+              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `-${itemExchange?.currencycode}`)}`,
+              website: `${newItemExchange?.website}${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `-${itemExchange?.currencycode}`)}`
+            })
+          }
         } else {
           console.log('khong co exchange')
         }
@@ -129,17 +141,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   }
 
   const columns = [
-    // {
-    //   title: '#',
-    //   dataIndex: 'key',
-    //   render: (_, record, index) => (
-    //     <span style={{ color: '#A8ADB3' }}>
-    //       {(curentPage - 1) * PAGE_SIZE + index + 1}
-    //     </span>
-    //   )
-    // },
     {
-      title: 'Source',
+      title: 'Exchange',
       dataIndex: 'symbol',
       key: 'symbol',
       render: (_, record) => (<Link
@@ -641,21 +644,23 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   </>
 
   const exchange = <>
-    <div className='card-header border-0 pb-0'>
-      <h5 className='text-primary'>Trading On</h5>
-    </div>
-    <div className='card-body pt-3 exchange'>
-      <Table
-        columns={columns}
-        dataSource={dataExchange}
-        pagination={{
-          pageSize: PAGE_SIZE,
-          defaultCurrent: 1,
-          showSizeChanger: false
-          // onChange: (page) => setCurrentPage(page)
-        }}
-      />
-    </div>
+    {productInfo?.mores?.trading !== null && !_.isEmpty(productInfo?.mores?.trading) && (
+      <>
+        <div className='card-header border-0 pb-0'>
+          <h5 className='text-primary'>Trading On</h5>
+        </div>
+        <div className='card-body pt-3 exchange'>
+          <Table
+            columns={columns}
+            dataSource={dataExchange}
+            pagination={{
+              pageSize: PAGE_SIZE,
+              defaultCurrent: 1,
+              showSizeChanger: false
+            }}
+          />
+        </div></>
+    )}
   </>
 
   const NO_CHART_LIST = ['DAI', 'USDT', 'USDC']

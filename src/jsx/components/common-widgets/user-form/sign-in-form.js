@@ -136,7 +136,7 @@ export const SignInComponent = () => {
           email: respData?.email,
           accountType: 'google',
           password: response?.credential, // ??
-          userId: response?.clientId,
+          userId: respData?.sub,
           userName: respData?.name,
           image: respData?.picture
         }
