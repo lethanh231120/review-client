@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { getPrice } from '../../../../api/BaseRequest'
 import { MySpinner } from '../my-spinner'
 // const getImage = (symbol) => {
 //   return ``
@@ -15,27 +16,41 @@ export const TopCoins = () => {
   const navigate = useNavigate()
   const [topCoins, setTopCoins] = useState([])
 
-  const PRICE_WS_URL = 'wss://crypto-price.gear5.guru/prices/crypto/top'
+  // const PRICE_WS_URL = 'wss://crypto-price.gear5.guru/prices/crypto/top'
   // GET TOP COINS DATA
+  // useEffect(() => {
+  //   const socket = new WebSocket(PRICE_WS_URL)
+
+  //   socket?.addEventListener('open', () => {
+  //     console.log('WS Opened')
+  //   })
+
+  //   socket?.addEventListener('close', () => {
+  //     console.log('WS Closed')
+  //   })
+
+  //   socket?.addEventListener('error', (error) => {
+  //     console.log('WS Error' + error)
+  //   })
+
+  //   socket?.addEventListener('message', (message) => {
+  //     const data = JSON.parse(message?.data)
+  //     data && setTopCoins(data?.slice(0, 5))
+  //   })
+  // }, [])
+
   useEffect(() => {
-    const socket = new WebSocket(PRICE_WS_URL)
+    const getTopCoins = async() => {
+      const res = await getPrice('prices/crypto/top')
+      if (res?.code === 'B.200') {
+        const dataList = res?.data?.slice(0, 5)
+        setTopCoins(dataList)
+      }
+    }
 
-    socket?.addEventListener('open', () => {
-      console.log('WS Opened')
-    })
-
-    socket?.addEventListener('close', () => {
-      console.log('WS Closed')
-    })
-
-    socket?.addEventListener('error', (error) => {
-      console.log('WS Error' + error)
-    })
-
-    socket?.addEventListener('message', (message) => {
-      const data = JSON.parse(message?.data)
-      data && setTopCoins(data?.slice(0, 5))
-    })
+    setInterval(() => {
+      getTopCoins()
+    }, 1000)
   }, [])
 
   const onTopCoinsClicked = (item) => {
@@ -74,7 +89,7 @@ export const TopCoins = () => {
                 </div>
                 <div className='count' style={{ width: '100px' }}>
                   <h6>${new Intl.NumberFormat().format(item?.price)}</h6>
-                  <span className={parseInt(item?.percentChange24h) > 0 ? 'text-success' : 'text-danger'}>
+                  <span className={item?.percentChange24h > 0 ? 'text-success' : 'text-danger'}>
                     {item?.percentChange24h?.toFixed(2)}%
                   </span>
                 </div>

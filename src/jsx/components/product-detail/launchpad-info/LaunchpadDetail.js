@@ -14,13 +14,13 @@ import { myLogo } from '../../common-widgets/logo/logo'
 import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
 import { ChainListContext } from '../../../../App'
 import _ from 'lodash'
+import './LaunchpadInfo.scss'
 
 const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const chainList = useContext(ChainListContext)
-  console.log(productInfo)
 
   const onOpenDapp = (link) => {
     setLoading(true)
@@ -206,7 +206,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
         <h5 className='text-primary'>{detail?.name} Information:</h5>
       </div>
       <div className='card-body pt-3'>
-        <div className='profile-blog '>
+        <div className='profile-blog'>
           <div className='row'>
             <div className='col-6'>
               {detail?.minTokenToParticipate && dataItem('Entry Threshold', `${detail?.minTokenToParticipate} ${detail?.symbol}`)}
@@ -276,7 +276,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const About = () => {
     return <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>About {detail?.ventureName}:</h5>
+        <h5 className='text-primary'>About {detail?.name}:</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>
@@ -304,7 +304,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               cursor: 'pointer'
             }}
           >
-            {record?.blockchain && Object.keys(record?.blockchain).map((key, index) => (
+            {record?.blockchain && Object.keys(record?.blockchain)?.map((key, index) => (
               <>
                 {key && (
                   <Tooltip key={index} title={chainList[key]?.chainName}>
@@ -325,7 +325,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
     },
     {
       title: 'Status',
-      render: (_, record) => (<Badge className='bg-success badge-l' style={{ textTransform: 'capitalize' }}>{record?.status}</Badge>)
+      render: (_, record) => (<Badge className='bg-success badge-l badge' style={{ textTransform: 'capitalize' }}>{record?.status}</Badge>)
     },
     {
       title: 'Total Supply',
@@ -342,17 +342,12 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
 
   ]
 
-  const handleonRowClicked = (projectId) => {
-    if (projectId) {
-      const type = projectId.split('_')[1]
-      const name = projectId.split('_')[2]
+  const handleInvestItemClicked = (projectId) => {
+    const splitted = projectId?.split('_')
+    const type = splitted[1]
 
-      if (type === 'coin') {
-        navigate(`../../../products/crypto/${type}/${name}`)
-      } else if (type === 'token') {
-        const address = projectId.split('_')[3]
-        navigate(`../../../products/crypto/${type}/${name}/${address}`)
-      }
+    if (type === 'soon') {
+      navigate(`../../../products/${type}/${splitted[2]}`)
     }
   }
 
@@ -362,16 +357,18 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
         <h5 className='text-primary'>{detail?.name} Investment List</h5>
       </div>
       <div className='card-body pt-3'>
-        <div className='profile-blog '>
+        <div className='profile-blog'>
           <Table
+            className='invest-table'
             // loading={loading}
             rowClassName='portfolio-item'
             columns={portfolioColumns}
             dataSource={productInfo?.mores?.soon}
+            // rowClassName=''
             // onChange={handleChangeTable}
             onRow={(record) => ({
               onClick: () => {
-                handleonRowClicked(record?.projectId)
+                handleInvestItemClicked(record?.projectId)
               }
             })}
             rowKey={(record, index) => index}

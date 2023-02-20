@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import NoImage from '../../no-image/NoImage'
 
 import './top-discussed.scss'
+import { SWORD_ICON } from '../../../../../images/svg/report-project-primary'
 
 const singleTopItem = (logo, name, symbol, type, reviews, reports, detail, navigate) => {
   return <>
@@ -20,7 +21,7 @@ const singleTopItem = (logo, name, symbol, type, reviews, reports, detail, navig
       </div>
       <div className='me-4'>
         <div className='post-comment' style={{ color: 'red' }}>
-          <i className='fa-regular fa-flag me-1'></i>
+          <span className='me-1'>   {SWORD_ICON('#EB5757', 15, 15)}</span>
           {new Intl.NumberFormat().format(reports)}
         </div>
         <div className='post-comment' style={{ color: '#18A594' }}>

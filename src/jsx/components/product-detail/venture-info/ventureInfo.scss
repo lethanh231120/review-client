@@ -1,7 +1,22 @@
 .announcement-link:hover{
     text-decoration: underline;
+    color: #18A594
 }
 
 .portfolio-item{
     cursor: pointer;
 }
+
+.portfolio-table{
+    span{
+      font-family: 'poppins', sans-serif;
+      color: #A098AE
+    }
+    .badge{
+      color: #fff
+    }
+  
+    thead{
+      font-family: 'poppins', sans-serif;
+    }
+  }
