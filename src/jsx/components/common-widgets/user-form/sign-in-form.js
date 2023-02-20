@@ -3,7 +3,7 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { post } from '../../../../api/BaseRequest'
 import { notification } from 'antd'
 import { setCookie, STORAGEKEY } from '../../../../utils/storage'
-import { SignInContext, Authenticated, SignInFromAddProductContext } from '../../../../App'
+import { SignInContext, Authenticated, SignInFromAddProductContext, ShowFullSearchConext } from '../../../../App'
 import { CloseCircleOutlined } from '@ant-design/icons'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
@@ -12,15 +12,18 @@ import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
 import { AddModalContext } from '../../../index'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GoogleLogin } from '@react-oauth/google'
+import { parseJwt } from '../../../../utils/decode'
 
 export const SignInComponent = () => {
   const authenticated = useContext(Authenticated)
   const signContext = useContext(SignInContext)
   const signInFromAddProductContext = useContext(SignInFromAddProductContext)
   const addModal = useContext(AddModalContext)
+  const showFullSearchConext = useContext(ShowFullSearchConext)
 
   const responseFacebook = async(response) => {
     try {
+      console.log(response)
       if (response?.accessToken) {
         const dataSignin = {
           email: response?.email,
@@ -32,7 +35,7 @@ export const SignInComponent = () => {
         }
         const resp = await post('reviews/auth/signin/social', dataSignin)
         if (resp?.status) {
-          setStateLoginSuccess(resp?.data?.password, resp?.data.profile)
+          setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
         }
       }
     } catch (error) {
@@ -89,7 +92,7 @@ export const SignInComponent = () => {
       setIsLoading(true)
       const resp = await post('reviews/auth/signin/normal', dataSignin)
       if (resp?.status) {
-        setStateLoginSuccess(resp?.data.jwt.token, resp?.data.profile)
+        setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
       }
     } catch (e) {
       Swal.fire({
@@ -114,7 +117,8 @@ export const SignInComponent = () => {
     setCookie(STORAGEKEY.ACCESS_TOKEN, token)
     setCookie(STORAGEKEY.USER_INFO, userInfo)
     signContext?.handleSetOpenModal(false)
-    authenticated.handleSetAuthenticated(true)
+    authenticated?.handleSetAuthenticated(true)
+    showFullSearchConext?.setIsShowFullSearchSmallMode(false) // in small mode, small search when its state is full width
     // login from add product form
     if (signInFromAddProductContext?.isOpenModalAddProduct) {
       addModal?.handleSetOpenModal(true)
@@ -123,11 +127,34 @@ export const SignInComponent = () => {
     }
   }
 
-  const responseMessage = (response) => {
+  const responseGoogle = async(response) => {
+    try {
+      // decode here
+      const respData = parseJwt(response?.credential)
+      if (respData?.email_verified) {
+        const dataSignin = {
+          email: respData?.email,
+          accountType: 'google',
+          password: response?.credential, // ??
+          userId: response?.clientId,
+          userName: respData?.name,
+          image: respData?.picture
+        }
+        const resp = await post('reviews/auth/signin/social', dataSignin)
+        if (resp?.status) {
+          setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
+        }
+      }
+    } catch (error) {
+      console.error(error)
+      openNotification()
+    }
     console.log(response)
   }
-  const errorMessage = (error) => {
-    console.log(error)
+
+  const errorGoogle = (error) => {
+    console.error(error)
+    openNotification()
   }
 
   return <div className='login-form style-2'>
@@ -217,49 +244,28 @@ export const SignInComponent = () => {
                           className={`fab fa-facebook-f btn-facebook ${isLoading ? 'none-click' : ''}`}
                           rel='noreferrer'
                           onClick={renderProps.onClick}
+                          style={{ width: '32px', height: '32px' }}
                         >
                         </a>
                       )}
                     />
                   </li>
                   <li>
-                    <a
-                      target='_blank'
-                      href='https://www.google.com/'
-                      className={`fab fa-google-plus-g btn-google-plus ${isLoading ? 'none-click' : ''}`}
-                      rel='noreferrer'
-                    ></a>
-                  </li>
-                  <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_ID}>
-                    <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
-                  </GoogleOAuthProvider>
-                  <li>
-                    <a
-                      target='_blank'
-                      href='https://www.linkedin.com/'
-                      className={`fab fa-linkedin-in btn-linkedin ${isLoading ? 'none-click' : ''}`}
-                      rel='noreferrer'
-                    ></a>
-                  </li>
-                  <li>
-                    <a
-                      target='_blank'
-                      href='https://twitter.com/'
-                      className={`fab fa-twitter btn-twitter ${isLoading ? 'none-click' : ''}`}
-                      rel='noreferrer'
-                    ></a>
+                    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_ID}
+                    >
+                      {/* ref: https://livefiredev.com/in-depth-guide-sign-in-with-google-in-a-react-js-application/ */}
+                      <GoogleLogin
+                        type='icon'
+                        size='medium'
+                        theme='outlined'
+                        onSuccess={responseGoogle}
+                        onError={errorGoogle}
+                      />
+                    </GoogleOAuthProvider>
                   </li>
                 </ul>
               </div>
             </form>
-            {/* <div className='text-center bottom'>
-              <NavLink
-                to='/page-register'
-                className='btn btn-primary button-md btn-block'
-              >
-                Create an account
-              </NavLink>
-            </div> */}
           </div>
         </div>
       </div>

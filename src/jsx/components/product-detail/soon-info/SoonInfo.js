@@ -12,7 +12,6 @@ import moment from 'moment'
 // import FormReport from '../../Forms/form-report/FormReport'
 import Description from '../description/Description'
 import { LoadingOutlined } from '@ant-design/icons'
-import { Image, Spin, Tooltip } from 'antd'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import LightGallery from 'lightgallery/react'
 import lgThumbnail from 'lightgallery/plugins/thumbnail'
@@ -21,9 +20,15 @@ import lgZoom from 'lightgallery/plugins/zoom'
 import 'lightgallery/css/lightgallery.css'
 import 'lightgallery/css/lg-zoom.css'
 import 'lightgallery/css/lg-thumbnail.css'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import { websiteIcon } from '../../common-widgets/icons'
+import _ from 'lodash'
+import { useNavigate } from 'react-router-dom'
+import { SOON } from '../../../constants/category'
+import { encodeUrl } from '../../../../utils/formatUrl'
+import { Spin, Tooltip, Image } from 'antd'
+import { formatImgUrlFromProductId, isValidProductId } from '../../../../utils/formatText'
+import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
+
 const txtTBA = 'TBA'
 
 // match with BE
@@ -66,21 +71,16 @@ const getStatusBackgroundFromSoonStatus = (status) => {
   }
 }
 
+// const getStatusFromStartDateAnd
+
 const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
 const SoonInfo = ({ productInfo, ...rest }) => {
+  const navigate = useNavigate()
   const itemDetail = productInfo?.details
+  const itemTags = productInfo?.mores?.tag
   const itemRoundSales = productInfo?.mores?.roundSale
   const [websiteLoading, setWebsiteLoading] = useState(false)
-
-  // useEffect(() => {
-  //   if (itemDetail) {
-  //     alert(itemDetail)
-  //     for (const media of itemDetail.media) {
-  //       console.log(`=============`, media)
-  //     }
-  //   }
-  // }, [])
 
   const handleReportScam = () => {
     rest?.setData({
@@ -94,7 +94,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     })
   }
 
-  const header = (
+  const handleClickTag = (value) => {
+    navigate(`../../../../../${SOON}/${encodeUrl(value)}`)
+  }
+
+  const header = itemDetail ? (
     <div className='profile-head'>
       <div className='profile-info'>
         <div className='profile-photo'>
@@ -117,7 +121,8 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <div className='profile-email px-2 pt-2'>
             <h4 className='text-muted mb-0'>
               <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(itemDetail?.status)}`}>
-                {itemDetail?.status?.toUpperCase()}
+                {/* {itemDetail?.status?.toUpperCase()} */}
+                {itemDetail?.type}
               </span>
             </h4>
             <p >
@@ -143,7 +148,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         </div>
       </div>
     </div>
-  )
+  ) : ''
 
   const roundSale = itemRoundSales ? (
     <div>
@@ -276,37 +281,69 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </div>
   )
 
-  const more = itemDetail
-    ? (
+  const more =
       <div>
         <div className='card-header border-0 pb-0'>
           <h5 className='text-primary'>{itemDetail?.projectName} Information</h5>
         </div>
         <div className='card-body pt-3'>
-          <div className='profile-blog mb-3'>
-            <Link to={'#'} >
-              <h4>Current Round:</h4>
-            </Link>
-            <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
-              {itemDetail?.roundType}
-            </p>
-          </div>
-          <div className='profile-blog mb-3'>
-            <Link to={'#'} >
-              <h4>Tag(s):</h4>
-            </Link>
-            <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
-              {itemDetail?.subCategory}
-            </p>
-          </div>
-          <div className='profile-blog mb-3'>
-            <Link to={'#'} >
-              <h4>Launchpad(s):</h4>
-            </Link>
-            <span className='mb-0'>
-              <LaunchpadIconList listLaunchpad={itemDetail?.launchPads} />
-            </span>
-          </div>
+          {itemDetail?.startDate
+            ? <div className='profile-blog mb-3'>
+              <Link to={'#'} >
+                <h4>Start date:</h4>
+              </Link>
+              <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
+                {moment(itemDetail?.startDate).format(formatDateStyle)}
+              </p>
+            </div> : ''}
+
+          {itemDetail?.endDate
+            ? <div className='profile-blog mb-3'>
+              <Link to={'#'} >
+                <h4>End date:</h4>
+              </Link>
+              <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
+                {moment(itemDetail?.endDate).format(formatDateStyle)}
+              </p>
+            </div> : ''}
+
+          {itemDetail?.roundType
+            ? <div className='profile-blog mb-3'>
+              <Link to={'#'} >
+                <h4>Current Round:</h4>
+              </Link>
+              <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
+                {itemDetail?.roundType}
+              </p>
+            </div> : ''}
+
+          { !_.isEmpty(itemTags)
+            ? <div className='profile-blog mb-3'>
+              <Link to={'#'} >
+                <h4>Tag(s):</h4>
+              </Link>
+              { Object.keys(itemTags)?.map((index) => (
+                <div
+                  className='mb-0 btn btn-primary light btn-xs mb-2 me-1'
+                  onClick={() => handleClickTag(itemTags[index]?.name)}
+                  key={index}
+                >
+                  {itemTags[index]?.name}
+                </div>
+              )) }
+            </div> : ''}
+
+          { !_.isEmpty(itemDetail?.launchPads)
+            ? <div className='profile-blog mb-3'>
+              <Link to={'#'} >
+                <h4>Launchpad(s):</h4>
+              </Link>
+              <span className='mb-0'>
+                <LaunchpadIconList listLaunchpad={itemDetail?.launchPads} />
+              </span>
+            </div> : ''
+          }
+
           <div className='profile-blog'>
             <Link to={'#'} >
               <h4>Website(s):</h4>
@@ -409,7 +446,6 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
         </div>
       </div>
-    ) : ''
 
   // wait load finish modal, avoid excpetion
   const description = itemDetail?.fullDesc ? (

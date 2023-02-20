@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 // / React router dom
 import { Link } from 'react-router-dom'
 
@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import logo1 from './../../../images/logo/gear5_logo_notext1.png'
 import logotext1 from './../../../images/logo/logo-text.png'
 import logoColor from './../../../images/logo/gear5_logo_notext.png'
+import { ShowFullSearchConext } from '../../../App'
 
 export function NavMenuToggle() {
   setTimeout(() => {
@@ -18,8 +19,9 @@ export function NavMenuToggle() {
   }, 200)
 }
 
-const NavHader = ({ isShowFullSearchSmallMode }) => {
+const NavHader = () => {
   const [toggle, setToggle] = useState(false)
+  const showFullSearchConext = useContext(ShowFullSearchConext)
 
   const viewHtml = <div className='nav-header'>
     <Link to='/' className='brand-logo'>
@@ -67,7 +69,7 @@ const NavHader = ({ isShowFullSearchSmallMode }) => {
     </div>
   </div>
 
-  return isShowFullSearchSmallMode ? '' : viewHtml
+  return showFullSearchConext?.isShowFullSearchSmallMode ? '' : viewHtml
 }
 
 export default NavHader

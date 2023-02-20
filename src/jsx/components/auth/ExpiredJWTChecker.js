@@ -1,11 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 import { getCookie, STORAGEKEY } from '../../../utils/storage/index'
 import Swal from 'sweetalert2'
+import { ShowFullSearchConext } from '../../../App'
+import { parseJwt } from '../../../utils/decode'
 
 const ExpiredJWTChecker = ({ logout }) => {
   const millSecPerSec = 1000
   const secPerHour = 60 * 60 // 3600s
   const millSecPerHour = secPerHour * millSecPerSec // 60 secs * 60 mins * 1000 millSecss = 1 hour
+  const showFullSearchConext = useContext(ShowFullSearchConext)
 
   // run only once
   useEffect(() => {
@@ -21,7 +24,7 @@ const ExpiredJWTChecker = ({ logout }) => {
         Swal.fire({
           allowOutsideClick: false,
           icon: 'info',
-          title: 'Please log-in again',
+          title: 'Please login again',
           showClass: {
             popup: 'animate__animated animate__fadeInDown'
           },
@@ -32,6 +35,7 @@ const ExpiredJWTChecker = ({ logout }) => {
         }).then((result) => {
           // click out modal notification, or click [OK] in modal
           if (result?.isDismissed || result?.isConfirmed) {
+            showFullSearchConext?.setIsShowFullSearchSmallMode(false) // in small mode, small search when its state is full width --> to see button login
             logout()
           }
         })
@@ -40,16 +44,6 @@ const ExpiredJWTChecker = ({ logout }) => {
         clearInterval(jwtCheckThread)
       }
     }, durationCheckMillSec)
-  }
-
-  const parseJwt = (token) => {
-    var base64Url = token.split('.')[1]
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-    }).join(''))
-
-    return JSON.parse(jsonPayload)
   }
 
   const convertType = function(value) {

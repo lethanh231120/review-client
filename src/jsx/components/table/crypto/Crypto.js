@@ -166,7 +166,6 @@ const Crypto = ({
               const url = itemChain?.exploreWebsite + itemChain?.path + address
               // if (record?.cryptoId === 'gear5_token_ethereum_0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48') {
               // }
-              alert(url)
 
               mainExplorerMapLocal.set(record?.cryptoId, url)
             }

@@ -11,7 +11,9 @@ import AccountTab, {
 import {
   SignInContext,
   Authenticated,
-  SignInFromAddProductContext
+  SignInFromAddProductContext,
+  ShowFullSearchConext,
+  FormLoginSignupKeyContext
 } from '../../../App'
 
 import InputSearch from '../../components/input-search/GlobalSearch'
@@ -34,16 +36,16 @@ const txtLoginTooltip = 'Log In'
 const txtSignUpTooltip = 'Sign Up'
 const minimumWidthBigScreenMode = 767
 
-const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => {
+const Header = () => {
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
   const [isSmallMode, setIsSmallMode] = useState(window.innerWidth < minimumWidthBigScreenMode)
-  const [activeTabKey, setActiveTabKey] = useState('')
+  const showFullSearchConext = useContext(ShowFullSearchConext)
+  const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
       setheaderFix(window.scrollY > 50)
-      setIsShowFullSearchSmallMode(false)
     })
     window.addEventListener('resize', () => {
       setIsSmallMode(window.innerWidth < minimumWidthBigScreenMode)
@@ -64,7 +66,7 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
       Swal.fire({
         allowOutsideClick: false,
         icon: 'info',
-        title: 'Please log-in first',
+        title: 'Please login first',
         showClass: {
           popup: 'animate__animated animate__fadeInDown'
         },
@@ -78,6 +80,7 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
           // keep state in context, login form raise when click add project
           signInFromAddProductContext?.setIsOpenModalAddProduct(true)
           signContext?.handleSetOpenModal(true)
+          formLoginSignupKeyContext?.setLoginSignupFormactiveTabKey(logInKey)
         }
       })
     }
@@ -168,7 +171,7 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
           className='nav-link  ai-icon i-false c-pointer button-login-home'
           role='button'
           onClick={() => {
-            setActiveTabKey(logInKey)
+            formLoginSignupKeyContext?.setLoginSignupFormactiveTabKey(logInKey)
             signContext?.handleSetOpenModal(true)
           }}
         >
@@ -190,8 +193,8 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
           className='nav-link  ai-icon i-false c-pointer button-signup-home'
           role='button'
           onClick={() => {
+            formLoginSignupKeyContext?.setLoginSignupFormactiveTabKey(signUpKey)
             signContext?.handleSetOpenModal(true)
-            setActiveTabKey(signUpKey)
           }}
         >
           <img src={imgSignUp} alt='err' />
@@ -238,13 +241,13 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
     </Dropdown>
   </ul>
 
-  const miniSearchHtml = <Dropdown className='sidebar-dropdown me-2 mt-2' id='mini-search' onClick={() => setIsShowFullSearchSmallMode(!isShowFullSearchSmallMode)} style={{ display: 'flex', alignItems: 'center' }}>
+  const miniSearchHtml = <Dropdown className='sidebar-dropdown me-2 mt-2' id='mini-search' onClick={() => showFullSearchConext?.setIsShowFullSearchSmallMode(!showFullSearchConext?.isShowFullSearchSmallMode)} style={{ display: 'flex', alignItems: 'center' }}>
     <Dropdown.Toggle as='div' className='i-false'>
       {/* image search */}
-      { isShowFullSearchSmallMode ? '' : <img src={imgMiniSearch} alt='err' /> }
-      <i className={`fa-solid fa-angle-${isShowFullSearchSmallMode ? 'left' : 'right'} mx-1`} />
+      { showFullSearchConext?.isShowFullSearchSmallMode ? '' : <img src={imgMiniSearch} alt='err' style={{ marginLeft: '0.5rem' }} /> }
+      <i className={`fa-solid fa-angle-${showFullSearchConext?.isShowFullSearchSmallMode ? 'left' : 'right'} mx-1`} />
       {/* image search */}
-      { isShowFullSearchSmallMode ? <img src={imgCancelMiniSearch} alt='err' /> : '' }
+      { showFullSearchConext?.isShowFullSearchSmallMode ? <img src={imgCancelMiniSearch} alt='err' /> : '' }
     </Dropdown.Toggle>
 
   </Dropdown>
@@ -259,10 +262,10 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
         destroyOnClose={true}
         show={signContext?.openModalSignIn}
       >
-        <AccountTab activeTabKey={activeTabKey} />
+        <AccountTab activeTabKey={formLoginSignupKeyContext?.loginSignupFormactiveTabKey} />
       </Modal>
-      <div className={`header ${headerFix ? 'is-fixed' : ''} ${isShowFullSearchSmallMode ? 'p-0' : ''}`}>
-        <div className={`header-content ${isShowFullSearchSmallMode ? 'p-0 margin-left-0-3rem' : ''}`}>
+      <div className={`header ${headerFix ? 'is-fixed' : ''} ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0' : ''}`}>
+        <div className={`header-content ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0 margin-left-0-3rem' : ''}`}>
           <nav className='navbar navbar-expand'>
             <div className='collapse navbar-collapse justify-content-between'>
               {/* header: text */}
@@ -288,7 +291,7 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
                   className='nav-item d-flex align-items-center'
                   style={{ width: '100%' }}
                 >
-                  {isSmallMode ? (isShowFullSearchSmallMode ? <InputSearch /> : '') : <InputSearch /> }
+                  {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode ? <InputSearch /> : '') : <InputSearch /> }
                 </div>
                 {/* side-bar right */}
                 <div className='dz-side-menu'>
@@ -299,18 +302,18 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
                     <ul className=''>
                       {reportScamHtml}
                       {addProjectHtml}
-                      {isSmallMode ? (isShowFullSearchSmallMode || authenticated?.isAuthenticated ? '' : signupHtml) : '' }
+                      {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode || authenticated?.isAuthenticated ? '' : signupHtml) : '' }
                     </ul>
                   </div>
                   <ul>
                     {authenticated?.isAuthenticated ? (
                       <>
                         <ExpiredJWTChecker logout={logout} />
-                        {isShowFullSearchSmallMode ? '' : logedInHtml}
+                        {showFullSearchConext?.isShowFullSearchSmallMode ? '' : logedInHtml}
                       </>
                     )
                       : <>
-                        {isShowFullSearchSmallMode ? '' : loginHtml}
+                        {showFullSearchConext?.isShowFullSearchSmallMode ? '' : loginHtml}
                         {isSmallMode ? '' : signupHtml}
                       </>
                     }
