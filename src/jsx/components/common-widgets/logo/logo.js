@@ -1,15 +1,14 @@
 import { Avatar } from 'antd'
 
-// const imageExist = async(src) => {
-//   if (!src) {
+// const imageExist = (src) => {
+//   var obj = new Image()
+//   obj.src = src
+
+//   if (obj.complete) {
+//     return true
+//   } else {
 //     return false
 //   }
-//   return new Promise(res => {
-//     const image = new Image()
-//     image.onload = () => res(true)
-//     image.onerror = () => res(false)
-//     image.src = src
-//   })
 // }
 
 // const imageExists = (image_url) => {
