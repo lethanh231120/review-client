@@ -39,6 +39,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const [mainExplorer, setMainExplorer] = useState()
   const [loading, setLoading] = useState(false)
   const waitMillSecOpenWebsite = 3000
+  // const [curentPage, setCurrentPage] = useState(1)
   const [dataExchange, setDataExchange] = useState([])
 
   useEffect(() => {
@@ -128,6 +129,15 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   }
 
   const columns = [
+    // {
+    //   title: '#',
+    //   dataIndex: 'key',
+    //   render: (_, record, index) => (
+    //     <span style={{ color: '#A8ADB3' }}>
+    //       {(curentPage - 1) * PAGE_SIZE + index + 1}
+    //     </span>
+    //   )
+    // },
     {
       title: 'Source',
       dataIndex: 'symbol',
@@ -642,6 +652,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           pageSize: PAGE_SIZE,
           defaultCurrent: 1,
           showSizeChanger: false
+          // onChange: (page) => setCurrentPage(page)
         }}
       />
     </div>

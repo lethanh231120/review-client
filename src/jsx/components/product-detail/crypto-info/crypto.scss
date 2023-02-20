@@ -285,12 +285,16 @@
 .exchange{
     & table{
         @include font-family;
+        // font-size: 0.7rem !important;
+        // & .ant-table-thead > tr > th{
+        //     font-size: 0.7rem !important;
+        // }
     }
     &-name{
         &:hover{
             color: #18A594;
         }
-        & title{
+        &-title{
             text-align: left;
             width: fit-content;
             max-width: 10rem;
