@@ -37,8 +37,6 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     data,
     setData,
     // handleComment,
-    // validateText,
-    // setValidateText,
     fileList,
     recapcharRef,
     isRecaptcha,
@@ -89,34 +87,39 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     })
   }
 
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isJpgOrPng) {
+      notifyTopRight('You can only upload JPG/PNG file!')
+    }
+    const isLt2M = file.size / 1024 / 1024 < 10
+    if (!isLt2M) {
+      notifyTopRight('Image must smaller than 10MB!')
+    }
+    return isJpgOrPng && isLt2M
+  }
+
   // chose file in select
   const handleChangeFile = async(e) => {
-    let error = false
-    if (e.file) {
-      const isJpgOrPng = e.file.type === 'image/jpeg' || e.file.type === 'image/png' || e.file.type === 'image/jpg'
-      // validat type file png/jpg
-      if (!isJpgOrPng) {
-        notifyTopRight('You can only upload JPG/PNG file!')
-        error = true
-      }
-      // validate size file
-      const isLt10M = e.file.size / 1024 / 1024 < 10
-      if (!isLt10M) {
-        error = true
-        notifyTopRight('Image must smaller than 10MB!')
-      }
-      if (!error) {
-        setFileList(e.fileList)
-        const formData = new FormData()
-        formData.append('file', e?.fileList[0]?.originFileObj)
-        const time = moment().unix()
-        const fileName = `${userInfo?.id ? userInfo?.id : id || 'anonymous'}_${time}`
-        const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
-        setData({
-          ...data,
-          image: dataImage?.data
-        })
-      }
+    if (e.file?.status === 'uploading') {
+      setFileList([
+        {
+          ...e.fileList[0],
+          status: 'done'
+        }
+      ])
+      const formData = new FormData()
+      formData.append('file', e?.fileList[0]?.originFileObj)
+      const time = moment().unix()
+      const fileName = `${userInfo?.id ? userInfo?.id : id || 'anonymous'}_${time}`
+      const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
+      setData({
+        ...data,
+        image: dataImage?.data
+      })
+    }
+    if (e.file?.status === 'removed') {
+      setFileList([])
     }
   }
 
@@ -176,7 +179,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     }
   }
 
-  console.log(data)
+  // console.log(data)
   const onPreview = async(file) => {
     let src = file.url
     if (!src) {
@@ -428,7 +431,9 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                 <Upload
                   listType='picture-card'
                   fileList={fileList}
+                  // customRequest={dummyRequest}
                   onChange={handleChangeFile}
+                  beforeUpload={beforeUpload}
                   onPreview={onPreview}
                 >
                   {fileList.length < 1 && '+ Upload'}

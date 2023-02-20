@@ -1,17 +1,17 @@
 // import { scaleBand } from 'd3-scale'
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
 import FormReport from '../Forms/form-report/FormReport'
 import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
 
 export const DetailLayout = (props) => {
   const { Header, type, roundSale, portfolioOrChart, summary, more, about, scam, exchange, topDiscus, numberReviews, rest } = props
-  const [reviews, setReviews] = useState()
+  // const [reviews, setReviews] = useState()
   const PAGE_SIZE = 50
 
-  useEffect(() => {
-    setReviews(rest?.dataReview?.data)
-  }, [rest?.dataReview])
+  // useEffect(() => {
+  //   setReviews(rest?.dataReview)
+  // }, [rest?.dataReview])
 
   return <>
     <div className='row'>
@@ -95,15 +95,20 @@ export const DetailLayout = (props) => {
                 numberReviews={rest?.totalReview}
                 rest={rest}
               />
-              {reviews && reviews?.map((item) => (
+              {/* {rest?.dataReview && rest?.dataReview?.map((item, index) => ( */}
+              {rest?.reviews && rest?.reviews?.map((item, index) => (
                 <>
                   <ReviewItem
+                    index={index}
                     key={item?.id}
                     data={item}
+                    reviews={rest?.reviews}
+                    setReviews={rest?.setReviews}
                     productId={rest?.productId}
-                    dataReply={rest?.dataReply[`${item?.id}`]?.filter((itemReply) => itemReply?.reviewId === item?.id)}
-                    listAccount={rest?.listAccount}
-                    dataReaction={rest?.dataReaction}
+                    // dataReply={rest?.dataReply}
+                    // listAccount={rest?.listAccount}
+                    // setListReview={rest?.setListReview}
+                    // listReview={rest?.listReview}
                   />
                 </>
               ))}
@@ -169,15 +174,19 @@ export const DetailLayout = (props) => {
                   productId={rest?.productId}
                 />
               ))} */}
-              {reviews && reviews?.map((item) => (
+              {rest?.reviews && rest?.reviews?.map((item) => (
+              // {rest?.dataReview && rest?.dataReview?.map((item) => (
                 <>
                   <ReviewItem
                     key={item?.id}
                     data={item}
+                    reviews={rest?.reviews}
+                    setReviews={rest?.setReviews}
                     productId={rest?.productId}
-                    dataReply={rest?.dataReply[`${item?.id}`]?.filter((itemReply) => itemReply?.reviewId === item?.id)}
-                    listAccount={rest?.listAccount}
-                    dataReaction={rest?.dataReaction}
+                    // dataReply={rest?.dataReply}
+                    // listAccount={rest?.listAccount}
+                    // setListReview={rest?.setListReview}
+                    // listReview={rest?.listReview}
                   />
                 </>
               ))}

@@ -12,46 +12,51 @@ import { SignInContext, Authenticated } from '../../../../../App'
 import scam from '../../../../../images/product/scam.png'
 import ListEmoji from '../emoji/ListEmoji'
 import Description from '../../description/Description'
+import { reactions } from '../../../../constants/reaction'
 
-const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) => {
-  const TYPE_REVIEW = 0
-  const [isCollapse, setIsCollapse] = useState({
-    isCollapse: true,
-    reviewId: ''
-  })
-  const [form] = Form.useForm()
-  const [addReply, setAddReply] = useState(false)
-  const [isReaction, setIsReaction] = useState(false)
-  // const [Loading, setLoading] = useState(true)
-  const [comment, setComment] = useState('')
+const ReviewItem = (props) => {
+  const { data, productId, index, reviews, setReviews } = props
   const signContext = useContext(SignInContext)
   const authenticated = useContext(Authenticated)
-  // // const [isShowSource, setIsShowSource] = useState(false)
-  const [currenReaction, setCurrenReaction] = useState()
-  const [newData, setNewData] = useState()
+
+  const [form] = Form.useForm()
+
+  const TYPE_REVIEW = 0
+  const [addReply, setAddReply] = useState(false)
+  const [comment, setComment] = useState('')
   const [validateTextArea, setValidateTextArea] = useState(false)
   const [token, setToken] = useState()
-  const [reactionType, setReactionType] = useState([])
-  const [listReaction, setListReaction] = useState(dataReaction[`${TYPE_REVIEW}`]?.filter((itemReaction) => itemReaction?.commentId === data?.id))
+  const [newData, setNewData] = useState()
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
   useEffect(() => {
-    setNewData({
-      dataComment: data,
-      dataReply: dataReply || null
+    let currenReaction
+    data?.reactions?.forEach((item) => {
+      if ((item?.accountId === userInfo?.id)) {
+        currenReaction = reactions[`${item?.reactionType}`]
+      }
     })
-    setIsCollapse({
-      isCollapse: dataReply?.length > 2,
-      reviewId: dataReply?.length > 2 ? '' : data?.id
-    })
-  }, [data, dataReply])
 
-  // useEffect(() => {
-  //   setIsCollapse({
-  //     isCollapse: dataReply?.length > 2,
-  //     reviewId: dataReply?.length > 2 ? '' : data?.id
-  //   })
-  // }, [data, dataReply])
+    const listReactionType = []
+    data?.reactions?.forEach((item) => {
+      if (item?.commentId === data?.review?.id) {
+        listReactionType.push(item?.reactionType)
+      }
+    })
+
+    const onlyUnique = (item, index, self) => {
+      return (self.indexOf(item) === index)
+    }
+
+    const unique = listReactionType?.filter(onlyUnique)
+    setNewData({
+      reactionType: unique,
+      isReaction: data?.reactions?.some((item) => item?.accountId === userInfo?.id),
+      currenReaction: currenReaction || '',
+      isCollapse: data?.replies?.length > 2,
+      reviewId: data?.replies?.length > 2 ? '' : data?.review?.id
+    })
+  }, [data])
 
   useEffect(() => {
     setToken(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
@@ -60,7 +65,8 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
   const handleAddReply = () => {
     if (token) {
       setAddReply(!addReply)
-      setIsCollapse({
+      setNewData({
+        ...newData,
         isCollapse: false,
         reviewId: ''
       })
@@ -70,9 +76,10 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
   }
 
   const functionAddReply = async(params) => {
+    let newDataReply
     const dataAdd = await post('reviews/reply', params)
     if (dataAdd) {
-      const newReply = {
+      const dataReply = {
         ...dataAdd?.data,
         accountType: userInfo?.accountType,
         email: userInfo?.email,
@@ -80,26 +87,31 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
         role: userInfo?.role,
         userName: userInfo?.userName
       }
-      if (newData?.dataReply === null) {
-        setNewData({
-          ...newData,
-          dataReply: [newReply]
-        })
+      if (_.isEmpty(data?.replies)) {
+        newDataReply = [{
+          reply: dataReply,
+          reactions: []
+        }]
       } else {
-        setNewData({
-          ...newData,
-          dataReply: [
-            newReply,
-            ...newData.dataReply
-          ]
-        })
+        newDataReply = [
+          {
+            reply: dataReply,
+            reactions: []
+          },
+          ...data.replies
+        ]
       }
-
       form.resetFields()
-      setIsCollapse({
-        ...isCollapse,
-        reviewId: data?.id
+      setNewData({
+        ...newData,
+        reviewId: data?.data?.id
       })
+      const currentReview = [...reviews]
+      currentReview[index] = {
+        ...currentReview[index],
+        replies: newDataReply
+      }
+      setReviews(currentReview)
       setValidateTextArea(false)
       setComment('')
     }
@@ -110,10 +122,9 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
       signContext?.handleSetOpenModal(true)
     } else {
       if (comment !== '') {
-        // setNewData()
         const params = {
           content: comment,
-          reviewId: data?.id,
+          reviewId: data?.review?.id,
           productId: productId,
           image: ''
         }
@@ -130,10 +141,9 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
       signContext?.handleSetOpenModal(true)
     } else {
       if (e.target.value !== '') {
-        // setNewData()
         const params = {
           content: e.target.value,
-          reviewId: data?.id,
+          reviewId: data?.review?.id,
           productId: productId,
           image: ''
         }
@@ -146,42 +156,60 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
 
   const handleClickReaction = async(value) => {
     if (token) {
-      if (isReaction) {
+      if (newData?.isReaction) {
         const body = {
-          commentId: data?.id,
+          commentId: data?.review?.id,
           type: TYPE_REVIEW,
           reactionType: value,
           productId: productId
         }
         const dataUpdate = await patch('reviews/reaction', body)
         if (dataUpdate) {
-          const index = listReaction?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
-          if (index !== -1) {
-            const newListReaction = [...listReaction]
-            newListReaction[index] = {
-              ...newListReaction[index],
+          const newListReview = [...reviews]
+          const indexOfCurrentReaction = data?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
+          if (indexOfCurrentReaction !== -1) {
+            // update reactionType for current reaction
+            const currentReactionAfterUpdate = {
+              // newListReview[index] is current repview
+              // newListReview[index].reaction[indexOfCurrentReaction] is current raction in current review
+              ...data?.reactions[indexOfCurrentReaction],
               reactionType: body?.reactionType
             }
-            setListReaction(newListReaction)
+
+            // clone list reaction in current review
+            const reactionAfterUpdate = [newListReview[index].reactions]
+            // update list reaction in current review
+            reactionAfterUpdate[indexOfCurrentReaction] = currentReactionAfterUpdate
+
+            // update data of current review
+            newListReview[index] = {
+              ...newListReview[index],
+              reactions: reactionAfterUpdate
+            }
+            setReviews(newListReview)
           }
         }
       } else {
         const body = {
-          commentId: data?.id,
+          commentId: data?.review?.id,
           type: TYPE_REVIEW,
           reactionType: value,
           productId: productId
         }
         const dataAddReact = await post('reviews/reaction', body)
         if (dataAddReact) {
-          if (!_.isEmpty(listReaction)) {
-            setListReaction([
-              dataAddReact?.data,
-              ...listReaction
-            ])
-          } else {
-            setListReaction([dataAddReact?.data])
+          // clone new list reply
+          const newListReview = [...reviews]
+          // update data of current reply
+          newListReview[index] = {
+            ...newListReview[index],
+            reactions: [dataAddReact?.data]
           }
+          setReviews(newListReview)
+          setNewData({
+            ...newData,
+            isReaction: true
+          })
         }
       }
     } else {
@@ -198,70 +226,26 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
     }
   }, 1000)
 
-  useEffect(() => {
-    listReaction?.forEach((item) => {
-      if ((item?.accountId === userInfo?.id) && (item?.commentId === data?.id)) {
-        switch (item?.reactionType) {
-          case '😆':
-            setCurrenReaction('Haha')
-            break
-          case '💓':
-            setCurrenReaction('Heart')
-            break
-          case '👍':
-            setCurrenReaction('Like')
-            break
-          case '👎':
-            setCurrenReaction('Dislike')
-            break
-          case '😮':
-            setCurrenReaction('Wow')
-            break
-          default:
-            break
-        }
-      }
-    })
-
-    if (!_.isEmpty(listReaction)) {
-      setIsReaction(listReaction?.some((item) => item?.accountId === userInfo?.id))
-    }
-
-    const listReactionType = []
-    listReaction?.forEach((item) => {
-      if (item?.commentId === data?.id) {
-        listReactionType.push(item?.reactionType)
-      }
-    })
-
-    const onlyUnique = (item, index, self) => {
-      return (self.indexOf(item) === index)
-    }
-
-    const unique = listReactionType?.filter(onlyUnique)
-    setReactionType(unique)
-  }, [listReaction])
-
   return (
     <>
       <div className='review-item'>
-        <Image src={newData?.dataComment?.acountImage ? newData?.dataComment?.acountImage : user} preview={false}/>
+        <Image src={data?.review?.acountImage ? data?.review?.acountImage : user} preview={false}/>
         <div className='review-item-description'>
           <div className='review-item-data'>
             <div className='review-item-name'>
-              {listAccount?.find((item) => item?.id === newData?.dataComment?.accountId) ? listAccount?.find((item) => item?.id === newData?.dataComment?.accountId)?.userName : 'Anonymous'}
+              {data?.review?.userName ? data?.review?.userName : 'Anonymous'}
               <span>
-                {newData?.dataComment?.isScam && (<Image src={scam} preview={false}/>)}
+                {data?.review?.isScam && (<Image src={scam} preview={false}/>)}
               </span>
             </div>
             <div className='review-item-content'>
               <div>
-                <strong>{newData?.title}</strong>
+                <strong>{data?.review?.title}</strong>
               </div>
-              <Description text={newData?.dataComment?.content}/>
-              {!_.isEmpty(newData?.dataComment?.sources) && newData?.dataComment?.sources !== null && (
+              <Description text={data?.review?.content}/>
+              {!_.isEmpty(data?.review?.sources) && data?.review?.sources !== null && (
                 <div className='review-item-content-source'>
-                  {newData?.dataComment?.sources?.map((item, index) => (
+                  {data?.review?.sources?.map((item, index) => (
                     <span key={index}>
                       {item !== '' && (
                         <a href={item} target='_blank' rel='noreferrer'>
@@ -275,47 +259,48 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
               )}
             </div>
           </div>
-          {newData?.dataComment?.image && (
+          {data?.review?.image && (
             <div className='review-item-comment-image'>
-              <Image src={newData?.dataComment?.image} preview={true}/>
+              <Image src={data?.review?.image} preview={true}/>
             </div>
           )}
           <div className='review-item-action'>
             <div className='review-item-action-list'>
               <ListEmoji
-                currenReaction={currenReaction}
+                currenReaction={newData?.currenReaction}
                 handleClickReaction={handleClickReaction}
               />
               <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
               <span className='review-item-action-item-time'>
-                {moment.utc(newData?.dataComment?.updatedDate).fromNow()}
+                {moment.utc(data?.review?.updatedDate).fromNow()}
               </span>
             </div>
-            {!_.isEmpty(reactionType) && (
+            {!_.isEmpty(newData?.reactionType) && (
               <div className='review-item-action-reaction'>
-                {reactionType?.map((item, index) => (
+                {newData?.reactionType?.map((item, index) => (
                   <div className='review-item-action-reaction-item' key={index}>
                     {item}
                   </div>
                 ))}
                 <div className='review-item-action-reaction-item'>
-                  {listReaction?.length}
+                  {data?.reactions?.length}
                 </div>
               </div>
             )}
           </div>
-          {newData?.dataReply?.length > 2 && (
+          {data?.replies?.length > 2 && (
             <div
               className='review-item-replies'
               onClick={() => {
-                setIsCollapse({
-                  isCollapse: !isCollapse?.isCollapse,
+                setNewData({
+                  ...newData,
+                  isCollapse: !newData?.isCollapse,
                   reviewId: ''
                 })
               }}
             >
               <CaretDownOutlined/>
-              {newData?.dataReply?.length} reply
+              {data?.replies?.length} reply
             </div>
           )}
           <Form form={form}>
@@ -325,10 +310,10 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
                   <Image src={userInfo?.image ? userInfo?.image : user} preview={false} style={{ width: '2.1875rem' }}/>
                 </div>
                 <Form.Item
-                  name={`reply ${newData?.review?.id}`}
+                  name={`reply ${newData?.data?.id}`}
                 >
                   <Input
-                    name={`reply ${newData?.review?.id}`}
+                    name={`reply ${newData?.data?.id}`}
                     className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
                     autoFocus
                     suffix={<>
@@ -346,15 +331,17 @@ const ReviewItem = ({ data, productId, dataReply, listAccount, dataReaction }) =
             )}
           </Form>
           <div
-            className={`${(isCollapse?.isCollapse && isCollapse?.reviewId === '') ? 'isCollapse' : 'comment-reply'}`}
+            className={`${(newData?.isCollapse && newData?.reviewId === '') ? 'isCollapse' : 'comment-reply'}`}
           >
-            {newData?.dataReply !== null && newData?.dataReply?.map((item, index) => (<>
+            {data?.replies !== null && data?.replies?.map((item, i) => (<>
               <ReplyComment
-                key={index}
+                indexReview={index}
+                index={i}
+                key={i}
                 data={item}
                 productId={productId}
-                listAccount={listAccount}
-                dataReaction={dataReaction}
+                reviews={reviews}
+                setReviews={setReviews}
               />
             </>
             ))}
