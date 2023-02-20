@@ -27,6 +27,8 @@ import Swal from 'sweetalert2'
 import LaunchpadDetail from './launchpad-info/LaunchpadDetail'
 
 const ProductDetail = () => {
+  const TYPE_REVIEW = 0
+  const TYPE_REPLY = 1
   const { pathname } = useLocation()
   const [form] = Form.useForm()
   const { type, productName, path, categoryName } = useParams()
@@ -50,18 +52,7 @@ const ProductDetail = () => {
     sources: [],
     image: null,
     star: 5,
-    // title: '',
     scamAmountUSD: null
-  })
-  const [validateText, setValidateText] = useState({
-    title: {
-      isError: false,
-      message: ''
-    },
-    textArear: {
-      isError: false,
-      message: ''
-    }
   })
   const [fileList, setFileList] = useState([])
   const [isShow, setIsShow] = useState()
@@ -69,21 +60,14 @@ const ProductDetail = () => {
   const [isRecaptcha, setIsRecaptcha] = useState(false)
   const [typeComment, setTypeComment] = useState(false)
   const [errorType, setErrorType] = useState()
-  const [dataReview, setDataReview] = useState({
-    data: [],
-    accountId: []
-  })
-  const [dataReply, setDataReply] = useState({
-    data: [],
-    accountId: []
-  })
-  const [dataReaction, setDataReaction] = useState({
-    data: [],
-    accountId: []
-  })
-  const [listAccount, setListAccount] = useState()
+  const [dataReview, setDataReview] = useState([])
+  const [listReview, setListReview] = useState()
+  const [reviews, setReviews] = useState()
+  const [listReply, setListReply] = useState()
+  const [dataReaction, setDataReaction] = useState({})
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
+  // set productId
   useEffect(() => {
     let id
     if (type && productName) {
@@ -123,6 +107,7 @@ const ProductDetail = () => {
           if (res?.data?.details?.socials) {
             const isSourceCode = []
             const isCommunity = []
+            // check null community, sourceCode
             Object.keys(res?.data?.details?.socials).forEach((key) => {
               // source code
               if (key === 'github' || key === 'bitbucket') {
@@ -145,17 +130,7 @@ const ProductDetail = () => {
             shows['sourceCode'] = !_.isEmpty(isSourceCode) && isSourceCode?.some((item) => item === true)
             shows['community'] = !_.isEmpty(isCommunity) && isCommunity?.some((item) => item === true)
           }
-          if (res?.data?.details?.founders) {
-            const isFounder = []
-            Object.keys(res?.data?.details?.founders).forEach((key) => {
-              if (res?.data?.details?.founders[key].length === 0) {
-                isFounder.push(false)
-              } else {
-                isFounder.push(true)
-              }
-            })
-            shows['founders'] = !_.isEmpty(isFounder) && isFounder?.some((item) => item === true)
-          }
+          // check null multichain
           if (res?.data?.details?.multichain) {
             const isExplorer = []
             res?.data?.details?.multichain?.forEach((item) => {
@@ -175,7 +150,6 @@ const ProductDetail = () => {
             ...res?.data?.details,
             sourceCode: sourceCode,
             community: community,
-            // priceUSD: price?.data?.isCoingecko ? (price?.data?.price) : smallNumber(price?.data?.price / (Math.pow(10, res?.data?.details?.decimal))),
             exchanges: [
               (res?.data?.details?.isBinance !== null && res?.data?.details?.isBinance)
                 ? [exchanges?.binance] : [],
@@ -194,70 +168,162 @@ const ProductDetail = () => {
   }, [productId, categoryName])
 
   useEffect(() => {
-    if (productId) {
-      get(`reviews/reply?productId=${productId}`)
-        .then(res => {
-          const listAccount = [userInfo?.id]
-          res?.data?.forEach((itemReply) => {
-            listAccount.push(itemReply?.accountId)
-          })
-          const groupByCoinId = _.groupBy(res?.data, (item) => {
-            if (item?.reviewId) {
-              return item?.reviewId
-            }
-          })
-          setDataReply({
-            data: groupByCoinId,
-            accountId: listAccount
+    // get data reply, reaction
+    const getDataReply = async() => {
+      const dataReply = await get(`reviews/reply?productId=${productId}`)
+      const dataReactions = await get(`reviews/reaction?productId=${productId}`)
+      let groupByType
+      if (dataReactions) {
+        // group data Reaction by type: 0: review, 1: reply
+        groupByType = _.groupBy(dataReactions?.data, (item) => {
+          return item?.type
+        })
+      }
+
+      setDataReaction(groupByType)
+      const replies = []
+      if (dataReply) {
+        // format reply
+        // get list reaction by replyId
+        dataReply?.data?.forEach((itemReply) => {
+          const reactions = groupByType[`${TYPE_REPLY}`]?.filter((itemReaction) => itemReaction?.commentId === itemReply?.id)
+          replies.push({
+            data: itemReply,
+            reaction: reactions
           })
         })
-      get(`reviews/reaction?productId=${productId}`)
-        .then(res => {
-          const listAccount = []
-          res?.data?.forEach((itemReply) => {
-            listAccount.push(itemReply?.accountId)
-          })
-          const groupByType = _.groupBy(res?.data, (item) => {
-            return item?.type
-          })
-          setDataReaction({
-            data: groupByType,
-            accountId: listAccount
-          })
-        })
+      }
+      setListReply(replies)
     }
+    productId && getDataReply()
   }, [productId])
 
-  // get data review
   useEffect(() => {
-    if (defaultFilter?.productId) {
-      get(`reviews/review`, defaultFilter)
-        .then(res => {
-          const listAccount = []
-          res?.data?.forEach((itemReview) => {
-            listAccount.push(itemReview?.accountId)
-          })
-          setDataReview({
-            data: res?.data !== null ? res?.data : [],
-            accountId: listAccount
-          })
+    const reviews = []
+    if (listReply) {
+      // format data reviews
+      dataReview?.forEach((itemReview) => {
+        // get list reply by reviewId
+        const listReplyByReview = listReply?.filter((itemReply) => itemReply?.data?.reviewId === itemReview?.id)
+        // get list reaction by reviewId
+        const listReactionByReview = dataReaction[`${TYPE_REVIEW}`]?.filter((itemReaction) => itemReaction?.commentId === itemReview?.id)
+        reviews.push({
+          data: itemReview,
+          reply: listReplyByReview,
+          reaction: listReactionByReview
         })
+      })
+      setListReview(reviews)
     }
-  }, [defaultFilter])
+  }, [listReply, dataReview])
 
   useEffect(() => {
-    const listAccount = [
-      dataReaction?.accountId,
-      dataReply?.accountId,
-      dataReview?.accountId
-    ]
-    const onlyUnique = (value, index, self) => {
-      return (self.indexOf(value) === index && value !== '00000000-0000-0000-0000-000000000000' && value !== null)
+    const getDataReview = async() => {
+      if (!_.isEmpty(listReview)) {
+        let newReviews = []
+        const accountId = []
+        // get list accountId of reply, review, reaction
+        listReview?.forEach((itemReview) => {
+          accountId.push(itemReview?.data?.accountId)
+          itemReview?.reaction?.forEach((itemReaction) => {
+            accountId.push(itemReaction?.accountId)
+          })
+          itemReview?.reply?.forEach((itemReplies) => {
+            accountId.push(itemReplies?.data?.accountId)
+            itemReplies?.reaction?.forEach((itemReactionInReplies) => {
+              accountId.push(itemReactionInReplies?.accountId)
+            })
+          })
+        })
+        if (!_.isEmpty(accountId)) {
+          // format unique list accountId
+          const onlyUnique = (value, index, self) => {
+            if (value) { return (self.indexOf(value) === index && value !== '00000000-0000-0000-0000-000000000000' && value !== null) }
+          }
+          const unique = accountId?.filter(onlyUnique)
+          // get list account
+          const listUser = await post('reviews/auth/profiles', { 'accountIds': unique })
+          if (!_.isEmpty(listUser?.data?.accounts)) {
+            listReview?.forEach((itemReview) => {
+              const account = listUser?.data?.accounts?.find(item => item?.id === itemReview?.data?.accountId)
+              // reviews
+              const newReview = {
+                ...itemReview?.data,
+                accountType: account?.ccountType,
+                email: account?.email,
+                acountImage: account?.image,
+                role: account?.role,
+                userName: account?.userName
+              }
+              // reactions of review
+              const newReactions = []
+              itemReview?.reaction?.forEach((itemReaction) => {
+                const accountReaction = listUser?.data?.accounts?.find(item => item?.id === itemReaction?.accountId)
+                newReactions.push({
+                  ...itemReaction,
+                  accountType: accountReaction?.accountType,
+                  email: accountReaction?.email,
+                  acountImage: accountReaction?.image,
+                  userName: accountReaction?.userName,
+                  role: accountReaction?.role
+                })
+              })
+              // replies
+              const replies = []
+              itemReview?.reply?.forEach((itemReplies) => {
+                const accountReply = listUser?.data?.accounts?.find(item => item?.id === itemReplies?.data?.accountId)
+                const newReply = {
+                  ...itemReplies.data,
+                  accountType: accountReply?.accountType,
+                  email: accountReply?.email,
+                  acountImage: accountReply?.image,
+                  userName: accountReply?.userName,
+                  role: accountReply?.role
+                }
+                // reaction of reply
+                const newListReactionInReplies = []
+                itemReplies?.reaction?.forEach((itemReactionInReplies) => {
+                  const newReactionInReplies = listUser?.data?.accounts?.find(item => item?.id === itemReactionInReplies?.accountId)
+                  newListReactionInReplies.push({
+                    ...itemReactionInReplies,
+                    accountType: newReactionInReplies?.accountType,
+                    email: newReactionInReplies?.email,
+                    acountImage: newReactionInReplies?.image,
+                    userName: newReactionInReplies?.userName,
+                    role: newReactionInReplies?.role
+                  })
+                })
+                replies.push({
+                  reply: newReply,
+                  reactions: newListReactionInReplies
+                })
+              })
+              newReviews.push({
+                reactions: newReactions,
+                review: newReview,
+                replies: replies
+              })
+            })
+          } else {
+            newReviews = [...listReview]
+          }
+        }
+        setReviews(newReviews)
+      }
     }
-    const unique = listAccount?.flat(1)?.filter(onlyUnique)
-    // get list account
-    !_.isEmpty(unique) && post('reviews/auth/profiles', { 'accountIds': unique }).then(res => setListAccount(res?.data?.accounts))
-  }, [dataReaction, dataReply, dataReview])
+    getDataReview()
+  }, [listReview])
+
+  // get data review by params filter
+  useEffect(() => {
+    if (defaultFilter?.productId) {
+      const getReview = async() => {
+        const listReviews = await get(`reviews/review`, defaultFilter)
+        setDataReview(listReviews?.data !== null ? listReviews?.data : [])
+      }
+      getReview()
+    }
+  }, [defaultFilter])
 
   useEffect(() => {
     if (typeComment === 'login') {
@@ -291,7 +357,6 @@ const ProductDetail = () => {
       dataAdd = await post('reviews/review', params)
     }
     if (dataAdd) {
-      notifyTopRight()
       const newReview = {
         ...dataAdd?.data,
         accountType: type === 'auth' ? userInfo?.accountType : '',
@@ -300,18 +365,27 @@ const ProductDetail = () => {
         role: type === 'auth' ? userInfo?.role : -1,
         userName: type === 'auth' ? userInfo?.userName : 'anonymous'
       }
-      if (productInfo?.reviews === null) {
-        setDataReview({
-          ...dataReview,
-          data: [newReview]
-        })
+      // check if reviews === []
+      if (_.isEmpty(reviews)) {
+        setReviews([
+          {
+            review: newReview,
+            reactions: [],
+            replies: []
+          }
+        ])
       } else {
-        const newDataReview = [newReview, ...dataReview.data]
-        setDataReview({
-          ...dataReview,
-          data: newDataReview
-        })
+        setReviews([
+          {
+            review: newReview,
+            reactions: [],
+            replies: []
+          },
+          ...reviews
+        ])
       }
+      notifyTopRight()
+      // set data for form report
       setData({
         isScam: false,
         content: '',
@@ -319,8 +393,9 @@ const ProductDetail = () => {
         image: '',
         star: 5
       })
+      // set list file image
       setFileList([])
-      setValidateText(false)
+      // set type comment (anonymous or auth)
       setTypeComment()
       recapcharRef.current.reset()
       form.resetFields()
@@ -467,8 +542,6 @@ const ProductDetail = () => {
     data={data}
     setData={setData}
     handleSubmitComment={handleSubmitComment}
-    setValidateText={setValidateText}
-    validateText={validateText}
     handleComment={handleComment}
     recapcharRef={recapcharRef}
     setFileList={setFileList}
@@ -486,10 +559,13 @@ const ProductDetail = () => {
     form={form}
 
     totalReview={productInfo?.details?.totalReviews}
-    dataReview={dataReview}
-    dataReply={dataReply?.data}
-    dataReaction={dataReaction?.data}
-    listAccount={listAccount}
+    reviews={reviews}
+    setReviews={setReviews}
+    // setListReview={setListReview}
+    // listReview={listReview}
+    // dataReply={dataReply?.data}
+    // dataReaction={dataReaction?.data}
+    // listAccount={listAccount}
 
     // use in list review
     // dataFilter={dataFilter}
@@ -509,8 +585,6 @@ const ProductDetail = () => {
     data={data}
     setData={setData}
     handleSubmitComment={handleSubmitComment}
-    setValidateText={setValidateText}
-    validateText={validateText}
     handleComment={handleComment}
     recapcharRef={recapcharRef}
     setFileList={setFileList}
@@ -528,10 +602,10 @@ const ProductDetail = () => {
     form={form}
 
     totalReview={productInfo?.details?.totalReviews}
-    dataReview={dataReview}
-    dataReply={dataReply?.data}
-    dataReaction={dataReaction?.data}
-    listAccount={listAccount}
+    // dataReview={dataReview}
+    // dataReply={dataReply?.data}
+    // dataReaction={dataReaction?.data}
+    // listAccount={listAccount}
 
     // use in list review
     // dataFilter={dataFilter}
@@ -551,8 +625,6 @@ const ProductDetail = () => {
     data={data}
     setData={setData}
     handleSubmitComment={handleSubmitComment}
-    setValidateText={setValidateText}
-    validateText={validateText}
     handleComment={handleComment}
     recapcharRef={recapcharRef}
     setFileList={setFileList}
@@ -570,10 +642,10 @@ const ProductDetail = () => {
     form={form}
 
     totalReview={productInfo?.details?.totalReviews}
-    dataReview={dataReview}
-    dataReply={dataReply?.data}
-    dataReaction={dataReaction?.data}
-    listAccount={listAccount}
+    // dataReview={dataReview}
+    // dataReply={dataReply?.data}
+    // dataReaction={dataReaction?.data}
+    // listAccount={listAccount}
 
     // use in list review
     // dataFilter={dataFilter}
@@ -593,8 +665,6 @@ const ProductDetail = () => {
     data={data}
     setData={setData}
     handleSubmitComment={handleSubmitComment}
-    setValidateText={setValidateText}
-    validateText={validateText}
     handleComment={handleComment}
     recapcharRef={recapcharRef}
     setFileList={setFileList}
@@ -612,10 +682,10 @@ const ProductDetail = () => {
     form={form}
 
     totalReview={productInfo?.details?.totalReviews}
-    dataReview={dataReview}
-    dataReply={dataReply?.data}
-    dataReaction={dataReaction?.data}
-    listAccount={listAccount}
+    // dataReview={dataReview}
+    // dataReply={dataReply?.data}
+    // dataReaction={dataReaction?.data}
+    // listAccount={listAccount}
 
     // use in list review
     // dataFilter={dataFilter}
@@ -635,8 +705,6 @@ const ProductDetail = () => {
     data={data}
     setData={setData}
     handleSubmitComment={handleSubmitComment}
-    setValidateText={setValidateText}
-    validateText={validateText}
     handleComment={handleComment}
     recapcharRef={recapcharRef}
     setFileList={setFileList}
@@ -654,10 +722,10 @@ const ProductDetail = () => {
     form={form}
 
     totalReview={productInfo?.details?.totalReviews}
-    dataReview={dataReview}
-    dataReply={dataReply?.data}
-    dataReaction={dataReaction?.data}
-    listAccount={listAccount}
+    // dataReview={dataReview}
+    // dataReply={dataReply?.data}
+    // dataReaction={dataReaction?.data}
+    // listAccount={listAccount}
 
     // use in list review
     // dataFilter={dataFilter}
@@ -677,8 +745,6 @@ const ProductDetail = () => {
     data={data}
     setData={setData}
     handleSubmitComment={handleSubmitComment}
-    setValidateText={setValidateText}
-    validateText={validateText}
     handleComment={handleComment}
     recapcharRef={recapcharRef}
     setFileList={setFileList}
@@ -696,19 +762,15 @@ const ProductDetail = () => {
     form={form}
 
     totalReview={productInfo?.details?.totalReviews}
-    dataReview={dataReview}
-    dataReply={dataReply?.data}
-    dataReaction={dataReaction?.data}
-    listAccount={listAccount}
-
     // use in list review
-    // dataFilter={dataFilter}
     productId={productId}
+
+    reviews={reviews}
+    setReviews={setReviews}
   />
 
   return (
     <div className='section'>
-      {console.log(type)}
       {!productInfo ? <DetailLoading /> : ''}
       <div className='product' ref={ref} hidden={!productInfo}>
         {categoryName === DAPP ? (

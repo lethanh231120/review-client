@@ -17,6 +17,7 @@ import Swal from 'sweetalert2'
 import { Button } from 'react-bootstrap'
 import hot from '../../../../images/product/hot.png'
 import ProjectHot from './ProjectHot'
+import { CRYPTO, EXCHANGE, SOON, VENTURE, DAPP } from '../../../constants/category'
 
 const ModalReport = () => {
   const signInContext = useContext(SignInContext)
@@ -32,6 +33,7 @@ const ModalReport = () => {
   const navigate = useNavigate()
 
   const [item, setItem] = useState()
+  const [itemHot, setItemHot] = useState()
   const [validateTextArea, setValidateTextArea] = useState(false)
   const [fileList, setFileList] = useState([])
   const [isRecaptcha, setIsRecaptcha] = useState(false)
@@ -49,10 +51,96 @@ const ModalReport = () => {
     scamAmountUSD: null
   })
 
-  console.log(hotList)
+  console.log(item)
+  //   {
+  //     "Id": "51b36e29-0dbe-4f42-ad00-aa90acf3df49",
+  //     "matchScore": 0,
+  //     "cryptoId": "gear5_token_ethereum_0x1a4b46696b2bb4794eb3d4c26f1c55f9170fa4c5",
+  //     "address": "0x1a4b46696b2bb4794eb3d4c26f1c55f9170fa4c5",
+  //     "addressShow": "0x1a4b46696b2bb4794eb3d4c26f1c55f9170fa4c5",
+  //     "name": "BitDAO",
+  //     "symbol": "BIT",
+  //     "image": "https://assets.coingecko.com/coins/images/17627/thumb/rI_YptK8.png?1653983088",
+  //     "chainname": "ethereum",
+  //     "description": "BitDAO is one of the world's largest DAOs (Decentralized Autonomous Organization). Our vision is open finance and a decentralized tokenized economy. ‌BitDAO is a protocol governed by BIT token holders. We welcome all individuals and communities to join us and contribute.",
+  //     "category": "Ethereum Ecosystem",
+  //     "score": 57,
+  //     "priceUSD": 0.639161,
+  //     "marketcapUSD": 843266386,
+  //     "holders": 25784,
+  //     "isScam": false,
+  //     "isWarning": false,
+  //     "createdDate": "2023-01-14T06:01:18.091073Z",
+  //     "updatedDate": "2023-02-20T13:41:04.622Z"
+  // }
   useEffect(() => {
     form.setFieldsValue({ isScam: true })
   }, [reportModal])
+
+  useEffect(() => {
+    let newDataItem
+    switch (itemHot?.type) {
+      case CRYPTO:
+        newDataItem = {
+          image: itemHot?.thumbLogo ? itemHot?.thumbLogo : (itemHot?.bigLogo ? itemHot?.bigLogo : itemHot?.smallLogo),
+          description: itemHot?.description,
+          name: itemHot?.name,
+          symbol: itemHot?.symbol,
+          holders: itemHot?.holders,
+          isScam: itemHot?.holders,
+          isWarning: itemHot?.isWarning,
+          score: itemHot?.score
+        }
+        break
+      case EXCHANGE:
+        newDataItem = {
+          image: itemHot?.smallLogo,
+          description: itemHot?.fullDescription,
+          name: itemHot?.name,
+          isScam: itemHot?.isScam,
+          isWarning: itemHot?.isWarning,
+          score: itemHot?.score
+        }
+        break
+      case DAPP:
+        newDataItem = {
+          image: itemHot?.dAppLogo,
+          description: itemHot?.description,
+          name: itemHot?.dAppName,
+          isScam: itemHot?.isScam,
+          isWarning: itemHot?.isWarning,
+          score: itemHot?.score
+        }
+        break
+      case VENTURE:
+        newDataItem = {
+          image: itemHot?.ventureLogo,
+          description: itemHot?.description,
+          name: itemHot?.ventureName,
+          isScam: itemHot?.isScam,
+          isWarning: itemHot?.isWarning,
+          score: itemHot?.score,
+          yearFounded: itemHot?.yearFounded,
+          location: itemHot?.location
+        }
+        break
+      case SOON:
+        newDataItem = {
+          image: itemHot?.ventureLogo,
+          description: itemHot?.description,
+          name: itemHot?.ventureName,
+          isScam: itemHot?.isScam,
+          isWarning: itemHot?.isWarning,
+          score: itemHot?.score,
+          yearFounded: itemHot?.yearFounded,
+          location: itemHot?.location
+        }
+        break
+      default:
+        break
+    }
+    setItem(newDataItem)
+  }, [itemHot])
 
   useEffect(() => {
     if (typeComment === 'login') {
@@ -65,6 +153,7 @@ const ModalReport = () => {
   // Process to get the url for product detail after the report is done
   // Report scam will be redirected to detail product screen
   useEffect(() => {
+    // refModal.current.scrollTo(0, 0)
     const id = item?.cryptoId ? item?.cryptoId
       : (item?.dappId ? item?.dappId
         : (item?.ventureId ? item?.ventureId
@@ -191,7 +280,6 @@ const ModalReport = () => {
     reportModal?.handleSetOpenModal(false)
   }
 
-  console.log(item)
   return (
     <>
       <InputSearch
@@ -276,7 +364,7 @@ const ModalReport = () => {
           <>
             <ProjectHot
               data={item}
-              setItem={setItem}
+              setItemHot={setItemHot}
             />
           </>
         ))}

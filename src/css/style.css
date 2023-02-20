@@ -4323,7 +4323,9 @@ textarea.form-control-lg {
   .modal-fullscreen .modal-content {
     height: 100%;
     border: 0;
-    border-radius: 0; }
+    border-radius: 0;
+    max-height: 90vh;
+    overflow-y: auto; }
   .modal-fullscreen .modal-header {
     border-radius: 0; }
   .modal-fullscreen .modal-body {
