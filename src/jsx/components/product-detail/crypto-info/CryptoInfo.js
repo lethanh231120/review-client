@@ -12,7 +12,7 @@ import _ from 'lodash'
 import { CRYPTO } from '../../../constants/category'
 import { encodeUrl } from '../../../../utils/formatUrl'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
-import { ChainListContext } from '../../../../App'
+import { ChainListContext, ExchangeContext } from '../../../../App'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
@@ -29,19 +29,18 @@ import CoinChart from '../../charts/coinchart/CoinChart'
 import { Link } from 'react-router-dom'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
-  const PAGE_SIZE = 10
+  const PAGE_SIZE = 5
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
+  const exchanges = useContext(ExchangeContext)
   // const reportModal = useContext(ReportModalContext)
   const [showInfo, setShowInfo] = useState()
   const [multichain, setMultichain] = useState()
   const [mainExplorer, setMainExplorer] = useState()
   const [loading, setLoading] = useState(false)
   const waitMillSecOpenWebsite = 3000
-  const [curentPage, setCurrentPage] = useState(1)
+  const [dataExchange, setDataExchange] = useState([])
 
-  console.log(productInfo)
-  console.log(chainList)
   useEffect(() => {
     setShowInfo(
       !isShow?.community &&
@@ -99,6 +98,24 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     getDataVenture()
   }, [productInfo, chainList])
 
+  useEffect(() => {
+    const newListExchange = []
+    productInfo?.mores?.trading?.forEach((itemExchange) => {
+      if (itemExchange?.exchangeId) {
+        const newItemExchange = exchanges?.find((itemExchangeInList) => itemExchangeInList?.exchangeId === itemExchange?.exchangeId)
+        if (newItemExchange) {
+          newListExchange.push({
+            ...itemExchange,
+            ...newItemExchange
+          })
+        } else {
+          console.log('khong co exchange')
+        }
+      }
+    })
+    setDataExchange(newListExchange)
+  }, [productInfo, exchanges])
+
   const handleReportScam = () => {
     rest?.setData({
       ...rest.data,
@@ -112,32 +129,23 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   const columns = [
     {
-      title: '#',
-      dataIndex: 'key',
-      render: (_, record, index) => (
-        <span style={{ color: '#A8ADB3' }}>
-          {(curentPage - 1) * PAGE_SIZE + index + 1}
-        </span>
-      )
-    },
-    {
       title: 'Source',
       dataIndex: 'symbol',
       key: 'symbol',
       render: (_, record) => (<Link
         to={`../../../../../products/${record?.exchangeId?.split('_')[1]}/${record?.exchangeId?.split('_')[2]}`}
-        className='crypto-table-info'
+        className='exchange-source'
       >
-        {/* {record?.cryptoId && record?.bigLogo
-        <Image src={bitcoin} preview={false}/>
-          : ( */}
-        <span className='exchange-no-data'>
-          {record?.name?.slice(0, 3)}
-        </span>
-        {/* )} */}
+        {record?.exchangeId && record?.smallLogo
+          ? <Image src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageCrypto} preview={false} />
+          : (
+            <span className='exchange-no-data'>
+              {record?.name?.slice(0, 3)}
+            </span>
+          )}
         <span>
           <div className='exchange-name'>
-            <div className='data-table-name-title'>{record?.name}</div>
+            <div className='exchange-name-title'>{record?.name}</div>
           </div>
         </span>
       </Link>)
@@ -147,7 +155,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       dataIndex: 'symbol',
       key: 'symbol',
       render: (_, record) => (<Link
-        to='#'
+        to={`${record?.website}`}
         className='exchange-pair'
       >
         {record?.symbol}
@@ -629,12 +637,11 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     <div className='card-body pt-3 exchange'>
       <Table
         columns={columns}
-        dataSource={productInfo?.mores?.trading}
+        dataSource={dataExchange}
         pagination={{
           pageSize: PAGE_SIZE,
           defaultCurrent: 1,
-          showSizeChanger: false,
-          onChange: (page) => setCurrentPage(page)
+          showSizeChanger: false
         }}
       />
     </div>

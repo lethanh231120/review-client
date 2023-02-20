@@ -285,12 +285,26 @@
 .exchange{
     & table{
         @include font-family;
-        font-size: 0.7rem !important;
-        & .ant-table-thead > tr > th{
-            font-size: 0.7rem !important;
-        }
     }
     &-name{
+        &:hover{
+            color: #18A594;
+        }
+        & title{
+            text-align: left;
+            width: fit-content;
+            max-width: 10rem;
+            display: block;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    &-source{
+        display: flex;
+        align-items: center;
         &:hover{
             color: #18A594;
         }
@@ -307,7 +321,7 @@
         background-color: #18A594;
         color: #fff;
         text-transform: uppercase;
-        // font-size: 0.6375rem;
+        margin-right: 0.5rem;
         border-radius: 50%;
         display: flex;
         align-items: center;

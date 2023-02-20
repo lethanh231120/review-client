@@ -151,13 +151,18 @@ const SideBar = () => {
         })
       }
 
-      objCategories?.push({
-        title: item[1]?.category?.name,
-        classsChange: 'mm-collapse',
-        iconStyle: <i className='material-icons'>{mapCategoriesMenuIcon?.get(item[1]?.category?.name)}</i>,
-        content: newContent,
-        to: item[1]?.category?.path
-      })
+      objCategories?.push(
+        newContent?.length > 0 ? {
+          title: item[1]?.category?.name,
+          classsChange: newContent.length > 0 ? 'mm-collapse' : '',
+          iconStyle: <i className='material-icons'>{mapCategoriesMenuIcon?.get(item[1]?.category?.name)}</i>,
+          content: newContent,
+          to: item[1]?.category?.path
+        } : {
+          title: item[1]?.category?.name,
+          iconStyle: <i className='material-icons'>{mapCategoriesMenuIcon?.get(item[1]?.category?.name)}</i>,
+          to: item[1]?.category?.path
+        })
     })
     setCategories(objCategories)
   }, [categoryContext])
@@ -196,6 +201,7 @@ const SideBar = () => {
     }
   }
 
+  console.log(categories)
   return (
     <div
       className={`deznav  border-right ${iconHover} ${
@@ -223,7 +229,7 @@ const SideBar = () => {
                 <li
                   className={` ${
                     state.active === data.title ? 'mm-active' : ''
-                  }`}
+                  } ${data?.content?.length > 0 ? 'sub-menu' : ''}`}
                   key={index}
                 >
                   {data.content && data.content.length > 0 ? (
@@ -245,7 +251,7 @@ const SideBar = () => {
                   )}
                   <Collapse in={state.active === data.title}>
                     <ul
-                      className={`${
+                      className={`${!data?.content ? 'display-none' : ''} ${
                         menuClass === 'mm-collapse' ? 'mm-show' : ''
                       }`}
                     >
