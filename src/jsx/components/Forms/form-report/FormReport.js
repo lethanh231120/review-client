@@ -176,7 +176,6 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     }
   }
 
-  console.log(data)
   const onPreview = async(file) => {
     let src = file.url
     if (!src) {

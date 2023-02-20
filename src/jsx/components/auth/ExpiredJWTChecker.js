@@ -2,6 +2,7 @@ import { useEffect, useContext } from 'react'
 import { getCookie, STORAGEKEY } from '../../../utils/storage/index'
 import Swal from 'sweetalert2'
 import { ShowFullSearchConext } from '../../../App'
+import { parseJwt } from '../../../utils/decode'
 
 const ExpiredJWTChecker = ({ logout }) => {
   const millSecPerSec = 1000
@@ -43,16 +44,6 @@ const ExpiredJWTChecker = ({ logout }) => {
         clearInterval(jwtCheckThread)
       }
     }, durationCheckMillSec)
-  }
-
-  const parseJwt = (token) => {
-    var base64Url = token.split('.')[1]
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-    }).join(''))
-
-    return JSON.parse(jsonPayload)
   }
 
   const convertType = function(value) {

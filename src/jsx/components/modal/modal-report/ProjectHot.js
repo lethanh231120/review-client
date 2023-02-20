@@ -8,7 +8,6 @@ const ProjectHot = ({ data, setItem }) => {
     return text?.length > 10 ? `${text?.substring(0, 10)}...` : text
   }
 
-  console.log(data)
   switch (data?.type) {
     case 'crypto':
       return <div className='col-lg-3 cus-col'>

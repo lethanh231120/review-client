@@ -34571,7 +34571,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   }
 
   .header.is-fixed{
-    background-color: rgba(227, 232, 237, 0.5);
+    background-color: rgba(227, 232, 237, 0.9);
     backdrop-filter: unset !important;
     -webkit-backdrop-filter: unset !important;
   }

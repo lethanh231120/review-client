@@ -24,6 +24,11 @@ import 'lightgallery/css/lg-thumbnail.css'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import { websiteIcon } from '../../common-widgets/icons'
+import _ from 'lodash'
+import { useNavigate } from 'react-router-dom'
+import { SOON } from '../../../constants/category'
+import { encodeUrl } from '../../../../utils/formatUrl'
+
 const txtTBA = 'TBA'
 
 // match with BE
@@ -69,18 +74,11 @@ const getStatusBackgroundFromSoonStatus = (status) => {
 const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
 const SoonInfo = ({ productInfo, ...rest }) => {
+  const navigate = useNavigate()
   const itemDetail = productInfo?.details
+  const itemTags = productInfo?.mores?.tag
   const itemRoundSales = productInfo?.mores?.roundSale
   const [websiteLoading, setWebsiteLoading] = useState(false)
-
-  // useEffect(() => {
-  //   if (itemDetail) {
-  //     alert(itemDetail)
-  //     for (const media of itemDetail.media) {
-  //       console.log(`=============`, media)
-  //     }
-  //   }
-  // }, [])
 
   const handleReportScam = () => {
     rest?.setData({
@@ -92,6 +90,10 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       'isScam': true,
       'star': 1
     })
+  }
+
+  const handleClickTag = (value) => {
+    navigate(`../../../../../${SOON}/${encodeUrl(value)}`)
   }
 
   const header = (
@@ -276,7 +278,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </div>
   )
 
-  const more = itemDetail
+  const more = !_.isEmpty(itemTags)
     ? (
       <div>
         <div className='card-header border-0 pb-0'>
@@ -295,9 +297,15 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             <Link to={'#'} >
               <h4>Tag(s):</h4>
             </Link>
-            <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
-              {itemDetail?.subCategory}
-            </p>
+            { Object.keys(itemTags)?.map((index) => (
+              <div
+                className='mb-0 btn btn-primary light btn-xs mb-2 me-1'
+                onClick={() => handleClickTag(itemTags[index]?.name)}
+                key={index}
+              >
+                {itemTags[index]?.name}
+              </div>
+            )) }
           </div>
           <div className='profile-blog mb-3'>
             <Link to={'#'} >
