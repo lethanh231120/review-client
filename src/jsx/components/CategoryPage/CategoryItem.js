@@ -16,7 +16,8 @@ import {
   SCAM,
   VENTURE,
   CRYPTO_COIN,
-  CRYPTO_TOKEN
+  CRYPTO_TOKEN,
+  LAUNCHPAD
 } from '../../constants/category'
 import { get, search } from '../../../api/BaseRequest'
 // import { search } from '../../api/BaseRequest'
@@ -26,6 +27,7 @@ import { PAGE_SIZE, MAX_PAGE } from '../../constants/pagination'
 import { useNavigate } from 'react-router-dom'
 import { decodeUrl } from '../../../utils/formatUrl'
 import _ from 'lodash'
+import LaunchpadList from '../table/launchpad/LaunchpadTable'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -54,7 +56,8 @@ const CategoryItem = () => {
     },
     exchange: { page: 1, sort: 'desc', orderBy: 'score', tag: subCategory || '' },
     venture: { location: '', orderBy: 'score', sort: 'desc', page: 1 },
-    soon: { roundType: '', tag: subCategory || '', orderBy: 'startDate', sort: 'desc', page: 1 }
+    soon: { roundType: '', tag: subCategory || '', orderBy: 'startDate', sort: 'desc', page: 1 },
+    launchpad: { page: 1, sort: 'desc', orderBy: 'score' }
   }
   // check category and set params
   const setParram = async() => {
@@ -74,6 +77,9 @@ const CategoryItem = () => {
           break
         case SOON:
           setParams(defaultParams?.soon)
+          break
+        case LAUNCHPAD:
+          setParams(defaultParams?.launchpad)
           break
         default:
           break
@@ -125,6 +131,12 @@ const CategoryItem = () => {
         const dataScam = await get('reviews/scam/filter', paramSort)
         setListProduct(dataScam?.data?.cryptos)
         setTotal(dataScam?.data?.cryptoCount)
+        break
+      }
+      case LAUNCHPAD: {
+        const dataLaunchpad = await get('reviews/launchpad/filter', paramSort)
+        setListProduct(dataLaunchpad?.data?.launchPads)
+        setTotal(dataLaunchpad?.data?.launchPadCount)
         break
       }
       default:
@@ -248,6 +260,17 @@ const CategoryItem = () => {
       case SOON:
         return (
           <Soon
+            listProduct={listProduct}
+            handleChangeTable={handleChangeTable}
+            params={params}
+            loading={loading}
+            handleFilter={handleFilter}
+            total={total}
+          />
+        )
+      case LAUNCHPAD:
+        return (
+          <LaunchpadList
             listProduct={listProduct}
             handleChangeTable={handleChangeTable}
             params={params}
