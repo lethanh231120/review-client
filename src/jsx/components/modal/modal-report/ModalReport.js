@@ -47,32 +47,9 @@ const ModalReport = () => {
     sources: [],
     image: null,
     star: 5,
-    // title: '',
     scamAmountUSD: null
   })
 
-  console.log(item)
-  //   {
-  //     "Id": "51b36e29-0dbe-4f42-ad00-aa90acf3df49",
-  //     "matchScore": 0,
-  //     "cryptoId": "gear5_token_ethereum_0x1a4b46696b2bb4794eb3d4c26f1c55f9170fa4c5",
-  //     "address": "0x1a4b46696b2bb4794eb3d4c26f1c55f9170fa4c5",
-  //     "addressShow": "0x1a4b46696b2bb4794eb3d4c26f1c55f9170fa4c5",
-  //     "name": "BitDAO",
-  //     "symbol": "BIT",
-  //     "image": "https://assets.coingecko.com/coins/images/17627/thumb/rI_YptK8.png?1653983088",
-  //     "chainname": "ethereum",
-  //     "description": "BitDAO is one of the world's largest DAOs (Decentralized Autonomous Organization). Our vision is open finance and a decentralized tokenized economy. ‌BitDAO is a protocol governed by BIT token holders. We welcome all individuals and communities to join us and contribute.",
-  //     "category": "Ethereum Ecosystem",
-  //     "score": 57,
-  //     "priceUSD": 0.639161,
-  //     "marketcapUSD": 843266386,
-  //     "holders": 25784,
-  //     "isScam": false,
-  //     "isWarning": false,
-  //     "createdDate": "2023-01-14T06:01:18.091073Z",
-  //     "updatedDate": "2023-02-20T13:41:04.622Z"
-  // }
   useEffect(() => {
     form.setFieldsValue({ isScam: true })
   }, [reportModal])
@@ -82,58 +59,63 @@ const ModalReport = () => {
     switch (itemHot?.type) {
       case CRYPTO:
         newDataItem = {
-          image: itemHot?.thumbLogo ? itemHot?.thumbLogo : (itemHot?.bigLogo ? itemHot?.bigLogo : itemHot?.smallLogo),
-          description: itemHot?.description,
-          name: itemHot?.name,
-          symbol: itemHot?.symbol,
-          holders: itemHot?.holders,
-          isScam: itemHot?.holders,
-          isWarning: itemHot?.isWarning,
-          score: itemHot?.score
+          image: itemHot?.data?.thumbLogo ? itemHot?.data?.thumbLogo : (itemHot?.data?.bigLogo ? itemHot?.data?.bigLogo : itemHot?.data?.smallLogo),
+          description: itemHot?.data?.description,
+          name: itemHot?.data?.name,
+          symbol: itemHot?.data?.symbol,
+          holders: itemHot?.data?.holders,
+          isScam: itemHot?.data?.holders,
+          isWarning: itemHot?.data?.isWarning,
+          score: itemHot?.data?.score,
+          cryptoId: itemHot?.data?.cryptoId
         }
         break
       case EXCHANGE:
         newDataItem = {
-          image: itemHot?.smallLogo,
-          description: itemHot?.fullDescription,
-          name: itemHot?.name,
-          isScam: itemHot?.isScam,
-          isWarning: itemHot?.isWarning,
-          score: itemHot?.score
+          image: itemHot?.data?.smallLogo,
+          description: itemHot?.data?.fullDescription,
+          name: itemHot?.data?.name,
+          isScam: itemHot?.data?.isScam,
+          isWarning: itemHot?.data?.isWarning,
+          score: itemHot?.data?.score,
+          exchangeId: itemHot?.data?.exchangeId
         }
         break
       case DAPP:
         newDataItem = {
-          image: itemHot?.dAppLogo,
-          description: itemHot?.description,
-          name: itemHot?.dAppName,
-          isScam: itemHot?.isScam,
-          isWarning: itemHot?.isWarning,
-          score: itemHot?.score
+          image: itemHot?.data?.dAppLogo,
+          description: itemHot?.data?.description,
+          name: itemHot?.data?.dAppName,
+          isScam: itemHot?.data?.isScam,
+          isWarning: itemHot?.data?.isWarning,
+          score: itemHot?.data?.score,
+          dappId: itemHot?.data?.dAppId
         }
         break
       case VENTURE:
         newDataItem = {
-          image: itemHot?.ventureLogo,
-          description: itemHot?.description,
-          name: itemHot?.ventureName,
-          isScam: itemHot?.isScam,
-          isWarning: itemHot?.isWarning,
-          score: itemHot?.score,
-          yearFounded: itemHot?.yearFounded,
-          location: itemHot?.location
+          image: itemHot?.data?.ventureLogo,
+          description: itemHot?.data?.description,
+          name: itemHot?.data?.ventureName,
+          isScam: itemHot?.data?.isScam,
+          isWarning: itemHot?.data?.isWarning,
+          score: itemHot?.data?.score,
+          yearFounded: itemHot?.data?.yearFounded,
+          location: itemHot?.data?.location,
+          ventureId: itemHot?.data?.ventureId
         }
         break
       case SOON:
         newDataItem = {
-          image: itemHot?.ventureLogo,
-          description: itemHot?.description,
-          name: itemHot?.ventureName,
-          isScam: itemHot?.isScam,
-          isWarning: itemHot?.isWarning,
-          score: itemHot?.score,
-          yearFounded: itemHot?.yearFounded,
-          location: itemHot?.location
+          image: itemHot?.data?.ventureLogo,
+          description: itemHot?.data?.description,
+          name: itemHot?.data?.ventureName,
+          isScam: itemHot?.data?.isScam,
+          isWarning: itemHot?.data?.isWarning,
+          score: itemHot?.data?.score,
+          yearFounded: itemHot?.data?.yearFounded,
+          location: itemHot?.data?.location,
+          soonId: itemHot?.data?.soonId
         }
         break
       default:

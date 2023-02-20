@@ -26,8 +26,10 @@ import { copyContractAddress, openWebsite } from '../../../../utils/effect'
 import { LoadingOutlined } from '@ant-design/icons'
 import imgReportProject from '../../../../images/svg/report-project-white.svg'
 import CoinChart from '../../charts/coinchart/CoinChart'
+import { Link } from 'react-router-dom'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
+  const PAGE_SIZE = 10
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
   // const reportModal = useContext(ReportModalContext)
@@ -36,7 +38,10 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const [mainExplorer, setMainExplorer] = useState()
   const [loading, setLoading] = useState(false)
   const waitMillSecOpenWebsite = 3000
+  const [curentPage, setCurrentPage] = useState(1)
 
+  console.log(productInfo)
+  console.log(chainList)
   useEffect(() => {
     setShowInfo(
       !isShow?.community &&
@@ -107,41 +112,46 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   const columns = [
     {
-      title: 'Exchange',
-      dataIndex: 'exchange',
-      key: 'exchange',
-      render: (text) => <a>{text}</a>
+      title: '#',
+      dataIndex: 'key',
+      render: (_, record, index) => (
+        <span style={{ color: '#A8ADB3' }}>
+          {(curentPage - 1) * PAGE_SIZE + index + 1}
+        </span>
+      )
+    },
+    {
+      title: 'Source',
+      dataIndex: 'symbol',
+      key: 'symbol',
+      render: (_, record) => (<Link
+        to={`../../../../../products/${record?.exchangeId?.split('_')[1]}/${record?.exchangeId?.split('_')[2]}`}
+        className='crypto-table-info'
+      >
+        {/* {record?.cryptoId && record?.bigLogo
+        <Image src={bitcoin} preview={false}/>
+          : ( */}
+        <span className='exchange-no-data'>
+          {record?.name?.slice(0, 3)}
+        </span>
+        {/* )} */}
+        <span>
+          <div className='exchange-name'>
+            <div className='data-table-name-title'>{record?.name}</div>
+          </div>
+        </span>
+      </Link>)
     },
     {
       title: 'Pair',
-      dataIndex: 'age',
-      key: 'age'
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address'
-    }
-  ]
-
-  const data = [
-    {
-      key: '1',
-      exchange: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park'
-    },
-    {
-      key: '2',
-      exchange: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      exchange: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park'
+      dataIndex: 'symbol',
+      key: 'symbol',
+      render: (_, record) => (<Link
+        to='#'
+        className='exchange-pair'
+      >
+        {record?.symbol}
+      </Link>)
     }
   ]
 
@@ -176,6 +186,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
             {productInfo?.details?.address && (
               <p className='crypto-info-item-address'>
                 <a href={mainExplorer} target='_blank' rel='noreferrer' className='product-name-text text-primary' style={{ cursor: 'pointer' }}>
+                  <Image src={chainList[`${productInfo?.details?.chainName}`]?.image} preview={false}/>
                   {`${productInfo?.details?.address?.slice(
                     0,
                     5
@@ -615,8 +626,17 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     <div className='card-header border-0 pb-0'>
       <h5 className='text-primary'>Trading On</h5>
     </div>
-    <div className='card-body pt-3'>
-      <Table columns={columns} dataSource={data} pagination={false}/>
+    <div className='card-body pt-3 exchange'>
+      <Table
+        columns={columns}
+        dataSource={productInfo?.mores?.trading}
+        pagination={{
+          pageSize: PAGE_SIZE,
+          defaultCurrent: 1,
+          showSizeChanger: false,
+          onChange: (page) => setCurrentPage(page)
+        }}
+      />
     </div>
   </>
 
