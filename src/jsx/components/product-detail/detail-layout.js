@@ -13,7 +13,6 @@ export const DetailLayout = (props) => {
     setReviews(rest?.dataReview?.data)
   }, [rest?.dataReview])
 
-  console.log(rest)
   return <>
     <div className='row'>
       {/* detail header: icon, name, score */}
@@ -35,7 +34,7 @@ export const DetailLayout = (props) => {
         : ''
     }
 
-    {type === 'crypto' || type === 'venture'
+    {type === 'crypto' || type === 'venture' || type === 'launchpad'
       ? <>
         <div className='row'>
         </div>
