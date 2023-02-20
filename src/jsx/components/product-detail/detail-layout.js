@@ -105,10 +105,6 @@ export const DetailLayout = (props) => {
                     reviews={rest?.reviews}
                     setReviews={rest?.setReviews}
                     productId={rest?.productId}
-                    // dataReply={rest?.dataReply}
-                    // listAccount={rest?.listAccount}
-                    // setListReview={rest?.setListReview}
-                    // listReview={rest?.listReview}
                   />
                 </>
               ))}
@@ -167,15 +163,7 @@ export const DetailLayout = (props) => {
                 numberReviews={numberReviews}
                 rest={rest}
               />
-              {/* {(rest?.dataFilter)?.reviews?.map((item) => (
-                <ReviewItem
-                  key={item?.review?.id}
-                  data={item}
-                  productId={rest?.productId}
-                />
-              ))} */}
               {rest?.reviews && rest?.reviews?.map((item) => (
-              // {rest?.dataReview && rest?.dataReview?.map((item) => (
                 <>
                   <ReviewItem
                     key={item?.id}
@@ -183,10 +171,6 @@ export const DetailLayout = (props) => {
                     reviews={rest?.reviews}
                     setReviews={rest?.setReviews}
                     productId={rest?.productId}
-                    // dataReply={rest?.dataReply}
-                    // listAccount={rest?.listAccount}
-                    // setListReview={rest?.setListReview}
-                    // listReview={rest?.listReview}
                   />
                 </>
               ))}

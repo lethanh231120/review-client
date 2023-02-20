@@ -416,7 +416,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                 <div style={{ marginBottom: '0.325rem' }}>
                   <Select
                     value={data?.sources}
-                    placeholder='Please enter proof link …'
+                    placeholder={(<span className='cus-form-placeholder'>Please enter proof link …</span>)}
                     mode='tags'
                     dropdownStyle={{ background: 'red', display: 'none' }}
                     onChange={handleChangeLink}

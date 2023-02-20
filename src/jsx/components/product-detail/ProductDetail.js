@@ -561,14 +561,6 @@ const ProductDetail = () => {
     totalReview={productInfo?.details?.totalReviews}
     reviews={reviews}
     setReviews={setReviews}
-    // setListReview={setListReview}
-    // listReview={listReview}
-    // dataReply={dataReply?.data}
-    // dataReaction={dataReaction?.data}
-    // listAccount={listAccount}
-
-    // use in list review
-    // dataFilter={dataFilter}
     productId={productId}
   />
 
