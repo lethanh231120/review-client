@@ -254,7 +254,6 @@ const SideBar = () => {
                           return (
                             <li
                               onClick={() => {
-                                console.log(data)
                                 saveFilterTag(data?.category, data?.title)
                               }}
                               key={index}

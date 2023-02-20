@@ -99,7 +99,7 @@ const App = () => {
       const launchpadList = resp?.data?.launchPads
       const launchpadMapLocal = new Map()
       // convert list to map
-      launchpadList.forEach((launchpad) => {
+      launchpadList?.forEach((launchpad) => {
         launchpadMapLocal.set(launchpad?.launchPadId, launchpad)
       })
       setLaunchpadMap(launchpadMapLocal)
