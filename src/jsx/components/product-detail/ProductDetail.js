@@ -17,12 +17,14 @@ import {
   SOON,
   VENTURE,
   EXCHANGE,
-  CRYPTO
+  CRYPTO,
+  LAUNCHPAD
 } from '../../constants/category'
 import DetailLoading from '../loading/DetailLoading'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import user from '../../../images/product/user.png'
 import Swal from 'sweetalert2'
+import LaunchpadDetail from './launchpad-info/LaunchpadDetail'
 
 const ProductDetail = () => {
   const { pathname } = useLocation()
@@ -662,8 +664,51 @@ const ProductDetail = () => {
     productId={productId}
   />
 
+  const launchpad = <LaunchpadDetail
+  // use in crypto info
+    isShow={isShow}
+
+    // use in filter review component
+    productInfo={productInfo}
+    defaultFilter={defaultFilter}
+    setDefaultFilter={setDefaultFilter}
+
+    // use in form report component
+    data={data}
+    setData={setData}
+    handleSubmitComment={handleSubmitComment}
+    setValidateText={setValidateText}
+    validateText={validateText}
+    handleComment={handleComment}
+    recapcharRef={recapcharRef}
+    setFileList={setFileList}
+    fileList={fileList}
+    showUser={true}
+    isRecaptcha={isRecaptcha}
+    setIsRecaptcha={setIsRecaptcha}
+    setErrorLink={setErrorLink}
+    errorLink={errorLink}
+    setTypeComment={setTypeComment}
+    typeComment={typeComment}
+    setErrorType={setErrorType}
+    errorType={errorType}
+    id={productInfo?.details?.id}
+    form={form}
+
+    totalReview={productInfo?.details?.totalReviews}
+    dataReview={dataReview}
+    dataReply={dataReply?.data}
+    dataReaction={dataReaction?.data}
+    listAccount={listAccount}
+
+    // use in list review
+    // dataFilter={dataFilter}
+    productId={productId}
+  />
+
   return (
     <div className='section'>
+      {console.log(type)}
       {!productInfo ? <DetailLoading /> : ''}
       <div className='product' ref={ref} hidden={!productInfo}>
         {categoryName === DAPP ? (
@@ -678,7 +723,10 @@ const ProductDetail = () => {
           <>{venture}</>
         ) : type === 'coin' || type === 'token' ? (
           <>{crypto}</>
-        ) : ''}
+        ) : categoryName === LAUNCHPAD ? (
+          <>{launchpad}</>
+        )
+          : ''}
 
       </div>
     </div>
