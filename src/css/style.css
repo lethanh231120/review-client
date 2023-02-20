@@ -12544,6 +12544,9 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
         left: auto;
         right: 6.25rem;
         box-shadow: 0rem 0rem 2.5rem 0rem rgba(82, 63, 105, 0.1); }
+    [data-sidebar-style="mini"] .deznav .metismenu li > ul.display-none{
+      display: none !important;
+    }
     [data-sidebar-style="mini"] .deznav .metismenu > li {
       padding: 0.125rem 1.25rem; }
       [data-sidebar-style="mini"] .deznav .metismenu > li > a {
