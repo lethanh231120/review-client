@@ -201,7 +201,6 @@ const SideBar = () => {
     }
   }
 
-  console.log(categories)
   return (
     <div
       className={`deznav  border-right ${iconHover} ${
