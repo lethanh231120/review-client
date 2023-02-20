@@ -19,7 +19,7 @@ import {
   visit7dMarks,
   fullyDilutedMarketCapMarks,
   totalFundsMarks,
-  tvlMarks,
+  // tvlMarks,
   seriesMarks,
   marketCapMarks,
   priceUSDMarks,
@@ -29,9 +29,15 @@ import {
   volume7dMarks,
   fundRaisingGoalsMarks,
   tokenPriceMarks,
-  getScoreMarks
+  getScoreMarks,
+  launchpadFoundedYearMarks,
+  launchpadFundRaisedMarks,
+  launchpadAvgRoiCurrentMarks,
+  launchpadAvgRoiATHMarks,
+  launchpadMarketcapMarks,
+  launchpadVolume24hMarks
 } from './marks.js'
-import { cryptoFilterDefaultValue, dappFilterDefaultValue, exchangeFilterDefaultValue, fromObjectToArray, soonFilterDefaultValue, ventureFilterDefaultValue } from './defaultValues'
+import { cryptoFilterDefaultValue, dappFilterDefaultValue, exchangeFilterDefaultValue, fromObjectToArray, launchpadFilterDefaultValue, soonFilterDefaultValue, ventureFilterDefaultValue } from './defaultValues'
 import { LaunchpadMapContext } from '../../../App'
 
 const tradingOnList = [
@@ -54,7 +60,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
   const launchpadContext = useContext(LaunchpadMapContext)
   const [filterCount, setFilterCount] = useState(0)
   const [defautlActiveKey, setDefaultActiveKey] = useState([])
-  const scoreMarks = getScoreMarks(type)
 
   const mapDefaultOpenPanel = () => {
     const data = []
@@ -91,6 +96,9 @@ const DrawerFilter = ({ type, handleFilter }) => {
           break
         case 'venture':
           getNewFormData('venture', ventureFilterDefaultValue)
+          break
+        case 'launchpad':
+          getNewFormData('launchpad', launchpadFilterDefaultValue)
           break
         default:
           break
@@ -185,11 +193,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
     window.localStorage.setItem(type, JSON.stringify(values))
     const filterParams = {}
 
-    // ------=---------TAG
-    if (values?.tag) {
-      filterParams['tag'] = values?.tag
-    }
-
     // ---------------------------CRYPTO
     if (type === 'crypto') {
       // PRICE
@@ -222,6 +225,24 @@ const DrawerFilter = ({ type, handleFilter }) => {
       if (values?.type) {
         filterParams['type'] = values?.type
       }
+
+      if (values?.tag) {
+        filterParams['tag'] = values?.tag
+      }
+
+      if (values?.score) {
+        filterParams['score'] = `${getScoreMarks('crypto')[values?.score[0]]?.value}.${
+          getScoreMarks('crypto')[values?.score[1]]?.value
+        }`
+      }
+      // --IS SCAM
+      if (values?.isScam) {
+        filterParams['isScam'] = values?.isScam
+      }
+      // --IS WARNING
+      if (values?.isWarning) {
+        filterParams['isWarning'] = values?.isWarning
+      }
     }
     // ---------------------------DAPP
     if (type === 'dapp') {
@@ -240,10 +261,23 @@ const DrawerFilter = ({ type, handleFilter }) => {
       }
 
       // --TVL
-      if (values?.tvl) {
-        filterParams['tvl'] = `${tvlMarks[values?.tvl[0]]?.value}.${
-          tvlMarks[values?.tvl[1]]?.value
+      if (values?.balance) {
+        filterParams['balance'] = `${marketCapMarks[values?.balance[0]]?.value}.${
+          marketCapMarks[values?.balance[1]]?.value
         }`
+      }
+
+      // ------=---------TAG
+      if (values?.tag) {
+        filterParams['tag'] = values?.tag
+      }
+
+      if (values?.isScam) {
+        filterParams['isScam'] = values?.isScam
+      }
+      // --IS WARNING
+      if (values?.isWarning) {
+        filterParams['isWarning'] = values?.isWarning
       }
     }
     // ---------------------------VENTURE
@@ -298,6 +332,14 @@ const DrawerFilter = ({ type, handleFilter }) => {
           totalFundsMarks[values?.totalFund[0]]?.value
         }.${totalFundsMarks[values?.totalFund[1]]?.value}`
       }
+
+      if (values?.isScam) {
+        filterParams['isScam'] = values?.isScam
+      }
+      // --IS WARNING
+      if (values?.isWarning) {
+        filterParams['isWarning'] = values?.isWarning
+      }
     }
     // ---------------------------EXCHANGE
     if (type === 'exchange') {
@@ -335,6 +377,14 @@ const DrawerFilter = ({ type, handleFilter }) => {
           volume1mMarks[values?.volume1m[0]]?.value
         }.${volume1mMarks[values?.volume1m[1]]?.value}`
       }
+
+      if (values?.isScam) {
+        filterParams['isScam'] = values?.isScam
+      }
+      // --IS WARNING
+      if (values?.isWarning) {
+        filterParams['isWarning'] = values?.isWarning
+      }
     }
     // -------------------SOON
     if (type === 'soon') {
@@ -365,26 +415,80 @@ const DrawerFilter = ({ type, handleFilter }) => {
       if (values?.launchpad) {
         filterParams['launchpad'] = values?.launchpad
       }
-    }
 
-    // --SCORE
-    if (values?.score) {
-      filterParams['score'] = `${scoreMarks[values?.score[0]]?.value}.${
-        scoreMarks[values?.score[1]]?.value
-      }`
+      if (values?.tag) {
+        filterParams['tag'] = values?.tag
+      }
     }
+    if (type === 'launchpad') {
+      // Market cap
+      if (values?.marketCap) {
+        filterParams['marketCap'] = `${
+          launchpadMarketcapMarks[values?.marketCap[0]]?.value
+        }.${
+          launchpadMarketcapMarks[values?.marketCap[1]]?.value
+        }`
+      }
 
-    // --IS SCAM
-    if (values?.isScam) {
-      filterParams['isScam'] = values?.isScam
-    }
-    // --IS WARNING
-    if (values?.isWarning) {
-      filterParams['isWarning'] = values?.isWarning
+      // total fund raise
+      if (values?.totalFundsRaised) {
+        filterParams['totalFundsRaised'] = `${
+          launchpadFundRaisedMarks[values?.totalFundsRaised[0]]?.value
+        }.${launchpadFundRaisedMarks[values?.totalFundsRaised[1]]?.value}`
+      }
+
+      // founded year
+      if (values?.yearFounded) {
+        filterParams['yearFounded'] = `${
+          launchpadFoundedYearMarks[values?.yearFounded[0]]?.value
+        }.${launchpadFoundedYearMarks[values?.yearFounded[1]]?.value}`
+      }
+
+      // avgRoiCurrent
+      if (values?.avgRoiCurrent) {
+        filterParams['avgRoiCurrent'] = `${
+          launchpadAvgRoiCurrentMarks[values?.avgRoiCurrent[0]]?.value
+        }.${launchpadAvgRoiCurrentMarks[values?.avgRoiCurrent[1]]?.value}`
+      }
+
+      // avgRoiATH
+      if (values?.avgRoiATH) {
+        filterParams['avgRoiATH'] = `${
+          launchpadAvgRoiATHMarks[values?.avgRoiATH[0]]?.value
+        }.${launchpadAvgRoiATHMarks[values?.avgRoiATH[1]]?.value}`
+      }
+
+      // colume 24h
+      if (values?.volume24h) {
+        filterParams['volume24h'] = `${
+          launchpadVolume24hMarks[values?.volume24h[0]]?.value
+        }.${launchpadVolume24hMarks[values?.volume24h[1]]?.value}`
+      }
+
+      // Score
+      if (values?.score) {
+        filterParams['score'] = `${getScoreMarks('launchpad')[values?.score[0]]?.value}.${
+          getScoreMarks('launchpad')[values?.score[1]]?.value
+        }`
+      }
     }
 
     handleFilter(filterParams)
     setShowDrawer(false)
+  }
+
+  const CustomSlider = (header, key, marks) =>{
+    return <Panel header={header} className='filter-item' key={key}>
+      <Form.Item name={key}>
+        <Slider
+          range
+          defaultValue={[0, Object.keys(marks)?.length - 1]}
+          marks={marks}
+          min={0}
+          max={Object.keys(marks)?.length - 1 }
+        />
+      </Form.Item>
+    </Panel>
   }
 
   return (
@@ -415,437 +519,256 @@ const DrawerFilter = ({ type, handleFilter }) => {
             style={{ display: 'block' }}
           >
             {type === 'crypto' && (
-              <Panel header='Type' className='filter-item' key='type'>
-                <Form.Item name='type'>
-                  <Select
-                    placeholder='Crypto Type'
-                    onChange={(e) => setCryptoType(e)}
-                    width='100%'
-                  >
-                    <Option value='coin'>Coin</Option>
-                    <Option value='token'>Token</Option>
-                  </Select>
-                </Form.Item>
-              </Panel>
-            )}
+              <>
+                <Panel header='Type' className='filter-item' key='type'>
+                  <Form.Item name='type'>
+                    <Select
+                      placeholder='Crypto Type'
+                      onChange={(e) => setCryptoType(e)}
+                      width='100%'
+                    >
+                      <Option value='coin'>Coin</Option>
+                      <Option value='token'>Token</Option>
+                    </Select>
+                  </Form.Item>
+                </Panel>
 
-            {type === 'venture' && (
-              <Panel header='SeriesA' className='filter-item' key='seriesA'>
-                <Form.Item name='seriesA'>
-                  <Slider
-                    range
-                    marks={seriesMarks}
-                    defaultValue={[0, seriesMarks.length]}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
+                {CustomSlider('Market Cap', 'marketCap', marketCapMarks)}
+                {CustomSlider('Price', 'priceUSD', priceUSDMarks)}
+                {CustomSlider('Total LP', 'totalLpUSD', marketCapMarks)}
 
-            {type === 'venture' && (
-              <Panel header='SeriesB' className='filter-item' key='seriesB'>
-                <Form.Item name='seriesB'>
-                  <Slider
-                    range
-                    marks={seriesMarks}
-                    defaultValue={[0, seriesMarks.length]}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
+                <Panel header='Trading On' className='filter-item' key='tradingOn'>
+                  <Form.Item name='tradingOn'>
+                    <Select
+                      mode='multiple'
+                      options={tradingOnList}
+                      placeholder='Exchanges'
+                    ></Select>
+                  </Form.Item>
+                </Panel>
 
-            {type === 'venture' && (
-              <Panel header='SeriesC' className='filter-item' key='seriesC'>
-                <Form.Item name='seriesC'>
-                  <Slider
-                    range
-                    marks={seriesMarks}
-                    defaultValue={[seriesMarks.length]}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'venture' && (
-              <Panel header='Ico' className='filter-item' key='ico'>
-                <Form.Item name='ico'>
-                  <Slider
-                    range
-                    marks={seriesMarks}
-                    defaultValue={[0, seriesMarks.length]}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'venture' && (
-              <Panel header='Strategic' className='filter-item' key='strategic'>
-                <Form.Item name='strategic'>
-                  <Slider
-                    range
-                    marks={strategicMarks}
-                    defaultValue={[0, strategicMarks.length]}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'venture' && (
-              <Panel header='Total Fund' className='filter-item' key='totalFund'>
-                <Form.Item name='totalFund'>
-                  <Slider
-                    range
-                    marks={totalFundsMarks}
-                    defaultValue={[0, totalFundsMarks.length]}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'soon' && (
-              <Panel header='Round Type' className='filter-item' key='roundType'>
-                <Form.Item name='roundType'>
-                  <Select
-                    showSearch
-                    placeholder='Round Type'
-                    width='100%'
-                    options={roundType?.map((item) => ({
-                      label: item,
-                      value: item
-                    }))}
-                  ></Select>
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'soon' && (
-              <Panel header='Tag' className='filter-item' key='tag'>
-                <Form.Item name='tag'>
-                  <Select
-                    showSearch
-                    placeholder='Tag'
-                    width='100%'
-                    options={tagList?.map((item) => ({
-                      label: item,
-                      value: item
-                    }))}
-                  ></Select>
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'soon' && (
-              <Panel header='Fully Diluted Market Cap' className='filter-item' key='fullyDilutedMarketCap'>
-                <Form.Item name='fullyDilutedMarketCap'>
-                  <Slider
-                    range
-                    marks={fullyDilutedMarketCapMarks}
-                    defaultValue={fullyDilutedMarketCapMarks.length}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'soon' && (
-              <Panel header='Fund Raising Goals' className='filter-item' key='fundRaisingGoals'>
-                <Form.Item name='fundRaisingGoals'>
-                  <Slider
-                    range
-                    marks={fundRaisingGoalsMarks}
-                    defaultValue={[0, fundRaisingGoalsMarks.length]}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'soon' && (
-              <Panel header='Token Price' className='filter-item' key='tokenPrice'>
-                <Form.Item name='tokenPrice'>
-                  <Slider
-                    range
-                    marks={tokenPriceMarks}
-                    defaultValue={[0, tokenPriceMarks.length]}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-            {type === 'soon' && (
-              <Panel header='Launchpad' className='filter-item' key='launchpad'>
-                <Form.Item name='launchpad'>
-                  <Select
-                    showSearch
-                    placeholder='Launchpad'
-                    width='100%'
-                    options={Array.from(launchpadContext)?.map(item => ({ label: item[1]?.name, value: item[1]?.launchPadId }))}
-                  ></Select>
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'crypto' && (
-              <Panel header='Market Cap' className='filter-item' key='marketCap'>
-                <Form.Item name='marketCap'>
-                  <Slider
-                    range
-                    marks={marketCapMarks}
-                    defaultValue={[0, marketCapMarks.length]}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'crypto' && (
-              <Panel header='Price' className='filter-item' key='priceUSD'>
-                <Form.Item name='priceUSD'>
-                  <Slider
-                    range
-                    marks={priceUSDMarks}
-                    defaultValue={[0, priceUSDMarks.length]}
-                    min={0}
-                    max={6}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'crypto' && (
-              <Panel header='Total LP' className='filter-item' key='totalLpUSD'>
-                <Form.Item name='totalLpUSD'>
-                  <Slider
-                    range
-                    marks={marketCapMarks}
-                    defaultValue={[0, marketCapMarks.length]}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'exchange' && (
-              <Panel header='Pair Count' className='filter-item' key='pairCount'>
-                <Form.Item name='pairCount'>
-                  <Slider
-                    range
-                    defaultValue={[0, pairCountMarks.length]}
-                    marks={pairCountMarks}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {(type === 'dapp' || type === 'exchange') && (
-              <Panel header='Volume24H' className='filter-item' key='volume24h'>
-                <Form.Item name='volume24h'>
-                  <Slider
-                    range
-                    defaultValue={[0, marketCapMarks.length]}
-                    marks={marketCapMarks}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'dapp' && (
-              <Panel header='User24H' className='filter-item' key='user24h'>
-                <Form.Item name='user24h'>
-                  <Slider
-                    range
-                    defaultValue={[0, userMarks.length]}
-                    marks={userMarks}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'exchange' && (
-              <Panel header='Volume7D' className='filter-item' key='volume7d'>
-                <Form.Item name='volume7d'>
-                  <Slider
-                    range
-                    defaultValue={[0, volume7dMarks.length]}
-                    marks={volume7dMarks}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'exchange' && (
-              <Panel header='Volume1M' className='filter-item' key='volume1m'>
-                <Form.Item name='volume1m'>
-                  <Slider
-                    range
-                    defaultValue={[0, volume1mMarks.length]}
-                    marks={volume1mMarks}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'exchange' && (
-              <Panel header='Visit7D' className='filter-item' key='visit7d'>
-                <Form.Item name='visit7d'>
-                  <Slider
-                    range
-                    defaultValue={[0, visit7dMarks.length]}
-                    marks={visit7dMarks}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {type === 'venture' && (
-              <Panel header='Volume Total Funds' className='filter-item' key='volumeTotalFunds'>
-                <Form.Item name='volumeTotalFunds'>
-                  <Slider
-                    range
-                    defaultValue={[0, marketCapMarks.length]}
-                    marks={marketCapMarks}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-
-            {(type === 'venture') && (
-              <Panel header='Location' className='filter-item' key='location'>
-                <Form.Item name='location'>
-                  <Select
-                    placeholder='Location'
-                    showSearch
-                    options={location?.map((item) => ({
-                      label: item,
-                      value: item
-                    }))}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-            {type === 'dapp' && (
-              <Panel header='TVL' className='filter-item' key='tvl'>
-                <Form.Item name='tvl'>
-                  <Slider
-                    range
-                    defaultValue={[0, tvlMarks.length]}
-                    marks={tvlMarks}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-            {type === 'crypto' && (
-              <Panel header='Trading On' className='filter-item' key='tradingOn'>
-                <Form.Item name='tradingOn'>
-                  <Select
-                    mode='multiple'
-                    options={tradingOnList}
-                    placeholder='Exchanges'
-                  ></Select>
-                </Form.Item>
-              </Panel>
-            )}
-            {/* {(type === "crypto" || type === "dapp") && (
-              <Panel header="Blockchain" className="filter-item">
-                <Form.Item name="blockchain"></Form.Item>
-              </Panel>
-            )} */}
-            {(type === 'crypto' || type === 'dapp') && (
-              <Panel header='Tag' className='filter-item' key='tag'>
-                <Form.Item name='tag'>
-                  <Select
-                    showSearch
-                    style={{ width: '100%' }}
-                    options={
-                      tagList &&
+                <Panel header='Tag' className='filter-item' key='tag'>
+                  <Form.Item name='tag'>
+                    <Select
+                      showSearch
+                      style={{ width: '100%' }}
+                      options={
+                        tagList &&
                       tagList?.map((item) => ({ label: item, value: item }))
-                    }
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-            {(type === 'crypto' ||
-              type === 'dapp' ||
-              type === 'venture' ||
-              type === 'exchange') && (
-              <Panel header='Score' className='filter-item' key='score'>
-                <Form.Item name='score'>
-                  <Slider
-                    range
-                    marks={getScoreMarks(type)}
-                    defaultValue={[0, scoreMarks.length]}
-                    min={0}
-                    max={5}
-                  />
-                </Form.Item>
-              </Panel>
-            )}
-            <Row style={{ width: '100%', display: 'flex' }}>
-              <Col span={11}>
-                {(type === 'crypto' ||
-                  type === 'dapp' ||
-                  type === 'venture' ||
-                  type === 'exchange') && (
-                  // -------------------- <div>
-                  <Form.Item
-                    name='isWarning'
-                    label='Warning:'
-                    valuePropName='checked'
-                  >
-                    <Checkbox />
+                      }
+                    />
                   </Form.Item>
-                )}
-              </Col>
-              <Col span={12}>
-                {(type === 'crypto' ||
-                  type === 'dapp' ||
-                  type === 'venture' ||
-                  type === 'exchange') && (
-                  <Form.Item name='isScam' label='Scam' valuePropName='checked'>
-                    <Checkbox />
-                  </Form.Item>
-                )}
-              </Col>
-            </Row>
-            {/* {type === "crypto" && (
-              <Panel
+                </Panel>
 
-                header="Funds and Investor"
-                className="filter-item"
-              ></Panel>
-            )} */}
+                { CustomSlider('Score', 'score', getScoreMarks('crypto'))}
+
+                <Row style={{ width: '100%', display: 'flex' }}>
+                  <Col span={11}>
+                    { (
+                      // -------------------- <div>
+                      <Form.Item
+                        name='isWarning'
+                        label='Warning:'
+                        valuePropName='checked'
+                      >
+                        <Checkbox />
+                      </Form.Item>
+                    )}
+                  </Col>
+
+                  { (
+                    <Form.Item name='isScam' label='Scam' valuePropName='checked'>
+                      <Checkbox />
+                    </Form.Item>
+                  )}
+                </Row>
+
+              </>
+
+            )}
+
+            {
+              type === 'dapp' &&
+               (<>
+                 {CustomSlider('Volume 24h', 'volume24h', marketCapMarks)}
+                 {CustomSlider('User 24h', 'user24h', userMarks)}
+                 {CustomSlider('Balance', 'balance', marketCapMarks)}
+
+                 <Panel header='Tag' className='filter-item' key='tag'>
+                   <Form.Item name='tag'>
+                     <Select
+                       showSearch
+                       style={{ width: '100%' }}
+                       options={
+                         tagList &&
+                    tagList?.map((item) => ({ label: item, value: item }))
+                       }
+                     />
+                   </Form.Item>
+                 </Panel>
+
+                 {/* { CustomSlider('Score', 'score', getScoreMarks('dapp'))} */}
+
+                 <Row style={{ width: '100%', display: 'flex' }}>
+                   <Col span={11}>
+                     { (
+                       // -------------------- <div>
+                       <Form.Item
+                         name='isWarning'
+                         label='Warning:'
+                         valuePropName='checked'
+                       >
+                         <Checkbox />
+                       </Form.Item>
+                     )}
+                   </Col>
+
+                   { (
+                     <Form.Item name='isScam' label='Scam' valuePropName='checked'>
+                       <Checkbox />
+                     </Form.Item>
+                   )}
+                 </Row>
+               </>)
+            }
+
+            {type === 'venture' && (
+              <>
+                {CustomSlider('SeriesA', 'seriesA', seriesMarks)}
+                {CustomSlider('SeriesB', 'seriesB', seriesMarks)}
+                {CustomSlider('SeriesC', 'seriesC', seriesMarks)}
+                {CustomSlider('Ico', 'ico', seriesMarks)}
+                {CustomSlider('Strategic', 'strategic', strategicMarks)}
+                {CustomSlider('Total Fund', 'totalFund', totalFundsMarks)}
+                {CustomSlider('Volume Total Funds', 'volumeTotalFunds', marketCapMarks)}
+
+                <Panel header='Location' className='filter-item' key='location'>
+                  <Form.Item name='location'>
+                    <Select
+                      placeholder='Location'
+                      showSearch
+                      options={location?.map((item) => ({
+                        label: item,
+                        value: item
+                      }))}
+                    />
+                  </Form.Item>
+                </Panel>
+
+                <Row style={{ width: '100%', display: 'flex' }}>
+                  <Col span={11}>
+                    { (
+                      // -------------------- <div>
+                      <Form.Item
+                        name='isWarning'
+                        label='Warning:'
+                        valuePropName='checked'
+                      >
+                        <Checkbox />
+                      </Form.Item>
+                    )}
+                  </Col>
+
+                  { (
+                    <Form.Item name='isScam' label='Scam' valuePropName='checked'>
+                      <Checkbox />
+                    </Form.Item>
+                  )}
+                </Row>
+              </>
+            )}
+
+            {type === 'exchange' && (
+              <>
+                {CustomSlider('Pair Count', 'pairCount', pairCountMarks)}
+                {CustomSlider('Volume 24H', 'volume24h', marketCapMarks)}
+                {CustomSlider('Volume 7D', 'volume7d', volume7dMarks)}
+                {CustomSlider('Volume 1M', 'volume1m', volume1mMarks)}
+                {CustomSlider('Visit 7D', 'visit7d', visit7dMarks)}
+
+                <Row style={{ width: '100%', display: 'flex' }}>
+                  <Col span={11}>
+                    { (
+                      // -------------------- <div>
+                      <Form.Item
+                        name='isWarning'
+                        label='Warning:'
+                        valuePropName='checked'
+                      >
+                        <Checkbox />
+                      </Form.Item>
+                    )}
+                  </Col>
+
+                  { (
+                    <Form.Item name='isScam' label='Scam' valuePropName='checked'>
+                      <Checkbox />
+                    </Form.Item>
+                  )}
+                </Row>
+              </>
+            )}
+
+            {type === 'soon' && (
+              <>
+                <Panel header='Round Type' className='filter-item' key='roundType'>
+                  <Form.Item name='roundType'>
+                    <Select
+                      showSearch
+                      placeholder='Round Type'
+                      width='100%'
+                      options={roundType?.map((item) => ({
+                        label: item,
+                        value: item
+                      }))}
+                    ></Select>
+                  </Form.Item>
+                </Panel>
+
+                <Panel header='Tag' className='filter-item' key='tag'>
+                  <Form.Item name='tag'>
+                    <Select
+                      showSearch
+                      placeholder='Tag'
+                      width='100%'
+                      options={tagList?.map((item) => ({
+                        label: item,
+                        value: item
+                      }))}
+                    ></Select>
+                  </Form.Item>
+                </Panel>
+
+                {CustomSlider('Fully Diluted Market Cap', 'fullyDilutedMarketCap', fullyDilutedMarketCapMarks)}
+                {CustomSlider('Fund Raising Goals', 'fundRaisingGoals', fundRaisingGoalsMarks)}
+                {CustomSlider('Token Price', 'tokenPrice', tokenPriceMarks)}
+
+                <Panel header='Launchpad' className='filter-item' key='launchpad'>
+                  <Form.Item name='launchpad'>
+                    <Select
+                      showSearch
+                      placeholder='Launchpad'
+                      width='100%'
+                      options={Array.from(launchpadContext)?.map(item => ({ label: item[1]?.name, value: item[1]?.launchPadId }))}
+                    ></Select>
+                  </Form.Item>
+                </Panel>
+              </>
+            )}
+
+            {
+              type === 'launchpad' &&
+              <>
+                { CustomSlider('Founded Year', 'yearFounded', launchpadFoundedYearMarks)}
+                { CustomSlider('Total Fund Raised', 'totalFundsRaised', launchpadFundRaisedMarks)}
+                { CustomSlider('Avarage ROI Current', 'avgRoiCurrent', launchpadAvgRoiCurrentMarks)}
+                { CustomSlider('Avarage ROI ATH', 'avgRoiATH', launchpadAvgRoiATHMarks)}
+                { CustomSlider('Marketcap', 'marketCap', launchpadMarketcapMarks)}
+                { CustomSlider('Volume24h', 'volume24h', launchpadVolume24hMarks)}
+                { CustomSlider('Score', 'score', getScoreMarks('launchpad'))}
+              </>
+            }
+
           </Collapse>
           <div>
             <Button htmlType='text' style={{ backgroundColor: '#18A594', color: '#fff', borderColor: '#18A594', minWidth: '6.875rem' }} >

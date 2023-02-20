@@ -14,6 +14,7 @@ import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png
 import { websiteIcon } from '../../common-widgets/icons'
 import MyScoreComponent from '../../score/scoreComponent'
 import imgReportProject from '../../../../images/svg/report-project-white.svg'
+import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 
 const ExchangeInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -61,7 +62,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
           {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
             {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
             {websiteIcon}
-    Open Exchange</Button>}
+    Website</Button>}
         </div>
       </div>
     </div>
@@ -213,7 +214,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
               {detail?.volume7d > 0 && dataItem('Volume 7d', renderNumber(detail?.volume7d))}
               {detail?.volume1y > 0 && dataItem('Volume 1y', renderNumber(detail?.volume1y))}
             </div>
-            {detail?.founderYear && dataItem('Founder Year', moment(detail?.founderYear).format('DD-MM-YYYY'))}
+            {detail?.founderYear && dataItem('Founded Year', moment(detail?.founderYear)?.year())}
 
             <div className='col-12'>
               {communityItem('Socials', detail?.socials)}
@@ -256,6 +257,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
       isScam={detail?.isScam}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
+      topDiscus={<TopDiscussed />}
     />
 
   )
