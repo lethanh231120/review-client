@@ -1,11 +1,13 @@
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 import { getCookie, STORAGEKEY } from '../../../utils/storage/index'
 import Swal from 'sweetalert2'
+import { ShowFullSearchConext } from '../../../App'
 
 const ExpiredJWTChecker = ({ logout }) => {
   const millSecPerSec = 1000
   const secPerHour = 60 * 60 // 3600s
   const millSecPerHour = secPerHour * millSecPerSec // 60 secs * 60 mins * 1000 millSecss = 1 hour
+  const showFullSearchConext = useContext(ShowFullSearchConext)
 
   // run only once
   useEffect(() => {
@@ -32,6 +34,7 @@ const ExpiredJWTChecker = ({ logout }) => {
         }).then((result) => {
           // click out modal notification, or click [OK] in modal
           if (result?.isDismissed || result?.isConfirmed) {
+            showFullSearchConext?.setIsShowFullSearchSmallMode(false) // in small mode, small search when its state is full width --> to see button login
             logout()
           }
         })

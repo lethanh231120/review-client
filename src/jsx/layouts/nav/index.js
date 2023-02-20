@@ -1,21 +1,16 @@
-import React, { Fragment, useState, useContext } from 'react'
+import React, { Fragment, useState } from 'react'
 
 import SideBar from './SideBar'
 import NavHader from './NavHader'
 import Header from './Header'
-import { ThemeContext } from './../../../context/ThemeContext'
 
 const JobieNav = ({ title, onClick: ClickToAddEvent }) => {
   const [toggle, setToggle] = useState('')
   const onClick = (name) => setToggle(toggle === name ? '' : name)
-  const [isShowFullSearchSmallMode, setIsShowFullSearchSmallMode] = useState(false)
-  const { menuToggle } = useContext(ThemeContext)
 
   return (
     <Fragment>
-      {menuToggle ? '123' : ''}
       <NavHader
-        isShowFullSearchSmallMode={isShowFullSearchSmallMode}
       />
       <Header
         onNote={() => onClick('chatbox')}
@@ -25,8 +20,6 @@ const JobieNav = ({ title, onClick: ClickToAddEvent }) => {
         title={title}
         onBox={() => onClick('box')}
         onClick={() => ClickToAddEvent()}
-        isShowFullSearchSmallMode={isShowFullSearchSmallMode}
-        setIsShowFullSearchSmallMode={setIsShowFullSearchSmallMode}
       />
       <SideBar />
     </Fragment>

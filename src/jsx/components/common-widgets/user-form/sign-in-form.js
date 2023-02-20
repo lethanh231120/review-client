@@ -3,7 +3,7 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { post } from '../../../../api/BaseRequest'
 import { notification } from 'antd'
 import { setCookie, STORAGEKEY } from '../../../../utils/storage'
-import { SignInContext, Authenticated, SignInFromAddProductContext } from '../../../../App'
+import { SignInContext, Authenticated, SignInFromAddProductContext, ShowFullSearchConext } from '../../../../App'
 import { CloseCircleOutlined } from '@ant-design/icons'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
@@ -18,6 +18,7 @@ export const SignInComponent = () => {
   const signContext = useContext(SignInContext)
   const signInFromAddProductContext = useContext(SignInFromAddProductContext)
   const addModal = useContext(AddModalContext)
+  const showFullSearchConext = useContext(ShowFullSearchConext)
 
   const responseFacebook = async(response) => {
     try {
@@ -114,7 +115,8 @@ export const SignInComponent = () => {
     setCookie(STORAGEKEY.ACCESS_TOKEN, token)
     setCookie(STORAGEKEY.USER_INFO, userInfo)
     signContext?.handleSetOpenModal(false)
-    authenticated.handleSetAuthenticated(true)
+    authenticated?.handleSetAuthenticated(true)
+    showFullSearchConext?.setIsShowFullSearchSmallMode(false) // in small mode, small search when its state is full width
     // login from add product form
     if (signInFromAddProductContext?.isOpenModalAddProduct) {
       addModal?.handleSetOpenModal(true)
