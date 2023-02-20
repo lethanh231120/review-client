@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Avatar, Tooltip } from 'antd'
-// import { LaunchpadMapContext } from '../../../index'
 import { LaunchpadMapContext } from '../../../../App'
+import _ from 'lodash'
 
 const absentData = '__'
 const LaunchpadIconList = ({ listLaunchpad }) => {
@@ -17,7 +17,7 @@ const LaunchpadIconList = ({ listLaunchpad }) => {
         cursor: 'pointer'
       }}
     >
-      {listLaunchpad
+      {listLaunchpad && !_.isEmpty(launchpadMapContext)
         ? listLaunchpad?.map((key, index) => (
           <>
             <Tooltip title={launchpadMapContext?.get(key)?.name}>
