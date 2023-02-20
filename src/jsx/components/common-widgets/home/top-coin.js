@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getPrice } from '../../../../api/BaseRequest'
+// import { getPrice } from '../../../../api/BaseRequest'
 import { MySpinner } from '../my-spinner'
 // const getImage = (symbol) => {
 //   return ``
@@ -16,42 +16,42 @@ export const TopCoins = () => {
   const navigate = useNavigate()
   const [topCoins, setTopCoins] = useState([])
 
-  // const PRICE_WS_URL = 'wss://crypto-price.gear5.guru/prices/crypto/top'
+  const PRICE_WS_URL = 'wss://crypto-price.gear5.guru/prices/crypto/top'
   // GET TOP COINS DATA
-  // useEffect(() => {
-  //   const socket = new WebSocket(PRICE_WS_URL)
-
-  //   socket?.addEventListener('open', () => {
-  //     console.log('WS Opened')
-  //   })
-
-  //   socket?.addEventListener('close', () => {
-  //     console.log('WS Closed')
-  //   })
-
-  //   socket?.addEventListener('error', (error) => {
-  //     console.log('WS Error' + error)
-  //   })
-
-  //   socket?.addEventListener('message', (message) => {
-  //     const data = JSON.parse(message?.data)
-  //     data && setTopCoins(data?.slice(0, 5))
-  //   })
-  // }, [])
-
   useEffect(() => {
-    const getTopCoins = async() => {
-      const res = await getPrice('prices/crypto/top')
-      if (res?.code === 'B.200') {
-        const dataList = res?.data?.slice(0, 5)
-        setTopCoins(dataList)
-      }
-    }
+    const socket = new WebSocket(PRICE_WS_URL)
 
-    setInterval(() => {
-      getTopCoins()
-    }, 1000)
+    socket?.addEventListener('open', () => {
+      console.log('WS Opened')
+    })
+
+    socket?.addEventListener('close', () => {
+      console.log('WS Closed')
+    })
+
+    socket?.addEventListener('error', (error) => {
+      console.log('WS Error' + error)
+    })
+
+    socket?.addEventListener('message', (message) => {
+      const data = JSON.parse(message?.data)
+      data && setTopCoins(data?.slice(0, 5))
+    })
   }, [])
+
+  // useEffect(() => {
+  //   const getTopCoins = async() => {
+  //     const res = await getPrice('prices/crypto/top')
+  //     if (res?.code === 'B.200') {
+  //       const dataList = res?.data?.slice(0, 5)
+  //       setTopCoins(dataList)
+  //     }
+  //   }
+
+  //   setInterval(() => {
+  //     getTopCoins()
+  //   }, 1000)
+  // }, [])
 
   const onTopCoinsClicked = (item) => {
     const type = item?.cryptoId?.split('_')[1]

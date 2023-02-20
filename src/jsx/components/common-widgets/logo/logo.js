@@ -12,26 +12,22 @@ import { Avatar } from 'antd'
 //   })
 // }
 
-const imageExists = (image_url) => {
-  var http = new XMLHttpRequest()
+// const imageExists = (image_url) => {
+//   var http = new XMLHttpRequest()
 
-  http.open('HEAD', image_url, false)
-  http.send()
+//   http.open('HEAD', image_url, false)
+//   http.send()
 
-  return http.status !== 404
-}
+//   return http.status !== 404
+// }
 
 export const myLogo = async(type, projectId, category, size) => {
   const src = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${category}/${type}/${projectId}.png`
-  const isExxist = await imageExists(src)
-  if (isExxist) {
-    return <Avatar
-      size={size}
-      src={src}
-      preview={false}
-    />
-  } else {
-    return false
-  }
+
+  return <Avatar
+    size={size}
+    src={src}
+    preview={false}
+  />
 }
 
