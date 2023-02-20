@@ -4,9 +4,9 @@ import { SignUpComponent } from './sign-up-form'
 
 export const logInKey = 'Navbuy'
 export const signUpKey = 'Navsell'
-const AccountTab = ({ activeTabKey }) => {
+const AccountTab = ({ activeTabKey = logInKey }) => {
   return (
-    <Tab.Container defaultActiveKey={activeTabKey || logInKey}>
+    <Tab.Container defaultActiveKey={activeTabKey}>
       <div className=''>
         <div className='buy-sell'>
           <Nav className='nav nav-tabs' eventKey='nav-tab2' role='tablist'>

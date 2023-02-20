@@ -14,6 +14,8 @@ export const LaunchpadMapContext = createContext()
 export const SignInFromAddProductContext = createContext()
 export const HotTopicsContext = createContext()
 export const SummaryHomeContext = createContext()
+export const ShowFullSearchConext = createContext()
+export const FormLoginSignupKeyContext = createContext()
 
 const App = () => {
   const [openModalSignIn, setOpenModalSignIn] = useState(false)
@@ -24,6 +26,8 @@ const App = () => {
   const [isOpenModalAddProduct, setIsOpenModalAddProduct] = useState(false)
   const [hotTopics, setHotTopics] = useState([])
   const [summaryHome, setSummaryHome] = useState()
+  const [isShowFullSearchSmallMode, setIsShowFullSearchSmallMode] = useState(false)
+  const [loginSignupFormactiveTabKey, setLoginSignupFormactiveTabKey] = useState('')
 
   const stateOpenAddProduct = {
     isOpenModalAddProduct: isOpenModalAddProduct,
@@ -38,6 +42,16 @@ const App = () => {
   const stateAuthenticated = {
     isAuthenticated: isAuthenticated,
     handleSetAuthenticated: (isAuth) => setIsAuthenticated(isAuth)
+  }
+
+  const stateShowFullSearch = {
+    isShowFullSearchSmallMode: isShowFullSearchSmallMode,
+    setIsShowFullSearchSmallMode: (isShow) => setIsShowFullSearchSmallMode(isShow)
+  }
+
+  const stateLoginSignupFormactiveTabKey = {
+    loginSignupFormactiveTabKey: loginSignupFormactiveTabKey,
+    setLoginSignupFormactiveTabKey: (key) => setLoginSignupFormactiveTabKey(key)
   }
 
   useEffect(() => {
@@ -116,18 +130,22 @@ const App = () => {
               <SignInFromAddProductContext.Provider value={stateOpenAddProduct}>
                 <HotTopicsContext.Provider value={hotTopics}>
                   <SummaryHomeContext.Provider value={summaryHome}>
-                    <Suspense fallback={
-                      <div id='preloader'>
-                        <div className='sk-three-bounce'>
-                          <div className='sk-child sk-bounce1'></div>
-                          <div className='sk-child sk-bounce2'></div>
-                          <div className='sk-child sk-bounce3'></div>
-                        </div>
-                      </div>
-                    }
-                    >
-                      <Index />
-                    </Suspense>
+                    <ShowFullSearchConext.Provider value={stateShowFullSearch}>
+                      <FormLoginSignupKeyContext.Provider value={stateLoginSignupFormactiveTabKey}>
+                        <Suspense fallback={
+                          <div id='preloader'>
+                            <div className='sk-three-bounce'>
+                              <div className='sk-child sk-bounce1'></div>
+                              <div className='sk-child sk-bounce2'></div>
+                              <div className='sk-child sk-bounce3'></div>
+                            </div>
+                          </div>
+                        }
+                        >
+                          <Index />
+                        </Suspense>
+                      </FormLoginSignupKeyContext.Provider>
+                    </ShowFullSearchConext.Provider>
                   </SummaryHomeContext.Provider>
                 </HotTopicsContext.Provider>
               </SignInFromAddProductContext.Provider>

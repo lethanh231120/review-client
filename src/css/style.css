@@ -34550,7 +34550,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 @media screen and (max-width: 767px) {
   .brand-logo{
-    backdrop-filter: blur(8px)
+    backdrop-filter: blur(5px)
   }
 }
 /*END: background header in small mode */
