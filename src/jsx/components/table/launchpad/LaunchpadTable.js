@@ -30,7 +30,6 @@ const LaunchpadList = ({ listProduct,
          myLogo('bigLogo', record?.launchPadId, 'launchpad') ||
          myLogo('nativeLogo', record?.launchPadId, 'launchpad') ||
          myLogo('smallLogo', record?.launchPadId, 'launchpad') }
-        {/* <Avatar src={record?.bigLogo || record?.smallLogo || record?.thumbLogo || record?.nativeLogo} alt={record?.dAppName?.slice(0, 3)}/> */}
         <span>
           <div className='data-table-name ms-2'>
             <div>{record?.name ? record?.name : 'Unknown'}</div>

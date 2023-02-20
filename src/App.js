@@ -100,7 +100,7 @@ const App = () => {
       const launchpadMapLocal = new Map()
       // convert list to map
       launchpadList?.forEach((launchpad) => {
-        launchpadMapLocal.set(launchpad?.launchPadId, launchpad)
+        launchpadMapLocal?.set(launchpad?.launchPadId, launchpad)
       })
       setLaunchpadMap(launchpadMapLocal)
     } catch (e) {
