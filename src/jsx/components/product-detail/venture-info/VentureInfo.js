@@ -286,10 +286,11 @@ const VentureInfo = ({ productInfo, ...rest }) => {
         <h5 className='text-primary'>{detail?.ventureName} Portfolio:</h5>
       </div>
       <div className='card-body pt-3'>
-        <div className='profile-blog '>
+        <div className='profile-blog portfolio-table'>
           <Table
             // loading={loading}
-            rowClassName='portfolio-item'
+            // rowClassName='portfolio-table'
+            rowClassName='portfolio-item portfolio-table'
             columns={portfolioColumns}
             dataSource={productInfo?.mores?.fund}
             // onChange={handleChangeTable}
@@ -314,7 +315,6 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       more={<More />}
       about={<About />}
       portfolioOrChart={<PortfolioTable />}
-
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
     />

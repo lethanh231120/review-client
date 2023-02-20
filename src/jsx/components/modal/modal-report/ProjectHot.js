@@ -2,6 +2,7 @@ import React from 'react'
 import { Image } from 'antd'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
+import { SWORD_ICON } from '../../../../images/svg/report-project-primary'
 
 const ProjectHot = ({ data, setItem }) => {
   const shortenString = (text) => {
@@ -32,7 +33,7 @@ const ProjectHot = ({ data, setItem }) => {
               </span>
               <span style={{ padding: '0 0.5rem' }}>/</span>
               <span className='post-comment' style={{ color: 'red' }}>
-                <i className='fa-regular fa-flag me-1'></i>
+                <span className='me-1'>   {SWORD_ICON('#EB5757', 14, 14)}</span>
                 {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
               </span>
             </div>

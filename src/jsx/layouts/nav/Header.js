@@ -21,12 +21,12 @@ import Swal from 'sweetalert2'
 // import { Tooltip } from 'antd'
 import { ReportModalContext, AddModalContext } from '../../index'
 import imgAddProject from '../../../images/svg/add-project.svg'
-import imgReportProject from '../../../images/svg/report-project-primary.svg'
 import imgLogIn from '../../../images/svg/log-in-primary.svg'
 import imgSignUp from '../../../images/svg/sign-up-primary.svg'
 import imgMiniSearch from '../../../images/svg/mini-search.svg'
 import imgCancelMiniSearch from '../../../images/svg/cancel-mini-search.svg'
 import { Link } from 'react-router-dom'
+import { SWORD_ICON } from '../../../images/svg/report-project-primary'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
@@ -213,7 +213,7 @@ const Header = ({ isShowFullSearchSmallMode, setIsShowFullSearchSmallMode }) => 
           role='button'
           onClick={() => reportModal?.handleSetOpenModal(true)}
         >
-          <img src={imgReportProject} alt='err' />
+          {SWORD_ICON('#18A493', 17.5, 17.5)}
         </Dropdown.Toggle>
       </Tooltip>
     </Dropdown>
