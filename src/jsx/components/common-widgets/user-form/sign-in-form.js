@@ -42,7 +42,7 @@ export const SignInComponent = () => {
     }
   }
 
-  const openNotification = (messageRes) => {
+  const openNotification = () => {
     Swal.fire({
       allowOutsideClick: false,
       icon: 'warning',
@@ -152,6 +152,11 @@ export const SignInComponent = () => {
       }
     } catch (error) {
       console.error(error)
+      const existMsgParts = error?.response?.data?.error?.split('User id is incorrect')
+      console.log(existMsgParts[0], existMsgParts?.length)
+
+      // if (existMsgParts?.length === 2) {
+      // }
       openNotification()
     }
   }
