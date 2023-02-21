@@ -3,6 +3,7 @@ import { TopDiscussedItem } from './top-disussed-item'
 import { HotTopicsContext } from '../../../../../App'
 import { useContext } from 'react'
 import _ from 'lodash'
+import { MySkeletonLoadinng } from '../../my-spinner'
 
 export const TopDiscussed = () => {
   const hotList = useContext(HotTopicsContext)
@@ -25,7 +26,7 @@ export const TopDiscussed = () => {
       >
         <ul className='timeline'>
           {!_.isEmpty(list) ? list?.map((item, index) => <TopDiscussedItem key={index} item={item}/>
-          ) : <div>No hot topics available</div>}
+          ) : <MySkeletonLoadinng count={5} height={60}/>}
         </ul>
       </div>
     </div>

@@ -6,7 +6,7 @@ import { TopDiscussed } from '../common-widgets/home/top-discussed/top-discuss-p
 import { DataAllocationChart } from '../common-widgets/home/data-allocation-chart'
 import { TopCoinChart } from '../common-widgets/home/home-chart/bitcoin-chart'
 import { ScamEachChainsList } from '../common-widgets/home/scam-each-chain-chart'
-import { MySpinner } from '../common-widgets/my-spinner'
+import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import _ from 'lodash'
 import { renderRandomColor } from '../../../utils/formatNumber'
 import { ReviewList } from '../common-widgets/home/reviews/review-list'
@@ -93,7 +93,7 @@ const Home = () => {
               <Banner />
             </div>
             <div className='col-xl-12 col-lg-12' style={{ display: 'flex', alignItems: 'end', justifyContent: 'center', padding: '0' }}>
-              {summaryData ? <SummaryRow data={summaryData}/> : <MySpinner />}
+              {summaryData ? <SummaryRow data={summaryData}/> : <MySkeletonLoadinng />}
             </div>
           </div>
         </div>
@@ -127,11 +127,11 @@ const Home = () => {
       <div className='row'>
         {/* Scam percentage each chains chart */}
         <div className='col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 mb-4'>
-          {summaryData ? <ScamEachChainsList data={setScamDataEachChains(summaryData)}/> : <MySpinner/>}
+          {summaryData ? <ScamEachChainsList data={setScamDataEachChains(summaryData)}/> : <MySkeletonLoadinng/>}
         </div>
         {/* blockchain data allocation */}
         <div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4' style={{ textTransform: 'none' }}>
-          {summaryData ? <DataAllocationChart header={`Gear5's Blockchains Data Allocation`} data={setTotalCrytosData(summaryData)}/> : <MySpinner/>}
+          {summaryData ? <DataAllocationChart header={`Gear5's Blockchains Data Allocation`} data={setTotalCrytosData(summaryData)}/> : <MySkeletonLoadinng/>}
         </div>
       </div>
     </>

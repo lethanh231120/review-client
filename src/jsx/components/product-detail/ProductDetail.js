@@ -20,11 +20,12 @@ import {
   CRYPTO,
   LAUNCHPAD
 } from '../../constants/category'
-import DetailLoading from '../loading/DetailLoading'
+// import DetailLoading from '../loading/DetailLoading'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import user from '../../../images/product/user.png'
 import Swal from 'sweetalert2'
 import LaunchpadDetail from './launchpad-info/LaunchpadDetail'
+import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 
 const ProductDetail = () => {
   const TYPE_REVIEW = 0
@@ -776,7 +777,7 @@ const ProductDetail = () => {
 
   return (
     <div className='section'>
-      {!productInfo ? <DetailLoading /> : ''}
+      {!productInfo ? <MySkeletonLoadinng count={6} height={200}/> : ''}
       <div className='product' ref={ref} hidden={!productInfo}>
         {categoryName === DAPP ? (
           <>{dapp}</>
