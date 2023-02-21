@@ -32,7 +32,6 @@ export default function TradingViewWidget({ symbol }) {
             symbol: symbol,
             width: '100%',
             height: 450,
-            interval: '1h',
             timezone: 'Etc/UTC',
             theme: 'light',
             style: '1',
