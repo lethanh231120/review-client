@@ -3,7 +3,6 @@ import { Button } from 'react-bootstrap'
 
 // images
 import hacker from '../../../../images/crack.png'
-// import steal from './../../../images/crack44.png'
 import lite from '../../../../images/litecoin.png'
 import tether from '../../../../images/tether.png'
 import btc from '../../../../images/btc.png'
@@ -29,7 +28,6 @@ const Banner = () => {
               &nbsp;
               Report&nbsp;now
           </Button>
-
         </div>
         {/* <img src={lite} className='decoration lite'/> */}
         <img src={btc} className='decoration btc' style={{ zIndex: 0 }}/>

@@ -266,7 +266,6 @@ const ReviewItem = (props) => {
             <div className='review-item-list-image'>
               {data?.review?.images?.map((itemImage, index) => (
                 <div className='review-item-list-image-item' key={index}>
-                  {console.log(itemImage)}
                   <Image src={itemImage} preview={true}/>
                 </div>
               ))}

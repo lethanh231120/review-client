@@ -25297,7 +25297,8 @@ height:  auto;
   @media only screen and (max-width: 35.9375rem) {
     .card {
       margin-bottom: 0.938rem;
-      height: calc(100% - 0.938rem); } }
+      height: auto; 
+    } }
   .card-body {
     padding: 1.875rem; }
     @media only screen and (max-width: 35.9375rem) {

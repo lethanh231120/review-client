@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 // import React, { useRef, useContext } from 'react'
 import {
   Image,
@@ -56,6 +56,7 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
 
   const ref = useRef(null)
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
+  const [images, setImages] = useState([])
 
   // submit form
   const onFinish = (values) => {
@@ -90,26 +91,32 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     return isJpgOrPng && isLt2M
   }
 
+  useEffect(() => {
+    setData({
+      ...data,
+      images: images
+    })
+  }, [images])
+
   // chose file in select
-  const handleChangeFile = async(e) => {
+  const handleChangeFile = (e) => {
     if (!e?.event && e.file?.status === 'uploading') {
       const newFileList = []
-      e.fileList?.forEach((itemFile) => {
+      e?.fileList?.forEach(async(itemFile) => {
         newFileList.push({
           ...itemFile,
           status: 'done'
         })
+        if (itemFile?.uid === e.file.uid) {
+          const formData = new FormData()
+          formData.append('file', itemFile?.originFileObj)
+          const time = moment().unix()
+          const fileName = `${itemFile?.uid}_${time}`
+          const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
+          setImages(_.isEmpty(images) ? [dataImage?.data] : [...images, dataImage?.data])
+        }
       })
       setFileList(newFileList)
-      const formData = new FormData()
-      formData.append('file', e?.fileList[0]?.originFileObj)
-      const time = moment().unix()
-      const fileName = `${e?.file?.uid}_${time}`
-      const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
-      setData({
-        ...data,
-        images: _.isEmpty(rest?.data?.images) ? [dataImage?.data] : [...rest.data.images, dataImage?.data]
-      })
     }
     if (e.file?.status === 'removed') {
       const index = rest?.data?.images?.findIndex((item) => item?.includes(e?.file?.uid))
