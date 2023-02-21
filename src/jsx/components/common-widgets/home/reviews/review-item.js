@@ -46,8 +46,8 @@ export const ReviewItem = ({ data }) => {
               </div>
             </div>
             <div className='col-2'>
-              {data?.image && <div className=''>
-                <Image className='img-fluid' style={{ width: '50px', height: '50px' }} src={data?.image} preview={true}/>
+              {data?.images && <div className=''>
+                <Image className='img-fluid review-img' src={data?.images[0]} preview={true}/>
               </div>}
             </div>
           </div>

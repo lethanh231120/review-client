@@ -10,7 +10,6 @@ const SummaryRow = ({ data }) => {
   const exchangeData = data?.exchanges
   const venture = data?.ventures
   const idos = data?.soons
-
   return (
     <div className='row' style={{ width: '100%' }}>
       <SummaryCard type='crypto' title={'Coins/Tokens'} number={tokenData} bg='bgl-primary text-primary' badgeStyle='badge-primary' icon={<FontAwesomeIcon icon={faCoins}/>}/>

@@ -1,10 +1,9 @@
 import { Avatar } from 'antd'
 import _ from 'lodash'
-import { useEffect } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import { getPrice } from '../../../../api/BaseRequest'
-import { MySpinner } from '../my-spinner'
+import { MySkeletonLoadinng } from '../my-spinner'
 // const getImage = (symbol) => {
 //   return ``
 // }
@@ -72,33 +71,33 @@ export const TopCoins = () => {
             <h2 className='heading'>Top&nbsp;Coins</h2>
           </div>
         </div>
-        {topCoins
-          ? <div className='card-body pt-0 px-0' style={{ padding: '0px' }}>
-            {!_.isEmpty(topCoins) ? topCoins?.map((item, index) => (
-              <div className='previews-info-list' key={index} style={{ cursor: 'pointer' }} onClick={() => onTopCoinsClicked(item)}>
-                <div className='pre-icon' style={{ width: '200px' }}>
-                  <span
-                    className='top-coin-icon'
-                  >
-                    <Avatar src={`/img/${item?.symbol?.toLowerCase()}.png`}></Avatar>
-                  </span>
-                  <div className='ms-3'>
-                    <h6>{item?.name}</h6>
-                    {item?.symbol}
-                  </div>
-                </div>
-                <div className='count' style={{ width: '100px' }}>
-                  <h6>${new Intl.NumberFormat().format(item?.price)}</h6>
-                  <span className={item?.percentChange24h > 0 ? 'text-success' : 'text-danger'}>
-                    {item?.percentChange24h?.toFixed(2)}%
-                  </span>
-                </div>
-                <div className='chart-img' >
-                  <img className='img-fluid' alt='' src={`https://www.coingecko.com/coins/${sparklineIndex[index]}/sparkline`} width={100} height={40} />
+
+        <div className='card-body pt-0 px-0' style={{ padding: '0px' }}>
+          {topCoins ? (!_.isEmpty(topCoins) ? topCoins?.map((item, index) => (
+            <div className='previews-info-list' key={index} style={{ cursor: 'pointer' }} onClick={() => onTopCoinsClicked(item)}>
+              <div className='pre-icon' style={{ width: '200px' }}>
+                <span
+                  className='top-coin-icon'
+                >
+                  <Avatar src={`/img/${item?.symbol?.toLowerCase()}.png`}></Avatar>
+                </span>
+                <div className='ms-3'>
+                  <h6>{item?.name}</h6>
+                  {item?.symbol}
                 </div>
               </div>
-            )) : <div className='ms-2'>No Top coins Available</div>}
-          </div> : <MySpinner />}
+              <div className='count' style={{ width: '100px' }}>
+                <h6>${new Intl.NumberFormat().format(item?.price)}</h6>
+                <span className={item?.percentChange24h > 0 ? 'text-success' : 'text-danger'}>
+                  {item?.percentChange24h?.toFixed(2)}%
+                </span>
+              </div>
+              <div className='chart-img' >
+                <img className='img-fluid' alt='' src={`https://www.coingecko.com/coins/${sparklineIndex[index]}/sparkline`} width={100} height={40} />
+              </div>
+            </div>
+          )) : <MySkeletonLoadinng count={5} height={70}/>) : <MySkeletonLoadinng count={5} height={70}/>}
+        </div>
       </div>
     </div>
   </div>

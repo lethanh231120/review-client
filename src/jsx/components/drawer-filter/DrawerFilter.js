@@ -494,8 +494,10 @@ const DrawerFilter = ({ type, handleFilter }) => {
   return (
     <div className='drawer'>
       <Button onClick={openDrawer} style={{ background: filterCount === 0 ? '#fff' : '#18A594', color: filterCount === 0 ? 'black' : '#fff' }}>
-        <FilterOutlined />
+        <div className='d-flex align-items-center'>
+          <FilterOutlined className='me-2'/>
         Filter{ filterCount === 0 ? '' : `(${(filterCount)})`}
+        </div>
       </Button>
 
       <Drawer
