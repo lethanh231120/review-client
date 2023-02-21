@@ -15,10 +15,11 @@ import { formatLargeNumber } from '../../../utils/formatNumber'
 
 const InputSearch = ({ isFormReport, setItem }) => {
   const summaryData = useContext(SummaryHomeContext)
-  const FIRST_SEARCH_PLACEHOLDER_TEXT = `Search for ${summaryData?.coins ? `${formatLargeNumber(summaryData?.coins)}+ ` : ''}Coins`
+  const FIRST_SEARCH_PLACEHOLDER_TEXT = 'Search your projects here'
   const LAST_SEARCH_PLACEHOLDER_TEXT = `Search for ${summaryData?.soons ? `${formatLargeNumber(summaryData?.soons)}+ ` : ''}ICOs/ IDOs`
   const SEARCH_PLACEHOLDER_TEXT = [
     FIRST_SEARCH_PLACEHOLDER_TEXT,
+    `Search for ${summaryData?.coins ? `${formatLargeNumber(summaryData?.coins)}+ ` : ''}Coins`,
     `Search for ${summaryData?.tokens ? `${formatLargeNumber(summaryData?.tokens)}+ ` : ''}Tokens`,
     `Search for ${summaryData?.dApps ? `${formatLargeNumber(summaryData?.dApps)}+ ` : ''}DApps`,
     `Search for ${summaryData?.ventures ? `${formatLargeNumber(summaryData?.ventures)}+ ` : ''}Ventures`,
@@ -168,10 +169,12 @@ const InputSearch = ({ isFormReport, setItem }) => {
     }
   }, [isSubmit])
 
-  // runner text
-  useEffect(() => {
-    runnerTextSearch()
-  }, [txtDisplaySearchHeader])
+  if (!isFormReport) {
+    // runner text
+    useEffect(() => {
+      runnerTextSearch()
+    }, [txtDisplaySearchHeader])
+  }
 
   const sleep = ms => new Promise(r => setTimeout(r, ms))
   const millSecChangeText = 1000
