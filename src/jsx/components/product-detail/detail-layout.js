@@ -95,7 +95,6 @@ export const DetailLayout = (props) => {
                 numberReviews={rest?.totalReview}
                 rest={rest}
               />
-              {/* {rest?.dataReview && rest?.dataReview?.map((item, index) => ( */}
               {rest?.reviews && rest?.reviews?.map((item, index) => (
                 <>
                   <ReviewItem
@@ -104,14 +103,16 @@ export const DetailLayout = (props) => {
                     data={item}
                     reviews={rest?.reviews}
                     setReviews={rest?.setReviews}
+                    setCurrentReview={rest?.setCurrentReview}
+                    curentReview={rest?.curentReview}
                     productId={rest?.productId}
                   />
                 </>
               ))}
               <div className='category-paginate cus-category-paginate'>
-                {rest?.totalReview > PAGE_SIZE && (
+                {rest?.reviews?.length > PAGE_SIZE && (
                   <Pagination
-                    total= {rest?.totalReview}
+                    total= {rest?.reviews?.length}
                     current={rest?.defaultFilter?.page}
                     pageSize={PAGE_SIZE}
                     showSizeChanger={false}
@@ -166,29 +167,33 @@ export const DetailLayout = (props) => {
                 numberReviews={numberReviews}
                 rest={rest}
               />
-              {rest?.reviews && rest?.reviews?.map((item) => (
+              {rest?.reviews && rest?.reviews?.map((item, index) => (
                 <>
                   <ReviewItem
+                    index={index}
                     key={item?.id}
                     data={item}
                     reviews={rest?.reviews}
                     setReviews={rest?.setReviews}
                     productId={rest?.productId}
+                    setCurrentReview={rest?.setCurrentReview}
+                    curentReview={rest?.curentReview}
                   />
                 </>
               ))}
-              <div className='category-paginate'>
-                <Pagination
-                // total={total}
-                  total= {1000}
-                  current={rest?.defaultFilter?.page}
-                  pageSize={20}
-                  showSizeChanger={false}
-                  onChange={(value) => rest?.setDefaultFilter({
-                    ...rest.defaultFilter,
-                    page: value
-                  })}
-                />
+              <div className='category-paginate cus-category-paginate'>
+                {rest?.reviews?.length > PAGE_SIZE && (
+                  <Pagination
+                    total= {rest?.reviews?.length}
+                    current={rest?.defaultFilter?.page}
+                    pageSize={PAGE_SIZE}
+                    showSizeChanger={false}
+                    onChange={(value) => rest?.setDefaultFilter({
+                      ...rest.defaultFilter,
+                      page: value
+                    })}
+                  />
+                )}
               </div>
             </div>
           </div>

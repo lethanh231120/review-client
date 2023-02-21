@@ -46,15 +46,15 @@ const ModalAdd = () => {
   const categories = [
     {
       value: CRYPTO,
-      label: 'Crypto Projects'
+      label: <span className='cus-form-placeholder'>Crypto Projects</span>
     },
     {
       value: EXCHANGE,
-      label: 'Exchanges'
+      label: <span className='cus-form-placeholder'>Exchanges</span>
     },
     {
       value: DAPP,
-      label: 'DApps'
+      label: <span className='cus-form-placeholder'>DApps</span>
     }
   ]
   const [category, setCategory] = useState(CRYPTO)
@@ -78,6 +78,37 @@ const ModalAdd = () => {
     setCategory(value)
   }
 
+  // noti report success
+  const notifyTopRight = (content) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true
+    })
+
+    Toast.fire({
+      icon: 'success',
+      title: content
+    })
+  }
+
+  // toast error
+  const toartError = (content) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true
+    })
+
+    Toast.fire({
+      icon: 'error',
+      title: content
+    })
+  }
   const sendData = async(data) => {
     try {
       let res
@@ -93,34 +124,10 @@ const ModalAdd = () => {
       if (res?.status) {
         addModal.handleSetOpenModal(false)
         handleReset()
-        Swal.fire({
-          allowOutsideClick: false,
-          icon: 'success',
-          title: 'Success',
-          html: `Add ${category} successfully. Please wait for admin to confirm`,
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-          },
-          backdrop: `rgba(4,148,114,0.4)`
-        })
+        notifyTopRight(`Add ${category} successfully. Please wait for admin to confirm`)
       }
     } catch (error) {
-      Swal.fire({
-        allowOutsideClick: false,
-        icon: 'error',
-        title: 'Unable to add products. Please check again.',
-        html: error?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later.',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        backdrop: `rgba(4,148,114,0.4)`
-      })
+      toartError('Add products failure. Please try again.')
     }
   }
 
@@ -194,15 +201,7 @@ const ModalAdd = () => {
           }
         }
       }
-      if (data?.isScam) {
-        if (!_.isEmpty(data?.sources)) {
-          sendData(body)
-        } else {
-          setErrorLink('Link proof is required')
-        }
-      } else {
-        sendData(body)
-      }
+      sendData(body)
     } else {
       setIsRecaptcha(true)
     }
@@ -210,16 +209,38 @@ const ModalAdd = () => {
 
   // chose file in select
   const handleChangeFile = async(e) => {
-    setFileList(e.fileList)
-    const formData = new FormData()
-    formData.append('file', e?.fileList[0]?.originFileObj)
-    const time = moment().unix()
-    const fileName = `${userInfo.id}_${time}`
-    const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
-    setData({
-      ...data,
-      image: dataImage?.data
-    })
+    if (e.file?.status === 'uploading') {
+      setFileList([
+        {
+          ...e.fileList[0],
+          status: 'done'
+        }
+      ])
+      const formData = new FormData()
+      formData.append('file', e?.fileList[0]?.originFileObj)
+      const time = moment().unix()
+      const fileName = `${userInfo.id}_${time}`
+      const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
+      setData({
+        ...data,
+        image: dataImage?.data
+      })
+    }
+    if (e.file?.status === 'removed') {
+      setFileList([])
+    }
+  }
+
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isJpgOrPng) {
+      toartError('You can only upload JPG/PNG file!')
+    }
+    const isLt2M = file.size / 1024 / 1024 < 10
+    if (!isLt2M) {
+      toartError('Image must smaller than 10MB!')
+    }
+    return isJpgOrPng && isLt2M
   }
 
   const onPreview = async(file) => {
@@ -335,10 +356,6 @@ const ModalAdd = () => {
       type: value
     })
   }
-
-  // const handleResetForm = () => {
-  //   ref.current.reset()
-  // }
 
   return (
     <>
@@ -532,10 +549,11 @@ const ModalAdd = () => {
               <Col span={12}>
                 <Form.Item name='thumbLogo'>
                   <Upload
-                    action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                    // action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
                     listType='picture-card'
                     fileList={fileList}
                     onChange={handleChangeFile}
+                    beforeUpload={beforeUpload}
                     onPreview={onPreview}
                   >
                     {fileList.length < 1 && '+ Upload'}
@@ -572,7 +590,7 @@ const ModalAdd = () => {
             <Col span={24}>
               <Select
                 value={data?.sources}
-                placeholder='Please enter proof link …'
+                placeholder={(<span className='cus-form-placeholder'>Please enter proof link …</span>)}
                 mode='tags'
                 dropdownStyle={{ background: 'red', display: 'none' }}
                 onChange={handleChangeLink}

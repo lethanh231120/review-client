@@ -12357,6 +12357,9 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       margin-left: 0;
       border: 0;
       background: #fff; }
+      [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu li > ul.display-none{
+        display: none !important;
+      }
       [direction="rtl"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu li > ul {
         left: auto;
         right: 5rem; }
