@@ -13,7 +13,8 @@ import {
   Authenticated,
   SignInFromAddProductContext,
   ShowFullSearchConext,
-  FormLoginSignupKeyContext
+  FormLoginSignupKeyContext,
+  SummaryHomeContext
 } from '../../../App'
 
 import InputSearch from '../../components/input-search/GlobalSearch'
@@ -25,13 +26,14 @@ import { ReportModalContext, AddModalContext } from '../../index'
 import imgAddProject from '../../../images/svg/add-project.svg'
 import imgLogIn from '../../../images/svg/log-in-primary.svg'
 import imgSignUp from '../../../images/svg/sign-up-primary.svg'
-import imgMiniSearch from '../../../images/svg/mini-search.svg'
-import imgCancelMiniSearch from '../../../images/svg/cancel-mini-search.svg'
 import { Link } from 'react-router-dom'
 import { SWORD_ICON } from '../../../images/svg/report-project-primary'
+import { SEARCH_ICON } from '../../../images/svg/search'
+import { CANCEL_ICON } from '../../../images/svg/cancel'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
+const txtSearchPrject = 'Search your project quickly'
 const txtLoginTooltip = 'Log In'
 const txtSignUpTooltip = 'Sign Up'
 const minimumWidthBigScreenMode = 767
@@ -42,6 +44,7 @@ const Header = () => {
   const [isSmallMode, setIsSmallMode] = useState(window.innerWidth < minimumWidthBigScreenMode)
   const showFullSearchConext = useContext(ShowFullSearchConext)
   const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)
+  const summaryData = useContext(SummaryHomeContext)
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -241,16 +244,24 @@ const Header = () => {
     </Dropdown>
   </ul>
 
-  const miniSearchHtml = <Dropdown className='sidebar-dropdown me-2 mt-2' id='mini-search' onClick={() => showFullSearchConext?.setIsShowFullSearchSmallMode(!showFullSearchConext?.isShowFullSearchSmallMode)} style={{ display: 'flex', alignItems: 'center' }}>
-    <Dropdown.Toggle as='div' className='i-false'>
-      {/* image search */}
-      { showFullSearchConext?.isShowFullSearchSmallMode ? '' : <img src={imgMiniSearch} alt='err' style={{ marginLeft: '0.5rem' }} /> }
-      <i className={`fa-solid fa-angle-${showFullSearchConext?.isShowFullSearchSmallMode ? 'left' : 'right'} mx-1`} />
-      {/* image search */}
-      { showFullSearchConext?.isShowFullSearchSmallMode ? <img src={imgCancelMiniSearch} alt='err' /> : '' }
-    </Dropdown.Toggle>
-
-  </Dropdown>
+  const miniSearchHtml = <ul className=''>
+    <Dropdown
+      as='li'
+      className='nav-item dropdown notification_dropdown '
+    >
+      <Tooltip title={showFullSearchConext?.isShowFullSearchSmallMode ? txtSearchPrject : ''} placement='bottom'>
+        <Dropdown.Toggle
+          variant=''
+          as='a'
+          className='nav-link  ai-icon i-false c-pointer button-add-project-home'
+          role='button'
+          onClick={() => showFullSearchConext?.setIsShowFullSearchSmallMode(!showFullSearchConext?.isShowFullSearchSmallMode)}
+        >
+          { showFullSearchConext?.isShowFullSearchSmallMode ? CANCEL_ICON('#18A493') : SEARCH_ICON('', 17.5, 17.5) }
+        </Dropdown.Toggle>
+      </Tooltip>
+    </Dropdown>
+  </ul>
 
   return (
     <>
@@ -261,6 +272,7 @@ const Header = () => {
         footer={false}
         destroyOnClose={true}
         show={signContext?.openModalSignIn}
+        style={{ zIndex: '99' }}
       >
         <AccountTab activeTabKey={formLoginSignupKeyContext?.loginSignupFormactiveTabKey} />
       </Modal>
@@ -291,7 +303,7 @@ const Header = () => {
                   className='nav-item d-flex align-items-center'
                   style={{ width: '100%' }}
                 >
-                  {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode ? <InputSearch /> : '') : <InputSearch /> }
+                  {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode ? <InputSearch /> : '') : (summaryData && <InputSearch />) }
                 </div>
                 {/* side-bar right */}
                 <div className='dz-side-menu'>
