@@ -45,7 +45,7 @@ const ModalReport = () => {
     isScam: false,
     content: '',
     sources: [],
-    image: null,
+    images: [],
     star: 5,
     scamAmountUSD: null
   })
@@ -182,7 +182,7 @@ const ModalReport = () => {
         isScam: false,
         content: '',
         sources: [],
-        image: '',
+        images: [],
         star: 5
       })
       // reset the value of state image

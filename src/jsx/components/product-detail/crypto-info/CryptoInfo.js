@@ -653,7 +653,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           <Table
             columns={columns}
             dataSource={dataExchange}
-            pagination={{
+            pagination={productInfo?.mores?.trading > 5 && {
               pageSize: PAGE_SIZE,
               defaultCurrent: 1,
               showSizeChanger: false

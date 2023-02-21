@@ -15,7 +15,7 @@ import Description from '../../description/Description'
 import { reactions } from '../../../../constants/reaction'
 
 const ReviewItem = (props) => {
-  const { data, productId, index, reviews, setReviews } = props
+  const { data, productId, index, reviews, setReviews, setCurrentReview, curentReview } = props
   const signContext = useContext(SignInContext)
   const authenticated = useContext(Authenticated)
 
@@ -65,10 +65,13 @@ const ReviewItem = (props) => {
   const handleAddReply = () => {
     if (token) {
       setAddReply(!addReply)
-      setNewData({
-        ...newData,
-        isCollapse: false,
-        reviewId: ''
+      // setNewData({
+      //   ...newData,
+      //   reviewId: ''
+      // })
+      setCurrentReview({
+        reviewId: data?.review?.id,
+        isCollapse: !!addReply
       })
     } else {
       signContext?.handleSetOpenModal(true)
@@ -102,16 +105,16 @@ const ReviewItem = (props) => {
         ]
       }
       form.resetFields()
-      setNewData({
-        ...newData,
-        reviewId: data?.data?.id
+      setCurrentReview({
+        isCollapse: false,
+        reviewId: data?.review?.id
       })
-      const currentReview = [...reviews]
-      currentReview[index] = {
-        ...currentReview[index],
+      const currentReviews = [...reviews]
+      currentReviews[index] = {
+        ...currentReviews[index],
         replies: newDataReply
       }
-      setReviews(currentReview)
+      setReviews(currentReviews)
       setValidateTextArea(false)
       setComment('')
     }
@@ -259,9 +262,14 @@ const ReviewItem = (props) => {
               )}
             </div>
           </div>
-          {data?.review?.image && (
-            <div className='review-item-comment-image'>
-              <Image src={data?.review?.image} preview={true}/>
+          {!_.isEmpty(data?.review?.images) && (
+            <div className='review-item-list-image'>
+              {data?.review?.images?.map((itemImage, index) => (
+                <div className='review-item-list-image-item' key={index}>
+                  {console.log(itemImage)}
+                  <Image src={itemImage} preview={true}/>
+                </div>
+              ))}
             </div>
           )}
           <div className='review-item-action'>
@@ -292,10 +300,9 @@ const ReviewItem = (props) => {
             <div
               className='review-item-replies'
               onClick={() => {
-                setNewData({
-                  ...newData,
-                  isCollapse: !newData?.isCollapse,
-                  reviewId: ''
+                setCurrentReview({
+                  isCollapse: !curentReview?.isCollapse,
+                  reviewId: data?.review?.id
                 })
               }}
             >
@@ -331,7 +338,10 @@ const ReviewItem = (props) => {
             )}
           </Form>
           <div
-            className={`${(newData?.isCollapse && newData?.reviewId === '') ? 'isCollapse' : 'comment-reply'}`}
+            className={`${(
+              curentReview?.reviewId !== undefined
+                ? (!curentReview?.isCollapse && curentReview?.reviewId === data?.review?.id) ? 'comment-reply' : 'isCollapse'
+                : (!newData?.isCollapse && newData?.reviewId === data?.review?.id) ? 'comment-reply' : 'isCollapse')}`}
           >
             {data?.replies !== null && data?.replies?.map((item, i) => (<>
               <ReplyComment

@@ -259,7 +259,6 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
       rest={rest}
       topDiscus={<TopDiscussed />}
     />
-
   )
 }
 

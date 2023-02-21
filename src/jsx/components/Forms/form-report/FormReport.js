@@ -24,6 +24,7 @@ import FilterReview from '../../product-detail/filter-review/FilterReview'
 import '../../../../scss/base/cus-form.scss'
 import './formReport.scss'
 import Swal from 'sweetalert2'
+import _ from 'lodash'
 
 const { Option } = Select
 const defaultValue = [
@@ -50,21 +51,11 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
     typeComment,
     setErrorType,
     errorType,
-    id,
     form
   } = rest
 
   const ref = useRef(null)
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
-
-  // const handleClickEmoji = (value) => {
-  //   const cursor = ref.current.selectionStart
-  //   const text = data?.content.slice(0, cursor) + value.emoji
-  //   setData({
-  //     ...data,
-  //     content: text
-  //   })
-  // }
 
   // submit form
   const onFinish = (values) => {
@@ -101,25 +92,34 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
 
   // chose file in select
   const handleChangeFile = async(e) => {
-    if (e.file?.status === 'uploading') {
-      setFileList([
-        {
-          ...e.fileList[0],
+    if (!e?.event && e.file?.status === 'uploading') {
+      const newFileList = []
+      e.fileList?.forEach((itemFile) => {
+        newFileList.push({
+          ...itemFile,
           status: 'done'
-        }
-      ])
+        })
+      })
+      setFileList(newFileList)
       const formData = new FormData()
       formData.append('file', e?.fileList[0]?.originFileObj)
       const time = moment().unix()
-      const fileName = `${userInfo?.id ? userInfo?.id : id || 'anonymous'}_${time}`
+      const fileName = `${e?.file?.uid}_${time}`
       const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
       setData({
         ...data,
-        image: dataImage?.data
+        images: _.isEmpty(rest?.data?.images) ? [dataImage?.data] : [...rest.data.images, dataImage?.data]
       })
     }
     if (e.file?.status === 'removed') {
-      setFileList([])
+      const index = rest?.data?.images?.findIndex((item) => item?.includes(e?.file?.uid))
+      const newListImage = [...rest.data.images]
+      newListImage?.splice(index, 1)
+      setData({
+        ...data,
+        images: newListImage
+      })
+      setFileList(e.fileList)
     }
   }
 
@@ -430,12 +430,14 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                 <Upload
                   listType='picture-card'
                   fileList={fileList}
+                  multiple={true}
                   // customRequest={dummyRequest}
                   onChange={handleChangeFile}
                   beforeUpload={beforeUpload}
                   onPreview={onPreview}
                 >
-                  {fileList.length < 1 && '+ Upload'}
+                  {/* {fileList.length < 1 && '+ Upload'} */}
+                  {fileList.length > 2 ? null : '+ Upload'}
                 </Upload>
               )}
 
