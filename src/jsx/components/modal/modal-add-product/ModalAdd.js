@@ -8,7 +8,7 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
 import { post } from '../../../../api/BaseRequest'
 import moment from 'moment'
-import { explorers } from '../../../../utils/ExplorerScan'
+// import { explorers } from '../../../../utils/ExplorerScan'
 // import { CheckCircleOutlined } from '@ant-design/icons'
 import { CategoryContext } from '../../../../App'
 import _ from 'lodash'
@@ -109,6 +109,7 @@ const ModalAdd = () => {
       title: content
     })
   }
+
   const sendData = async(data) => {
     try {
       let res
@@ -326,15 +327,29 @@ const ModalAdd = () => {
   }
 
   const handleChangeLink = (value) => {
+    // const newLink = []
+    // explorers?.forEach((item) => {
+    //   value?.forEach((itemLink) => {
+    //     const isCorrect = itemLink?.includes(item)
+    //     if (isCorrect) {
+    //       newLink.push(itemLink)
+    //     }
+    //   })
+    // })
+    // setData({
+    //   ...data,
+    //   sources: newLink
+    // })
     const newLink = []
-    explorers?.forEach((item) => {
-      value?.forEach((itemLink) => {
-        const isCorrect = itemLink?.includes(item)
-        if (isCorrect) {
-          newLink.push(itemLink)
-        }
-      })
+    const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
+    value?.forEach((itemLink) => {
+      if (itemLink.match(reg)) {
+        newLink.push(itemLink)
+      }
     })
+    // form.setFieldsValue({
+    //   'sources': newLink
+    // })
     setData({
       ...data,
       sources: newLink
@@ -342,12 +357,21 @@ const ModalAdd = () => {
   }
 
   const changeSelect = (value) => {
-    const correct = []
-    explorers?.forEach((item) => {
-      const isCorrect = value?.includes(item)
-      correct.push(isCorrect)
-    })
-    setErrorLink(correct?.some((item) => item === true) ? '' : 'Link explorer is not valid')
+    // const correct = []
+    // explorers?.forEach((item) => {
+    //   const isCorrect = value?.includes(item)
+    //   correct.push(isCorrect)
+    // })
+    // setErrorLink(correct?.some((item) => item === true) ? '' : 'Link explorer is not valid')
+
+    const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
+    if (value !== '') {
+      if (value.match(reg)) {
+        setErrorLink()
+      } else {
+        setErrorLink('Link explorer is not valid')
+      }
+    }
   }
 
   const handleChangeType = (value) => {
@@ -374,7 +398,6 @@ const ModalAdd = () => {
             >
               <Select
                 defaultValue={category}
-                // style={{ width: '100%' }}
                 onChange={handleChangeCategory}
                 options={categories}
               />
@@ -549,7 +572,6 @@ const ModalAdd = () => {
               <Col span={12}>
                 <Form.Item name='thumbLogo'>
                   <Upload
-                    // action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
                     listType='picture-card'
                     fileList={fileList}
                     onChange={handleChangeFile}
@@ -633,16 +655,10 @@ const ModalAdd = () => {
         </div>
         <div className='d-flex'>
           <Form.Item>
-            {/* <Button className='add-btn me-2' type='primary' danger border onClick={handleReset}>
-                Reset
-            </Button> */}
             <button type='submit' className='me-2 btn btn-danger' onClick={handleReset}>Reset</button>
           </Form.Item>
           <Form.Item>
             <button className='me-2 btn btn-success'>Add Product</button>
-            {/* <Button type='primary' htmlType='submit' className='me-2 add-btn'>
-                Add Product
-            </Button> */}
           </Form.Item>
         </div>
       </Form>

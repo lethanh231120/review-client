@@ -116,6 +116,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const itemTags = productInfo?.mores?.tag
   const itemRoundSales = productInfo?.mores?.roundSale
   const [websiteLoading, setWebsiteLoading] = useState(false)
+  const [top, setTop] = useState()
 
   const handleReportScam = () => {
     rest?.setData({
@@ -127,6 +128,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       'isScam': true,
       'star': 1
     })
+    window.scrollTo(0, top)
   }
 
   const handleClickTag = (value) => {
@@ -289,16 +291,12 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       </div>
       <div className='mt-4'>
         <Button
-          as='a'
-          href='#comment'
           className='btn btn-primary mb-1 me-1'
           onClick={handleReportScam}
         >
                     Report Scam
         </Button>
         <Button
-          as='a'
-          href='#comment'
           className='btn btn-primary mb-1 ms-1'
           onClick={() => {
             rest?.setData({ ...rest.data, isScam: false })
@@ -307,6 +305,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               star: undefined,
               sources: []
             })
+            window.scrollTo(0, top)
           }}
         >
                   Add Review
@@ -543,9 +542,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       more={more}
       portfolioOrChart={description}
       about={about}
-
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
+      setTop={setTop}
       topDiscus={<TopDiscussed />}
     />
   )

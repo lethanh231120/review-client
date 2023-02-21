@@ -5,7 +5,7 @@ import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
 
 export const DetailLayout = (props) => {
-  const { Header, type, roundSale, portfolioOrChart, summary, more, about, scam, exchange, topDiscus, numberReviews, rest } = props
+  const { Header, type, roundSale, portfolioOrChart, summary, more, about, scam, exchange, topDiscus, numberReviews, rest, setTop } = props
   // const [reviews, setReviews] = useState()
   const PAGE_SIZE = 50
 
@@ -17,7 +17,7 @@ export const DetailLayout = (props) => {
     <div className='row'>
       {/* detail header: icon, name, score */}
       <div className='col-lg-12'>
-        <div className='profile card card-body px-3 pt-3 pb-0'>
+        <div className='profile card card-body px-3 pt-3 pb-3'>
           {Header}
         </div>
       </div>
@@ -82,7 +82,7 @@ export const DetailLayout = (props) => {
           </div>
           <div className='col-xl-7'>
             {/* {coinChart} */}
-            {portfolioOrChart && <div className='card mt-4'>
+            {portfolioOrChart && <div className='card'>
               {portfolioOrChart}
             </div>
             }
@@ -94,6 +94,7 @@ export const DetailLayout = (props) => {
                 isFormReport={true}
                 numberReviews={rest?.totalReview}
                 rest={rest}
+                setTop={setTop}
               />
               {rest?.reviews && rest?.reviews?.map((item, index) => (
                 <>
@@ -166,6 +167,7 @@ export const DetailLayout = (props) => {
                 isFormReport={true}
                 numberReviews={numberReviews}
                 rest={rest}
+                setTop={setTop}
               />
               {rest?.reviews && rest?.reviews?.map((item, index) => (
                 <>

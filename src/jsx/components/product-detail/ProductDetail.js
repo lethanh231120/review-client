@@ -269,7 +269,6 @@ const ProductDetail = () => {
               // reactions of review
               const newReactions = []
               itemReview?.reactions?.forEach((itemReaction) => {
-                console.log(itemReaction)
                 const accountReaction = listUser?.data?.accounts?.find(item => item?.id === itemReaction?.accountId)
                 newReactions.push({
                   ...itemReaction,

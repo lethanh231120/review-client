@@ -2,7 +2,10 @@
 .cus-modal{
   background-color: rgba(24, 165, 148, 0.1) !important;
 }
-
+html{
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem;
+}
 .testimonial-one img {
   display: unset !important;
   width: 90%;

@@ -22,6 +22,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
   const waitMillSecOpenWebsite = 3000
   const chainList = useContext(ChainListContext)
   const [loading, setLoading] = useState(false)
+  const [top, setTop] = useState()
 
   // const onOpenDapp = (link) => {
   //   setLoading(true)
@@ -40,6 +41,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
       'isScam': true,
       'star': 1
     })
+    window.scrollTo(0, top)
   }
 
   // DAPP HEADER
@@ -100,8 +102,6 @@ const DappInfo = ({ productInfo, ...rest }) => {
       </div>
       <div className='mt-4'>
         <Button
-          as='a'
-          href='#comment'
           className='mb-1 me-1'
           variant='danger'
           onClick={handleReportScam}
@@ -111,8 +111,6 @@ const DappInfo = ({ productInfo, ...rest }) => {
         Report&nbsp;Scam
         </Button>
         <Button
-          as='a'
-          href='#comment'
           className='btn btn-primary mb-1 ms-1'
           onClick={() => {
             rest?.setData({ ...rest.data, isScam: false })
@@ -121,6 +119,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
               star: undefined,
               sources: []
             })
+            window.scrollTo(0, top)
           }}
         >
           <svg width='24' height='24' viewBox='0 0 1024 1024' className='icon' version='1.1' xmlns='http://www.w3.org/2000/svg'><path d='M687.542857 965.485714H182.857143c-87.771429 0-160.914286-73.142857-160.914286-160.914285V256c0-87.771429 73.142857-160.914286 160.914286-160.914286h336.457143V146.285714H182.857143C124.342857 146.285714 73.142857 197.485714 73.142857 256v541.257143c0 58.514286 51.2 109.714286 109.714286 109.714286h504.685714c58.514286 0 109.714286-51.2 109.714286-109.714286V533.942857h58.514286v263.314286c-7.314286 95.085714-80.457143 168.228571-168.228572 168.228571z' fill='#fff' /><path d='M877.714286 95.085714l109.714285 138.971429c7.314286 7.314286 0 14.628571-7.314285 21.942857L629.028571 526.628571c-7.314286 7.314286-160.914286-7.314286-160.914285-7.314285s29.257143-146.285714 36.571428-153.6l351.085715-270.628572c7.314286-7.314286 14.628571-7.314286 21.942857 0z' fill='#F4B1B2' /><path d='M607.085714 555.885714c-21.942857 0-65.828571 0-138.971428-7.314285H438.857143V512c29.257143-160.914286 36.571429-160.914286 43.885714-168.228571L833.828571 73.142857c21.942857-14.628571 43.885714-14.628571 58.514286 7.314286L1002.057143 219.428571c14.628571 14.628571 7.314286 43.885714-7.314286 58.514286L643.657143 548.571429c-7.314286 7.314286-7.314286 7.314286-36.571429 7.314285z m-109.714285-58.514285c51.2 0 95.085714 7.314286 117.028571 7.314285L950.857143 241.371429l-87.771429-117.028572-336.457143 263.314286c-7.314286 14.628571-14.628571 58.514286-29.257142 109.714286z' fill='#fff' /></svg>
@@ -275,6 +274,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
     isScam={detail?.isScam}
     numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
     rest={rest}
+    setTop={setTop}
     topDiscus={<TopDiscussed />}
   />
 }

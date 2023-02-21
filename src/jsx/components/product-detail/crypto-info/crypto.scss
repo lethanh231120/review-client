@@ -4,6 +4,9 @@
         &-name{
             width: fit-content;
             max-width: 12.5rem;
+            background-color: red;
+            word-break: normal;
+            word-wrap: normal;
         }
         &-symbol{
             padding: 0 0.3rem 0 1rem;
