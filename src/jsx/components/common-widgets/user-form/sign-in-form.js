@@ -1,10 +1,8 @@
 import { useContext, useState } from 'react'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { post } from '../../../../api/BaseRequest'
-import { notification } from 'antd'
 import { setCookie, STORAGEKEY } from '../../../../utils/storage'
 import { SignInContext, Authenticated, SignInFromAddProductContext, ShowFullSearchConext } from '../../../../App'
-import { CloseCircleOutlined } from '@ant-design/icons'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import Swal from 'sweetalert2'
@@ -45,11 +43,18 @@ export const SignInComponent = () => {
   }
 
   const openNotification = (messageRes) => {
-    notification.open({
-      message: `Login failed. Please try again`,
-      description: messageRes,
-      duration: 2,
-      icon: <CloseCircleOutlined style={{ color: 'red' }} />
+    Swal.fire({
+      allowOutsideClick: false,
+      icon: 'warning',
+      title: 'Warning',
+      html: 'Login failed. Please try again.',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      },
+      backdrop: `rgba(4,148,114,0.4)`
     })
   }
 
@@ -130,15 +135,15 @@ export const SignInComponent = () => {
   const responseGoogle = async(response) => {
     try {
       // decode here
-      const respData = parseJwt(response?.credential)
-      if (respData?.email_verified) {
+      const decodedJwt = parseJwt(response?.credential)
+      if (decodedJwt?.email_verified) {
         const dataSignin = {
-          email: respData?.email,
+          email: decodedJwt?.email,
           accountType: 'google',
-          password: response?.credential, // ??
-          userId: respData?.sub,
-          userName: respData?.name,
-          image: respData?.picture
+          password: response?.credential, // jwt
+          userId: decodedJwt?.sub,
+          userName: decodedJwt?.name,
+          image: decodedJwt?.picture
         }
         const resp = await post('reviews/auth/signin/social', dataSignin)
         if (resp?.status) {
@@ -149,7 +154,6 @@ export const SignInComponent = () => {
       console.error(error)
       openNotification()
     }
-    console.log(response)
   }
 
   const errorGoogle = (error) => {
@@ -219,7 +223,7 @@ export const SignInComponent = () => {
                     htmlFor='check1'
                   >
                     <a to={'#'} className={`nav-link m-auto btn tp-btn-light btn-primary${isLoading ? 'none-click' : ''}`}>
-                                                    Forget Password ?
+                      Forget Password ?
                     </a>
                   </label>
                 </span>
@@ -234,17 +238,16 @@ export const SignInComponent = () => {
                     <FacebookLogin
                       icon='fa-facebook'
                       appId='6488605091156536'
-                      // appId='1270002070516522'
                       autoLoad={false}
                       fields='name,email,picture'
                       callback={responseFacebook}
                       render={(renderProps) => (
                         <a
                           href='#'
-                          className={`fab fa-facebook-f btn-facebook ${isLoading ? 'none-click' : ''}`}
+                          className={`fab fa-facebook-square btn-facebook ${isLoading ? 'none-click' : ''}`}
                           rel='noreferrer'
                           onClick={renderProps.onClick}
-                          style={{ width: '32px', height: '32px' }}
+                          style={{ width: '32px', height: '32px', marginRight: '1rem' }}
                         >
                         </a>
                       )}
