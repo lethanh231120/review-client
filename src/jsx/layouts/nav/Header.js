@@ -243,6 +243,7 @@ const Header = () => {
       </Tooltip>
     </Dropdown>
   </ul>
+  console.log(addProjectHtml, reportScamHtml)
 
   const miniSearchHtml = <ul className=''>
     <Dropdown
@@ -263,6 +264,34 @@ const Header = () => {
     </Dropdown>
   </ul>
 
+  const imgTestReportScam = <div className='coccoc-alo-phone coccoc-alo-green coccoc-alo-show'
+    onClick={() => reportModal?.handleSetOpenModal(true)}
+    style={{
+      // backgroundColor: 'red',
+      position: 'fixed',
+      right: '-4.6rem',
+      top: '28rem'
+    }}
+  >
+    <div className='coccoc-alo-ph-circle'></div>
+    <div className='coccoc-alo-ph-circle-fill'></div>
+    <div className='coccoc-alo-ph-img-circle report-scam-image'></div>
+  </div>
+
+  const imgTestAddProject = <div className='coccoc-alo-phone coccoc-alo-green coccoc-alo-show'
+    onClick={handleAddProject}
+    style={{
+      // backgroundColor: 'red',
+      position: 'fixed',
+      right: '-4.6rem',
+      top: '35rem'
+    }}
+  >
+    <div className='coccoc-alo-ph-circle'></div>
+    <div className='coccoc-alo-ph-circle-fill'></div>
+    <div className='coccoc-alo-ph-img-circle add-project-image'></div>
+  </div>
+
   return (
     <>
       <Modal
@@ -276,6 +305,8 @@ const Header = () => {
       >
         <AccountTab activeTabKey={formLoginSignupKeyContext?.loginSignupFormactiveTabKey} />
       </Modal>
+      {imgTestReportScam}
+      {imgTestAddProject}
       <div className={`header ${headerFix ? 'is-fixed' : ''} ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0' : ''}`}>
         <div className={`header-content ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0 margin-left-0-3rem' : ''}`}>
           <nav className='navbar navbar-expand'>
@@ -312,8 +343,8 @@ const Header = () => {
                   </div>
                   <div className='sidebar-social-link '>
                     <ul className=''>
-                      {reportScamHtml}
-                      {addProjectHtml}
+                      {/* {reportScamHtml}
+                      {addProjectHtml} */}
                       {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode || authenticated?.isAuthenticated ? '' : signupHtml) : '' }
                     </ul>
                   </div>

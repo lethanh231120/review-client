@@ -39,6 +39,7 @@
     "react-select": "^5.7.0",
     "react-table": "^7.8.0",
     "sass": "^1.58.0",
+    "styled-components": "^5.3.6",
     "sweetalert2": "^11.6.15",
     "swiper": "^8.4.5",
     "web-vitals": "^2.1.4"

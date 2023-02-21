@@ -34417,14 +34417,6 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   padding: 1.25rem !important;
 }
 
-/* overriden tooltip library antd */
-.ant-tooltip-inner {
-  color: #fff !important;
-  /* font-family: ; */
-  background-color: #18A594 !important;
-  font-family: "poppins", sans-serif, sans-serif !important;
-}
-
 .banner-body{
   height: 100%;
 }
@@ -34531,13 +34523,6 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 /*END: Summary home responsive */
 
-/*START: reponsive input search */
-/* .header-right .search-area{
-  width: 100% !important
-} */
-/*END: reponsive input search */
-
-
 /*START: hr for items in table list(hot project) */
 .hr-custome {
   background-color: #fff;
@@ -34588,71 +34573,349 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 /*END: resposive float button in home at screen mobile phone*/
 
-/*START: ring ring effect for button report scam at home */
-/* ref: https://codepen.io/mccombsc/pen/ZEzxWPy */
-.report-scam-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+
+/* button report scam correct size */
+.header-right .notification_dropdown .nav-link svg{
+  height: unset !important;
+  width: unset !important;
 }
 
-.report-scam {
-    /* background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%); */
-    border: none;
-    /* border-radius: 1000px; */
-    /* box-shadow: 12px 12px 24px rgba(79,209,197,.64); */
-    transition: all 0.3s ease-in-out 0s;
-    cursor: pointer;
-    outline: none;
-    }
-  
-  .report-scam::before {
-    border: 6px solid #00FFCB;
-    box-shadow: 0 0 60px rgba(0,255,203,.64);
+
+/*START: ring ring effect for button report scam at home */
+/* ref: https://codepen.io/mccombsc/pen/ZEzxWPy */
+.coccoc-alo-ph-circle {
+    width: 160px;
+    height: 160px;
+    top: 20px;
+    left: 20px;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: all .3s ease-in-out 0s;
-  }
-  
-  .report-scam:hover, .report-scam:focus {
-    color: #313133;
-    transform: translateY(-6px);
-  }
-  
-  .report-scam:hover::before, .report-scam:focus::before {
-    opacity: 1;
-  }
-  
-  .report-scam::after {
-    content: '';
+    background-color: transparent;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
     border-radius: 100%;
-    border: 6px solid #00FFCB;
+    border: 2px solid rgba(30, 30, 30, 0.4);
+    opacity: .1;
+    -webkit-animation: coccoc-alo-circle-anim 1.2s infinite ease-in-out;
+    -moz-animation: coccoc-alo-circle-anim 1.2s infinite ease-in-out;
+    -ms-animation: coccoc-alo-circle-anim 1.2s infinite ease-in-out;
+    -o-animation: coccoc-alo-circle-anim 1.2s infinite ease-in-out;
+    animation: coccoc-alo-circle-anim 1.2s infinite ease-in-out;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+
+.coccoc-alo-phone {
+    background-color: transparent;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    z-index: 200000 !important;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    -webkit-transition: visibility .5s;
+    -moz-transition: visibility .5s;
+    -o-transition: visibility .5s;
+    transition: visibility .5s;
+    right: 150px;
+    top: 30px;
+}
+
+.coccoc-alo-phone.coccoc-alo-green .coccoc-alo-ph-circle-fill {
+    background-color: rgba(0, 175, 242, 0.5);
+    opacity: .75 !important;
+}
+
+.coccoc-alo-ph-circle-fill {
+    width: 100px;
+    height: 100px;
+    top: 50px;
+    left: 50px;
     position: absolute;
-    z-index: -1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: ring1 1.5s infinite;
-  }
-  
-  .report-scam:hover::after, .report-scam:focus::after {
-    animation: none;
-    display: none;
-  }
-  
-  @keyframes ring1 {
+    background-color: #000;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    border: 2px solid transparent;
+    opacity: .1;
+    -webkit-animation: coccoc-alo-circle-fill-anim 2.3s infinite ease-in-out;
+    -moz-animation: coccoc-alo-circle-fill-anim 2.3s infinite ease-in-out;
+    -ms-animation: coccoc-alo-circle-fill-anim 2.3s infinite ease-in-out;
+    -o-animation: coccoc-alo-circle-fill-anim 2.3s infinite ease-in-out;
+    animation: coccoc-alo-circle-fill-anim 2.3s infinite ease-in-out;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+
+.report-scam-image{
+  background: rgba(30, 30, 30, 0.1) url(/src/images/svg/sword.svg) no-repeat center center;
+}
+
+.add-project-image{
+  background: rgba(30, 30, 30, 0.1) url(/src/images/svg/add-project-test.svg) no-repeat center center;
+}
+
+.coccoc-alo-ph-img-circle {
+    width: 60px;
+    height: 60px;
+    top: 70px;
+    left: 70px;
+    position: absolute;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    border: 2px solid transparent;
+    opacity: .7;
+    -webkit-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
+    -moz-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
+    -ms-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
+    -o-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
+    animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
+}
+
+.coccoc-alo-phone.coccoc-alo-green .coccoc-alo-ph-img-circle {
+    background-color: #00aff2;
+}
+
+.coccoc-alo-phone.coccoc-alo-green .coccoc-alo-ph-circle {
+    border-color: #00aff2;
+    opacity: .5;
+}
+
+.coccoc-alo-phone.coccoc-alo-green.coccoc-alo-hover .coccoc-alo-ph-circle,
+.coccoc-alo-phone.coccoc-alo-green:hover .coccoc-alo-ph-circle {
+    border-color: #75eb50;
+    opacity: .5;
+}
+
+.coccoc-alo-phone.coccoc-alo-green.coccoc-alo-hover .coccoc-alo-ph-circle-fill,
+.coccoc-alo-phone.coccoc-alo-green:hover .coccoc-alo-ph-circle-fill {
+    background-color: rgba(117, 235, 80, 0.5);
+    opacity: .75 !important;
+}
+
+.coccoc-alo-phone.coccoc-alo-green.coccoc-alo-hover .coccoc-alo-ph-img-circle,
+.coccoc-alo-phone.coccoc-alo-green:hover .coccoc-alo-ph-img-circle {
+    background-color: #75eb50;
+}
+
+@-moz-keyframes coccoc-alo-circle-anim {
     0% {
-      width: 2rem;
-      height: 2rem;
-      opacity: 1;
+        transform: rotate(0) scale(.5) skew(1deg);
+        opacity: .1
+    }
+    30% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .5
     }
     100% {
-      width: 5rem;
-      height: 5rem;
-      opacity: 0;
+        transform: rotate(0) scale(1) skew(1deg);
+        opacity: .1
     }
-  }
+}
+
+@-webkit-keyframes coccoc-alo-circle-anim {
+    0% {
+        transform: rotate(0) scale(.5) skew(1deg);
+        opacity: .1
+    }
+    30% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .5
+    }
+    100% {
+        transform: rotate(0) scale(1) skew(1deg);
+        opacity: .1
+    }
+}
+
+@-o-keyframes coccoc-alo-circle-anim {
+    0% {
+        transform: rotate(0) scale(.5) skew(1deg);
+        opacity: .1
+    }
+    30% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .5
+    }
+    100% {
+        transform: rotate(0) scale(1) skew(1deg);
+        opacity: .1
+    }
+}
+
+@keyframes coccoc-alo-circle-anim {
+    0% {
+        transform: rotate(0) scale(.5) skew(1deg);
+        opacity: .1
+    }
+    30% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .5
+    }
+    100% {
+        transform: rotate(0) scale(1) skew(1deg);
+        opacity: .1
+    }
+}
+
+@-moz-keyframes coccoc-alo-circle-fill-anim {
+    0% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .2
+    }
+    50% {
+        transform: rotate(0) scale(1) skew(1deg);
+        opacity: .2
+    }
+    100% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .2
+    }
+}
+
+@-webkit-keyframes coccoc-alo-circle-fill-anim {
+    0% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .2
+    }
+    50% {
+        transform: rotate(0) scale(1) skew(1deg);
+        opacity: .2
+    }
+    100% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .2
+    }
+}
+
+@-o-keyframes coccoc-alo-circle-fill-anim {
+    0% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .2
+    }
+    50% {
+        transform: rotate(0) scale(1) skew(1deg);
+        opacity: .2
+    }
+    100% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .2
+    }
+}
+
+@keyframes coccoc-alo-circle-fill-anim {
+    0% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .2
+    }
+    50% {
+        transform: rotate(0) scale(1) skew(1deg);
+        opacity: .2
+    }
+    100% {
+        transform: rotate(0) scale(.7) skew(1deg);
+        opacity: .2
+    }
+}
+
+@-moz-keyframes coccoc-alo-circle-img-anim {
+    0% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+    10% {
+        transform: rotate(-25deg) scale(1) skew(1deg)
+    }
+    20% {
+        transform: rotate(25deg) scale(1) skew(1deg)
+    }
+    30% {
+        transform: rotate(-25deg) scale(1) skew(1deg)
+    }
+    40% {
+        transform: rotate(25deg) scale(1) skew(1deg)
+    }
+    50% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+    100% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+}
+
+@-webkit-keyframes coccoc-alo-circle-img-anim {
+    0% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+    10% {
+        transform: rotate(-25deg) scale(1) skew(1deg)
+    }
+    20% {
+        transform: rotate(25deg) scale(1) skew(1deg)
+    }
+    30% {
+        transform: rotate(-25deg) scale(1) skew(1deg)
+    }
+    40% {
+        transform: rotate(25deg) scale(1) skew(1deg)
+    }
+    50% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+    100% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+}
+
+@-o-keyframes coccoc-alo-circle-img-anim {
+    0% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+    10% {
+        transform: rotate(-25deg) scale(1) skew(1deg)
+    }
+    20% {
+        transform: rotate(25deg) scale(1) skew(1deg)
+    }
+    30% {
+        transform: rotate(-25deg) scale(1) skew(1deg)
+    }
+    40% {
+        transform: rotate(25deg) scale(1) skew(1deg)
+    }
+    50% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+    100% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+}
+
+@keyframes coccoc-alo-circle-img-anim {
+    0% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+    10% {
+        transform: rotate(-25deg) scale(1) skew(1deg)
+    }
+    20% {
+        transform: rotate(25deg) scale(1) skew(1deg)
+    }
+    30% {
+        transform: rotate(-25deg) scale(1) skew(1deg)
+    }
+    40% {
+        transform: rotate(25deg) scale(1) skew(1deg)
+    }
+    50% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+    100% {
+        transform: rotate(0) scale(1) skew(1deg)
+    }
+}
 /*END: ring ring effect for button report scam at home */
