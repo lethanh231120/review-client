@@ -21,13 +21,14 @@ import {
 } from '../../constants/category'
 import { get, search } from '../../../api/BaseRequest'
 // import { search } from '../../api/BaseRequest'
-import SpinLoading from '../spin-loading/SpinLoading'
+// import SpinLoading from '../spin-loading/SpinLoading'
 import TabSearch from './TabSearch'
 import { PAGE_SIZE, MAX_PAGE } from '../../constants/pagination'
 import { useNavigate } from 'react-router-dom'
 import { decodeUrl } from '../../../utils/formatUrl'
 import _ from 'lodash'
 import LaunchpadList from '../table/launchpad/LaunchpadTable'
+import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -354,7 +355,7 @@ const CategoryItem = () => {
           ) : (
             <>
               {loading ? (
-                <SpinLoading />
+                <div style={{ width: '100%' }}>  <MySkeletonLoadinng count={50} height={70} /></div>
               ) : (
                 <>{renderComponent(listProduct && listProduct[0])}</>
               )}
