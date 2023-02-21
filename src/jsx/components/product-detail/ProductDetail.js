@@ -224,19 +224,19 @@ const ProductDetail = () => {
         const accountId = []
         // get list accountId of reply, review, reaction
         listReview?.forEach((itemReview) => {
-          if (itemReview?.data?.accountId && itemReview?.data?.accountId !== '00000000-0000-0000-0000-000000000000') {
-            accountId.push(itemReview?.data?.accountId)
+          if (itemReview?.review?.accountId && itemReview?.review?.accountId !== '00000000-0000-0000-0000-000000000000') {
+            accountId.push(itemReview?.review?.accountId)
           }
-          itemReview?.reaction?.forEach((itemReaction) => {
+          itemReview?.reactions?.forEach((itemReaction) => {
             if (itemReaction?.accountId && itemReaction?.accountId !== '00000000-0000-0000-0000-000000000000') {
               accountId.push(itemReaction?.accountId)
             }
           })
-          itemReview?.reply?.forEach((itemReplies) => {
-            if (itemReplies?.data?.accountId && itemReplies?.data?.accountId !== '00000000-0000-0000-0000-000000000000') {
-              accountId.push(itemReplies?.data?.accountId)
+          itemReview?.replies?.forEach((itemReplies) => {
+            if (itemReplies?.reply?.accountId && itemReplies?.reply?.accountId !== '00000000-0000-0000-0000-000000000000') {
+              accountId.push(itemReplies?.reply?.accountId)
             }
-            itemReplies?.reaction?.forEach((itemReactionInReplies) => {
+            itemReplies?.reactions?.forEach((itemReactionInReplies) => {
               if (itemReactionInReplies?.accountId && itemReactionInReplies?.accountId !== '00000000-0000-0000-0000-000000000000') {
                 accountId.push(itemReactionInReplies?.accountId)
               }
@@ -255,10 +255,10 @@ const ProductDetail = () => {
           const listUser = await post('reviews/auth/profiles', { 'accountIds': unique })
           if (!_.isEmpty(listUser?.data?.accounts)) {
             listReview?.forEach((itemReview) => {
-              const account = listUser?.data?.accounts?.find(item => item?.id === itemReview?.data?.accountId)
+              const account = listUser?.data?.accounts?.find(item => item?.id === itemReview?.review?.accountId)
               // reviews
               const newReview = {
-                ...itemReview?.data,
+                ...itemReview?.review,
                 accountType: account?.ccountType,
                 email: account?.email,
                 acountImage: account?.image,
@@ -267,7 +267,8 @@ const ProductDetail = () => {
               }
               // reactions of review
               const newReactions = []
-              itemReview?.reaction?.forEach((itemReaction) => {
+              itemReview?.reactions?.forEach((itemReaction) => {
+                console.log(itemReaction)
                 const accountReaction = listUser?.data?.accounts?.find(item => item?.id === itemReaction?.accountId)
                 newReactions.push({
                   ...itemReaction,
@@ -280,10 +281,10 @@ const ProductDetail = () => {
               })
               // replies
               const replies = []
-              itemReview?.reply?.forEach((itemReplies) => {
-                const accountReply = listUser?.data?.accounts?.find(item => item?.id === itemReplies?.data?.accountId)
+              itemReview?.replies?.forEach((itemReplies) => {
+                const accountReply = listUser?.data?.accounts?.find(item => item?.id === itemReplies?.reply?.accountId)
                 const newReply = {
-                  ...itemReplies.data,
+                  ...itemReplies.reply,
                   accountType: accountReply?.accountType,
                   email: accountReply?.email,
                   acountImage: accountReply?.image,
@@ -416,7 +417,6 @@ const ProductDetail = () => {
     }
   }
 
-  console.log(reviews)
   // submit btn
   const handleSubmitComment = async(values) => {
     const params = {
