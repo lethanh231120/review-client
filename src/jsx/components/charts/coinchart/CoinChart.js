@@ -5,7 +5,7 @@ import TradingViewWidget from '../../common-widgets/home/home-chart/trading-view
 const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, symbolForChart }) => {
   return (
     <>
-      <div className=' coin-content '>
+      <div className='coin-content'>
         <div className='card-header border-0 flex-wrap cus-card-header'>
           <div className='mb-2'>
             <h4 className='heading m-0'>{symbol} Market Info</h4>

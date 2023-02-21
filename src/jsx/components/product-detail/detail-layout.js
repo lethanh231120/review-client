@@ -82,7 +82,7 @@ export const DetailLayout = (props) => {
           </div>
           <div className='col-xl-7'>
             {/* {coinChart} */}
-            {portfolioOrChart && <div className='card'>
+            {portfolioOrChart && <div className='card mt-4'>
               {portfolioOrChart}
             </div>
             }

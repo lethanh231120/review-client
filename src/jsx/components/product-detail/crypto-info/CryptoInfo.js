@@ -254,7 +254,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         </div>
         <div className='col'>
           <h3 className='m-b-0'>
-            <Badge bg='badge-l' className='badge-warning'>{productInfo?.details?.totalIsScam}</Badge>
+            <Badge bg='badge-l' className='badge-danger'>{productInfo?.details?.totalIsScam}</Badge>
           </h3>
           <span>
           Reported Scam
@@ -277,7 +277,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           variant='danger'
           onClick={handleReportScam}
         >
-          <img src={imgReportProject} alt='err' />
+          <img src={imgReportProject} alt='err' className='img-fluid noti ms-2' style={{ height: '1.7rem' }}/>
           &nbsp;
         Report&nbsp;Scam
         </Button>
