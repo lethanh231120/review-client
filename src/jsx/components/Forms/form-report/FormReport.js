@@ -33,7 +33,7 @@ const defaultValue = [
   { name: 'isScam', value: false },
   { name: 'star', value: undefined }
 ]
-const FormReport = ({ numberReviews, rest, isFormReport }) => {
+const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
   const {
     data,
     setData,
@@ -58,10 +58,24 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
   const [images, setImages] = useState([])
 
+  const currenRef = useRef(null)
   // submit form
   const onFinish = (values) => {
     handleSubmitComment(values)
   }
+
+  const getPosition = () => {
+    const top = document.getElementById('div1').offsetTop
+    setTop(top - 135)
+  }
+
+  // useEffect(() => {
+  //   getPosition()
+  // }, [])
+
+  useEffect(() => {
+    window.addEventListener('mouseover', getPosition)
+  }, [])
 
   // toast message
   const notifyTopRight = (content) => {
@@ -133,14 +147,12 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
   // call when onChange proof link
   const handleChangeLink = (value) => {
     const newLink = []
-    // const reg = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
     const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
     value?.forEach((itemLink) => {
       if (itemLink.match(reg)) {
         newLink.push(itemLink)
       }
     })
-    console.log(newLink)
     form.setFieldsValue({
       'sources': newLink
     })
@@ -168,17 +180,9 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
   }
 
   const changeSelect = (value) => {
-    // const reg = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
     const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
     if (value !== '') {
       if (value.match(reg)) {
-        // setData({
-        //   ...data,
-        //   sources: [
-        //     ...data.sources,
-        //     value
-        //   ]
-        // })
         setErrorLink()
       } else {
         setErrorLink('Link explorer is not valid')
@@ -229,8 +233,10 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
       <Form
         name='nest-messages'
         form={form}
+        ref={currenRef}
         onFinish={onFinish}
         layout='vertical'
+        id='div1'
         fields={[
           ...defaultValue,
           { name: 'isScam', value: form.getFieldValue('isScam') || false },
@@ -437,13 +443,10 @@ const FormReport = ({ numberReviews, rest, isFormReport }) => {
                 <Upload
                   listType='picture-card'
                   fileList={fileList}
-                  multiple={true}
-                  // customRequest={dummyRequest}
                   onChange={handleChangeFile}
                   beforeUpload={beforeUpload}
                   onPreview={onPreview}
                 >
-                  {/* {fileList.length < 1 && '+ Upload'} */}
                   {fileList.length > 2 ? null : '+ Upload'}
                 </Upload>
               )}
