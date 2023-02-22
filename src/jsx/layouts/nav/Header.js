@@ -23,16 +23,16 @@ import ExpiredJWTChecker from '../../components/auth/ExpiredJWTChecker'
 import Swal from 'sweetalert2'
 // import { Tooltip } from 'antd'
 import { ReportModalContext, AddModalContext } from '../../index'
-import imgAddProject from '../../../images/svg/add-project.svg'
+// import imgAddProject from '../../../images/svg/add-project.svg'
 import imgLogIn from '../../../images/svg/log-in-primary.svg'
 import imgSignUp from '../../../images/svg/sign-up-primary.svg'
 import { Link } from 'react-router-dom'
-import { SWORD_ICON } from '../../../images/svg/report-project-primary'
+// import { SWORD_ICON } from '../../../images/svg/report-project-primary'
 import { SEARCH_ICON } from '../../../images/svg/search'
 import { CANCEL_ICON } from '../../../images/svg/cancel'
 
-const txtScamTooltip = 'Report Scam'
-const txtAddProjectTooltip = 'Add New Project'
+// const txtScamTooltip = 'Report Scam'
+// const txtAddProjectTooltip = 'Add New Project'
 const txtSearchPrject = 'Search your project quickly'
 const txtLoginTooltip = 'Log In'
 const txtSignUpTooltip = 'Sign Up'
@@ -206,44 +206,44 @@ const Header = () => {
     </Dropdown>
   </ul>
 
-  const reportScamHtml = <ul className='report-scam'>
-    <Dropdown
-      as='li'
-      className='nav-item dropdown notification_dropdown'
-    >
-      <Tooltip title={txtScamTooltip} placement='left'>
-        <Dropdown.Toggle
-          variant=''
-          as='a'
-          className='nav-link  ai-icon i-false c-pointer button-report-scam-home'
-          role='button'
-          onClick={() => reportModal?.handleSetOpenModal(true)}
-        >
-          {SWORD_ICON('#18A493', 17.5, 17.5)}
-        </Dropdown.Toggle>
-      </Tooltip>
-    </Dropdown>
-  </ul>
+  // const reportScamHtml = <ul className='report-scam'>
+  //   <Dropdown
+  //     as='li'
+  //     className='nav-item dropdown notification_dropdown'
+  //   >
+  //     <Tooltip title={txtScamTooltip} placement='left'>
+  //       <Dropdown.Toggle
+  //         variant=''
+  //         as='a'
+  //         className='nav-link  ai-icon i-false c-pointer button-report-scam-home'
+  //         role='button'
+  //         onClick={() => reportModal?.handleSetOpenModal(true)}
+  //       >
+  //         {SWORD_ICON('#18A493', 17.5, 17.5)}
+  //       </Dropdown.Toggle>
+  //     </Tooltip>
+  //   </Dropdown>
+  // </ul>
 
-  const addProjectHtml = <ul className='add-project'>
-    <Dropdown
-      as='li'
-      className='nav-item dropdown notification_dropdown '
-    >
-      <Tooltip title={txtAddProjectTooltip} placement='left'>
-        <Dropdown.Toggle
-          variant=''
-          as='a'
-          className='nav-link  ai-icon i-false c-pointer button-add-project-home'
-          role='button'
-          onClick={handleAddProject}
-        >
-          <img src={imgAddProject} alt='err' />
-        </Dropdown.Toggle>
-      </Tooltip>
-    </Dropdown>
-  </ul>
-  console.log(addProjectHtml, reportScamHtml)
+  // const addProjectHtml = <ul className='add-project'>
+  //   <Dropdown
+  //     as='li'
+  //     className='nav-item dropdown notification_dropdown '
+  //   >
+  //     <Tooltip title={txtAddProjectTooltip} placement='left'>
+  //       <Dropdown.Toggle
+  //         variant=''
+  //         as='a'
+  //         className='nav-link  ai-icon i-false c-pointer button-add-project-home'
+  //         role='button'
+  //         onClick={handleAddProject}
+  //       >
+  //         <img src={imgAddProject} alt='err' />
+  //       </Dropdown.Toggle>
+  //     </Tooltip>
+  //   </Dropdown>
+  // </ul>
+  // console.log(addProjectHtml, reportScamHtml)
 
   const miniSearchHtml = <ul className=''>
     <Dropdown
