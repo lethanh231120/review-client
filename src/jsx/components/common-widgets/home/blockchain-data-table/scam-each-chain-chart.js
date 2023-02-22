@@ -6,8 +6,9 @@ import {
   Badge
   // ProgressBar
 } from 'react-bootstrap'
-import { ChainListContext } from '../../../../App'
+import { ChainListContext } from '../../../../../App'
 // import { formatMoney } from '../../../../utils/formatNumber'
+import './blockchain-data.scss'
 
 const color = ['success', 'info', 'warning', 'danger', 'secondary']
 
@@ -48,7 +49,7 @@ export const ScamEachChainsList = ({ data }) => {
       </Card.Title>
     </Card.Header>
     <Card.Body>
-      <Table responsive hover className='header-border verticle-middle'>
+      <Table responsive className='header-border verticle-middle'>
         <thead className='text-center'>
           <tr>
             <th scope='col' >#</th>
