@@ -52,7 +52,6 @@ export const ReviewItem = ({ data }) => {
               </div>}
             </div>
           </div>
-
           <div className='username-text mt-2' >{data?.userName || 'Anonymous'}&nbsp;
             {data?.productName && <span><span className={data?.isScam ? 'text-danger' : ''}>{data?.isScam && data?.isScam ? 'reported' : 'reviewed'}&nbsp;</span>
               <span onClick={ onClicked} className='text-primary'style={{ cursor: 'pointer' }}>
