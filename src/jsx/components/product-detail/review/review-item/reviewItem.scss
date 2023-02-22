@@ -218,3 +218,29 @@
         }
     }
 }
+@media (max-width:767px) {
+    .review{
+        &-item{
+            &-list{
+                &-image{
+                    &-item{
+                        height: 6rem;
+                    }
+                }
+            }
+        }
+    }
+}
+@media (max-width:600px) {
+    .review{
+        &-item{
+            &-list{
+                &-image{
+                    &-item{
+                        height: 4rem;
+                    }
+                }
+            }
+        }
+    }
+}

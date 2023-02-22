@@ -22,7 +22,7 @@ button {
   }
 
   @include respond('laptop') {
-    padding: 0.625rem 1rem;
+    padding: 0.4rem 0.6rem;
     font-size: 0.813rem;
   }
   &.btn-success,

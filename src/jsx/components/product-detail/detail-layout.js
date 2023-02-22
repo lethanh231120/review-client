@@ -17,7 +17,7 @@ export const DetailLayout = (props) => {
     <div className='row'>
       {/* detail header: icon, name, score */}
       <div className='col-lg-12'>
-        <div className='profile card card-body px-3 pt-3 pb-3'>
+        <div className='profile card card-body'>
           {Header}
         </div>
       </div>
@@ -82,7 +82,7 @@ export const DetailLayout = (props) => {
           </div>
           <div className='col-xl-7'>
             {/* {coinChart} */}
-            {portfolioOrChart && <div className='card'>
+            {portfolioOrChart && <div className='card cus-margin-top'>
               {portfolioOrChart}
             </div>
             }

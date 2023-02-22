@@ -563,10 +563,32 @@
     padding: 0.625rem;
     @include font-family;
 }
+.cus-margin-top{
+    margin-top: 1.875rem;
+}
 @media (max-width: 670px) {
     .product{
         &-overview{
             width: 65%;
         }
+    }
+}
+
+@media (max-width: 420px) {
+    .product-detail-form-avatar{
+        & .ant-image{
+            display: none;
+        }
+    }
+}
+@media (max-width: 35.9375rem) {
+    .product-detail{
+        padding: 1rem;
+        border-radius: 0.6rem;
+    }
+}
+@media (max-width: 23.125rem) {
+    .product-detail{
+        padding: 0.5rem;
     }
 }
