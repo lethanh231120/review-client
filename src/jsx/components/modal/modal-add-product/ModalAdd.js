@@ -127,10 +127,10 @@ const ModalAdd = ({ isModal }) => {
           addModal.handleSetOpenModal(false)
         }
         handleReset()
-        notifyTopRight(`Add ${category} successfully. Please wait for admin to confirm`)
+        notifyTopRight(`Add project successfully. Please wait for our admin to confirm`)
       }
     } catch (error) {
-      toartError('Add products failure. Please try again.')
+      toartError('Add project failed. Please try again.')
     }
   }
 
@@ -385,7 +385,7 @@ const ModalAdd = ({ isModal }) => {
 
   return (
     <>
-      <p>We are very glad that you are contributing information about the projects that we are missing. Together we bring a lot of useful information to the crypto community.</p>
+      <p>We are very glad that you are contributing information about the projects that we are missing. Together we will bring lots of useful information to the crypto community.</p>
       <Form
         form={form}
         onFinish={onFinish}

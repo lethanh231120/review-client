@@ -118,7 +118,7 @@ const Markup = () => {
         </Modal>
         <Modal className='fade' show={openModalAdd} size='lg'>
           <Modal.Header>
-            <Modal.Title>Add Product</Modal.Title>
+            <Modal.Title>Add New Project</Modal.Title>
             <Button
               variant=''
               className='btn-close'
