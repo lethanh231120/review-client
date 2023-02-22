@@ -35,7 +35,7 @@ const defaultValue = [
   { name: 'isScam', value: false },
   { name: 'isWarning', value: false }
 ]
-const ModalAdd = () => {
+const ModalAdd = ({ isModal }) => {
   const TOKEN = 'token'
   // const ref = useRef()
   const categoryContext = useContext(CategoryContext)
@@ -123,7 +123,9 @@ const ModalAdd = () => {
         res = await post('reviews/dapp/upload', data)
       }
       if (res?.status) {
-        addModal.handleSetOpenModal(false)
+        if (isModal) {
+          addModal.handleSetOpenModal(false)
+        }
         handleReset()
         notifyTopRight(`Add ${category} successfully. Please wait for admin to confirm`)
       }
@@ -383,6 +385,7 @@ const ModalAdd = () => {
 
   return (
     <>
+      <p>We are very glad that you are contributing information about the projects that we are missing. Together we bring a lot of useful information to the crypto community.</p>
       <Form
         form={form}
         onFinish={onFinish}

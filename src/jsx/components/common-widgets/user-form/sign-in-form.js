@@ -31,8 +31,10 @@ export const SignInComponent = () => {
           userName: response?.name,
           image: response?.picture?.data?.url
         }
+        console.log('dataSignin', dataSignin)
         const resp = await post('reviews/auth/signin/social', dataSignin)
         if (resp?.status) {
+          console.log(resp)
           setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
         }
       }
@@ -40,6 +42,10 @@ export const SignInComponent = () => {
       console.error(error)
       openNotification()
     }
+  }
+
+  const handleFalure = (value) => {
+    console.log(value)
   }
 
   const openNotification = () => {
@@ -174,7 +180,7 @@ export const SignInComponent = () => {
             className='tab-pane fade active show'
             id='nav-personal'
           >
-            <form className=' dz-form pb-3' onSubmit={onLoginNormal}>
+            <form className='dz-form pb-3' onSubmit={onLoginNormal}>
               <h3 className='form-title m-t0'>
                 Sign In
               </h3>
@@ -246,6 +252,7 @@ export const SignInComponent = () => {
                       autoLoad={false}
                       fields='name,email,picture'
                       callback={responseFacebook}
+                      onFailure={handleFalure}
                       render={(renderProps) => (
                         <a
                           href='#'
