@@ -21,19 +21,15 @@ import InputSearch from '../../components/input-search/GlobalSearch'
 import { getCookie, removeCookie, STORAGEKEY } from '../../../utils/storage'
 import ExpiredJWTChecker from '../../components/auth/ExpiredJWTChecker'
 import Swal from 'sweetalert2'
-// import { Tooltip } from 'antd'
 import { ReportModalContext, AddModalContext } from '../../index'
-// import imgAddProject from '../../../images/svg/add-project.svg'
 import imgLogIn from '../../../images/svg/log-in-primary.svg'
 import imgSignUp from '../../../images/svg/sign-up-primary.svg'
 import { Link } from 'react-router-dom'
-// import { SWORD_ICON } from '../../../images/svg/report-project-primary'
 import { SEARCH_ICON } from '../../../images/svg/search'
 import { CANCEL_ICON } from '../../../images/svg/cancel'
 
-// const txtScamTooltip = 'Report Scam'
-// const txtAddProjectTooltip = 'Add New Project'
-const txtSearchPrject = 'Search your project quickly'
+const txtScamTooltip = 'Report Scam'
+const txtAddProjectTooltip = 'Add New Project'
 const txtLoginTooltip = 'Log In'
 const txtSignUpTooltip = 'Sign Up'
 const minimumWidthBigScreenMode = 767
@@ -41,7 +37,7 @@ const minimumWidthBigScreenMode = 767
 const Header = () => {
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
-  const [isSmallMode, setIsSmallMode] = useState(window.innerWidth < minimumWidthBigScreenMode)
+  const [isSmallMode, setIsSmallMode] = useState(window.innerWidth <= minimumWidthBigScreenMode)
   const showFullSearchConext = useContext(ShowFullSearchConext)
   const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)
   const summaryData = useContext(SummaryHomeContext)
@@ -51,7 +47,7 @@ const Header = () => {
       setheaderFix(window.scrollY > 50)
     })
     window.addEventListener('resize', () => {
-      setIsSmallMode(window.innerWidth < minimumWidthBigScreenMode)
+      setIsSmallMode(window.innerWidth <= minimumWidthBigScreenMode)
     })
   }, [])
 
@@ -206,91 +202,70 @@ const Header = () => {
     </Dropdown>
   </ul>
 
-  // const reportScamHtml = <ul className='report-scam'>
-  //   <Dropdown
-  //     as='li'
-  //     className='nav-item dropdown notification_dropdown'
-  //   >
-  //     <Tooltip title={txtScamTooltip} placement='left'>
-  //       <Dropdown.Toggle
-  //         variant=''
-  //         as='a'
-  //         className='nav-link  ai-icon i-false c-pointer button-report-scam-home'
-  //         role='button'
-  //         onClick={() => reportModal?.handleSetOpenModal(true)}
-  //       >
-  //         {SWORD_ICON('#18A493', 17.5, 17.5)}
-  //       </Dropdown.Toggle>
-  //     </Tooltip>
-  //   </Dropdown>
-  // </ul>
+  const reportScamHtml = <ul className='report-scam'>
+    <Dropdown
+      as='li'
+      className='nav-item dropdown notification_dropdown '
+    >
+      <Dropdown.Toggle
+        variant=''
+        as='a'
+        className='nav-link  ai-icon i-false c-pointer'
+        role='button'
+        style={{ background: 'none' }}
+      >
+        <div className='coccoc-alo-phone coccoc-alo-green coccoc-alo-show report-scam-image-position'>
+          <div className='coccoc-alo-ph-circle' style={{ backgroundColor: 'red' }}></div>
+          <div className='coccoc-alo-ph-circle-fill' style={{ backgroundColor: 'red' }}></div>
+          <Tooltip title={txtScamTooltip} placement='left'>
+            <div className='coccoc-alo-ph-img-circle report-scam-image'
+              onClick={() => reportModal?.handleSetOpenModal(true)}
+            ></div>
+          </Tooltip>
+        </div>
+      </Dropdown.Toggle>
+    </Dropdown>
+  </ul>
 
-  // const addProjectHtml = <ul className='add-project'>
-  //   <Dropdown
-  //     as='li'
-  //     className='nav-item dropdown notification_dropdown '
-  //   >
-  //     <Tooltip title={txtAddProjectTooltip} placement='left'>
-  //       <Dropdown.Toggle
-  //         variant=''
-  //         as='a'
-  //         className='nav-link  ai-icon i-false c-pointer button-add-project-home'
-  //         role='button'
-  //         onClick={handleAddProject}
-  //       >
-  //         <img src={imgAddProject} alt='err' />
-  //       </Dropdown.Toggle>
-  //     </Tooltip>
-  //   </Dropdown>
-  // </ul>
-  // console.log(addProjectHtml, reportScamHtml)
+  const addProjectHtml = <ul className='add-project'>
+    <Dropdown
+      as='li'
+      className='nav-item dropdown notification_dropdown '
+    >
+      <Dropdown.Toggle
+        variant=''
+        as='a'
+        className='nav-link  ai-icon i-false c-pointer'
+        role='button'
+        style={{ background: 'none' }}
+      >
+        <div className='coccoc-alo-phone coccoc-alo-green coccoc-alo-show add-project-image-position'>
+          <div className='coccoc-alo-ph-circle' style={{ backgroundColor: 'green' }}></div>
+          <div className='coccoc-alo-ph-circle-fill' style={{ backgroundColor: 'green' }}></div>
+          <Tooltip title={txtAddProjectTooltip} placement='left'>
+            <div className='coccoc-alo-ph-img-circle add-project-image' onClick={handleAddProject} ></div>
+          </Tooltip>
+        </div>
+      </Dropdown.Toggle>
+    </Dropdown>
+  </ul>
 
   const miniSearchHtml = <ul className=''>
     <Dropdown
       as='li'
       className='nav-item dropdown notification_dropdown '
     >
-      <Tooltip title={showFullSearchConext?.isShowFullSearchSmallMode ? txtSearchPrject : ''} placement='bottom'>
-        <Dropdown.Toggle
-          variant=''
-          as='a'
-          className='nav-link  ai-icon i-false c-pointer button-add-project-home'
-          role='button'
-          onClick={() => showFullSearchConext?.setIsShowFullSearchSmallMode(!showFullSearchConext?.isShowFullSearchSmallMode)}
-        >
-          { showFullSearchConext?.isShowFullSearchSmallMode ? CANCEL_ICON('#18A493') : SEARCH_ICON('', 17.5, 17.5) }
-        </Dropdown.Toggle>
-      </Tooltip>
+      <Dropdown.Toggle
+        variant=''
+        as='a'
+        className='nav-link  ai-icon i-false c-pointer button-add-project-home'
+        role='button'
+        onClick={() => showFullSearchConext?.setIsShowFullSearchSmallMode(!showFullSearchConext?.isShowFullSearchSmallMode)}
+      >
+        { showFullSearchConext?.isShowFullSearchSmallMode ? CANCEL_ICON('#18A493', 17.5, 17.5) : SEARCH_ICON('', 17.5, 17.5) }
+      </Dropdown.Toggle>
     </Dropdown>
   </ul>
-
-  const imgTestReportScam = <div className='coccoc-alo-phone coccoc-alo-green coccoc-alo-show'
-    onClick={() => reportModal?.handleSetOpenModal(true)}
-    style={{
-      // backgroundColor: 'red',
-      position: 'fixed',
-      right: '-4.6rem',
-      top: '28rem'
-    }}
-  >
-    <div className='coccoc-alo-ph-circle'></div>
-    <div className='coccoc-alo-ph-circle-fill'></div>
-    <div className='coccoc-alo-ph-img-circle report-scam-image'></div>
-  </div>
-
-  const imgTestAddProject = <div className='coccoc-alo-phone coccoc-alo-green coccoc-alo-show'
-    onClick={handleAddProject}
-    style={{
-      // backgroundColor: 'red',
-      position: 'fixed',
-      right: '-4.6rem',
-      top: '35rem'
-    }}
-  >
-    <div className='coccoc-alo-ph-circle'></div>
-    <div className='coccoc-alo-ph-circle-fill'></div>
-    <div className='coccoc-alo-ph-img-circle add-project-image'></div>
-  </div>
 
   return (
     <>
@@ -305,8 +280,6 @@ const Header = () => {
       >
         <AccountTab activeTabKey={formLoginSignupKeyContext?.loginSignupFormactiveTabKey} />
       </Modal>
-      {imgTestReportScam}
-      {imgTestAddProject}
       <div className={`header ${headerFix ? 'is-fixed' : ''} ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0' : ''}`}>
         <div className={`header-content ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0 margin-left-0-3rem' : ''}`}>
           <nav className='navbar navbar-expand'>
@@ -343,8 +316,8 @@ const Header = () => {
                   </div>
                   <div className='sidebar-social-link '>
                     <ul className=''>
-                      {/* {reportScamHtml}
-                      {addProjectHtml} */}
+                      {reportScamHtml}
+                      {addProjectHtml}
                       {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode || authenticated?.isAuthenticated ? '' : signupHtml) : '' }
                     </ul>
                   </div>

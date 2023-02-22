@@ -201,11 +201,15 @@ const InputSearch = ({ isFormReport, setItem }) => {
   }
 
   const runnerEachCharOfText = async(text) =>{
+    const globalSearchHTML = document.querySelector('#globalSearch')
     let chars = ''
     for (const char of text) {
       await sleep(millSecAppendChar)
       chars += char
-      document.querySelector('#globalSearch').placeholder = chars
+      globalSearchHTML.placeholder = chars
+    }
+    while (document.activeElement === globalSearchHTML) {
+      await sleep(500)
     }
     setTxtDisplaySearchHeader(chars) // active effect
   }
