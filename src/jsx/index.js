@@ -21,6 +21,7 @@ import ProductDetail from './components/product-detail/ProductDetail'
 import { ThemeContext } from '../context/ThemeContext'
 import ModalReport from './components/modal/modal-report/ModalReport'
 import ModalAdd from './components/modal/modal-add-product/ModalAdd'
+import AddProject from './components/add-project/AddProject'
 
 import { Button, Modal } from 'react-bootstrap'
 
@@ -33,7 +34,8 @@ const Markup = () => {
   const allroutes = [
     // / Dashboard
     { url: '', component: <Home /> },
-    { url: 'dashboard', component: <Home /> }
+    { url: 'dashboard', component: <Home /> },
+    { url: 'add-project', component: <AddProject isModal={false} /> }
   ]
 
   const stateReport = {
@@ -125,7 +127,7 @@ const Markup = () => {
             </Button>
           </Modal.Header>
           <Modal.Body>
-            <ModalAdd/>
+            <ModalAdd isModal={true}/>
           </Modal.Body>
         </Modal>
       </AddModalContext.Provider>

@@ -27,6 +27,7 @@ import { LoadingOutlined } from '@ant-design/icons'
 import imgReportProject from '../../../../images/svg/report-project-white.svg'
 import CoinChart from '../../charts/coinchart/CoinChart'
 import { Link } from 'react-router-dom'
+import { underlines, lineThrough, current, slash } from '../../../constants/exchanges'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const PAGE_SIZE = 5
@@ -104,24 +105,87 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       if (itemExchange?.exchangeId) {
         const newItemExchange = exchanges?.find((itemExchangeInList) => itemExchangeInList?.exchangeId === itemExchange?.exchangeId)
         if (newItemExchange) {
-          if (itemExchange?.exchangeId === 'gear5_exchange_binance') {
+          if (underlines?.includes(newItemExchange?.exchangeId)) {
             newListExchange.push({
               ...itemExchange,
               ...newItemExchange,
               symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`,
-              website: `${newItemExchange?.website}/${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`
+              website: `${newItemExchange?.website}${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`
             })
           }
-          if (itemExchange?.exchangeId?.includes('coinbase-pro')) {
+          if (lineThrough?.includes(newItemExchange?.exchangeId)) {
             newListExchange.push({
               ...itemExchange,
               ...newItemExchange,
-              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `-${itemExchange?.currencycode}`)}`,
+              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`,
               website: `${newItemExchange?.website}${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `-${itemExchange?.currencycode}`)}`
             })
           }
-        } else {
-          // console.log('khong co exchange')
+          if (newItemExchange?.exchangeId === 'gear5_exchange_cex') {
+            const url = itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `-${itemExchange?.currencycode}`)?.toLowerCase()
+            newListExchange.push({
+              ...itemExchange,
+              ...newItemExchange,
+              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`,
+              website: `${newItemExchange?.website}${url}`
+            })
+          }
+          if (slash?.includes(newItemExchange?.exchangeId)) {
+            newListExchange.push({
+              ...itemExchange,
+              ...newItemExchange,
+              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`,
+              website: `${newItemExchange?.website}${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `/${itemExchange?.currencycode}`)}`
+            })
+          }
+          if (newItemExchange?.exchangeId === 'gear5_exchange_bitfinex') {
+            newListExchange.push({
+              ...itemExchange,
+              ...newItemExchange,
+              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`,
+              website: `${newItemExchange?.website}${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `:${itemExchange?.currencycode}`)}`
+            })
+          }
+          if (newItemExchange?.exchangeId === 'gear5_exchange_bitkub') {
+            newListExchange.push({
+              ...itemExchange,
+              ...newItemExchange,
+              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`,
+              website: `${newItemExchange?.website}${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, ``)}`
+            })
+          }
+          if (newItemExchange?.exchangeId === 'gear5_exchange_currency-com') {
+            newListExchange.push({
+              ...itemExchange,
+              ...newItemExchange,
+              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`,
+              website: `${newItemExchange?.website}${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `-to-${itemExchange?.currencycode}`)}`
+            })
+          }
+          if (newItemExchange?.exchangeId === 'gear5_exchange_upbit') {
+            newListExchange.push({
+              ...itemExchange,
+              ...newItemExchange,
+              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`,
+              website: `${newItemExchange?.website}CRIX.UPBIT.${itemExchange?.currencycode}-${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, '')}`
+            })
+          }
+          if (newItemExchange?.exchangeId === 'gear5_exchange_coinex') {
+            newListExchange.push({
+              ...itemExchange,
+              ...newItemExchange,
+              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`,
+              website: `${newItemExchange?.website}currency=${itemExchange?.currencycode}&dest=${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, '')}&tab=limit`
+            })
+          }
+          if (current?.includes(newItemExchange?.exchangeId)) {
+            newListExchange.push({
+              ...itemExchange,
+              ...newItemExchange,
+              symbol: `${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `_${itemExchange?.currencycode}`)}`,
+              website: `${newItemExchange?.website}${itemExchange?.symbol?.replace(`${itemExchange?.currencycode}`, `${itemExchange?.currencycode}`)}`
+            })
+          }
         }
       }
     })
@@ -650,7 +714,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           <Table
             columns={columns}
             dataSource={dataExchange}
-            pagination={productInfo?.mores?.trading.length > 5 ? {
+            pagination={dataExchange?.length > 5 ? {
               pageSize: PAGE_SIZE,
               defaultCurrent: 1,
               showSizeChanger: false
