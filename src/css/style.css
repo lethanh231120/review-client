@@ -34540,14 +34540,14 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 
-/*START: background header in small mode */
-
+/*START: background header in small mode*/
+/* background blur */
 @media screen and (max-width: 767px) {
   .brand-logo{
     backdrop-filter: blur(5px)
   }
 }
-/*END: background header in small mode */
+/*END: background header in small mode*/
 
 /*START: resposive float button in home at screen mobile phone*/
   .report-scam, .add-project{
@@ -34584,11 +34584,51 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 /*START: ring ring effect for button report scam at home */
 /* ref: https://codepen.io/mccombsc/pen/ZEzxWPy */
+
+.report-scam-image{
+  background: rgba(30, 30, 30, 0.1) url(/src/images/svg/report-scam-float-button.svg) no-repeat center center;
+}
+
+.add-project-image{
+  background: rgba(30, 30, 30, 0.1) url(/src/images/svg/add-project-float-button.svg) no-repeat center center;
+}
+
+.add-project-image-position, .report-scam-image-position{
+  position: fixed !important;
+}
+
+.add-project-image-position{
+  top: 65% !important;
+}
+
+.report-scam-image-position{
+  top: 75% !important;
+}
+
+@media screen and (max-width: 767px){
+  .add-project-image-position, .report-scam-image-position{
+    right: 10.4rem !important;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1600px){
+  .add-project-image-position, .report-scam-image-position{
+    right: 9.8rem !important;
+  }
+}
+
+@media screen and (min-width: 1601px){
+  .add-project-image-position, .report-scam-image-position{
+    right: 8.9rem !important;
+  }
+}
+
+/* 3rd circle */
 .coccoc-alo-ph-circle {
-    width: 160px;
-    height: 160px;
-    top: 20px;
-    left: 20px;
+    width: 110px;
+    height: 110px;
+    top: 45px;
+    left: 45px;
     position: absolute;
     background-color: transparent;
     -webkit-border-radius: 100%;
@@ -34609,8 +34649,8 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 .coccoc-alo-phone {
     background-color: transparent;
-    width: 200px;
-    height: 200px;
+    width: 0;
+    height: 0;
     cursor: pointer;
     z-index: 200000 !important;
     -webkit-backface-visibility: hidden;
@@ -34623,23 +34663,20 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     top: 30px;
 }
 
-.coccoc-alo-phone.coccoc-alo-green .coccoc-alo-ph-circle-fill {
-    background-color: rgba(0, 175, 242, 0.5);
-    opacity: .75 !important;
-}
 
+/* 2nd circel */
 .coccoc-alo-ph-circle-fill {
     width: 100px;
     height: 100px;
     top: 50px;
     left: 50px;
     position: absolute;
-    background-color: #000;
+    /* background-color: #000; */
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
     border-radius: 100%;
     border: 2px solid transparent;
-    opacity: .1;
+    /* opacity: .1; */
     -webkit-animation: coccoc-alo-circle-fill-anim 2.3s infinite ease-in-out;
     -moz-animation: coccoc-alo-circle-fill-anim 2.3s infinite ease-in-out;
     -ms-animation: coccoc-alo-circle-fill-anim 2.3s infinite ease-in-out;
@@ -34651,56 +34688,44 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     transition: all .5s;
 }
 
-.report-scam-image{
-  background: rgba(30, 30, 30, 0.1) url(/src/images/svg/sword.svg) no-repeat center center;
-}
-
-.add-project-image{
-  background: rgba(30, 30, 30, 0.1) url(/src/images/svg/add-project-test.svg) no-repeat center center;
-}
-
+/* 1st cirlce */
 .coccoc-alo-ph-img-circle {
-    width: 60px;
-    height: 60px;
-    top: 70px;
-    left: 70px;
-    position: absolute;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    border-radius: 100%;
-    border: 2px solid transparent;
-    opacity: .7;
-    -webkit-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
-    -moz-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
-    -ms-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
-    -o-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
-    animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
+  width: 60px;
+  height: 60px;
+  top: 70px;
+  left: 70px;
+  position: absolute;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  border: 2px solid transparent;
+  opacity: .7;
+  -webkit-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
+  -moz-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
+  -ms-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
+  -o-animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
+  animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
 }
 
-.coccoc-alo-phone.coccoc-alo-green .coccoc-alo-ph-img-circle {
-    background-color: #00aff2;
+.coccoc-alo-ph-circle-fill {
+  background-color: rgba(3, 151, 135, 0.5);
+  opacity: .75;
+}
+.coccoc-alo-ph-img-circle {
+    background-color: #039f7f;
 }
 
-.coccoc-alo-phone.coccoc-alo-green .coccoc-alo-ph-circle {
-    border-color: #00aff2;
+.coccoc-alo-ph-circle {
+    border-color: #039f7f;
     opacity: .5;
 }
 
-.coccoc-alo-phone.coccoc-alo-green.coccoc-alo-hover .coccoc-alo-ph-circle,
-.coccoc-alo-phone.coccoc-alo-green:hover .coccoc-alo-ph-circle {
-    border-color: #75eb50;
-    opacity: .5;
+/* hover 1st circle*/
+.coccoc-alo-ph-img-circle.report-scam-image:hover{
+    background-color: red !important;
 }
-
-.coccoc-alo-phone.coccoc-alo-green.coccoc-alo-hover .coccoc-alo-ph-circle-fill,
-.coccoc-alo-phone.coccoc-alo-green:hover .coccoc-alo-ph-circle-fill {
-    background-color: rgba(117, 235, 80, 0.5);
-    opacity: .75 !important;
-}
-
-.coccoc-alo-phone.coccoc-alo-green.coccoc-alo-hover .coccoc-alo-ph-img-circle,
-.coccoc-alo-phone.coccoc-alo-green:hover .coccoc-alo-ph-img-circle {
-    background-color: #75eb50;
+.coccoc-alo-ph-img-circle.add-project-image:hover{
+  background-color: green !important;
 }
 
 @-moz-keyframes coccoc-alo-circle-anim {
