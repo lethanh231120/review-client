@@ -5,6 +5,7 @@ import imgshit from './shit-icon.svg'
 import profile from '../../../../../images/product/user.png'
 import { Image } from 'antd'
 import moment from 'moment-timezone'
+import _ from 'lodash'
 
 export const ReviewItem = ({ data }) => {
   const navigate = useNavigate()
@@ -45,9 +46,9 @@ export const ReviewItem = ({ data }) => {
                 {timeAgo}
               </div>
             </div>
-            <div className='col-2'>
-              {data?.images && <div className=''>
-                <Image className='img-fluid review-img' src={data?.images[0]} preview={true}/>
+            <div className='col-2 review-img' style={{ height: '100%' }}>
+              {data?.images && !_.isEmpty(data?.images) && <div className=''>
+                <Image className='img-fluid ' src={data?.images[0]} preview={true}/>
               </div>}
             </div>
           </div>

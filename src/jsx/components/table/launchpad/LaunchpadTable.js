@@ -97,7 +97,7 @@ const LaunchpadList = ({ listProduct,
                   : 'ascend'
                 : '',
       render: (_, record) => (
-        <span>{record?.avgRoiATH ? formatLargeNumber(record?.avgRoiATH) : 'Unknown' }</span>
+        <span>{record?.avgRoiATH ? formatLargeNumber(record?.avgRoiATH) : 'Unknown' }x</span>
       )
     },
     {
