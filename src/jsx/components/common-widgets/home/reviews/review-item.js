@@ -10,7 +10,7 @@ import _ from 'lodash'
 export const ReviewItem = ({ data }) => {
   const navigate = useNavigate()
 
-  var actionTime = moment(data?.createdDate + '-07:00', 'YYYY-MM-DD HH:mm:ssZ')
+  var actionTime = moment(data?.createdDate, 'YYYY-MM-DD HH:mm:ss')
 
   var timeAgo = actionTime.fromNow()
 
@@ -46,10 +46,10 @@ export const ReviewItem = ({ data }) => {
                 {timeAgo}
               </div>
             </div>
-            <div className='col-2 review-img' style={{ height: '100%' }}>
-              {data?.images && !_.isEmpty(data?.images) && <div className=''>
-                <Image className='img-fluid ' src={data?.images[0]} preview={true}/>
-              </div>}
+            <div className='col-2 '>
+              {data?.images && !_.isEmpty(data?.images) &&
+                <Image className='img-fluid review-img' src={data?.images[0]} preview={true}/>
+              }
             </div>
           </div>
           <div className='username-text mt-2' >{data?.userName || 'Anonymous'}&nbsp;

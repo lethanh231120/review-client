@@ -305,8 +305,8 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               </>
             ))}
           </Avatar.Group>
-        </div>,
-      responsive: ['xxl']
+        </div>
+      // responsive: ['xxl']
     },
     {
       title: 'Status',
