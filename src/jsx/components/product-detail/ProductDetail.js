@@ -377,7 +377,7 @@ const ProductDetail = () => {
         email: type === 'auth' ? userInfo?.email : '',
         acountImage: type === 'auth' ? userInfo?.image : user,
         role: type === 'auth' ? userInfo?.role : -1,
-        userName: type === 'auth' ? userInfo?.userName : 'anonymous'
+        userName: type === 'auth' ? userInfo?.userName : 'Anonymous'
       }
       // check if reviews === []
       if (_.isEmpty(reviews)) {

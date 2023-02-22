@@ -294,21 +294,18 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
                   {
                     max: 5000,
                     message: 'You can enter 5000 characters only.'
+                  },
+                  {
+                    pattern: new RegExp(/^(?!.*<[^>]+>).*/g),
+                    message: 'Wrong format!'
                   }
                 ]}
               >
                 <Input.TextArea
-                  // className={`form-text-area ${
-                  //   validateText?.textArea?.isError ? 'product-detail-form-content-textarea' : ''
-                  // }`}
                   ref={ref}
                   autoFocus
                   placeholder='Content must be greater than 100 characters and less than 500 characters'
                   autoSize={{ minRows: 5 }}
-                  // onChange={handleChangeTextArea}
-                  // onPressEnter={(e) => {
-                  //   handleComment(e.target.value)
-                  // }}
                 />
               </Form.Item>
 
@@ -456,9 +453,10 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
                   background: isRecaptcha ? 'red' : '',
                   border: `0.1px solid ${
                     isRecaptcha ? 'red' : 'rgba(0, 0, 0, 0.01'
-                  }`,
-                  width: '305px'
+                  }`
+                  // width: '305px'
                 }}
+                className='recapcha'
               >
                 <ReCAPTCHA
                   ref={recapcharRef}

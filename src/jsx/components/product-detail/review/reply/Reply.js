@@ -121,7 +121,7 @@ const ReplyComment = (props) => {
   }
 
   return (
-    <div className='reply'>
+    <div className='reply' key={index}>
       <Image src={data?.reply?.acountImage ? data?.reply?.acountImage : user} preview={false}/>
       <div className='reply-description'>
         <div className='reply-data'>
