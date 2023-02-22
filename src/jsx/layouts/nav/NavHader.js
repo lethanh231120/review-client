@@ -48,22 +48,8 @@ const NavHader = () => {
         <span className='line'></span>
         <span className='line'></span>
         <span className='line'></span>
-        <svg
-          width='26'
-          height='26'
-          viewBox='0 0 26 26'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
-        >
-          <rect x='22' y='11' width='4' height='4' rx='2' fill='#2A353A' />
-          <rect x='11' width='4' height='4' rx='2' fill='#2A353A' />
-          <rect x='22' width='4' height='4' rx='2' fill='#2A353A' />
-          <rect x='11' y='11' width='4' height='4' rx='2' fill='#2A353A' />
-          <rect x='11' y='22' width='4' height='4' rx='2' fill='#2A353A' />
-          <rect width='4' height='4' rx='2' fill='#2A353A' />
-          <rect y='11' width='4' height='4' rx='2' fill='#2A353A' />
-          <rect x='22' y='22' width='4' height='4' rx='2' fill='#2A353A' />
-          <rect y='22' width='4' height='4' rx='2' fill='#2A353A' />
+        <svg width='26' height='26' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg' version='1.1' fill='none' stroke='#039F7F' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5'>
+          <path d='m2.75 12.25h10.5m-10.5-4h10.5m-10.5-4h10.5'/>
         </svg>
       </div>
     </div>

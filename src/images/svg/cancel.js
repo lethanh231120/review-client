@@ -1,8 +1,6 @@
-export const CANCEL_ICON = (strokeColor) => {
-  return <svg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg'
-    viewBox='0 0 32 32' enableBackground='new 0 0 32 32' xmlSpace='preserve'>
-    <circle fill='none' stroke={strokeColor} strokeWidth='2' strokeMiterlimit='10' cx='16' cy='16' r='12'/>
-    <line fill='none' stroke={strokeColor} strokeWidth='2' strokeMiterlimit='10' x1='11.5' y1='11.5' x2='20.5' y2='20.5'/>
-    <line fill='none' stroke={strokeColor} strokeWidth='2' strokeMiterlimit='10' x1='20.5' y1='11.5' x2='11.5' y2='20.5'/>
+export const CANCEL_ICON = (strokeColor, height, width) => {
+  return <svg fill='#000000' width={width} height={height} viewBox='0 0 32 32' version='1.1' xmlns='http://www.w3.org/2000/svg'>
+    <title>cancel2</title>
+    <path d='M19.587 16.001l6.096 6.096c0.396 0.396 0.396 1.039 0 1.435l-2.151 2.151c-0.396 0.396-1.038 0.396-1.435 0l-6.097-6.096-6.097 6.096c-0.396 0.396-1.038 0.396-1.434 0l-2.152-2.151c-0.396-0.396-0.396-1.038 0-1.435l6.097-6.096-6.097-6.097c-0.396-0.396-0.396-1.039 0-1.435l2.153-2.151c0.396-0.396 1.038-0.396 1.434 0l6.096 6.097 6.097-6.097c0.396-0.396 1.038-0.396 1.435 0l2.151 2.152c0.396 0.396 0.396 1.038 0 1.435l-6.096 6.096z'></path>
   </svg>
 }
