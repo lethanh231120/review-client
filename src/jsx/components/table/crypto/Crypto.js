@@ -30,7 +30,7 @@ import {
   CRYPTO,
   CRYPTO_TOKEN
 } from '../../../constants/category'
-// import { exchanges } from '../../../../utils/ExchangeImage'
+import { exchanges } from '../../../../utils/ExchangeImage'
 import { NO_DATA } from '../../../constants/data'
 // import CategorySearch from '../../layout/input-search/CategorySearch'
 import CategorySearch from '../../input-search/CategorySearch'
@@ -48,63 +48,63 @@ const Crypto = ({
 }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
-  // const [listData, setListData] = useState([])
+  const [listData, setListData] = useState([])
   const [mainExplorerMap, setMainExplorerMap] = useState()
   // const [loading, setLoading] = useState(true)
 
-  // useEffect(() => {
-  //   const getChain = async() => {
-  //     if (!_.isEmpty(listProduct)) {
-  //       const newListData = []
-  //       listProduct?.forEach((itemProduct) => {
-  //         if (!_.isEmpty(itemProduct?.multichain)) {
-  //           newListData.push({
-  //             ...itemProduct,
-  //             exchanges: [
-  //               itemProduct?.isBinance !== null && itemProduct?.isBinance
-  //                 ? [exchanges?.binance]
-  //                 : [],
-  //               itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
-  //                 ? [exchanges?.coinbase]
-  //                 : [],
-  //               itemProduct?.isPancakeSwap &&
-  //               itemProduct?.isPancakeSwap !== null
-  //                 ? [exchanges?.pancakeswap]
-  //                 : [],
-  //               itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
-  //                 ? [exchanges?.uniswap]
-  //                 : []
-  //             ]?.flat(1)
-  //           })
-  //         } else {
-  //           newListData.push({
-  //             ...itemProduct,
-  //             exchanges: [
-  //               itemProduct?.isBinance && itemProduct?.isBinance !== null
-  //                 ? [exchanges?.binance]
-  //                 : [],
-  //               itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
-  //                 ? [exchanges?.coinbase]
-  //                 : [],
-  //               itemProduct?.isPancakeSwap &&
-  //               itemProduct?.isPancakeSwap !== null
-  //                 ? [exchanges?.pancakeswap]
-  //                 : [],
-  //               itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
-  //                 ? [exchanges?.uniswap]
-  //                 : []
-  //             ]?.flat(1)
-  //           })
-  //         }
-  //       })
-  //       if (!_.isEmpty(newListData)) {
-  //         setListData(newListData)
-  //         setLoading(false)
-  //       }
-  //     }
-  //   }
-  //   getChain()
-  // }, [listProduct, chainList])
+  useEffect(() => {
+    const getChain = async() => {
+      if (!_.isEmpty(listProduct)) {
+        const newListData = []
+        listProduct?.forEach((itemProduct) => {
+          if (!_.isEmpty(itemProduct?.multichain)) {
+            newListData.push({
+              ...itemProduct,
+              exchanges: [
+                itemProduct?.isBinance !== null && itemProduct?.isBinance
+                  ? [exchanges?.binance]
+                  : [],
+                itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
+                  ? [exchanges?.coinbase]
+                  : [],
+                itemProduct?.isPancakeSwap &&
+                itemProduct?.isPancakeSwap !== null
+                  ? [exchanges?.pancakeswap]
+                  : [],
+                itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
+                  ? [exchanges?.uniswap]
+                  : []
+              ]?.flat(1)
+            })
+          } else {
+            newListData.push({
+              ...itemProduct,
+              exchanges: [
+                itemProduct?.isBinance && itemProduct?.isBinance !== null
+                  ? [exchanges?.binance]
+                  : [],
+                itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
+                  ? [exchanges?.coinbase]
+                  : [],
+                itemProduct?.isPancakeSwap &&
+                itemProduct?.isPancakeSwap !== null
+                  ? [exchanges?.pancakeswap]
+                  : [],
+                itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
+                  ? [exchanges?.uniswap]
+                  : []
+              ]?.flat(1)
+            })
+          }
+        })
+        if (!_.isEmpty(newListData)) {
+          setListData(newListData)
+          // setLoading(false)
+        }
+      }
+    }
+    getChain()
+  }, [listProduct, chainList])
 
   const handleClickExchange = (e, item) => {
     e.stopPropagation()
@@ -536,20 +536,22 @@ const Crypto = ({
           <DrawerFilter type='crypto' handleFilter={handleFilter} />
         </Col>
       </Row>
-      <Table
-        loading={loading}
-        columns={columns}
-        dataSource={listProduct}
-        onChange={handleChangeTable}
-        pagination={false}
-        rowKey={(record) => record?.cryptoId}
-        onRow={(record) => ({
-          onClick: () => {
-            handleRowClicked(record)
-          }
-        })}
-        scroll={{ x: 'max-content' }}
-      />
+      {listData && (
+        <Table
+          loading={loading}
+          columns={columns}
+          dataSource={listData}
+          onChange={handleChangeTable}
+          pagination={false}
+          rowKey={(record) => record?.cryptoId}
+          onRow={(record) => ({
+            onClick: () => {
+              handleRowClicked(record)
+            }
+          })}
+          scroll={{ x: 'max-content' }}
+        />
+      )}
     </div>
   )
 }

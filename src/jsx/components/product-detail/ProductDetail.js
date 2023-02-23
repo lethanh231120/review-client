@@ -71,6 +71,7 @@ const ProductDetail = () => {
 
   // set productId
   useEffect(() => {
+    setReviews()
     let id
     if (type && productName) {
       if (type === 'coin') {

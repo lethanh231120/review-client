@@ -29,7 +29,7 @@ import { decodeUrl } from '../../../utils/formatUrl'
 import _ from 'lodash'
 import LaunchpadList from '../table/launchpad/LaunchpadTable'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
-import { exchanges } from '../../../utils/ExchangeImage'
+// import { exchanges } from '../../../utils/ExchangeImage'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -92,6 +92,7 @@ const CategoryItem = () => {
   }
 
   useEffect(() => {
+    setListProduct()
     setParram()
   }, [category, subCategory])
 
@@ -108,54 +109,55 @@ const CategoryItem = () => {
       }
       case CRYPTO: {
         const dataCrypto = await get('reviews/crypto/filter', paramSort)
-        if (!_.isEmpty(dataCrypto?.data?.cryptos)) {
-          const newListData = []
-          dataCrypto?.data?.cryptos?.forEach((itemProduct) => {
-            if (!_.isEmpty(itemProduct?.multichain)) {
-              newListData.push({
-                ...itemProduct,
-                exchanges: [
-                  itemProduct?.isBinance !== null && itemProduct?.isBinance
-                    ? [exchanges?.binance]
-                    : [],
-                  itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
-                    ? [exchanges?.coinbase]
-                    : [],
-                  itemProduct?.isPancakeSwap &&
-                  itemProduct?.isPancakeSwap !== null
-                    ? [exchanges?.pancakeswap]
-                    : [],
-                  itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
-                    ? [exchanges?.uniswap]
-                    : []
-                ]?.flat(1)
-              })
-            } else {
-              newListData.push({
-                ...itemProduct,
-                exchanges: [
-                  itemProduct?.isBinance && itemProduct?.isBinance !== null
-                    ? [exchanges?.binance]
-                    : [],
-                  itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
-                    ? [exchanges?.coinbase]
-                    : [],
-                  itemProduct?.isPancakeSwap &&
-                  itemProduct?.isPancakeSwap !== null
-                    ? [exchanges?.pancakeswap]
-                    : [],
-                  itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
-                    ? [exchanges?.uniswap]
-                    : []
-                ]?.flat(1)
-              })
-            }
-          })
-          if (!_.isEmpty(newListData)) {
-            setListProduct(newListData)
-            setTotal(dataCrypto?.data?.cryptoCount)
-          }
-        }
+        // if (!_.isEmpty(dataCrypto?.data?.cryptos)) {
+        //   const newListData = []
+        //   dataCrypto?.data?.cryptos?.forEach((itemProduct) => {
+        //     if (!_.isEmpty(itemProduct?.multichain)) {
+        //       newListData.push({
+        //         ...itemProduct,
+        //         exchanges: [
+        //           itemProduct?.isBinance !== null && itemProduct?.isBinance
+        //             ? [exchanges?.binance]
+        //             : [],
+        //           itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
+        //             ? [exchanges?.coinbase]
+        //             : [],
+        //           itemProduct?.isPancakeSwap &&
+        //           itemProduct?.isPancakeSwap !== null
+        //             ? [exchanges?.pancakeswap]
+        //             : [],
+        //           itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
+        //             ? [exchanges?.uniswap]
+        //             : []
+        //         ]?.flat(1)
+        //       })
+        //     } else {
+        //       newListData.push({
+        //         ...itemProduct,
+        //         exchanges: [
+        //           itemProduct?.isBinance && itemProduct?.isBinance !== null
+        //             ? [exchanges?.binance]
+        //             : [],
+        //           itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
+        //             ? [exchanges?.coinbase]
+        //             : [],
+        //           itemProduct?.isPancakeSwap &&
+        //           itemProduct?.isPancakeSwap !== null
+        //             ? [exchanges?.pancakeswap]
+        //             : [],
+        //           itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
+        //             ? [exchanges?.uniswap]
+        //             : []
+        //         ]?.flat(1)
+        //       })
+        //     }
+        //   })
+        //   if (!_.isEmpty(newListData)) {
+        //     setListProduct(newListData)
+        //     setTotal(dataCrypto?.data?.cryptoCount)
+        //   }
+        // }
+        setListProduct(dataCrypto?.data?.cryptos)
         break
       }
       case EXCHANGE: {
@@ -234,38 +236,63 @@ const CategoryItem = () => {
   }
 
   const renderComponent = (item) => {
-    let projectType = category
-    // console.log(listProduct)
-    if (projectType === SCAM) {
-      let commonItemId = ''
-      if (item?.dAppId) {
-        commonItemId = item.dAppId
-      } else if (item?.projectId) {
-        // soon project
-        commonItemId = item.projectId
-      } else if (item?.ventureId) {
-        commonItemId = item.ventureId
-      } else if (item?.cryptoId) {
-        commonItemId = item.cryptoId
-      } else if (item?.exchangeId) {
-        commonItemId = item.exchangeId
-      }
-      // sample common item id: "gear5_exchange_tokocrypto_coinmarketcap"
-      const parts = commonItemId.split('_')
-      // need keyword above: exchange
-      if (parts.length >= 2) {
-        projectType = parts[1]
-        // path API token, coin (product id) is detail screen of crypto
-        if (projectType === CRYPTO_TOKEN || projectType === CRYPTO_COIN) {
-          projectType = CRYPTO
+    if (listProduct) {
+      let projectType = category
+      if (projectType === SCAM) {
+        let commonItemId = ''
+        if (item?.dAppId) {
+          commonItemId = item.dAppId
+        } else if (item?.projectId) {
+          // soon project
+          commonItemId = item.projectId
+        } else if (item?.ventureId) {
+          commonItemId = item.ventureId
+        } else if (item?.cryptoId) {
+          commonItemId = item.cryptoId
+        } else if (item?.exchangeId) {
+          commonItemId = item.exchangeId
+        }
+        // sample common item id: "gear5_exchange_tokocrypto_coinmarketcap"
+        const parts = commonItemId.split('_')
+        // need keyword above: exchange
+        if (parts.length >= 2) {
+          projectType = parts[1]
+          // path API token, coin (product id) is detail screen of crypto
+          if (projectType === CRYPTO_TOKEN || projectType === CRYPTO_COIN) {
+            projectType = CRYPTO
+          }
         }
       }
-    }
-    switch (projectType) {
-      case DAPP:
-        return (
-          <Col span={24}>
-            <Dapp
+      switch (projectType) {
+        case DAPP:
+          return (
+            <Col span={24}>
+              <Dapp
+                listProduct={listProduct}
+                handleChangeTable={handleChangeTable}
+                params={params}
+                loading={loading}
+                handleFilter={handleFilter}
+                total={total}
+              />
+            </Col>
+          )
+        case CRYPTO:
+          return (
+            <Col span={24}>
+              <Crypto
+                listProduct={listProduct}
+                handleChangeTable={handleChangeTable}
+                params={params}
+                loading={loading}
+                handleFilter={handleFilter}
+                total={total}
+              />
+            </Col>
+          )
+        case EXCHANGE:
+          return (
+            <Exchange
               listProduct={listProduct}
               handleChangeTable={handleChangeTable}
               params={params}
@@ -273,12 +300,10 @@ const CategoryItem = () => {
               handleFilter={handleFilter}
               total={total}
             />
-          </Col>
-        )
-      case CRYPTO:
-        return (
-          <Col span={24}>
-            <Crypto
+          )
+        case VENTURE:
+          return (
+            <Venture
               listProduct={listProduct}
               handleChangeTable={handleChangeTable}
               params={params}
@@ -286,64 +311,41 @@ const CategoryItem = () => {
               handleFilter={handleFilter}
               total={total}
             />
-          </Col>
-        )
-      case EXCHANGE:
-        return (
-          <Exchange
-            listProduct={listProduct}
-            handleChangeTable={handleChangeTable}
-            params={params}
-            loading={loading}
-            handleFilter={handleFilter}
-            total={total}
-          />
-        )
-      case VENTURE:
-        return (
-          <Venture
-            listProduct={listProduct}
-            handleChangeTable={handleChangeTable}
-            params={params}
-            loading={loading}
-            handleFilter={handleFilter}
-            total={total}
-          />
-        )
-      case SOON:
-        return (
-          <Soon
-            listProduct={listProduct}
-            handleChangeTable={handleChangeTable}
-            params={params}
-            loading={loading}
-            handleFilter={handleFilter}
-            total={total}
-          />
-        )
-      case LAUNCHPAD:
-        return (
-          <LaunchpadList
-            listProduct={listProduct}
-            handleChangeTable={handleChangeTable}
-            params={params}
-            loading={loading}
-            handleFilter={handleFilter}
-            total={total}
-          />
-        )
-      default:
-        break
+          )
+        case SOON:
+          return (
+            <Soon
+              listProduct={listProduct}
+              handleChangeTable={handleChangeTable}
+              params={params}
+              loading={loading}
+              handleFilter={handleFilter}
+              total={total}
+            />
+          )
+        case LAUNCHPAD:
+          return (
+            <LaunchpadList
+              listProduct={listProduct}
+              handleChangeTable={handleChangeTable}
+              params={params}
+              loading={loading}
+              handleFilter={handleFilter}
+              total={total}
+            />
+          )
+        default:
+          break
+      }
     }
   }
 
   // change param(tag: in state)
   useEffect(() => {
-    // params['tag'] = params['tag'] + '123'
-    // setParams(params)
+    // setListProduct()
     setLoading(true)
     params && getData(category, params)
-  }, [params, category])
+  }, [params])
 
   const handleFilter = (param) => {
     if (_.isEmpty(param)) {
