@@ -8,7 +8,8 @@ import {
   Checkbox,
   Upload,
   Form,
-  Button
+  Button,
+  Modal
 } from 'antd'
 import { StarFilled } from '@ant-design/icons'
 import ReCAPTCHA from 'react-google-recaptcha'
@@ -55,7 +56,11 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
 
   const ref = useRef(null)
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
-  const [images, setImages] = useState([])
+  // const [images, setImages] = useState([])
+
+  const [previewOpen, setPreviewOpen] = useState(false)
+  const [previewImage, setPreviewImage] = useState('')
+  const [previewTitle, setPreviewTitle] = useState('')
 
   const currenRef = useRef(null)
   // submit form
@@ -100,12 +105,12 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
     return isJpgOrPng && isLt2M
   }
 
-  useEffect(() => {
-    setData({
-      ...data,
-      images: images
-    })
-  }, [images])
+  // useEffect(() => {
+  //   setData({
+  //     ...data,
+  //     images: images
+  //   })
+  // }, [images])
 
   // chose file in select
   const handleChangeFile = (e) => {
@@ -122,23 +127,28 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
           const time = moment().unix()
           const fileName = `${itemFile?.uid}_${time}`
           const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
-          setImages(_.isEmpty(images) ? [dataImage?.data] : [...images, dataImage?.data])
+          setData({
+            ...data,
+            images: _.isEmpty(rest.data.images) ? [dataImage?.data] : [...rest.data.images, dataImage?.data]
+          })
         }
       })
       setFileList(newFileList)
     }
     if (e.file?.status === 'removed') {
       const index = rest?.data?.images?.findIndex((item) => item?.includes(e?.file?.uid))
+      const indexFileList = fileList?.findIndex((item) => item?.uid?.includes(e?.file?.uid))
       const newListImage = [...rest.data.images]
+      const newFileList = [...fileList]
       newListImage?.splice(index, 1)
+      newFileList?.splice(indexFileList, 1)
       setData({
         ...data,
         images: newListImage
       })
-      setFileList(e.fileList)
+      setFileList(newFileList)
     }
   }
-
   // call when onChange proof link
   const handleChangeLink = (value) => {
     const newLink = []
@@ -185,20 +195,24 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
     }
   }
 
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = (error) => reject(error)
+    })
+
   const onPreview = async(file) => {
-    let src = file.url
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader()
-        reader.readAsDataURL(file.originFileObj)
-        reader.onload = () => resolve(reader.result)
-      })
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
     }
-    const image = new Image()
-    image.src = src
-    const imgWindow = window.open(src)
-    imgWindow?.document.write(image.outerHTML)
+    setPreviewImage(file.url || file.preview)
+    setPreviewOpen(true)
+    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1))
   }
+
+  const handleCancel = () => setPreviewOpen(false)
 
   const handleChangeRecapchar = (value) => {
     if (value) {
@@ -389,6 +403,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
                     onChange={(e) => {
                       setTypeComment(e.target.checked)
                       setErrorType()
+                      console.log(rest?.data?.images)
                     }}
                     checked={typeComment}
                   >
@@ -475,6 +490,15 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
           </div>
         </div>
       </Form>
+      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+        <img
+          alt='example'
+          style={{
+            width: '100%'
+          }}
+          src={previewImage}
+        />
+      </Modal>
     </>
   )
 }

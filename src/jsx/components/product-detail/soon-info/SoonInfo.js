@@ -161,8 +161,8 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           </p>
         </div>
         <Button
-          as='a'
-          href='#'
+          // as='a'
+          // href='#'
           className='btn btn-primary mb-1 ms-auto'
           onClick={() => {
             setWebsiteLoading(true)
@@ -172,7 +172,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             }, 3000)
           }}
         >
-          {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '1rem', verticalAlign: 'center' }} /> : ''}
+          {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '10px' }} /> : ''}
           {websiteIcon}
             Website
         </Button>

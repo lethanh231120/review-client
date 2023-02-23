@@ -501,7 +501,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                 </div>
               )}
               {multichain && (
-                <div className='basic-dropdown'>
+                <div className='basic-dropdown' style={{ marginRight: '10px', marginBottom: '10px' }}>
                   <Dropdown>
                     <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
                     Contract

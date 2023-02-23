@@ -22,7 +22,8 @@ const Soon = ({ listProduct, handleFilter, total }) => {
             >
               <Col md={{ span: 16 }} sm={{ span: 16 }} xs={{ span: 18 }}>
                 <div
-                  className='site-filters clearfix center m-b40 text-total-soon-project'
+                  style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}
+                  // className='site-filters clearfix center m-b40 text-total-soon-project'
                 >
                   A total of&nbsp;<b>{total}</b>&nbsp;Upcoming Projects found.
                 </div>
