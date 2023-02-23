@@ -308,7 +308,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       summary={summary}
       more={<More />}
       about={<About />}
-      portfolioOrChart={<PortfolioTable />}
+      portfolioOrChartOrDesc={<PortfolioTable />}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
       setTop={setTop}
