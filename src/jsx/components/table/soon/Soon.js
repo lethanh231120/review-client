@@ -9,7 +9,8 @@ import { Avatar, Col } from 'antd'
 import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
-import { getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../product-detail/soon-info/SoonInfo'
+import { convertStringDDMMYYYYToUnix, formatDateStyle, getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../product-detail/soon-info/SoonInfo'
+import moment from 'moment'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
@@ -107,10 +108,18 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                     : absentData}
                                 </p>
                               </div>
+                              <div className='row'>
+                                <p className='mb-0 fs-14 text-success text-center text-etc-overflow'>
+                                  {formatLargeNumberMoneyUSD(
+                                    item?.fundRaisingGoals
+                                  )}{' '}
+                                    raised
+                                </p>
+                              </div>
                               <div className='d-flex align-items-center justify-content-between'>
                                 <div>
                                   <p className='mb-0 fs-14 text-black text-etc-overflow'>
-                                    {item?.roundType}
+                                    {item?.roundType} {item?.launchPads ? 'on' : ''}
                                   </p>
                                   <span className='fs-12'>
                                     <LaunchpadIconList
@@ -118,16 +127,14 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                     />
                                   </span>
                                 </div>
-                                <div>
-                                  <p className='mb-0 fs-14 text-success text-etc-overflow'>
-                                    {formatLargeNumberMoneyUSD(
-                                      item?.fundRaisingGoals
-                                    )}{' '}
-                                    raised
+                                <div className='text-etc-overflow'>
+                                  <p className='mb-0 fs-12 text-etc-overflow'>
+                                    Start:{' '}
+                                    {item?.startDate ? moment(convertStringDDMMYYYYToUnix(item?.startDate)).format(formatDateStyle) : 'TBA'}
                                   </p>
                                   <span className='fs-12 text-etc-overflow'>
-                                    Start date:{' '}
-                                    {item?.startDate ? item?.startDate : 'TBA'}
+                                    End&nbsp;&nbsp;:{' '}
+                                    {item?.startDate ? moment(convertStringDDMMYYYYToUnix(item?.endDate)).format(formatDateStyle) : 'TBA'}
                                   </span>
                                 </div>
                               </div>
