@@ -34964,3 +34964,34 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     }
 }
 /*END: ring ring effect for button report scam at home */
+
+/* START: effect click global search */
+::-webkit-input-placeholder {
+  display: inline-block;
+  opacity: 0.2;
+  transition: all 0.3s ease-in-out;
+  padding-right: .15em;
+  white-space: nowrap;
+}
+
+input:focus::-webkit-input-placeholder {
+  -webkit-transform: translateY(-125%);
+  font-size: 75%;
+  opacity: 0.05
+}
+
+input.imitatefocus::-webkit-input-placeholder {
+  -webkit-transform: translateY(-125%);
+  opacity: 0.05
+}
+
+input {
+  display: block;
+  font-size: 35px;
+  color: #666;
+  padding-left: 0px;
+  padding-right: 10px;
+  width: 100%;
+}
+
+/* END: effect click global search */

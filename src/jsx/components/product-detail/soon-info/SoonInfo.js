@@ -25,7 +25,7 @@ import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { SOON } from '../../../constants/category'
 import { encodeUrl } from '../../../../utils/formatUrl'
-import { Spin, Tooltip, Image } from 'antd'
+import { Spin, Tooltip, Avatar } from 'antd'
 import { formatImgUrlFromProductId, isValidProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 
@@ -139,8 +139,8 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     <div className='profile-head'>
       <div className='profile-info'>
         <div className='profile-photo'>
-          {itemDetail?.projectId && itemDetail?.bigLogo ? (
-            <Image src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false} height={64} width={64}/>
+          {itemDetail?.projectId ? (
+            <Avatar src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false} size={60}/>
           )
             : (
               <NoImage

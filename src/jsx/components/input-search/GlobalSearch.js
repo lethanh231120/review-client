@@ -211,13 +211,21 @@ const InputSearch = ({ isFormReport, setItem }) => {
       chars += char
       globalSearchHTML.placeholder = chars
     }
+    // while focus search elk global
     while (document.activeElement === globalSearchHTML) {
       await sleep(500)
     }
     setTxtDisplaySearchHeader(chars) // active effect
   }
+
+  const clearText = (e) =>{
+    if (e.target.value !== '') {
+      e.target.value = ''
+    }
+  }
+
   return (
-    <div className='input-group search-area cus-input-group' style={{ width: '100%' }}>
+    <div className='input-group search-area cus-input-group search-box-global' style={{ width: '100%' }}>
       <div className='nav-item d-flex align-items-center' style={{ width: '100%' }}>
         <div className='input-group search-area' style={{ width: '100%' }}>
           <span
@@ -255,6 +263,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
               // e.preventDefault()
               // e.stopPropagation()
               handleSearch('')
+              clearText(e)
             }}
             id='globalSearch'
           />
