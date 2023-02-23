@@ -29,24 +29,25 @@ import { decodeUrl } from '../../../utils/formatUrl'
 import _ from 'lodash'
 import LaunchpadList from '../table/launchpad/LaunchpadTable'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
+import { exchanges } from '../../../utils/ExchangeImage'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
+  const { category, subCategory, keyword } = useParams()
   const refabc = useRef()
-  const [listProduct, setListProduct] = useState({})
+  const [listProduct, setListProduct] = useState()
   const [total, setTotal] = useState()
   const [loading, setLoading] = useState(true)
   const [params, setParams] = useState()
-  const { category, subCategory, keyword } = useParams()
   const [keywordSearch, setKeyWordSearch] = useState(keyword)
 
   const defaultParams = {
     dapp: { page: 1, sort: 'desc', orderBy: 'score', tag: subCategory || '' },
     crypto: {
       type:
-        subCategory === CRYPTO_COIN || subCategory === CRYPTO_TOKEN
-          ? subCategory
-          : '',
+      subCategory && subCategory === CRYPTO_COIN || subCategory === CRYPTO_TOKEN
+        ? subCategory
+        : '',
       tag:
         subCategory && subCategory !== CRYPTO_COIN && subCategory !== CRYPTO_TOKEN
           ? subCategory
@@ -60,6 +61,7 @@ const CategoryItem = () => {
     soon: { roundType: '', tag: subCategory || '', orderBy: 'startDate', sort: 'desc', page: 1 },
     launchpad: { page: 1, sort: 'desc', orderBy: 'score' }
   }
+  console.log(loading)
   // check category and set params
   const setParram = async() => {
     if (category) {
@@ -68,6 +70,7 @@ const CategoryItem = () => {
           setParams(defaultParams?.dapp)
           break
         case CRYPTO:
+          console.log(defaultParams?.crypto)
           setParams(defaultParams?.crypto)
           break
         case EXCHANGE:
@@ -87,6 +90,7 @@ const CategoryItem = () => {
       }
     }
   }
+
   useEffect(() => {
     setParram()
   }, [category, subCategory])
@@ -104,9 +108,54 @@ const CategoryItem = () => {
       }
       case CRYPTO: {
         const dataCrypto = await get('reviews/crypto/filter', paramSort)
-        setListProduct(dataCrypto?.data?.cryptos)
-        setTotal(dataCrypto?.data?.cryptoCount)
-
+        if (!_.isEmpty(dataCrypto?.data?.cryptos)) {
+          const newListData = []
+          dataCrypto?.data?.cryptos?.forEach((itemProduct) => {
+            if (!_.isEmpty(itemProduct?.multichain)) {
+              newListData.push({
+                ...itemProduct,
+                exchanges: [
+                  itemProduct?.isBinance !== null && itemProduct?.isBinance
+                    ? [exchanges?.binance]
+                    : [],
+                  itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
+                    ? [exchanges?.coinbase]
+                    : [],
+                  itemProduct?.isPancakeSwap &&
+                  itemProduct?.isPancakeSwap !== null
+                    ? [exchanges?.pancakeswap]
+                    : [],
+                  itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
+                    ? [exchanges?.uniswap]
+                    : []
+                ]?.flat(1)
+              })
+            } else {
+              newListData.push({
+                ...itemProduct,
+                exchanges: [
+                  itemProduct?.isBinance && itemProduct?.isBinance !== null
+                    ? [exchanges?.binance]
+                    : [],
+                  itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
+                    ? [exchanges?.coinbase]
+                    : [],
+                  itemProduct?.isPancakeSwap &&
+                  itemProduct?.isPancakeSwap !== null
+                    ? [exchanges?.pancakeswap]
+                    : [],
+                  itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
+                    ? [exchanges?.uniswap]
+                    : []
+                ]?.flat(1)
+              })
+            }
+          })
+          if (!_.isEmpty(newListData)) {
+            setListProduct(newListData)
+            setTotal(dataCrypto?.data?.cryptoCount)
+          }
+        }
         break
       }
       case EXCHANGE: {
@@ -184,6 +233,7 @@ const CategoryItem = () => {
 
   const renderComponent = (item) => {
     let projectType = category
+    console.log(listProduct)
     if (projectType === SCAM) {
       let commonItemId = ''
       if (item?.dAppId) {

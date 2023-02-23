@@ -563,8 +563,10 @@
     padding: 0.625rem;
     @include font-family;
 }
-.cus-margin-top{
-    margin-top: 1.875rem;
+@media (max-width: 1200px) {
+    .cus-margin-top{
+        margin-top: 1.875rem;
+    }
 }
 @media (max-width: 670px) {
     .product{

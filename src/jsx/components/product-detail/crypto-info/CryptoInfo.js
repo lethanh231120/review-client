@@ -424,9 +424,9 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         {!showInfo && (
           <>
             <div className='crypto-info-item-key my-2'>Explorer(s): </div>
-            <div className='d-flex align-items-center'>
+            <div className='d-flex align-items-center' style={{ flexWrap: 'wrap' }}>
               {isShow?.community && (
-                <div className='basic-dropdown' style={{ marginRight: '10px' }}>
+                <div className='basic-dropdown' style={{ marginRight: '10px', marginBottom: '10px' }}>
                   <Dropdown>
                     <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
                     Community
@@ -466,7 +466,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                 </div>
               )}
               {isShow?.sourceCode && (
-                <div className='basic-dropdown' style={{ marginRight: '10px' }}>
+                <div className='basic-dropdown' style={{ marginRight: '10px', marginBottom: '10px' }}>
                   <Dropdown>
                     <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
                     Source Code
