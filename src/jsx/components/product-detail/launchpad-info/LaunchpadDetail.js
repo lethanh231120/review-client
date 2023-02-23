@@ -109,7 +109,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
         variant='danger'
         onClick={handleReportScam}
       >
-        <img src={imgReportProject} alt='err' className='img-fluid noti ms-2' style={{ height: '1.7rem' }}/>
+        <img src={imgReportProject} alt='err' className='img-fluid noti ms-2' style={{ height: '24px' }}/>
         &nbsp;
       Report&nbsp;Scam
       </Button>

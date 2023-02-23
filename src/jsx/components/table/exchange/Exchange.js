@@ -71,13 +71,13 @@ const Exchange = ({
       title: 'Fee Transaction',
       showSorterTooltip: false,
       dataIndex: 'feeTxs',
-      sorter: true,
-      defaultSortOrder:
-        params?.orderBy === 'feeTxs'
-          ? params?.sort === 'desc'
-            ? 'descend'
-            : 'ascend'
-          : '',
+      // sorter: true,
+      // defaultSortOrder:
+      //   params?.orderBy === 'feeTxs'
+      //     ? params?.sort === 'desc'
+      //       ? 'descend'
+      //       : 'ascend'
+      //     : '',
       render: (_, record) => (
         <span>{record?.feeTxs ? `${record?.feeTxs} %` : NO_DATA }</span>
       )
