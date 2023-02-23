@@ -391,7 +391,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                 <div className='col-xxl-12 col-12'>
                   <Avatar.Group
                     maxCount={4}
-                    size={25}
+                    size={20}
                     maxStyle={{
                       color: '#f56a00',
                       backgroundColor: '#fde3cf',
@@ -403,7 +403,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                         {item && (
                           <Tooltip title={getExchangeNameFromUrlImageExchage(item)} >
                             <Avatar
-                              size={25}
+                              size={20}
                               src={item}
                               key={index}
                               className='crypto-table-exchange'

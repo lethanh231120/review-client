@@ -12,7 +12,6 @@ import moment from 'moment'
 // import FormReport from '../../Forms/form-report/FormReport'
 import Description from '../description/Description'
 import { LoadingOutlined } from '@ant-design/icons'
-import NoImage from '../../common-widgets/no-image/NoImage'
 import LightGallery from 'lightgallery/react'
 import lgThumbnail from 'lightgallery/plugins/thumbnail'
 import lgZoom from 'lightgallery/plugins/zoom'
@@ -136,52 +135,47 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   }
 
   const header = itemDetail ? (
-    <div className='profile-head'>
-      <div className='profile-info'>
+    <div className='profile-info'>
+      <div className='profile-details'>
         <div className='profile-photo'>
           {itemDetail?.projectId && itemDetail?.bigLogo ? (
-            <Image src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false} height={64} width={64}/>
+            <Image src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false}/>
           )
-            : (
-              <NoImage
-                alt={itemDetail?.projectName?.slice(0, 3)}
-                height={64}
-                width={64}
-              />
+            : (<span className='image-list-no-data-detail'>
+              {itemDetail?.projectName?.slice(0, 3)}
+            </span>
             )}
         </div>
-        <div className='profile-details'>
-          <div className='profile-name px-3 pt-2'>
-            <h4 className='text-primary mb-0'>{itemDetail?.projectName}</h4>
-            <p>{itemDetail?.projectSymbol}</p>
-          </div>
-          <div className='profile-email px-2 pt-2'>
-            <h4 className='text-muted mb-0'>
-              <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
-                {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
-              </span>
-            </h4>
-            <p >
-              {itemDetail?.type}
-            </p>
-          </div>
-          <Button
-            as='a'
-            href='#'
-            className='btn btn-primary mb-1 ms-auto'
-            onClick={() => {
-              setWebsiteLoading(true)
-              setTimeout(() =>{
-                itemDetail?.website && window.open(itemDetail?.website)
-                setWebsiteLoading(false)
-              }, 3000)
-            }}
-          >
-            {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '1rem', verticalAlign: 'center' }} /> : ''}
-            {websiteIcon}
-            Website
-          </Button>
+        <div className='profile-name px-3 pt-2'>
+          <h4 className='text-primary mb-0'>{itemDetail?.projectName}</h4>
+          <p>{itemDetail?.projectSymbol}</p>
         </div>
+        <div className='profile-email px-2 pt-2'>
+          <h4 className='text-muted mb-0'>
+            <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
+              {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
+            </span>
+          </h4>
+          <p >
+            {itemDetail?.type}
+          </p>
+        </div>
+        <Button
+          as='a'
+          href='#'
+          className='btn btn-primary mb-1 ms-auto'
+          onClick={() => {
+            setWebsiteLoading(true)
+            setTimeout(() =>{
+              itemDetail?.website && window.open(itemDetail?.website)
+              setWebsiteLoading(false)
+            }, 3000)
+          }}
+        >
+          {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '1rem', verticalAlign: 'center' }} /> : ''}
+          {websiteIcon}
+            Website
+        </Button>
       </div>
     </div>
   ) : ''
@@ -317,7 +311,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const more =
       <div>
         <div className='card-header border-0 pb-0'>
-          <h5 className='text-primary'>{itemDetail?.projectName} Information</h5>
+          <h5 className='heading text-primary'>{itemDetail?.projectName} Information</h5>
         </div>
         <div className='card-body pt-3'>
           {itemDetail?.startDate
@@ -484,7 +478,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const description = itemDetail?.fullDesc ? (
     <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>About {itemDetail?.projectName}</h5>
+        <h5 className='heading text-primary'>About {itemDetail?.projectName}</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>
@@ -500,7 +494,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     ? (
       <div className='card'>
         <div className='card-header border-0 pb-0'>
-          <h5 className='text-primary '>Screenshots</h5>
+          <h5 className='heading text-primary'>Screenshots</h5>
         </div>
         <div className='card-body pt-3'>
           <div className='profile-interest'>

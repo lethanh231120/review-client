@@ -1,4 +1,4 @@
-import { Avatar, Spin, Tooltip } from 'antd'
+import { Avatar, Spin, Tooltip, Image } from 'antd'
 import _ from 'lodash'
 import React, { useContext, useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
@@ -16,6 +16,7 @@ import { websiteIcon } from '../../common-widgets/icons'
 import MyScoreComponent from '../../score/scoreComponent'
 import imgReportProject from '../../../../images/svg/report-project-white.svg'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
+import './dapp.scss'
 
 const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -46,29 +47,26 @@ const DappInfo = ({ productInfo, ...rest }) => {
 
   // DAPP HEADER
   const Header = () => {
-    return <div className='profile-head'>
-      <div className='profile-info mb-1'>
+    return <div className='profile-info mb-1'>
+      <div className='profile-details'>
         <div className='profile-photo'>
           {productInfo?.details?.dAppId && productInfo?.details?.dAppLogo ? (
-            <Avatar size={60} src={isValidProductId(productInfo?.details?.dAppId) ? formatImgUrlFromProductId(productInfo?.details?.dAppId) : imgAbsentImageDapp} preview={false} height={64} width={64}/>
+            <Image src={isValidProductId(productInfo?.details?.dAppId) ? formatImgUrlFromProductId(productInfo?.details?.dAppId) : imgAbsentImageDapp} preview={false}/>
           )
             : (<span className='image-list-no-data-detail'>
               {productInfo?.details?.dAppName?.slice(0, 3)}
             </span>)
           }
         </div>
-        <div className='profile-details'>
-          <div className='profile-name px-3 ms-2 '>
-            <h4 className='text-primary mb-0'>{detail?.dAppName}
-            </h4>
-            <Badge className='badge-sm' >{detail?.subCategory}</Badge>
-          </div>
-          <Button className='ms-auto' onClick={() => openWebsite(detail?.website, setLoading, waitMillSecOpenWebsite)}>
-            {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : ''}
-            {websiteIcon}
-             Website
-          </Button>
+        <div className='profile-name'>
+          <h4 className='text-primary mb-2 cus-h4'>{detail?.dAppName}</h4>
+          <Badge className='badge-sm' >{detail?.subCategory}</Badge>
         </div>
+        <Button className='ms-auto' onClick={() => openWebsite(detail?.website, setLoading, waitMillSecOpenWebsite)}>
+          {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : ''}
+          {websiteIcon}
+             Website
+        </Button>
       </div>
     </div>
   }
@@ -106,7 +104,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
           variant='danger'
           onClick={handleReportScam}
         >
-          <img src={imgReportProject} alt='err' />
+          <img src={imgReportProject} alt='err' className='img-fluid noti ms-2' style={{ height: '1.7rem' }}/>
           &nbsp;
         Report&nbsp;Scam
         </Button>
@@ -138,69 +136,77 @@ const DappInfo = ({ productInfo, ...rest }) => {
   }
 
   const communityItem = (title, content) => {
-    return <div className='d-flex'>
-      <p className=' '>{title}:</p>
-      {content && (
-
-        Object.keys(content).map(
-          (socialName) => {
-            return content[socialName] !== '' ? (
-              <Tooltip className=' ms-1'
-                placementTooltip='topLeft'
-                title={socialName}
-                key={socialName}
-              >
-                <a
-                  href={content[socialName]}
-                  target='_blank'
-                  rel='noreferrer'
+    return <div className='d-flex align-items-start'>
+      <p>{title}:</p>
+      <div className='cus-d-flex'>
+        {content && (
+          Object.keys(content).map(
+            (socialName) => {
+              return content[socialName] !== '' ? (
+                <Tooltip className='ms-1'
+                  placementTooltip='topLeft'
+                  title={socialName}
+                  key={socialName}
                 >
-                  <Avatar
-                    size={25}
-                    className=' img-fluid p-1 rounded-circle'
-                    style={{ backgroundColor: '#F0F2F5' }}
-                    preview={false}
-                    src={
-                      socials?.find(
-                        (social) =>
-                          social?.key?.toLowerCase() ===
-                          socialName?.toLowerCase()
-                      )?.icon
-                        ? socials?.find(
+                  <a
+                    href={content[socialName]}
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    <Avatar
+                      className='img-fluid p-1 rounded-circle cus-avatar'
+                      style={{ backgroundColor: '#F0F2F5' }}
+                      preview={false}
+                      src={
+                        socials?.find(
                           (social) =>
                             social?.key?.toLowerCase() ===
-                              socialName?.toLowerCase()
-                        ).icon
-                        : defaultSocial
-                    }
-                  />
-                </a>
-              </Tooltip>
-            ) : null
-          }
-        )
+                            socialName?.toLowerCase()
+                        )?.icon
+                          ? socials?.find(
+                            (social) =>
+                              social?.key?.toLowerCase() ===
+                                socialName?.toLowerCase()
+                          ).icon
+                          : defaultSocial
+                      }
+                    />
+                  </a>
+                </Tooltip>
+              ) : null
+            }
+          )
 
-      )}
+        )}
+      </div>
     </div>
   }
 
   const More = () => {
     return <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>{detail?.dAppName} Information:</h5>
+        <h5 className='heading text-primary'>{detail?.dAppName} Information</h5>
       </div>
       <div className='card-body pt-3'>
-        <div className='profile-blog '>
-          <div className='row'>
-            <div className='col-6'>
-              {dataItem('Balance', formatMoney(detail?.balance))}
-              {detail?.totalUser > 0 && dataItem('Total Users', detail?.totalUser)}
-              {!_.isEmpty(detail?.chains) && (
+        <div className='profile-blog'>
+          <div className='community-list'>
+            {detail?.balance > 0 && (
+              <div className='community-list-item'>
+                {dataItem('Balance', formatMoney(detail?.balance))}
+              </div>
+            )}
+            {detail?.totalUser > 0 && (
+              <div className='community-list-item'>
+                { dataItem('Total Users', detail?.totalUser)}
+              </div>
+            )}
+            {!_.isEmpty(detail?.chains) && (
+              <div className='community-list-item'>
                 <div className='d-flex text-align-center mb-2'>
-                  <p className='mb-0'> Chains:</p>
+                  <p className='mb-0'>Chains:</p>
                   <Avatar.Group className='ms-1 '
                     maxCount={4}
-                    size={25}
+                    size={20}
                     maxStyle={{
                       color: '#f56a00',
                       backgroundColor: '#fde3cf',
@@ -211,7 +217,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
                       <>
                         {key && (
                           <Avatar
-                            size={25}
+                            size={20}
                             src={chainList[key]?.image}
                             key={index}
                             className='crypto-info-exchange'
@@ -221,17 +227,23 @@ const DappInfo = ({ productInfo, ...rest }) => {
                     ))}
                   </Avatar.Group>
                 </div>
-              )}
-            </div>
-            <div className='col-6'>
-              {dataItem('User 24h', formatLargeNumber(detail?.user24h)?.replace('$', ''))}
-              {dataItem('Volume 24h', formatMoney(detail?.volume24h))}
-              {communityItem('Socials', detail?.socials)}
-
-            </div>
-            <div className='col-12'>
-
-            </div>
+              </div>
+            )}
+            {detail?.user24h > 0 && (
+              <div className='community-list-item'>
+                {dataItem('User 24h', formatLargeNumber(detail?.user24h)?.replace('$', ''))}
+              </div>
+            )}
+            {detail?.volume24h > 0 && (
+              <div className='community-list-item'>
+                {dataItem('Volume 24h', formatMoney(detail?.volume24h))}
+              </div>
+            )}
+            {detail?.socials && (
+              <div className='community-list-item'>
+                {communityItem('Socials', detail?.socials)}
+              </div>
+            )}
 
             {!_.isEmpty(detail?.sourceCode) && <div className='col-12'>
               <Dropdown className='mt-1'>
@@ -257,7 +269,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
   const About = () => {
     return <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>About {detail?.dAppName}:</h5>
+        <h5 className='heading text-primary'>About {detail?.dAppName}</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>

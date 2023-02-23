@@ -51,31 +51,27 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
 
   // VENTURE HEADER
   const Header = () => {
-    return <div className='profile-head'>
-
-      <div className='profile-info mb-1'>
+    return <div className='profile-info mb-1'>
+      <div className='profile-details'>
         <div className='profile-photo'>
           { myLogo('thumbLogo', detail?.launchPadId, 'launchpad', 60) ||
-         myLogo('bigLogo', detail?.launchPadId, 'launchpad', 60) ||
-         myLogo('nativeLogo', detail?.launchPadId, 'launchpad', 60) ||
-         myLogo('smallLogo', detail?.launchPadId, 'launchpad', 60) ||
-          <span>
-            {detail?.name?.slice(0, 3)}
-          </span>
+          myLogo('bigLogo', detail?.launchPadId, 'launchpad', 60) ||
+          myLogo('nativeLogo', detail?.launchPadId, 'launchpad', 60) ||
+          myLogo('smallLogo', detail?.launchPadId, 'launchpad', 60) ||
+            <span className='image-list-no-data-detail'>
+              {detail?.name?.slice(0, 3)}
+            </span>
           }
         </div>
-        <div className='profile-details'>
-          <div className='profile-name px-3 ms-2 '>
-            <h4 className='text-primary mb-0'>{detail?.name} {detail?.symbol ? `(${detail?.symbol})` : null}
-            </h4>
-            <Badge className='badge-sm' >{detail?.type}</Badge>
-          </div>
-          {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
-            {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
-            {websiteIcon}
-  Website
-          </Button>}
+        <div className='profile-name'>
+          <h4 className='text-primary mb-2 cus-h4'>{detail?.name} {detail?.symbol ? `(${detail?.symbol})` : null}</h4>
+          <Badge className='badge-sm' >{detail?.type}</Badge>
         </div>
+        {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
+          {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
+          {websiteIcon}
+  Website
+        </Button>}
       </div>
     </div>
   }
@@ -113,7 +109,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
         variant='danger'
         onClick={handleReportScam}
       >
-        <img src={imgReportProject} alt='err' />
+        <img src={imgReportProject} alt='err' className='img-fluid noti ms-2' style={{ height: '1.7rem' }}/>
         &nbsp;
       Report&nbsp;Scam
       </Button>
@@ -145,112 +141,114 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
   }
 
   const communityItem = (title, content) => {
-    return <div className='d-flex'>
-      <p className=' me-2'>{title}:</p>
-      {content && (
-        // <Avatar.Group
-        //   size={25}
-        //   maxCount={2}
-        //   maxStyle={{
-        //     color: '#f56a00',
-        //     backgroundColor: '#fde3cf',
-        //     cursor: 'pointer'
-        //   }}
-        //   className='mt-1'
-        //   style={{ marginLeft: '10px' }}>
-        Object.keys(content).map(
-          (socialName) => {
-            return content[socialName] !== '' ? (
-              <Tooltip
+    return <div className='d-flex align-items-start'>
+      <p className='me-2'>{title}:</p>
+      <div className='cus-d-flex'>
+        {content && (
+          Object.keys(content).map(
+            (socialName) => {
+              return content[socialName] !== '' ? (
+                <Tooltip
 
-                placementTooltip='topLeft'
-                title={socialName}
-                key={socialName}
-              >
-                <a
-                  href={content[socialName]}
-                  target='_blank'
-                  rel='noreferrer'
+                  placementTooltip='topLeft'
+                  title={socialName}
+                  key={socialName}
                 >
-                  <Avatar
-                    size={25}
-                    className=' img-fluid p-1 rounded-circle'
-                    style={{ backgroundColor: '#F0F2F5' }}
-                    preview={false}
-                    src={
-                      socials?.find(
-                        (social) =>
-                          social?.key?.toLowerCase() ===
-                        socialName?.toLowerCase()
-                      )?.icon
-                        ? socials?.find(
+                  <a
+                    href={content[socialName]}
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    <Avatar
+                      className='img-fluid p-1 rounded-circle cus-avatar'
+                      style={{ backgroundColor: '#F0F2F5' }}
+                      preview={false}
+                      src={
+                        socials?.find(
                           (social) =>
                             social?.key?.toLowerCase() ===
-                            socialName?.toLowerCase()
-                        ).icon
-                        : defaultSocial
-                    }
-                  />
-                </a>
-              </Tooltip>
-            ) : null
-          }
-        )
-      )}
+                          socialName?.toLowerCase()
+                        )?.icon
+                          ? socials?.find(
+                            (social) =>
+                              social?.key?.toLowerCase() ===
+                              socialName?.toLowerCase()
+                          ).icon
+                          : defaultSocial
+                      }
+                    />
+                  </a>
+                </Tooltip>
+              ) : null
+            }
+          )
+        )}
+      </div>
     </div>
   }
 
   const More = () => {
     return <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>{detail?.name} Information:</h5>
+        <h5 className='heading text-primary'>{detail?.name} Information</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog'>
-          <div className='row'>
-            <div className='col-6'>
-              {detail?.minTokenToParticipate > 0 && dataItem('Entry Threshold', `${detail?.minTokenToParticipate} ${detail?.symbol}`)}
-            </div>
-            <div className='col-6'>
-              {detail?.yearFounded && dataItem('Year Of Foundation', detail?.yearFounded)}
-            </div>
-            <div className='col-6'>
-              {!_.isEmpty(detail?.chains) && (
-                <div className='d-flex text-align-center mb-2'>
-                  <p className='mb-0'> Chains:</p>
-                  <Avatar.Group className='ms-1 '
-                    maxCount={4}
-                    size={25}
-                    maxStyle={{
-                      color: '#f56a00',
-                      backgroundColor: '#fde3cf',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {detail?.chains && Object.keys(detail?.chains).map((key, index) => (
-                      <>
-                        {key && (
-                          <Tooltip key={index} title={chainList[key]?.chainName}>
-                            <Avatar
-                              onClick={() => onItemClicked(chainList[key]?.exploreWebsite)}
-                              size={25}
-                              src={chainList[key]?.image}
-                              key={index}
-                              className='crypto-info-exchange'
-                            />
+          <div className='community-list'>
+            {detail?.minTokenToParticipate > 0 && (
+              <div className='community-list-item'>
+                {dataItem('Entry Threshold', `${detail?.minTokenToParticipate} ${detail?.symbol}`)}
+              </div>
+            )}
 
-                          </Tooltip>
+            {detail?.yearFounded && (
+              <div className='community-list-item'>
+                {dataItem('Year Of Foundation', detail?.yearFounded)}
+              </div>
+            )}
 
-                        )}
-                      </>
-                    ))}
-                  </Avatar.Group>
-                </div>
-              )}
-            </div>
-            <div className='col-6'>
-              {communityItem('Socials', detail?.socials)}
-            </div>
+            {!_.isEmpty(detail?.chains) && (
+              <div className='community-list-item'>
+                {
+                  <div className='d-flex text-align-center mb-2'>
+                    <p className='mb-0'> Chains:</p>
+                    <Avatar.Group className='ms-1 '
+                      maxCount={4}
+                      size={20}
+                      maxStyle={{
+                        color: '#f56a00',
+                        backgroundColor: '#fde3cf',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {detail?.chains && Object.keys(detail?.chains).map((key, index) => (
+                        <>
+                          {key && (
+                            <Tooltip key={index} title={chainList[key]?.chainName}>
+                              <Avatar
+                                onClick={() => onItemClicked(chainList[key]?.exploreWebsite)}
+                                size={20}
+                                src={chainList[key]?.image}
+                                key={index}
+                                className='crypto-info-exchange'
+                              />
+
+                            </Tooltip>
+
+                          )}
+                        </>
+                      ))}
+                    </Avatar.Group>
+                  </div>
+                }
+              </div>
+            )}
+
+            {detail?.socials && (
+              <div className='community-list-item'>
+                {communityItem('Socials', detail?.socials)}
+              </div>
+            )}
 
           </div>
         </div>
@@ -261,7 +259,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const About = () => {
     return <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>About {detail?.name}:</h5>
+        <h5 className='heading text-primary'>About {detail?.name}</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>
@@ -341,7 +339,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       <div className=' coin-content '>
         <div className='card-header border-0 flex-wrap cus-card-header'>
           <div className='mb-2'>
-            <h4 className='heading m-0'>{detail?.name} Invest Data</h4>
+            <h5 className='heading text-primary'>{detail?.name} Invest Data</h5>
           </div>
         </div>
         <div className='card-body'>

@@ -1,0 +1,31 @@
+.cus-avatar{
+    width: 1.5625rem;
+    height: 1.5625rem;
+    margin-bottom: 0.2rem;
+    margin-right: 0.2rem;
+    & .ant-avatar{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}
+.cus-d-flex{
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.community-list{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    &-item{
+        width: calc(100% / 2 - 0.5rem);
+    }
+}
+@media (max-width: 1250px) {
+    .community-list-item{
+        width: 100%;
+    }
+}

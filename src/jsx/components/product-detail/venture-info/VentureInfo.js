@@ -1,4 +1,4 @@
-import { Avatar, Spin, Table, Tooltip } from 'antd'
+import { Avatar, Spin, Table, Tooltip, Image } from 'antd'
 import React, { useState } from 'react'
 import { Badge, Button } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
@@ -56,29 +56,27 @@ const VentureInfo = ({ productInfo, ...rest }) => {
 
   // VENTURE HEADER
   const Header = () => {
-    return <div className='profile-head'>
-      <div className='profile-info mb-1'>
+    return <div className='profile-info'>
+      <div className='profile-details'>
         <div className='profile-photo'>
           {detail?.ventureId && detail?.ventureLogo ? (
-            <Avatar size={60} src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false} height={64} width={64}/>
+            <Image src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false}/>
           )
             : (<span className='image-list-no-data-detail'>
               {detail?.ventureName?.slice(0, 3)}
             </span>)
           }
         </div>
-        <div className='profile-details'>
-          <div className='profile-name px-3 ms-2 '>
-            <h4 className='text-primary mb-0'>{detail?.ventureName}
-            </h4>
-            <Badge className='badge-sm' >{detail?.subCategory}</Badge>
-          </div>
-          {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
-            {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
-            {websiteIcon}
-    Website
-          </Button>}
+        <div className='profile-name'>
+          <h4 className='text-primary mb-2 cus-h4'>{detail?.ventureName}
+          </h4>
+          <Badge className='badge-sm' >{detail?.subCategory}</Badge>
         </div>
+        {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
+          {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
+          {websiteIcon}
+    Website
+        </Button>}
       </div>
     </div>
   }
@@ -116,7 +114,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
         variant='danger'
         onClick={handleReportScam}
       >
-        <img src={imgReportProject} alt='err' />
+        <img src={imgReportProject} alt='err' className='img-fluid noti ms-2' style={{ height: '1.7rem' }}/>
         &nbsp;
       Report&nbsp;Scam
       </Button>
@@ -148,81 +146,81 @@ const VentureInfo = ({ productInfo, ...rest }) => {
   }
 
   const communityItem = (title, content) => {
-    return <div className='d-flex'>
+    return <div className='d-flex align-items-start'>
       <p className='mt-2 me-2'>{title}:</p>
-      {content && (
-        // <Avatar.Group
-        //   size={25}
-        //   maxCount={2}
-        //   maxStyle={{
-        //     color: '#f56a00',
-        //     backgroundColor: '#fde3cf',
-        //     cursor: 'pointer'
-        //   }}
-        //   className='mt-1'
-        //   style={{ marginLeft: '10px' }}>
-        Object.keys(content).map(
-          (socialName) => {
-            return content[socialName] !== '' ? (
-              <Tooltip
-                className='me-1 mt-2'
-                placementTooltip='topLeft'
-                title={socialName}
-                key={socialName}
-              >
-                <a
-                  href={content[socialName]}
-                  target='_blank'
-                  rel='noreferrer'
+      <div className='cus-d-flex'>
+        {content && (
+          Object.keys(content).map(
+            (socialName) => {
+              return content[socialName] !== '' ? (
+                <Tooltip
+                  className='me-1 mt-2'
+                  placementTooltip='topLeft'
+                  title={socialName}
+                  key={socialName}
                 >
-                  <Avatar
-                    size={25}
-                    className=' img-fluid p-1 rounded-circle'
-                    style={{ backgroundColor: '#F0F2F5' }}
-                    preview={false}
-                    src={
-                      socials?.find(
-                        (social) =>
-                          social?.key?.toLowerCase() ===
-                        socialName?.toLowerCase()
-                      )?.icon
-                        ? socials?.find(
+                  <a
+                    href={content[socialName]}
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    <Avatar
+                      className='img-fluid p-1 rounded-circle cus-avatar'
+                      style={{ backgroundColor: '#F0F2F5' }}
+                      preview={false}
+                      src={
+                        socials?.find(
                           (social) =>
                             social?.key?.toLowerCase() ===
-                            socialName?.toLowerCase()
-                        ).icon
-                        : defaultSocial
-                    }
-                  />
-                </a>
-              </Tooltip>
-            ) : null
-          }
-        )
-      )}
+                          socialName?.toLowerCase()
+                        )?.icon
+                          ? socials?.find(
+                            (social) =>
+                              social?.key?.toLowerCase() ===
+                              socialName?.toLowerCase()
+                          ).icon
+                          : defaultSocial
+                      }
+                    />
+                  </a>
+                </Tooltip>
+              ) : null
+            }
+          )
+        )}
+      </div>
     </div>
   }
 
   const More = () => {
     return <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>{detail?.dAppName} Information:</h5>
+        <h5 className='heading text-primary'>{detail?.dAppName} Information</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>
-          <div className='row'>
-            <div className='col-6'>
-              {detail?.location && dataItem('Location', detail?.location)}
-              {!_.isEmpty(productInfo?.mores?.fund) && dataItem('Total funds', renderNumber(calculateTotalFund(productInfo?.mores?.fund)))}
-            </div>
-            <div className='col-6'>
-              {detail?.yearFounded && dataItem('Founded Year', detail?.yearFounded)}
-            </div>
+          <div className='community-list'>
+            {detail?.location && (
+              <div className='community-list-item'>
+                {detail?.location && dataItem('Location', detail?.location)}
+              </div>
+            )}
+            {!_.isEmpty(productInfo?.mores?.fund) && (
+              <div className='community-list-item'>
+                {dataItem('Total funds', renderNumber(calculateTotalFund(productInfo?.mores?.fund)))}
+              </div>
+            )}
+            {detail?.yearFounded && (
+              <div className='community-list-item'>
+                {dataItem('Founded Year', detail?.yearFounded)}
+              </div>
+            )}
 
-            <div className='col-12'>
-              {communityItem('Socials', detail?.socials)}
-            </div>
-
+            {detail?.socials && (
+              <div className='community-list-item'>
+                {communityItem('Socials', detail?.socials)}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -232,7 +230,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
   const About = () => {
     return <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>About {detail?.ventureName}:</h5>
+        <h5 className='heading text-primary'>About {detail?.ventureName}</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>
@@ -283,17 +281,14 @@ const VentureInfo = ({ productInfo, ...rest }) => {
   const PortfolioTable = () => {
     return <>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>{detail?.ventureName} Portfolio:</h5>
+        <h5 className='heading text-primary'>{detail?.ventureName} Portfolio</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog portfolio-table'>
           <Table
-            // loading={loading}
-            // rowClassName='portfolio-table'
             rowClassName='portfolio-item portfolio-table'
             columns={portfolioColumns}
             dataSource={productInfo?.mores?.fund}
-            // onChange={handleChangeTable}
             onRow={(record) => ({
               onClick: () => {
                 handleonRowClicked(record?.projectId)
@@ -301,7 +296,6 @@ const VentureInfo = ({ productInfo, ...rest }) => {
             })}
             rowKey={(record, index) => index}
             pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
-            // scroll={{ x: 'max-content' }}
           />
         </div>
       </div></>
