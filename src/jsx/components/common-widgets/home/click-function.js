@@ -1,3 +1,4 @@
+import moment from 'moment'
 
 export const onItemClicked = (type, detail, navigate) => {
   console.log(type)
@@ -15,5 +16,14 @@ export const onItemClicked = (type, detail, navigate) => {
     navigate(`../../../../../products/venture/${detail?.ventureId?.split('_')[2]}`)
   } else if (type === 'soon') {
     navigate(`../../../../../products/soon/${detail?.projectId?.split('_')[2]}`)
+  }
+}
+
+export const timeAgoConvert = (date) => {
+  if (date) {
+    var actionTime = moment(date, 'YYYY-MM-DD HH:mm:ss')
+    return actionTime.fromNow()
+  } else {
+    return ''
   }
 }

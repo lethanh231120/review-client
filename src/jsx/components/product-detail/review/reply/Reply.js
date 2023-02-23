@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Image } from 'antd'
 import './reply.scss'
-import moment from 'moment'
+// import moment from 'moment'
 import { post, patch } from '../../../../../api/BaseRequest'
 import _ from 'lodash'
 import user from '../../../../../images/product/user.png'
@@ -9,6 +9,7 @@ import ListEmoji from '../emoji/ListEmoji'
 import { getCookie, STORAGEKEY } from '../../../../../utils/storage'
 import { SignInContext, Authenticated } from '../../../../../App'
 import { reactions } from '../../../../constants/reaction'
+import { timeAgoConvert } from '../../../common-widgets/home/click-function'
 
 const ReplyComment = (props) => {
   const { data, productId, index, reviews, setReviews, indexReview } = props
@@ -144,7 +145,8 @@ const ReplyComment = (props) => {
               handleClickReaction={handleClickReaction}
             />
             <span className='review-item-action-item-time'>
-              {moment.utc(data?.reply?.updatedDate).fromNow()}
+              {/* {moment.utc(data?.reply?.updatedDate).fromNow()} */}
+              {timeAgoConvert(data?.reply?.updatedDate)}
             </span>
           </div>
           {!_.isEmpty(newData?.reactionType) && (
