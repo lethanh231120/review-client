@@ -158,6 +158,7 @@ const CategoryItem = () => {
         //   }
         // }
         setListProduct(dataCrypto?.data?.cryptos)
+        setTotal(dataCrypto?.data?.cryptoCount)
         break
       }
       case EXCHANGE: {
