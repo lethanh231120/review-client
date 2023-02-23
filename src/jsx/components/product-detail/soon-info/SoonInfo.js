@@ -58,7 +58,7 @@ const classBackgroundUpcoming = 'badge-info'
 const classBackgroundOngoing = 'badge-success'
 const classBackgroundPast = 'badge-default'
 
-const getStatusBackgroundFromSoonStatus = (status) => {
+export const getStatusBackgroundFromSoonStatus = (status) => {
   switch (status) {
     case statusUpcoming:
       return classBackgroundUpcoming
@@ -80,7 +80,7 @@ const convertStringDDMMYYYYToUnix = (ddmmyyyy) =>{
   return (dateUnix)
 }
 
-const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
+export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
   const minusOffset = new Date().getTimezoneOffset()
   const miliSecOffset = minusOffset * 60 * 1000
   let myCurrentDateTimeUnix = (new Date())
@@ -138,7 +138,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     <div className='profile-info'>
       <div className='profile-details'>
         <div className='profile-photo'>
-          {itemDetail?.projectId && itemDetail?.bigLogo ? (
+          {itemDetail?.projectId ? (
             <Image src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false}/>
           )
             : (<span className='image-list-no-data-detail'>

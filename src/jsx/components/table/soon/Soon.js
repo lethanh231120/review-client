@@ -5,10 +5,11 @@ import { Link } from 'react-router-dom'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
-import { Col, Image } from 'antd'
+import { Avatar, Col } from 'antd'
 import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
+import { getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../product-detail/soon-info/SoonInfo'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
@@ -63,8 +64,8 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             <div className='card-body align-items-center flex-wrap'>
                               <div className='d-flex align-items-center mb-4'>
                                 <div>
-                                  {item?.projectId && item?.bigLogo ? (
-                                    <Image src={isValidProductId(item?.projectId) ? formatImgUrlFromProductId(item?.projectId) : imgAbsentImageSoon} preview={false} className='image-list' height={36} width={36} />
+                                  {item?.projectId ? (
+                                    <Avatar src={isValidProductId(item?.projectId) ? formatImgUrlFromProductId(item?.projectId) : imgAbsentImageSoon} preview={false} size={40}/>
                                   )
                                     : (
                                       <NoImage
@@ -87,6 +88,17 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                       : absentData}
                                   </span>
                                 </div>
+                              </div>
+                              <div className='row'>
+                                <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>
+                                  {item?.startDate && item?.endDate
+                                    ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(item?.startDate, item?.endDate))}`}>
+                                      {getStatusFromStartDateAndEndDate(item?.startDate, item?.endDate)?.toUpperCase()}
+                                    </span>
+                                    : <span className={`badge badge-rounded badge-light`}>UNKNOWN</span>
+                                  }
+
+                                </p>
                               </div>
                               <div className='row'>
                                 <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>

@@ -12,6 +12,10 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GoogleLogin } from '@react-oauth/google'
 import { parseJwt } from '../../../../utils/decode'
 
+const loginTypeNormal = 'normal'
+const loginTypeFacebook = 'facebook'
+const loginTypeGoogle = 'google'
+
 export const SignInComponent = () => {
   const authenticated = useContext(Authenticated)
   const signContext = useContext(SignInContext)
@@ -39,8 +43,7 @@ export const SignInComponent = () => {
         }
       }
     } catch (error) {
-      console.error(error)
-      openNotification()
+      openNotification(error, loginTypeFacebook)
     }
   }
 
@@ -48,12 +51,49 @@ export const SignInComponent = () => {
     console.log(value)
   }
 
-  const openNotification = () => {
+  const openNotification = (error, loginTypeFE) => {
+    let msg = 'Login failed.'
+    msg += `<br />`
+
+    const errMsgBEResp = error?.response?.data?.error
+    // normal, but not activated account
+    if (errMsgBEResp === 'account is not activated') {
+      msg += 'Your account is not activated. Please check your mail.'
+    } else
+    // normal, but not register before
+    if (errMsgBEResp === 'this email is not registered, please signup') {
+      msg += 'This email is not registered before. Please register first.'
+    } else {
+      let error = errMsgBEResp?.split(':wrong email or password')
+      let loginTypeBEResponse = error[0]
+      if (error?.length === 2) {
+        // Login as activated normal, but still wrong email or password.
+        if (loginTypeBEResponse === loginTypeNormal && loginTypeFE === loginTypeNormal) {
+          msg = `Your email or passowrd is incorrect. Please try again.`
+        } else
+        // Login as socail, but login as normal
+        if (loginTypeBEResponse !== loginTypeNormal && loginTypeFE === loginTypeNormal) {
+          msg = `This email registered by ${loginTypeBEResponse}. Please login by ${loginTypeBEResponse}`
+        }
+      } else {
+        error = errMsgBEResp?.split('User id is incorrect')
+        loginTypeBEResponse = error[0]
+        if (error?.length === 2) {
+          // has account registered with gear 5, but still login this email through social.
+          if (loginTypeBEResponse === loginTypeNormal && loginTypeFE !== loginTypeNormal) {
+            msg = `This email registerd in Gear5. Please login by your email and password directly.`
+          }
+        }
+      }
+
+      // exist in another platform
+    }
+
     Swal.fire({
       allowOutsideClick: false,
       icon: 'warning',
       title: 'Warning',
-      html: 'Login failed. Please try again.',
+      html: msg,
       showClass: {
         popup: 'animate__animated animate__fadeInDown'
       },
@@ -105,20 +145,8 @@ export const SignInComponent = () => {
       if (resp?.status) {
         setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
       }
-    } catch (e) {
-      Swal.fire({
-        allowOutsideClick: false,
-        icon: 'error',
-        title: 'Log In failed.',
-        html: e?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later.',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        backdrop: `rgba(4,148,114,0.4)`
-      })
+    } catch (error) {
+      openNotification(error, loginTypeNormal)
     } finally {
       setIsLoading(false)
     }
@@ -157,13 +185,7 @@ export const SignInComponent = () => {
         }
       }
     } catch (error) {
-      console.error(error)
-      const existMsgParts = error?.response?.data?.error?.split('User id is incorrect')
-      console.log(existMsgParts[0], existMsgParts?.length)
-
-      // if (existMsgParts?.length === 2) {
-      // }
-      openNotification()
+      openNotification(error, loginTypeGoogle)
     }
   }
 
