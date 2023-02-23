@@ -58,7 +58,7 @@ const classBackgroundUpcoming = 'badge-info'
 const classBackgroundOngoing = 'badge-success'
 const classBackgroundPast = 'badge-default'
 
-const getStatusBackgroundFromSoonStatus = (status) => {
+export const getStatusBackgroundFromSoonStatus = (status) => {
   switch (status) {
     case statusUpcoming:
       return classBackgroundUpcoming
@@ -80,7 +80,7 @@ const convertStringDDMMYYYYToUnix = (ddmmyyyy) =>{
   return (dateUnix)
 }
 
-const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
+export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
   const minusOffset = new Date().getTimezoneOffset()
   const miliSecOffset = minusOffset * 60 * 1000
   let myCurrentDateTimeUnix = (new Date())
@@ -146,9 +146,39 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             </span>
             )}
         </div>
-        <div className='profile-name px-3 pt-2'>
-          <h4 className='text-primary mb-0'>{itemDetail?.projectName}</h4>
-          <p>{itemDetail?.projectSymbol}</p>
+        <div className='profile-details'>
+          <div className='profile-name px-3 pt-2'>
+            <h4 className='text-primary mb-0'>{itemDetail?.projectName}</h4>
+            <p>{itemDetail?.projectSymbol}</p>
+          </div>
+          <div className='profile-email px-2 pt-2'>
+            <h4 className='text-muted mb-0'>
+              {itemDetail?.startDate && itemDetail?.endDate
+                ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
+                  {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
+                </span>
+                : <span className={`badge badge-rounded badge-light`}>UNKNOWN</span>}
+            </h4>
+            <p >
+              {itemDetail?.type}
+            </p>
+          </div>
+          <Button
+            as='a'
+            href='#'
+            className='btn btn-primary mb-1 ms-auto'
+            onClick={() => {
+              setWebsiteLoading(true)
+              setTimeout(() =>{
+                itemDetail?.website && window.open(itemDetail?.website)
+                setWebsiteLoading(false)
+              }, 3000)
+            }}
+          >
+            {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '1rem', verticalAlign: 'center' }} /> : ''}
+            {websiteIcon}
+            Website
+          </Button>
         </div>
         <div className='profile-email px-2 pt-2'>
           <h4 className='text-muted mb-0'>

@@ -9,6 +9,7 @@ import { Avatar, Col } from 'antd'
 import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
+import { getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../product-detail/soon-info/SoonInfo'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
@@ -87,6 +88,17 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                       : absentData}
                                   </span>
                                 </div>
+                              </div>
+                              <div className='row'>
+                                <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>
+                                  {item?.startDate && item?.endDate
+                                    ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(item?.startDate, item?.endDate))}`}>
+                                      {getStatusFromStartDateAndEndDate(item?.startDate, item?.endDate)?.toUpperCase()}
+                                    </span>
+                                    : <span className={`badge badge-rounded badge-light`}>UNKNOWN</span>
+                                  }
+
+                                </p>
                               </div>
                               <div className='row'>
                                 <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>
