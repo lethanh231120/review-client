@@ -207,6 +207,8 @@ const CategoryItem = () => {
 
   const handleChangeTable = (pagination, filters, sorter, extra) => {
     let sort
+    console.log(sorter)
+
     if (sorter?.order) {
       sort = {
         ...params,
@@ -233,7 +235,7 @@ const CategoryItem = () => {
 
   const renderComponent = (item) => {
     let projectType = category
-    console.log(listProduct)
+    // console.log(listProduct)
     if (projectType === SCAM) {
       let commonItemId = ''
       if (item?.dAppId) {

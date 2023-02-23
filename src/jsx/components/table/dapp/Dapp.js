@@ -116,6 +116,7 @@ const Dapp = ({
       title: 'Score',
       showSorterTooltip: false,
       dataIndex: 'score',
+      sortDirections: ['descend', 'ascend'],
       align: 'center',
       sorter: true,
       defaultSortOrder:
