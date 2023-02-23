@@ -39,7 +39,7 @@ export const DetailLayout = (props) => {
         <div className='row'>
           <div className='col-xl-5'>
             <div className='row'>
-              <div className='col-lg-12'>
+              {summary && <div className='col-lg-12'>
                 <div className='card'>
                   <div className='card-body'>
                     <div className='profile-statistics'>
@@ -47,7 +47,8 @@ export const DetailLayout = (props) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div>}
+
               {/* Total Scam, Total Reviews, Score */}
               {scam && <div className='col-lg-12'>
                 {scam}

@@ -58,7 +58,7 @@ const CategoryItem = () => {
     },
     exchange: { page: 1, sort: 'desc', orderBy: 'score', tag: subCategory || '' },
     venture: { location: '', orderBy: 'score', sort: 'desc', page: 1 },
-    soon: { roundType: '', tag: subCategory || '', orderBy: 'startDate', sort: 'desc', page: 1 },
+    soon: { roundType: '', tag: subCategory || '', orderBy: 'endDate', sort: 'desc', page: 1 },
     launchpad: { page: 1, sort: 'desc', orderBy: 'score' }
   }
   console.log(loading)

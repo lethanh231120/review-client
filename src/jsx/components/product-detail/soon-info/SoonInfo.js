@@ -72,7 +72,7 @@ export const getStatusBackgroundFromSoonStatus = (status) => {
   }
 }
 
-const convertStringDDMMYYYYToUnix = (ddmmyyyy) =>{
+export const convertStringDDMMYYYYToUnix = (ddmmyyyy) =>{
   const minusOffset = new Date().getTimezoneOffset()
   const miliSecOffset = minusOffset * 60 * 1000
   let dateUnix = new Date(ddmmyyyy?.replace(/(\d{2})-(\d{2})-(\d{4})/, '$2/$1/$3'))
@@ -108,7 +108,7 @@ export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
   return ''
 }
 
-const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
+export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
 const SoonInfo = ({ productInfo, ...rest }) => {
   const navigate = useNavigate()
@@ -264,6 +264,10 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
   const summary = (
     <div className='text-center'>
+      <div className='row mb-4'>
+        <div className='col-lg-12'> Start: <b className='text-primary'>{moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle)}</b></div>
+        <div className='col-lg-12'> End&nbsp;&nbsp;: <b className='text-primary'>{moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle)}</b></div>
+      </div>
       <div className='row'>
         <div className='col'>
           <h3 className='m-b-0'>
@@ -321,26 +325,6 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <h5 className='heading text-primary'>{itemDetail?.projectName} Information</h5>
         </div>
         <div className='card-body pt-3'>
-          {itemDetail?.startDate
-            ? <div className='profile-blog mb-3'>
-              <Link to={'#'} >
-                <h4>Start date:</h4>
-              </Link>
-              <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
-                {moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle)}
-              </p>
-            </div> : ''}
-
-          {itemDetail?.endDate
-            ? <div className='profile-blog mb-3'>
-              <Link to={'#'} >
-                <h4>End date:</h4>
-              </Link>
-              <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
-                {moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle)}
-              </p>
-            </div> : ''}
-
           {itemDetail?.roundType
             ? <div className='profile-blog mb-3'>
               <Link to={'#'} >
