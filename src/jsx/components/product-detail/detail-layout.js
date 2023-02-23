@@ -5,7 +5,7 @@ import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
 
 export const DetailLayout = (props) => {
-  const { Header, type, roundSale, portfolioOrChart, summary, more, about, scam, exchange, topDiscus, numberReviews, rest, setTop } = props
+  const { Header, type, roundSale, portfolioOrChartOrDesc, summary, more, about, scam, exchange, topDiscus, numberReviews, rest, setTop } = props
   // const [reviews, setReviews] = useState()
   const PAGE_SIZE = 50
 
@@ -34,12 +34,12 @@ export const DetailLayout = (props) => {
         : ''
     }
 
-    {type === 'crypto' || type === 'venture' || type === 'launchpad'
+    {type === 'crypto' || type === 'venture' || type === 'launchpad' || type === 'soon'
       ? <>
         <div className='row'>
           <div className='col-xl-5'>
             <div className='row'>
-              <div className='col-lg-12'>
+              {summary && <div className='col-lg-12'>
                 <div className='card'>
                   <div className='card-body'>
                     <div className='profile-statistics'>
@@ -47,31 +47,33 @@ export const DetailLayout = (props) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div>}
+
               {/* Total Scam, Total Reviews, Score */}
-              <div className='col-lg-12'>
+              {scam && <div className='col-lg-12'>
                 {scam}
-              </div>
+              </div>}
+
               {/* Mores*/}
-              <div className='col-lg-12'>
+              {more && <div className='col-lg-12'>
                 <div className='card'>
                   {more}
                 </div>
-              </div>
+              </div>}
 
               {/* trading on */}
-              <div className='col-lg-12'>
+              {exchange && <div className='col-lg-12'>
                 <div className='card'>
                   {exchange}
                 </div>
-              </div>
+              </div>}
 
               {/* About */}
-              <div className='col-lg-12'>
+              {about && <div className='col-lg-12'>
                 <div className='card'>
                   {about}
                 </div>
-              </div>
+              </div>}
 
               <div className='col-lg-12'>
                 {topDiscus}
@@ -79,12 +81,10 @@ export const DetailLayout = (props) => {
             </div>
           </div>
           <div className='col-xl-7'>
-            {/* {coinChart} */}
-            {portfolioOrChart && <div className='card cus-margin-top'>
-              {portfolioOrChart}
+            {portfolioOrChartOrDesc && <div className='card cus-margin-top'>
+              {portfolioOrChartOrDesc}
             </div>
             }
-            {/* {report} */}
             {/* form report */}
             <div className='product-detail' id='comment'>
               <FormReport

@@ -1,4 +1,4 @@
-const pair1 = [' ', '+']
+export const pair1 = [' ', '-']
 
 export const encodeUrl = (url) => {
   if (url) {

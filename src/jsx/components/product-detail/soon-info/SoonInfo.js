@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { DetailLayout } from '../detail-layout'
 
-import { Button, Dropdown } from 'react-bootstrap'
+import { Badge, Button, Dropdown } from 'react-bootstrap'
 import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
 import {
   formatLargeNumberMoneyUSD,
@@ -27,6 +27,7 @@ import { encodeUrl } from '../../../../utils/formatUrl'
 import { Spin, Tooltip, Image } from 'antd'
 import { formatImgUrlFromProductId, isValidProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
+import imgReportProject from '../../../../images/svg/report-project-white.svg'
 
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 const txtTBA = 'TBA'
@@ -71,7 +72,7 @@ export const getStatusBackgroundFromSoonStatus = (status) => {
   }
 }
 
-const convertStringDDMMYYYYToUnix = (ddmmyyyy) =>{
+export const convertStringDDMMYYYYToUnix = (ddmmyyyy) =>{
   const minusOffset = new Date().getTimezoneOffset()
   const miliSecOffset = minusOffset * 60 * 1000
   let dateUnix = new Date(ddmmyyyy?.replace(/(\d{2})-(\d{2})-(\d{4})/, '$2/$1/$3'))
@@ -107,7 +108,7 @@ export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
   return ''
 }
 
-const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
+export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
 const SoonInfo = ({ productInfo, ...rest }) => {
   const navigate = useNavigate()
@@ -263,32 +264,40 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
   const summary = (
     <div className='text-center'>
+      <div className='row mb-4'>
+        <div className='col-lg-12'> Start: <b className='text-primary'>{moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle)}</b></div>
+        <div className='col-lg-12'> End&nbsp;&nbsp;: <b className='text-primary'>{moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle)}</b></div>
+      </div>
       <div className='row'>
         <div className='col'>
           <h3 className='m-b-0'>
-            {formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}
+            <Badge bg='light' text='dark'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
           </h3>
           <span>Raised</span>
         </div>
         <div className='col'>
           <h3 className='m-b-0'>
-            {formatLargeNumberMoneyUSD(itemDetail?.fullyDilutedMarketcap)}
+            <Badge bg='light' text='dark'>{formatLargeNumberMoneyUSD(itemDetail?.fullyDilutedMarketcap)}</Badge>
           </h3>{' '}
           <span>Marketcap</span>
         </div>
         <div className='col'>
           <h3 className='m-b-0'>
-            {formatLargeNumber(itemDetail?.totalSupply)}
+            <Badge bg='light' text='dark'>{formatLargeNumber(itemDetail?.totalSupply)}</Badge>
           </h3>{' '}
           <span>Supply</span>
         </div>
       </div>
       <div className='mt-4'>
+
         <Button
-          className='btn btn-primary mb-1 me-1'
+          className='mb-1 me-1'
+          variant='danger'
           onClick={handleReportScam}
         >
-                    Report Scam
+          <img src={imgReportProject} alt='err' className='img-fluid noti ms-2' style={{ height: '24px' }}/>
+        &nbsp;
+      Report&nbsp;Scam
         </Button>
         <Button
           className='btn btn-primary mb-1 ms-1'
@@ -302,7 +311,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             window.scrollTo(0, top)
           }}
         >
-                  Add Review
+          <svg width='24' height='24' viewBox='0 0 1024 1024' className='icon' version='1.1' xmlns='http://www.w3.org/2000/svg'><path d='M687.542857 965.485714H182.857143c-87.771429 0-160.914286-73.142857-160.914286-160.914285V256c0-87.771429 73.142857-160.914286 160.914286-160.914286h336.457143V146.285714H182.857143C124.342857 146.285714 73.142857 197.485714 73.142857 256v541.257143c0 58.514286 51.2 109.714286 109.714286 109.714286h504.685714c58.514286 0 109.714286-51.2 109.714286-109.714286V533.942857h58.514286v263.314286c-7.314286 95.085714-80.457143 168.228571-168.228572 168.228571z' fill='#fff' /><path d='M877.714286 95.085714l109.714285 138.971429c7.314286 7.314286 0 14.628571-7.314285 21.942857L629.028571 526.628571c-7.314286 7.314286-160.914286-7.314286-160.914285-7.314285s29.257143-146.285714 36.571428-153.6l351.085715-270.628572c7.314286-7.314286 14.628571-7.314286 21.942857 0z' fill='#F4B1B2' /><path d='M607.085714 555.885714c-21.942857 0-65.828571 0-138.971428-7.314285H438.857143V512c29.257143-160.914286 36.571429-160.914286 43.885714-168.228571L833.828571 73.142857c21.942857-14.628571 43.885714-14.628571 58.514286 7.314286L1002.057143 219.428571c14.628571 14.628571 7.314286 43.885714-7.314286 58.514286L643.657143 548.571429c-7.314286 7.314286-7.314286 7.314286-36.571429 7.314285z m-109.714285-58.514285c51.2 0 95.085714 7.314286 117.028571 7.314285L950.857143 241.371429l-87.771429-117.028572-336.457143 263.314286c-7.314286 14.628571-14.628571 58.514286-29.257142 109.714286z' fill='#fff' /></svg>
+        &nbsp;
+      Add Review
         </Button>
       </div>
     </div>
@@ -314,26 +325,6 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <h5 className='heading text-primary'>{itemDetail?.projectName} Information</h5>
         </div>
         <div className='card-body pt-3'>
-          {itemDetail?.startDate
-            ? <div className='profile-blog mb-3'>
-              <Link to={'#'} >
-                <h4>Start date:</h4>
-              </Link>
-              <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
-                {moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle)}
-              </p>
-            </div> : ''}
-
-          {itemDetail?.endDate
-            ? <div className='profile-blog mb-3'>
-              <Link to={'#'} >
-                <h4>End date:</h4>
-              </Link>
-              <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
-                {moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle)}
-              </p>
-            </div> : ''}
-
           {itemDetail?.roundType
             ? <div className='profile-blog mb-3'>
               <Link to={'#'} >
@@ -534,7 +525,8 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       roundSale={roundSale}
       summary={summary}
       more={more}
-      portfolioOrChart={description}
+      type='soon'
+      portfolioOrChartOrDesc={description}
       about={about}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
