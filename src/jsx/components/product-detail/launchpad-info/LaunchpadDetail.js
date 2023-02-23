@@ -16,6 +16,7 @@ import { ChainListContext } from '../../../../App'
 import _ from 'lodash'
 import './LaunchpadInfo.scss'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
+import { formatImgUrlFromProductId } from '../../../../utils/formatText'
 
 const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -272,7 +273,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const portfolioColumns = [
     {
       title: 'Name',
-      render: (_, record) => (<span><Avatar src={record?.bigLogo}/> {record?.projectName}</span>)
+      render: (_, record) => (<span><Avatar src={formatImgUrlFromProductId(record?.projectId)}/> {record?.projectName}</span>)
     },
     {
       title: 'Blockchains',
