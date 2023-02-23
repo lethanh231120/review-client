@@ -100,11 +100,11 @@ const DappInfo = ({ productInfo, ...rest }) => {
       </div>
       <div className='mt-4'>
         <Button
-          className='mb-1 me-1'
+          className='btn btn-danger mb-1 me-1'
           variant='danger'
           onClick={handleReportScam}
         >
-          <img src={imgReportProject} alt='err' className='img-fluid noti ms-2' style={{ height: '1.7rem' }}/>
+          <img src={imgReportProject} alt='err' className='img-fluid noti ms-2' style={{ height: '24px' }}/>
           &nbsp;
         Report&nbsp;Scam
         </Button>

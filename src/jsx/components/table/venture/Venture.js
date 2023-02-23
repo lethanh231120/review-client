@@ -62,13 +62,6 @@ const Venture = ({
       title: 'Location',
       showSorterTooltip: false,
       dataIndex: 'location',
-      sorter: true,
-      defaultSortOrder:
-        params?.orderBy === 'location'
-          ? params?.sort === 'desc'
-            ? 'descend'
-            : 'ascend'
-          : '',
       render: (_, record) => (
         <span>{record?.location ? `${record?.location}` : NO_DATA }</span>
       )

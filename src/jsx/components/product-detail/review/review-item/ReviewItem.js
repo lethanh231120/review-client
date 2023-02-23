@@ -3,7 +3,7 @@ import { Image, Input, Form } from 'antd'
 import './reviewItem.scss'
 import { CaretDownOutlined, SendOutlined, LinkOutlined } from '@ant-design/icons'
 import user from '../../../../../images/product/user.png'
-import moment from 'moment'
+// import moment from 'moment'
 import ReplyComment from '../reply/Reply'
 import _ from 'lodash'
 import { post, patch } from '../../../../../api/BaseRequest'
@@ -13,6 +13,7 @@ import scam from '../../../../../images/product/scam.png'
 import ListEmoji from '../emoji/ListEmoji'
 import Description from '../../description/Description'
 import { reactions } from '../../../../constants/reaction'
+import { timeAgoConvert } from '../../../common-widgets/home/click-function'
 
 const ReviewItem = (props) => {
   const { data, productId, index, reviews, setReviews, setCurrentReview, curentReview } = props
@@ -279,7 +280,8 @@ const ReviewItem = (props) => {
               />
               <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
               <span className='review-item-action-item-time'>
-                {moment.utc(data?.review?.updatedDate).fromNow()}
+                {/* {moment.utc(data?.review?.updatedDate).fromNow()} */}
+                {timeAgoConvert(data?.review?.updatedDate)}
               </span>
             </div>
             {!_.isEmpty(newData?.reactionType) && (
