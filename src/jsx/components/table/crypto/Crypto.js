@@ -30,7 +30,7 @@ import {
   CRYPTO,
   CRYPTO_TOKEN
 } from '../../../constants/category'
-import { exchanges } from '../../../../utils/ExchangeImage'
+// import { exchanges } from '../../../../utils/ExchangeImage'
 import { NO_DATA } from '../../../constants/data'
 // import CategorySearch from '../../layout/input-search/CategorySearch'
 import CategorySearch from '../../input-search/CategorySearch'
@@ -42,91 +42,69 @@ const Crypto = ({
   listProduct,
   handleChangeTable,
   params,
-  loading,
   handleFilter,
+  loading,
   total
 }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
-  const [listData, setListData] = useState([])
+  // const [listData, setListData] = useState([])
   const [mainExplorerMap, setMainExplorerMap] = useState()
+  // const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const getChain = async() => {
-      if (!_.isEmpty(listProduct)) {
-        const newListData = []
-        listProduct?.forEach((itemProduct) => {
-          if (!_.isEmpty(itemProduct?.multichain)) {
-            // const listMultiChain = [];
-
-            // itemProduct?.multichain?.forEach((itemMultiChain) => {
-            //   console.log(chainList);
-            //   const itemChain =
-            //     chainList &&
-            //     chainList?.find(
-            //       (itemChain) =>
-            //         itemChain?.chainName === itemMultiChain?.chainName
-            //     );
-            //   if (
-            //     itemChain &&
-            //     itemChain?.image !== null &&
-            //     itemChain?.image !== ""
-            //   ) {
-            //     listMultiChain.push({
-            //       ...itemMultiChain,
-            //       ...itemChain,
-            //     });
-            //   }
-            // });
-            // if (!_.isEmpty(listMultiChain)) {
-            newListData.push({
-              ...itemProduct,
-              // multichain: listMultiChain,
-              exchanges: [
-                itemProduct?.isBinance !== null && itemProduct?.isBinance
-                  ? [exchanges?.binance]
-                  : [],
-                itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
-                  ? [exchanges?.coinbase]
-                  : [],
-                itemProduct?.isPancakeSwap &&
-                itemProduct?.isPancakeSwap !== null
-                  ? [exchanges?.pancakeswap]
-                  : [],
-                itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
-                  ? [exchanges?.uniswap]
-                  : []
-              ]?.flat(1)
-            })
-            // }
-          } else {
-            newListData.push({
-              ...itemProduct,
-              exchanges: [
-                itemProduct?.isBinance && itemProduct?.isBinance !== null
-                  ? [exchanges?.binance]
-                  : [],
-                itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
-                  ? [exchanges?.coinbase]
-                  : [],
-                itemProduct?.isPancakeSwap &&
-                itemProduct?.isPancakeSwap !== null
-                  ? [exchanges?.pancakeswap]
-                  : [],
-                itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
-                  ? [exchanges?.uniswap]
-                  : []
-              ]?.flat(1)
-            })
-          }
-        })
-        if (!_.isEmpty(newListData)) {
-          setListData(newListData)
-        }
-      }
-    }
-    getChain()
-  }, [listProduct, chainList])
+  // useEffect(() => {
+  //   const getChain = async() => {
+  //     if (!_.isEmpty(listProduct)) {
+  //       const newListData = []
+  //       listProduct?.forEach((itemProduct) => {
+  //         if (!_.isEmpty(itemProduct?.multichain)) {
+  //           newListData.push({
+  //             ...itemProduct,
+  //             exchanges: [
+  //               itemProduct?.isBinance !== null && itemProduct?.isBinance
+  //                 ? [exchanges?.binance]
+  //                 : [],
+  //               itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
+  //                 ? [exchanges?.coinbase]
+  //                 : [],
+  //               itemProduct?.isPancakeSwap &&
+  //               itemProduct?.isPancakeSwap !== null
+  //                 ? [exchanges?.pancakeswap]
+  //                 : [],
+  //               itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
+  //                 ? [exchanges?.uniswap]
+  //                 : []
+  //             ]?.flat(1)
+  //           })
+  //         } else {
+  //           newListData.push({
+  //             ...itemProduct,
+  //             exchanges: [
+  //               itemProduct?.isBinance && itemProduct?.isBinance !== null
+  //                 ? [exchanges?.binance]
+  //                 : [],
+  //               itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
+  //                 ? [exchanges?.coinbase]
+  //                 : [],
+  //               itemProduct?.isPancakeSwap &&
+  //               itemProduct?.isPancakeSwap !== null
+  //                 ? [exchanges?.pancakeswap]
+  //                 : [],
+  //               itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
+  //                 ? [exchanges?.uniswap]
+  //                 : []
+  //             ]?.flat(1)
+  //           })
+  //         }
+  //       })
+  //       if (!_.isEmpty(newListData)) {
+  //         setListData(newListData)
+  //         setLoading(false)
+  //       }
+  //     }
+  //   }
+  //   getChain()
+  // }, [listProduct, chainList])
 
   const handleClickExchange = (e, item) => {
     e.stopPropagation()
@@ -149,7 +127,6 @@ const Crypto = ({
 
   const getMainExplorer = async records => {
     const mainExplorerMapLocal = new Map()
-    console.log(records)
     for (const record of records) {
       if (!_.isEmpty(record?.multichain)) {
         const newMultiChain = []
@@ -164,9 +141,6 @@ const Crypto = ({
             if (record.chainName === itemMulti?.chainName) {
               const address = await getAddressFromCryptoId(record.cryptoId)
               const url = itemChain?.exploreWebsite + itemChain?.path + address
-              // if (record?.cryptoId === 'gear5_token_ethereum_0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48') {
-              // }
-
               mainExplorerMapLocal.set(record?.cryptoId, url)
             }
           }
@@ -184,8 +158,9 @@ const Crypto = ({
     }
     setMainExplorerMap(mainExplorerMapLocal)
   }
+
   useEffect(() => {
-    getMainExplorer(listData)
+    getMainExplorer(listProduct)
   }, [])
 
   const columns = [
@@ -564,7 +539,7 @@ const Crypto = ({
       <Table
         loading={loading}
         columns={columns}
-        dataSource={listData}
+        dataSource={listProduct}
         onChange={handleChangeTable}
         pagination={false}
         rowKey={(record) => record?.cryptoId}

@@ -219,7 +219,10 @@ const SideBar = () => {
             const menuClass = data.classsChange
             if (menuClass === 'menu-title') {
               return (
-                <li className={menuClass} key={index}>
+                <li
+                  className={menuClass}
+                  key={index}
+                >
                   {data.title}
                 </li>
               )
@@ -243,7 +246,12 @@ const SideBar = () => {
                       <span className='nav-text'>{data.title}</span>
                     </Link>
                   ) : (
-                    <NavLink to={data?.to}>
+                    <NavLink
+                      to={data?.to}
+                      onClick={() => {
+                        handleMenuActive(data?.title)
+                      }}
+                    >
                       {data.iconStyle}
                       <span className='nav-text'>{data.title}</span>
                     </NavLink>
@@ -297,7 +305,6 @@ const SideBar = () => {
                                             <>
                                               <li key={index}>
                                                 <Link
-
                                                   className={`${
                                                     path === data?.to
                                                       ? 'mm-active'
@@ -315,7 +322,11 @@ const SideBar = () => {
                                   </Collapse>
                                 </>
                               ) : (
-                                <Link to={data?.to}>{data.title}</Link>
+                                <Link
+                                  to={data?.to}
+                                >
+                                  {data.title}
+                                </Link>
                               )}
                             </li>
                           )

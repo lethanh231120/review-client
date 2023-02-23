@@ -287,10 +287,24 @@
 .exchange{
     & table{
         @include font-family;
-        // font-size: 0.7rem !important;
-        // & .ant-table-thead > tr > th{
-        //     font-size: 0.7rem !important;
-        // }
+    }
+    & .ant-table-wrapper .ant-table-pagination{
+        justify-content: center;
+    }
+    & .ant-pagination .ant-pagination-item,
+    & .ant-pagination .ant-pagination-prev,
+    .ant-pagination .ant-pagination-next,
+    .ant-pagination .ant-pagination-jump-prev,
+    .ant-pagination .ant-pagination-jump-next {
+        height: 25px;
+        min-width: 25px;
+        line-height: 23px;
+        border-radius: 50%;
+        margin-inline-end: 0px
+    }
+    & .ant-pagination .ant-pagination-prev .ant-pagination-item-link,
+    .ant-pagination .ant-pagination-next .ant-pagination-item-link {
+        border-radius: 50%;
     }
     &-name{
         &:hover{

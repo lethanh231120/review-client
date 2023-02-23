@@ -8472,10 +8472,14 @@ label {
   margin-left: auto; }
   @media only screen and (max-width: 87.5rem) {
     .out-footer {
-      width: calc(100% - 26.225rem); } }
+      width: calc(100% - 27.225rem);
+      margin-right: 6.375rem;
+    } }
   @media only screen and (max-width: 63.938rem) {
     .out-footer {
-      width: calc(100% - 15.725rem); } }
+      width: calc(100% - 14.4rem);
+      margin-right: 6.7rem;
+    } }
   @media only screen and (max-width: 47.9375rem) {
     .out-footer {
       width: 100%; } }
