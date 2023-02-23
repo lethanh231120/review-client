@@ -59,7 +59,7 @@ const classBackgroundUpcoming = 'badge-info'
 const classBackgroundOngoing = 'badge-success'
 const classBackgroundPast = 'badge-default'
 
-const getStatusBackgroundFromSoonStatus = (status) => {
+export const getStatusBackgroundFromSoonStatus = (status) => {
   switch (status) {
     case statusUpcoming:
       return classBackgroundUpcoming
@@ -81,7 +81,7 @@ const convertStringDDMMYYYYToUnix = (ddmmyyyy) =>{
   return (dateUnix)
 }
 
-const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
+export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
   const minusOffset = new Date().getTimezoneOffset()
   const miliSecOffset = minusOffset * 60 * 1000
   let myCurrentDateTimeUnix = (new Date())
@@ -157,9 +157,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           </div>
           <div className='profile-email px-2 pt-2'>
             <h4 className='text-muted mb-0'>
-              <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
-                {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
-              </span>
+              {itemDetail?.startDate && itemDetail?.endDate
+                ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
+                  {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
+                </span>
+                : <span className={`badge badge-rounded badge-light`}>UNKNOWN</span>}
             </h4>
             <p >
               {itemDetail?.type}
