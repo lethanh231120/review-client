@@ -24,7 +24,7 @@ import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { SOON } from '../../../constants/category'
 import { encodeUrl } from '../../../../utils/formatUrl'
-import { Spin, Tooltip, Avatar } from 'antd'
+import { Spin, Tooltip, Image } from 'antd'
 import { formatImgUrlFromProductId, isValidProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 
@@ -139,46 +139,16 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       <div className='profile-details'>
         <div className='profile-photo'>
           {itemDetail?.projectId ? (
-            <Avatar src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false} size={60}/>
+            <Image src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false}/>
           )
             : (<span className='image-list-no-data-detail'>
               {itemDetail?.projectName?.slice(0, 3)}
             </span>
             )}
         </div>
-        <div className='profile-details'>
-          <div className='profile-name px-3 pt-2'>
-            <h4 className='text-primary mb-0'>{itemDetail?.projectName}</h4>
-            <p>{itemDetail?.projectSymbol}</p>
-          </div>
-          <div className='profile-email px-2 pt-2'>
-            <h4 className='text-muted mb-0'>
-              {itemDetail?.startDate && itemDetail?.endDate
-                ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
-                  {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
-                </span>
-                : <span className={`badge badge-rounded badge-light`}>UNKNOWN</span>}
-            </h4>
-            <p >
-              {itemDetail?.type}
-            </p>
-          </div>
-          <Button
-            as='a'
-            href='#'
-            className='btn btn-primary mb-1 ms-auto'
-            onClick={() => {
-              setWebsiteLoading(true)
-              setTimeout(() =>{
-                itemDetail?.website && window.open(itemDetail?.website)
-                setWebsiteLoading(false)
-              }, 3000)
-            }}
-          >
-            {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '1rem', verticalAlign: 'center' }} /> : ''}
-            {websiteIcon}
-            Website
-          </Button>
+        <div className='profile-name px-3 pt-2'>
+          <h4 className='text-primary mb-0'>{itemDetail?.projectName}</h4>
+          <p>{itemDetail?.projectSymbol}</p>
         </div>
         <div className='profile-email px-2 pt-2'>
           <h4 className='text-muted mb-0'>
