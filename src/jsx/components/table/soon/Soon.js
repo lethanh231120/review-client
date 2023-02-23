@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
-import { Col, Image } from 'antd'
+import { Avatar, Col } from 'antd'
 import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
@@ -63,8 +63,8 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             <div className='card-body align-items-center flex-wrap'>
                               <div className='d-flex align-items-center mb-4'>
                                 <div>
-                                  {item?.projectId && item?.bigLogo ? (
-                                    <Image src={isValidProductId(item?.projectId) ? formatImgUrlFromProductId(item?.projectId) : imgAbsentImageSoon} preview={false} className='image-list' height={36} width={36} />
+                                  {item?.projectId ? (
+                                    <Avatar src={isValidProductId(item?.projectId) ? formatImgUrlFromProductId(item?.projectId) : imgAbsentImageSoon} preview={false} size={40}/>
                                   )
                                     : (
                                       <NoImage
