@@ -294,7 +294,7 @@ const Header = () => {
                     fontSize: '1.5rem'
                   }}
                 >
-                  {`Don't trust verify`}
+                  {`Don't trust, verify`}
                 </div>
               </div>
               {/* header: search elk input */}

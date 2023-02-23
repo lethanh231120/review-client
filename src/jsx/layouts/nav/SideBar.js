@@ -12,6 +12,7 @@ import { ThemeContext } from '../../../context/ThemeContext'
 // import { CategoryContext } from '../../index'
 import { CategoryContext } from '../../../App'
 import _ from 'lodash'
+import { pair1 } from '../../../utils/formatUrl'
 
 const reducer = (previousState, updatedState) => ({
   ...previousState,
@@ -139,7 +140,7 @@ const SideBar = () => {
         newContent.push({
           category: item[1]?.category?.name,
           title: itemContent?.name,
-          to: `${item[1]?.category?.path}/${itemContent?.name?.replace(' ', '+')}`
+          to: `${item[1]?.category?.path}/${itemContent?.name?.replace(pair1[0], pair1[1])}`
         })
       })
 

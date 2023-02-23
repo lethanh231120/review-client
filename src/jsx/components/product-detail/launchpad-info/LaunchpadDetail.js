@@ -403,7 +403,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       summary={summary}
       more={<More />}
       about={<About />}
-      portfolioOrChart={productInfo?.mores?.soon ? <IDOList /> : null}
+      portfolioOrChartOrDesc={productInfo?.mores?.soon ? <IDOList /> : null}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
       setTop={setTop}

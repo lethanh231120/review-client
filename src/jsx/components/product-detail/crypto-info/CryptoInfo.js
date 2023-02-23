@@ -754,7 +754,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         about={about}
         exchange={exchange}
         topDiscus={(<TopDiscussed/>)}
-        portfolioOrChart={priceChart}
+        portfolioOrChartOrDesc={priceChart}
         setTop={setTop}
         rest={rest}
       />
