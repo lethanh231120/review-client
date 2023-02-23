@@ -156,7 +156,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
             </span>
           </h4>
-          <p >
+          <p>
             {itemDetail?.type}
           </p>
         </div>

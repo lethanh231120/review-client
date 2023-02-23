@@ -28,7 +28,6 @@ import _ from 'lodash'
 
 const { Option } = Select
 const defaultValue = [
-  { name: 'scamAmountUSD', value: '' },
   { name: 'sources', value: [] },
   { name: 'isScam', value: false },
   { name: 'star', value: undefined }
@@ -68,10 +67,6 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
     const top = document.getElementById('div1')?.offsetTop
     setTop(top - 135)
   }
-
-  // useEffect(() => {
-  //   getPosition()
-  // }, [])
 
   useEffect(() => {
     window.addEventListener('mouseover', getPosition)
@@ -240,7 +235,8 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
         fields={[
           ...defaultValue,
           { name: 'isScam', value: form.getFieldValue('isScam') || false },
-          { name: 'star', value: form.getFieldValue('isScam') ? 1 : form.getFieldValue('star') }
+          { name: 'star', value: form.getFieldValue('isScam') ? 1 : form.getFieldValue('star') },
+          { name: 'scamAmountUSD', value: form.getFieldValue('scamAmountUSD') || '' }
         ]}
       >
         <div className='product-detail-form'>
@@ -454,7 +450,6 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
                   border: `0.1px solid ${
                     isRecaptcha ? 'red' : 'rgba(0, 0, 0, 0.01'
                   }`
-                  // width: '305px'
                 }}
                 className='recapcha'
               >
