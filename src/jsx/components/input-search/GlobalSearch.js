@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react'
-import { Form, Empty, Spin } from 'antd'
+import { Form, Empty
+  // Spin
+} from 'antd'
 import './globalSearch.scss'
 import { search } from '../../../api/BaseRequest'
 import _ from 'lodash'
@@ -12,6 +14,7 @@ import ItemSoon from './item-soon/ItemSoon.js'
 import ItemVenture from './item-venture/ItemVenture'
 import { SummaryHomeContext } from '../../../App'
 import { formatLargeNumber } from '../../../utils/formatNumber'
+import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 
 const InputSearch = ({ isFormReport, setItem }) => {
   const summaryData = useContext(SummaryHomeContext)
@@ -264,7 +267,8 @@ const InputSearch = ({ isFormReport, setItem }) => {
       >
         {dataSearch?.loading ? (
           <>
-            <Spin size='large' />
+            {/* <Spin size='large' /> */}
+            <MySkeletonLoadinng count={5} height={50}/>
           </>
         ) : (
           <>
