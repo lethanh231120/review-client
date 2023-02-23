@@ -1,4 +1,4 @@
-import { Avatar, Spin, Tooltip } from 'antd'
+import { Avatar, Spin, Tooltip, Image } from 'antd'
 import React, { useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
@@ -44,28 +44,25 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
 
   // exchange header
   const Header = () => {
-    return <div className='profile-head'>
-      <div className='profile-info mb-1'>
+    return <div className='profile-info'>
+      <div className='profile-details'>
         <div className='profile-photo'>
           {detail?.exchangeId && detail?.smallLogo ? (
-            <Avatar size={60} src={isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageExchange} preview={false} height={64} width={64}/>
+            <Image src={isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageExchange} preview={false}/>
           )
             : (<span className='image-list-no-data-detail'>
               {detail?.name?.slice(0, 3)}
             </span>)
           }
         </div>
-        <div className='profile-details'>
-          <div className='profile-name px-3 ms-2 '>
-            <h4 className='text-primary mb-0'>{detail?.name}
-            </h4>
-            <Badge className='badge-sm' >{detail?.subCategory}</Badge>
-          </div>
-          {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
-            {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
-            {websiteIcon}
-    Website</Button>}
+        <div className='profile-name'>
+          <h4 className='text-primary mb-2 cus-h4'>{detail?.name}</h4>
+          <Badge className='badge-sm' >{detail?.subCategory}</Badge>
         </div>
+        {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
+          {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
+          {websiteIcon}
+    Website</Button>}
       </div>
     </div>
   }
@@ -103,7 +100,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
         variant='danger'
         onClick={handleReportScam}
       >
-        <img src={imgReportProject} alt='err' />
+        <img src={imgReportProject} alt='err' className='img-fluid noti ms-2' style={{ height: '1.7rem' }}/>
         &nbsp;
       Report&nbsp;Scam
       </Button>
@@ -135,89 +132,123 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
   }
 
   const communityItem = (title, content) => {
-    return <div className='d-flex'>
+    return <div className='d-flex align-items-start'>
       <p className='mt-2 '>{title}:</p>
-      {content && (
-        // <Avatar.Group
-        //   size={25}
-        //   maxCount={2}
-        //   maxStyle={{
-        //     color: '#f56a00',
-        //     backgroundColor: '#fde3cf',
-        //     cursor: 'pointer'
-        //   }}
-        //   className='mt-1'
-        //   style={{ marginLeft: '10px' }}>
-      // {
-        Object.keys(content).map(
-          (socialName) => {
-            return content[socialName] !== '' ? (
-              <Tooltip
-                className='ms-1 mt-2'
-                placementTooltip='topLeft'
-                title={socialName}
-                key={socialName}
-              >
-                <a
-                  href={content[socialName]}
-                  target='_blank'
-                  rel='noreferrer'
+      <div className='cus-d-flex'>
+        {content && (
+          Object.keys(content).map(
+            (socialName) => {
+              return content[socialName] !== '' ? (
+                <Tooltip
+                  className='ms-1 mt-2'
+                  placementTooltip='topLeft'
+                  title={socialName}
+                  key={socialName}
                 >
-                  <Avatar
-                    size={25}
-                    className=' img-fluid p-1 rounded-circle'
-                    style={{ backgroundColor: '#F0F2F5' }}
-                    preview={false}
-                    src={
-                      socials?.find(
-                        (social) =>
-                          social?.key?.toLowerCase() ===
-                          socialName?.toLowerCase()
-                      )?.icon
-                        ? socials?.find(
+                  <a
+                    href={content[socialName]}
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    <Avatar
+                      className='img-fluid p-1 rounded-circle cus-avatar'
+                      style={{ backgroundColor: '#F0F2F5' }}
+                      preview={false}
+                      src={
+                        socials?.find(
                           (social) =>
                             social?.key?.toLowerCase() ===
-                              socialName?.toLowerCase()
-                        ).icon
-                        : defaultSocial
-                    }
-                  />
-                </a>
-              </Tooltip>
-            ) : null
-          }
-        )
-        // }
-        // </Avatar.Group>
-      )}
+                            socialName?.toLowerCase()
+                        )?.icon
+                          ? socials?.find(
+                            (social) =>
+                              social?.key?.toLowerCase() ===
+                                socialName?.toLowerCase()
+                          ).icon
+                          : defaultSocial
+                      }
+                    />
+                  </a>
+                </Tooltip>
+              ) : null
+            }
+          )
+          // }
+          // </Avatar.Group>
+        )}
+      </div>
     </div>
   }
 
   const More = () => {
     return <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>{detail?.dAppName} Information:</h5>
+        <h5 className='heading text-primary'>{detail?.dAppName} Information</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>
-          <div className='row'>
-            <div className='col-6'>
-              {detail?.detail && detail?.detail['Country'] && dataItem('Country', shortenString(detail?.detail['Country'])) }
-              {detail?.pairCount > 0 && dataItem('Pairs Count', detail?.pairCount)}
-              {detail?.volume24h > 0 && dataItem('Volume 24h', renderNumber(detail?.volume24h))}
-              {detail?.volume1m > 0 && dataItem('Volume 1m', renderNumber(detail?.volume1m))}
-            </div>
-            <div className='col-6'>
-              {detail?.feeTxs > 0 && dataItem('Fee Transaction', `${detail?.feeTxs}%`)}
-              {detail?.visit7d > 0 && dataItem('Visit 7d', formatLargeNumber(detail?.visit7d))}
-              {detail?.volume7d > 0 && dataItem('Volume 7d', renderNumber(detail?.volume7d))}
-              {detail?.volume1y > 0 && dataItem('Volume 1y', renderNumber(detail?.volume1y))}
-            </div>
-            {detail?.founderYear && dataItem('Founded Year', moment(detail?.founderYear)?.year())}
+          <div className='community-list'>
 
-            <div className='col-12'>
-              {communityItem('Socials', detail?.socials)}
-            </div>
+            {detail?.detail && detail?.detail['Country'] && (
+              <div className='community-list-item'>
+                {dataItem('Country', shortenString(detail?.detail['Country'])) }
+              </div>
+            )}
+
+            {detail?.pairCount > 0 && (
+              <div className='community-list-item'>
+                {dataItem('Pairs Count', detail?.pairCount)}
+              </div>
+            )}
+
+            {detail?.volume24h > 0 && (
+              <div className='community-list-item'>
+                {dataItem('Volume 24h', renderNumber(detail?.volume24h))}
+              </div>
+            )}
+
+            {detail?.volume1m > 0 && (
+              <div className='community-list-item'>
+                {dataItem('Volume 1m', renderNumber(detail?.volume1m))}
+              </div>
+            )}
+
+            {detail?.feeTxs > 0 && (
+              <div className='community-list-item'>
+                {dataItem('Fee Transaction', `${detail?.feeTxs}%`)}
+              </div>
+            )}
+
+            {detail?.visit7d > 0 && (
+              <div className='community-list-item'>
+                {dataItem('Visit 7d', formatLargeNumber(detail?.visit7d))}
+              </div>
+            )}
+
+            {detail?.volume7d > 0 && (
+              <div className='community-list-item'>
+                {dataItem('Volume 7d', renderNumber(detail?.volume7d))}
+              </div>
+            )}
+
+            {detail?.volume1y > 0 && (
+              <div className='community-list-item'>
+                {dataItem('Volume 1y', renderNumber(detail?.volume1y))}
+              </div>
+            )}
+
+            {detail?.founderYear && (
+              <div className='community-list-item'>
+                {detail?.founderYear && dataItem('Founded Year', moment(detail?.founderYear)?.year())}
+              </div>
+            )}
+
+            {detail?.socials && (
+              <div className='community-list-item'>
+                {communityItem('Socials', detail?.socials)}
+              </div>
+            )}
+
             {!_.isEmpty(detail?.sourceCode) && <div className='col-12'>
               <Dropdown className='mt-1'>
                 <Dropdown.Toggle variant='primary' className=' btn btn-success light sharp'>
@@ -237,7 +268,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
   const About = () => {
     return <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>About {detail?.name}:</h5>
+        <h5 className='heading text-primary'>About {detail?.name}</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>

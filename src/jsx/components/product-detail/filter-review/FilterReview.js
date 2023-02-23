@@ -30,7 +30,7 @@ const FilterReview = (props) => {
   return (
     <div className='list-review'>
       <div className='list-review-header'>
-        <div className='list-review-header-title'>Reviews ({numberReviews})</div>
+        <div className='text-primary list-review-header-title'>Reviews ({numberReviews})</div>
         <div className='list-review-header-right'>
           <Dropdown>
             <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>

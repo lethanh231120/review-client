@@ -37,8 +37,6 @@ export const DetailLayout = (props) => {
     {type === 'crypto' || type === 'venture' || type === 'launchpad'
       ? <>
         <div className='row'>
-        </div>
-        <div className='row'>
           <div className='col-xl-5'>
             <div className='row'>
               <div className='col-lg-12'>
@@ -97,18 +95,16 @@ export const DetailLayout = (props) => {
                 setTop={setTop}
               />
               {rest?.reviews && rest?.reviews?.map((item, index) => (
-                <>
-                  <ReviewItem
-                    index={index}
-                    key={item?.id}
-                    data={item}
-                    reviews={rest?.reviews}
-                    setReviews={rest?.setReviews}
-                    setCurrentReview={rest?.setCurrentReview}
-                    curentReview={rest?.curentReview}
-                    productId={rest?.productId}
-                  />
-                </>
+                <ReviewItem
+                  index={index}
+                  key={item?.id}
+                  data={item}
+                  reviews={rest?.reviews}
+                  setReviews={rest?.setReviews}
+                  setCurrentReview={rest?.setCurrentReview}
+                  curentReview={rest?.curentReview}
+                  productId={rest?.productId}
+                />
               ))}
               <div className='category-paginate cus-category-paginate'>
                 {rest?.reviews?.length > PAGE_SIZE && (
@@ -130,7 +126,7 @@ export const DetailLayout = (props) => {
       : <>
         {/* DAPP, EXCHANGE, VENTURE, SOON */}
         <div className='row'>
-          <div className='col-5'>
+          <div className='col-xl-5'>
             <div className='card'>
               <div className='card-body'>
                 <div className='profile-statistics'>
@@ -160,7 +156,7 @@ export const DetailLayout = (props) => {
           </div>
 
           {/* Comments */}
-          <div className='col-7'>
+          <div className='col-xl-7'>
             <div className='product-detail' id='comment'>
               <FormReport
               // use in filter review
@@ -170,18 +166,16 @@ export const DetailLayout = (props) => {
                 setTop={setTop}
               />
               {rest?.reviews && rest?.reviews?.map((item, index) => (
-                <>
-                  <ReviewItem
-                    index={index}
-                    key={item?.id}
-                    data={item}
-                    reviews={rest?.reviews}
-                    setReviews={rest?.setReviews}
-                    productId={rest?.productId}
-                    setCurrentReview={rest?.setCurrentReview}
-                    curentReview={rest?.curentReview}
-                  />
-                </>
+                <ReviewItem
+                  index={index}
+                  key={item?.id}
+                  data={item}
+                  reviews={rest?.reviews}
+                  setReviews={rest?.setReviews}
+                  productId={rest?.productId}
+                  setCurrentReview={rest?.setCurrentReview}
+                  curentReview={rest?.curentReview}
+                />
               ))}
               <div className='category-paginate cus-category-paginate'>
                 {rest?.reviews?.length > PAGE_SIZE && (
