@@ -34,10 +34,10 @@ export const ScamEachChainsList = ({ data }) => {
       } else {
         if (window.localStorage.getItem('crypto') !== '') {
           // window.localStorage.removeItem('crypto')
-          window.localStorage.setItem('crypto', JSON.stringify({ tag: `${chainnameUpper} Ecosystem` }))
+          window.localStorage.setItem('crypto', JSON.stringify({ tag: `${chainnameUpper}_Ecosystem` }))
         }
 
-        navigate(`crypto/${chainnameUpper}+Ecosystem`)
+        navigate(`crypto/${chainnameUpper}_Ecosystem`)
       }
     }
   }
