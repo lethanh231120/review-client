@@ -125,12 +125,13 @@ const CategorySearch = ({ type }) => {
       const productId = itemSubmit?.cryptoId
         ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
         : itemSubmit?.dappId
-          ? `${itemSubmit?.dappId?.split('_')[2]}/${itemSubmit?.dappId?.split('_')[3]}`
+          ? `${itemSubmit?.dappId?.split('_')[2]}`
           : itemSubmit?.exchangeId
-            ? `${itemSubmit?.exchangeId?.split('_')[2]}/${itemSubmit?.exchangeId?.split('_')[3]}`
+            ? `${itemSubmit?.exchangeId?.split('_')[2]}`
             : itemSubmit?.soonId
               ? `${itemSubmit?.soonId?.split('_')[2]}${itemSubmit?.soonId?.split('_')[3] ? `/${itemSubmit?.soonId?.split('_')[3]}` : ''}`
-              : `${itemSubmit?.ventureId?.split('_')[2]}/${itemSubmit?.ventureId?.split('_')[3]}`
+              : `${itemSubmit?.ventureId?.split('_')[2]}`
+
       navigate(
         `../../products/${
           itemSubmit?.cryptoId

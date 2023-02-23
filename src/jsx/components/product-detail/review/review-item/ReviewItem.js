@@ -14,6 +14,7 @@ import ListEmoji from '../emoji/ListEmoji'
 import Description from '../../description/Description'
 import { reactions } from '../../../../constants/reaction'
 import { timeAgoConvert } from '../../../common-widgets/home/click-function'
+import { formatLargeNumberMoneyUSD } from '../../../../../utils/formatNumber'
 
 const ReviewItem = (props) => {
   const { data, productId, index, reviews, setReviews, setCurrentReview, curentReview } = props
@@ -243,9 +244,15 @@ const ReviewItem = (props) => {
               </span>
             </div>
             <div className='review-item-content'>
-              <div>
-                <strong>{data?.review?.title}</strong>
-              </div>
+              {data?.review?.scamAmountUSD && (
+                <div>
+                  <strong>
+                    {data?.review?.userName ? data?.review?.userName : 'I'}
+                    got scammed by for
+                    {` ${formatLargeNumberMoneyUSD(data?.review?.scamAmountUSD?.split('.')[0] !== '-' ? data?.review?.scamAmountUSD?.split('.')[0] : data?.review?.scamAmountUSD?.split('.')[1])}`}
+                  </strong>
+                </div>
+              )}
               <Description text={data?.review?.content}/>
               {!_.isEmpty(data?.review?.sources) && data?.review?.sources !== null && (
                 <div className='review-item-content-source'>
