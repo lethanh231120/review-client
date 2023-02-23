@@ -200,6 +200,33 @@ const SideBar = () => {
       }
     }
   }
+  const removeFilterTag = (type, tag) => {
+    let tempType = ''
+    switch (type) {
+      case 'Crypto Projects':
+        tempType = 'crypto'
+        break
+      case 'DApps':
+        tempType = 'dapp'
+        break
+      case 'Exchanges':
+        tempType = 'exchange'
+        break
+      case 'Upcomings':
+        tempType = 'soon'
+        break
+    }
+
+    if (tempType === 'soon') {
+      if (window.localStorage.getItem(tempType) !== '') {
+        window.localStorage.removeItem(tempType)
+      }
+    } else {
+      if (window.localStorage.getItem(tempType) !== '') {
+        window.localStorage.removeItem(tempType)
+      }
+    }
+  }
 
   return (
     <div
@@ -240,6 +267,7 @@ const SideBar = () => {
                       className='has-arrow'
                       onClick={() => {
                         handleMenuActive(data?.title)
+                        removeFilterTag(data?.title, '')
                       }}
                     >
                       {data.iconStyle}
