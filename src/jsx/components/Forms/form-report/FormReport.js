@@ -65,7 +65,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
   }
 
   const getPosition = () => {
-    const top = document.getElementById('div1').offsetTop
+    const top = document.getElementById('div1')?.offsetTop
     setTop(top - 135)
   }
 
