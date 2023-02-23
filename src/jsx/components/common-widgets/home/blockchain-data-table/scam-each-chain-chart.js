@@ -1,4 +1,5 @@
 import { Avatar } from 'antd'
+import _ from 'lodash'
 import React, { useContext } from 'react'
 import {
   Card,
@@ -6,6 +7,7 @@ import {
   Badge
   // ProgressBar
 } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import { ChainListContext } from '../../../../../App'
 // import { formatMoney } from '../../../../utils/formatNumber'
 import './blockchain-data.scss'
@@ -14,14 +16,34 @@ const color = ['success', 'info', 'warning', 'danger', 'secondary']
 
 export const ScamEachChainsList = ({ data }) => {
   const chainList = useContext(ChainListContext)
+  const navigate = useNavigate()
 
   const getChainImage = (chainname) => {
     const item = Object.keys(chainList)?.find(element => element === chainname)
     return chainList[item]?.image
   }
 
+  const onRowClicked = (chainName) => {
+    if (chainName) {
+      const chainnameUpper = _.capitalize(chainName)
+      if (chainnameUpper === 'Others') {
+        if (window.localStorage.getItem('crypto') !== '') {
+          window.localStorage.removeItem('crypto')
+        }
+        navigate(`crypto`)
+      } else {
+        if (window.localStorage.getItem('crypto') !== '') {
+          // window.localStorage.removeItem('crypto')
+          window.localStorage.setItem('crypto', JSON.stringify({ tag: `${chainnameUpper} Ecosystem` }))
+        }
+
+        navigate(`crypto/${chainnameUpper}+Ecosystem`)
+      }
+    }
+  }
+
   const tableItem = (index, chainName, scamPercent, scamAmount, totalAmount, img, color) => {
-    return <tr className='text-center' key={index}>
+    return <tr className='text-center ' key={index} onClick={() => onRowClicked(chainName)}>
       <td >{index}</td>
       <td >
         <div className='d-flex justify-content-start ms-5 align-items-center'>
@@ -49,7 +71,7 @@ export const ScamEachChainsList = ({ data }) => {
       </Card.Title>
     </Card.Header>
     <Card.Body>
-      <Table responsive className='header-border verticle-middle'>
+      <Table responsive hover className='header-border verticle-middle table-bc'>
         <thead className='text-center'>
           <tr>
             <th scope='col' >#</th>

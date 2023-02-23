@@ -1,3 +1,10 @@
-tr:hover{
-    background-color: '#E7F5F4';
+
+
+.table-bc tr:hover th, .table-hover tbody tr:hover td {
+    background-color: rgb(231,245,244);
 }
+
+tr{
+    cursor: pointer;
+}
+

@@ -45,9 +45,9 @@ export const ReviewItem = ({ data }) => {
                 {timeAgo}
               </div>
             </div>
-            <div className='col-2 '>
+            <div className='col-2 review-img'>
               {data?.images && !_.isEmpty(data?.images) &&
-                <Image className='img-fluid review-img' src={data?.images[0]} preview={true}/>
+                <Image className='img-fluid ' src={data?.images[0]} preview={true}/>
               }
             </div>
           </div>
