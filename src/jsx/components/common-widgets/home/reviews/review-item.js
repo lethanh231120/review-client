@@ -52,10 +52,13 @@ export const ReviewItem = ({ data }) => {
             </div>
           </div>
           <div className='username-text mt-2' >{data?.userName || 'Anonymous'}&nbsp;
-            {data?.productName && <span><span className={data?.isScam ? 'text-danger' : ''}>{data?.isScam && data?.isScam ? 'reported' : 'reviewed'}&nbsp;</span>
-              <span onClick={ onClicked} className='text-primary'style={{ cursor: 'pointer' }}>
-                <span className='product-name-text'>{data?.productName}</span>
-              </span>
+            {data?.productName && <span><span className={data?.isScam ? 'text-danger' : ''}>
+              {data?.isScam && data?.isScam ? 'reported' : 'reviewed'}&nbsp;
+            </span>
+            <span onClick={ onClicked} className='text-primary'style={{ cursor: 'pointer' }}>
+              <span className='product-name-text'>{shortenName(data?.productName)}</span>
+            </span>
+            <span>&nbsp;{data?.isScam ? 'as a scam' : ''}</span>
             </span>}
           </div>
           {/* <h4>
@@ -68,6 +71,16 @@ export const ReviewItem = ({ data }) => {
       </div>
     </div>
   </div>
+}
+
+const shortenName = (name) => {
+  const limit = 10
+
+  if (name?.length > 10) {
+    return `${name?.substring(0, limit)}...`
+  } else {
+    return name
+  }
 }
 
 const reviewStarsRender = (star, isScam) => {

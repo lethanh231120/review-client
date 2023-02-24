@@ -10,6 +10,8 @@ import CategorySearch from '../../input-search/CategorySearch'
 import MyScoreComponent from '../../score/scoreComponent'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
+import { DappExplain } from '../../common-widgets/row-explaination/RowExplainationText'
+import { InfoCircleOutlined } from '@ant-design/icons'
 
 const Dapp = ({
   listProduct,
@@ -53,7 +55,15 @@ const Dapp = ({
       </Badge>)
     },
     {
-      title: 'Chains',
+      title: <span className='crypto-table-tooltip'>
+      Blockchains
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={DappExplain['blockchain']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       render: (_, record) => (
         <Avatar.Group
           maxStyle={{
@@ -113,7 +123,15 @@ const Dapp = ({
       )
     },
     {
-      title: 'Score',
+      title: <span className='crypto-table-tooltip'>
+      Score
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={DappExplain['score']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       showSorterTooltip: false,
       dataIndex: 'score',
       sortDirections: ['descend', 'ascend'],

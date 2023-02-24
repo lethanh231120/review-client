@@ -1,4 +1,4 @@
-import { Row, Col, Table, Image } from 'antd'
+import { Row, Col, Table, Image, Tooltip } from 'antd'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { renderNumber } from '../../../../utils/formatNumber'
@@ -9,6 +9,8 @@ import CategorySearch from '../../input-search/CategorySearch'
 import MyScoreComponent from '../../score/scoreComponent'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { VentureExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 
 const Venture = ({
   listProduct,
@@ -67,7 +69,15 @@ const Venture = ({
       )
     },
     {
-      title: 'Seed',
+      title: <span className='crypto-table-tooltip'>
+      Seed
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={VentureExplain['seed']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       dataIndex: 'seed',
       showSorterTooltip: false,
       sorter: true,
@@ -82,7 +92,15 @@ const Venture = ({
       )
     },
     {
-      title: 'Series A',
+      title: <span className='crypto-table-tooltip'>
+     Series A
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={VentureExplain['seriesA']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       dataIndex: 'seriesA',
       showSorterTooltip: false,
       sorter: true,
@@ -97,7 +115,15 @@ const Venture = ({
       )
     },
     {
-      title: 'Series B',
+      title: <span className='crypto-table-tooltip'>
+      Series B
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={VentureExplain['seriesB']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       dataIndex: 'seriesB',
       showSorterTooltip: false,
       sorter: true,
@@ -112,7 +138,15 @@ const Venture = ({
       )
     },
     {
-      title: 'Series C',
+      title: <span className='crypto-table-tooltip'>
+      Series C
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={VentureExplain['seriesC']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       dataIndex: 'seriesC',
       showSorterTooltip: false,
       sorter: true,
@@ -157,7 +191,15 @@ const Venture = ({
       )
     },
     {
-      title: 'Score',
+      title: <span className='crypto-table-tooltip'>
+      Score
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={VentureExplain['score']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       showSorterTooltip: false,
       dataIndex: 'score',
       sortDirections: ['descend', 'ascend'],
