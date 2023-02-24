@@ -40,9 +40,15 @@ const Exchange = ({
           </span>)
         }
         <span>
+          {/* <Tooltip
+            title={(
+              <p>{`${record?.name}`}</p>
+            )}> */}
           <div className='data-table-name ms-2'>
             <div>{record?.name ? record?.name : 'Unknown'}</div>
-          </div></span>
+          </div>
+          {/* </Tooltip> */}
+        </span>
       </Link>)
 
     },
@@ -195,10 +201,10 @@ const Exchange = ({
         found.
       </div>
       <Row>
-        <Col md={{ span: 18 }} sm={{ span: 18 }} xs={{ span: 20 }}>
+        <Col md={{ span: 18 }} sm={{ span: 17 }} xs={{ span: 17 }}>
           <CategorySearch type={EXCHANGE}/>
         </Col>
-        <Col md={{ span: 6 }} sm={{ span: 6 }} xs={{ span: 4 }}>
+        <Col md={{ span: 6 }} sm={{ span: 7 }} xs={{ span: 7 }}>
           <DrawerFilter type='exchange' handleFilter={handleFilter} />
         </Col>
       </Row>

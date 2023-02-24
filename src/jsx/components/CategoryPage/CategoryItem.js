@@ -108,54 +108,6 @@ const CategoryItem = () => {
       }
       case CRYPTO: {
         const dataCrypto = await get('reviews/crypto/filter', paramSort)
-        // if (!_.isEmpty(dataCrypto?.data?.cryptos)) {
-        //   const newListData = []
-        //   dataCrypto?.data?.cryptos?.forEach((itemProduct) => {
-        //     if (!_.isEmpty(itemProduct?.multichain)) {
-        //       newListData.push({
-        //         ...itemProduct,
-        //         exchanges: [
-        //           itemProduct?.isBinance !== null && itemProduct?.isBinance
-        //             ? [exchanges?.binance]
-        //             : [],
-        //           itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
-        //             ? [exchanges?.coinbase]
-        //             : [],
-        //           itemProduct?.isPancakeSwap &&
-        //           itemProduct?.isPancakeSwap !== null
-        //             ? [exchanges?.pancakeswap]
-        //             : [],
-        //           itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
-        //             ? [exchanges?.uniswap]
-        //             : []
-        //         ]?.flat(1)
-        //       })
-        //     } else {
-        //       newListData.push({
-        //         ...itemProduct,
-        //         exchanges: [
-        //           itemProduct?.isBinance && itemProduct?.isBinance !== null
-        //             ? [exchanges?.binance]
-        //             : [],
-        //           itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
-        //             ? [exchanges?.coinbase]
-        //             : [],
-        //           itemProduct?.isPancakeSwap &&
-        //           itemProduct?.isPancakeSwap !== null
-        //             ? [exchanges?.pancakeswap]
-        //             : [],
-        //           itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
-        //             ? [exchanges?.uniswap]
-        //             : []
-        //         ]?.flat(1)
-        //       })
-        //     }
-        //   })
-        //   if (!_.isEmpty(newListData)) {
-        //     setListProduct(newListData)
-        //     setTotal(dataCrypto?.data?.cryptoCount)
-        //   }
-        // }
         setListProduct(dataCrypto?.data?.cryptos)
         setTotal(dataCrypto?.data?.cryptoCount)
         break
@@ -209,7 +161,6 @@ const CategoryItem = () => {
 
   const handleChangeTable = (pagination, filters, sorter, extra) => {
     let sort
-    console.log(sorter)
 
     if (sorter?.order) {
       sort = {
@@ -342,7 +293,6 @@ const CategoryItem = () => {
 
   // change param(tag: in state)
   useEffect(() => {
-    // setListProduct()
     setLoading(true)
     params && getData(category, params)
   }, [params])
@@ -422,7 +372,6 @@ const CategoryItem = () => {
           {!loading && (
             <div className='category-paginate'>
               <Pagination
-                // total={total}
                 total={
                   total > MAX_PAGE * PAGE_SIZE ? MAX_PAGE * PAGE_SIZE : total
                 }

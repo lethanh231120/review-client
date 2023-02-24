@@ -59,6 +59,10 @@
         background: #008267 !important;
         border-color: #008267 !important;
     }
+    & .ant-select-single .ant-select-selector .ant-select-selection-item,
+    .ant-select-single .ant-select-selector .ant-select-selection-placeholder{
+        // line-height: 40px;
+    }
     // &:last-child{
     //     background: transparent;
     // }

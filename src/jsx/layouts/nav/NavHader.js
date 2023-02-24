@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 // / React router dom
 import { Link } from 'react-router-dom'
 
@@ -7,6 +7,7 @@ import logo1 from './../../../images/logo/gear5_logo_notext1.png'
 import logotext1 from './../../../images/logo/logo-text.png'
 import logoColor from './../../../images/logo/gear5_logo_notext.png'
 import { ShowFullSearchConext } from '../../../App'
+import { ToggleContext } from '../../index'
 
 export function NavMenuToggle() {
   setTimeout(() => {
@@ -16,11 +17,12 @@ export function NavMenuToggle() {
     } else {
       mainwrapper.classList.add('menu-toggle') // small menu
     }
-  }, 200)
+  }, 100)
 }
 
 const NavHader = () => {
-  const [toggle, setToggle] = useState(false)
+  const toggle = useContext(ToggleContext)
+  // const [toggle, setToggle] = useState(false)
   const showFullSearchConext = useContext(ShowFullSearchConext)
 
   const viewHtml = <div className='nav-header'>
@@ -39,12 +41,11 @@ const NavHader = () => {
     <div
       className='nav-control'
       onClick={() => {
-        setToggle(!toggle)
-        // openMenuToggle();
+        toggle?.handleChangeToggle(!toggle?.toggle)
         NavMenuToggle()
       }}
     >
-      <div className={`hamburger ${toggle ? 'is-active' : ''}`}>
+      <div className={`hamburger ${toggle?.toggle ? 'is-active' : ''}`}>
         <span className='line'></span>
         <span className='line'></span>
         <span className='line'></span>

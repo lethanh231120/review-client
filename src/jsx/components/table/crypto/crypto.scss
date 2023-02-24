@@ -96,16 +96,6 @@ $mainColor: #039f7f;
 }
 @media (max-width: 1405px) {
   .crypto-table {
-    & table .ant-table-thead > tr > th:last-child {
-      display: none;
-    }
-    & table .ant-table-tbody > tr > td:last-child {
-      display: none;
-    }
-  }
-}
-@media (max-width: 1315px) {
-  .crypto-table {
     & table .ant-table-thead > tr > th:nth-child(6) {
       display: none;
     }
@@ -114,7 +104,7 @@ $mainColor: #039f7f;
     }
   }
 }
-@media (max-width: 1150px) {
+@media (max-width: 1315px) {
   .crypto-table {
     & table .ant-table-thead > tr > th:nth-child(5) {
       display: none;
@@ -124,7 +114,7 @@ $mainColor: #039f7f;
     }
   }
 }
-@media (max-width: 880px) {
+@media (max-width: 1150px) {
   .crypto-table {
     & table .ant-table-thead > tr > th:nth-child(3) {
       display: none;
@@ -134,7 +124,7 @@ $mainColor: #039f7f;
     }
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 880px) {
   .crypto-table {
     & table .ant-table-thead > tr > th:nth-child(4) {
       display: none;
@@ -144,12 +134,22 @@ $mainColor: #039f7f;
     }
   }
 }
-@media (max-width: 460px) {
+@media (max-width: 600px) {
   .crypto-table {
     & table .ant-table-thead > tr > th:nth-child(2) {
       display: none;
     }
     & table .ant-table-tbody > tr > td:nth-child(2) {
+      display: none;
+    }
+  }
+}
+@media (max-width: 460px) {
+  .crypto-table {
+    & table .ant-table-thead > tr > th:last-child {
+      display: none;
+    }
+    & table .ant-table-tbody > tr > td:last-child {
       display: none;
     }
   }

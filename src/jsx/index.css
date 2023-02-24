@@ -49,6 +49,7 @@ button#check-minutes {
 .fc-toolbar-chunk {
   display: flex;
 }
+
 @media screen and (max-width: 335px) {
   .fc-toolbar-chunk {
     display: block;

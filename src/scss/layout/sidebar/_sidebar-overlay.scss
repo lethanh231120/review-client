@@ -138,15 +138,16 @@
 }
 [data-sidebar-style='overlay'] {
   .out-footer {
-    width: calc(100% - 9.125rem);
-    margin-right: 7.375rem;
+    width: calc(100% - 2.5rem);
+    margin-right: 1.3rem;
     margin-left: auto;
     @include respond('phone-land') {
-      width: 100%;
+      width: calc(100% - 1rem);
+      margin-right: 0.5rem;
     }
     @include respond('phone') {
-      width: calc(100% - 2.125rem);
-      margin-right: 0.975rem;
+      width: calc(100% - 1rem);
+      margin-right: 0.5rem;
     }
   }
 }

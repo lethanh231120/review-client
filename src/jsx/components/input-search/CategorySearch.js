@@ -158,7 +158,7 @@ const CategorySearch = ({ type }) => {
     <div className='item-search cus-form'>
       <Input
         className='form-control cus-form-control'
-        placeholder='Search by Token / Coin / Exchange / Dapp / Venture...'
+        placeholder={`Search by  ${type === CRYPTO ? 'Token / Coin' : (type === EXCHANGE ? 'Exchange' : (type === DAPP ? 'Dapp' : (type === VENTURE ? 'Venture' : 'Soon')))}`}
         onChange={(e) => handleSearch(e.target.value)}
         autoComplete='off'
         onBlur={(e) => {

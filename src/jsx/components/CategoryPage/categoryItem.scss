@@ -49,6 +49,9 @@
         }
         & .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         & .ant-pagination-prev:focus-visible .ant-pagination-item-link, .ant-pagination-next:focus-visible .ant-pagination-item-link, .ant-pagination-prev:hover .ant-pagination-item-link, .ant-pagination-next:hover .ant-pagination-item-link{
             border-color: #00826889;

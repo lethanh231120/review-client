@@ -31,6 +31,7 @@
   // width: calc(100% - 16.125rem);
   // }
   @include respond('phone-land') {
-    width: 100%;
+    width: calc(100% - 2.5rem);
+    margin-right: 1.3rem;
   }
 }

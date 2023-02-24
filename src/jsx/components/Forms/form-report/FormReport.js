@@ -446,8 +446,9 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
                 </div>
               )}
               {errorLink && <span style={{ color: 'red' }}>{errorLink}</span>}
-
-              {form.getFieldValue('isScam') && (
+              <Form.Item
+                label='Proof image'
+              >
                 <Upload
                   listType='picture-card'
                   fileList={fileList}
@@ -457,7 +458,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
                 >
                   {fileList.length > 2 ? null : '+ Upload'}
                 </Upload>
-              )}
+              </Form.Item>
 
               <div
                 style={{

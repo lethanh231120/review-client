@@ -42,9 +42,15 @@ const Dapp = ({
           </span>)
         }
         <span>
+          {/* <Tooltip
+            title={(
+              <p>{`${record?.dAppName}`}</p>
+            )}> */}
           <div className='data-table-name ms-2'>
             <div>{record?.dAppName ? record?.dAppName : 'Unknown'}</div>
-          </div></span>
+          </div>
+          {/* </Tooltip> */}
+        </span>
       </Link>)
 
     },
@@ -156,10 +162,10 @@ const Dapp = ({
         found.
       </div>
       <Row>
-        <Col md={{ span: 18 }} sm={{ span: 18 }} xs={{ span: 20 }}>
+        <Col md={{ span: 18 }} sm={{ span: 17 }} xs={{ span: 17 }}>
           <CategorySearch type={DAPP}/>
         </Col>
-        <Col md={{ span: 6 }} sm={{ span: 6 }} xs={{ span: 4 }}>
+        <Col md={{ span: 6 }} sm={{ span: 7 }} xs={{ span: 7 }}>
           <DrawerFilter type='dapp' handleFilter={handleFilter} />
         </Col>
       </Row>

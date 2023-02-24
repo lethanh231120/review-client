@@ -28,12 +28,13 @@ import InsightMain from './components/insight/InsightMain'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
+export const ToggleContext = createContext()
 const Markup = () => {
   const [openModalReport, setOpenModalReport] = useState(false)
   const [openModalAdd, setOpenModalAdd] = useState(false)
+  const [toggle, setToggle] = useState(false)
 
   const allroutes = [
-    // / Dashboard
     { url: '', component: <Home /> },
     { url: 'dashboard', component: <Home /> },
     { url: 'add-project', component: <AddProject isModal={false} /> }
@@ -43,100 +44,113 @@ const Markup = () => {
     openModalReport: openModalReport,
     handleSetOpenModal: (isOpen) => setOpenModalReport(isOpen)
   }
+
+  const stateToggle = {
+    toggle: toggle,
+    handleChangeToggle: (toggle) => setToggle(toggle)
+  }
+
   const stateAdd = {
     openModalAdd: openModalAdd,
     handleSetOpenModal: (isOpen) => setOpenModalAdd(isOpen)
   }
 
   return (
-    <ReportModalContext.Provider value={stateReport}>
-      <AddModalContext.Provider value={stateAdd}>
-        <Routes>
-          <Route element={<MainLayout />}>
-            {allroutes.map((data, i) => (
-              <Route
-                key={i}
-                path={`${data.url}`}
-                element={data.component}
-              />
-            ))}
-            <Route path='confirm-email' element={<ConfirmEmail />}/>
-            <Route path='/' element={<Home />}></Route>
-            <Route
-              path='search/:keyword'
-              element={<CategoryItem />}
-            />
-            <Route path=''>
-              <Route path=':category'>
-                <Route path='' element={<CategoryItem />} />
+    <>
+      <ReportModalContext.Provider value={stateReport}>
+        <AddModalContext.Provider value={stateAdd}>
+          <ToggleContext.Provider value={stateToggle}>
+            <Routes>
+              <Route element={<MainLayout />}>
+                {allroutes.map((data, i) => (
+                  <Route
+                    key={i}
+                    path={`${data.url}`}
+                    element={data.component}
+                  />
+                ))}
+                <Route path='confirm-email' element={<ConfirmEmail />}/>
+                <Route path='/' element={<Home />}></Route>
                 <Route
-                  path=':subCategory'
+                  path='search/:keyword'
                   element={<CategoryItem />}
                 />
-              </Route>
-            </Route>
-            <Route path='insight' element={<InsightMain />}>
-            </Route>
-            <Route path='products'>
-              <Route path='crypto'>
-                <Route path=':type'>
-                  <Route path=':productName'>
-                    <Route path='' element={<ProductDetail />} />
-                    <Route path=':path' element={<ProductDetail />} />
+                <Route path=''>
+                  <Route path=':category'>
+                    <Route path='' element={<CategoryItem />} />
+                    <Route
+                      path=':subCategory'
+                      element={<CategoryItem />}
+                    />
                   </Route>
                 </Route>
-              </Route>
-              <Route path=':categoryName'>
-                <Route path=':productName'>
-                  <Route path='' element={<ProductDetail />} />
-                  <Route path=':path' element={<ProductDetail />} />
+                <Route path='insight' element={<InsightMain />}>
                 </Route>
-                <Route
-                  path=':productId'
-                  element={<ProductDetail />}
-                />
-              </Route>
-              <Route
-                path=':productId'
-                element={<ProductDetail />}
-              />
-            </Route>
-          </Route>
-          <Route path='not-found' element={123} />
-          <Route path='*' element={123} />
-        </Routes>
-        <ScrollToTop />
-        <Modal className='fade cus-modal' show={openModalReport} size='lg'>
-          <Modal.Header className='cus-modal'>
-            <Modal.Title>Report scam projects to us</Modal.Title>
-            <Button
-              variant=''
-              className='btn-close'
-              onClick={() => setOpenModalReport(false)}
-            >
+                <Route path='products'>
+                  <Route path='crypto'>
+                    <Route path=':type'>
+                      <Route path=':productName'>
+                        <Route path='' element={<ProductDetail />} />
+                        <Route path=':path' element={<ProductDetail />} />
+                      </Route>
+                    </Route>
+                  </Route>
+                  <Route path=':categoryName'>
+                    <Route path=':productName'>
+                      <Route path='' element={<ProductDetail />} />
+                      <Route path=':path' element={<ProductDetail />} />
+                    </Route>
+                    <Route
+                      path=':productId'
+                      element={<ProductDetail />}
+                    />
+                  </Route>
+                  <Route
+                    path=':productId'
+                    element={<ProductDetail />}
+                  />
+                </Route>
 
-            </Button>
-          </Modal.Header>
-          <Modal.Body className='cus-modal'>
-            <ModalReport/>
-          </Modal.Body>
-        </Modal>
-        <Modal className='fade' show={openModalAdd} size='lg'>
-          <Modal.Header>
-            <Modal.Title>Add New Project</Modal.Title>
-            <Button
-              variant=''
-              className='btn-close'
-              onClick={() => setOpenModalAdd(false)}
-            >
-            </Button>
-          </Modal.Header>
-          <Modal.Body>
-            <ModalAdd isModal={true}/>
-          </Modal.Body>
-        </Modal>
-      </AddModalContext.Provider>
-    </ReportModalContext.Provider>
+                {/* <Route path='not-found-product' element={<NotFoundProduct />} /> */}
+                {/* <Route path='server-error' element={<ServerError />} /> */}
+                {/* <Route path='not-found' element={<NotFound />} /> */}
+                {/* <Route path='*' element={<NotFound />} /> */}
+              </Route>
+            </Routes>
+            <ScrollToTop />
+            <Modal className='fade cus-modal' show={openModalReport} size='lg'>
+              <Modal.Header className='cus-modal'>
+                <Modal.Title>Report scam projects to us</Modal.Title>
+                <Button
+                  variant=''
+                  className='btn-close'
+                  onClick={() => setOpenModalReport(false)}
+                >
+
+                </Button>
+              </Modal.Header>
+              <Modal.Body className='cus-modal'>
+                <ModalReport/>
+              </Modal.Body>
+            </Modal>
+            <Modal className='fade' show={openModalAdd} size='lg'>
+              <Modal.Header>
+                <Modal.Title>Add New Project</Modal.Title>
+                <Button
+                  variant=''
+                  className='btn-close'
+                  onClick={() => setOpenModalAdd(false)}
+                >
+                </Button>
+              </Modal.Header>
+              <Modal.Body>
+                <ModalAdd isModal={true}/>
+              </Modal.Body>
+            </Modal>
+          </ToggleContext.Provider>
+        </AddModalContext.Provider>
+      </ReportModalContext.Provider>
+    </>
   )
 }
 
