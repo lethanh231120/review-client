@@ -5,6 +5,7 @@ import './css/style.css'
 import { get } from './api/BaseRequest'
 import { getCookie, STORAGEKEY } from './utils/storage'
 import _ from 'lodash'
+import { HelmetProvider } from 'react-helmet-async'
 
 export const ChainListContext = createContext()
 export const CategoryContext = createContext()
@@ -129,6 +130,8 @@ const App = () => {
     getSummaryDataHome()
   }, [])
 
+  const helmetContext = {}
+
   return (
     <ChainListContext.Provider value={chainList}>
       <SignInContext.Provider value={stateSignIn}>
@@ -141,18 +144,20 @@ const App = () => {
                     <SummaryHomeContext.Provider value={summaryHome}>
                       <ShowFullSearchConext.Provider value={stateShowFullSearch}>
                         <FormLoginSignupKeyContext.Provider value={stateLoginSignupFormactiveTabKey}>
-                          <Suspense fallback={
-                            <div id='preloader'>
-                              <div className='sk-three-bounce'>
-                                <div className='sk-child sk-bounce1'></div>
-                                <div className='sk-child sk-bounce2'></div>
-                                <div className='sk-child sk-bounce3'></div>
+                          <HelmetProvider context={helmetContext}>
+                            <Suspense fallback={
+                              <div id='preloader'>
+                                <div className='sk-three-bounce'>
+                                  <div className='sk-child sk-bounce1'></div>
+                                  <div className='sk-child sk-bounce2'></div>
+                                  <div className='sk-child sk-bounce3'></div>
+                                </div>
                               </div>
-                            </div>
-                          }
-                          >
-                            <Index />
-                          </Suspense>
+                            }
+                            >
+                              <Index />
+                            </Suspense>
+                          </HelmetProvider>
                         </FormLoginSignupKeyContext.Provider>
                       </ShowFullSearchConext.Provider>
                     </SummaryHomeContext.Provider>
