@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useReducer, useState } from 'react'
 // / Scroll
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import Collapse from 'react-bootstrap/Collapse'
-
 // / Link
 import { Link, NavLink } from 'react-router-dom'
 
@@ -103,6 +102,7 @@ const SideBar = () => {
         // classsChange: 'mm-collapse',
         iconStyle: <i className='material-icons'>home</i>
       }
+
     ]
     const sortCategory = []
     for (const objCategory of mapOrderedCategories) {
@@ -163,6 +163,14 @@ const SideBar = () => {
           iconStyle: <i className='material-icons'>{mapCategoriesMenuIcon?.get(item[1]?.category?.name)}</i>,
           to: item[1]?.category?.path
         })
+    })
+
+    objCategories?.push({
+      title: 'Insights',
+      classsChange: '',
+      iconStyle: <i className='material-icons'>insert_chart</i>,
+      // content: newContent,
+      to: 'insight'
     })
     setCategories(objCategories)
   }, [categoryContext])

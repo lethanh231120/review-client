@@ -27,6 +27,8 @@ export const ReviewList = () => {
       const temp = JSON.parse(data?.data)
       if (temp !== 'ping') {
         setReviewList(reviewList => [temp, ...reviewList])
+      } else {
+        socket?.send('pong')
       }
     })
   }, [])

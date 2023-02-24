@@ -1,4 +1,4 @@
-import { Row, Col, Table, Image } from 'antd'
+import { Row, Col, Table, Image, Tooltip } from 'antd'
 import React from 'react'
 import { Badge } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
@@ -10,6 +10,8 @@ import CategorySearch from '../../input-search/CategorySearch'
 import MyScoreComponent from '../../score/scoreComponent'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { ExchangeExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 
 const Exchange = ({
   listProduct,
@@ -53,7 +55,15 @@ const Exchange = ({
     },
 
     {
-      title: 'Pair Count',
+      title: <span className='crypto-table-tooltip'>
+        Pairs
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={ExchangeExplain['pairCount']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       showSorterTooltip: false,
       dataIndex: 'pairCount',
       sorter: true,
@@ -64,11 +74,20 @@ const Exchange = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <span>{record?.pairCount ? record?.pairCount : NO_DATA }</span>
+        <span>{record?.pairCount ? record?.pairCount : NO_DATA }
+        </span>
       )
     },
     {
-      title: 'Fee Transaction',
+      title: <span className='crypto-table-tooltip'>
+      Fee Txn
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={ExchangeExplain['feeTxn']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       showSorterTooltip: false,
       dataIndex: 'feeTxs',
       // sorter: true,
@@ -143,7 +162,15 @@ const Exchange = ({
       )
     },
     {
-      title: 'Score',
+      title: <span className='crypto-table-tooltip'>
+      Score
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={ExchangeExplain['score']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       showSorterTooltip: false,
       dataIndex: 'score',
       sortDirections: ['descend', 'ascend'],
