@@ -14,7 +14,6 @@ import SummaryRow from '../../components/common-widgets/home/summary/BalanceCard
 import './home.scss'
 import Banner from '../common-widgets/home/banner'
 import { SummaryHomeContext } from '../../../App'
-import { SEO } from './../SEO/SEO'
 
 const fillColors = [
   '#18A594',
@@ -81,12 +80,8 @@ const Home = () => {
     return dataArr
   }
 
-  const obj = {
-    title: `Gear5 - Don't trust, verify`
-  }
   return (
     <>
-      <SEO props={obj}/>
       {/* row 1 */}
       <div className='row'>
         {/* banner, summary */}

@@ -99,6 +99,8 @@ const Markup = () => {
               />
             </Route>
           </Route>
+          <Route path='not-found' element={123} />
+          <Route path='*' element={123} />
         </Routes>
         <ScrollToTop />
         <Modal className='fade cus-modal' show={openModalReport} size='lg'>

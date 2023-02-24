@@ -18,6 +18,15 @@ import MyScoreComponent from '../../score/scoreComponent'
 import './ventureInfo.scss'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 
+export const calculateTotalFund = (fund) =>{
+  let total = 0
+  fund && fund?.forEach(item => {
+    total += item?.fundAmount
+  })
+
+  return total
+}
+
 const VentureInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
   const navigate = useNavigate()
@@ -30,15 +39,6 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       link && window.open(link)
       setLoading(false)
     }, 3000)
-  }
-
-  const calculateTotalFund = (fund) =>{
-    let total = 0
-    fund && fund?.forEach(item => {
-      total += item?.fundAmount
-    })
-
-    return total
   }
 
   const handleReportScam = () => {
