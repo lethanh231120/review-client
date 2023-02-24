@@ -4307,10 +4307,13 @@ textarea.form-control-lg {
   .modal-sm {
     max-width: 300px; } }
 
+    @media (min-width: 768px) {
+      .modal-dialog {
+        max-width: 700px; } }
 @media (min-width: 992px) {
   .modal-lg,
   .modal-xl {
-    max-width: 1000px; } }
+    max-width: 950px; } }
 
 @media (min-width: 1200px) {
   .modal-xl {
@@ -8467,8 +8470,8 @@ label {
       color: var(--primary) !important; }
 
 .out-footer {
-  width: calc(100% - 27.825rem);
-  margin-right: 7.375rem;
+  width: calc(100% - 26.825rem);
+  margin-right: 6.375rem;
   margin-left: auto; }
   @media only screen and (max-width: 87.5rem) {
     .out-footer {
@@ -8482,7 +8485,9 @@ label {
     } }
   @media only screen and (max-width: 47.9375rem) {
     .out-footer {
-      width: 100%; } }
+      width: calc(100% - 2.5rem);
+      margin-right: 1.3rem;
+    } }
 
 [data-sidebar-style="mini"] .nav-control,
 [data-layout="horizontal"] .nav-control {
@@ -11732,7 +11737,8 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       width: 18rem; } }
   .deznav .deznav-scroll {
     position: relative;
-    height: 100%;
+    /* height: 100%; */
+    height: 79vh;
     overflow-y: scroll; }
   @media only screen and (max-width: 87.5rem) {
     .deznav {
@@ -11838,7 +11844,15 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
         [data-sidebar-style="compact"] .deznav .metismenu > li.mm-active > a svg path {
           fill: #fff; }
     .deznav .metismenu li {
-      position: relative; }
+      position: relative;
+    }
+    .deznav .metismenu li ul li{
+      transition: all 0.2s linear;
+    }
+    .deznav .metismenu li ul li:hover{
+      cursor: pointer;
+      transform: translateX(8px);
+    }
     .deznav .metismenu ul {
       transition: all .2s ease-in-out;
       position: relative;
@@ -12354,7 +12368,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       position: absolute;
       left: 5.8rem;
       top: 0;
-      width: 12rem;
+      width: 14rem;
       z-index: 1001;
       display: none;
       padding-left: 0.0625rem;
@@ -13594,16 +13608,17 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   display: block !important; }
 
 [data-sidebar-style="overlay"] .out-footer {
-  width: calc(100% - 9.125rem);
-  margin-right: 7.375rem;
+  width: calc(100% - 2.5rem);
+  margin-right: 1.3rem;
   margin-left: auto; }
   @media only screen and (max-width: 47.9375rem) {
     [data-sidebar-style="overlay"] .out-footer {
-      width: 100%; } }
+      width: calc(100% - 2.5rem);
+      margin-right: 0.975rem; } }
   @media only screen and (max-width: 35.9375rem) {
     [data-sidebar-style="overlay"] .out-footer {
-      width: calc(100% - 2.125rem);
-      margin-right: 0.975rem; } }
+      width: calc(100% - 1rem);
+      margin-right: 0.5rem; } }
 
 [data-sidebar-position="fixed"][data-layout="vertical"] .nav-header {
   position: fixed;
@@ -25851,12 +25866,29 @@ code {
     top: 0;
     font-size: 1.875rem;
     font-weight: 100; }
-
+    
+    /* css scroll modal add */
 .modal-body {
-  padding: 1.875rem; }
+  padding: 1.875rem;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.modal-body::-webkit-scrollbar{
+  display: none;
+}
 
+  @media screen and (max-width: 400px) {
+    .modal-header{
+      padding: 1rem 0.5rem;
+    }
+    .modal-body{
+      padding: 0.5rem;
+    }
+  }
 .modal-footer {
-  padding: 1rem 1.875rem; }
+  padding: 1rem 1.875rem;
+
+}
 
 .modal-content {
   border-radius: 0.625rem; }

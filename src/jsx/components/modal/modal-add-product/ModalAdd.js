@@ -1,19 +1,16 @@
 import React, { useState, useRef, useContext, useEffect } from 'react'
 import './add.scss'
 import { Select, Form, Row, Col, Input, Checkbox, Upload } from 'antd'
-// import { Button } from 'react-bootstrap'
-// import { DAPP, EXCHANGE, CRYPTO } from '../../../constants/category'
 import { DAPP, EXCHANGE, CRYPTO } from '../../../constants/category'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
 import { post } from '../../../../api/BaseRequest'
 import moment from 'moment'
-// import { explorers } from '../../../../utils/ExplorerScan'
-// import { CheckCircleOutlined } from '@ant-design/icons'
 import { CategoryContext } from '../../../../App'
 import _ from 'lodash'
 import Swal from 'sweetalert2'
 import { AddModalContext } from '../../../index'
+import { ChainListContext } from '../../../../App'
 
 const { Option } = Select
 const defaultValue = [
@@ -37,8 +34,8 @@ const defaultValue = [
 ]
 const ModalAdd = ({ isModal }) => {
   const TOKEN = 'token'
-  // const ref = useRef()
   const categoryContext = useContext(CategoryContext)
+  const chainList = useContext(ChainListContext)
   const addModal = useContext(AddModalContext)
   const [form] = Form.useForm()
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
@@ -58,10 +55,8 @@ const ModalAdd = ({ isModal }) => {
     }
   ]
   const [category, setCategory] = useState(CRYPTO)
-  // const [type, setType] = useState(TOKEN)
   const [fileList, setFileList] = useState([])
   const [isRecaptcha, setIsRecaptcha] = useState(false)
-  // const [listCategory, setListCategory] = useState()
   const [subCategories, setSubCategories] = useState()
   const [data, setData] = useState({
     isScam: false,
@@ -163,7 +158,6 @@ const ModalAdd = ({ isModal }) => {
         }
       }
       if (category === EXCHANGE) {
-        console.log(values)
         body = {
           name: values?.name,
           subCategory: values?.subCategory,
@@ -182,11 +176,7 @@ const ModalAdd = ({ isModal }) => {
         }
       }
       if (category === DAPP) {
-        // "chains":{
-        //     "ethereum": "1"
-        // }
         const chains = {}
-        console.log(values)
         chains[values?.chainName] = values?.chainId
         body = {
           name: values?.name,
@@ -329,19 +319,6 @@ const ModalAdd = ({ isModal }) => {
   }
 
   const handleChangeLink = (value) => {
-    // const newLink = []
-    // explorers?.forEach((item) => {
-    //   value?.forEach((itemLink) => {
-    //     const isCorrect = itemLink?.includes(item)
-    //     if (isCorrect) {
-    //       newLink.push(itemLink)
-    //     }
-    //   })
-    // })
-    // setData({
-    //   ...data,
-    //   sources: newLink
-    // })
     const newLink = []
     const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
     value?.forEach((itemLink) => {
@@ -349,9 +326,6 @@ const ModalAdd = ({ isModal }) => {
         newLink.push(itemLink)
       }
     })
-    // form.setFieldsValue({
-    //   'sources': newLink
-    // })
     setData({
       ...data,
       sources: newLink
@@ -359,13 +333,6 @@ const ModalAdd = ({ isModal }) => {
   }
 
   const changeSelect = (value) => {
-    // const correct = []
-    // explorers?.forEach((item) => {
-    //   const isCorrect = value?.includes(item)
-    //   correct.push(isCorrect)
-    // })
-    // setErrorLink(correct?.some((item) => item === true) ? '' : 'Link explorer is not valid')
-
     const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
     if (value !== '') {
       if (value.match(reg)) {
@@ -383,6 +350,12 @@ const ModalAdd = ({ isModal }) => {
     })
   }
 
+  const handleChangeChainname = (value) => {
+    if (category !== EXCHANGE) {
+      form.setFieldsValue({ 'chainId': chainList[`${value}`]?.chainId })
+    }
+  }
+
   return (
     <>
       <p>We are very glad that you are contributing information about the projects that we are missing. Together we will bring lots of useful information to the crypto community.</p>
@@ -394,7 +367,7 @@ const ModalAdd = ({ isModal }) => {
         className='cus-form'
       >
         <Row gutter={[12]}>
-          <Col span={12}>
+          <Col sm={{ span: 12 }} xs={{ span: 24 }}>
             <Form.Item
               label='Category'
               className='cus-select'
@@ -407,7 +380,7 @@ const ModalAdd = ({ isModal }) => {
             </Form.Item>
           </Col>
           {category === CRYPTO && (
-            <Col span={12}>
+            <Col sm={{ span: 12 }} xs={{ span: 24 }}>
               <Form.Item
                 name='type'
                 label='Type'
@@ -432,7 +405,7 @@ const ModalAdd = ({ isModal }) => {
           )}
         </Row>
         <Row gutter={[12]}>
-          <Col span={12} className='form-group'>
+          <Col sm={{ span: 12 }} xs={{ span: 24 }} className='form-group'>
             <Form.Item
               name='name'
               label='Name'
@@ -447,7 +420,7 @@ const ModalAdd = ({ isModal }) => {
             </Form.Item>
           </Col>
           {category === CRYPTO && (
-            <Col span={12}>
+            <Col sm={{ span: 12 }} xs={{ span: 24 }}>
               <Form.Item
                 name='symbol'
                 label='Symbol'
@@ -463,7 +436,7 @@ const ModalAdd = ({ isModal }) => {
             </Col>
           )}
           {category === CRYPTO && data?.type === TOKEN && (
-            <Col span={12}>
+            <Col sm={{ span: 12 }} xs={{ span: 24 }}>
               <Form.Item
                 name='address'
                 label='Address'
@@ -479,7 +452,7 @@ const ModalAdd = ({ isModal }) => {
             </Col>
           )}
           {category !== EXCHANGE && (
-            <Col span={12}>
+            <Col sm={{ span: 12 }} xs={{ span: 24 }}>
               <Form.Item
                 name='chainName'
                 label='Chain Name'
@@ -490,15 +463,26 @@ const ModalAdd = ({ isModal }) => {
                   }
                 ]}
               >
-                <Input placeholder='Chain name'/>
+                <Select
+                  showSearch
+                  placeholder='Search to chain name'
+                  optionFilterProp='children'
+                  filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                  filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                  }
+                  onChange={handleChangeChainname}
+                  options={Object.keys(chainList).map((key) => ({ value: key, label: key }))}
+                />
               </Form.Item>
             </Col>
           )}
           {category !== EXCHANGE && (
-            <Col span={12}>
+            <Col sm={{ span: 12 }} xs={{ span: 24 }}>
               <Form.Item
                 name='chainId'
                 label='Chain ID'
+                value={form.getFieldsValue('chainId')}
                 rules={[
                   {
                     required: category === DAPP,
@@ -510,7 +494,7 @@ const ModalAdd = ({ isModal }) => {
               </Form.Item>
             </Col>
           )}
-          <Col span={12}>
+          <Col sm={{ span: 12 }} xs={{ span: 24 }}>
             <Form.Item
               name='website'
               label='Website'
@@ -525,29 +509,29 @@ const ModalAdd = ({ isModal }) => {
             </Form.Item>
           </Col>
           {category === CRYPTO && (
-            <Col span={12}>
+            <Col sm={{ span: 12 }} xs={{ span: 24 }}>
               <Form.Item name='explorer' label='Explore Website'>
                 <Input placeholder='Link explorer'/>
               </Form.Item>
             </Col>
           )}
-          <Col span={12}>
+          <Col sm={{ span: 12 }} xs={{ span: 24 }}>
             <Form.Item name={['socials', 'twitter']} label='Twitter'>
               <Input placeholder='Twitter'/>
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col sm={{ span: 12 }} xs={{ span: 24 }}>
             <Form.Item name={['socials', 'discord']} label='Discord'>
               <Input placeholder='Discord'/>
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col sm={{ span: 12 }} xs={{ span: 24 }}>
             <Form.Item name={['socials', 'telegram']} label='Telegram'>
               <Input placeholder='Telegram'/>
             </Form.Item>
           </Col>
           {category !== CRYPTO && (
-            <Col span={12}>
+            <Col sm={{ span: 12 }} xs={{ span: 24 }}>
               <Form.Item
                 name='subCategory'
                 label='Sub Category'
@@ -572,8 +556,8 @@ const ModalAdd = ({ isModal }) => {
           )}
           <Col span={24}>
             <Row gutter={12}>
-              <Col span={12}>
-                <Form.Item name='thumbLogo'>
+              <Col sm={{ span: 12 }} xs={{ span: 24 }}>
+                <Form.Item name='thumbLogo' label='Project avatar'>
                   <Upload
                     listType='picture-card'
                     fileList={fileList}

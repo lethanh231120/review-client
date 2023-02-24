@@ -197,8 +197,7 @@
         @include font-family;
         border-radius: 6px !important;
         &::placeholder{
-            color: #000 !important;
-            opacity: 0.4;
+            @include placeholder;
         }
     }
     & .ant-form-item{

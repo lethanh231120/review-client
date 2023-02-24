@@ -1,0 +1,30 @@
+.display-block-btn{
+    display: block;
+}
+.display-none-btn{
+    display: none;
+}
+.list-btn{
+    position: absolute;
+    bottom: 0;
+    padding: 1.25rem;
+    z-index: 10;
+}
+@media (max-width: 1600px) {
+    .list-btn{
+        padding: 0.8rem;
+    }
+}
+@media (max-width: 1400px) {
+    .list-btn{
+        padding: 1.25rem;
+    }
+}
+@media (max-width: 63.9375rem) {
+    .display-block-btn{
+        display: none;
+    }
+    .display-none-btn{
+        display: block;
+    }
+}

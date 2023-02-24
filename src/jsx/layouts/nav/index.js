@@ -10,8 +10,7 @@ const JobieNav = ({ title, onClick: ClickToAddEvent }) => {
 
   return (
     <Fragment>
-      <NavHader
-      />
+      <NavHader/>
       <Header
         onNote={() => onClick('chatbox')}
         onNotification={() => onClick('notification')}

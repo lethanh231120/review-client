@@ -66,22 +66,23 @@
             padding: 0.3rem !important;
             border: 0px !important;
             height: auto !important;
-            border-radius: 0 !important
+            border-radius: 0 !important;
         }
     }
     & input {
         @include cus-form-control;
+        &::placeholder{
+            @include placeholder;
+        }
     }
     & textarea{
         @include cus-form-control;
         height: unset !important;
         overflow-x: hidden !important;
         &::placeholder{
-            // color: rgba(0, 0, 0, 0.4) !important;
-            color: red;
-            word-wrap: break-word;
+            @include placeholder;
             height: 100%;
-            word-break: break-all;
+            white-space: break-spaces;
         }
         // display none response recaptcha
         &.g-recaptcha-response{
@@ -156,9 +157,10 @@
         inset-inline-start: 0px !important;
         inset-inline-end: 0px !important;
         & input{
-            @include font-family;
+            // @include font-family;
             &::placeholder{
-                @include font-family;
+                background-color: red;
+                // @include font-family;
             }
         }
     }
@@ -173,7 +175,7 @@
     }
     & .ant-select:not(.ant-select-customize-input) .ant-select-selector input{
         width: 100% !important;
-        padding: 0.2rem !important ;
+        // padding: 0.2rem !important ;
     }
     & .ant-select-single:not(.ant-select-customize-input) .ant-select-selector{
         height: 3.11rem !important;

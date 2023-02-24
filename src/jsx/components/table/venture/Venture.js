@@ -224,14 +224,13 @@ const Venture = ({
         found.
       </div>
       <Row>
-        <Col md={{ span: 18 }} sm={{ span: 18 }} xs={{ span: 20 }}>
+        <Col md={{ span: 18 }} sm={{ span: 17 }} xs={{ span: 17 }}>
           <CategorySearch type={VENTURE}/>
         </Col>
-        <Col md={{ span: 6 }} sm={{ span: 6 }} xs={{ span: 4 }}>
+        <Col md={{ span: 6 }} sm={{ span: 17 }} xs={{ span: 17 }}>
           <DrawerFilter type='venture' handleFilter={handleFilter} />
         </Col>
       </Row>
-
       <Table
         loading={loading}
         columns={columns}

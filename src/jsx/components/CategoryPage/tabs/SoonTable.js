@@ -12,6 +12,7 @@ import { Badge } from 'react-bootstrap'
 import NoImage from './../../common-widgets/no-image/NoImage'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
+import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 
 const SoonTable = ({ listData, loading }) => {
   const navigate = useNavigate()
@@ -42,14 +43,19 @@ const SoonTable = ({ listData, loading }) => {
               />
             )}
           <span>
-            <div className='data-table-name ms-2'>
-              <div className='data-table-name-title'>
-                {record?.projectName?.trim()}
+            <Tooltip
+              title={(
+                <p>{`${record?.projectName?.trim()} - ${record?.projectSymbol?.trim()}`}</p>
+              )}>
+              <div className='data-table-name ms-2'>
+                <div className='data-table-name-title'>
+                  {record?.projectName?.trim()}
+                </div>
+                <div className='data-table-symbol'>
+                  {record?.projectSymbol?.trim()}
+                </div>
               </div>
-              <div className='data-table-symbol'>
-                {record?.projectSymbol?.trim()}
-              </div>
-            </div>
+            </Tooltip>
           </span>
         </Link>
       )
@@ -202,44 +208,50 @@ const SoonTable = ({ listData, loading }) => {
 
   return (
     <div className='soon-table'>
-      {listData ? (
-        <Table
-          columns={columns}
-          dataSource={listData}
-          pagination={{
-            defaultPageSize: 20,
-            showSizeChanger: false
-          }}
-          loading={loading}
-          rowKey={(record) => record?.projectId}
-          onRow={(record) => ({
-            onClick: () => {
-              onRowClicked(record)
-            }
-          })}
-        />
-      ) : (
-        <Empty
-          image={nodata}
-          description={
-            <span>
-              <span
-                style={{ fontSize: '1.8em', color: 'red', fontWeight: 600 }}
-              >
+      {loading ? (<MySkeletonLoadinng count={10} height={70}/>) : (
+        <>
+          {listData ? (
+            <Table
+              columns={columns}
+              dataSource={listData}
+              pagination={{
+                defaultPageSize: 20,
+                showSizeChanger: false
+              }}
+              loading={loading}
+              rowKey={(record) => record?.projectId}
+              onRow={(record) => ({
+                onClick: () => {
+                  onRowClicked(record)
+                }
+              })}
+            />
+          ) : (
+            <>
+              <Empty
+                image={nodata}
+                description={
+                  <span>
+                    <span
+                      style={{ fontSize: '1.8em', color: 'red', fontWeight: 600 }}
+                    >
                 SORRY{' '}
-              </span>
-              <span
-                style={{
-                  fontSize: '1.6rem',
-                  color: 'rgba(0, 0, 0, 0.6)',
-                  fontWeight: '600'
-                }}
-              >
+                    </span>
+                    <span
+                      style={{
+                        fontSize: '1.6rem',
+                        color: 'rgba(0, 0, 0, 0.6)',
+                        fontWeight: '600'
+                      }}
+                    >
                 NO DATA FOUND
-              </span>
-            </span>
-          }
-        />
+                    </span>
+                  </span>
+                }
+              />
+            </>
+          )}
+        </>
       )}
     </div>
   )

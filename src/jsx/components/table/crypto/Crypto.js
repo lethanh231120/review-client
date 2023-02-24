@@ -37,20 +37,20 @@ import CategorySearch from '../../input-search/CategorySearch'
 import '../../../../scss/base/table.scss'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import { copyContractAddress } from '../../../../utils/effect'
+import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 
 const Crypto = ({
   listProduct,
   handleChangeTable,
   params,
   handleFilter,
-  loading,
   total
 }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
   const [listData, setListData] = useState([])
   const [mainExplorerMap, setMainExplorerMap] = useState()
-  // const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const getChain = async() => {
@@ -99,7 +99,7 @@ const Crypto = ({
         })
         if (!_.isEmpty(newListData)) {
           setListData(newListData)
-          // setLoading(false)
+          setLoading(false)
         }
       }
     }
@@ -186,19 +186,24 @@ const Crypto = ({
               </span>
             )}
           <span>
-            <div className='data-table-name'>
-              <div className='data-table-name-title'>{record?.name}</div>
-              <div className='data-table-symbol'>{record?.symbol}</div>
-              <div className='image-list-icon-scam-warning'>
-                {record?.isScam ? (
-                  <Image src={scam} preview={false} />
-                ) : record?.isWarning ? (
-                  <Image src={warning} preview={false} />
-                ) : (
-                  ''
-                )}
+            <Tooltip
+              title={(
+                <p>{`${record?.name} - ${record?.symbol}`}</p>
+              )}>
+              <div className='data-table-name'>
+                <div className='data-table-name-title'>{record?.name}</div>
+                <div className='data-table-symbol'>{record?.symbol}</div>
+                <div className='image-list-icon-scam-warning'>
+                  {record?.isScam ? (
+                    <Image src={scam} preview={false} />
+                  ) : record?.isWarning ? (
+                    <Image src={warning} preview={false} />
+                  ) : (
+                    ''
+                  )}
+                </div>
               </div>
-            </div>
+            </Tooltip>
             {record?.cryptoId?.split('_')[1] === CRYPTO_TOKEN && (
               <div className='data-table-address'>
                 <a href={mainExplorerMap?.get(record?.cryptoId)} target='_blank' className='product-name-text text-primary' style={{ cursor: 'pointer' }} onClick={(e) => onCancelClick(e) } rel='noreferrer' >
@@ -523,34 +528,36 @@ const Crypto = ({
 
   return (
     <div className='font-family crypto-table'>
-      <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>
-        A total of{' '}
-        <b>{total ? new Intl.NumberFormat().format(total) : 0}</b> Coins /
-        Token Contracts found.
-      </div>
-      <Row>
-        <Col md={{ span: 18 }} sm={{ span: 18 }} xs={{ span: 20 }}>
-          <CategorySearch type={CRYPTO}/>
-        </Col>
-        <Col md={{ span: 6 }} sm={{ span: 6 }} xs={{ span: 4 }}>
-          <DrawerFilter type='crypto' handleFilter={handleFilter} />
-        </Col>
-      </Row>
-      {listData && (
-        <Table
-          loading={loading}
-          columns={columns}
-          dataSource={listData}
-          onChange={handleChangeTable}
-          pagination={false}
-          rowKey={(record) => record?.cryptoId}
-          onRow={(record) => ({
-            onClick: () => {
-              handleRowClicked(record)
-            }
-          })}
-          scroll={{ x: 'max-content' }}
-        />
+      {loading ? (<MySkeletonLoadinng count={50} height={70} />) : (
+        <>
+          <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>
+            A total of{' '}
+            <b>{total ? new Intl.NumberFormat().format(total) : 0}</b> Coins /
+            Token Contracts found.
+          </div>
+          <Row>
+            <Col md={{ span: 18 }} sm={{ span: 17 }} xs={{ span: 17 }}>
+              <CategorySearch type={CRYPTO}/>
+            </Col>
+            <Col md={{ span: 6 }} sm={{ span: 7 }} xs={{ span: 7 }}>
+              <DrawerFilter type='crypto' handleFilter={handleFilter} />
+            </Col>
+          </Row>
+          <Table
+            // loading={loading}
+            columns={columns}
+            dataSource={listData}
+            onChange={handleChangeTable}
+            pagination={false}
+            rowKey={(record) => record?.cryptoId}
+            onRow={(record) => ({
+              onClick: () => {
+                handleRowClicked(record)
+              }
+            })}
+            scroll={{ x: 'max-content' }}
+          />
+        </>
       )}
     </div>
   )

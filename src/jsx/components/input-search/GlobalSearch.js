@@ -258,10 +258,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
             }}
             onKeyPress={handleSubmitSearch}
             autoComplete='off'
-            // value={keyWord}
             onBlur={(e) => {
-              // e.preventDefault()
-              // e.stopPropagation()
               handleSearch('')
               clearText(e)
             }}
@@ -276,7 +273,6 @@ const InputSearch = ({ isFormReport, setItem }) => {
       >
         {dataSearch?.loading ? (
           <>
-            {/* <Spin size='large' /> */}
             <MySkeletonLoadinng count={5} height={50}/>
           </>
         ) : (
