@@ -6,6 +6,7 @@ import { get } from './api/BaseRequest'
 import { getCookie, STORAGEKEY } from './utils/storage'
 import _ from 'lodash'
 import { HelmetProvider } from 'react-helmet-async'
+import { SEO } from './jsx/components/SEO/SEO'
 
 export const ChainListContext = createContext()
 export const CategoryContext = createContext()
@@ -155,6 +156,7 @@ const App = () => {
                               </div>
                             }
                             >
+                              <SEO />
                               <Index />
                             </Suspense>
                           </HelmetProvider>

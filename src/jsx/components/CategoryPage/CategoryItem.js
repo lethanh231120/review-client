@@ -61,7 +61,6 @@ const CategoryItem = () => {
     soon: { roundType: '', tag: subCategory || '', orderBy: 'endDate', sort: 'desc', page: 1 },
     launchpad: { page: 1, sort: 'desc', orderBy: 'score' }
   }
-  console.log(loading)
   // check category and set params
   const setParram = async() => {
     if (category) {
