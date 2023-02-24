@@ -28141,7 +28141,7 @@ table.dataTable thead .sorting_asc {
   bottom: 1.25rem;
   top: 0rem;
   right: 0;
-  border-radius: 1.875rem;
+  border-radius: 1.875rem 0 0 1.875rem;
   display: flex;
   justify-content: space-between;
   flex-direction: column-reverse;
@@ -34987,6 +34987,11 @@ input.imitatefocus::-webkit-input-placeholder {
   -webkit-transform: translateY(-125%);
   opacity: 0.05
 }
-
-
 /* END: effect click global search */
+
+/* small mode menu right */
+@media screen and (max-width: 767px){
+  .dz-side-menu{
+    border-radius: 1.875rem !important;
+  }
+}
