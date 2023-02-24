@@ -7,7 +7,9 @@ import { ChainListContext } from '../../../../App'
 import { toCammelCase } from '../../../../utils/formatText'
 import { myLogo } from '../../common-widgets/logo/logo'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
+import { launchpadExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 // import DrawerFilter from '../../drawer-filter/DrawerFilter'
+import { InfoCircleOutlined } from '@ant-design/icons'
 
 const LaunchpadList = ({ listProduct,
   handleChangeTable,
@@ -36,7 +38,15 @@ const LaunchpadList = ({ listProduct,
 
     },
     {
-      title: 'Chains',
+      title: <span className='crypto-table-tooltip'>
+     Blockchains
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={launchpadExplain['blockchain']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       dataIndex: 'chains',
       key: 'chains',
       render: (_, record) => (
@@ -71,7 +81,15 @@ const LaunchpadList = ({ listProduct,
       )
     },
     {
-      title: 'Current ROI',
+      title: <span className='crypto-table-tooltip'>
+      Current ROI
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={launchpadExplain['currentROI']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       dataIndex: 'avgRoiCurrent',
       showSorterTooltip: false,
       sorter: true,
@@ -86,7 +104,15 @@ const LaunchpadList = ({ listProduct,
       )
     },
     {
-      title: 'ATH ROI',
+      title: <span className='crypto-table-tooltip'>
+      ATH ROI
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={launchpadExplain['athROI']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       showSorterTooltip: false,
       dataIndex: 'avgRoiATH',
       sorter: true,
@@ -116,7 +142,15 @@ const LaunchpadList = ({ listProduct,
       )
     },
     {
-      title: 'Raised',
+      title: <span className='crypto-table-tooltip'>
+      Raised
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={launchpadExplain['raise']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       showSorterTooltip: false,
       dataIndex: 'totalFundsRaised',
       sorter: true,
@@ -132,7 +166,15 @@ const LaunchpadList = ({ listProduct,
     },
 
     {
-      title: 'Market Cap',
+      title: <span className='crypto-table-tooltip'>
+     Marketcap
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={launchpadExplain['marketCap']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       showSorterTooltip: false,
       dataIndex: 'marketCap',
       sorter: true,
@@ -147,7 +189,15 @@ const LaunchpadList = ({ listProduct,
       )
     },
     {
-      title: 'Volume24h',
+      title: <span className='crypto-table-tooltip'>
+      Volume24h
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={launchpadExplain['volume24h']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       showSorterTooltip: false,
       dataIndex: 'volume24h',
       sorter: true,
@@ -163,7 +213,15 @@ const LaunchpadList = ({ listProduct,
     },
 
     {
-      title: 'Score',
+      title: <span className='crypto-table-tooltip'>
+      Score
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={launchpadExplain['score']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       showSorterTooltip: false,
       dataIndex: 'score',
       sortDirections: ['descend', 'ascend'],
