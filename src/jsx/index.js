@@ -24,6 +24,9 @@ import ModalAdd from './components/modal/modal-add-product/ModalAdd'
 import AddProject from './components/add-project/AddProject'
 
 import { Button, Modal } from 'react-bootstrap'
+import { NotFound } from './components/not-found/NotFound'
+import { NotFoundProduct } from './components/not-found-product/NotFoundProduct'
+import { ServerError } from './components/server-error/ServerError'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -98,9 +101,11 @@ const Markup = () => {
                 element={<ProductDetail />}
               />
             </Route>
+            <Route path='not-found-product' element={<NotFoundProduct />} />
+            <Route path='server-error' element={<ServerError />} />
+            <Route path='not-found' element={<NotFound />} />
+            <Route path='*' element={<NotFound />} />
           </Route>
-          <Route path='not-found' element={123} />
-          <Route path='*' element={123} />
         </Routes>
         <ScrollToTop />
         <Modal className='fade cus-modal' show={openModalReport} size='lg'>
@@ -111,7 +116,6 @@ const Markup = () => {
               className='btn-close'
               onClick={() => setOpenModalReport(false)}
             >
-
             </Button>
           </Modal.Header>
           <Modal.Body className='cus-modal'>
