@@ -27,6 +27,8 @@ import imgSignUp from '../../../images/svg/sign-up-primary.svg'
 import { Link } from 'react-router-dom'
 import { SEARCH_ICON } from '../../../images/svg/search'
 import { CANCEL_ICON } from '../../../images/svg/cancel'
+import { ToggleContext } from '../../index'
+import './custom-header.scss'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
@@ -35,6 +37,7 @@ const txtSignUpTooltip = 'Sign Up'
 const minimumWidthBigScreenMode = 766
 
 const Header = () => {
+  const toggle = useContext(ToggleContext)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
   const [isSmallMode, setIsSmallMode] = useState(window.innerWidth <= minimumWidthBigScreenMode)
@@ -316,8 +319,10 @@ const Header = () => {
                   </div>
                   <div className='sidebar-social-link '>
                     <ul className=''>
-                      {reportScamHtml}
-                      {addProjectHtml}
+                      <div className={toggle?.toggle ? 'display-block-btn' : 'display-none-btn'}>
+                        {reportScamHtml}
+                        {addProjectHtml}
+                      </div>
                       {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode || authenticated?.isAuthenticated ? '' : signupHtml) : '' }
                     </ul>
                   </div>

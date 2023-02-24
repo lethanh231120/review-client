@@ -366,7 +366,7 @@ const ProductDetail = () => {
 
     Toast.fire({
       icon: 'success',
-      title: 'Post comemnt successfully!'
+      title: 'Send Review successfully!'
     })
   }
 
@@ -579,7 +579,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={productInfo?.details?.totalReviews}
+    totalReview={reviews?.length || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -616,7 +616,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={productInfo?.details?.totalReviews}
+    totalReview={reviews?.length || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -656,7 +656,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={productInfo?.details?.totalReviews}
+    totalReview={reviews?.length || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -695,7 +695,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={productInfo?.details?.totalReviews}
+    totalReview={reviews?.length || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -732,7 +732,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={productInfo?.details?.totalReviews}
+    totalReview={reviews?.length || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -771,7 +771,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={productInfo?.details?.totalReviews}
+    totalReview={reviews?.length || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}

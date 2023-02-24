@@ -43,7 +43,7 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isF
             />
           )
         }
-        <div>
+        <div className='form-search-data-item-content'>
           <div className='form-search-data-item-data-content'>
             <h6 className='cus-h6'>
               {item?.name}
@@ -75,7 +75,7 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isF
                 ?.split(',')
                 ?.map((itemChain) => (
                   <div
-                    className='btn btn-primary light cus-btn'
+                    className='btn btn-primary light cus-btn mr-2'
                     key={itemChain}
                   >
                     {itemChain}

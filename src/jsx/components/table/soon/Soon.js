@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
-import { Avatar, Col } from 'antd'
+import { Avatar, Col, Tooltip } from 'antd'
 import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
@@ -77,19 +77,26 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                       />
                                     )}
                                 </div>
-                                <div
-                                  className='ms-4 text-etc-overflow'
-                                  style={{ width: '100%' }}
-                                >
-                                  <h4 className='heading mb-0 text-etc-overflow'>
-                                    {item?.projectName}
-                                  </h4>
-                                  <span className='text-etc-overflow'>
-                                    {item?.projectSymbol
+                                <Tooltip
+                                  title={(
+                                    <p>{`${item?.projectName} - ${item?.projectSymbol
                                       ? item?.projectSymbol
-                                      : absentData}
-                                  </span>
-                                </div>
+                                      : absentData}`}</p>
+                                  )}>
+                                  <div
+                                    className='ms-4 text-etc-overflow'
+                                    style={{ width: '100%' }}
+                                  >
+                                    <h4 className='heading mb-0 text-etc-overflow'>
+                                      {item?.projectName}
+                                    </h4>
+                                    <span className='text-etc-overflow'>
+                                      {item?.projectSymbol
+                                        ? item?.projectSymbol
+                                        : absentData}
+                                    </span>
+                                  </div>
+                                </Tooltip>
                               </div>
                               <div className='row'>
                                 <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>

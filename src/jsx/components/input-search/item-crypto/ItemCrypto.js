@@ -54,13 +54,15 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
               ''
             )}
           </div>
-          {/* <div className='form-search-data-item-data-list'> */}
-          {item?.addressShow && (<p className='cus-p'>{item?.addressShow}</p>)}
-          {/* </div> */}
+          {item?.addressShow && (<>
+            <p className='cus-p display-none'>
+              {item?.addressShow}
+            </p>
+            <p className='cus-p display-block'>
+              {`${item?.addressShow?.slice(0, 4)}...${item?.addressShow?.slice(item?.addressShow?.length - 5, item?.addressShow?.length - 1)}`}
+            </p>
+          </>)}
           {item?.chainname && (
-            // <div className='form-search-data-item-data-tag'>
-            //   {item?.chainname}
-            // </div>
             <div className='btn btn-primary light cus-btn'>
               {item?.chainname}
             </div>

@@ -12,6 +12,7 @@ import { encodeUrl } from '../../../../utils/formatUrl'
 import { Badge } from 'react-bootstrap'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
+import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 
 const DappTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -168,45 +169,48 @@ const DappTable = ({ loading, listData }) => {
 
   return (
     <div className='dapp-table'>
-      {listData ? (
-        <Table
-          loading={loading}
-          columns={colunms}
-          dataSource={listData}
-          pagination={{
-            defaultPageSize: 20,
-            showSizeChanger: false
-          }}
-          rowKey={(record) => record?.dAppId}
-          onRow={(record) => ({
-            onClick: () => {
-              onRowClicked(record)
-            }
-          })}
-        />
-      ) : (
+      {loading ? (<MySkeletonLoadinng count={10} height={70}/>) : (
         <>
-          <Empty
-            image={nodata}
-            description={
-              <span>
-                <span
-                  style={{ fontSize: '1.8em', color: 'red', fontWeight: 600 }}
-                >
+          {listData ? (
+            <Table
+              columns={colunms}
+              dataSource={listData}
+              pagination={{
+                defaultPageSize: 20,
+                showSizeChanger: false
+              }}
+              rowKey={(record) => record?.dAppId}
+              onRow={(record) => ({
+                onClick: () => {
+                  onRowClicked(record)
+                }
+              })}
+            />
+          ) : (
+            <>
+              <Empty
+                image={nodata}
+                description={
+                  <span>
+                    <span
+                      style={{ fontSize: '1.8em', color: 'red', fontWeight: 600 }}
+                    >
                   SORRY{' '}
-                </span>
-                <span
-                  style={{
-                    fontSize: '1.6rem',
-                    color: 'rgba(0, 0, 0, 0.6)',
-                    fontWeight: '600'
-                  }}
-                >
+                    </span>
+                    <span
+                      style={{
+                        fontSize: '1.6rem',
+                        color: 'rgba(0, 0, 0, 0.6)',
+                        fontWeight: '600'
+                      }}
+                    >
                   NO DATA FOUND
-                </span>
-              </span>
-            }
-          />
+                    </span>
+                  </span>
+                }
+              />
+            </>
+          )}
         </>
       )}
     </div>
