@@ -19,7 +19,7 @@ import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 const InputSearch = ({ isFormReport, setItem }) => {
   const summaryData = useContext(SummaryHomeContext)
   const FIRST_SEARCH_PLACEHOLDER_TEXT = 'Search your projects here'
-  const LAST_SEARCH_PLACEHOLDER_TEXT = `Search for ${summaryData?.soons ? `${formatLargeNumber(summaryData?.soons)}+ ` : ''}ICOs/ IDOs`
+  const LAST_SEARCH_PLACEHOLDER_TEXT = `Search for ${summaryData?.soons ? `${formatLargeNumber(summaryData?.soons)}+ ` : ''}ICOs/ IDOs/ IFOs`
   const SEARCH_PLACEHOLDER_TEXT = [
     FIRST_SEARCH_PLACEHOLDER_TEXT,
     `Search for ${summaryData?.coins ? `${formatLargeNumber(summaryData?.coins)}+ ` : ''}Coins`,

@@ -18,7 +18,9 @@ import {
   VENTURE,
   EXCHANGE,
   CRYPTO,
-  LAUNCHPAD
+  LAUNCHPAD,
+  CRYPTO_COIN,
+  CRYPTO_TOKEN
 } from '../../constants/category'
 // import DetailLoading from '../loading/DetailLoading'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
@@ -26,6 +28,9 @@ import user from '../../../images/product/user.png'
 import Swal from 'sweetalert2'
 import LaunchpadDetail from './launchpad-info/LaunchpadDetail'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
+import SEO from '../SEO/SEO'
+import { formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
+import imgAbsentImageCrypto from '../../../images/absent_image_crypto.png'
 
 const ProductDetail = () => {
   const TYPE_REVIEW = 0
@@ -775,29 +780,58 @@ const ProductDetail = () => {
     productId={productId}
   />
 
-  return (
-    <div className='section'>
-      {!productInfo ? <MySkeletonLoadinng count={6} height={200}/> : ''}
-      <div className='product' ref={ref} hidden={!productInfo}>
-        {categoryName === DAPP ? (
-          <>{dapp}</>
-        ) : categoryName === CRYPTO ? (
-          <>{crypto}</>
-        ) : categoryName === EXCHANGE ? (
-          <>{exchange}</>
-        ) : categoryName === SOON ? (
-          <>{soon}</>
-        ) : categoryName === VENTURE ? (
-          <>{venture}</>
-        ) : type === 'coin' || type === 'token' ? (
-          <>{crypto}</>
-        ) : categoryName === LAUNCHPAD ? (
-          <>{launchpad}</>
-        )
-          : ''}
+  const getMetaProductDetail = (categoryName, type, detail) => {
+    const meta = {}
+    meta.title = detail?.name
 
+    if (detail?.cryptoId) {
+      if (type === CRYPTO_COIN || type === CRYPTO_TOKEN) {
+        meta.title = `${detail?.name} (${detail?.symbol}) Price Chart today, Market Cap today and Info | Gear5`
+        meta.description = detail?.description
+        meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
+      } else {
+        switch (categoryName) {
+          case CRYPTO:{
+            meta.title = `${detail?.name} (${detail?.symbol}) Price Chart today, Market Cap today and Info | Gear5`
+            meta.description = detail?.description
+            meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
+            break
+          }
+        }
+        meta.title = detail?.name
+      }
+    }
+
+    return meta
+  }
+
+  return (
+    <>
+      <SEO props={getMetaProductDetail(categoryName, type, productInfo?.details)} />
+      <div className='section'>
+        {!productInfo ? <MySkeletonLoadinng count={6} height={200}/> : ''}
+        <div className='product' ref={ref} hidden={!productInfo}>
+          {categoryName === DAPP ? (
+            <>{dapp}</>
+          ) : categoryName === CRYPTO ? (
+            <>{crypto}</>
+          ) : categoryName === EXCHANGE ? (
+            <>{exchange}</>
+          ) : categoryName === SOON ? (
+            <>{soon}</>
+          ) : categoryName === VENTURE ? (
+            <>{venture}</>
+          ) : type === CRYPTO_COIN || type === CRYPTO_TOKEN ? (
+            <>{crypto}</>
+          ) : categoryName === LAUNCHPAD ? (
+            <>{launchpad}</>
+          )
+            : ''}
+
+        </div>
       </div>
-    </div>
+    </>
+
   )
 }
 

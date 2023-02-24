@@ -32,7 +32,7 @@ const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
 const txtLoginTooltip = 'Log In'
 const txtSignUpTooltip = 'Sign Up'
-const minimumWidthBigScreenMode = 767
+const minimumWidthBigScreenMode = 766
 
 const Header = () => {
   // For fix header
