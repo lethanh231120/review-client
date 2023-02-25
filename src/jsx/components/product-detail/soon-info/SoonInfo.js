@@ -55,9 +55,9 @@ const getDisplayFromSoonStatus = (status) => {
   }
 }
 
-const classBackgroundUpcoming = 'badge-info'
-const classBackgroundOngoing = 'badge-success'
-const classBackgroundPast = 'badge-default'
+const classBackgroundUpcoming = 'badge-success'
+const classBackgroundOngoing = 'badge-info'
+const classBackgroundPast = 'badge-danger'
 
 export const getStatusBackgroundFromSoonStatus = (status) => {
   switch (status) {
