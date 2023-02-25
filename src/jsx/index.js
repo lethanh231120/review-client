@@ -89,6 +89,7 @@ const Markup = () => {
                     <Route path=':type'>
                       <Route path=':productName'>
                         <Route path='' element={<ProductDetail />} />
+                        {/* token only */}
                         <Route path=':path' element={<ProductDetail />} />
                       </Route>
                     </Route>
