@@ -34504,7 +34504,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 /* big menu */
 @media screen and (min-width: 1024px) and (max-width: 1199px){
   .banner-body{
-    margin-bottom: 20%;
+    /* margin-bottom: 20%; */
   }
 }
 

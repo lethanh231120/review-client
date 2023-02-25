@@ -1,11 +1,12 @@
 import { Helmet } from 'react-helmet-async'
-import gear5Icon from '../../../images/logo/logo.png'
+import imgGear5Icon from '../../../images/logo/logo.png'
 import { mainColorHex } from '../../constants/color'
+import imgGear5Logo from '../../../images/logo/gear5_logo_notext.png'
 
 export const SEO = ({ props }) => {
   const title = props?.title || `Gear5 - Don't trust, verify`
   const description = props?.description
-  const image = props?.image
+  const image = props?.image || imgGear5Logo
 
   const baseKeywords = 'Gear5, Crypto Projects, DApps, Ventures, Exchanges, Upcomings, ICOs, IDOs, IFOs, Launchpads, Scam address, Website phishing'
   const keywords = props?.keywords ? `${props?.keywords}, ${baseKeywords}` : baseKeywords
@@ -17,9 +18,9 @@ export const SEO = ({ props }) => {
   return (
     <Helmet>
       {/* Standard metadata tags */}
-      <link rel='icon' href={gear5Icon} />
+      <link rel='icon' href={imgGear5Icon} />
       {/* manifest.json provides metadata used when your web app is installed on a user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/ */}
-      <link rel='manifest' href='%PUBLIC_URL%/manifest.json' />
+      {/* <link rel='manifest' href='%PUBLIC_URL%/manifest.json' /> */}
       <meta charset='UTF-8' />
       <meta name='theme-color' content={mainColorHex} />
       {/* Setting the viewport to make your website look good on all devices: */}

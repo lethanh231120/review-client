@@ -24,6 +24,9 @@ import ModalAdd from './components/modal/modal-add-product/ModalAdd'
 import AddProject from './components/add-project/AddProject'
 
 import { Button, Modal } from 'react-bootstrap'
+import { NotFound } from './components/not-found/NotFound'
+import { NotFoundProduct } from './components/not-found-product/NotFoundProduct'
+import { ServerError } from './components/server-error/ServerError'
 import InsightMain from './components/insight/InsightMain'
 
 export const ReportModalContext = createContext()
@@ -111,10 +114,10 @@ const Markup = () => {
                   />
                 </Route>
 
-                {/* <Route path='not-found-product' element={<NotFoundProduct />} /> */}
-                {/* <Route path='server-error' element={<ServerError />} /> */}
-                {/* <Route path='not-found' element={<NotFound />} /> */}
-                {/* <Route path='*' element={<NotFound />} /> */}
+                <Route path='not-found-product' element={<NotFoundProduct />} />
+                <Route path='server-error' element={<ServerError />} />
+                <Route path='not-found' element={<NotFound />} />
+                <Route path='*' element={<NotFound />} />
               </Route>
             </Routes>
             <ScrollToTop />
