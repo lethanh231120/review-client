@@ -7,12 +7,36 @@ import NoImage from '../../no-image/NoImage'
 import './top-discussed.scss'
 import { SWORD_ICON } from '../../../../../images/svg/report-project-primary'
 
-const singleTopItem = (logo, name, symbol, type, reviews, reports, detail, navigate) => {
+const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) => {
+  let imageUrl = ''
+  switch (type) {
+    case 'crypto':
+      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.cryptoId}.png`
+      break
+    case 'exchange':
+      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.exchangeId}.png`
+      break
+    case 'soon':
+      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.projectId}.png`
+      break
+    case 'dapp':
+      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.dappId}.png`
+      break
+    case 'launchpad':
+      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.launchpadId}.png`
+      break
+    case 'venture':
+      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.ventureId}.png`
+      break
+    default:
+      break
+  }
+
   return <>
     <div className='previews-info-list' onClick={() => onItemClicked(type, detail, navigate)} style={{ cursor: 'pointer', width: '100%', padding: '0.825rem 0' }}>
       <div className='pre-icon'>
         <span className={`icon-box icon-box-sm`}>
-          {logo ? <Avatar size={35} src={logo}/> : <NoImage width={35} height={35} alt={name?.substring(0, 2)}/>}
+          {imageUrl !== '' ? <Avatar size={35} src={imageUrl}/> : <NoImage width={35} height={35} alt={name?.substring(0, 2)}/>}
         </span>
         <div className='ms-2 '>
           <h6 className='text-etc-overflow'>{name}{type === 'crypto' ? ` (${symbol})` : null}</h6>
@@ -39,15 +63,15 @@ export const TopDiscussedItem = ({ item }) => {
 
   switch (item?.type) {
     case 'crypto':
-      return singleTopItem(item?.detail?.bigLogo, item?.detail?.name, item?.detail?.symbol, item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
+      return singleTopItem(item?.detail?.name, item?.detail?.symbol, item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
     case 'exchange':
-      return singleTopItem(item?.detail?.smallLogo, item?.detail?.name, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
+      return singleTopItem(item?.detail?.name, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
     case 'dapp':
-      return singleTopItem(item?.detail?.dAppLogo, item?.detail?.dAppName, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
+      return singleTopItem(item?.detail?.dAppName, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
     case 'venture':
-      return singleTopItem(item?.detail?.ventureLogo, item?.detail?.ventureName, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
+      return singleTopItem(item?.detail?.ventureName, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
     case 'soon':
-      return singleTopItem(item?.detail?.bigLogo, item?.detail?.projectName, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
+      return singleTopItem(item?.detail?.projectName, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
     default:
       return <></>
   }
