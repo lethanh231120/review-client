@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import Swal from 'sweetalert2'
 import { SignInContext, FormLoginSignupKeyContext } from '../../../App'
@@ -11,13 +11,9 @@ const AddProject = ({ isModal }) => {
 
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
-  const [open, setOpen] = useState(false)
-
   useEffect(() => {
     // already log in
-    if (userInfo) {
-      setOpen(true)
-    } else {
+    if (!userInfo) {
       Swal.fire({
         allowOutsideClick: false,
         icon: 'info',
@@ -46,7 +42,7 @@ const AddProject = ({ isModal }) => {
         <h2 className='heading'>Add Project</h2>
       </div>
       <div className='card-body'>
-        { open && <ModalAdd isModal={false}/>}
+        <ModalAdd isModal={false}/>
       </div>
     </div>
   )

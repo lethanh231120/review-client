@@ -69,7 +69,6 @@ const CategoryItem = () => {
           setParams(defaultParams?.dapp)
           break
         case CRYPTO:
-          console.log(defaultParams?.crypto)
           setParams(defaultParams?.crypto)
           break
         case EXCHANGE:

@@ -1,16 +1,18 @@
 import React, { useState, useRef, useContext, useEffect } from 'react'
 import './add.scss'
-import { Select, Form, Row, Col, Input, Checkbox, Upload } from 'antd'
+import { Select, Form, Row, Col, Input, Checkbox, Upload, Image } from 'antd'
 import { DAPP, EXCHANGE, CRYPTO } from '../../../constants/category'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
 import { post } from '../../../../api/BaseRequest'
 import moment from 'moment'
-import { CategoryContext } from '../../../../App'
+import { CategoryContext, SignInContext } from '../../../../App'
 import _ from 'lodash'
 import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 import { AddModalContext } from '../../../index'
 import { ChainListContext } from '../../../../App'
+import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 
 const { Option } = Select
 const defaultValue = [
@@ -18,7 +20,7 @@ const defaultValue = [
   { name: 'symbol', value: null },
   { name: 'address', value: null },
   { name: 'chainName', value: null },
-  { name: 'chainId', value: null },
+  // { name: 'chainId', value: null },
   { name: 'website', value: null },
   { name: 'explorer', value: null },
   { name: ['socials', 'twitter'], value: null },
@@ -28,13 +30,15 @@ const defaultValue = [
   { name: 'type', value: 'token' },
   { name: 'thumbLogo', value: null },
   { name: 'description', value: null },
-  { name: 'sources', value: [] },
+  { name: 'sources', value: '' },
   { name: 'isScam', value: false },
   { name: 'isWarning', value: false }
 ]
 const ModalAdd = ({ isModal }) => {
+  const navigate = useNavigate()
   const TOKEN = 'token'
   const categoryContext = useContext(CategoryContext)
+  const signContext = useContext(SignInContext)
   const chainList = useContext(ChainListContext)
   const addModal = useContext(AddModalContext)
   const [form] = Form.useForm()
@@ -58,6 +62,12 @@ const ModalAdd = ({ isModal }) => {
   const [fileList, setFileList] = useState([])
   const [isRecaptcha, setIsRecaptcha] = useState(false)
   const [subCategories, setSubCategories] = useState()
+
+  const [listChain, setListChain] = useState({
+    data: undefined,
+    loading: false
+  })
+
   const [data, setData] = useState({
     isScam: false,
     content: '',
@@ -65,28 +75,10 @@ const ModalAdd = ({ isModal }) => {
     image: '',
     type: TOKEN
   })
-  const [errorLink, setErrorLink] = useState()
-
   const recapcharRef = useRef(null)
 
   const handleChangeCategory = (value) => {
     setCategory(value)
-  }
-
-  // noti report success
-  const notifyTopRight = (content) => {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true
-    })
-
-    Toast.fire({
-      icon: 'success',
-      title: content
-    })
   }
 
   // toast error
@@ -118,11 +110,27 @@ const ModalAdd = ({ isModal }) => {
         res = await post('reviews/dapp/upload', data)
       }
       if (res?.status) {
-        if (isModal) {
-          addModal.handleSetOpenModal(false)
-        }
-        handleReset()
-        notifyTopRight(`Add project successfully. Please wait for our admin to confirm`)
+        Swal.fire({
+          icon: 'success',
+          title: 'Add project successfully!',
+          text: 'Please wait for our admin to confirm',
+          showDenyButton: true,
+          confirmButtonText: 'Add New Project',
+          denyButtonText: `Back to home`
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            handleReset()
+          } else if (result.isDenied) {
+            handleReset()
+            if (isModal) {
+              addModal.handleSetOpenModal(false)
+              navigate('../')
+            } else {
+              navigate('../')
+            }
+          }
+        })
       }
     } catch (error) {
       toartError('Add project failed. Please try again.')
@@ -130,73 +138,77 @@ const ModalAdd = ({ isModal }) => {
   }
 
   const onFinish = async(values) => {
-    const recaptchaValue = recapcharRef.current.getValue()
-    if (recaptchaValue) {
-      let body = {}
-      if (category === CRYPTO) {
-        body = {
-          name: values?.name,
-          type: values?.type,
-          symbol: values?.symbol,
-          address: values?.address,
-          chainName: values?.chainName,
-          thumbLogo: data?.image,
-          bigLogo: data?.image,
-          smallLogo: data?.image,
-          description: values?.description,
-          website: values?.website,
-          explorer: values?.explorer,
-          socials: values?.socials,
-          isScam: data?.isScam,
-          isWarning: values?.isWarning,
-          proof: (!data?.isScam && !data?.isWarning) ? null : {
-            'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
-            'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
-          },
-          chainId: values?.chainId,
-          decimal: null
-        }
-      }
-      if (category === EXCHANGE) {
-        body = {
-          name: values?.name,
-          subCategory: values?.subCategory,
-          thumbLogo: data?.image,
-          smallLogo: data?.image,
-          bigLogo: data?.image,
-          description: values?.description,
-          website: values?.website,
-          socials: values?.socials,
-          isScam: values?.isScam,
-          isWarning: values?.isWarning,
-          proof: (!data?.isScam && !data?.isWarning) ? null : {
-            'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
-            'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
+    if (userInfo) {
+      const recaptchaValue = recapcharRef.current.getValue()
+      if (recaptchaValue) {
+        let body = {}
+        if (category === CRYPTO) {
+          body = {
+            name: values?.name,
+            type: values?.type,
+            symbol: values?.symbol,
+            address: values?.address,
+            chainName: values?.chainName,
+            thumbLogo: data?.image,
+            bigLogo: data?.image,
+            smallLogo: data?.image,
+            description: values?.description,
+            website: values?.website,
+            explorer: values?.explorer,
+            socials: values?.socials,
+            isScam: data?.isScam,
+            isWarning: data?.isWarning,
+            proof: (!data?.isScam && !data?.isWarning) ? null : {
+              'isScam': data?.isScam ? values?.sources : null,
+              'isWarning': data?.isWarning ? values?.sources : null
+            },
+            chainId: values?.chainId,
+            decimal: null
           }
         }
-      }
-      if (category === DAPP) {
-        const chains = {}
-        chains[values?.chainName] = values?.chainId
-        body = {
-          name: values?.name,
-          logo: data?.image,
-          description: values?.description,
-          website: values?.website,
-          subCategory: values?.subCategory,
-          socials: values?.socials,
-          isScam: values?.isScam,
-          isWarning: values?.isWarning,
-          chains: chains,
-          proof: (!data?.isScam && !data?.isWarning) ? null : {
-            'isScam': (data?.isScam && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null,
-            'isWarning': (data?.isWarning && (!_.isEmpty(data?.sources))) ? data?.sources?.join(',') : null
+        if (category === EXCHANGE) {
+          body = {
+            name: values?.name,
+            subCategory: values?.subCategory,
+            thumbLogo: data?.image,
+            smallLogo: data?.image,
+            bigLogo: data?.image,
+            description: values?.description,
+            website: values?.website,
+            socials: values?.socials,
+            isScam: data?.isScam,
+            isWarning: data?.isWarning,
+            proof: (!data?.isScam && !data?.isWarning) ? null : {
+              'isScam': data?.isScam ? values?.sources : null,
+              'isWarning': data?.isWarning ? values?.sources : null
+            }
           }
         }
+        if (category === DAPP) {
+          const chains = {}
+          chains[values?.chainName] = values?.chainId
+          body = {
+            name: values?.name,
+            logo: data?.image,
+            description: values?.description,
+            website: values?.website,
+            subCategory: values?.subCategory,
+            socials: values?.socials,
+            isScam: data?.isScam,
+            isWarning: data?.isWarning,
+            chains: chains,
+            proof: (!data?.isScam && !data?.isWarning) ? null : {
+              'isScam': data?.isScam ? values?.sources : null,
+              'isWarning': data?.isWarning ? values?.sources : null
+            }
+          }
+        }
+        sendData(body)
+      } else {
+        setIsRecaptcha(true)
       }
-      sendData(body)
     } else {
-      setIsRecaptcha(true)
+      signContext?.handleSetOpenModal(true)
     }
   }
 
@@ -291,6 +303,8 @@ const ModalAdd = ({ isModal }) => {
       image: '',
       type: TOKEN
     })
+    // reset the value of recapcharRef
+    recapcharRef.current.reset()
     setFileList([])
   }
 
@@ -298,49 +312,18 @@ const ModalAdd = ({ isModal }) => {
   const handleChangeScam = (e) => {
     setData({
       ...data,
+      isWarning: false,
       isScam: e?.target?.checked
-      // star: e?.target?.checked ? 1 : 5
     })
-    if (e?.target?.checked === false) {
-      setErrorLink()
-    }
   }
 
   // click checked
   const handleChangeWarning = (e) => {
     setData({
       ...data,
+      isScam: false,
       isWarning: e?.target?.checked
-      // star: e?.target?.checked ? 1 : 5
     })
-    if (e?.target?.checked === false) {
-      setErrorLink()
-    }
-  }
-
-  const handleChangeLink = (value) => {
-    const newLink = []
-    const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
-    value?.forEach((itemLink) => {
-      if (itemLink.match(reg)) {
-        newLink.push(itemLink)
-      }
-    })
-    setData({
-      ...data,
-      sources: newLink
-    })
-  }
-
-  const changeSelect = (value) => {
-    const reg = '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
-    if (value !== '') {
-      if (value.match(reg)) {
-        setErrorLink()
-      } else {
-        setErrorLink('Link explorer is not valid')
-      }
-    }
   }
 
   const handleChangeType = (value) => {
@@ -350,10 +333,38 @@ const ModalAdd = ({ isModal }) => {
     })
   }
 
-  const handleChangeChainname = (value) => {
-    if (category !== EXCHANGE) {
-      form.setFieldsValue({ 'chainId': chainList[`${value}`]?.chainId })
+  const listKey = Object.keys(chainList).map((key) => key)
+
+  const handleChangeChainName = _.debounce(async(value) => {
+    setListChain({
+      data: undefined,
+      loading: false
+    })
+    if (value !== '') {
+      const newListKey = listKey?.filter((item) => item?.toLowerCase()?.includes(value?.toLowerCase()))
+      if (!_.isEmpty(newListKey)) {
+        const newData = []
+        newListKey?.forEach((itemKeyChain) => {
+          newData?.push(chainList[`${itemKeyChain}`])
+        })
+        setListChain({
+          data: newData,
+          loading: false
+        })
+      } else {
+        form.setFieldsValue({ chainId: null })
+      }
+    } else {
+      setListChain({
+        data: undefined,
+        loading: false
+      })
     }
+  }, 400)
+
+  const handleClickItemChain = (item) => {
+    form.setFieldsValue({ 'chainName': item?.chainName })
+    form.setFieldsValue({ 'chainId': item?.chainId })
   }
 
   return (
@@ -455,7 +466,8 @@ const ModalAdd = ({ isModal }) => {
             <Col sm={{ span: 12 }} xs={{ span: 24 }}>
               <Form.Item
                 name='chainName'
-                label='Chain Name'
+                label='Blockchain name'
+                className='chain-name'
                 rules={[
                   {
                     required: true,
@@ -463,25 +475,48 @@ const ModalAdd = ({ isModal }) => {
                   }
                 ]}
               >
-                <Select
-                  showSearch
-                  placeholder='Search to chain name'
-                  optionFilterProp='children'
-                  filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                  }
-                  onChange={handleChangeChainname}
-                  options={Object.keys(chainList).map((key) => ({ value: key, label: key }))}
+                <Input
+                  placeholder='Chain Name'
+                  onChange={(e) => {
+                    setListChain({
+                      ...listChain,
+                      loading: true
+                    })
+                    handleChangeChainName(e?.target?.value)
+                  }}
+                  onBlur={() => handleChangeChainName('')}
                 />
               </Form.Item>
+              <div className={`list-chain-name ${(!listChain?.loading && listChain?.data) ? 'active' : ''}`}>
+                <div className='list-chain-name-content'>
+                  {listChain?.loading ? (
+                    <MySkeletonLoadinng count={2} height={30}/>
+                  ) : (
+                    <>
+                      {listChain?.data && listChain?.data?.map((itemChain, index) => (
+                        <div
+                          className='list-chain-name-content-item'
+                          key={index}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            handleClickItemChain(itemChain)
+                          }}
+                        >
+                          <Image src={itemChain?.image} preview={false}/>
+                          <span style={{ textTransform: 'capitalize' }}>{itemChain?.chainName}</span>
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </div>
+              </div>
             </Col>
           )}
           {category !== EXCHANGE && (
             <Col sm={{ span: 12 }} xs={{ span: 24 }}>
               <Form.Item
                 name='chainId'
-                label='Chain ID'
+                label='Blockchain ID'
                 value={form.getFieldsValue('chainId')}
                 rules={[
                   {
@@ -577,7 +612,7 @@ const ModalAdd = ({ isModal }) => {
                         onChange={handleChangeScam}
                         checked={data?.isScam}
                       >
-                                                Scam
+                        Scam
                       </Checkbox>
                     </Form.Item>
                   </Col>
@@ -587,7 +622,7 @@ const ModalAdd = ({ isModal }) => {
                         checked={data?.isWarning}
                         onChange={handleChangeWarning}
                       >
-                                                Warning
+                        Warning
                       </Checkbox>
                     </Form.Item>
                   </Col>
@@ -597,18 +632,12 @@ const ModalAdd = ({ isModal }) => {
           </Col>
           {(data?.isScam || data?.isWarning) && (
             <Col span={24}>
-              <Select
-                value={data?.sources}
-                placeholder={(<span className='cus-form-placeholder'>Please enter proof link …</span>)}
-                mode='tags'
-                dropdownStyle={{ background: 'red', display: 'none' }}
-                onChange={handleChangeLink}
-                onSelect={changeSelect}
-                className='cus-multiple-select'
-              />
-              {errorLink && (<span style={{ color: 'red' }}>
-                {errorLink}
-              </span>)}
+              <Form.Item
+                name='sources'
+                label='Proof scam'
+              >
+                <Input.TextArea rows={3} placeholder='Enter proof scam'/>
+              </Form.Item>
             </Col>
           )}
           <Col span={24}>

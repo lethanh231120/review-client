@@ -25,7 +25,6 @@ export const SignInComponent = () => {
 
   const responseFacebook = async(response) => {
     try {
-      console.log(response)
       if (response?.accessToken) {
         const dataSignin = {
           email: response?.email,
@@ -35,10 +34,8 @@ export const SignInComponent = () => {
           userName: response?.name,
           image: response?.picture?.data?.url
         }
-        console.log('dataSignin', dataSignin)
         const resp = await post('reviews/auth/signin/social', dataSignin)
         if (resp?.status) {
-          console.log(resp)
           setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
         }
       }

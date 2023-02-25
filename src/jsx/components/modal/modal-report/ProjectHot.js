@@ -12,12 +12,12 @@ const ProjectHot = ({ data, setItemHot }) => {
 
   switch (data?.type) {
     case 'crypto':
-      return <div className='col-lg-3 cus-col'>
+      return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot'
           onClick={() => setItemHot({ type: CRYPTO, data: data?.detail })}
         >
           {data?.detail?.cryptoId && data?.detail?.bigLogo ? (
-            <Image src={isValidProductId(data?.detail?.cryptoId) ? formatImgUrlFromProductId(data?.detail?.cryptoId) : imgAbsentImageCrypto} preview={false} height={56} width={56}/>
+            <Image src={isValidProductId(data?.detail?.cryptoId) ? formatImgUrlFromProductId(data?.detail?.cryptoId) : imgAbsentImageCrypto} preview={false}/>
           ) : (
             <span className='project-hot-no-data'>
               {data?.detail?.name?.slice(0, 3)}
@@ -43,10 +43,10 @@ const ProjectHot = ({ data, setItemHot }) => {
         </div>
       </div>
     case 'exchange':
-      return <div className='col-lg-3 cus-col'>
+      return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot' onClick={() => setItemHot({ type: EXCHANGE, data: data?.detail })}>
           {data?.detail?.exchangeId && data?.detail?.smallLogo ? (
-            <Image src={isValidProductId(data?.detail?.exchangeId) ? formatImgUrlFromProductId(data?.detail?.exchangeId) : imgAbsentImageCrypto} preview={false} height={56} width={56}/>
+            <Image src={isValidProductId(data?.detail?.exchangeId) ? formatImgUrlFromProductId(data?.detail?.exchangeId) : imgAbsentImageCrypto} preview={false}/>
           ) : (
             <span className='project-hot-no-data'>
               {data?.detail?.name?.slice(0, 3)}
@@ -71,10 +71,10 @@ const ProjectHot = ({ data, setItemHot }) => {
         </div>
       </div>
     case 'dapp':
-      return <div className='col-lg-3 cus-col'>
+      return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot' onClick={() => setItemHot({ type: DAPP, data: data?.detail })}>
           {data?.detail?.dAppId && data?.detail?.dAppLogo ? (
-            <Image src={isValidProductId(data?.detail?.dAppId) ? formatImgUrlFromProductId(data?.detail?.dAppId) : imgAbsentImageCrypto} preview={false} height={56} width={56}/>
+            <Image src={isValidProductId(data?.detail?.dAppId) ? formatImgUrlFromProductId(data?.detail?.dAppId) : imgAbsentImageCrypto} preview={false}/>
           ) : (
             <span className='project-hot-no-data'>
               {data?.detail?.dAppName?.slice(0, 3)}
@@ -99,10 +99,10 @@ const ProjectHot = ({ data, setItemHot }) => {
         </div>
       </div>
     case 'venture':
-      return <div className='col-lg-3 cus-col'>
+      return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot' onClick={() => setItemHot({ type: VENTURE, data: data?.detail })}>
           {data?.detail?.ventureId && data?.detail?.ventureLogo ? (
-            <Image src={isValidProductId(data?.detail?.ventureId) ? formatImgUrlFromProductId(data?.detail?.ventureId) : imgAbsentImageCrypto} preview={false} height={56} width={56}/>
+            <Image src={isValidProductId(data?.detail?.ventureId) ? formatImgUrlFromProductId(data?.detail?.ventureId) : imgAbsentImageCrypto} preview={false}/>
           ) : (
             <span className='project-hot-no-data'>
               {data?.detail?.ventureName?.slice(0, 3)}
@@ -127,10 +127,10 @@ const ProjectHot = ({ data, setItemHot }) => {
         </div>
       </div>
     case 'soon':
-      return <div className='col-lg-3 cus-col'>
+      return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot' onClick={() => setItemHot({ type: SOON, data: data?.detail })}>
           {data?.detail?.projectId && data?.detail?.bigLogo ? (
-            <Image src={isValidProductId(data?.detail?.projectId) ? formatImgUrlFromProductId(data?.detail?.projectId) : imgAbsentImageCrypto} preview={false} height={56} width={56}/>
+            <Image src={isValidProductId(data?.detail?.projectId) ? formatImgUrlFromProductId(data?.detail?.projectId) : imgAbsentImageCrypto} preview={false}/>
           ) : (
             <span className='project-hot-no-data'>
               {data?.detail?.projectName?.slice(0, 3)}

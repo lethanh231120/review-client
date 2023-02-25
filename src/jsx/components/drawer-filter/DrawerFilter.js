@@ -128,9 +128,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
   }
 
   const onResetClicked = () => {
-    console.log(window.localStorage.getItem(type))
     if (window.localStorage.getItem(type)) {
-      console.log('remove')
       window.localStorage.removeItem(type)
     }
     form.resetFields()
