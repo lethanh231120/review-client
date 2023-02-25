@@ -3,7 +3,7 @@ import { Form } from 'antd'
 // import moment from 'moment'
 import './productDetail.scss'
 import { get, post } from '../../../api/BaseRequest'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import _ from 'lodash'
 import { SignInContext, Authenticated } from '../../../App'
 import CryptoInfo from './crypto-info/CryptoInfo'
@@ -40,6 +40,7 @@ const ProductDetail = () => {
   const [form] = Form.useForm()
   const { type, productName, path, categoryName } = useParams()
   // type coin thi khong co product Id, token thi co productId
+  const navigate = useNavigate()
 
   const ref = useRef(null)
   const recapcharRef = useRef(null)
@@ -171,6 +172,12 @@ const ProductDetail = () => {
             ]?.flat(1)
           }
         })
+      }).catch((error) => {
+        if (error?.response?.data?.error === 'product not exist') {
+          navigate('/not-found-product')
+        } else if (error?.response?.data?.error === 'Something went wrong with server') {
+          navigate('/server-error')
+        }
       })
     }
     productId && getData()
@@ -841,7 +848,7 @@ const ProductDetail = () => {
 
   const getMetaTagDApp = (detail) =>{
     const meta = {}
-    meta.title = `${detail?.name} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, Price Chart, Market Cap today and Info | Gear5`
+    meta.title = `${detail?.dAppName} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} Price Chart, Market Cap today and Info | Gear5`
     meta.description = detail?.description
     meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
     return meta

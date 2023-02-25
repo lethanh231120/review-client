@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
+import './SoonInfo.scss'
 import { Link } from 'react-router-dom'
 import { DetailLayout } from '../detail-layout'
 
 import { Badge, Button, Dropdown } from 'react-bootstrap'
-import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
 import {
   formatLargeNumberMoneyUSD,
   formatLargeNumber
@@ -24,12 +24,13 @@ import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { SOON } from '../../../constants/category'
 import { encodeUrl } from '../../../../utils/formatUrl'
-import { Spin, Tooltip, Image } from 'antd'
-import { formatImgUrlFromProductId, isValidProductId } from '../../../../utils/formatText'
+import { Spin, Tooltip, Image, Table } from 'antd'
+import { formatImgUrlFromProductId, isValidProductId, toCammelCase } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import imgReportProject from '../../../../images/svg/report-project-white.svg'
-
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
+import LaunchpadDetail from './../../common-widgets/page-soon/LaunchpadDetail'
+
 const txtTBA = 'TBA'
 
 // match with BE
@@ -55,9 +56,9 @@ const getDisplayFromSoonStatus = (status) => {
   }
 }
 
-const classBackgroundUpcoming = 'badge-info'
-const classBackgroundOngoing = 'badge-success'
-const classBackgroundPast = 'badge-default'
+const classBackgroundUpcoming = 'badge-warning'
+const classBackgroundOngoing = 'badge-primary'
+const classBackgroundPast = 'badge-danger'
 
 export const getStatusBackgroundFromSoonStatus = (status) => {
   switch (status) {
@@ -149,17 +150,23 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         </div>
         <div className='profile-name px-3 pt-2'>
           <h4 className='text-primary mb-0'>{itemDetail?.projectName}</h4>
-          <p>{itemDetail?.projectSymbol}</p>
+          <p style={{ paddingTop: '0.1rem' }} >
+            {itemDetail?.projectSymbol}
+          </p>
         </div>
         <div className='profile-email px-2 pt-2'>
-          <h4 className='text-muted mb-0'>
+          <p className='text-muted mb-0'>
             <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
               {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
             </span>
-          </h4>
-          <p>
-            {itemDetail?.type}
           </p>
+          {itemDetail?.countryOrigin &&
+            <p style={{ display: 'flex' }}>
+              <i className='material-icons' style={{ fontSize: '0.9rem', display: 'flex', alignItems: 'center' }}>location_on</i>
+              {itemDetail?.countryOrigin}
+            </p>
+          }
+
         </div>
         <Button
           // as='a'
@@ -261,29 +268,101 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       </div>
     </div>
   ) : null
+  console.log(roundSale)
+
+  const columns = [
+    {
+      title: 'Round',
+      dataIndex: 'type',
+      key: 'type',
+      render: (_, record) => (<>{record?.type} {getDisplayFromSoonStatus(record?.status)}</>)
+    },
+    { title: 'Start',
+      dataIndex: 'start',
+      key: 'start',
+      render: (_, record) => (<>{record?.start ? moment(record?.start).format(formatDateStyle) : txtTBA}</>)
+    },
+    { title: 'End',
+      dataIndex: 'end',
+      key: 'end',
+      render: (_, record) => (<>{record?.end ? moment(record?.end).format(formatDateStyle) : txtTBA}</>)
+    },
+    { title: 'Raise',
+      dataIndex: 'raise',
+      key: 'raise',
+      render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.raise)}</>)
+    },
+    { title: 'Total',
+      dataIndex: 'tokenForSale',
+      key: 'tokenForSale',
+      render: (_, record) => (<>{formatLargeNumber(record?.tokenForSale)}</>)
+    },
+    { title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+      render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.price)}</>)
+    },
+    { title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (_, record) => (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(record?.status)}`}>
+        {record?.status?.toUpperCase()}
+      </span>)
+    }
+  ]
+  const roundSale1 = (itemRoundSales && !_.isEmpty(itemRoundSales)) ? (
+    <div>
+      <div className='card-header'>
+        <h4 className='card-title'>{itemDetail?.projectName} IDO</h4>
+      </div>
+      <div className='card-body' style={{ padding: '0' }}>
+        <div className='table-responsive recentOrderTable'>
+          <table className='table verticle-middle table-responsive-md'>
+            <Table
+              columns={columns}
+              expandable={{
+                expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.lockUpPeriod}</p>,
+                rowExpandable: (record) => record.lockUpPeriod // have data
+              }}
+              dataSource={itemRoundSales}
+              className='soon-table'
+              pagination={false}
+              rowKey={(record) => record?.id}
+            />
+          </table>
+        </div>
+      </div>
+    </div>
+  ) : null
 
   const summary = (
     <div className='text-center'>
-      <div className='row mb-4'>
-        <div className='col-lg-12'> Start: <b className='text-primary'>{moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle)}</b></div>
-        <div className='col-lg-12'> End&nbsp;&nbsp;: <b className='text-primary'>{moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle)}</b></div>
+      <div className='row mb-4 d-flex'>
+        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> Start: <b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : 'TBA'}</b></div>
+        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> End&nbsp;&nbsp;: <b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : 'TBA'}</b></div>
       </div>
       <div className='row'>
-        <div className='col'>
+        <div className='col-3'>
           <h3 className='m-b-0'>
-            <Badge bg='light' text='dark'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
+            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
           </h3>
           <span>Raised</span>
         </div>
-        <div className='col'>
+        <div className='col-3'>
           <h3 className='m-b-0'>
-            <Badge bg='light' text='dark'>{formatLargeNumberMoneyUSD(itemDetail?.fullyDilutedMarketcap)}</Badge>
+            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.tokenPrice) }</Badge>
+          </h3>{' '}
+          <span>Price</span>
+        </div>
+        <div className='col-3'>
+          <h3 className='m-b-0'>
+            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fullyDilutedMarketcap)}</Badge>
           </h3>{' '}
           <span>Marketcap</span>
         </div>
-        <div className='col'>
+        <div className='col-3'>
           <h3 className='m-b-0'>
-            <Badge bg='light' text='dark'>{formatLargeNumber(itemDetail?.totalSupply)}</Badge>
+            <Badge bg='warning' text='white'>{formatLargeNumber(itemDetail?.totalSupply)}</Badge>
           </h3>{' '}
           <span>Supply</span>
         </div>
@@ -325,15 +404,107 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <h5 className='heading text-primary'>{itemDetail?.projectName} Information</h5>
         </div>
         <div className='card-body pt-3'>
-          {itemDetail?.roundType
-            ? <div className='profile-blog mb-3'>
+          {/* exist alest 1 to display this component */}
+          {itemDetail?.projectName && (itemDetail?.roundType || !_.isEmpty(itemDetail?.blockchain || itemDetail?.acceptCurrency || itemDetail?.type || (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) || (itemDetail?.totalReviews || itemDetail?.totalReviews === 0)))
+            ? <div className='profile-blog mb-4'>
               <Link to={'#'} >
-                <h4>Current Round:</h4>
+                <h4>Short:</h4>
               </Link>
-              <p className='mb-0 btn btn-primary light btn-xs mb-1 me-1'>
-                {itemDetail?.roundType}
-              </p>
+              {
+                itemDetail?.type && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                    <>
+                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s token type: `}
+                      </div>
+                      <div style={{ display: 'inline-block' }}>
+                        <Badge bg='primary' text='white'>{itemDetail?.type}</Badge>
+                      </div>
+                    </>
+                  </div>
+                </div>
+              }
+              {
+                itemDetail?.roundType && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                    <>
+                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s current round: `}
+                      </div>
+                      <div style={{ display: 'inline-block' }}>
+                        <Badge bg='primary' text='white'>{itemDetail?.roundType}</Badge>
+                      </div>
+                    </>
+                  </div>
+                </div>
+              }
+              {
+                itemDetail?.acceptCurrency &&
+              <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                  <>
+                    <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName} acccepts currencies: `}
+                    </div>
+                    {itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
+                      <>
+                        <div style={{ display: 'inline-block' }}>
+                          <Badge bg='primary' text='white' key={index} style={{ margin: '0.3rem 0.3rem 0 0' }}>{keyName}</Badge>
+                        </div>
+                      </>
+                    ))}
+                  </>
+                </div>
+              </div>
+              }
+
+              {
+                !_.isEmpty(itemDetail?.blockchain) && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                    <>
+                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName} belongs blockchain(s): `}</div>
+                      {Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
+                        <>
+                          <div style={{ display: 'inline-block' }}>
+                            <Badge bg='primary' text='white' key={index} style={{ margin: '0.3rem 0.3rem 0 0' }}>{toCammelCase(keyName)}</Badge>
+                          </div>
+                        </>
+                      ))}
+                    </>
+                  </div>
+                </div>
+              }
+
+              {
+                // check like this cus && don't pass zero
+                (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                    <>
+                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s total scam reports: `}
+                      </div>
+                      <div style={{ display: 'inline-block' }}>
+                        <Badge bg='danger' text='white'>{itemDetail?.totalIsScam}</Badge>
+                      </div>
+                    </>
+                  </div>
+                </div> : ''
+              }
+
+              {
+                // check like this cus && don't pass zero
+                (itemDetail?.totalReviews || itemDetail?.totalReviews === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                    <>
+                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s total reviews: `}
+                      </div>
+                      <div style={{ display: 'inline-block' }}>
+                        <Badge bg='primary' text='white'>{itemDetail?.totalReviews}</Badge>
+                      </div>
+                    </>
+                  </div>
+                </div> : ''
+              }
+
             </div> : ''}
+
+          <LaunchpadDetail projectName={itemDetail?.projectName} launchpadList={itemDetail?.launchPads}/>
 
           { !_.isEmpty(itemTags)
             ? <div className='profile-blog mb-3'>
@@ -351,122 +522,90 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               )) }
             </div> : ''}
 
-          { !_.isEmpty(itemDetail?.launchPads)
-            ? <div className='profile-blog mb-3'>
+          <div className='crypto-info'>
+            <div className=''>
               <Link to={'#'} >
-                <h4>Launchpad(s):</h4>
+                <h4>Website(s):</h4>
               </Link>
-              <span className='mb-0'>
-                <LaunchpadIconList listLaunchpad={itemDetail?.launchPads} />
-              </span>
-            </div> : ''
-          }
+              <div className='row mt-3'>
+                <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                  {
+                    itemDetail?.website ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.website)}>
+                      Homepage
+                    </div> : ''
+                  }
 
-          <div className='profile-blog'>
-            <Link to={'#'} >
-              <h4>Website(s):</h4>
-            </Link>
-            <p className='mb-0 d-flex website-soon'>
-              {
-                itemDetail?.whitepaperUrl ? <div className='basic-dropdown mx-2 mb-2'>
-                  <Dropdown variant='primary' className='cus-dropdown-select btn btn-primary light sharp' onClick={() => window.open(itemDetail?.website)}>
-                  Homepage
-                  </Dropdown>
-                </div> : ''
-              }
+                  {
+                    itemDetail?.whitepaperUrl ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.whitepaperUrl)}>
+                      Whitepaper
+                    </div> : ''
+                  }
 
-              {
-                itemDetail?.whitepaperUrl ? <div className='basic-dropdown mx-2 mb-2'>
-                  <Dropdown variant='primary' className='cus-dropdown-select btn btn-primary light sharp' onClick={() => window.open(itemDetail?.whitepaperUrl)}>
-                  Whitepaper
-                  </Dropdown>
-                </div> : ''
-              }
+                  {
+                    itemDetail?.linkDemo ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.linkDemo)}>
+                      Link&nbsp;Demo
+                    </div> : ''
+                  }
 
-              {
-                itemDetail?.community
-                  ? <div className='basic-dropdown'>
-                    <Dropdown>
-                      <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
-                        Community
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu className='cus-dropdown-menu'>
-                        {
-                          Object.keys(itemDetail?.community)?.map((keyName, index) => (
-                            <Dropdown.Item onClick={() => window.open(itemDetail?.community[keyName])} key={index}>{keyName}</Dropdown.Item>
-                          ))
-                        }
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                  : ''
-              }
+                  {
+                    itemDetail?.socials && !_.isEmpty(itemDetail?.socials)
+                      ? <Dropdown style={{ display: 'inline-block' }}>
+                        <Dropdown.Toggle variant='primary' className='mb-0 btn btn-primary light btn-xs mb-2 me-1'>
+                            Social(s)
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className='cus-dropdown-menu'>
+                          {
+                            Object.keys(itemDetail?.socials)?.map((keyName, index) => (
+                              <Dropdown.Item onClick={() => window.open(itemDetail?.socials[keyName])} key={index}>{toCammelCase(keyName)}</Dropdown.Item>
+                            ))
+                          }
+                        </Dropdown.Menu>
+                      </Dropdown>
+                      : ''
+                  }
+                  {
+                    itemDetail?.additionalLinks && !_.isEmpty(itemDetail?.additionalLinks)
+                      ? <Dropdown style={{ display: 'inline-block' }}>
+                        <Dropdown.Toggle variant='primary' className='mb-0 btn btn-primary light btn-xs mb-2 me-1'>
+                          Additional Links
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className='cus-dropdown-menu'>
+                          {
+                            Object.keys(itemDetail?.additionalLinks)?.map((keyName, index) => (
+                              <Dropdown.Item onClick={() => window.open(itemDetail?.additionalLinks[keyName])} key={index}>{toCammelCase(keyName)}</Dropdown.Item>
+                            ))
+                          }
+                        </Dropdown.Menu>
+                      </Dropdown>
+                      : ''
+                  }
 
-              {
-                itemDetail?.additionalLinks
-                  ? <div className='basic-dropdown mx-2 mb-2'>
-                    <Dropdown>
-                      <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
-                    Additional Links
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu className='cus-dropdown-menu'>
-                        {
-                          Object.keys(itemDetail?.additionalLinks)?.map((keyName, index) => (
-                            <Dropdown.Item onClick={() => window.open(itemDetail?.additionalLinks[keyName])} key={index}>{keyName}</Dropdown.Item>
-                          ))
-                        }
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                  : ''
-              }
-
-              {
-                itemDetail?.sourceCode
-                  ? <div className='basic-dropdown mx-2 mb-2'>
-                    <Dropdown>
-                      <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
+                  {
+                    itemDetail?.sourceCode && !_.isEmpty(itemDetail?.sourceCode)
+                      ? <Dropdown style={{ display: 'inline-block' }}>
+                        <Dropdown.Toggle variant='primary' className='mb-0 btn btn-primary light btn-xs mb-2 me-1'>
                         Source Code
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu className='cus-dropdown-menu'>
-                        {
-                          Object.keys(itemDetail?.sourceCode)?.map((keyName, index) => (
-                            <Dropdown.Item onClick={() => window.open(itemDetail?.sourceCode[keyName])} key={index}>{keyName}</Dropdown.Item>
-                          ))
-                        }
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                  : ''
-              }
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className='cus-dropdown-menu'>
+                          {
+                            Object.keys(itemDetail?.sourceCode)?.map((keyName, index) => (
+                              <Dropdown.Item onClick={() => window.open(itemDetail?.sourceCode[keyName])} key={index}>{toCammelCase(keyName)}</Dropdown.Item>
+                            ))
+                          }
+                        </Dropdown.Menu>
+                      </Dropdown>
+                      : ''
+                  }
 
-              {
-                itemDetail?.blockchain
-                  ? <div className='basic-dropdown mx-2 mb-2'>
-                    <Dropdown>
-                      <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>
-                        Blockchain
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu className='cus-dropdown-menu'>
-                        {
-                          Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
-                            <Dropdown.Item key={index}>{keyName}</Dropdown.Item>
-                          ))
-                        }
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                  : ''
-              }
-
-            </p>
+                </div>
+              </div>
+            </div>
           </div>
-
         </div>
       </div>
 
   // wait load finish modal, avoid excpetion
-  const description = itemDetail?.fullDesc ? (
+  const description = itemDetail?.fullDesc || itemDetail?.shortDesc ? (
     <div>
       <div className='card-header border-0 pb-0'>
         <h5 className='heading text-primary'>About {itemDetail?.projectName}</h5>
@@ -474,14 +613,14 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       <div className='card-body pt-3'>
         <div className='profile-blog '>
           <p className='mb-0'>
-            <Description text={itemDetail?.fullDesc} />
+            <Description text={itemDetail?.fullDesc || itemDetail?.shortDesc} />
           </p>
         </div>
       </div>
     </div>
   ) : ''
 
-  const about = itemDetail?.media
+  const about = itemDetail?.media && !_.isEmpty(itemDetail?.media)
     ? (
       <div className='card'>
         <div className='card-header border-0 pb-0'>
@@ -522,7 +661,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   return (
     <DetailLayout
       Header={header}
-      roundSale={roundSale}
+      roundSale={roundSale1}
       summary={summary}
       more={more}
       type='soon'
