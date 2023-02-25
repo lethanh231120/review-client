@@ -24,10 +24,10 @@ import ModalAdd from './components/modal/modal-add-product/ModalAdd'
 import AddProject from './components/add-project/AddProject'
 
 import { Button, Modal } from 'react-bootstrap'
-import InsightMain from './components/insight/InsightMain'
 import { NotFound } from './components/not-found/NotFound'
 import { NotFoundProduct } from './components/not-found-product/NotFoundProduct'
 import { ServerError } from './components/server-error/ServerError'
+import InsightMain from './components/insight/InsightMain'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
