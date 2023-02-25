@@ -96,7 +96,6 @@ const getScoreMarks = (type) => {
     scores[index] = { label: item, value: parseInt(item) * mul }
   })
 
-  // console.log(scores)
   return scores
 }
 

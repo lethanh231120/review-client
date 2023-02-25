@@ -1,7 +1,6 @@
 import moment from 'moment'
 
 export const onItemClicked = (type, detail, navigate) => {
-  console.log(type)
   if (type === 'crypto') {
     if (detail?.cryptoId?.split('_')[1] === 'coin') {
       navigate(`../../../../../products/crypto/${detail?.cryptoId?.split('_')[1]}/${detail?.cryptoId?.split('_')[2]}`)

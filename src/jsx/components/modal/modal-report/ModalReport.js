@@ -19,7 +19,7 @@ import hot from '../../../../images/product/hot.png'
 import ProjectHot from './ProjectHot'
 import { CRYPTO, EXCHANGE, SOON, VENTURE, DAPP } from '../../../constants/category'
 
-const ModalReport = () => {
+const ModalReport = ({ isModal }) => {
   const signInContext = useContext(SignInContext)
   const reportModal = useContext(ReportModalContext)
   const addModal = useContext(AddModalContext)
@@ -49,6 +49,29 @@ const ModalReport = () => {
     star: 5,
     scamAmountUSD: null
   })
+
+  const [screenWidth, setScreenWidth] = useState()
+  const [listHot, setListHot] = useState()
+
+  useEffect(() => {
+    function handleResize() {
+      const { innerWidth: width } = window
+      setScreenWidth(width)
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
+    if (screenWidth > 1200) {
+      setListHot(hotList && hotList?.slice(0, 8))
+    }
+    if (screenWidth < 1200) {
+      setListHot(hotList && hotList?.slice(0, 6))
+    }
+  }, [screenWidth, hotList])
 
   useEffect(() => {
     form.setFieldsValue({ isScam: true })
@@ -142,7 +165,7 @@ const ModalReport = () => {
           : (item?.soonId ? item?.soonId
             : item?.exchangeId)))
     if (id?.split('_')[1] === 'token' || id?.split('_')[1] === 'coin') {
-      const productId = `products/crypto/${id?.split('_')[1]}/${id?.split('_')[2]}/${id?.split('_')[1] === 'token' ? id?.split('_')[3] : ''}`
+      const productId = `products/crypto/${id?.split('_')[1]}/${id?.split('_')[2]}${id?.split('_')[1] === 'token' ? `/${id?.split('_')[3]}` : ''}`
       setProductId(productId)
     } else {
       const productId = `products/${id?.split('_')[1]}/${(id?.split('_')[1] === 'soon') ? `${item?.soonId?.split('_')[2]}${item?.soonId?.split('_')[3] ? `/${item?.soonId?.split('_')[3]}` : ''}` : `${id?.split('_')[2]}`}`
@@ -151,21 +174,42 @@ const ModalReport = () => {
   }, [item])
 
   // noti report success
-  const notifyTopRight = () => {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true
-    })
+  // const notifyTopRight = () => {
+  //   const Toast = Swal.mixin({
+  //     toast: true,
+  //     position: 'top-end',
+  //     showConfirmButton: false,
+  //     timer: 2000,
+  //     timerProgressBar: true
+  //   })
 
-    Toast.fire({
-      icon: 'success',
-      title: 'Post comemnt successfully!'
+  //   Toast.fire({
+  //     icon: 'success',
+  //     title: 'Post comemnt successfully!'
+  //   })
+  // }
+
+  const handleReset = () => {
+    // reset the value of state data
+    setData({
+      isScam: false,
+      content: '',
+      sources: [],
+      images: [],
+      star: 5
     })
+    // reset the value of state image
+    setFileList([])
+    // reset the value of state error textarea( input)
+    setValidateTextArea(false)
+    // reset the value of state type comment
+    setTypeComment()
+    setItem()
+    // reset the value of recapcharRef
+    recapcharRef.current.reset()
+    form.resetFields()
+    form.setFieldsValue({ 'isScam': false })
   }
-
   // function handle more scam report
   // input: params: data to method , type: type of comment: auth or anonymous
   const submitComment = async(params, type) => {
@@ -176,31 +220,26 @@ const ModalReport = () => {
       dataAdd = await post('reviews/review', params)
     }
     if (dataAdd) {
-      notifyTopRight()
-      // reset the value of state data
-      setData({
-        isScam: false,
-        content: '',
-        sources: [],
-        images: [],
-        star: 5
+      Swal.fire({
+        icon: 'success',
+        title: 'Add new report successfully!',
+        showDenyButton: true,
+        confirmButtonText: 'Add New Report',
+        denyButtonText: `View Detail`
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          handleReset()
+        } else if (result.isDenied) {
+          handleReset()
+          if (isModal) {
+            reportModal?.handleSetOpenModal(false)
+            navigate(`../../../${productId}`)
+          } else {
+            navigate(`../../../${productId}`)
+          }
+        }
       })
-      // reset the value of state image
-      setFileList([])
-      // reset the value of state error textarea( input)
-      setValidateTextArea(false)
-      // close modal report scam
-      reportModal?.handleSetOpenModal(false)
-      // reset the value of state type comment
-      setTypeComment()
-      setItem()
-      // reset the value of recapcharRef
-      recapcharRef.current.reset()
-      // redirect to detail product
-      navigate(`../../../${productId}`)
-
-      form.resetFields()
-      form.setFieldsValue({ 'isScam': false })
     }
   }
 
@@ -342,7 +381,7 @@ const ModalReport = () => {
 
       <h4 className='project-hot-title'>Project Hot <Image src={hot} preview={false}/></h4>
       <div className='mt-3 row'>
-        {hotList && hotList?.slice(0, 8)?.map((item, index) => (
+        {listHot && listHot?.slice(0, 8)?.map((item, index) => (
           <>
             <ProjectHot
               data={item}

@@ -14,7 +14,6 @@ import { ThemeContext } from '../../../context/ThemeContext'
 import { CategoryContext } from '../../../App'
 import _ from 'lodash'
 import { pair1 } from '../../../utils/formatUrl'
-import { ReportModalContext } from '../../index'
 import { SWORD_ICON } from '../../../images/svg/report-project-primary'
 import { ToggleContext } from '../../index'
 import './custom-header.scss'
@@ -39,7 +38,6 @@ const headerItem6 = `Launchpads`
 const SideBar = () => {
   const toggle = useContext(ToggleContext)
   const navigate = useNavigate()
-  const reportModal = useContext(ReportModalContext)
   // set defaul category when no data
   const arrOrderedCategories = [
     headerItem1,
@@ -109,7 +107,6 @@ const SideBar = () => {
       {
         title: 'Home',
         to: '',
-        // classsChange: 'mm-collapse',
         iconStyle: <i className='material-icons'>home</i>
       }
 
@@ -179,7 +176,6 @@ const SideBar = () => {
       title: 'Insights',
       classsChange: '',
       iconStyle: <i className='material-icons'>insert_chart</i>,
-      // content: newContent,
       to: 'insight'
     })
     setCategories(objCategories)
@@ -395,7 +391,7 @@ const SideBar = () => {
       >
         <Button
           className='btn-danger'
-          onClick={() => reportModal?.handleSetOpenModal(true)}
+          onClick={() => navigate('report-scam')}
           style={{
             backgroundColor: '#EB5757',
             borderColor: '#EB5757',
@@ -414,9 +410,7 @@ const SideBar = () => {
             color: 'rgba(0, 0, 0, 0.6)',
             padding: '0.4rem 0.6rem'
           }}
-          onClick={() => {
-            navigate('add-project')
-          }}
+          onClick={() => navigate('add-project')}
         >
           <svg fill='rgba(0, 0, 0, 0.6)' width='17' height='17' viewBox='-1 0 19 19' xmlns='http://www.w3.org/2000/svg' className='cf-icon-svg'><path d='M16.417 9.579A7.917 7.917 0 1 1 8.5 1.662a7.917 7.917 0 0 1 7.917 7.917zm-4.233-1.805H9.259a.318.318 0 0 1-.317-.317v-2.9H5.16a.317.317 0 0 0-.317.317v9.368a.317.317 0 0 0 .317.316h6.707a.317.317 0 0 0 .317-.316zM10.48 10.88a.396.396 0 0 1-.396.396H8.877v1.208a.396.396 0 1 1-.791 0v-1.208H6.878a.396.396 0 1 1 0-.792h1.208V9.277a.396.396 0 1 1 .791 0v1.207h1.208a.396.396 0 0 1 .396.396zm-.744-3.9h2.43l-2.43-2.417z'/></svg>
             &nbsp;
