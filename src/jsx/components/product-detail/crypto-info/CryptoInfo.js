@@ -660,7 +660,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
             : ''
         }
 
-        {productInfo?.mores?.tag && (
+        {(productInfo?.mores?.tag && !_.isEmpty(productInfo?.mores?.tag)) && (
           <div className='crypto-info'>
             <div className=''>
               <div className='crypto-info-item-key'>Tag(s): </div>

@@ -848,7 +848,7 @@ const ProductDetail = () => {
 
   const getMetaTagDApp = (detail) =>{
     const meta = {}
-    meta.title = `${detail?.name} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, Price Chart, Market Cap today and Info | Gear5`
+    meta.title = `${detail?.dAppName} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} Price Chart, Market Cap today and Info | Gear5`
     meta.description = detail?.description
     meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
     return meta

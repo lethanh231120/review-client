@@ -2,10 +2,22 @@ import React, { useContext } from 'react'
 import { Avatar, Tooltip } from 'antd'
 import { LaunchpadMapContext } from '../../../../App'
 import _ from 'lodash'
+import { useNavigate } from 'react-router-dom'
+import { LAUNCHPAD, PREFIX_DETAIL } from './../../../constants/category'
 
 const absentData = '__'
 const LaunchpadIconList = ({ listLaunchpad }) => {
   const launchpadMapContext = useContext(LaunchpadMapContext)
+  const navigate = useNavigate()
+
+  const forwardDetailLaunchpad = (e, launchpadObj) => {
+    e.stopPropagation()
+    e.preventDefault()
+    const launchpadId = launchpadMapContext?.get(launchpadObj)?.launchPadId?.split('_')[2]
+    if (launchpadId) {
+      navigate(`/${PREFIX_DETAIL}/${LAUNCHPAD}/${launchpadId}`)
+    }
+  }
 
   return (
     <Avatar.Group
@@ -17,7 +29,7 @@ const LaunchpadIconList = ({ listLaunchpad }) => {
         cursor: 'pointer'
       }}
     >
-      {listLaunchpad && !_.isEmpty(launchpadMapContext)
+      {listLaunchpad && !_.isEmpty(listLaunchpad) && !_.isEmpty(launchpadMapContext)
         ? listLaunchpad?.map((key, index) => (
           <>
             <Tooltip title={launchpadMapContext?.get(key)?.name}>
@@ -27,9 +39,7 @@ const LaunchpadIconList = ({ listLaunchpad }) => {
                 key={index}
                 className='soon-table-blockchain'
                 onClick={(e) => {
-                  e.stopPropagation()
-                  e.preventDefault()
-                  window.open(launchpadMapContext?.get(key)?.website)
+                  forwardDetailLaunchpad(e, key)
                 }}
               />
             </Tooltip>
