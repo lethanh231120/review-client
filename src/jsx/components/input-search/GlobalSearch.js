@@ -264,7 +264,6 @@ const InputSearch = ({ isFormReport, setItem }) => {
             }}
             id='globalSearch'
           />
-
         </div>
       </div>
       <div

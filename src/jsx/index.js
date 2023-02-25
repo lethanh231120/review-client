@@ -22,6 +22,7 @@ import { ThemeContext } from '../context/ThemeContext'
 import ModalReport from './components/modal/modal-report/ModalReport'
 import ModalAdd from './components/modal/modal-add-product/ModalAdd'
 import AddProject from './components/add-project/AddProject'
+import ReportScam from './components/report-scam/ReportScam'
 
 import { Button, Modal } from 'react-bootstrap'
 import { NotFound } from './components/not-found/NotFound'
@@ -40,7 +41,8 @@ const Markup = () => {
   const allroutes = [
     { url: '', component: <Home /> },
     { url: 'dashboard', component: <Home /> },
-    { url: 'add-project', component: <AddProject isModal={false} /> }
+    { url: 'add-project', component: <AddProject isModal={false} /> },
+    { url: 'report-scam', component: <ReportScam isModal={false} /> }
   ]
 
   const stateReport = {
@@ -66,18 +68,11 @@ const Markup = () => {
             <Routes>
               <Route element={<MainLayout />}>
                 {allroutes.map((data, i) => (
-                  <Route
-                    key={i}
-                    path={`${data.url}`}
-                    element={data.component}
-                  />
+                  <Route key={i} path={`${data.url}`} element={data.component}/>
                 ))}
                 <Route path='confirm-email' element={<ConfirmEmail />}/>
                 <Route path='/' element={<Home />}></Route>
-                <Route
-                  path='search/:keyword'
-                  element={<CategoryItem />}
-                />
+                <Route path='search/:keyword' element={<CategoryItem />}/>
                 <Route path=''>
                   <Route path=':category'>
                     <Route path='' element={<CategoryItem />} />
@@ -133,7 +128,7 @@ const Markup = () => {
                 </Button>
               </Modal.Header>
               <Modal.Body className='cus-modal'>
-                <ModalReport/>
+                <ModalReport isModal={true}/>
               </Modal.Body>
             </Modal>
             <Modal className='fade' show={openModalAdd} size='lg'>

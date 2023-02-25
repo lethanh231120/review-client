@@ -74,7 +74,6 @@ export const SortingTable = () => {
                         {row.cells.map((cell) => {
                           return (
                             <td key={row} {...cell.getCellProps()}>
-                              {console.log(cell.getCellProps())}
                               {' '}
                               {cell.render('Cell')}{' '}
                             </td>

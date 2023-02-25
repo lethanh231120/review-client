@@ -527,7 +527,6 @@ const ProductDetail = () => {
     //   //   }
     //   // } else {
     //   //   if (auth?.isAuthenticated) {
-    //   //     console.log(222222)
     //   //     if (data?.content !== '') {
     //   //       const recaptchaValue = recapcharRef.current.getValue()
     //   //       if (recaptchaValue) {

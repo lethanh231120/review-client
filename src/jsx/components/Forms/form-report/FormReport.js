@@ -105,13 +105,6 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
     return isJpgOrPng && isLt2M
   }
 
-  // useEffect(() => {
-  //   setData({
-  //     ...data,
-  //     images: images
-  //   })
-  // }, [images])
-
   // chose file in select
   const handleChangeFile = (e) => {
     if (!e?.event && e.file?.status === 'uploading') {
@@ -264,31 +257,6 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
           )}
           <div className='product-detail-form-content cus-form form-report'>
             <div className='product-detail-form-content-text'>
-              {/* <Form.Item
-                name='title'
-                label='Title'
-                rules={[
-                  {
-                    min: 20,
-                    message: 'Title must be minimum 20 characters.' },
-                  {
-                    max: 500,
-                    message: 'You can enter 500 characters only.'
-                  }
-                ]}
-              >
-                <Input
-                  // defaultValue={''}
-                  autoComplete={false}
-                  // placeholder={`${
-                  //   validateText?.title?.isError ? validateText?.title?.message : 'Enter title...'
-                  // }`}
-                  // onChange={(e) => handleChangeTitle(e)}
-                  className={`${
-                    validateText?.title?.isError ? 'product-detail-form-content-textarea' : ''
-                  }`}
-                />
-              </Form.Item> */}
               <Form.Item
                 name='content'
                 label='Content'
@@ -403,7 +371,6 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
                     onChange={(e) => {
                       setTypeComment(e.target.checked)
                       setErrorType()
-                      console.log(rest?.data?.images)
                     }}
                     checked={typeComment}
                   >
