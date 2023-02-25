@@ -109,7 +109,6 @@ const SideBar = () => {
       {
         title: 'Home',
         to: '',
-        // classsChange: 'mm-collapse',
         iconStyle: <i className='material-icons'>home</i>
       }
 
@@ -179,7 +178,6 @@ const SideBar = () => {
       title: 'Insights',
       classsChange: '',
       iconStyle: <i className='material-icons'>insert_chart</i>,
-      // content: newContent,
       to: 'insight'
     })
     setCategories(objCategories)

@@ -10,18 +10,17 @@ export const NotFoundProduct = () => {
         <div className='row justify-content-center h-100 align-items-center '>
           <div className='col-md-7'>
             <div className='form-input-content text-center error-page'>
-              <h1 className='error-text fw-bold'>404</h1>
+              <h1 className='error-text fw-bold'>WOW</h1>
               <h4>
-                <i className='fa fa-exclamation-triangle text-warning' />{` This detail don't exist in system.`}
+                <i className='fa fa-exclamation-triangle text-info' />{` This product don't exist in system.`}
               </h4>
               <p>
-                   You may have mistyped the address or the page may have
-                   moved.
+                We are very happy if you contribute product you are finding, to make a extraordinary thing, it is valuable to our social and community.
               </p>
               <div>
                 {/* 0 currrent not found product page -->  -1 back not found page --> -2 before not found page */}
-                <Button className='btn btn-primary' onClick={() => navigate('/') }>
-                      Go Home
+                <Button className='btn btn-primary' onClick={() => navigate('/add-project') }>
+                  Contribute
                 </Button>
               </div>
             </div>

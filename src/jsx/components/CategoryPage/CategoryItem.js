@@ -69,7 +69,6 @@ const CategoryItem = () => {
           setParams(defaultParams?.dapp)
           break
         case CRYPTO:
-          console.log(defaultParams?.crypto)
           setParams(defaultParams?.crypto)
           break
         case EXCHANGE:
@@ -85,6 +84,7 @@ const CategoryItem = () => {
           setParams(defaultParams?.launchpad)
           break
         default:
+          navigate('/not-found')
           break
       }
     }
@@ -98,53 +98,56 @@ const CategoryItem = () => {
   const getData = async(category, paramSort) => {
     setListProduct([]) // reset for loading
     paramSort['tag'] = decodeUrl(paramSort?.tag)
+    let productCount = 0
     switch (category) {
       case DAPP: {
         const dataDapp = await get('reviews/dapp/filter', paramSort)
         setListProduct(dataDapp?.data?.dApps)
         setTotal(dataDapp?.data?.dAppCount)
-
+        productCount = dataDapp?.data?.dAppCount
         break
       }
       case CRYPTO: {
         const dataCrypto = await get('reviews/crypto/filter', paramSort)
         setListProduct(dataCrypto?.data?.cryptos)
         setTotal(dataCrypto?.data?.cryptoCount)
+        productCount = dataCrypto?.data?.cryptoCount
         break
       }
       case EXCHANGE: {
         const dataExchange = await get('reviews/exchange/filter', paramSort)
         setListProduct(dataExchange?.data?.exchanges)
         setTotal(dataExchange?.data?.exchangeCount)
-
+        productCount = dataExchange?.data?.exchangeCount
         break
       }
       case VENTURE: {
         const dataVenture = await get('reviews/venture/filter', paramSort)
         setListProduct(dataVenture?.data?.ventures)
         setTotal(dataVenture?.data?.ventureCount)
+        productCount = dataVenture?.data?.ventureCount
         break
       }
       case SOON: {
         const dataSoon = await get('reviews/soon/filter', paramSort)
         setListProduct(dataSoon?.data?.soons)
         setTotal(dataSoon?.data?.soonCount)
-        break
-      }
-      case SCAM: {
-        const dataScam = await get('reviews/scam/filter', paramSort)
-        setListProduct(dataScam?.data?.cryptos)
-        setTotal(dataScam?.data?.cryptoCount)
+        productCount = dataSoon?.data?.soonCount
         break
       }
       case LAUNCHPAD: {
         const dataLaunchpad = await get('reviews/launchpad/filter', paramSort)
         setListProduct(dataLaunchpad?.data?.launchPads)
         setTotal(dataLaunchpad?.data?.launchPadCount)
+        productCount = dataLaunchpad?.data?.launchPadCount
         break
       }
       default:
+        productCount = -1 // not found below
         break
+    }
+    if (productCount === 0) {
+      navigate('/not-found')
     }
     setLoading(false)
   }
@@ -286,6 +289,7 @@ const CategoryItem = () => {
             />
           )
         default:
+          navigate('/not-found')
           break
       }
     }
