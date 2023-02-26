@@ -139,7 +139,7 @@ const getRelativeHumanTime = (timestamp) => {
   } else // If there are weeks
   if (time > (1000 * 60 * 60 * 24 * 7)) {
     humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 7), 10)
-    units = 'week(s))'
+    units = 'week(s)'
   } else // If there are days
   if (time > (1000 * 60 * 60 * 24)) {
     humanTime = parseInt(time / (1000 * 60 * 60 * 24), 10)
@@ -172,20 +172,20 @@ export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (star
   // Ongoing
   if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
     return <>
-      <span>End in <b className={`fs-20 ${classTxtOngoing}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b> left</span>
+      <span><b className={`fs-20 ${classTxtOngoing}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b> left</span>
       <hr className='hr-custome'></hr>
     </>
   } else
   // Past
   if (myCurrentDateTimeUnix > endDateUnix) {
     return <>
-      <span>Ended in <b className={`fs-20 ${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)}</b> ago</span>
+      <span><b className={`fs-20 ${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)}</b> ago</span>
       <hr className='hr-custome'></hr>
     </>
   } else
   // Upcoming
   if (myCurrentDateTimeUnix < startDateUnix) {
-    return <><span>Start in <b className={`fs-20 ${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b> left</span>
+    return <><span><b className={`fs-20 ${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b> left</span>
       <hr className='hr-custome'></hr>
     </>
   }
