@@ -38,19 +38,22 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
         <span className={`icon-box icon-box-sm`}>
           {imageUrl !== '' ? <Avatar size={35} src={imageUrl}/> : <NoImage width={35} height={35} alt={name?.substring(0, 2)}/>}
         </span>
-        <div className='ms-2 '>
+        <div className='ms-2'>
           <h6 className='text-etc-overflow'>{name}{type === 'crypto' ? ` (${symbol})` : null}</h6>
           <span><Badge className='badge-sm'>{type}</Badge></span>
         </div>
       </div>
       <div className='me-4 '>
-        <div className='post-comment d-flex' style={{ color: 'red' }}>
-          <span className='me-2'>   {WARNING_ICON('#d85b53', '14px')}</span>
-          {new Intl.NumberFormat().format(reports)}
+        <div className='post-comment' style={{ color: 'red' }}>
+          <span className='d-flex align-items-center'>
+            <span className='me-1'> {WARNING_ICON('#d85b53', '14px')}</span>
+            {new Intl.NumberFormat().format(reports)}</span>
         </div>
         <div className='post-comment' style={{ color: '#18A594' }}>
-          <i className='far fa-comment me-2' />
-          {new Intl.NumberFormat().format(reviews)}
+          <span className='d-flex align-items-center'>
+            <i className='far fa-comment me-1' />
+            {new Intl.NumberFormat().format(reviews)}
+          </span>
         </div>
       </div>
     </div>
