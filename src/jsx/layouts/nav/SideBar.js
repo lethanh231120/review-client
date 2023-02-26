@@ -172,6 +172,18 @@ const SideBar = () => {
         })
     })
 
+    // call api fail --> only one element home before
+    if (objCategories?.length === 1) {
+      arrOrderedCategories.forEach((category) => {
+        objCategories.push({
+          title: category,
+          classsChange: '',
+          iconStyle: <i className='material-icons'>{mapCategoriesMenuIcon?.get(category)}</i>,
+          to: '' // home
+        })
+      })
+    }
+
     objCategories?.push({
       title: 'Insights',
       classsChange: '',

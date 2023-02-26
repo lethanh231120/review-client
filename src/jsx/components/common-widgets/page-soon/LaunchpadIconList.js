@@ -31,19 +31,16 @@ const LaunchpadIconList = ({ listLaunchpad }) => {
     >
       {listLaunchpad && !_.isEmpty(listLaunchpad) && !_.isEmpty(launchpadMapContext)
         ? listLaunchpad?.map((key, index) => (
-          <>
-            <Tooltip title={launchpadMapContext?.get(key)?.name}>
-              <Avatar
-                size={20}
-                src={launchpadMapContext?.get(key)?.thumbLogo}
-                key={index}
-                className='soon-table-blockchain'
-                onClick={(e) => {
-                  forwardDetailLaunchpad(e, key)
-                }}
-              />
-            </Tooltip>
-          </>
+          <Tooltip title={launchpadMapContext?.get(key)?.name} key={index} >
+            <Avatar
+              size={20}
+              src={launchpadMapContext?.get(key)?.thumbLogo}
+              className='soon-table-blockchain'
+              onClick={(e) => {
+                forwardDetailLaunchpad(e, key)
+              }}
+            />
+          </Tooltip>
         ))
         : absentData}
     </Avatar.Group>
