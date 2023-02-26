@@ -9,7 +9,7 @@ import { Avatar, Col, Tooltip } from 'antd'
 import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
-import { convertStringDDMMYYYYToUnix, formatDateStyle, getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../product-detail/soon-info/SoonInfo'
+import { convertStringDDMMYYYYToUnix, formatDateStyle, getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate, getTimeRelativeQuantificationWithNowFromStartDateAndEndDate, txtTBA } from '../../product-detail/soon-info/SoonInfo'
 import moment from 'moment'
 
 const absentData = '__'
@@ -82,7 +82,9 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                     <p>{`${item?.projectName} - ${item?.projectSymbol
                                       ? item?.projectSymbol
                                       : absentData}`}</p>
-                                  )}>
+                                  )}
+                                  placement='top'
+                                >
                                   <div
                                     className='ms-4 text-etc-overflow'
                                     style={{ width: '100%' }}
@@ -111,9 +113,10 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                               </div>
                               <div className='row'>
                                 <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>
-                                  {item?.subCategory
-                                    ? item?.subCategory
-                                    : absentData}
+                                  { (item?.startDate && item?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(item?.startDate, item?.endDate)
+                                    // same height with ...ago/ left
+                                    : <span className='fs-20'>&nbsp;</span>
+                                  }
                                 </p>
                               </div>
                               <div className='row'>
@@ -127,7 +130,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                               <div className='d-flex align-items-center justify-content-between'>
                                 <div>
                                   <p className='mb-0 fs-14 text-black text-etc-overflow'>
-                                    {item?.roundType} {item?.launchPads ? 'on' : ''}
+                                    {item?.roundType ? item?.roundType : <>&nbsp;</>} {item?.launchPads ? 'on' : ''}
                                   </p>
                                   <span className='fs-12'>
                                     <LaunchpadIconList
@@ -135,16 +138,27 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                     />
                                   </span>
                                 </div>
-                                <div className='text-etc-overflow'>
-                                  <p className='mb-0 fs-12 text-etc-overflow'>
+                                <Tooltip
+                                  title={(
+                                    <>
+                                    Start: {item?.startDate ? moment(convertStringDDMMYYYYToUnix(item?.startDate)).format(formatDateStyle) : txtTBA}
+                                      <br/>
+                                    End&nbsp;&nbsp;: {item?.startDate ? moment(convertStringDDMMYYYYToUnix(item?.endDate)).format(formatDateStyle) : txtTBA}
+                                    </>
+                                  )}
+                                  placement='bottom'
+                                >
+                                  <div className='text-etc-overflow'>
+                                    <p className='mb-0 fs-12 text-etc-overflow'>
                                     Start:{' '}
-                                    {item?.startDate ? moment(convertStringDDMMYYYYToUnix(item?.startDate)).format(formatDateStyle) : 'TBA'}
-                                  </p>
-                                  <span className='fs-12 text-etc-overflow'>
+                                      {item?.startDate ? moment(convertStringDDMMYYYYToUnix(item?.startDate)).format(formatDateStyle) : txtTBA}
+                                    </p>
+                                    <span className='fs-12 text-etc-overflow'>
                                     End&nbsp;&nbsp;:{' '}
-                                    {item?.startDate ? moment(convertStringDDMMYYYYToUnix(item?.endDate)).format(formatDateStyle) : 'TBA'}
-                                  </span>
-                                </div>
+                                      {item?.startDate ? moment(convertStringDDMMYYYYToUnix(item?.endDate)).format(formatDateStyle) : txtTBA}
+                                    </span>
+                                  </div>
+                                </Tooltip>
                               </div>
                             </div>
                           </div>

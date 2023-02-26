@@ -3,6 +3,7 @@
 import FormReport from '../Forms/form-report/FormReport'
 import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
+import { SOON, CRYPTO, VENTURE, LAUNCHPAD } from '../../constants/category'
 
 export const DetailLayout = (props) => {
   const { Header, type, roundSale, portfolioOrChartOrDesc, summary, more, about, scam, exchange, topDiscus, numberReviews, rest, setTop } = props
@@ -34,7 +35,7 @@ export const DetailLayout = (props) => {
         : ''
     }
 
-    {type === 'crypto' || type === 'venture' || type === 'launchpad' || type === 'soon'
+    {type === CRYPTO || type === VENTURE || type === LAUNCHPAD || type === SOON
       ? <>
         <div className='row'>
           <div className='col-xl-5'>

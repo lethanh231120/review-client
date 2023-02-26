@@ -32,7 +32,7 @@ import './custom-header.scss'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
-const txtLoginTooltip = 'Log In'
+const txtLoginTooltip = 'Sign In'
 const txtSignUpTooltip = 'Sign Up'
 const minimumWidthBigScreenMode = 766
 
@@ -279,7 +279,6 @@ const Header = () => {
         footer={false}
         destroyOnClose={true}
         show={signContext?.openModalSignIn}
-        style={{ zIndex: '99' }}
       >
         <AccountTab activeTabKey={formLoginSignupKeyContext?.loginSignupFormactiveTabKey} />
       </Modal>
