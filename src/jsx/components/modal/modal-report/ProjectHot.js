@@ -2,13 +2,15 @@ import React from 'react'
 import { Image } from 'antd'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
-import { SWORD_ICON } from '../../../../images/svg/report-project-primary'
 import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP } from '../../../constants/category'
+import { WARNING_ICON } from '../../common-widgets/logo/logo'
 
 const ProjectHot = ({ data, setItemHot }) => {
   const shortenString = (text) => {
     return text?.length > 10 ? `${text?.substring(0, 10)}...` : text
   }
+
+  const SCAM_REPORT_ICON = WARNING_ICON('#d85b53', '14px')
 
   switch (data?.type) {
     case 'crypto':
@@ -28,15 +30,17 @@ const ProjectHot = ({ data, setItemHot }) => {
               {shortenString(data?.detail?.name)}
               <div className='project-hot-content-symbol'>{data?.detail?.symbol ? data?.detail?.symbol : '' }</div>
             </div>
-            <div>
+            <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
                 <i className='far fa-comment me-1' />
                 {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
               </span>
               <span style={{ padding: '0 0.5rem' }}>/</span>
               <span className='post-comment' style={{ color: 'red' }}>
-                <span className='me-1'>   {SWORD_ICON('#EB5757', 14, 14)}</span>
-                {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                <span className='d-flex align-items-center'>
+                  <span className='me-1'>   {SCAM_REPORT_ICON}</span>
+                  {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                </span>
               </span>
             </div>
           </div>
@@ -56,15 +60,17 @@ const ProjectHot = ({ data, setItemHot }) => {
             <div className='project-hot-content-name'>
               {shortenString(data?.detail?.name)}
             </div>
-            <div>
+            <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
                 <i className='far fa-comment me-1' />
                 {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
               </span>
               <span style={{ padding: '0 0.5rem' }}>/</span>
               <span className='post-comment' style={{ color: 'red' }}>
-                <span className='me-1'>   {SWORD_ICON('#EB5757', 14, 14)}</span>
-                {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                <span className='d-flex align-items-center'>
+                  <span className='me-1'>   {SCAM_REPORT_ICON}</span>
+                  {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                </span>
               </span>
             </div>
           </div>
@@ -84,15 +90,17 @@ const ProjectHot = ({ data, setItemHot }) => {
             <div className='project-hot-content-name'>
               {shortenString(data?.detail?.dAppName)}
             </div>
-            <div>
+            <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
                 <i className='far fa-comment me-1' />
                 {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
               </span>
               <span style={{ padding: '0 0.5rem' }}>/</span>
               <span className='post-comment' style={{ color: 'red' }}>
-                <span className='me-1'>   {SWORD_ICON('#EB5757', 14, 14)}</span>
-                {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                <span className='d-flex align-items-center'>
+                  <span className='me-1'>   {SCAM_REPORT_ICON}</span>
+                  {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                </span>
               </span>
             </div>
           </div>
@@ -112,15 +120,17 @@ const ProjectHot = ({ data, setItemHot }) => {
             <div className='project-hot-content-name'>
               {shortenString(data?.detail?.ventureName)}
             </div>
-            <div>
+            <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
                 <i className='far fa-comment me-1' />
                 {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
               </span>
               <span style={{ padding: '0 0.5rem' }}>/</span>
               <span className='post-comment' style={{ color: 'red' }}>
-                <span className='me-1'>   {SWORD_ICON('#EB5757', 14, 14)}</span>
-                {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                <span className='d-flex align-items-center'>
+                  <span className='me-1'>   {SCAM_REPORT_ICON}</span>
+                  {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                </span>
               </span>
             </div>
           </div>
@@ -141,15 +151,17 @@ const ProjectHot = ({ data, setItemHot }) => {
               {shortenString(data?.detail?.projectName)}
               <div className='project-hot-content-symbol'>{data?.detail?.projectSymbol ? data?.detail?.projectSymbol : '' }</div>
             </div>
-            <div>
+            <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
                 <i className='far fa-comment me-1' />
                 {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
               </span>
               <span style={{ padding: '0 0.5rem' }}>/</span>
               <span className='post-comment' style={{ color: 'red' }}>
-                <span className='me-1'>   {SWORD_ICON('#EB5757', 14, 14)}</span>
-                {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                <span className='d-flex align-items-center'>
+                  <span className='me-1'>   {SCAM_REPORT_ICON}</span>
+                  {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                </span>
               </span>
             </div>
           </div>
