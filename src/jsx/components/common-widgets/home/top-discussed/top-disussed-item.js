@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import NoImage from '../../no-image/NoImage'
 
 import './top-discussed.scss'
-import { SWORD_ICON } from '../../../../../images/svg/report-project-primary'
+import { WARNING_ICON } from '../../logo/logo'
 
 const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) => {
   let imageUrl = ''
@@ -43,13 +43,13 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
           <span><Badge className='badge-sm'>{type}</Badge></span>
         </div>
       </div>
-      <div className='me-4'>
-        <div className='post-comment' style={{ color: 'red' }}>
-          <span className='me-1'>   {SWORD_ICON('#EB5757', 15, 15)}</span>
+      <div className='me-4 '>
+        <div className='post-comment d-flex' style={{ color: 'red' }}>
+          <span className='me-2'>   {WARNING_ICON('#d85b53', '14px')}</span>
           {new Intl.NumberFormat().format(reports)}
         </div>
         <div className='post-comment' style={{ color: '#18A594' }}>
-          <i className='far fa-comment me-1' />
+          <i className='far fa-comment me-2' />
           {new Intl.NumberFormat().format(reviews)}
         </div>
       </div>

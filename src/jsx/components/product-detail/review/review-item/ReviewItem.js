@@ -247,8 +247,8 @@ const ReviewItem = (props) => {
               {data?.review?.scamAmountUSD && (
                 <div>
                   <strong>
-                    {data?.review?.userName ? data?.review?.userName : 'I'}
-                    got scammed by for
+                    {data?.review?.userName ? data?.review?.userName : 'I '}
+                    got scammed
                     {` ${formatLargeNumberMoneyUSD(data?.review?.scamAmountUSD?.split('.')[0] !== '-' ? data?.review?.scamAmountUSD?.split('.')[0] : data?.review?.scamAmountUSD?.split('.')[1])}`}
                   </strong>
                 </div>

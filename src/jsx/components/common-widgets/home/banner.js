@@ -1,6 +1,5 @@
-import imgReportProject from '../../../../images/svg/report-project-white.svg'
+// import imgReportProject from '../../../../images/svg/report-project-white.svg'
 import { Button } from 'react-bootstrap'
-
 // images
 import scam from '../../../../images/scam-alert.png'
 // import lite from '../../../../images/litecoin.png'
@@ -12,6 +11,7 @@ import scam from '../../../../images/scam-alert.png'
 // import polygon from '../../../../images/polygon.png'
 import { ReportModalContext } from '../../..'
 import { useContext } from 'react'
+import { WARNING_ICON } from '../logo/logo'
 
 const Banner = () => {
   const reportModal = useContext(ReportModalContext)
@@ -23,11 +23,11 @@ const Banner = () => {
       <div className='buy-coin '>
         <div style={{ zIndex: 2 }}>
           <h2 className='report-title' style={{ width: '100%' }}>You got scammed <br></br>and lost money ?</h2>
-          <Button className='btn-danger' onClick={() => reportModal?.handleSetOpenModal(true)}
-            style={{ backgroundColor: '#EB5757', borderColor: '#EB5757', marginTop: '50px' }}
+          <Button className='btn-danger mt-5 d-flex align-items-center' onClick={() => reportModal?.handleSetOpenModal(true)}
+            style={{ backgroundColor: '#EB5757', borderColor: '#EB5757' }}
           >
-            <img src={imgReportProject} className='img-fluid noti ms-2'/>
-              &nbsp;
+            {/* <img src={imgReportProject} className='img-fluid noti ms-2'/> */}
+            {WARNING_ICON('#fff', '18px')}&nbsp;&nbsp;
               Report&nbsp;now
           </Button>
         </div>
