@@ -4,10 +4,12 @@ import { LaunchpadMapContext } from '../../../../App'
 import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { LAUNCHPAD, PREFIX_DETAIL } from './../../../constants/category'
+import { filterDuplicateLaunchpadId } from './LaunchpadDetail'
 
 const absentData = '__'
 const LaunchpadIconList = ({ listLaunchpad }) => {
   const launchpadMapContext = useContext(LaunchpadMapContext)
+  listLaunchpad = filterDuplicateLaunchpadId(listLaunchpad)
   const navigate = useNavigate()
 
   const forwardDetailLaunchpad = (e, launchpadObj) => {

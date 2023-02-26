@@ -113,7 +113,10 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                               </div>
                               <div className='row'>
                                 <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>
-                                  {getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(item?.startDate, item?.endDate)}
+                                  { (item?.startDate && item?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(item?.startDate, item?.endDate)
+                                    // same height with ...ago/ left
+                                    : <span className='fs-20'>&nbsp;</span>
+                                  }
                                 </p>
                               </div>
                               <div className='row'>
@@ -127,7 +130,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                               <div className='d-flex align-items-center justify-content-between'>
                                 <div>
                                   <p className='mb-0 fs-14 text-black text-etc-overflow'>
-                                    {item?.roundType} {item?.launchPads ? 'on' : ''}
+                                    {item?.roundType ? item?.roundType : <>&nbsp;</>} {item?.launchPads ? 'on' : ''}
                                   </p>
                                   <span className='fs-12'>
                                     <LaunchpadIconList

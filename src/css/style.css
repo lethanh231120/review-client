@@ -35027,3 +35027,21 @@ input.imitatefocus::-webkit-input-placeholder {
     border-radius: 1.875rem !important;
   }
 }
+
+/* hide eye icon in password input */
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+    display: none;
+}
+
+/* input field in modal sign in sign up */
+.input-form-sign-in-sign-up-padding{
+  padding-left: 2.2rem;
+}
+.input-icon-sign-in-sign-up{
+  position: fixed;
+  margin: 1rem 0 0 0.5rem;
+  font-size: 1.2rem;
+  color: #039F7F;
+}

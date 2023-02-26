@@ -5,8 +5,22 @@ import _ from 'lodash'
 import { LaunchpadMapContext } from '../../../../App'
 import { LAUNCHPAD, PREFIX_DETAIL } from '../../../constants/category'
 
+export const filterDuplicateLaunchpadId = (launchpadList) => {
+  const mapLaunchpad = new Map()
+  const outputListLaunchpad = []
+  launchpadList?.forEach((launchpad) =>{
+    const isExist = mapLaunchpad.get(launchpad)
+    if (!isExist) {
+      mapLaunchpad.set(launchpad, true)
+      outputListLaunchpad.push(launchpad)
+    }
+  })
+  return outputListLaunchpad
+}
+
 const LaunchpadDetail = ({ projectName, launchpadList }) => {
   const launchpadMapContext = useContext(LaunchpadMapContext)
+  launchpadList = filterDuplicateLaunchpadId(launchpadList)
   const navigate = useNavigate()
 
   const forwardDetailLaunchpad = (e, launchpadObj) => {

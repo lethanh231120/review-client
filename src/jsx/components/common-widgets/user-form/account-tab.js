@@ -18,7 +18,7 @@ const AccountTab = ({ activeTabKey }) => {
               eventKey={logInKey}
               type='button'
             >
-              Log&nbsp;In
+              Sign&nbsp;In
             </Nav.Link>
             <Nav.Link
               as='button'
