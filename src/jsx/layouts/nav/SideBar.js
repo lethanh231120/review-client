@@ -14,9 +14,9 @@ import { ThemeContext } from '../../../context/ThemeContext'
 import { CategoryContext } from '../../../App'
 import _ from 'lodash'
 import { pair1 } from '../../../utils/formatUrl'
-import { SWORD_ICON } from '../../../images/svg/report-project-primary'
 import { ToggleContext } from '../../index'
 import './custom-header.scss'
+import { WARNING_ICON } from '../../components/common-widgets/logo/logo'
 
 const reducer = (previousState, updatedState) => ({
   ...previousState,
@@ -387,10 +387,10 @@ const SideBar = () => {
         </ul>
       </PerfectScrollbar>
       <div
-        className={`${!toggle?.toggle ? 'display-block-btn' : 'display-none-btn'} list-btn`}
+        className={`${!toggle?.toggle ? 'display-block-btn' : 'display-none-btn'} list-btn `}
       >
         <Button
-          className='btn-danger'
+          className='btn-danger '
           onClick={() => navigate('report-scam')}
           style={{
             backgroundColor: '#EB5757',
@@ -398,9 +398,11 @@ const SideBar = () => {
             padding: '0.4rem 0.6rem'
           }}
         >
-          {SWORD_ICON('#fff', 17, 17)}
+          <span className='d-flex align-items-center'>
+            {WARNING_ICON('#fff', '17px')}
                 &nbsp;
                 Report&nbsp;now
+          </span>
         </Button>
         <Button
           className='btn ms-1 btn-light'
