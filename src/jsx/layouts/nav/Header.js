@@ -32,7 +32,7 @@ import './custom-header.scss'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
-const txtLoginTooltip = 'Log In'
+const txtLoginTooltip = 'Sign In'
 const txtSignUpTooltip = 'Sign Up'
 const minimumWidthBigScreenMode = 766
 
