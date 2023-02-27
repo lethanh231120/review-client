@@ -58,8 +58,8 @@ const LaunchpadList = ({ listProduct,
             maxCount={2}
             size={25}
             maxStyle={{
-              color: '#f56a00',
-              backgroundColor: '#fde3cf',
+              color: '#fff',
+              backgroundColor: '#039F7F',
               cursor: 'pointer'
             }}
           >
