@@ -31,7 +31,9 @@ import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discus
 import LaunchpadDetail from './../../common-widgets/page-soon/LaunchpadDetail'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
 
-const txtTBA = 'TBA'
+export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
+
+export const txtTBA = 'TBA'
 
 // match with BE
 const statusUpcoming = 'upcoming'
@@ -56,6 +58,10 @@ const getDisplayFromSoonStatus = (status) => {
   }
 }
 
+const classTxtUpcoming = 'text-warning'
+const classTxtOngoing = 'text-primary'
+const classTxtPast = 'text-danger'
+
 const classBackgroundUpcoming = 'badge-warning'
 const classBackgroundOngoing = 'badge-primary'
 const classBackgroundPast = 'badge-danger'
@@ -73,26 +79,32 @@ export const getStatusBackgroundFromSoonStatus = (status) => {
   }
 }
 
-export const convertStringDDMMYYYYToUnix = (ddmmyyyy) =>{
-  const minusOffset = new Date().getTimezoneOffset()
-  const miliSecOffset = minusOffset * 60 * 1000
+// getEndDate = true (plus one day to get next day)
+export const convertStringDDMMYYYYToUnix = (ddmmyyyy, getEndDate = false) =>{
   let dateUnix = new Date(ddmmyyyy?.replace(/(\d{2})-(\d{2})-(\d{4})/, '$2/$1/$3'))
-  dateUnix.setTime(dateUnix?.getTime() - miliSecOffset) // Local user to GMT + 0
+  dateUnix.setTime(dateUnix?.getTime()) // Local user to GMT + 0
+  if (getEndDate) {
+    const millSecInOneDay = 1000 * 60 * 60 * 24 // 86400000 milliseconds.
+    // convert start day to end day --> (>=start && <end of endDate) still in status ongoing project IDO/ ICO/ IEO
+    dateUnix.setTime(dateUnix?.getTime() + millSecInOneDay)
+  }
   dateUnix = dateUnix?.getTime()
   return (dateUnix)
 }
 
-export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
-  const minusOffset = new Date().getTimezoneOffset()
-  const miliSecOffset = minusOffset * 60 * 1000
+const getCurrentTimeUnix = () => {
   let myCurrentDateTimeUnix = (new Date())
-  myCurrentDateTimeUnix.setTime(myCurrentDateTimeUnix?.getTime() - miliSecOffset) // Local user to GMT + 0
   myCurrentDateTimeUnix = myCurrentDateTimeUnix?.getTime()
+  return myCurrentDateTimeUnix
+}
+
+export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
+  const myCurrentDateTimeUnix = getCurrentTimeUnix()
 
   // string "15-05-2018" to date unix time
   const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
 
-  const endDateUnix = convertStringDDMMYYYYToUnix(endDate)
+  const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
 
   // Ongoing
   if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
@@ -109,7 +121,77 @@ export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
   return ''
 }
 
-export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
+const getRelativeHumanTime = (timestamp) => {
+  // Convert to a positive integer
+  var time = Math.abs(timestamp)
+
+  // Define humanTime and units
+  var humanTime, units
+
+  // If there are years
+  if (time > (1000 * 60 * 60 * 24 * 365)) {
+    humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 365), 10)
+    units = 'year(s)'
+  } else// If there are months
+  if (time > (1000 * 60 * 60 * 24 * 30)) {
+    humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 30), 10)
+    units = 'month(s)'
+  } else // If there are weeks
+  if (time > (1000 * 60 * 60 * 24 * 7)) {
+    humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 7), 10)
+    units = 'week(s)'
+  } else // If there are days
+  if (time > (1000 * 60 * 60 * 24)) {
+    humanTime = parseInt(time / (1000 * 60 * 60 * 24), 10)
+    units = 'day(s)'
+  } else// If there are hours
+  if (time > (1000 * 60 * 60)) {
+    humanTime = parseInt(time / (1000 * 60 * 60), 10)
+    units = 'hour(s)'
+  } else // If there are minutes
+  if (time > (1000 * 60)) {
+    humanTime = parseInt(time / (1000 * 60), 10)
+    units = 'minute(s)'
+  } else {
+    // Otherwise, use seconds
+    humanTime = parseInt(time / (1000), 10)
+    units = 'second(s)'
+  }
+
+  return humanTime + ' ' + units
+}
+
+export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (startDate, endDate) => {
+  const myCurrentDateTimeUnix = getCurrentTimeUnix()
+
+  // string "15-05-2018" to date unix time
+  const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
+
+  const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
+
+  // Ongoing
+  if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
+    return <>
+      <span><b className={`fs-20 ${classTxtOngoing}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b> left</span>
+      <hr className='hr-custome'></hr>
+    </>
+  } else
+  // Past
+  if (myCurrentDateTimeUnix > endDateUnix) {
+    return <>
+      <span><b className={`fs-20 ${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)}</b> ago</span>
+      <hr className='hr-custome'></hr>
+    </>
+  } else
+  // Upcoming
+  if (myCurrentDateTimeUnix < startDateUnix) {
+    return <><span><b className={`fs-20 ${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b> left</span>
+      <hr className='hr-custome'></hr>
+    </>
+  }
+
+  return null
+}
 
 const SoonInfo = ({ productInfo, ...rest }) => {
   const navigate = useNavigate()
@@ -148,7 +230,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             </span>
             )}
         </div>
-        <div className='profile-name px-3 pt-2'>
+        <div className='profile-name px-2 pt-2'>
           <h4 className='text-primary mb-0'>{itemDetail?.projectName}</h4>
           <p style={{ paddingTop: '0.1rem' }} >
             {itemDetail?.projectSymbol}
@@ -168,114 +250,34 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           }
 
         </div>
-        <Button
+        {
+          itemDetail?.website && <Button
           // as='a'
           // href='#'
-          className='btn btn-primary mb-1 ms-auto'
-          onClick={() => {
-            setWebsiteLoading(true)
-            setTimeout(() =>{
-              itemDetail?.website && window.open(itemDetail?.website)
-              setWebsiteLoading(false)
-            }, 3000)
-          }}
-        >
-          {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '10px' }} /> : ''}
-          {websiteIcon}
+            className='btn btn-primary mb-1 ms-auto'
+            onClick={() => {
+              setWebsiteLoading(true)
+              setTimeout(() =>{
+                itemDetail?.website && window.open(itemDetail?.website)
+                setWebsiteLoading(false)
+              }, 3000)
+            }}
+          >
+            {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '0.3rem' }} /> : ''}
+            {websiteIcon}
             Website
-        </Button>
+          </Button>
+        }
       </div>
     </div>
   ) : ''
-
-  const roundSale = itemRoundSales ? (
-    <div>
-      <div className='card-header'>
-        <h4 className='card-title'>{itemDetail?.projectName} IDO</h4>
-      </div>
-      <div className='card-body'>
-        <div className='table-responsive recentOrderTable'>
-          <table className='table verticle-middle table-responsive-md'>
-            <thead>
-              <tr>
-                <th scope='col'>#</th>
-                <th scope='col'>Round</th>
-                <th scope='col'>Start</th>
-                <th scope='col'>End</th>
-                <th scope='col'>Raise</th>
-                <th scope='col'>Total</th>
-                <th scope='col'>Price</th>
-                <th scope='col'>Status</th>
-                <th scope='col'>More</th>
-              </tr>
-            </thead>
-            <tbody>
-              { itemRoundSales?.map((itemRoundSale, arrIndex) => (
-                <>
-                  <tr>
-                    <td>{arrIndex + 1}</td>
-                    <td>{itemRoundSale?.type} {getDisplayFromSoonStatus(itemRoundSale?.status)}</td>
-                    <td>{itemRoundSale?.start ? moment(itemRoundSale?.start).format(formatDateStyle) : txtTBA}</td>
-                    <td>{itemRoundSale?.end ? moment(itemRoundSale?.end).format(formatDateStyle) : txtTBA}</td>
-                    <td>{formatLargeNumberMoneyUSD(itemRoundSale?.raise)}</td>
-                    <td>{formatLargeNumber(itemRoundSale?.tokenForSale)}</td>
-                    <td>{formatLargeNumberMoneyUSD(itemRoundSale?.price)}</td>
-                    <td>
-                      <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(itemRoundSale?.status)}`}>
-                        {itemRoundSale?.status?.toUpperCase()}
-                      </span>
-                    </td>
-                    <td>
-                      <Dropdown className='dropdown custom-dropdown mb-0'>
-                        <Dropdown.Toggle
-                          className='btn sharp btn-primary tp-btn i-false'
-                          data-toggle='dropdown'
-                        >
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            xmlnsXlink='http://www.w3.org/1999/xlink'
-                            width='18px'
-                            height='18px'
-                            viewBox='0 0 24 24'
-                            version='1.1'
-                          >
-                            <g
-                              stroke='none'
-                              strokeWidth='1'
-                              fill='none'
-                              fillRule='evenodd'
-                            >
-                              <rect x='0' y='0' width='24' height='24' />
-                              <circle fill='#000000' cx='12' cy='5' r='2' />
-                              <circle fill='#000000' cx='12' cy='12' r='2' />
-                              <circle fill='#000000' cx='12' cy='19' r='2' />
-                            </g>
-                          </svg>
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu className='dropdown-menu dropdown-menu-end'>
-                          <Dropdown.Item className='dropdown-item'>
-                            {itemRoundSale?.lockUpPeriod}
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </td>
-                  </tr>
-                </>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  ) : null
-  console.log(roundSale)
 
   const columns = [
     {
       title: 'Round',
       dataIndex: 'type',
       key: 'type',
-      render: (_, record) => (<>{record?.type} {getDisplayFromSoonStatus(record?.status)}</>)
+      render: (_, record) => (<>{record?.type} {getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}</>)
     },
     { title: 'Start',
       dataIndex: 'start',
@@ -305,12 +307,12 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     { title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: (_, record) => (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(record?.status)}`}>
-        {record?.status?.toUpperCase()}
+      render: (_, record) => (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
+        {getStatusFromStartDateAndEndDate(record?.start, record?.end)?.toUpperCase()}
       </span>)
     }
   ]
-  const roundSale1 = (itemRoundSales && !_.isEmpty(itemRoundSales)) ? (
+  const roundSale = (itemRoundSales && !_.isEmpty(itemRoundSales)) ? (
     <div>
       <div className='card-header'>
         <h4 className='card-title'>{itemDetail?.projectName} IDO</h4>
@@ -325,7 +327,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 rowExpandable: (record) => record.lockUpPeriod // have data
               }}
               dataSource={itemRoundSales}
-              className='soon-table'
+              className='soon-table-round-sale'
               pagination={false}
               rowKey={(record) => record?.id}
             />
@@ -338,33 +340,36 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const summary = (
     <div className='text-center'>
       <div className='row mb-4 d-flex'>
-        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> Start: <b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : 'TBA'}</b></div>
-        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> End&nbsp;&nbsp;: <b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : 'TBA'}</b></div>
+        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+          {getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)}
+        </div>
+        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> Start: <b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b></div>
+        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> End&nbsp;&nbsp;: <b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b></div>
       </div>
       <div className='row'>
         <div className='col-3'>
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
           </h3>
-          <span>Raised</span>
+          <span className='text-etc-overflow'>Raised</span>
         </div>
         <div className='col-3'>
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.tokenPrice) }</Badge>
           </h3>{' '}
-          <span>Price</span>
+          <span className='text-etc-overflow'>Price</span>
         </div>
         <div className='col-3'>
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fullyDilutedMarketcap)}</Badge>
           </h3>{' '}
-          <span>Marketcap</span>
+          <span className='text-etc-overflow'>Marketcap</span>
         </div>
         <div className='col-3'>
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumber(itemDetail?.totalSupply)}</Badge>
           </h3>{' '}
-          <span>Supply</span>
+          <span className='text-etc-overflow'>Supply</span>
         </div>
       </div>
       <div className='mt-4 '>
@@ -662,7 +667,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   return (
     <DetailLayout
       Header={header}
-      roundSale={roundSale1}
+      roundSale={roundSale}
       summary={summary}
       more={more}
       type='soon'

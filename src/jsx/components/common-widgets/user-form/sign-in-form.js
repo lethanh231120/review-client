@@ -22,6 +22,7 @@ export const SignInComponent = () => {
   const signInFromAddProductContext = useContext(SignInFromAddProductContext)
   const addModal = useContext(AddModalContext)
   const showFullSearchConext = useContext(ShowFullSearchConext)
+  const [isShowPassword, setIsShowPassword] = useState(false)
 
   const responseFacebook = async(response) => {
     try {
@@ -207,10 +208,10 @@ export const SignInComponent = () => {
                 <div className='dz-separator bg-primary style-liner'></div>
               </div>
               <div className='form-group mb-3'>
-                {/* <input name="dzName" required="" className="form-control" placeholder="User Name" type="text" /> */}
+                <i className='material-icons input-icon-sign-in-sign-up'>mail</i>
                 <input
                   type='text'
-                  className='form-control'
+                  className='form-control input-form-sign-in-sign-up-padding'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder='Enter your e-mail address.'
@@ -223,10 +224,10 @@ export const SignInComponent = () => {
                 )}
               </div>
               <div className='form-group mb-3'>
-                {/* <input name="dzName" required="" className="form-control " placeholder="Type Password" type="password" /> */}
+                <i className='material-icons input-icon-sign-in-sign-up' style={{ cursor: 'pointer' }} onClick={() => setIsShowPassword(!isShowPassword)}>{isShowPassword ? 'visibility_off' : 'visibility' }</i>
                 <input
-                  type='password'
-                  className='form-control'
+                  type={isShowPassword ? 'text' : 'password' }
+                  className='form-control input-form-sign-in-sign-up-padding'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder='Enter your password.'

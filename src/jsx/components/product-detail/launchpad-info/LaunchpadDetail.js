@@ -68,9 +68,9 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
           <Badge className='badge-sm' >{detail?.type}</Badge>
         </div>
         {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
-          {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
+          {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '0.3rem' }} /> : ''}
           {websiteIcon}
-  Website
+          Website
         </Button>}
       </div>
     </div>
@@ -218,8 +218,8 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
                       maxCount={4}
                       size={20}
                       maxStyle={{
-                        color: '#f56a00',
-                        backgroundColor: '#fde3cf',
+                        color: '#fff',
+                        backgroundColor: '#039F7F',
                         cursor: 'pointer'
                       }}
                     >
@@ -284,8 +284,8 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
             maxCount={4}
             size={25}
             maxStyle={{
-              color: '#f56a00',
-              backgroundColor: '#fde3cf',
+              color: '#fff',
+              backgroundColor: '#039F7F',
               cursor: 'pointer'
             }}
           >

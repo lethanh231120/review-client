@@ -16,6 +16,8 @@ export const SignUpComponent = () => {
   const [isConfirm, setIsConfirm] = useState(false)
   const signContext = useContext(SignInContext)
   const [isLoading, setIsLoading] = useState(false)
+  const [isShowPassword, setIsShowPassword] = useState(false)
+  const [isShowRePassword, setIsReShowPassword] = useState(false)
 
   const onSignUp = async(e) => {
     e.preventDefault()
@@ -119,8 +121,9 @@ export const SignUpComponent = () => {
                 <div className='dz-separator bg-primary style-liner'></div>
               </div>
               <div className='form-group mt-3'>
+                <i className='material-icons input-icon-sign-in-sign-up'>mail</i>
                 <input
-                  className='form-control'
+                  className='form-control input-form-sign-in-sign-up-padding'
                   placeholder='Enter your e-mail address.'
                   type='text'
                   value={email}
@@ -134,10 +137,11 @@ export const SignUpComponent = () => {
                 )}
               </div>
               <div className='form-group mt-3'>
+                <i className='material-icons input-icon-sign-in-sign-up' style={{ cursor: 'pointer' }} onClick={() => setIsShowPassword(!isShowPassword)}>{isShowPassword ? 'visibility_off' : 'visibility' }</i>
                 <input
-                  className='form-control'
+                  className='form-control input-form-sign-in-sign-up-padding'
                   placeholder='Enter your password.'
-                  type='password'
+                  type={isShowPassword ? 'text' : 'password' }
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   readOnly={isLoading}
@@ -149,10 +153,11 @@ export const SignUpComponent = () => {
                 )}
               </div>
               <div className='form-group mt-3'>
+                <i className='material-icons input-icon-sign-in-sign-up' style={{ cursor: 'pointer' }} onClick={() => setIsReShowPassword(!isShowRePassword)}>{isShowRePassword ? 'visibility_off' : 'visibility' }</i>
                 <input
-                  className='form-control'
+                  className='form-control input-form-sign-in-sign-up-padding'
                   placeholder='Re-enter your password'
-                  type='password'
+                  type={isShowRePassword ? 'text' : 'password' }
                   value={rePassword}
                   onChange={(e) => setRePassword(e.target.value)}
                   readOnly={isLoading}

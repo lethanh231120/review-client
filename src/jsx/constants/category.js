@@ -14,4 +14,5 @@ export const LIST_VENTURE = 'listVenture'
 export const LIST_SOON = 'listSoon'
 export const LIST_EXCHANGE = 'listExchange'
 export const LIST_DAPP = 'listDapp'
+export const LIST_LAUNCHPAD = 'listLaunchpad'
 

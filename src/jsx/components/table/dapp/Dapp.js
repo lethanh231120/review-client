@@ -73,8 +73,8 @@ const Dapp = ({
       render: (_, record) => (
         <Avatar.Group
           maxStyle={{
-            color: '#f56a00',
-            backgroundColor: '#fde3cf',
+            color: '#fff',
+            backgroundColor: '#039F7F',
             cursor: 'pointer'
           }}
           maxCount={3}

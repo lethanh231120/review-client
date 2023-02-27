@@ -10,8 +10,8 @@ import _ from 'lodash'
 export const ReviewItem = ({ data }) => {
   const navigate = useNavigate()
 
-  var actionTime = moment(data?.createdDate, 'YYYY-MM-DD HH:mm:ss')
-  var timeAgo = actionTime.fromNow()
+  const actionTime = moment(data?.createdDate, 'YYYY-MM-DD HH:mm:ss')
+  const timeAgo = actionTime.fromNow()
 
   const onClicked = () => {
     const id = data?.productId

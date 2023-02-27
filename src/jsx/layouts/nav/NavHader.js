@@ -17,7 +17,7 @@ export function NavMenuToggle() {
     } else {
       mainwrapper.classList.add('menu-toggle') // small menu
     }
-  }, 100)
+  }, 0)
 }
 
 const NavHader = () => {

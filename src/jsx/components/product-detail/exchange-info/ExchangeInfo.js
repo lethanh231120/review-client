@@ -60,7 +60,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
           <Badge className='badge-sm' >{detail?.subCategory}</Badge>
         </div>
         {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
-          {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : <div></div>}
+          {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '0.3rem' }} /> : <div></div>}
           {websiteIcon}
     Website</Button>}
       </div>

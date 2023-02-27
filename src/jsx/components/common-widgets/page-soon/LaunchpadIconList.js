@@ -4,10 +4,12 @@ import { LaunchpadMapContext } from '../../../../App'
 import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { LAUNCHPAD, PREFIX_DETAIL } from './../../../constants/category'
+import { filterDuplicateLaunchpadId } from './LaunchpadDetail'
 
 const absentData = '__'
 const LaunchpadIconList = ({ listLaunchpad }) => {
   const launchpadMapContext = useContext(LaunchpadMapContext)
+  listLaunchpad = filterDuplicateLaunchpadId(listLaunchpad)
   const navigate = useNavigate()
 
   const forwardDetailLaunchpad = (e, launchpadObj) => {
@@ -31,19 +33,16 @@ const LaunchpadIconList = ({ listLaunchpad }) => {
     >
       {listLaunchpad && !_.isEmpty(listLaunchpad) && !_.isEmpty(launchpadMapContext)
         ? listLaunchpad?.map((key, index) => (
-          <>
-            <Tooltip title={launchpadMapContext?.get(key)?.name}>
-              <Avatar
-                size={20}
-                src={launchpadMapContext?.get(key)?.thumbLogo}
-                key={index}
-                className='soon-table-blockchain'
-                onClick={(e) => {
-                  forwardDetailLaunchpad(e, key)
-                }}
-              />
-            </Tooltip>
-          </>
+          <Tooltip title={launchpadMapContext?.get(key)?.name} key={index} >
+            <Avatar
+              size={20}
+              src={launchpadMapContext?.get(key)?.thumbLogo}
+              className='soon-table-blockchain'
+              onClick={(e) => {
+                forwardDetailLaunchpad(e, key)
+              }}
+            />
+          </Tooltip>
         ))
         : absentData}
     </Avatar.Group>
