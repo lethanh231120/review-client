@@ -345,6 +345,7 @@ const CategoryItem = () => {
 
   return (
     <div className='category-page section' ref={refabc}>
+
       <div className={`category-list detail ${category === SOON ? 'format-list-soon-background' : ''}`}>
         <Row gutter={[10, 10]}>
           {keyword ? (

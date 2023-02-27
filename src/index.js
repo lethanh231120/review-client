@@ -5,19 +5,24 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
 import ThemeContext from './context/ThemeContext'
-import { HelmetProvider } from 'react-helmet-async'
-
-const helmetContext = {}
+// import { HelmetProvider } from 'react-helmet-async'
+// import { Helmet } from 'react-helmet'
+// const helmetContext = {}
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <HelmetProvider context={helmetContext}>
-    <BrowserRouter>
-      <ThemeContext>
-        <App />
-      </ThemeContext>
-    </BrowserRouter>
-  </HelmetProvider>
+  // <HelmetProvider context={helmetContext}>
+
+  <BrowserRouter>
+    {/* <Helmet>
+      <title>HELMET TEST</title>
+      <meta name='description' content='Web3 In Your Hand'></meta>
+    </Helmet> */}
+    <ThemeContext>
+      <App />
+    </ThemeContext>
+  </BrowserRouter>
+  // </HelmetProvider>
 
 )
 

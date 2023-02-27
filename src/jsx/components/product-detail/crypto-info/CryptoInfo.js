@@ -29,6 +29,7 @@ import { Link } from 'react-router-dom'
 import { underlines, lineThrough, current, slash } from '../../../constants/exchanges'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import { websiteIcon } from '../../common-widgets/icons'
+// import { Helmet } from 'react-helmet'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const PAGE_SIZE = 5
@@ -748,6 +749,10 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   return (
     <>
+      {/* <Helmet>
+        <title>HELMET TEST</title>
+        <meta name='description' content={productInfo?.detail?.description}></meta>
+      </Helmet> */}
       <DetailLayout
         Header={header}
         type='crypto'
