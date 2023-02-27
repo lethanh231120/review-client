@@ -761,8 +761,8 @@ const DrawerFilter = ({ type, handleFilter }) => {
               <>
                 { CustomSlider('Founded Year', 'yearFounded', launchpadFoundedYearMarks)}
                 { CustomSlider('Total Fund Raised', 'totalFundsRaised', launchpadFundRaisedMarks)}
-                { CustomSlider('Avarage ROI Current', 'avgRoiCurrent', launchpadAvgRoiCurrentMarks)}
-                { CustomSlider('Avarage ROI ATH', 'avgRoiATH', launchpadAvgRoiATHMarks)}
+                { CustomSlider('Average ROI Current', 'avgRoiCurrent', launchpadAvgRoiCurrentMarks)}
+                { CustomSlider('Average ROI ATH', 'avgRoiATH', launchpadAvgRoiATHMarks)}
                 { CustomSlider('Marketcap', 'marketCap', launchpadMarketcapMarks)}
                 { CustomSlider('Volume24h', 'volume24h', launchpadVolume24hMarks)}
                 { CustomSlider('Score', 'score', getScoreMarks('launchpad'))}

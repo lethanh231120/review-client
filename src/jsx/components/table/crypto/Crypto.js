@@ -38,6 +38,7 @@ import '../../../../scss/base/table.scss'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import { copyContractAddress } from '../../../../utils/effect'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import { Badge } from 'react-bootstrap'
 
 const Crypto = ({
   listProduct,
@@ -530,9 +531,9 @@ const Crypto = ({
     <div className='font-family crypto-table'>
       {loading ? (<MySkeletonLoadinng count={50} height={70} />) : (
         <>
-          <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>
+          <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
             A total of{' '}
-            <b>{total ? new Intl.NumberFormat().format(total) : 0}</b> Coins /
+            <Badge>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Coins /
             Token Contracts found.
           </div>
           <Row>

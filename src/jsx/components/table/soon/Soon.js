@@ -22,6 +22,7 @@ import {
 } from '../../product-detail/soon-info/SoonInfo'
 import moment from 'moment'
 import CategorySearch from './../../input-search/CategorySearch'
+import { Badge } from 'react-bootstrap'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
@@ -29,8 +30,8 @@ const Soon = ({ listProduct, handleFilter, total }) => {
     <div className='font-family'>
       <div className='card Infra' style={{ height: 'auto', margin: '0 1.7rem 0 0.3rem' }}>
         <div className='card-header border-0' style={{ padding: '1.5rem 1.875rem 0 1.25rem' }}>
-          <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>
-            A total of&nbsp;<b>{total}</b>&nbsp;ICOs/ IDOs/ IEOs found.
+          <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
+            A total of&nbsp;<Badge bg='primary'>{total}</Badge>&nbsp;ICOs/ IDOs/ IEOs found.
           </div>
         </div>
         <div className='card-body' style={{ padding: '0 1rem' }}>
@@ -150,7 +151,8 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                               {item?.startDate && item?.endDate ? (
                                 getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(
                                   item?.startDate,
-                                  item?.endDate
+                                  item?.endDate,
+                                  19
                                 )
                               ) : (
                               // same height with ...ago/ left
@@ -182,6 +184,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                 />
                               </span>
                             </div>
+                            &nbsp;&nbsp;
                             <Tooltip
                               title={
                                 <>
