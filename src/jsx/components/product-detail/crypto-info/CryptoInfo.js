@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Avatar, Spin, Tooltip, Table } from 'antd'
+import { Spin, Tooltip, Table } from 'antd'
 import Description from '../description/Description'
 import {
   CopyOutlined,
@@ -21,8 +21,6 @@ import { LinkOutlined } from '@ant-design/icons'
 import {
   isValidProductId,
   formatImgUrlFromProductId,
-  formatUrlDetailFromUrlImageExchange,
-  getExchangeNameFromUrlImageExchage,
   toCammelCase
 } from '../../../../utils/formatText'
 import { DetailLayout } from '../detail-layout'
@@ -40,6 +38,7 @@ import {
 } from '../../../constants/exchanges'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import { websiteIcon } from '../../common-widgets/icons'
+import { ExchangeDetail } from '../../common-widgets/page-crypto/ExchangeDetail'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const PAGE_SIZE = 5
@@ -63,13 +62,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         !isShow?.sourceCode
     )
   }, [isShow, productInfo])
-
-  const handleClickExchange = (e, item) => {
-    e.stopPropagation()
-    e.preventDefault()
-    const urlDetail = formatUrlDetailFromUrlImageExchange(item)
-    navigate(`../../../../../${urlDetail}`)
-  }
 
   const handleClickTag = (value) => {
     navigate(`../../../../../${CRYPTO}/${encodeUrl(value)}`)
@@ -541,49 +533,10 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       </div>
       <div className='card-body'>
         <div className='basic-form'>
-          {!_.isEmpty(productInfo?.details?.exchanges) && (
-            <div className='crypto-info'>
-              <div>
-                <div className='crypto-info-item-key'>Exchange(s): </div>
-                <div className='row mt-3'>
-                  <div className='col-xxl-12 col-12'>
-                    <Avatar.Group
-                      maxCount={4}
-                      size={20}
-                      maxStyle={{
-                        color: '#fff',
-                        backgroundColor: '#039F7F',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {productInfo?.details?.exchanges?.map((item, index) => (
-                        <React.Fragment key={index}>
-                          {item && (
-                            <Tooltip
-                              title={getExchangeNameFromUrlImageExchage(item)}
-                            >
-                              <Avatar
-                                size={20}
-                                src={item}
-                                key={index}
-                                className='crypto-table-exchange'
-                                onClick={(e) => handleClickExchange(e, item)}
-                              />
-                            </Tooltip>
-                          )}
-                        </React.Fragment>
-                      ))}
-                    </Avatar.Group>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
           {(productInfo?.details?.isProxy !== null ||
           productInfo?.details?.contractVerified !== null) ? (
               <>
-                <div className='crypto-info-item-key mt-3'>Contract detail: </div>
+                <div className='crypto-info-item-key'>Contract detail: </div>
                 <div className='row mt-3'>
                   {
                     productInfo?.details?.contractVerified !== null ? <div className='col-xxl-12 col-12'>
@@ -758,6 +711,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
             ) : (
               ''
             )}
+
+          <ExchangeDetail coinName={productInfo?.details?.name} exchangeList={productInfo?.details?.exchanges} />
 
           {!showInfo && (
             <>
