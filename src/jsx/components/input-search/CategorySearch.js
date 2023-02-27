@@ -11,7 +11,7 @@ import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon'
 import ItemVenture from './item-venture/ItemVenture'
 
-import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP, LIST_CRYPTO, LIST_EXCHANGE, LIST_DAPP, LIST_SOON, LIST_VENTURE } from '../../../jsx/constants/category'
+import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP, LIST_CRYPTO, LIST_EXCHANGE, LIST_DAPP, LIST_SOON, LIST_VENTURE, LAUNCHPAD } from '../../../jsx/constants/category'
 
 const CategorySearch = ({ type }) => {
   const navigate = useNavigate()
@@ -158,7 +158,7 @@ const CategorySearch = ({ type }) => {
     <div className='item-search cus-form'>
       <Input
         className='form-control cus-form-control'
-        placeholder={`Search by  ${type === CRYPTO ? 'Token / Coin' : (type === EXCHANGE ? 'Exchange' : (type === DAPP ? 'Dapp' : (type === VENTURE ? 'Venture' : 'Soon')))}`}
+        placeholder={`Search by  ${type === CRYPTO ? 'Token(s) / Coin(s)' : (type === EXCHANGE ? 'Exchange(s)' : (type === DAPP ? 'D-App(s)' : (type === VENTURE ? 'Venture(s)' : (type === SOON ? 'ICOs/ IDOs/ IEOs' : (type === LAUNCHPAD ? 'Launchpad(s)' : '')))))}`}
         onChange={(e) => handleSearch(e.target.value)}
         autoComplete='off'
         onBlur={(e) => {
