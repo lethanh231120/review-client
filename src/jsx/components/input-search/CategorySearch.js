@@ -11,7 +11,7 @@ import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon'
 import ItemVenture from './item-venture/ItemVenture'
 
-import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP, LIST_CRYPTO, LIST_EXCHANGE, LIST_DAPP, LIST_SOON, LIST_VENTURE } from '../../../jsx/constants/category'
+import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP, LIST_CRYPTO, LIST_EXCHANGE, LIST_DAPP, LIST_SOON, LIST_VENTURE, LAUNCHPAD, LIST_LAUNCHPAD } from '../../../jsx/constants/category'
 
 const CategorySearch = ({ type }) => {
   const navigate = useNavigate()
@@ -103,6 +103,20 @@ const CategorySearch = ({ type }) => {
             })
             setItemSubmit(data?.data[LIST_SOON]?.soons[0])
             break
+          case LAUNCHPAD:
+            setDataSearch({
+              ...dataSearch,
+              status: 'done',
+              isActive: true,
+              data: {
+                listLaunchpad: {
+                  launchpads: (data?.data[LIST_LAUNCHPAD]?.launchpads !== null) ? data?.data[LIST_LAUNCHPAD]?.launchpads?.splice(0, 10) : null
+                }
+              },
+              isNull: data?.data[LIST_SOON]?.launchpads === null
+            })
+            setItemSubmit(data?.data[LIST_SOON]?.launchpads[0])
+            break
           default:
             break
         }
@@ -158,7 +172,7 @@ const CategorySearch = ({ type }) => {
     <div className='item-search cus-form'>
       <Input
         className='form-control cus-form-control'
-        placeholder={`Search by  ${type === CRYPTO ? 'Token / Coin' : (type === EXCHANGE ? 'Exchange' : (type === DAPP ? 'Dapp' : (type === VENTURE ? 'Venture' : 'Soon')))}`}
+        placeholder={`Search by  ${type === CRYPTO ? 'Token(s) / Coin(s)' : (type === EXCHANGE ? 'Exchange(s)' : (type === DAPP ? 'D-App(s)' : (type === VENTURE ? 'Venture(s)' : (type === SOON ? 'ICOs/ IDOs/ IEOs' : (type === LAUNCHPAD ? 'Launchpad(s)' : '')))))}`}
         onChange={(e) => handleSearch(e.target.value)}
         autoComplete='off'
         onBlur={(e) => {
