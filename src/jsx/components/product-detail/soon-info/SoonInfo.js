@@ -230,7 +230,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             </span>
             )}
         </div>
-        <div className='profile-name px-3 pt-2'>
+        <div className='profile-name px-2 pt-2'>
           <h4 className='text-primary mb-0'>{itemDetail?.projectName}</h4>
           <p style={{ paddingTop: '0.1rem' }} >
             {itemDetail?.projectSymbol}
