@@ -528,7 +528,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     <>
       <div className='card-header pb-0 border-0 flex-wrap'>
         <div>
-          <h4 className='heading mb-0'>More Info</h4>
+          <h5 className='heading text-primary mb-0'>More Info</h5>
         </div>
       </div>
       <div className='card-body'>
@@ -892,7 +892,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const about = (
     <>
       <div className='card-header border-0 pb-0'>
-        <h5 className='text-primary'>About {productInfo?.details?.name}</h5>
+        <h5 className='heading text-primary'>About {productInfo?.details?.name}</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-interest '>
@@ -914,7 +914,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         !_.isEmpty(productInfo?.mores?.trading) && (
         <>
           <div className='card-header border-0 pb-0'>
-            <h5 className='text-primary'>Trading On</h5>
+            <h5 className='heading text-primary'>Trading On</h5>
           </div>
           <div className='card-body pt-3 exchange'>
             <Table
