@@ -28515,21 +28515,21 @@ table.dataTable thead .sorting_asc {
   width: 500px; }
 
 .buy-coin {
- 
-  margin-left: 2.2rem;
-  margin-bottom: 1.2rem;
+  /* margin-left: 2.2rem; */
+  /* margin-bottom: 1.2rem; */
   display: flex; }
   .buy-coin h2, .buy-coin .h2 {
     font-weight: 600;
     font-size: 40px;
-    width: 50%;
+    /* width: 50%; */
     color: var(--secondary);
     line-height: 1.2;
     margin-top: 10px; }
     @media only screen and (max-width: 87.5rem) {
       .buy-coin h2, .buy-coin .h2 {
         font-size: 26px;
-        width: 44%; } }
+        /* width: 44%;  */
+      } }
     @media only screen and (max-width: 61.9375rem) {
       .buy-coin h2, .buy-coin .h2 {
         font-size: 20px; } }
@@ -34476,6 +34476,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 .banner-body{
   height: 100%;
+  margin-bottom: 0 !important;
 }
 
 

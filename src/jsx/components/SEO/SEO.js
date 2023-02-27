@@ -4,6 +4,7 @@ import { mainColorHex } from '../../constants/color'
 import imgGear5Logo from '../../../images/logo/gear5_logo_notext.png'
 
 export const SEO = ({ props }) => {
+  console.log('props', props)
   const title = props?.title || `Gear5 - Don't trust, verify.`
   const description = props?.description
   const image = props?.image || imgGear5Logo

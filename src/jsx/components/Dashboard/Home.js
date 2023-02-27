@@ -83,14 +83,15 @@ const Home = () => {
   return (
     <>
       {/* row 1 */}
-      <div className='row'>
+      <div className='row' style={{ height: 'max-content' }}>
         {/* banner, summary */}
         <div className='col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 mb-4'>
           <div className='row' style={{ height: '100%' }}>
-            <div className='col-xl-12' >
+            <div className='col-xl-12 cus-height-banner' >
               <Banner />
             </div>
-            <div className='col-xl-12 col-lg-12' style={{ display: 'flex', alignItems: 'end', justifyContent: 'center', padding: '0' }}>
+            {/* <div className='col-xl-12 col-lg-12' style={{ padding: '0', marginTop: 'auto', height: 'max-content' }}> */}
+            <div className='col-xl-12 col-lg-12' style={{ display: 'flex', alignItems: 'end', justifyContent: 'center', padding: '0', marginTop: 'auto' }}>
               {summaryData ? <SummaryRow data={summaryData}/> : <MySkeletonLoadinng />}
             </div>
           </div>
