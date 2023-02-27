@@ -195,9 +195,9 @@ const Exchange = ({
 
   return (
     <div className=' font-family exchange-table '>
-      <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>
+      <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
         A total of{' '}
-        <b>{total ? new Intl.NumberFormat().format(total) : 0}</b> Exchanges
+        <Badge>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Exchanges
         found.
       </div>
       <Row>

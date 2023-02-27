@@ -11,6 +11,7 @@ import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/f
 import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { VentureExplain } from '../../common-widgets/row-explaination/RowExplainationText'
+import { Badge } from 'react-bootstrap'
 
 const Venture = ({
   listProduct,
@@ -218,9 +219,9 @@ const Venture = ({
 
   return (
     <div className='font-family venture-table'>
-      <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>
+      <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
         A total of{' '}
-        <b>{total ? new Intl.NumberFormat().format(total) : 0}</b> Ventures
+        <Badge bg='primary'>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Ventures
         found.
       </div>
       <Row>

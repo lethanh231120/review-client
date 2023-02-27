@@ -12,6 +12,7 @@ import { launchpadExplain } from '../../common-widgets/row-explaination/RowExpla
 import { InfoCircleOutlined } from '@ant-design/icons'
 import CategorySearch from '../../input-search/CategorySearch'
 import { LAUNCHPAD } from '../../../constants/category'
+import { Badge } from 'react-bootstrap'
 
 const LaunchpadList = ({ listProduct,
   handleChangeTable,
@@ -242,9 +243,9 @@ const LaunchpadList = ({ listProduct,
 
   return (
     <div className='font-family dapp-table'>
-      <div style={{ fontSize: '1rem', padding: '0 0 1rem 0' }}>
+      <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
             A total of{' '}
-        <b>{total ? new Intl.NumberFormat().format(total) : 0}</b> Launchpads
+        <Badge>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Launchpads
             found.
       </div>
       <Row>

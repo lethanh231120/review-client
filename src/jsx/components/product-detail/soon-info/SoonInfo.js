@@ -30,6 +30,7 @@ import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import LaunchpadDetail from './../../common-widgets/page-soon/LaunchpadDetail'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
+import { LinkOutlined } from '@ant-design/icons'
 
 export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
@@ -161,7 +162,7 @@ const getRelativeHumanTime = (timestamp) => {
   return humanTime + ' ' + units
 }
 
-export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (startDate, endDate) => {
+export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (startDate, endDate, fontSize) => {
   const myCurrentDateTimeUnix = getCurrentTimeUnix()
 
   // string "15-05-2018" to date unix time
@@ -172,20 +173,20 @@ export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (star
   // Ongoing
   if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
     return <>
-      <span><b className={`fs-20 ${classTxtOngoing}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b> left</span>
+      <span>End in <b className={`fs-${fontSize} ${classTxtOngoing}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b></span>
       <hr className='hr-custome'></hr>
     </>
   } else
   // Past
   if (myCurrentDateTimeUnix > endDateUnix) {
     return <>
-      <span><b className={`fs-20 ${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)}</b> ago</span>
+      <span><b className={`fs-${fontSize} ${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)}</b> ago</span>
       <hr className='hr-custome'></hr>
     </>
   } else
   // Upcoming
   if (myCurrentDateTimeUnix < startDateUnix) {
-    return <><span><b className={`fs-20 ${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b> left</span>
+    return <><span>Start in <b className={`fs-${fontSize} ${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b></span>
       <hr className='hr-custome'></hr>
     </>
   }
@@ -341,7 +342,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     <div className='text-center'>
       <div className='row mb-4 d-flex'>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-          {getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)}
+          {getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate, 20)}
         </div>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> Start: <b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b></div>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> End&nbsp;&nbsp;: <b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b></div>
@@ -512,22 +513,6 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
           <LaunchpadDetail projectName={itemDetail?.projectName} launchpadList={itemDetail?.launchPads}/>
 
-          { !_.isEmpty(itemTags)
-            ? <div className='profile-blog mb-3'>
-              <Link to={'#'} >
-                <h4>Tag(s):</h4>
-              </Link>
-              { Object.keys(itemTags)?.map((index) => (
-                <div
-                  className='mb-0 btn btn-primary light btn-xs mb-2 me-1'
-                  onClick={() => handleClickTag(itemTags[index]?.name)}
-                  key={index}
-                >
-                  {itemTags[index]?.name}
-                </div>
-              )) }
-            </div> : ''}
-
           <div className='crypto-info'>
             <div className=''>
               <Link to={'#'} >
@@ -562,7 +547,10 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                         <Dropdown.Menu className='cus-dropdown-menu'>
                           {
                             Object.keys(itemDetail?.socials)?.map((keyName, index) => (
-                              <Dropdown.Item onClick={() => window.open(itemDetail?.socials[keyName])} key={index}>{toCammelCase(keyName)}</Dropdown.Item>
+                              <Dropdown.Item onClick={() => window.open(itemDetail?.socials[keyName])} key={index}>
+                                {toCammelCase(keyName)}
+                                <LinkOutlined />
+                              </Dropdown.Item>
                             ))
                           }
                         </Dropdown.Menu>
@@ -578,7 +566,10 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                         <Dropdown.Menu className='cus-dropdown-menu'>
                           {
                             Object.keys(itemDetail?.additionalLinks)?.map((keyName, index) => (
-                              <Dropdown.Item onClick={() => window.open(itemDetail?.additionalLinks[keyName])} key={index}>{toCammelCase(keyName)}</Dropdown.Item>
+                              <Dropdown.Item onClick={() => window.open(itemDetail?.additionalLinks[keyName])} key={index}>
+                                {toCammelCase(keyName)}
+                                <LinkOutlined />
+                              </Dropdown.Item>
                             ))
                           }
                         </Dropdown.Menu>
@@ -607,6 +598,23 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               </div>
             </div>
           </div>
+
+          { !_.isEmpty(itemTags)
+            ? <div className='profile-blog mb-3'>
+              <Link to={'#'} >
+                <h4>Tag(s):</h4>
+              </Link>
+              { Object.keys(itemTags)?.map((index) => (
+                <div
+                  className='mb-0 btn btn-primary light btn-xs mb-2 me-1'
+                  onClick={() => handleClickTag(itemTags[index]?.name)}
+                  key={index}
+                >
+                  {itemTags[index]?.name}
+                </div>
+              )) }
+            </div> : ''}
+
         </div>
       </div>
 
