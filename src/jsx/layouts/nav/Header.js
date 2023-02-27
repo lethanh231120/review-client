@@ -279,6 +279,7 @@ const Header = () => {
         footer={false}
         destroyOnClose={true}
         show={signContext?.openModalSignIn}
+        style={{ zIndex: '9999' }}
       >
         <AccountTab activeTabKey={formLoginSignupKeyContext?.loginSignupFormactiveTabKey} />
       </Modal>

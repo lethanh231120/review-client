@@ -254,6 +254,7 @@ const SideBar = () => {
     }
   }
 
+  console.log(state)
   return (
     <div
       className={`deznav  border-right ${iconHover} ${
@@ -322,6 +323,7 @@ const SideBar = () => {
                             <li
                               onClick={() => {
                                 saveFilterTag(data?.category, data?.title)
+                                handleMenuActive(data?.title)
                               }}
                               key={index}
                               className={`${
@@ -407,7 +409,8 @@ const SideBar = () => {
           style={{
             backgroundColor: '#EB5757',
             borderColor: '#EB5757',
-            padding: '0.4rem 0.6rem'
+            padding: '0.4rem',
+            width: 'calc(100% / 2 - 0.3rem)'
           }}
         >
           <span className='d-flex align-items-center'>
@@ -422,7 +425,8 @@ const SideBar = () => {
             backgroundColor: '#fff',
             borderColor: '#fff',
             color: 'rgba(0, 0, 0, 0.6)',
-            padding: '0.4rem 0.6rem'
+            padding: '0.4rem',
+            width: 'calc(100% / 2 - 0.3rem)'
           }}
           onClick={() => navigate('add-project')}
         >

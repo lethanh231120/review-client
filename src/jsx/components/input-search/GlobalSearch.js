@@ -49,6 +49,8 @@ const InputSearch = ({ isFormReport, setItem }) => {
       setKeyWord(value)
       setDataSearch({
         ...dataSearch,
+        data: {},
+        status: '',
         loading: true,
         isActive: true
       })
