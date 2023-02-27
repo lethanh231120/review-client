@@ -9,8 +9,12 @@ import { SignInContext, Authenticated } from '../../../App'
 import CryptoInfo from './crypto-info/CryptoInfo'
 import ExchangeInfo from './exchange-info/ExchangeInfo'
 import DappInfo from './dapp-info/DappInfo'
-import SoonInfo, { getStatusFromStartDateAndEndDate } from './soon-info/SoonInfo'
-import VentureInfo, { calculateTotalFund } from './venture-info/VentureInfo'
+import SoonInfo, {
+// getStatusFromStartDateAndEndDate
+} from './soon-info/SoonInfo'
+import VentureInfo, {
+// calculateTotalFund
+} from './venture-info/VentureInfo'
 import { exchanges } from '../../../utils/ExchangeImage'
 import {
   DAPP,
@@ -28,10 +32,11 @@ import user from '../../../images/product/user.png'
 import Swal from 'sweetalert2'
 import LaunchpadDetail from './launchpad-info/LaunchpadDetail'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
-import SEO from '../SEO/SEO'
-import { formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
-import imgAbsentImageCrypto from '../../../images/absent_image_crypto.png'
-import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
+import { Helmet } from 'react-helmet'
+// import SEO from '../SEO/SEO'
+// import { formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
+// import imgAbsentImageCrypto from '../../../images/absent_image_crypto.png'
+// import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
 
 const ProductDetail = () => {
   const TYPE_REVIEW = 0
@@ -787,107 +792,112 @@ const ProductDetail = () => {
     productId={productId}
   />
 
-  const getMetaProductDetail = (categoryName, type, detail) => {
-    let meta = {}
+  // const getMetaProductDetail = (categoryName, type, detail) => {
+  //   let meta = {}
 
-    if (type === CRYPTO_COIN || type === CRYPTO_TOKEN) {
-      meta = detail?.cryptoId && getMetaTagCrypto(detail)
-    } else {
-      switch (categoryName) {
-        case CRYPTO:{
-          meta = detail?.cryptoId && getMetaTagCrypto(detail)
-          break
-        }
-        case DAPP:{
-          meta = detail?.dAppId && getMetaTagDApp(detail)
-          break
-        }
-        case EXCHANGE:{
-          meta = detail?.exchangeId && getMetaTagExchange(detail)
-          break
-        }
-        case SOON:{
-          meta = detail?.projectId && getMetaTagSoon(detail)
-          break
-        }
-        case VENTURE:{
-          meta = detail?.ventureId && getMetaTagVenture(detail)
-          break
-        }
-        case LAUNCHPAD:{
-          meta = detail?.launchPadId && getMetaTagLaunchpad(detail)
-          break
-        }
-      }
-    }
+  //   if (type === CRYPTO_COIN || type === CRYPTO_TOKEN) {
+  //     meta = detail?.cryptoId && getMetaTagCrypto(detail)
+  //   } else {
+  //     switch (categoryName) {
+  //       case CRYPTO:{
+  //         meta = detail?.cryptoId && getMetaTagCrypto(detail)
+  //         break
+  //       }
+  //       case DAPP:{
+  //         meta = detail?.dAppId && getMetaTagDApp(detail)
+  //         break
+  //       }
+  //       case EXCHANGE:{
+  //         meta = detail?.exchangeId && getMetaTagExchange(detail)
+  //         break
+  //       }
+  //       case SOON:{
+  //         meta = detail?.projectId && getMetaTagSoon(detail)
+  //         break
+  //       }
+  //       case VENTURE:{
+  //         meta = detail?.ventureId && getMetaTagVenture(detail)
+  //         break
+  //       }
+  //       case LAUNCHPAD:{
+  //         meta = detail?.launchPadId && getMetaTagLaunchpad(detail)
+  //         break
+  //       }
+  //     }
+  //   }
 
-    return meta
-  }
+  //   return meta
+  // }
 
-  const getTxtTotalReviewScam = (totalScam, totalReview) =>{
-    let output = ''
-    output += totalScam ? `${totalScam} scam reports` : ''
-    if (output !== '') {
-      output += ', '
-    }
-    output += totalReview ? `${totalReview} reviews` : ''
-    if (output !== '') {
-      output += ', '
-    }
-    return output
-  }
+  // const getTxtTotalReviewScam = (totalScam, totalReview) =>{
+  //   let output = ''
+  //   output += totalScam ? `${totalScam} scam reports` : ''
+  //   if (output !== '') {
+  //     output += ', '
+  //   }
+  //   output += totalReview ? `${totalReview} reviews` : ''
+  //   if (output !== '') {
+  //     output += ', '
+  //   }
+  //   return output
+  // }
 
-  const getMetaTagCrypto = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.name} (${detail?.symbol}) ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}Price Chart, Market Cap, Info | Gear5`
-    meta.description = detail?.description
-    meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
-    return meta
-  }
+  // const getMetaTagCrypto = (detail) =>{
+  //   const meta = {}
+  //   meta.title = `${detail?.name} (${detail?.symbol}) ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}Price Chart, Market Cap, Info | Gear5`
+  //   meta.description = detail?.description
+  //   meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
+  //   return meta
+  // }
 
-  const getMetaTagDApp = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.dAppName} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} Price Chart, Market Cap today and Info | Gear5`
-    meta.description = detail?.description
-    meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
-    return meta
-  }
+  // const getMetaTagDApp = (detail) =>{
+  //   const meta = {}
+  //   meta.title = `${detail?.dAppName} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} Price Chart, Market Cap today and Info | Gear5`
+  //   meta.description = detail?.description
+  //   meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
+  //   return meta
+  // }
 
-  const getMetaTagExchange = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.name} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, ${detail?.volume24h ? formatLargeNumber(detail?.visit7d) + ' visit in last 7 days' : ''}, Volumne today and Info | Gear5`
-    meta.description = detail?.fullDescription
-    meta.image = isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageCrypto
-    return meta
-  }
+  // const getMetaTagExchange = (detail) =>{
+  //   const meta = {}
+  //   meta.title = `${detail?.name} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, ${detail?.volume24h ? formatLargeNumber(detail?.visit7d) + ' visit in last 7 days' : ''}, Volumne today and Info | Gear5`
+  //   meta.description = detail?.fullDescription
+  //   meta.image = isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageCrypto
+  //   return meta
+  // }
 
-  const getMetaTagSoon = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.projectName} (${detail?.projectSymbol}) ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} ${getStatusFromStartDateAndEndDate(detail?.startDate, detail?.endDate)?.toUpperCase()}, Market Cap today and Info | Gear5`
-    meta.description = detail?.fullDesc || detail?.shortDesc
-    meta.image = isValidProductId(detail?.projectId) ? formatImgUrlFromProductId(detail?.projectId) : imgAbsentImageCrypto
-    return meta
-  }
+  // const getMetaTagSoon = (detail) =>{
+  //   const meta = {}
+  //   meta.title = `${detail?.projectName} (${detail?.projectSymbol}) ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} ${getStatusFromStartDateAndEndDate(detail?.startDate, detail?.endDate)?.toUpperCase()}, Market Cap today and Info | Gear5`
+  //   meta.description = detail?.fullDesc || detail?.shortDesc
+  //   meta.image = isValidProductId(detail?.projectId) ? formatImgUrlFromProductId(detail?.projectId) : imgAbsentImageCrypto
+  //   return meta
+  // }
 
-  const getMetaTagVenture = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.ventureName} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, ${`invested ` + formatLargeNumberMoneyUSD(calculateTotalFund(productInfo?.mores?.fund))}, ${detail?.location ? 'location ' + detail?.location : ''}, ${detail?.yearFounded ? 'founded ' + detail?.yearFounded : ''}, and Info | Gear5`
-    meta.description = detail?.description
-    meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
-    return meta
-  }
+  // const getMetaTagVenture = (detail) =>{
+  //   const meta = {}
+  //   meta.title = `${detail?.ventureName} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, ${`invested ` + formatLargeNumberMoneyUSD(calculateTotalFund(productInfo?.mores?.fund))}, ${detail?.location ? 'location ' + detail?.location : ''}, ${detail?.yearFounded ? 'founded ' + detail?.yearFounded : ''}, and Info | Gear5`
+  //   meta.description = detail?.description
+  //   meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
+  //   return meta
+  // }
 
-  const getMetaTagLaunchpad = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.name} (${detail?.symbol}) ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, Market Cap, Info | Gear5`
-    meta.description = detail?.description
-    meta.image = isValidProductId(detail?.launchPadId) ? formatImgUrlFromProductId(detail?.launchPadId) : imgAbsentImageCrypto
-    return meta
-  }
+  // const getMetaTagLaunchpad = (detail) =>{
+  //   const meta = {}
+  //   meta.title = `${detail?.name} (${detail?.symbol}) ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, Market Cap, Info | Gear5`
+  //   meta.description = detail?.description
+  //   meta.image = isValidProductId(detail?.launchPadId) ? formatImgUrlFromProductId(detail?.launchPadId) : imgAbsentImageCrypto
+  //   return meta
+  // }
 
   return (
     <>
-      <SEO props={getMetaProductDetail(categoryName, type, productInfo?.details)} />
+      {/* <SEO props={getMetaProductDetail(categoryName, type, productInfo?.details)} /> */}
+      <Helmet>
+        <meta name='og:title' content='BITCOIN NE'></meta>
+        <meta name='og:description' content={productInfo?.details?.description}></meta>
+        {/* <meta name='image' content={`https://gear5.s3.ap-northeast-1.amazonaws.com/image/crypto/bigLogo/gear5_coin_bitcoin.png`}></meta> */}
+      </Helmet>
       <div className='section'>
         {!productInfo ? <MySkeletonLoadinng count={6} height={200}/> : ''}
         <div className='product' ref={ref} hidden={!productInfo}>

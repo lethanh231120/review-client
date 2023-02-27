@@ -962,6 +962,10 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   return (
     <>
+      {/* <Helmet>
+        <title>HELMET TEST</title>
+        <meta name='description' content={productInfo?.detail?.description}></meta>
+      </Helmet> */}
       <DetailLayout
         Header={header}
         type='crypto'
