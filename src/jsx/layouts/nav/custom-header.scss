@@ -9,15 +9,11 @@
     bottom: 0;
     padding: 1.25rem;
     z-index: 10;
+    width: 100%;
 }
-@media (max-width: 1600px) {
+@media (max-width: 1601.98px) {
     .list-btn{
         padding: 0.8rem;
-    }
-}
-@media (max-width: 1400px) {
-    .list-btn{
-        padding: 1.25rem;
     }
 }
 @media (max-width: 63.9375rem) {

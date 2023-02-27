@@ -44,8 +44,10 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
         )}
         <div>
           <div className='form-search-data-item-data-content'>
-            <h6 className='cus-h6'>{item?.name}</h6>
-            <h6 className='cus-h6'>({item?.symbol})</h6>
+            <div className='form-search-data-item-data-content-name'>
+              <h6 className='cus-h6'>{item?.name?.length}</h6>
+              <h6 className='cus-h6'>({item?.symbol})</h6>
+            </div>
             {item?.isScam ? (
               <Image src={scam} preview={false} />
             ) : item?.isWarning ? (

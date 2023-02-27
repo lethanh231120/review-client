@@ -4193,7 +4193,7 @@ textarea.form-control-lg {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1050;
+  z-index: 1000;
   display: none;
   width: 100%;
   height: 100%;
@@ -11852,6 +11852,8 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     .deznav .metismenu li ul li:hover{
       cursor: pointer;
       transform: translateX(8px);
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 5px;
     }
     .deznav .metismenu ul {
       transition: all .2s ease-in-out;

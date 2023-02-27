@@ -41,7 +41,7 @@ import { websiteIcon } from '../../common-widgets/icons'
 import { ExchangeDetail } from '../../common-widgets/page-crypto/ExchangeDetail'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
-  const PAGE_SIZE = 5
+  const PAGE_SIZE = 10
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
   const exchanges = useContext(ExchangeContext)
@@ -921,7 +921,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               columns={columns}
               dataSource={dataExchange}
               pagination={
-                dataExchange?.length > 5
+                dataExchange?.length > 10
                   ? {
                     pageSize: PAGE_SIZE,
                     defaultCurrent: 1,

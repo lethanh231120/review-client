@@ -67,6 +67,18 @@
                 &-content{
                     display: flex;
                     align-items: center;
+                    &-name{
+                        display: flex;
+                        align-items: center;
+
+                        max-width: 250px;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+    
+                        -webkit-line-clamp: 1;
+                        overflow: hidden;
+                        white-space: nowrap;
+                    }
                     &-list{
                         display: flex;
                         align-items: center;

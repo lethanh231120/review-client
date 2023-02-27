@@ -382,12 +382,11 @@ const ModalReport = ({ isModal }) => {
       <h4 className='project-hot-title'>Project Hot <Image src={hot} preview={false}/></h4>
       <div className='mt-3 row'>
         {listHot && listHot?.slice(0, 8)?.map((item, index) => (
-          <>
-            <ProjectHot
-              data={item}
-              setItemHot={setItemHot}
-            />
-          </>
+          <ProjectHot
+            key={index}
+            data={item}
+            setItemHot={setItemHot}
+          />
         ))}
       </div>
 
