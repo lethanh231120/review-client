@@ -5,7 +5,6 @@ import './css/style.css'
 import { get } from './api/BaseRequest'
 import { getCookie, STORAGEKEY } from './utils/storage'
 import _ from 'lodash'
-import { HelmetProvider } from 'react-helmet-async'
 import { SEO } from './jsx/components/SEO/SEO'
 
 export const ChainListContext = createContext()
@@ -131,8 +130,6 @@ const App = () => {
     getSummaryDataHome()
   }, [])
 
-  const helmetContext = {}
-
   return (
     <ChainListContext.Provider value={chainList}>
       <SignInContext.Provider value={stateSignIn}>
@@ -145,21 +142,19 @@ const App = () => {
                     <SummaryHomeContext.Provider value={summaryHome}>
                       <ShowFullSearchConext.Provider value={stateShowFullSearch}>
                         <FormLoginSignupKeyContext.Provider value={stateLoginSignupFormactiveTabKey}>
-                          <HelmetProvider context={helmetContext}>
-                            <Suspense fallback={
-                              <div id='preloader'>
-                                <div className='sk-three-bounce'>
-                                  <div className='sk-child sk-bounce1'></div>
-                                  <div className='sk-child sk-bounce2'></div>
-                                  <div className='sk-child sk-bounce3'></div>
-                                </div>
+                          <Suspense fallback={
+                            <div id='preloader'>
+                              <div className='sk-three-bounce'>
+                                <div className='sk-child sk-bounce1'></div>
+                                <div className='sk-child sk-bounce2'></div>
+                                <div className='sk-child sk-bounce3'></div>
                               </div>
-                            }
-                            >
-                              <SEO />
-                              <Index />
-                            </Suspense>
-                          </HelmetProvider>
+                            </div>
+                          }
+                          >
+                            <SEO />
+                            <Index />
+                          </Suspense>
                         </FormLoginSignupKeyContext.Provider>
                       </ShowFullSearchConext.Provider>
                     </SummaryHomeContext.Provider>
