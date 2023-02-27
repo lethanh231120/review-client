@@ -10,6 +10,8 @@ import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { launchpadExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 // import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { InfoCircleOutlined } from '@ant-design/icons'
+import CategorySearch from '../../input-search/CategorySearch'
+import { LAUNCHPAD } from '../../../constants/category'
 
 const LaunchpadList = ({ listProduct,
   handleChangeTable,
@@ -246,10 +248,10 @@ const LaunchpadList = ({ listProduct,
             found.
       </div>
       <Row>
-        <Col md={{ span: 12 }} sm={{ span: 14 }} xs={{ span: 24 }}>
-          {/* <CategorySearch type={DAPP}/> */}
+        <Col md={{ span: 18 }} sm={{ span: 17 }} xs={{ span: 17 }}>
+          <CategorySearch type={LAUNCHPAD}/>
         </Col>
-        <Col md={{ span: 12 }} sm={{ span: 10 }} xs={{ span: 24 }}>
+        <Col md={{ span: 6 }} sm={{ span: 7 }} xs={{ span: 7 }}>
           <DrawerFilter type='launchpad' handleFilter={handleFilter} />
         </Col>
       </Row>

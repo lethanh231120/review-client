@@ -11,7 +11,7 @@ import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon'
 import ItemVenture from './item-venture/ItemVenture'
 
-import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP, LIST_CRYPTO, LIST_EXCHANGE, LIST_DAPP, LIST_SOON, LIST_VENTURE, LAUNCHPAD } from '../../../jsx/constants/category'
+import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP, LIST_CRYPTO, LIST_EXCHANGE, LIST_DAPP, LIST_SOON, LIST_VENTURE, LAUNCHPAD, LIST_LAUNCHPAD } from '../../../jsx/constants/category'
 
 const CategorySearch = ({ type }) => {
   const navigate = useNavigate()
@@ -102,6 +102,20 @@ const CategorySearch = ({ type }) => {
               isNull: data?.data[LIST_SOON]?.soons === null
             })
             setItemSubmit(data?.data[LIST_SOON]?.soons[0])
+            break
+          case LAUNCHPAD:
+            setDataSearch({
+              ...dataSearch,
+              status: 'done',
+              isActive: true,
+              data: {
+                listLaunchpad: {
+                  launchpads: (data?.data[LIST_LAUNCHPAD]?.launchpads !== null) ? data?.data[LIST_LAUNCHPAD]?.launchpads?.splice(0, 10) : null
+                }
+              },
+              isNull: data?.data[LIST_SOON]?.launchpads === null
+            })
+            setItemSubmit(data?.data[LIST_SOON]?.launchpads[0])
             break
           default:
             break
