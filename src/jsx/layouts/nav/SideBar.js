@@ -32,7 +32,7 @@ const headerItem1 = `Crypto Projects`
 const headerItem2 = `DApps`
 const headerItem3 = `Ventures`
 const headerItem4 = `Exchanges`
-const headerItem5 = `Upcomings`
+const headerItem5 = `ICO/IDO/IEO`
 const headerItem6 = `Launchpads`
 
 const SideBar = () => {
