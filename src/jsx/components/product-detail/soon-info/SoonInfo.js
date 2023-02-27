@@ -250,22 +250,24 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           }
 
         </div>
-        <Button
+        {
+          itemDetail?.website && <Button
           // as='a'
           // href='#'
-          className='btn btn-primary mb-1 ms-auto'
-          onClick={() => {
-            setWebsiteLoading(true)
-            setTimeout(() =>{
-              itemDetail?.website && window.open(itemDetail?.website)
-              setWebsiteLoading(false)
-            }, 3000)
-          }}
-        >
-          {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '10px' }} /> : ''}
-          {websiteIcon}
+            className='btn btn-primary mb-1 ms-auto'
+            onClick={() => {
+              setWebsiteLoading(true)
+              setTimeout(() =>{
+                itemDetail?.website && window.open(itemDetail?.website)
+                setWebsiteLoading(false)
+              }, 3000)
+            }}
+          >
+            {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '0.3rem' }} /> : ''}
+            {websiteIcon}
             Website
-        </Button>
+          </Button>
+        }
       </div>
     </div>
   ) : ''

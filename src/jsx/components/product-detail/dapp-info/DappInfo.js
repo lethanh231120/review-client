@@ -62,11 +62,13 @@ const DappInfo = ({ productInfo, ...rest }) => {
           <h4 className='text-primary mb-2 cus-h4'>{detail?.dAppName}</h4>
           <Badge className='badge-sm' >{detail?.subCategory}</Badge>
         </div>
-        <Button className='ms-auto' onClick={() => openWebsite(detail?.website, setLoading, waitMillSecOpenWebsite)}>
-          {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '10px' }} /> : ''}
-          {websiteIcon}
+        {
+          detail?.website && <Button className='ms-auto' onClick={() => openWebsite(detail?.website, setLoading, waitMillSecOpenWebsite)}>
+            {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '0.3rem' }} /> : ''}
+            {websiteIcon}
              Website
-        </Button>
+          </Button>
+        }
       </div>
     </div>
   }
