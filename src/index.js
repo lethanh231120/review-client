@@ -5,16 +5,20 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
 import ThemeContext from './context/ThemeContext'
+import { HelmetProvider } from 'react-helmet-async'
+
+const helmetContext = {}
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <>
+  <HelmetProvider context={helmetContext}>
     <BrowserRouter>
       <ThemeContext>
         <App />
       </ThemeContext>
     </BrowserRouter>
-  </>
+  </HelmetProvider>
+
 )
 
 // If you want to start measuring performance in your app, pass a function
