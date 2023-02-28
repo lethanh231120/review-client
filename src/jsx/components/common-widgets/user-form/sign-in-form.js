@@ -254,7 +254,7 @@ export const SignInComponent = () => {
                     htmlFor='check1'
                   >
                     <a to={'#'} className={`nav-link m-auto btn tp-btn-light btn-primary${isLoading ? 'none-click' : ''}`}>
-                      Forget Password ?
+                      Forgot Password ?
                     </a>
                   </label>
                 </span>
