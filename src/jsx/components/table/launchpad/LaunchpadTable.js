@@ -170,7 +170,7 @@ const LaunchpadList = ({ listProduct,
 
     {
       title: <span className='crypto-table-tooltip'>
-     Marketcap
+     Market Cap
         <Tooltip
           overlayClassName='crypto-table-tooltip-box'
           title={launchpadExplain['marketCap']}
