@@ -207,7 +207,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
             {!_.isEmpty(detail?.chains) && (
               <div className='community-list-item'>
                 <div className='d-flex text-align-center mb-2'>
-                  <p className='mb-0'>Chains:</p>
+                  <p className='mb-0'>Chain(s):</p>
                   <Avatar.Group className='ms-1 '
                     maxCount={4}
                     size={20}
@@ -217,15 +217,17 @@ const DappInfo = ({ productInfo, ...rest }) => {
                       cursor: 'pointer'
                     }}
                   >
-                    {detail?.chains && Object.keys(detail?.chains).map((key, index) => (
+                    {detail?.chains && Object.keys(detail?.chains).map((keyChainName, index) => (
                       <>
-                        {key && (
-                          <Avatar
-                            size={20}
-                            src={chainList[key]?.image}
-                            key={index}
-                            className='crypto-info-exchange'
-                          />
+                        {keyChainName && (
+                          <Tooltip title={toCammelCase(keyChainName)}>
+                            <Avatar
+                              size={20}
+                              src={chainList[keyChainName]?.image}
+                              key={index}
+                              className='crypto-info-exchange'
+                            />
+                          </Tooltip>
                         )}
                       </>
                     ))}

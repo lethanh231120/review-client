@@ -30,6 +30,7 @@ import _ from 'lodash'
 import LaunchpadList from '../table/launchpad/LaunchpadTable'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 // import { exchanges } from '../../../utils/ExchangeImage'
+import { NoDataInfo } from './../no-data-info/NoDataInfo'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -98,56 +99,45 @@ const CategoryItem = () => {
   const getData = async(category, paramSort) => {
     setListProduct([]) // reset for loading
     paramSort['tag'] = decodeUrl(paramSort?.tag)
-    let productCount = 0
     switch (category) {
       case DAPP: {
         const dataDapp = await get('reviews/dapp/filter', paramSort)
         setListProduct(dataDapp?.data?.dApps)
         setTotal(dataDapp?.data?.dAppCount)
-        productCount = dataDapp?.data?.dAppCount
         break
       }
       case CRYPTO: {
         const dataCrypto = await get('reviews/crypto/filter', paramSort)
         setListProduct(dataCrypto?.data?.cryptos)
         setTotal(dataCrypto?.data?.cryptoCount)
-        productCount = dataCrypto?.data?.cryptoCount
         break
       }
       case EXCHANGE: {
         const dataExchange = await get('reviews/exchange/filter', paramSort)
         setListProduct(dataExchange?.data?.exchanges)
         setTotal(dataExchange?.data?.exchangeCount)
-        productCount = dataExchange?.data?.exchangeCount
         break
       }
       case VENTURE: {
         const dataVenture = await get('reviews/venture/filter', paramSort)
         setListProduct(dataVenture?.data?.ventures)
         setTotal(dataVenture?.data?.ventureCount)
-        productCount = dataVenture?.data?.ventureCount
         break
       }
       case SOON: {
         const dataSoon = await get('reviews/soon/filter', paramSort)
         setListProduct(dataSoon?.data?.soons)
         setTotal(dataSoon?.data?.soonCount)
-        productCount = dataSoon?.data?.soonCount
         break
       }
       case LAUNCHPAD: {
         const dataLaunchpad = await get('reviews/launchpad/filter', paramSort)
         setListProduct(dataLaunchpad?.data?.launchPads)
         setTotal(dataLaunchpad?.data?.launchPadCount)
-        productCount = dataLaunchpad?.data?.launchPadCount
         break
       }
       default:
-        productCount = -1 // not found below
         break
-    }
-    if (productCount === 0) {
-      navigate('/not-found')
     }
     setLoading(false)
   }
@@ -344,52 +334,53 @@ const CategoryItem = () => {
   }
 
   return (
-    <div className='category-page section' ref={refabc}>
+    total === 0 ? <NoDataInfo />
+      : <div className='category-page section' ref={refabc}>
 
-      <div className={`category-list detail ${category === SOON ? 'format-list-soon-background' : ''}`}>
-        <Row gutter={[10, 10]}>
-          {keyword ? (
-            <Col span={24}>
-              <TabSearch
-                listProduct={listProduct}
-                keywordSearch={keywordSearch}
-                keyword={keyword}
-                handleChangeInput={handleChangeInput}
-                handleSubmitSearch={handleSubmitSearch}
-                handleSubmitBtn={handleSubmitBtn}
-                setLoading={setLoading}
-                loading={loading}
-              />
-            </Col>
-          ) : (
-            <>
-              {loading ? (
-                <div style={{ width: '100%' }}>  <MySkeletonLoadinng count={50} height={70} /></div>
-              ) : (
-                <>{renderComponent(listProduct && listProduct[0])}</>
-              )}
-            </>
-          )}
-        </Row>
+        <div className={`category-list detail ${category === SOON ? 'format-list-soon-background' : ''}`}>
+          <Row gutter={[10, 10]}>
+            {keyword ? (
+              <Col span={24}>
+                <TabSearch
+                  listProduct={listProduct}
+                  keywordSearch={keywordSearch}
+                  keyword={keyword}
+                  handleChangeInput={handleChangeInput}
+                  handleSubmitSearch={handleSubmitSearch}
+                  handleSubmitBtn={handleSubmitBtn}
+                  setLoading={setLoading}
+                  loading={loading}
+                />
+              </Col>
+            ) : (
+              <>
+                {loading ? (
+                  <div style={{ width: '100%' }}>  <MySkeletonLoadinng count={50} height={70} /></div>
+                ) : (
+                  <>{renderComponent(listProduct && listProduct[0])}</>
+                )}
+              </>
+            )}
+          </Row>
+        </div>
+        {total > PAGE_SIZE && (
+          <>
+            {!loading && (
+              <div className='category-paginate'>
+                <Pagination
+                  total={
+                    total > MAX_PAGE * PAGE_SIZE ? MAX_PAGE * PAGE_SIZE : total
+                  }
+                  current={params?.page}
+                  pageSize={PAGE_SIZE}
+                  showSizeChanger={false}
+                  onChange={(value) => handleChangePage(value)}
+                />
+              </div>
+            )}
+          </>
+        )}
       </div>
-      {total > PAGE_SIZE && (
-        <>
-          {!loading && (
-            <div className='category-paginate'>
-              <Pagination
-                total={
-                  total > MAX_PAGE * PAGE_SIZE ? MAX_PAGE * PAGE_SIZE : total
-                }
-                current={params?.page}
-                pageSize={PAGE_SIZE}
-                showSizeChanger={false}
-                onChange={(value) => handleChangePage(value)}
-              />
-            </div>
-          )}
-        </>
-      )}
-    </div>
   )
 }
 export default CategoryItem

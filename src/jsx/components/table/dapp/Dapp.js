@@ -8,7 +8,7 @@ import { DAPP } from '../../../constants/category'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import CategorySearch from '../../input-search/CategorySearch'
 import MyScoreComponent from '../../score/scoreComponent'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import { isValidProductId, formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import { DappExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 import { InfoCircleOutlined } from '@ant-design/icons'
@@ -62,7 +62,7 @@ const Dapp = ({
     },
     {
       title: <span className='crypto-table-tooltip'>
-      Blockchains
+      Chain(s)
         <Tooltip
           overlayClassName='crypto-table-tooltip-box'
           title={DappExplain['blockchain']}
@@ -79,7 +79,7 @@ const Dapp = ({
           }}
           maxCount={3}
           size={25} >
-          {record?.chains && Object.keys(record?.chains).map((key, index) => <Tooltip key={index} title={key}><Avatar size={25} src={chainList[key]?.image} /></Tooltip>)}
+          {record?.chains && Object.keys(record?.chains).map((key, index) => <Tooltip key={index} title={toCammelCase(key)}><Avatar size={25} src={chainList[key]?.image} /></Tooltip>)}
         </Avatar.Group>
       )
     },
