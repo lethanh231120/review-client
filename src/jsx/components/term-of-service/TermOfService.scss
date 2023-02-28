@@ -1,0 +1,60 @@
+.term {
+    padding: 1.2rem 1.5rem;
+    margin: 0 auto;
+    max-width: 1270px;
+  
+    &-header {
+      background: linear-gradient(91.59deg, #008267 -2.23%, #15bb9a 50.25%);
+      color: white;
+      text-align: center;
+      position: relative;
+      border-radius: 1rem 1rem 0rem 0rem;
+      padding: 3rem 0.5rem 0.5rem;
+      z-index: 1;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      &:before {
+        content: "";
+        background: linear-gradient(91.59deg, #008267 -2.23%, #15bb9a 50.25%);
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 10rem;
+        border-radius: 0rem 0rem 100% 100%;
+        padding: 1.5rem;
+        z-index: -1;
+        bottom: -5rem;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 10px 10px -10px;
+      }
+    }
+  
+    &-content {
+      padding: 6rem 3rem 3rem;
+      background-color: rgb(238, 231, 231);
+      box-shadow: 10px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      border-radius: 0rem 0rem 1rem 1rem;
+      &-sub {
+        line-height: 1.5715;
+        margin-top: 0;
+        margin-bottom: 1em;
+      }
+    }
+  }
+  
+  .title {
+    &-page {
+      margin-bottom: 0;
+      color: #fff;
+      font-size: 3.2rem;
+      font-weight: 900;
+      font-style: normal;
+    }
+    &-box {
+      margin-bottom: 0.5rem;
+      font-size: 2.4rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: rgba(0, 0, 0, 0.85);
+    }
+  }
+  

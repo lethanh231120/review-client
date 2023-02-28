@@ -189,8 +189,12 @@ export const SignUpComponent = () => {
                   </label>
                 </span>
                 <label>
-                  <Link to={'#'}>Terms of Service </Link>&amp;{' '}
-                  <Link to={'#'}>Privacy Policy</Link>
+                  <Link to={'/terms-of-service'} onClick={() => {
+                    signContext?.handleSetOpenModal(false) // close form sign-in, sign-up
+                  }}>Terms of Service </Link>&amp;{' '}
+                  <Link to={'/privacy-policy'} onClick={() => {
+                    signContext?.handleSetOpenModal(false) // close form sign-in, sign-up
+                  }}>Privacy Policy</Link>
                 </label>
                 {errors.isConfirm && (
                   <div className='text-danger fs-12'>
