@@ -76,7 +76,7 @@ const ExchangeTable = ({ listData, loading }) => {
       dataIndex: 'pairCount' // override by render but still keep for pass param to server
     },
     {
-      title: 'Fee Transaction',
+      title: 'Transaction Fee',
       align: 'right',
       render: (_, record) => (
         <span>{record?.feeTxs ? renderNumber(record?.feeTxs) : '__'}</span>

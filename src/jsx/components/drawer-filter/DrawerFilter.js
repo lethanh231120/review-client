@@ -435,7 +435,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
         }.${launchpadFundRaisedMarks[values?.totalFundsRaised[1]]?.value}`
       }
 
-      // founded year
+      // year founded
       if (values?.yearFounded) {
         filterParams['yearFounded'] = `${
           launchpadFoundedYearMarks[values?.yearFounded[0]]?.value
@@ -759,7 +759,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
             {
               type === 'launchpad' &&
               <>
-                { CustomSlider('Founded Year', 'yearFounded', launchpadFoundedYearMarks)}
+                { CustomSlider('Year Founded', 'yearFounded', launchpadFoundedYearMarks)}
                 { CustomSlider('Total Fund Raised', 'totalFundsRaised', launchpadFundRaisedMarks)}
                 { CustomSlider('Average ROI Current', 'avgRoiCurrent', launchpadAvgRoiCurrentMarks)}
                 { CustomSlider('Average ROI ATH', 'avgRoiATH', launchpadAvgRoiATHMarks)}

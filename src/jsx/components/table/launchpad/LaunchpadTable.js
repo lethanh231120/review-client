@@ -130,7 +130,7 @@ const LaunchpadList = ({ listProduct,
       )
     },
     {
-      title: 'Founded Year',
+      title: 'Year Founded',
       showSorterTooltip: false,
       dataIndex: 'yearFounded',
       sorter: true,

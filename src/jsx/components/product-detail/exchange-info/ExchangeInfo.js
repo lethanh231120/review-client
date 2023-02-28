@@ -217,7 +217,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
 
             {detail?.feeTxs > 0 && (
               <div className='community-list-item'>
-                {dataItem('Fee Transaction', `${detail?.feeTxs}%`)}
+                {dataItem('Transaction Fee', `${detail?.feeTxs}%`)}
               </div>
             )}
 
@@ -241,7 +241,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
 
             {detail?.founderYear && (
               <div className='community-list-item'>
-                {detail?.founderYear && dataItem('Founded Year', moment(detail?.founderYear)?.year())}
+                {detail?.founderYear && dataItem('Year Founded', moment(detail?.founderYear)?.year())}
               </div>
             )}
 
