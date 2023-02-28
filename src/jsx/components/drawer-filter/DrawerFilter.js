@@ -634,10 +634,10 @@ const DrawerFilter = ({ type, handleFilter }) => {
 
             {type === 'venture' && (
               <>
-                {CustomSlider('SeriesA', 'seriesA', seriesMarks)}
-                {CustomSlider('SeriesB', 'seriesB', seriesMarks)}
-                {CustomSlider('SeriesC', 'seriesC', seriesMarks)}
-                {CustomSlider('Ico', 'ico', seriesMarks)}
+                {CustomSlider('Series A', 'seriesA', seriesMarks)}
+                {CustomSlider('Series B', 'seriesB', seriesMarks)}
+                {CustomSlider('Series C', 'seriesC', seriesMarks)}
+                {CustomSlider('ICO', 'ico', seriesMarks)}
                 {CustomSlider('Strategic', 'strategic', strategicMarks)}
                 {CustomSlider('Total Fund', 'totalFund', totalFundsMarks)}
                 {CustomSlider('Volume Total Funds', 'volumeTotalFunds', marketCapMarks)}
