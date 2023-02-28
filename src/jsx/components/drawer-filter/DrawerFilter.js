@@ -435,7 +435,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
         }.${launchpadFundRaisedMarks[values?.totalFundsRaised[1]]?.value}`
       }
 
-      // founded year
+      // year founded
       if (values?.yearFounded) {
         filterParams['yearFounded'] = `${
           launchpadFoundedYearMarks[values?.yearFounded[0]]?.value
@@ -634,10 +634,10 @@ const DrawerFilter = ({ type, handleFilter }) => {
 
             {type === 'venture' && (
               <>
-                {CustomSlider('SeriesA', 'seriesA', seriesMarks)}
-                {CustomSlider('SeriesB', 'seriesB', seriesMarks)}
-                {CustomSlider('SeriesC', 'seriesC', seriesMarks)}
-                {CustomSlider('Ico', 'ico', seriesMarks)}
+                {CustomSlider('Series A', 'seriesA', seriesMarks)}
+                {CustomSlider('Series B', 'seriesB', seriesMarks)}
+                {CustomSlider('Series C', 'seriesC', seriesMarks)}
+                {CustomSlider('ICO', 'ico', seriesMarks)}
                 {CustomSlider('Strategic', 'strategic', strategicMarks)}
                 {CustomSlider('Total Fund', 'totalFund', totalFundsMarks)}
                 {CustomSlider('Volume Total Funds', 'volumeTotalFunds', marketCapMarks)}
@@ -759,11 +759,11 @@ const DrawerFilter = ({ type, handleFilter }) => {
             {
               type === 'launchpad' &&
               <>
-                { CustomSlider('Founded Year', 'yearFounded', launchpadFoundedYearMarks)}
+                { CustomSlider('Year Founded', 'yearFounded', launchpadFoundedYearMarks)}
                 { CustomSlider('Total Fund Raised', 'totalFundsRaised', launchpadFundRaisedMarks)}
                 { CustomSlider('Average ROI Current', 'avgRoiCurrent', launchpadAvgRoiCurrentMarks)}
                 { CustomSlider('Average ROI ATH', 'avgRoiATH', launchpadAvgRoiATHMarks)}
-                { CustomSlider('Marketcap', 'marketCap', launchpadMarketcapMarks)}
+                { CustomSlider('Market Cap', 'marketCap', launchpadMarketcapMarks)}
                 { CustomSlider('Volume24h', 'volume24h', launchpadVolume24hMarks)}
                 { CustomSlider('Score', 'score', getScoreMarks('launchpad'))}
               </>

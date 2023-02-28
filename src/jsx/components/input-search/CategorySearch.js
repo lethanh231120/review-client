@@ -172,7 +172,7 @@ const CategorySearch = ({ type }) => {
     <div className='item-search cus-form'>
       <Input
         className='form-control cus-form-control'
-        placeholder={`Search by  ${type === CRYPTO ? 'Token(s) / Coin(s)' : (type === EXCHANGE ? 'Exchange(s)' : (type === DAPP ? 'D-App(s)' : (type === VENTURE ? 'Venture(s)' : (type === SOON ? 'ICOs/ IDOs/ IEOs' : (type === LAUNCHPAD ? 'Launchpad(s)' : '')))))}`}
+        placeholder={`Search by  ${type === CRYPTO ? 'Coins/ Token Contracts' : (type === EXCHANGE ? 'Exchange(s)' : (type === DAPP ? 'D-App(s)' : (type === VENTURE ? 'Venture(s)' : (type === SOON ? 'ICOs/ IDOs/ IEOs' : (type === LAUNCHPAD ? 'Launchpad(s)' : '')))))}`}
         onChange={(e) => handleSearch(e.target.value)}
         autoComplete='off'
         onBlur={(e) => {

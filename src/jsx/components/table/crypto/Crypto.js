@@ -533,7 +533,7 @@ const Crypto = ({
         <>
           <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
             A total of{' '}
-            <Badge>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Coins /
+            <Badge>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Coins/
             Token Contracts found.
           </div>
           <Row>

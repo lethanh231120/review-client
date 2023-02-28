@@ -522,19 +522,28 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   {
                     itemDetail?.website ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.website)}>
-                      Homepage
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                      Homepage&nbsp;
+                        <LinkOutlined />
+                      </div>
                     </div> : ''
                   }
 
                   {
                     itemDetail?.whitepaperUrl ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.whitepaperUrl)}>
-                      Whitepaper
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                      Whitepaper&nbsp;
+                        <LinkOutlined />
+                      </div>
                     </div> : ''
                   }
 
                   {
                     itemDetail?.linkDemo ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.linkDemo)}>
-                      Link&nbsp;Demo
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                      Link&nbsp;Demo&nbsp;
+                        <LinkOutlined />
+                      </div>
                     </div> : ''
                   }
 
@@ -548,8 +557,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                           {
                             Object.keys(itemDetail?.socials)?.map((keyName, index) => (
                               <Dropdown.Item onClick={() => window.open(itemDetail?.socials[keyName])} key={index}>
-                                {toCammelCase(keyName)}
-                                <LinkOutlined />
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                  {toCammelCase(keyName)}
+                                  &nbsp;
+                                  <LinkOutlined />
+                                </div>
                               </Dropdown.Item>
                             ))
                           }
@@ -567,8 +579,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                           {
                             Object.keys(itemDetail?.additionalLinks)?.map((keyName, index) => (
                               <Dropdown.Item onClick={() => window.open(itemDetail?.additionalLinks[keyName])} key={index}>
-                                {toCammelCase(keyName)}
-                                <LinkOutlined />
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                  {toCammelCase(keyName)}
+                                  &nbsp;
+                                  <LinkOutlined />
+                                </div>
                               </Dropdown.Item>
                             ))
                           }
@@ -586,7 +601,13 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                         <Dropdown.Menu className='cus-dropdown-menu'>
                           {
                             Object.keys(itemDetail?.sourceCode)?.map((keyName, index) => (
-                              <Dropdown.Item onClick={() => window.open(itemDetail?.sourceCode[keyName])} key={index}>{toCammelCase(keyName)}</Dropdown.Item>
+                              <Dropdown.Item onClick={() => window.open(itemDetail?.sourceCode[keyName])} key={index}>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                  {toCammelCase(keyName)}
+                                  &nbsp;
+                                  <LinkOutlined />
+                                </div>
+                              </Dropdown.Item>
                             ))
                           }
                         </Dropdown.Menu>

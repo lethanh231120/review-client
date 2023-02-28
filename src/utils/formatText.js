@@ -2,7 +2,10 @@ import { PREFIX_DETAIL, DAPP, VENTURE, EXCHANGE,
   CRYPTO, CRYPTO_COIN, CRYPTO_TOKEN
 } from '../jsx/constants/category'
 export const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1)
+  if (string?.length >= 1) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  }
+  return string
 }
 
 export const formatUrlDetailFromUrlImageExchange = (urlImage) => {
@@ -69,3 +72,10 @@ export const formatImgUrlFromProductId = (productId) => {
   const imgUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${productImgType}/${folderImgPath}/${productId}.png`
   return imgUrl
 }
+
+// export const capitalizeFirstLetter = (string) => {
+//   if (string?.length >= 1){
+//     return string?.charAt(0)?.toUpperCase() + string?.slice(1)
+//   }
+//   return string
+// }

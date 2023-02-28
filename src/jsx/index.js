@@ -30,7 +30,6 @@ import { NotFoundProduct } from './components/not-found-product/NotFoundProduct'
 import { ServerError } from './components/server-error/ServerError'
 import InsightMain from './components/insight/InsightMain'
 import { TermOfService } from './components/term-of-service/TermOfService'
-import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -112,7 +111,7 @@ const Markup = () => {
                   />
                 </Route>
                 <Route path='terms-of-service' element={<TermOfService />}/>
-                <Route path='privacy-policy' element={<PrivacyPolicy />}/>
+                <Route path='privacy-policy' element={<TermOfService />}/>
                 <Route path='not-found-product' element={<NotFoundProduct />} />
                 <Route path='server-error' element={<ServerError />} />
                 <Route path='not-found' element={<NotFound />} />

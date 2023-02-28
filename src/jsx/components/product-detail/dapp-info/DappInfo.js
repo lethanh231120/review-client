@@ -9,7 +9,7 @@ import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 import { LoadingOutlined } from '@ant-design/icons'
 import Description from '../description/Description'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import { isValidProductId, formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import { openWebsite } from '../../../../utils/effect'
 import { websiteIcon } from '../../common-widgets/icons'
@@ -149,7 +149,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
               return content[socialName] !== '' ? (
                 <Tooltip className='ms-1'
                   placementTooltip='topLeft'
-                  title={socialName}
+                  title={toCammelCase(socialName)}
                   key={socialName}
                 >
                   <a

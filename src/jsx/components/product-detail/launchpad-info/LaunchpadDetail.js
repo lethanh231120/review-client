@@ -205,7 +205,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
 
             {detail?.yearFounded && (
               <div className='community-list-item'>
-                {dataItem('Year Of Foundation', detail?.yearFounded)}
+                {dataItem('Year Founded', detail?.yearFounded)}
               </div>
             )}
 
@@ -317,7 +317,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       render: (_, record) => <span>{formatLargeNumber(record?.totalSupply)}</span>
     },
     {
-      title: 'Marketcap',
+      title: 'Market Cap',
       render: (_, record) => <span>{formatMoney(record?.fullyDilutedMarketcap)}</span>
     },
     {

@@ -20,10 +20,10 @@ export const DappExplain = {
 
 export const launchpadExplain = {
   'blockchain': 'Platforms which launchpad operates on',
-  'currentROI': 'Current average ROI of this launchpad',
-  'athROI': 'Average ATH ROI of this launchpad',
+  'currentROI': 'Current average Return on Investment (ROI) of this launchpad',
+  'athROI': 'Average All Time High (ATH) Return on Investment (ROI) of this launchpad',
   'raise': 'Capital raised amount',
-  'volume24h': 'Total 24h volume of this launchpad',
+  'volume24h': 'Total 24 hours volume of this launchpad',
   'marketCap': 'Launchpad market capitalization',
   'score': 'Gear5 score for this launchpad'
 }

@@ -214,7 +214,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
             )}
             {detail?.yearFounded && (
               <div className='community-list-item'>
-                {dataItem('Founded Year', detail?.yearFounded)}
+                {dataItem('Year Founded', detail?.yearFounded)}
               </div>
             )}
 

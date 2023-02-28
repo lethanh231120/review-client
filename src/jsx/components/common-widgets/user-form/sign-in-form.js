@@ -11,6 +11,7 @@ import { AddModalContext } from '../../../index'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GoogleLogin } from '@react-oauth/google'
 import { parseJwt } from '../../../../utils/decode'
+import { txtEnterEmail, txtEnterPassword } from './sign-up-form'
 
 const loginTypeNormal = 'normal'
 const loginTypeFacebook = 'facebook'
@@ -214,7 +215,7 @@ export const SignInComponent = () => {
                   className='form-control input-form-sign-in-sign-up-padding'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder='Enter your e-mail address.'
+                  placeholder={txtEnterEmail}
                   readOnly={isLoading}
                 />
                 {errors.email && (
@@ -230,7 +231,7 @@ export const SignInComponent = () => {
                   className='form-control input-form-sign-in-sign-up-padding'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder='Enter your password.'
+                  placeholder={txtEnterPassword}
                   readOnly={isLoading}
                 />
                 {errors.password && (
@@ -254,7 +255,7 @@ export const SignInComponent = () => {
                     htmlFor='check1'
                   >
                     <a to={'#'} className={`nav-link m-auto btn tp-btn-light btn-primary${isLoading ? 'none-click' : ''}`}>
-                      Forget Password ?
+                      Forgot Password ?
                     </a>
                   </label>
                 </span>

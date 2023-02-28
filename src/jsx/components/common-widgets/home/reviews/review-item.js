@@ -6,12 +6,13 @@ import profile from '../../../../../images/product/user.png'
 import { Image } from 'antd'
 import moment from 'moment-timezone'
 import _ from 'lodash'
+import { capitalizeFirstLetter } from './../../../../../utils/formatText'
 
 export const ReviewItem = ({ data }) => {
   const navigate = useNavigate()
 
   const actionTime = moment(data?.createdDate, 'YYYY-MM-DD HH:mm:ss')
-  const timeAgo = actionTime.fromNow()
+  const timeAgo = capitalizeFirstLetter(actionTime.fromNow())
 
   const onClicked = () => {
     const id = data?.productId

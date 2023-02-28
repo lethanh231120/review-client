@@ -674,7 +674,7 @@ const ModalAdd = ({ isModal }) => {
             <button type='submit' className='me-2 btn btn-danger' onClick={handleReset}>Reset</button>
           </Form.Item>
           <Form.Item>
-            <button className='me-2 btn btn-success'>Add Product</button>
+            <button className='me-2 btn btn-success'>Submit</button>
           </Form.Item>
         </div>
       </Form>

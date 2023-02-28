@@ -130,7 +130,7 @@ const LaunchpadList = ({ listProduct,
       )
     },
     {
-      title: 'Founded Year',
+      title: 'Year Founded',
       showSorterTooltip: false,
       dataIndex: 'yearFounded',
       sorter: true,
@@ -170,7 +170,7 @@ const LaunchpadList = ({ listProduct,
 
     {
       title: <span className='crypto-table-tooltip'>
-     Marketcap
+     Market Cap
         <Tooltip
           overlayClassName='crypto-table-tooltip-box'
           title={launchpadExplain['marketCap']}
