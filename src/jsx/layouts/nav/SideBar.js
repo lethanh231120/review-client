@@ -254,7 +254,7 @@ const SideBar = () => {
     }
   }
 
-  console.log(state)
+  // console.log(state)
   return (
     <div
       className={`deznav  border-right ${iconHover} ${

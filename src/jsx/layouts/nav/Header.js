@@ -223,7 +223,9 @@ const Header = () => {
           <Tooltip title={txtScamTooltip} placement='left'>
             <div className='coccoc-alo-ph-img-circle report-scam-image'
               onClick={() => reportModal?.handleSetOpenModal(true)}
-            ></div>
+            >
+
+            </div>
           </Tooltip>
         </div>
       </Dropdown.Toggle>

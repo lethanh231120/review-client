@@ -33,7 +33,7 @@ const Dapp = ({
   const columns = [
     {
       title: 'Name',
-      render: (_, record) => (<Link className='crypto-table-info image-list' to='#'>
+      render: (_, record) => (<Link className='crypto-table-info image-list' to={`../../products/${record?.dAppId?.split('_')[1]}/${record?.dAppId?.split('_')[2]}`}>
         {record?.dAppId && record?.dAppLogo ? (
           <Image onError={() => console.log(1)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
         )

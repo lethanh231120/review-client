@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { ChainListContext } from '../../../../../App'
 // import { formatMoney } from '../../../../utils/formatNumber'
 import './blockchain-data.scss'
+import { LinkOutlined } from '@ant-design/icons'
 
 const color = ['success', 'info', 'warning', 'danger', 'secondary']
 
@@ -47,7 +48,7 @@ export const ScamEachChainsList = ({ data }) => {
       <td >{index}</td>
       <td >
         <div className='d-flex justify-content-start ms-5 align-items-center'>
-          {chainName !== 'Others' && <Avatar size={25} src={img}/>}
+          {chainName !== 'Others' ? <Avatar size={25} src={img}/> : <LinkOutlined />}
           <span className='ms-2'>{capitalizeFirstLetter(chainName)}</span>
         </div>
       </td>
