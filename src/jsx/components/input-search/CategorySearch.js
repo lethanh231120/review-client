@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Input, Spin, Empty } from 'antd'
 import _ from 'lodash'
 import { search } from '../../../api/BaseRequest'
@@ -6,6 +6,7 @@ import './globalSearch.scss'
 import { useNavigate } from 'react-router-dom'
 import nodata from '../../../images/product/nodata.png'
 import ItemCrypto from './item-crypto/ItemCrypto'
+import ItemLaunch from './item-launchpad/ItemLaunpad'
 import ItemDapp from './item-dapp/ItemDapp'
 import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon'
@@ -15,6 +16,7 @@ import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP, LIST_CRYPTO, LIST_EXCHANGE, LIST
 
 const CategorySearch = ({ type }) => {
   const navigate = useNavigate()
+  const refInput = useRef()
   const [dataSearch, setDataSearch] = useState({
     data: null,
     loading: false,
@@ -110,12 +112,12 @@ const CategorySearch = ({ type }) => {
               isActive: true,
               data: {
                 listLaunchpad: {
-                  launchpads: (data?.data[LIST_LAUNCHPAD]?.launchpads !== null) ? data?.data[LIST_LAUNCHPAD]?.launchpads?.splice(0, 10) : null
+                  launchPads: (data?.data[LIST_LAUNCHPAD]?.launchPads !== null) ? data?.data[LIST_LAUNCHPAD]?.launchPads?.splice(0, 10) : null
                 }
               },
-              isNull: data?.data[LIST_SOON]?.launchpads === null
+              isNull: data?.data[LIST_LAUNCHPAD]?.launchPads === null
             })
-            setItemSubmit(data?.data[LIST_SOON]?.launchpads[0])
+            setItemSubmit(data?.data[LIST_LAUNCHPAD]?.launchPads[0])
             break
           default:
             break
@@ -137,14 +139,16 @@ const CategorySearch = ({ type }) => {
   const subMitForm = () => {
     if (itemSubmit) {
       const productId = itemSubmit?.cryptoId
-        ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
+        ? `${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
         : itemSubmit?.dappId
           ? `${itemSubmit?.dappId?.split('_')[2]}`
           : itemSubmit?.exchangeId
             ? `${itemSubmit?.exchangeId?.split('_')[2]}`
             : itemSubmit?.soonId
-              ? `${itemSubmit?.soonId?.split('_')[2]}${itemSubmit?.soonId?.split('_')[3] ? `/${itemSubmit?.soonId?.split('_')[3]}` : ''}`
-              : `${itemSubmit?.ventureId?.split('_')[2]}`
+              ? `${itemSubmit?.soonId?.split('_')[2]}`
+              : itemSubmit?.ventureId
+                ? `${itemSubmit?.ventureId?.split('_')[2]}`
+                : `${itemSubmit?.launchPadId?.split('_')[2]}`
 
       navigate(
         `../../products/${
@@ -156,10 +160,13 @@ const CategorySearch = ({ type }) => {
                 ? 'exchange'
                 : itemSubmit?.soonId
                   ? 'soon'
-                  : 'venture'
+                  : itemSubmit?.ventureId
+                    ? 'venture'
+                    : 'launchpad'
         }/${productId}`
       )
     }
+    refInput.current.value = ''
   }
 
   const handleSubmitSearch = (e) => {
@@ -171,6 +178,7 @@ const CategorySearch = ({ type }) => {
   return (
     <div className='item-search cus-form'>
       <Input
+        ref={refInput}
         className='form-control cus-form-control'
         placeholder={`Search by  ${type === CRYPTO ? 'Coins/ Token Contracts' : (type === EXCHANGE ? 'Exchange(s)' : (type === DAPP ? 'D-App(s)' : (type === VENTURE ? 'Venture(s)' : (type === SOON ? 'ICOs/ IDOs/ IEOs' : (type === LAUNCHPAD ? 'Launchpad(s)' : '')))))}`}
         onChange={(e) => handleSearch(e.target.value)}
@@ -201,6 +209,23 @@ const CategorySearch = ({ type }) => {
                           index={index}
                           global={false}
                           itemSubmit={itemSubmit}
+                          refInput={refInput}
+                        />
+                      )
+                    )}
+                  </div>
+                )}
+                {dataSearch?.data?.listLaunchpad && dataSearch?.data?.listLaunchpad?.launchPads !== null && (
+                  <div className='form-search-data-box'>
+                    {dataSearch?.data?.listLaunchpad?.launchPads?.map(
+                      (item, index) => (
+                        <ItemLaunch
+                          key={index}
+                          item={item}
+                          index={index}
+                          global={false}
+                          itemSubmit={itemSubmit}
+                          refInput={refInput}
                         />
                       )
                     )}
@@ -216,6 +241,7 @@ const CategorySearch = ({ type }) => {
                           index={index}
                           global={false}
                           itemSubmit={itemSubmit}
+                          refInput={refInput}
                         />
                       )
                     )}
@@ -231,6 +257,7 @@ const CategorySearch = ({ type }) => {
                           index={index}
                           global={false}
                           itemSubmit={itemSubmit}
+                          refInput={refInput}
                         />
                       )
                     )}
@@ -244,6 +271,7 @@ const CategorySearch = ({ type }) => {
                         key={item?.soonId}
                         global={false}
                         itemSubmit={itemSubmit}
+                        refInput={refInput}
                       />
                     ))}
                   </div>
@@ -258,6 +286,7 @@ const CategorySearch = ({ type }) => {
                           index={index}
                           itemSubmit={itemSubmit}
                           global={false}
+                          refInput={refInput}
                         />
                       )
                     )}

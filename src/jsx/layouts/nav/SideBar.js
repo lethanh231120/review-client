@@ -17,6 +17,7 @@ import { pair1 } from '../../../utils/formatUrl'
 import { ToggleContext } from '../../index'
 import './custom-header.scss'
 import { WARNING_ICON } from '../../components/common-widgets/logo/logo'
+import { PathNameContext } from '../../index'
 
 const reducer = (previousState, updatedState) => ({
   ...previousState,
@@ -37,6 +38,7 @@ const headerItem6 = `Launchpads`
 
 const SideBar = () => {
   const toggle = useContext(ToggleContext)
+  const pathname = useContext(PathNameContext)
   const navigate = useNavigate()
   // set defaul category when no data
   const arrOrderedCategories = [
@@ -254,7 +256,6 @@ const SideBar = () => {
     }
   }
 
-  // console.log(state)
   return (
     <div
       className={`deznav  border-right ${iconHover} ${
@@ -295,6 +296,7 @@ const SideBar = () => {
                       onClick={() => {
                         handleMenuActive(data?.title)
                         removeFilterTag(data?.title, '')
+                        pathname?.handleChangePathName(data?.title)
                       }}
                     >
                       {data.iconStyle}
@@ -305,6 +307,7 @@ const SideBar = () => {
                       to={data?.to}
                       onClick={() => {
                         handleMenuActive(data?.title)
+                        pathname?.handleChangePathName(data?.title)
                       }}
                     >
                       {data.iconStyle}
@@ -323,7 +326,7 @@ const SideBar = () => {
                             <li
                               onClick={() => {
                                 saveFilterTag(data?.category, data?.title)
-                                handleMenuActive(data?.title)
+                                pathname?.handleChangePathName(data?.title)
                               }}
                               key={index}
                               className={`${

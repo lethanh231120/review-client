@@ -42,7 +42,9 @@ const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItem, isFormRepo
         <div>
           <div className='form-search-data-item-data-content'>
             <h6 className='cus-h6'>{item?.name}</h6>
-            <h6 className='cus-h6'>({item?.symbol})</h6>
+            {item?.symbol && (
+              <h6 className='cus-h6'>({item?.symbol})</h6>
+            )}
           </div>
           <div className='form-search-data-item-data-list'>
             {item?.roundType && (

@@ -32,6 +32,11 @@ import { Helmet } from 'react-helmet-async'
 import { formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
 import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
 import { SEO } from './../SEO/SEO'
+import { PathNameContext } from '../../index'
+// import SEO from '../SEO/SEO'
+// import { formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
+// import imgAbsentImageCrypto from '../../../images/absent_image_crypto.png'
+// import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
 
 const ProductDetail = () => {
   const TYPE_REVIEW = 0
@@ -45,6 +50,7 @@ const ProductDetail = () => {
   const ref = useRef(null)
   const recapcharRef = useRef(null)
   const signInContext = useContext(SignInContext)
+  const pathNameHeader = useContext(PathNameContext)
   const auth = useContext(Authenticated)
 
   const [productId, setProductId] = useState()
@@ -93,6 +99,7 @@ const ProductDetail = () => {
         id = `gear5_${categoryName}_${productName}`
       }
     }
+    pathNameHeader?.handleChangePathName(`${productName} Infomation`)
     setProductId(id)
     setDefaultFilter({
       ...defaultFilter,

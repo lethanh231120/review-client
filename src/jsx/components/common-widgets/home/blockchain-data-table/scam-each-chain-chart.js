@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { ChainListContext } from '../../../../../App'
 // import { formatMoney } from '../../../../utils/formatNumber'
 import './blockchain-data.scss'
-import { LinkOutlined } from '@ant-design/icons'
+// import { LinkOutlined } from '@ant-design/icons'
 
 const color = ['success', 'info', 'warning', 'danger', 'secondary']
 
@@ -35,10 +35,10 @@ export const ScamEachChainsList = ({ data }) => {
       } else {
         if (window.localStorage.getItem('crypto') !== '') {
           // window.localStorage.removeItem('crypto')
-          window.localStorage.setItem('crypto', JSON.stringify({ tag: `${chainnameUpper}_Ecosystem` }))
+          window.localStorage.setItem('crypto', JSON.stringify({ tag: `${chainnameUpper}-Ecosystem` }))
         }
 
-        navigate(`crypto/${chainnameUpper}_Ecosystem`)
+        navigate(`crypto/${chainnameUpper}-Ecosystem`)
       }
     }
   }
@@ -47,8 +47,8 @@ export const ScamEachChainsList = ({ data }) => {
     return <tr className='text-center ' key={index} onClick={() => onRowClicked(chainName)}>
       <td >{index}</td>
       <td >
-        <div className='d-flex justify-content-start ms-5 align-items-center'>
-          {chainName !== 'Others' ? <Avatar size={25} src={img}/> : <LinkOutlined />}
+        <div className='d-flex justify-content-start align-items-center'>
+          {chainName !== 'Others' && <Avatar size={25} src={img}/>}
           <span className='ms-2'>{capitalizeFirstLetter(chainName)}</span>
         </div>
       </td>
@@ -72,13 +72,13 @@ export const ScamEachChainsList = ({ data }) => {
       </Card.Title>
     </Card.Header>
     <Card.Body>
-      <Table responsive hover className='header-border verticle-middle table-bc'>
+      <Table responsive hover className='header-border verticle-middle table-bc cus-table-blockchain'>
         <thead className='text-center'>
           <tr>
-            <th scope='col' >#</th>
-            <th scope='col' >Chain Name</th>
+            <th scope='col'>#</th>
+            <th scope='col'>Chain Name</th>
             <th scope='col'>Scam or Dead Projects</th>
-            <th scope='col' >Total Projects</th>
+            <th scope='col'>Total Projects</th>
             <th scope='col'>Scam Percentage</th>
           </tr>
         </thead>

@@ -104,7 +104,7 @@ const App = () => {
 
   const getLaunchpad = async() => {
     try {
-      const resp = await get(`reviews/launchpad/list`)
+      const resp = await get(`reviews/launchpad/all`)
       const launchpadList = resp?.data?.launchPads
       const launchpadMapLocal = new Map()
       // convert list to map

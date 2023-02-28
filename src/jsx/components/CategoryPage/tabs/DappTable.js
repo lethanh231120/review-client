@@ -81,17 +81,17 @@ const DappTable = ({ loading, listData }) => {
         >
           {record?.chains &&
             Object.keys(record?.chains).map((key) => (
-              <>
+              <div key={key}>
                 {chainList[key] && (
                   <Avatar
                     size={25}
                     src={chainList[key]?.image}
-                    key={key}
+                    // key={key}
                     className='crypto-table-chain'
                     // onClick={(e) => handleClickExplorer(e, item)}
                   />
                 )}
-              </>
+              </div>
             ))}
         </Avatar.Group>
       )

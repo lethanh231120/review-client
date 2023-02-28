@@ -29,6 +29,7 @@ import { SEARCH_ICON } from '../../../images/svg/search'
 import { CANCEL_ICON } from '../../../images/svg/cancel'
 import { ToggleContext } from '../../index'
 import './custom-header.scss'
+import { PathNameContext } from '../../index'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
@@ -38,6 +39,7 @@ const minimumWidthBigScreenMode = 766
 
 const Header = () => {
   const toggle = useContext(ToggleContext)
+  const pathname = useContext(PathNameContext)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
   const [isSmallMode, setIsSmallMode] = useState(window.innerWidth <= minimumWidthBigScreenMode)
@@ -206,55 +208,27 @@ const Header = () => {
     </Dropdown>
   </ul>
 
-  const reportScamHtml = <ul className='report-scam'>
-    <Dropdown
-      as='li'
-      className='nav-item dropdown notification_dropdown '
-    >
-      <Dropdown.Toggle
-        variant=''
-        as='a'
-        className='nav-link  ai-icon i-false c-pointer'
-        role='button'
-        style={{ background: 'none' }}
-      >
-        <div className='coccoc-alo-phone coccoc-alo-green coccoc-alo-show report-scam-image-position'>
-          <div className='coccoc-alo-ph-circle' style={{ backgroundColor: 'red' }}></div>
-          <div className='coccoc-alo-ph-circle-fill' style={{ backgroundColor: 'red' }}></div>
-          <Tooltip title={txtScamTooltip} placement='left'>
-            <div className='coccoc-alo-ph-img-circle report-scam-image'
-              onClick={() => reportModal?.handleSetOpenModal(true)}
-            >
+  const reportScamHtml = <div className='report-scam'>
+    <div className='coccoc-alo-phone report-scam-image-position'>
+      {/* <div className='coccoc-alo-ph-circle' style={{ backgroundColor: 'red' }}></div> */}
+      <div className='coccoc-alo-ph-circle-fill' style={{ backgroundColor: 'red' }}></div>
+      <Tooltip title={txtScamTooltip} placement='left'>
+        <div className='coccoc-alo-ph-img-circle report-scam-image'
+          onClick={() => reportModal?.handleSetOpenModal(true)}
+        ></div>
+      </Tooltip>
+    </div>
+  </div>
 
-            </div>
-          </Tooltip>
-        </div>
-      </Dropdown.Toggle>
-    </Dropdown>
-  </ul>
-
-  const addProjectHtml = <ul className='add-project'>
-    <Dropdown
-      as='li'
-      className='nav-item dropdown notification_dropdown '
-    >
-      <Dropdown.Toggle
-        variant=''
-        as='a'
-        className='nav-link  ai-icon i-false c-pointer'
-        role='button'
-        style={{ background: 'none' }}
-      >
-        <div className='coccoc-alo-phone coccoc-alo-green coccoc-alo-show add-project-image-position'>
-          <div className='coccoc-alo-ph-circle' style={{ backgroundColor: 'green' }}></div>
-          <div className='coccoc-alo-ph-circle-fill' style={{ backgroundColor: 'green' }}></div>
-          <Tooltip title={txtAddProjectTooltip} placement='left'>
-            <div className='coccoc-alo-ph-img-circle add-project-image' onClick={handleAddProject} ></div>
-          </Tooltip>
-        </div>
-      </Dropdown.Toggle>
-    </Dropdown>
-  </ul>
+  const addProjectHtml = <div className='add-project'>
+    <div className='coccoc-alo-phone add-project-image-position'>
+      {/* <div className='coccoc-alo-ph-circle' style={{ backgroundColor: 'green' }}></div> */}
+      <div className='coccoc-alo-ph-circle-fill' style={{ backgroundColor: '#039f7f' }}></div>
+      <Tooltip title={txtAddProjectTooltip} placement='left'>
+        <div className='coccoc-alo-ph-img-circle add-project-image' onClick={handleAddProject} ></div>
+      </Tooltip>
+    </div>
+  </div>
 
   const miniSearchHtml = <ul className=''>
     <Dropdown
@@ -290,23 +264,20 @@ const Header = () => {
         <div className={`header-content ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0 margin-left-0-3rem' : ''}`}>
           <nav className='navbar navbar-expand'>
             <div className='collapse navbar-collapse justify-content-between'>
-              {/* header: text */}
               <div className='header-left'>
                 <div
                   className='dashboard_bar text-etc-overflow'
                   style={{
                     textTransform: 'capitalize',
-                    padding: '0 2rem',
                     fontSize: '1.5rem'
                   }}
                 >
-                  {`Don't trust, verify`}
+                  {pathname?.pathName !== undefined ? (pathname?.pathName === '' ? `Don't trust, verify` : pathname?.pathName) : window.location.pathname === '/' ? `Don't trust, verify` : ''}
                 </div>
               </div>
               {/* header: search elk input */}
               <div
                 className='navbar-nav header-right'
-                // style={{ width: '100%' }}
                 style={{ width: isSmallMode ? '100%' : '60%' }}
               >
                 <div
@@ -321,13 +292,11 @@ const Header = () => {
                   <div className='search-coundry d-flex align-items-center'>
                   </div>
                   <div className='sidebar-social-link '>
-                    <ul className=''>
-                      <div className={toggle?.toggle ? 'display-block-btn' : 'display-none-btn'}>
-                        {reportScamHtml}
-                        {addProjectHtml}
-                      </div>
-                      {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode || authenticated?.isAuthenticated ? '' : signupHtml) : '' }
-                    </ul>
+                    <div className={toggle?.toggle ? 'display-block-btn' : 'display-none-btn'}>
+                      {reportScamHtml}
+                      {addProjectHtml}
+                    </div>
+                    {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode || authenticated?.isAuthenticated ? '' : signupHtml) : '' }
                   </div>
                   <ul>
                     {authenticated?.isAuthenticated ? (

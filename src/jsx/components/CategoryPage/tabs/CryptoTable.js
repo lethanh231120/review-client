@@ -205,16 +205,16 @@ const CryptoTable = ({ loading, listData }) => {
           }}
         >
           {record?.multichain?.map((item, index) => (
-            <>
+            <div key={index}>
               {chainList[item?.chainName] && (
                 <Avatar
                   size={25}
                   src={chainList[item?.chainName]?.image}
-                  key={index}
+                  // key={index}
                   className='crypto-table-chain'
                 />
               )}
-            </>
+            </div>
           ))}
         </Avatar.Group>
       )
@@ -243,17 +243,17 @@ const CryptoTable = ({ loading, listData }) => {
           }}
         >
           {record?.exchanges?.map((item, index) => (
-            <>
+            <div key={index}>
               {item && (
                 <Avatar
                   size={25}
                   src={item}
-                  key={index}
+                  // key={index}
                   className='crypto-table-exchange'
                   onClick={(e) => handleClickExchange(e, item)}
                 />
               )}
-            </>
+            </div>
           ))}
         </Avatar.Group>
       )

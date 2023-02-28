@@ -9,7 +9,7 @@ const JobieNav = ({ title, onClick: ClickToAddEvent }) => {
   const onClick = (name) => setToggle(toggle === name ? '' : name)
 
   return (
-    <Fragment>
+    <>
       <NavHader/>
       <Header
         onNote={() => onClick('chatbox')}
@@ -21,7 +21,7 @@ const JobieNav = ({ title, onClick: ClickToAddEvent }) => {
         onClick={() => ClickToAddEvent()}
       />
       <SideBar />
-    </Fragment>
+    </>
   )
 }
 

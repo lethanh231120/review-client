@@ -8,6 +8,7 @@ import logotext1 from './../../../images/logo/logo-text.png'
 import logoColor from './../../../images/logo/gear5_logo_notext.png'
 import { ShowFullSearchConext } from '../../../App'
 import { ToggleContext } from '../../index'
+import { PathNameContext } from '../../index'
 
 export function NavMenuToggle() {
   setTimeout(() => {
@@ -22,11 +23,12 @@ export function NavMenuToggle() {
 
 const NavHader = () => {
   const toggle = useContext(ToggleContext)
+  const pathname = useContext(PathNameContext)
   // const [toggle, setToggle] = useState(false)
   const showFullSearchConext = useContext(ShowFullSearchConext)
 
   const viewHtml = <div className='nav-header'>
-    <Link to='/' className='brand-logo'>
+    <Link to='/' className='brand-logo' onClick={() => pathname?.handleChangePathName('')}>
       {/* no meunu left: screen width <  767px */}
       <img src={logoColor} className='logo-color' alt='' />
 

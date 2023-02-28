@@ -214,7 +214,7 @@ const ModalAdd = ({ isModal }) => {
 
   // chose file in select
   const handleChangeFile = async(e) => {
-    if (e.file?.status === 'uploading') {
+    if (!e?.event && e.file?.status === 'uploading') {
       setFileList([
         {
           ...e.fileList[0],
