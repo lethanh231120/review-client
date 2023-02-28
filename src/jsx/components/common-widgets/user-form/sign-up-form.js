@@ -7,6 +7,10 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
 import { SignInContext } from '../../../../App'
 
+export const txtEnterEmail = 'Enter your e-mail address'
+export const txtEnterPassword = 'Enter your password'
+export const txtEnterRePassword = 'Re-enter your password'
+
 export const SignUpComponent = () => {
   const [email, setEmail] = useState('')
   const errorsObj = { email: '', password: '', rePassword: '', isConfirm: '' }
@@ -124,7 +128,7 @@ export const SignUpComponent = () => {
                 <i className='material-icons input-icon-sign-in-sign-up'>mail</i>
                 <input
                   className='form-control input-form-sign-in-sign-up-padding'
-                  placeholder='Enter your e-mail address.'
+                  placeholder={txtEnterEmail}
                   type='text'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -140,7 +144,7 @@ export const SignUpComponent = () => {
                 <i className='material-icons input-icon-sign-in-sign-up' style={{ cursor: 'pointer' }} onClick={() => setIsShowPassword(!isShowPassword)}>{isShowPassword ? 'visibility_off' : 'visibility' }</i>
                 <input
                   className='form-control input-form-sign-in-sign-up-padding'
-                  placeholder='Enter your password.'
+                  placeholder={txtEnterPassword}
                   type={isShowPassword ? 'text' : 'password' }
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -156,7 +160,7 @@ export const SignUpComponent = () => {
                 <i className='material-icons input-icon-sign-in-sign-up' style={{ cursor: 'pointer' }} onClick={() => setIsReShowPassword(!isShowRePassword)}>{isShowRePassword ? 'visibility_off' : 'visibility' }</i>
                 <input
                   className='form-control input-form-sign-in-sign-up-padding'
-                  placeholder='Re-enter your password'
+                  placeholder={txtEnterRePassword}
                   type={isShowRePassword ? 'text' : 'password' }
                   value={rePassword}
                   onChange={(e) => setRePassword(e.target.value)}
