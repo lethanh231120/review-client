@@ -44,6 +44,7 @@ const Header = () => {
   const showFullSearchConext = useContext(ShowFullSearchConext)
   const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)
   const summaryData = useContext(SummaryHomeContext)
+  const [clickAvt, setClickAvt] = useState(false)
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -116,11 +117,12 @@ const Header = () => {
   const logedInHtml = <Dropdown
     as='li'
     className='nav-item dropdown header-profile'
+
   >
     <Dropdown.Toggle
       variant=''
-      as='a'
       className='nav-link i-false c-pointer'
+      onBlur={() => setClickAvt(false) } // close gui logout
     >
       <Tooltip title={userInfo?.userName} placement='left'>
         <img
@@ -128,6 +130,7 @@ const Header = () => {
           width={20}
           alt=''
           style={{ backgroundColor: '#EFECE8' }} // same background of image
+          onClick={() =>setClickAvt(!clickAvt)}// toggle click avt
         />
       </Tooltip>
     </Dropdown.Toggle>
@@ -135,7 +138,7 @@ const Header = () => {
       align='right'
       className='dropdown-menu dropdown-menu-end'
     >
-      <Link
+      {clickAvt ? <Link
         to='#'
         className='dropdown-item ai-icon'
         onClick={logout}
@@ -157,8 +160,9 @@ const Header = () => {
           <line x1='21' y1='12' x2='9' y2='12'></line>
         </svg>
         <span className='ms-2'>Logout</span>
-      </Link>
+      </Link> : ''}
     </Dropdown.Menu>
+
   </Dropdown>
 
   const loginHtml = <ul className=''>
