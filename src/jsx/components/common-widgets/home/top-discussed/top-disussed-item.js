@@ -33,17 +33,17 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
   }
 
   return <>
-    <div className='previews-info-list' onClick={() => onItemClicked(type, detail, navigate)} style={{ cursor: 'pointer', width: '100%', padding: '0.825rem 0' }}>
+    <div className='previews-info-list hot-coin-item' onClick={() => onItemClicked(type, detail, navigate)}>
       <div className='pre-icon'>
         <span className={`icon-box icon-box-sm`}>
           {imageUrl !== '' ? <Avatar size={35} src={imageUrl}/> : <NoImage width={35} height={35} alt={name?.substring(0, 2)}/>}
         </span>
         <div className='ms-2'>
-          <h6 className='text-etc-overflow'>{name}{type === 'crypto' ? ` (${symbol})` : null}</h6>
+          <h6 className='text-etc-overflow cus-hot-coin-name'>{name}{type === 'crypto' ? ` (${symbol})` : null}</h6>
           <span><Badge className='badge-sm'>{type}</Badge></span>
         </div>
       </div>
-      <div className='me-4 '>
+      <div>
         <div className='post-comment' style={{ color: 'red' }}>
           <span className='d-flex align-items-center'>
             <span className='me-1'> {WARNING_ICON('#d85b53', '14px')}</span>
@@ -57,7 +57,6 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
         </div>
       </div>
     </div>
-    <hr className='hr-custome'></hr>
   </>
 }
 

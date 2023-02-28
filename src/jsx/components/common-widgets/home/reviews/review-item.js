@@ -33,7 +33,7 @@ export const ReviewItem = ({ data }) => {
     }
   }
 
-  return <div className='col-lg-6 col-xl-4'>
+  return <div className='col-lg-6 col-xl-4 col-md-6'>
     <div className='card cus-review-card'>
       <div className='card-body cus-review-card-item'>
         <div className='new-arrival-content'>
