@@ -172,7 +172,9 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             <div>
                               <p className='mb-0 fs-14 text-black text-etc-overflow'>
                                 {item?.roundType ? (
-                                  item?.roundType
+                                  <b>
+                                    {item?.roundType}
+                                  </b>
                                 ) : (
                                   <>&nbsp;</>
                                 )}{' '}
