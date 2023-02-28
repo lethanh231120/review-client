@@ -44,7 +44,6 @@ const Header = () => {
   const showFullSearchConext = useContext(ShowFullSearchConext)
   const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)
   const summaryData = useContext(SummaryHomeContext)
-  const [clickAvt, setClickAvt] = useState(false)
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -122,7 +121,6 @@ const Header = () => {
     <Dropdown.Toggle
       variant=''
       className='nav-link i-false c-pointer'
-      onBlur={() => setClickAvt(false) } // close gui logout
     >
       <Tooltip title={userInfo?.userName} placement='left'>
         <img
@@ -130,16 +128,14 @@ const Header = () => {
           width={20}
           alt=''
           style={{ backgroundColor: '#EFECE8' }} // same background of image
-          onClick={() =>setClickAvt(!clickAvt)}// toggle click avt
         />
       </Tooltip>
     </Dropdown.Toggle>
     <Dropdown.Menu
       align='right'
       className='dropdown-menu dropdown-menu-end'
-      onClick={() => setClickAvt(true)} // click near logout in menu dropdown
     >
-      {clickAvt ? <Link
+      <Link
         to='#'
         className='dropdown-item ai-icon'
         onClick={logout}
@@ -161,7 +157,7 @@ const Header = () => {
           <line x1='21' y1='12' x2='9' y2='12'></line>
         </svg>
         <span className='ms-2'>Logout</span>
-      </Link> : ''}
+      </Link>
     </Dropdown.Menu>
 
   </Dropdown>
