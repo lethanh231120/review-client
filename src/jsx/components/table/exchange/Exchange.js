@@ -86,7 +86,7 @@ const Exchange = ({
     },
     {
       title: <span className='crypto-table-tooltip'>
-      Fee Txn
+      Txn Fee
         <Tooltip
           overlayClassName='crypto-table-tooltip-box'
           title={ExchangeExplain['feeTxn']}
