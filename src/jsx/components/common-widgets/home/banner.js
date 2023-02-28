@@ -25,7 +25,7 @@ const Banner = () => {
           <img src={scam} className='img-fluid' alt='Scam Alert' />
         </div>
         <div className='banner-left'>
-          <h2 className='report-title'>You got scammed and lost money ?</h2>
+          <h2 className='report-title'>You got scammed, lost money ?</h2>
           <p className='cus-p'>Please join us in warning everyone in the community !</p>
           <Button className='btn-danger d-flex align-items-center' onClick={() => reportModal?.handleSetOpenModal(true)}
             style={{ backgroundColor: '#EB5757', borderColor: '#EB5757' }}

@@ -31,7 +31,7 @@ const LaunchpadList = ({ listProduct,
   const columns = [
     {
       title: 'Name',
-      render: (_, record) => (<Link className='crypto-table-info image-list' to='#'>
+      render: (_, record) => (<Link className='crypto-table-info image-list' to={`../../products/${record?.launchPadId?.split('_')[1]}/${record?.launchPadId?.split('_')[2]}`}>
         { myLogo('bigLogo', record?.launchPadId, 'launchpad') }
         <span>
           <div className='data-table-name ms-2'>
