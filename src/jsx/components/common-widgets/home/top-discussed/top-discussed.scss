@@ -2,3 +2,54 @@
     margin-right: 0px !important;
    color:black !important;
 }
+.previews-info-list{
+    cursor: pointer;
+    padding: 0.7rem !important;
+    width: 100%;
+}
+.hot-coin-item{
+    &:not(:last-child){
+        border-bottom: 0.1px solid rgba(0, 0, 0, 0.1);
+    }
+}
+.cus-hot-coin-name{
+    max-width: 100%;
+    width: max-content;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    white-space: nowrap;
+}
+@media (max-width: 1300px) {
+    .cus-hot-coin-name{
+        max-width: 130px;
+    }
+}
+@media (max-width: 1180px) {
+    .cus-hot-coin-name{
+        max-width: 120px;
+    }
+    .previews-info-list{
+        padding: 0.7rem 0!important;
+    }
+}
+@media (max-width: 1085px) {
+    .cus-hot-coin-name{
+        max-width: 100px;
+    }
+}
+@media (max-width: 1024px) {
+    .cus-hot-coin-name{
+        max-width: 150px;
+    }
+}
+@media (max-width: 991.98px) {
+    .cus-hot-coin-name{
+        max-width: 100%;
+    }
+    .previews-info-list{
+        padding: 0.7rem !important;
+    }
+}

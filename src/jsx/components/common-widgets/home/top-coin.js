@@ -10,10 +10,12 @@ import { MySkeletonLoadinng } from '../my-spinner'
 
 export const TopCoins = () => {
   const sparklineIndex = [
-    1, 279, 325, 825, 6319, 44
+    1, 279, 325, 825, 6319, 44, 5
   ]
   const navigate = useNavigate()
   const [topCoins, setTopCoins] = useState([])
+  const [listData, setListData] = useState()
+  const [screenWidth, setScreenWidth] = useState()
 
   const PRICE_WS_URL = 'wss://crypto-price.gear5.guru/prices/crypto/top'
   // GET TOP COINS DATA
@@ -34,8 +36,28 @@ export const TopCoins = () => {
 
     socket?.addEventListener('message', (message) => {
       const data = JSON.parse(message?.data)
-      data && setTopCoins(data?.slice(0, 5))
+      data && setTopCoins(data)
     })
+  }, [])
+
+  useEffect(() => {
+    if (screenWidth > 1600) {
+      setListData(topCoins && topCoins?.slice(0, 6))
+    }
+    if (screenWidth < 1600) {
+      setListData(topCoins && topCoins?.slice(0, 7))
+    }
+  }, [screenWidth, topCoins])
+
+  useEffect(() => {
+    function handleResize() {
+      const { innerWidth: width } = window
+      setScreenWidth(width)
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   // useEffect(() => {
@@ -72,27 +94,27 @@ export const TopCoins = () => {
           </div>
         </div>
 
-        <div className='card-body pt-0 px-0' style={{ padding: '0px' }}>
-          {topCoins ? (!_.isEmpty(topCoins) ? topCoins?.map((item, index) => (
+        <div className='card-body pt-0' style={{ padding: '0px 0.7rem' }}>
+          {listData ? (!_.isEmpty(listData) ? listData?.map((item, index) => (
             <div className='previews-info-list' key={index} style={{ cursor: 'pointer' }} onClick={() => onTopCoinsClicked(item)}>
-              <div className='pre-icon' style={{ width: '200px' }}>
+              <div className='pre-icon top-coin-info'>
                 <span
                   className='top-coin-icon'
                 >
                   <Avatar src={`/img/${item?.symbol?.toLowerCase()}.png`}></Avatar>
                 </span>
-                <div className='ms-3'>
-                  <h6>{item?.name}</h6>
+                <div className='ms-2'>
+                  <h6 className='top-coin-name'>{item?.name}</h6>
                   {item?.symbol}
                 </div>
               </div>
-              <div className='count' style={{ width: '100px' }}>
+              <div className='count top-coin-price'>
                 <h6>${new Intl.NumberFormat().format(item?.price)}</h6>
                 <span className={item?.percentChange24h > 0 ? 'text-success' : 'text-danger'}>
                   {item?.percentChange24h?.toFixed(2)}%
                 </span>
               </div>
-              <div className='chart-img' >
+              <div className='chart-img top-coin-img' >
                 <img className='img-fluid' alt='' src={`https://www.coingecko.com/coins/${sparklineIndex[index]}/sparkline`} width={100} height={40} />
               </div>
             </div>
