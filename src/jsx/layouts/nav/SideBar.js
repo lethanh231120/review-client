@@ -269,7 +269,7 @@ const SideBar = () => {
     >
       <PerfectScrollbar className='deznav-scroll'>
         <ul className='metismenu' id='menu'>
-          {categories.length !== 0 ? categories.map((data, index) => {
+          {categories.map((data, index) => {
             const menuClass = data.classsChange
             if (menuClass === 'menu-title') {
               return (
@@ -392,12 +392,7 @@ const SideBar = () => {
                 </li>
               )
             }
-          }) : arrOrderedCategories.map((index) => (
-            <span key={index}>
-              <li className='menu-title' key={index}>
-                {arrOrderedCategories[index]}
-              </li>
-            </span>))}
+          }) }
         </ul>
       </PerfectScrollbar>
       <div

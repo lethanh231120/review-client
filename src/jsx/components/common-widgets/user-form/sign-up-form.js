@@ -173,7 +173,7 @@ export const SignUpComponent = () => {
                 )}
               </div>
               <div className='mb-3 mt-3'>
-                <span className='form-check float-start me-2'>
+                <span className='form-check float-start me-2' style={{ display: 'flex', alignItems: 'center' }}>
                   <input
                     type='checkbox'
                     className='form-check-input mt-0'
