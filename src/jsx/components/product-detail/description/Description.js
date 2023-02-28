@@ -11,7 +11,7 @@ const Description = ({ text }) => {
     <>
       {text && (
         <div className='description-list'>
-          <div className='card-content'>
+          <div className='card-content' style={{ fontSize: '1rem', lineHeight: '2' }}>
             {text?.length < length ? (
               <p className='cus-text-justify' dangerouslySetInnerHTML={{ __html: `${text}` }}></p>
             ) : (

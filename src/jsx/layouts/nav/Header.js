@@ -137,6 +137,7 @@ const Header = () => {
     <Dropdown.Menu
       align='right'
       className='dropdown-menu dropdown-menu-end'
+      onClick={() => setClickAvt(true)} // click near logout in menu dropdown
     >
       {clickAvt ? <Link
         to='#'
