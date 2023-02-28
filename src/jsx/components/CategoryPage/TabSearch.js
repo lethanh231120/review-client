@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-// import { Tabs } from 'antd'
 import CryptoTable from './tabs/CryptoTable'
 import SoonTable from './tabs/SoonTable'
+import LaunchPadTable from './tabs/LaunchPadTable'
 import ExchangeTable from './tabs/ExchangeTable'
 import VentureTable from './tabs/VentureTable'
 import DappTable from './tabs/DappTable'
-import { DAPP, VENTURE, EXCHANGE, SOON, CRYPTO } from '../../constants/category'
+import { DAPP, VENTURE, EXCHANGE, SOON, CRYPTO, LAUNCHPAD, LIST_LAUNCHPAD } from '../../constants/category'
 import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE } from '../../constants/category'
 import { read } from '../../../api/BaseRequest'
 import _ from 'lodash'
@@ -14,11 +14,17 @@ import { Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import './categoryItem.scss'
 
-// const { TabPane } = Tabs
 const TabSearch = (props) => {
   const { listProduct, keyword, handleChangeInput, handleSubmitSearch, handleSubmitBtn, setLoading, loading } = props
   const [tab, setTab] = useState(CRYPTO)
-  const [listData, setListData] = useState([])
+  const [listData, setListData] = useState({
+    dapp: [],
+    venture: [],
+    exchange: [],
+    soon: [],
+    launchpad: [],
+    crypto: []
+  })
 
   useEffect(() => {
     const getData = async() => {
@@ -31,10 +37,14 @@ const TabSearch = (props) => {
           })
           if (!_.isEmpty(listDappId)) {
             const dataDapp = await read('reviews/dapp/list', { dAppIds: listDappId })
-            setListData(dataDapp?.data?.dApps ? dataDapp?.data?.dApps : [])
+            setListData({
+              dapp: dataDapp?.data?.dApps ? dataDapp?.data?.dApps : []
+            })
             setLoading(false)
           } else {
-            setListData([])
+            setListData({
+              dapp: []
+            })
           }
           break
         }
@@ -45,10 +55,14 @@ const TabSearch = (props) => {
           })
           if (!_.isEmpty(listCryptoId)) {
             const dataCrypto = await read('reviews/crypto/list', { cryptoIds: listCryptoId })
-            setListData(dataCrypto?.data?.cryptos ? dataCrypto?.data?.cryptos : [])
+            setListData({
+              crypto: dataCrypto?.data?.cryptos ? dataCrypto?.data?.cryptos : []
+            })
             setLoading(false)
           } else {
-            setListData([])
+            setListData({
+              crypto: []
+            })
           }
           break
         }
@@ -59,10 +73,14 @@ const TabSearch = (props) => {
           })
           if (!_.isEmpty(listExchangeId)) {
             const dataExchange = await read('reviews/exchange/list', { exchangeIds: listExchangeId })
-            setListData(dataExchange?.data?.exchanges ? dataExchange?.data?.exchanges : [])
+            setListData({
+              exchange: dataExchange?.data?.exchanges ? dataExchange?.data?.exchanges : []
+            })
             setLoading(false)
           } else {
-            setListData([])
+            setListData({
+              exchange: []
+            })
           }
           break
         }
@@ -73,10 +91,32 @@ const TabSearch = (props) => {
           })
           if (!_.isEmpty(listVentureId)) {
             const dataVenture = await read('reviews/venture/list', { ventureIds: listVentureId })
-            setListData(dataVenture?.data?.ventures ? dataVenture?.data?.ventures : [])
+            setListData({
+              venture: dataVenture?.data?.ventures ? dataVenture?.data?.ventures : []
+            })
             setLoading(false)
           } else {
-            setListData([])
+            setListData({
+              venture: []
+            })
+          }
+          break
+        }
+        case LAUNCHPAD: {
+          const listLaunchPadId = []
+          listProduct[LIST_LAUNCHPAD]?.launchPads?.forEach((itemLaunchPad) => {
+            listLaunchPadId.push(itemLaunchPad?.launchPadId)
+          })
+          if (!_.isEmpty(listLaunchPadId)) {
+            const dataLaunchPad = await read('reviews/launchpad/list', { launchpadIds: listLaunchPadId })
+            setListData({
+              launchpad: dataLaunchPad?.data?.launchPads ? dataLaunchPad?.data?.launchPads : []
+            })
+            setLoading(false)
+          } else {
+            setListData({
+              launchpad: []
+            })
           }
           break
         }
@@ -87,10 +127,14 @@ const TabSearch = (props) => {
           })
           if (!_.isEmpty(listSoonId)) {
             const dataSoon = await read('reviews/soon/list', { projectIds: listSoonId })
-            setListData(dataSoon?.data?.soons)
+            setListData({
+              soon: dataSoon?.data?.soons ? dataSoon?.data?.soons : []
+            })
             setLoading(false)
           } else {
-            setListData([])
+            setListData({
+              soone: []
+            })
           }
           break
         }
@@ -99,7 +143,7 @@ const TabSearch = (props) => {
       }
       setLoading(false)
     }
-    getData()
+    listProduct && getData()
   }, [tab, listProduct])
 
   return (
@@ -165,6 +209,17 @@ const TabSearch = (props) => {
                   >
                     <Nav.Link as='button' className='me-0' eventKey='soon' type='button'>Soons</Nav.Link>
                   </Nav.Item>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(LAUNCHPAD)
+                    }}
+                  >
+                    <Nav.Link as='button' className='me-0' eventKey='launchpad' type='button'>LaunchPads</Nav.Link>
+                  </Nav.Item>
                 </Nav>
               </div>
               <div className='col-xl-4 col-lg-3 col-md-4'>
@@ -183,21 +238,24 @@ const TabSearch = (props) => {
                 <Tab.Pane eventKey='crypto'>
                   <div className='table-responsive dataTablemarket'>
                     <div id='market_wrapper' className='dataTables_wrapper no-footer'>
-                      <CryptoTable listData={listData} loading={loading}/>
+                      <CryptoTable listData={listData?.crypto} loading={loading}/>
                     </div>
                   </div>
                 </Tab.Pane>
                 <Tab.Pane eventKey='dapp'>
-                  <DappTable listData={listData} loading={loading} />
+                  <DappTable listData={listData?.dapp} loading={loading} />
                 </Tab.Pane>
                 <Tab.Pane eventKey='exchange'>
-                  <ExchangeTable listData={listData} loading={loading} />
+                  <ExchangeTable listData={listData?.exchange} loading={loading} />
                 </Tab.Pane>
                 <Tab.Pane eventKey='venture'>
-                  <VentureTable listData={listData} loading={loading} />
+                  <VentureTable listData={listData?.venture} loading={loading} />
                 </Tab.Pane>
                 <Tab.Pane eventKey='soon'>
-                  <SoonTable listData={listData} loading={loading}/>
+                  <SoonTable listData={listData?.soon} loading={loading}/>
+                </Tab.Pane>
+                <Tab.Pane eventKey='launchpad'>
+                  <LaunchPadTable listData={listData?.launchpad} loading={loading}/>
                 </Tab.Pane>
               </Tab.Content>
             </div>

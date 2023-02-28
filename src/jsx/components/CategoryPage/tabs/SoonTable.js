@@ -92,7 +92,7 @@ const SoonTable = ({ listData, loading }) => {
         >
           {record?.blockchain
             ? Object.keys(record?.blockchain)?.map((chainName, index) => (
-              <>
+              <div key={index}>
                 {chainName?.trim() ? (
                   <Tooltip title={chainName}>
                     <Avatar
@@ -100,17 +100,16 @@ const SoonTable = ({ listData, loading }) => {
                       src={`https://gear5.s3.ap-northeast-1.amazonaws.com/image/chain/smallLogo/${chainName
                         ?.trim()
                         .toLowerCase()}.png`}
-                      key={index}
                       className='soon-table-blockchain'
-                      onClick={(e) => {
-                        // e.stopPropagation();
-                      }}
+                      // onClick={(e) => {
+                      //   // e.stopPropagation();
+                      // }}
                     />
                   </Tooltip>
                 ) : (
                   ''
                 )}
-              </>
+              </div>
             ))
             : '__'}
         </Avatar.Group>
@@ -175,7 +174,7 @@ const SoonTable = ({ listData, loading }) => {
         >
           {record?.roundSale
             ? Object.keys(record?.roundSale)?.map((idx, index) => (
-              <>
+              <div key={index}>
                 {record?.roundSale[idx] &&
                   record?.roundSale[idx]?.platformName &&
                   record?.roundSale[idx]?.platformLogo &&
@@ -184,7 +183,6 @@ const SoonTable = ({ listData, loading }) => {
                       <Avatar
                         size={25}
                         src={record?.roundSale[idx]?.platformLogo}
-                        key={index}
                         className='soon-table-blockchain'
                         onClick={(e) => {
                           // e.stopPropagation();
@@ -194,7 +192,7 @@ const SoonTable = ({ listData, loading }) => {
                   ) : (
                     ''
                   )}
-              </>
+              </div>
             ))
             : '__'}
         </Avatar.Group>

@@ -8,6 +8,7 @@ import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import nodata from '../../../images/product/nodata.png'
 import ItemCrypto from './item-crypto/ItemCrypto'
+import ItemLaunch from './item-launchpad/ItemLaunpad'
 import ItemDapp from './item-dapp/ItemDapp'
 import ItemExchange from './item-exchange/ItemExchange'
 import ItemSoon from './item-soon/ItemSoon.js'
@@ -71,6 +72,9 @@ const InputSearch = ({ isFormReport, setItem }) => {
           },
           listVenture: {
             ventures: (data?.data['listVenture']?.ventures !== null) ? data?.data['listVenture']?.ventures?.splice(0, 10) : null
+          },
+          listLaunchpad: {
+            launchPads: (data?.data['listLaunchpad']?.ventures !== null) ? data?.data['listLaunchpad']?.launchPads?.splice(0, 10) : null
           }
         })
       } else {
@@ -98,7 +102,8 @@ const InputSearch = ({ isFormReport, setItem }) => {
           listDataSearch?.listDapp?.dapps === null &&
           listDataSearch?.listExchange?.exchanges === null &&
           listDataSearch?.listSoon?.soons === null &&
-          listDataSearch?.listVenture?.ventures === null
+          listDataSearch?.listVenture?.ventures === null &&
+          listDataSearch?.listLaunchpad?.launchPads === null
       })
       setItemSubmit(
         listDataSearch?.listCrypto !== null &&
@@ -114,7 +119,9 @@ const InputSearch = ({ isFormReport, setItem }) => {
                 : listDataSearch?.listVenture !== null &&
             !_.isEmpty(listDataSearch?.listVenture?.ventures)
                   ? listDataSearch?.listVenture?.ventures[0]
-                  : ''
+                  : listDataSearch?.listLaunchpad !== null &&
+                  !_.isEmpty(listDataSearch?.listLaunchpad?.launchPads)
+                    ? listDataSearch?.listLaunchpad?.launchPads[0] : ''
       )
     }
   }, [listDataSearch])
@@ -125,14 +132,16 @@ const InputSearch = ({ isFormReport, setItem }) => {
     } else {
       if (itemSubmit) {
         const productId = itemSubmit?.cryptoId
-          ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
+          ? `${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
           : itemSubmit?.dappId
-            ? `${itemSubmit?.dappId?.split('_')[2]}/${itemSubmit?.dappId?.split('_')[3]}`
+            ? `${itemSubmit?.dappId?.split('_')[2]}`
             : itemSubmit?.exchangeId
-              ? `${itemSubmit?.exchangeId?.split('_')[2]}/${itemSubmit?.exchangeId?.split('_')[3]}`
+              ? `${itemSubmit?.exchangeId?.split('_')[2]}`
               : itemSubmit?.soonId
-                ? `${itemSubmit?.soonId?.split('_')[2]}${itemSubmit?.soonId?.split('_')[3] ? `/${itemSubmit?.soonId?.split('_')[3]}` : ''}`
-                : `${itemSubmit?.ventureId?.split('_')[2]}/${itemSubmit?.ventureId?.split('_')[3]}`
+                ? `${itemSubmit?.soonId?.split('_')[2]}`
+                : itemSubmit?.ventureId
+                  ? `${itemSubmit?.ventureId?.split('_')[2]}`
+                  : `${itemSubmit?.launchPadId?.split('_')[2]}`
         navigate(
           `../../products/${
             itemSubmit?.cryptoId
@@ -143,7 +152,9 @@ const InputSearch = ({ isFormReport, setItem }) => {
                   ? 'exchange'
                   : itemSubmit?.soonId
                     ? 'soon'
-                    : 'venture'
+                    : itemSubmit?.ventureId
+                      ? 'venture'
+                      : 'launchpad'
           }/${productId}`
         )
         setKeyWord()
@@ -294,13 +305,11 @@ const InputSearch = ({ isFormReport, setItem }) => {
                                 index={index}
                                 itemSubmit={itemSubmit}
                                 // use in component modal search
-                                // setOpenModalSearch={setOpenModalSearch}
                                 setItemSubmit={setItemSubmit}
                                 refInput={refInput}
                                 // if global === true, search global reverse, search in table of category
                                 global={true}
                                 // use in form report
-                                // setDataSearchFormReport={setDataSearchFormReport}
                                 setItem={setItem}
                                 isFormReport={isFormReport}
                               />
@@ -387,6 +396,28 @@ const InputSearch = ({ isFormReport, setItem }) => {
                               index={index}
                               itemSubmit={itemSubmit}
                               // setOpenModalSearch={setOpenModalSearch}
+                              setItemSubmit={setItemSubmit}
+                              refInput={refInput}
+                              global={true}
+
+                              setItem={setItem}
+                              isFormReport={isFormReport}
+                            />
+                          )
+                        )}
+                      </div>
+                    )}
+                    {dataSearch?.data?.listLaunchpad &&
+                      dataSearch?.data?.listLaunchpad?.launchPads !== null && (
+                      <div className='form-search-data-box'>
+                        <h4 className='card-title card-intro-title form-search-data-title'>LaunchPads</h4>
+                        {dataSearch?.data?.listLaunchpad?.launchPads?.map(
+                          (item, index) => (
+                            <ItemLaunch
+                              key={index}
+                              item={item}
+                              index={index}
+                              itemSubmit={itemSubmit}
                               setItemSubmit={setItemSubmit}
                               refInput={refInput}
                               global={true}

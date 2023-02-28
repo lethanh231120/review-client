@@ -400,7 +400,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
 
   return (
     <DetailLayout
-      type={'venture'}
+      type='launchpad'
       Header={<Header />}
       summary={summary}
       more={<More />}

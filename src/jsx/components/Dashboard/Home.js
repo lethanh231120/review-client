@@ -86,7 +86,7 @@ const Home = () => {
       <div className='row' style={{ height: 'max-content' }}>
         {/* banner, summary */}
         <div className='col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 mb-4'>
-          <div className='row' style={{ height: '100%' }}>
+          <div className='row cus-banner'>
             <div className='col-xl-12 cus-height-banner' >
               <Banner />
             </div>
