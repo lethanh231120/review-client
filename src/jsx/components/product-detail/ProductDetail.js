@@ -32,11 +32,11 @@ import user from '../../../images/product/user.png'
 import Swal from 'sweetalert2'
 import LaunchpadDetail from './launchpad-info/LaunchpadDetail'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
-import { Helmet } from 'react-helmet'
 // import SEO from '../SEO/SEO'
 // import { formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
 // import imgAbsentImageCrypto from '../../../images/absent_image_crypto.png'
 // import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
+import { Helmet } from 'react-helmet-async'
 
 const ProductDetail = () => {
   const TYPE_REVIEW = 0
@@ -894,8 +894,8 @@ const ProductDetail = () => {
     <>
       {/* <SEO props={getMetaProductDetail(categoryName, type, productInfo?.details)} /> */}
       <Helmet>
-        <meta name='og:title' content='BITCOIN NE'></meta>
-        <meta name='og:description' content={productInfo?.details?.description}></meta>
+        <meta name='title' content='BITCOIN NE' data-react-helmet='true' />
+        <meta name='description' content={productInfo?.details?.description} data-react-helmet='true' />
         {/* <meta name='image' content={`https://gear5.s3.ap-northeast-1.amazonaws.com/image/crypto/bigLogo/gear5_coin_bitcoin.png`}></meta> */}
       </Helmet>
       <div className='section'>

@@ -297,7 +297,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
               }
             })}
             rowKey={(record, index) => index}
-            pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
+            pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true, style: { display: 'flex', justifyContent: 'center' }}}
           />
         </div>
       </div></>

@@ -31,7 +31,7 @@ const Exchange = ({
   const columns = [
     {
       title: 'Name',
-      render: (_, record) => (<Link to='#' className='crypto-table-info image-list'>
+      render: (_, record) => (<Link to={`../../products/${record?.exchangeId?.split('_')[1]}/${record?.exchangeId?.split('_')[2]}`} className='crypto-table-info image-list'>
         {record?.exchangeId && record?.smallLogo ? (
           <Image src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
         )
