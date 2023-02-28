@@ -27,7 +27,7 @@ import { Badge } from 'react-bootstrap'
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
   return (
-    <div className='font-family'>
+    <div className='font-family' style={{ width: '100%' }}>
       <div className='card Infra' style={{ height: 'auto', margin: '0 1.7rem 0 0.3rem' }}>
         <div className='card-header border-0' style={{ padding: '1.5rem 1.875rem 0 1.25rem' }}>
           <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
