@@ -19,6 +19,7 @@ export const SEO = ({ props }) => {
     <Helmet>
       {/* Standard metadata tags */}
       <link rel='icon' href={imgGear5Icon} />
+      <link rel='canonical' href={url} />
       {/* manifest.json provides metadata used when your web app is installed on a user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/ */}
       {/* <link rel='manifest' href='%PUBLIC_URL%/manifest.json' /> */}
       <meta charset='UTF-8' />
