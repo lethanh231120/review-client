@@ -355,9 +355,9 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               preview={false}
             />
           ) : (
-            <span className='image-list-no-data-detail'>
+            <h2 className='image-list-no-data-detail'>
               {productInfo?.details?.name?.slice(0, 3)}
-            </span>
+            </h2>
           )}
         </div>
         <div className='profile-name'>
@@ -531,7 +531,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     <>
       <div className='card-header pb-0 border-0 flex-wrap'>
         <div>
-          <h5 className='heading text-primary mb-0'>More Info</h5>
+          <h2 className='heading text-primary mb-0'>More Info</h2>
         </div>
       </div>
       <div className='card-body'>
