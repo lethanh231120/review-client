@@ -368,8 +368,10 @@ const ProductDetail = () => {
   }, [typeComment, signInContext, auth])
 
   useEffect(() => {
-    pathNameHeader?.handleChangePathName(`${productInfo?.details?.name || productInfo?.details?.dAppName || productInfo?.details?.ventureName || productInfo?.details?.projectName}`)
-  }, [[productInfo]])
+    if (productInfo?.details) {
+      pathNameHeader?.handleChangePathName(`${productInfo?.details?.name || productInfo?.details?.dAppName || productInfo?.details?.ventureName || productInfo?.details?.projectName || ''}`)
+    }
+  }, [productInfo])
 
   // noti report success
   const notifyTopRight = () => {
@@ -395,34 +397,42 @@ const ProductDetail = () => {
       dataAdd = await post('reviews/review', params)
     }
     if (dataAdd) {
-      const newReview = {
-        ...dataAdd?.data,
-        accountType: type === 'auth' ? userInfo?.accountType : '',
-        email: type === 'auth' ? userInfo?.email : '',
-        acountImage: type === 'auth' ? userInfo?.image : user,
-        role: type === 'auth' ? userInfo?.role : -1,
-        userName: type === 'auth' ? userInfo?.userName : 'Anonymous'
-      }
-      // check if reviews === []
-      if (_.isEmpty(reviews)) {
-        setReviews([
-          {
-            review: newReview,
-            reactions: [],
-            replies: []
-          }
-        ])
+      if (dataAdd?.code === 'B.REVIEW.0') {
+        const newReview = {
+          ...dataAdd?.data,
+          accountType: type === 'auth' ? userInfo?.accountType : '',
+          email: type === 'auth' ? userInfo?.email : '',
+          acountImage: type === 'auth' ? userInfo?.image : user,
+          role: type === 'auth' ? userInfo?.role : -1,
+          userName: type === 'auth' ? userInfo?.userName : 'Anonymous'
+        }
+        // check if reviews === []
+        if (_.isEmpty(reviews)) {
+          setReviews([
+            {
+              review: newReview,
+              reactions: [],
+              replies: []
+            }
+          ])
+        } else {
+          setReviews([
+            {
+              review: newReview,
+              reactions: [],
+              replies: []
+            },
+            ...reviews
+          ])
+        }
+        notifyTopRight()
       } else {
-        setReviews([
-          {
-            review: newReview,
-            reactions: [],
-            replies: []
-          },
-          ...reviews
-        ])
+        Swal.fire({
+          icon: 'warning',
+          title: 'Send Review successfully!',
+          text: 'Your comment has some words that were banned from our website. Please wait for our admin to verify!'
+        })
       }
-      notifyTopRight()
       // set data for form report
       setData({
         isScam: false,
