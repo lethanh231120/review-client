@@ -23,6 +23,7 @@ const LaunchpadIconList = ({ listLaunchpad }) => {
 
   return (
     <Avatar.Group
+      alt='Launchpads Logos'
       maxCount={2}
       size={20}
       maxStyle={{
@@ -35,6 +36,7 @@ const LaunchpadIconList = ({ listLaunchpad }) => {
         ? listLaunchpad?.map((key, index) => (
           <Tooltip title={launchpadMapContext?.get(key)?.name} key={index} >
             <Avatar
+              alt='Launchpad Logo'
               size={20}
               src={launchpadMapContext?.get(key)?.thumbLogo}
               className='soon-table-blockchain'

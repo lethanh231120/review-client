@@ -51,6 +51,7 @@ const LaunchPadTable = ({ loading, listData }) => {
         <div
         >
           <Avatar.Group
+            alt='Blockchains Logos'
             maxCount={2}
             size={25}
             maxStyle={{
@@ -64,6 +65,7 @@ const LaunchPadTable = ({ loading, listData }) => {
                 {chainList[item] && (
                   <Tooltip title={toCammelCase(chainList[item]?.chainName)}>
                     <Avatar
+                      alt='Blockchain Logo'
                       size={25}
                       src={chainList[item]?.image}
                       key={index}

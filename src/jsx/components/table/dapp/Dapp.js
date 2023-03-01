@@ -35,7 +35,7 @@ const Dapp = ({
       title: 'Name',
       render: (_, record) => (<Link className='crypto-table-info image-list' to={`../../products/${record?.dAppId?.split('_')[1]}/${record?.dAppId?.split('_')[2]}`}>
         {record?.dAppId && record?.dAppLogo ? (
-          <Image onError={() => console.log(1)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
+          <Image alt='DApp Logo' onError={() => console.log(1)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
         )
           : (<span className='image-list-no-data-detail'>
             {record?.dAppName?.slice(0, 3)}
@@ -72,6 +72,7 @@ const Dapp = ({
       </span>,
       render: (_, record) => (
         <Avatar.Group
+          alt='Blockchains Logos'
           maxStyle={{
             color: '#fff',
             backgroundColor: '#039F7F',
@@ -79,7 +80,7 @@ const Dapp = ({
           }}
           maxCount={3}
           size={25} >
-          {record?.chains && Object.keys(record?.chains).map((key, index) => <Tooltip key={index} title={toCammelCase(key)}><Avatar size={25} src={chainList[key]?.image} /></Tooltip>)}
+          {record?.chains && Object.keys(record?.chains).map((key, index) => <Tooltip key={index} title={toCammelCase(key)}><Avatar alt='Blockchain Logo' size={25} src={chainList[key]?.image} /></Tooltip>)}
         </Avatar.Group>
       )
     },

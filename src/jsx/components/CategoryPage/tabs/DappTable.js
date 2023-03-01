@@ -34,7 +34,7 @@ const DappTable = ({ loading, listData }) => {
           className='crypto-table-info image-list'
         >
           {record?.dAppId && record?.dAppLogo ? (
-            <Image src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
+            <Image src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} alt='DApp Logo'/>
           )
             : (<span className='image-list-no-data'>
               {record?.dAppName?.slice(0, 3)}
@@ -71,6 +71,7 @@ const DappTable = ({ loading, listData }) => {
       dataIndex: 'exchanges',
       render: (_, record) => (
         <Avatar.Group
+          alt='Blockchains Logos'
           maxCount={2}
           size={25}
           maxStyle={{
@@ -84,6 +85,7 @@ const DappTable = ({ loading, listData }) => {
               <div key={key}>
                 {chainList[key] && (
                   <Avatar
+                    alt='Blockchain Logo'
                     size={25}
                     src={chainList[key]?.image}
                     // key={key}

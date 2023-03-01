@@ -51,7 +51,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
       <div className='profile-details'>
         <div className='profile-photo'>
           {productInfo?.details?.dAppId && productInfo?.details?.dAppLogo ? (
-            <Image src={isValidProductId(productInfo?.details?.dAppId) ? formatImgUrlFromProductId(productInfo?.details?.dAppId) : imgAbsentImageDapp} preview={false}/>
+            <Image src={isValidProductId(productInfo?.details?.dAppId) ? formatImgUrlFromProductId(productInfo?.details?.dAppId) : imgAbsentImageDapp} preview={false} alt='DApp Logo'/>
           )
             : (<span className='image-list-no-data-detail'>
               {productInfo?.details?.dAppName?.slice(0, 3)}
@@ -158,6 +158,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
                     rel='noreferrer'
                   >
                     <Avatar
+                      alt='Social Logo'
                       className='img-fluid p-1 rounded-circle cus-avatar'
                       style={{ backgroundColor: '#F0F2F5' }}
                       preview={false}
@@ -208,7 +209,8 @@ const DappInfo = ({ productInfo, ...rest }) => {
               <div className='community-list-item'>
                 <div className='d-flex text-align-center mb-2'>
                   <p className='mb-0'>Chain(s):</p>
-                  <Avatar.Group className='ms-1 '
+                  <Avatar.Group className='ms-1'
+                    alt='Blockchains Logos'
                     maxCount={4}
                     size={20}
                     maxStyle={{
@@ -222,6 +224,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
                         {keyChainName && (
                           <Tooltip title={toCammelCase(keyChainName)}>
                             <Avatar
+                              alt='Blockchain Logo'
                               size={20}
                               src={chainList[keyChainName]?.image}
                               key={index}

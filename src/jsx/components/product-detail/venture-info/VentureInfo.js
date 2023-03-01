@@ -60,7 +60,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       <div className='profile-details'>
         <div className='profile-photo'>
           {detail?.ventureId && detail?.ventureLogo ? (
-            <Image src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false}/>
+            <Image alt='Venture Logo' src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false}/>
           )
             : (<span className='image-list-no-data-detail'>
               {detail?.ventureName?.slice(0, 3)}
@@ -167,6 +167,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
                     rel='noreferrer'
                   >
                     <Avatar
+                      alt='Social Logo'
                       className='img-fluid p-1 rounded-circle cus-avatar'
                       style={{ backgroundColor: '#F0F2F5' }}
                       preview={false}

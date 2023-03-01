@@ -32,7 +32,7 @@ const ItemLaunch = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
     >
       <div className='form-search-data-item-data'>
         {item?.launchPadId && item?.image ? (
-          <Image src={isValidProductId(item?.launchPadId) ? formatImgUrlFromProductId(item?.launchPadId) : imgAbsentImageCrypto} preview={false} />
+          <Image src={isValidProductId(item?.launchPadId) ? formatImgUrlFromProductId(item?.launchPadId) : imgAbsentImageCrypto} preview={false} alt='Launchpad Logo'/>
         ) : (
           (
             <NoImage
@@ -51,9 +51,9 @@ const ItemLaunch = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
               )}
             </div>
             {item?.isScam ? (
-              <Image src={scam} preview={false} />
+              <Image src={scam} preview={false} alt='Scam'/>
             ) : item?.isWarning ? (
-              <Image src={warning} preview={false} />
+              <Image src={warning} preview={false} alt='Warning'/>
             ) : (
               ''
             )}

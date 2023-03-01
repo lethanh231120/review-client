@@ -180,7 +180,7 @@ const Crypto = ({
           className='crypto-table-info image-list'
         >
           {record?.cryptoId && record?.bigLogo
-            ? <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} />
+            ? <Image alt='Cryptocurrency Logo' src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} />
             : (
               <span className='image-list-no-data'>
                 {record?.name?.slice(0, 3)}
@@ -196,9 +196,9 @@ const Crypto = ({
                 <div className='data-table-symbol'>{record?.symbol}</div>
                 <div className='image-list-icon-scam-warning'>
                   {record?.isScam ? (
-                    <Image src={scam} preview={false} />
+                    <Image alt='Scam' src={scam} preview={false} />
                   ) : record?.isWarning ? (
-                    <Image src={warning} preview={false} />
+                    <Image alt='Warning' src={warning} preview={false} />
                   ) : (
                     ''
                   )}
@@ -281,6 +281,7 @@ const Crypto = ({
           ? <div onClick={(e) => onCancelClick(e)}
           >
             <Avatar.Group
+              alt='Blockchains Logos'
               maxCount={2}
               size={25}
               maxStyle={{
@@ -294,6 +295,7 @@ const Crypto = ({
                   {chainList[item?.chainName] && (
                     <Tooltip title={toCammelCase(chainList[item?.chainName]?.chainName)}>
                       <Avatar
+                        alt='Blockchain Logo'
                         size={25}
                         src={chainList[item?.chainName]?.image}
                         key={index}
@@ -309,6 +311,7 @@ const Crypto = ({
           : chainList[record?.chainName]
             ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
               <Avatar
+                alt='Blockchain Logo'
                 size={25}
                 src={chainList[record?.chainName]?.image}
                 key={record}
@@ -319,6 +322,7 @@ const Crypto = ({
             : record?.bigLogo ? (
               <Tooltip title={record?.name}>
                 <Avatar
+                  alt='Blockchain Logo'
                   src={formatImgUrlFromProductId(record?.cryptoId)}
                   preview={false}
                   size={25}
@@ -349,6 +353,7 @@ const Crypto = ({
       // width: '10rem',
       render: (_, record) => (
         <Avatar.Group
+          alt='Exchanges Logos'
           maxCount={4}
           size={25}
           maxStyle={{
@@ -362,6 +367,7 @@ const Crypto = ({
               {item && (
                 <Tooltip title={getExchangeNameFromUrlImageExchage(item)} >
                   <Avatar
+                    alt='Exchange Logo'
                     size={25}
                     src={item}
                     key={index}

@@ -48,7 +48,7 @@ export const ScamEachChainsList = ({ data }) => {
       <td >{index}</td>
       <td >
         <div className='d-flex justify-content-start align-items-center'>
-          {chainName !== 'Others' && <Avatar size={25} src={img}/>}
+          {chainName !== 'Others' && <Avatar alt='Blockchain Logo' size={25} src={img}/>}
           <span className='ms-2'>{capitalizeFirstLetter(chainName)}</span>
         </div>
       </td>

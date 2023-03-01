@@ -305,6 +305,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         >
           {record?.exchangeId && record?.smallLogo ? (
             <Image
+              alt='Exchange Logo'
               src={
                 isValidProductId(record?.exchangeId)
                   ? formatImgUrlFromProductId(record?.exchangeId)
@@ -345,6 +346,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           {/* must have crypto id and its image */}
           {productInfo?.details?.cryptoId && productInfo?.details?.bigLogo ? (
             <Image
+              alt='Cryptocurrency Logo'
               src={
                 isValidProductId(productInfo?.details?.cryptoId)
                   ? formatImgUrlFromProductId(productInfo?.details?.cryptoId)
@@ -377,6 +379,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                 style={{ cursor: 'pointer' }}
               >
                 <Image
+                  alt='Blockchain Logo'
                   src={chainList[`${productInfo?.details?.chainName}`]?.image}
                   preview={false}
                 />
@@ -837,7 +840,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                             key={index}
                             className='crypto-tag-item-list-children-contract'
                           >
-                            <Image src={item?.image} preview={false} />
+                            <Image src={item?.image} preview={false} alt='Website Logo'/>
                             <Tooltip title={toCammelCase(item?.chainName)}>
                               <span
                                 className='crypto-tag-item-list-children-contract-address product-name-text text-primary'

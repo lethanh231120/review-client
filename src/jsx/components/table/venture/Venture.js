@@ -33,7 +33,7 @@ const Venture = ({
       title: 'Name',
       render: (_, record) => (<Link to={`../../products/${record?.ventureId?.split('_')[1]}/${record?.ventureId?.split('_')[2]}`} className='crypto-table-info image-list'>
         {record?.ventureId && record?.ventureLogo ? (
-          <Image src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
+          <Image alt='Venture Logo' src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
         )
           : (<span className='image-list-no-data-detail'>
             {record?.ventureName?.slice(0, 3)}

@@ -26,7 +26,7 @@ export const TopCoinChart = () => {
   coinList.forEach(item => {
     options.push({ value: `${item?.symbol}USDT`, label:
         <>
-          <Avatar size={30} className='me-2' src={imageLink(item?.name.toLowerCase())}/>
+          <Avatar alt='Cryptocurrency Logo' size={30} className='me-2' src={imageLink(item?.name.toLowerCase())}/>
           {item?.name}
         </> })
   })
@@ -42,6 +42,7 @@ export const TopCoinChart = () => {
       </div>
       <div className='dropdown bootstrap-select'>
         <Select
+          aria-label='Coin Selection'
           className='custom-react-select mb-xl-0 mb-3'
           options={options && options}
           defaultValue={options && options[0]}

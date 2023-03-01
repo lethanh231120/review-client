@@ -317,7 +317,7 @@ const ModalReport = ({ isModal }) => {
                     <div className='profile-details'>
                       <div className='profile-photo'>
                         {item?.image && (item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? (
-                          <Image src={isValidProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? formatImgUrlFromProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) : imgAbsentImage} preview={false} className='image-list' height={64} width={64} />
+                          <Image src={isValidProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? formatImgUrlFromProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) : imgAbsentImage} preview={false} className='image-list' height={64} width={64} alt='Project Logo'/>
                         ) : (
                           <NoImage
                             alt={item?.name?.slice(0, 3)}
@@ -379,7 +379,7 @@ const ModalReport = ({ isModal }) => {
         </>
       )}
 
-      <h4 className='project-hot-title'>Project Hot <Image src={hot} preview={false}/></h4>
+      <h4 className='project-hot-title'>Project Hot <Image src={hot} preview={false} alt='Hot Project'/></h4>
       <div className='mt-3 row'>
         {listHot && listHot?.slice(0, 8)?.map((item, index) => (
           <ProjectHot

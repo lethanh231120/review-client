@@ -120,7 +120,7 @@ const CryptoTable = ({ loading, listData }) => {
           className='crypto-table-info image-list'
         >
           {record?.cryptoId && record?.bigLogo ? (
-            <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} />
+            <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} alt='Cryptocurrency Logo'/>
           ) : (
             <span className='image-list-no-data'>
               {record?.name?.slice(0, 3)}
@@ -198,6 +198,7 @@ const CryptoTable = ({ loading, listData }) => {
         <Avatar.Group
           maxCount={2}
           size={25}
+          alt='Chains Logos'
           maxStyle={{
             color: '#fff',
             backgroundColor: '#039F7F',
@@ -208,6 +209,7 @@ const CryptoTable = ({ loading, listData }) => {
             <div key={index}>
               {chainList[item?.chainName] && (
                 <Avatar
+                  alt='Blockchain Logo'
                   size={25}
                   src={chainList[item?.chainName]?.image}
                   // key={index}
@@ -234,6 +236,7 @@ const CryptoTable = ({ loading, listData }) => {
       dataIndex: 'exchanges',
       render: (_, record) => (
         <Avatar.Group
+          alt='Exchanges Logos'
           maxCount={2}
           size={25}
           maxStyle={{
@@ -246,6 +249,7 @@ const CryptoTable = ({ loading, listData }) => {
             <div key={index}>
               {item && (
                 <Avatar
+                  alt='Exchange Logo'
                   size={25}
                   src={item}
                   // key={index}

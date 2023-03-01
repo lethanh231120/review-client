@@ -32,7 +32,7 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
     >
       <div className='form-search-data-item-data'>
         {item?.cryptoId && item?.image ? (
-          <Image src={isValidProductId(item?.cryptoId) ? formatImgUrlFromProductId(item?.cryptoId) : imgAbsentImageCrypto} preview={false} />
+          <Image src={isValidProductId(item?.cryptoId) ? formatImgUrlFromProductId(item?.cryptoId) : imgAbsentImageCrypto} preview={false} alt='Cryptocurrency Logo'/>
         ) : (
           (
             <NoImage
@@ -49,9 +49,9 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
               <h6 className='cus-h6'>({item?.symbol})</h6>
             </div>
             {item?.isScam ? (
-              <Image src={scam} preview={false} />
+              <Image src={scam} preview={false} alt='Scam'/>
             ) : item?.isWarning ? (
-              <Image src={warning} preview={false} />
+              <Image src={warning} preview={false} alt='Warning' />
             ) : (
               ''
             )}

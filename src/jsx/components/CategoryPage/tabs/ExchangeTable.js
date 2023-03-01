@@ -35,7 +35,7 @@ const ExchangeTable = ({ listData, loading }) => {
           className='crypto-table-info image-list'
         >
           {record?.exchangeId && record?.smallLogo ? (
-            <Image src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
+            <Image src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} alt='Exchange Logo'/>
           )
             : (<span className='image-list-no-data'>
               {record?.name?.slice(0, 3)}

@@ -33,7 +33,7 @@ const SoonTable = ({ listData, loading }) => {
           className='crypto-table-info image-list'
         >
           {record?.projectId && record?.bigLogo ? (
-            <Image src={isValidProductId(record?.projectId) ? formatImgUrlFromProductId(record?.projectId) : imgAbsentImageSoon} preview={false} />
+            <Image src={isValidProductId(record?.projectId) ? formatImgUrlFromProductId(record?.projectId) : imgAbsentImageSoon} preview={false} alt='ICO/IDO/IEO Logo' />
           )
             : (
               <NoImage
@@ -82,6 +82,7 @@ const SoonTable = ({ listData, loading }) => {
       title: `Chain`,
       render: (_, record) => (
         <Avatar.Group
+          alt='Blockchains Logo'
           maxCount={2}
           size={25}
           maxStyle={{
@@ -96,6 +97,7 @@ const SoonTable = ({ listData, loading }) => {
                 {chainName?.trim() ? (
                   <Tooltip title={chainName}>
                     <Avatar
+                      alt='Blockchain Logo'
                       size={25}
                       src={`https://gear5.s3.ap-northeast-1.amazonaws.com/image/chain/smallLogo/${chainName
                         ?.trim()
@@ -164,6 +166,7 @@ const SoonTable = ({ listData, loading }) => {
       title: `Launch Pad`,
       render: (_, record) => (
         <Avatar.Group
+          alt='Launchpads Logos'
           maxCount={2}
           size={25}
           maxStyle={{
@@ -181,6 +184,7 @@ const SoonTable = ({ listData, loading }) => {
                   record?.roundSale[idx]?.web ? (
                     <Tooltip title={record?.roundSale[idx]?.platformName}>
                       <Avatar
+                        alt='Launchpad Logo'
                         size={25}
                         src={record?.roundSale[idx]?.platformLogo}
                         className='soon-table-blockchain'

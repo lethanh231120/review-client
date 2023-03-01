@@ -162,6 +162,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
                     rel='noreferrer'
                   >
                     <Avatar
+                      alt='Social Logo'
                       className='img-fluid p-1 rounded-circle cus-avatar'
                       style={{ backgroundColor: '#F0F2F5' }}
                       preview={false}
@@ -214,7 +215,8 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
                 {
                   <div className='d-flex text-align-center mb-2'>
                     <p className='mb-0'> Chains:</p>
-                    <Avatar.Group className='ms-1 '
+                    <Avatar.Group className='ms-1'
+                      alt='Blockchains Logos'
                       maxCount={4}
                       size={20}
                       maxStyle={{
@@ -228,6 +230,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
                           {key && (
                             <Tooltip key={index} title={chainList[key]?.chainName}>
                               <Avatar
+                                alt='Blockchain Logo'
                                 onClick={() => onItemClicked(chainList[key]?.exploreWebsite)}
                                 size={20}
                                 src={chainList[key]?.image}
@@ -281,6 +284,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       render: (_, record) =>
         <div className='d-flex text-align-center mb-2'>
           <Avatar.Group className='ms-1 '
+            alt='Blockchains Logos'
             maxCount={4}
             size={25}
             maxStyle={{
@@ -294,6 +298,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
                 {key && (
                   <Tooltip key={index} title={chainList[key]?.chainName}>
                     <Avatar
+                      alt='Blockchain Logo'
                       onClick={() => onItemClicked(chainList[key]?.exploreWebsite)}
                       size={25}
                       src={chainList[key]?.image}

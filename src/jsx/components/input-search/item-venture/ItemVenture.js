@@ -30,7 +30,7 @@ const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global, setItem, 
     >
       <div className='form-search-data-item-data'>
         {item?.ventureId && item?.image ? (
-          <Image src={isValidProductId(item?.ventureId) ? formatImgUrlFromProductId(item?.ventureId) : imgAbsentImageVenture} preview={false} />
+          <Image src={isValidProductId(item?.ventureId) ? formatImgUrlFromProductId(item?.ventureId) : imgAbsentImageVenture} preview={false} alt='Venture Logo'/>
         )
           : (
             <NoImage
