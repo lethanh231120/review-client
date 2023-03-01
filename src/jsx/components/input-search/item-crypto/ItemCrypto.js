@@ -31,8 +31,8 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {item?.cryptoId && item?.image ? (
-          <Image src={isValidProductId(item?.cryptoId) ? formatImgUrlFromProductId(item?.cryptoId) : imgAbsentImageCrypto} preview={false} alt='Cryptocurrency Logo'/>
+        {item?.cryptoId ? (
+          <Image src={isValidProductId(item?.cryptoId) ? formatImgUrlFromProductId(item?.cryptoId) : imgAbsentImageCrypto} preview={false} />
         ) : (
           (
             <NoImage
