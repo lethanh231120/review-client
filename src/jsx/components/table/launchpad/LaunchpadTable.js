@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import './LaunchpadTable.scss'
 import { Avatar, Table, Row, Col, Tooltip } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
@@ -244,7 +245,7 @@ const LaunchpadList = ({ listProduct,
   ]
 
   return (
-    <div className='font-family dapp-table'>
+    <div className='font-family launchpad-table'>
       <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
             A total of{' '}
         <Badge>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Launchpads

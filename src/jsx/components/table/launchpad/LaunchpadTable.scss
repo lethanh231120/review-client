@@ -1,0 +1,174 @@
+.launchpad-table{
+    & .ant-pagination {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    width: 100%;
+    & table {
+      width: 100%;
+      overflow: hidden;
+      & .ant-table-thead > tr > th {
+        background-color: #fafafa;
+      }
+      & .ant-table-cell-fix-left-first::after,
+      .ant-table-cell-fix-left-last::after {
+        width: 0;
+      }
+      & .ant-table-tbody > tr > td,
+      .ant-table-thead > tr > th {
+        padding: 0.625rem 0.9375rem;
+      }
+      & .ant-table-tbody > tr > td,
+      .ant-table-body > tr > th {
+        padding: 0.625rem 0.9375rem;
+        cursor: pointer;
+      }
+    }
+}
+
+//small menu mode
+@media (max-width: 1675px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(2) { // blockchain
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(2) {
+            display: none;
+          }
+    }
+}
+
+@media (max-width: 1355px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(5) { // year founded
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(5) {
+            display: none;
+          }
+    }
+}
+
+@media (max-width: 1230px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(4) { // ATH ROI
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(4) {
+            display: none;
+          }
+    }
+}
+
+@media (max-width: 1111px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(6) { // Raised
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(6) {
+            display: none;
+          }
+    }
+}
+
+@media (max-width: 980px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(7) { // Marketcap
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(7) {
+            display: none;
+          }
+    }
+}
+
+
+@media (max-width: 830px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(8) { // Volumn 24h
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(8) {
+            display: none;
+          }
+    }
+}
+
+@media (max-width: 500px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(3) { // Current ROI
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(3) {
+            display: none;
+          }
+    }
+}
+
+@media (max-width: 355px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:last-child { // Score
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:last-child {
+            display: none;
+          }
+    }
+}
+
+//big menu
+@media (max-width: 1890px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(2) { // blockchain
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(2) {
+            display: none;
+          }
+    }
+}
+
+@media (max-width: 1777px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(5) { // year founded
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(5) {
+            display: none;
+          }
+    }
+}
+
+@media (max-width: 1425px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(4) { // ATH ROI
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(4) {
+            display: none;
+          }
+    }
+}
+
+@media (max-width: 1285px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(6) { // Raised
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(6) {
+            display: none;
+          }
+    }
+}
+
+@media (max-width: 1170px) {
+    .launchpad-table{
+        & table .ant-table-thead > tr > th:nth-child(7) { // Marketcap
+            display: none;
+          }
+          & table .ant-table-tbody > tr > td:nth-child(7) {
+            display: none;
+          }
+    }
+}
