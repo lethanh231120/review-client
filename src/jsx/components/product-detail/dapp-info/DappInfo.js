@@ -53,9 +53,9 @@ const DappInfo = ({ productInfo, ...rest }) => {
           {productInfo?.details?.dAppId && productInfo?.details?.dAppLogo ? (
             <Image src={isValidProductId(productInfo?.details?.dAppId) ? formatImgUrlFromProductId(productInfo?.details?.dAppId) : imgAbsentImageDapp} preview={false} alt='DApp Logo'/>
           )
-            : (<span className='image-list-no-data-detail'>
+            : (<h2 className='image-list-no-data-detail'>
               {productInfo?.details?.dAppName?.slice(0, 3)}
-            </span>)
+            </h2>)
           }
         </div>
         <div className='profile-name'>
@@ -190,7 +190,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
   const More = () => {
     return <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='heading text-primary'>{detail?.dAppName} Information</h5>
+        <h3 className='heading text-primary'>{detail?.dAppName} Information</h3>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog'>
@@ -278,7 +278,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
   const About = () => {
     return <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='heading text-primary'>About {detail?.dAppName}</h5>
+        <h3 className='heading text-primary'>About {detail?.dAppName}</h3>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>
