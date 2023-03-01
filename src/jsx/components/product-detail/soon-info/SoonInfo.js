@@ -224,7 +224,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       <div className='profile-details'>
         <div className='profile-photo'>
           {itemDetail?.projectId ? (
-            <Image src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false}/>
+            <Image alt='IDO/ICO/IEO Logo' src={isValidProductId(itemDetail?.projectId) ? formatImgUrlFromProductId(itemDetail?.projectId) : imgAbsentImageSoon} preview={false}/>
           )
             : (<span className='image-list-no-data-detail'>
               {itemDetail?.projectName?.slice(0, 3)}

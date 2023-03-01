@@ -128,7 +128,7 @@ const Header = () => {
         <img
           src={userInfo?.image ? userInfo?.image : profile}
           width={20}
-          alt=''
+          alt='User Avatar'
           style={{ backgroundColor: '#EFECE8' }} // same background of image
         />
       </Tooltip>

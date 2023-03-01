@@ -2,7 +2,7 @@ import Avatar from 'antd/es/avatar/avatar'
 import { useNavigate } from 'react-router-dom'
 import './reviews-item.scss'
 import imgshit from './shit-icon.svg'
-import profile from '../../../../../images/product/user.png'
+import profile from '../../../../../images/product/user.webp'
 import { Image } from 'antd'
 import moment from 'moment-timezone'
 import _ from 'lodash'
@@ -40,7 +40,7 @@ export const ReviewItem = ({ data }) => {
         <div className='new-arrival-content'>
           <div className='row'>
             <div className='col-10 d-flex '>
-              <Avatar className='mt-1' size={40} src={data?.userImage ? data?.userImage : profile } />
+              <Avatar className='mt-1' size={40} src={data?.userImage ? data?.userImage : profile } alt='User Avatar'/>
               <div className=' ms-2 mt-1'>
                 {reviewStarsRender(data?.star, data?.isScam)}
                 {timeAgo}
@@ -48,7 +48,7 @@ export const ReviewItem = ({ data }) => {
             </div>
             <div className='col-2 review-img'>
               {data?.images && !_.isEmpty(data?.images) &&
-                <Image className='img-fluid ' src={data?.images[0]} preview={true}/>
+                <Image className='img-fluid ' src={data?.images[0]} preview={true} alt='Review Image'/>
               }
             </div>
           </div>
@@ -84,7 +84,7 @@ const reviewStarsRender = (star, isScam) => {
         {' '}
         {
           [... new Array(3)].map((item, index) => {
-            return <img key={index} src={imgshit}/>
+            return <img key={index} src={imgshit} alt='Scam'/>
           })
         }
       </ul>

@@ -250,6 +250,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
           {showUser && (
             <div className='product-detail-form-avatar'>
               <Image
+                alt='User Avatar'
                 src={userInfo?.image ? userInfo?.image : user}
                 preview={false}
               />

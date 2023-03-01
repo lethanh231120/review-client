@@ -30,7 +30,7 @@ const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItem, isFormRepo
     >
       <div className='form-search-data-item-data'>
         {item?.soonId && item?.image ? (
-          <Image src={isValidProductId(item?.soonId) ? formatImgUrlFromProductId(item?.soonId) : imgAbsentImageSoon} preview={false} />
+          <Image src={isValidProductId(item?.soonId) ? formatImgUrlFromProductId(item?.soonId) : imgAbsentImageSoon} preview={false} alt='IDO/ICO/IEO Logo'/>
         )
           : (
             <NoImage

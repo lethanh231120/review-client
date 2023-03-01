@@ -33,7 +33,7 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isF
     >
       <div className='form-search-data-item-data'>
         {item?.dappId && item?.image ? (
-          <Image src={isValidProductId(item?.dappId) ? formatImgUrlFromProductId(item?.dappId) : imgAbsentImageDapp} preview={false} />
+          <Image src={isValidProductId(item?.dappId) ? formatImgUrlFromProductId(item?.dappId) : imgAbsentImageDapp} preview={false} alt='DApp Logo'/>
         )
           : (
             <NoImage
@@ -49,9 +49,9 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isF
               {item?.name}
             </h6>
             {item?.isScam ? (
-              <Image src={scam} preview={false} />
+              <Image src={scam} preview={false} alt='Scam'/>
             ) : item?.isWarning ? (
-              <Image src={warning} preview={false} />
+              <Image src={warning} preview={false} alt='Warning'/>
             ) : (
               ''
             )}

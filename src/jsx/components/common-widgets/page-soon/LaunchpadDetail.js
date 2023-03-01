@@ -50,7 +50,7 @@ const LaunchpadDetail = ({ projectName, launchpadList }) => {
                   <div style={{ display: 'block' }}>
                     {`${projectName} run on `}
                     <div key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'inline-block' }} className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={(e) => { forwardDetailLaunchpad(e, key) } }>
-                      <img src={launchpadMapContext?.get(key)?.thumbLogo} height={24} width={24} />
+                      <img alt='Launchpad Logo' src={launchpadMapContext?.get(key)?.thumbLogo} height={24} width={24} />
                       &nbsp;&nbsp;
                       {toCammelCase(launchpadMapContext?.get(key)?.name)}
                     </div>

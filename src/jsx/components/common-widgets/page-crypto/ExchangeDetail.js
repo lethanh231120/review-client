@@ -28,7 +28,7 @@ export const ExchangeDetail = ({ coinName, exchangeList }) => {
                   <div style={{ display: 'block' }}>
                     {`${coinName} is existing on `}
                     <div key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'inline-block' }} className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={(e) => { handleClickExchange(e, itemImageUrl) } }>
-                      <img src={itemImageUrl} height={24} width={24} />
+                      <img src={itemImageUrl} height={24} width={24} alt='Exchange Logo'/>
                       &nbsp;&nbsp;
                       {getExchangeNameFromUrlImageExchage(itemImageUrl)}
                     </div>

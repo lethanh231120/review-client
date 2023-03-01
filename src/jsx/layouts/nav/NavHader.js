@@ -3,9 +3,9 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
 // images
-import logo1 from './../../../images/logo/gear5_logo_notext1.png'
-import logotext1 from './../../../images/logo/logo-text.png'
-import logoColor from './../../../images/logo/gear5_logo_notext.png'
+import logo1 from './../../../images/logo/gear5_logo_notext1.webp'
+import logotext1 from './../../../images/logo/logo-text.webp'
+// import logoColor from './../../../images/logo/gear5_logo_notext.png'
 import { ShowFullSearchConext } from '../../../App'
 import { ToggleContext } from '../../index'
 import { PathNameContext } from '../../index'
@@ -28,16 +28,16 @@ const NavHader = () => {
   const showFullSearchConext = useContext(ShowFullSearchConext)
 
   const viewHtml = <div className='nav-header'>
-    <Link to='/' className='brand-logo' onClick={() => pathname?.handleChangePathName('')}>
+    <Link aria-label='Gear5 Logo' to='/' className='brand-logo' onClick={() => pathname?.handleChangePathName('')}>
       {/* no meunu left: screen width <  767px */}
-      <img src={logoColor} className='logo-color' alt='' />
+      {/* <img src={logoColor} className='logo-color' alt='logo' /> */}
 
       {/* small menu left (can't expand): screen width >= 767px && < 1024px */}
       {/* big menu left (when expand): screen >= 1024px */}
-      <img src={logo1} className='logo-abbr' alt='' />
+      <img src={logo1} className='logo-abbr' alt='logo' />
 
       {/* big menu left (when expand): screen >= 1024px */}
-      <img src={logotext1} className='brand-title' alt='' />
+      <img src={logotext1} className='brand-title' alt='logo' />
     </Link>
 
     <div

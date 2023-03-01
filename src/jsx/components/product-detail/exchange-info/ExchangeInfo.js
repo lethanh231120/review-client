@@ -48,7 +48,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
       <div className='profile-details'>
         <div className='profile-photo'>
           {detail?.exchangeId && detail?.smallLogo ? (
-            <Image src={isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageExchange} preview={false}/>
+            <Image src={isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageExchange} preview={false} alt='Exchange Logo'/>
           )
             : (<span className='image-list-no-data-detail'>
               {detail?.name?.slice(0, 3)}
@@ -153,6 +153,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                     rel='noreferrer'
                   >
                     <Avatar
+                      alt='Social Logo'
                       className='img-fluid p-1 rounded-circle cus-avatar'
                       style={{ backgroundColor: '#F0F2F5' }}
                       preview={false}

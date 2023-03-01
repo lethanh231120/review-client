@@ -234,13 +234,13 @@ const ReviewItem = (props) => {
   return (
     <>
       <div className='review-item'>
-        <Image src={data?.review?.acountImage ? data?.review?.acountImage : user} preview={false}/>
+        <Image src={data?.review?.acountImage ? data?.review?.acountImage : user} preview={false} alt='User Avatar'/>
         <div className='review-item-description'>
           <div className='review-item-data'>
             <div className='review-item-name'>
               {data?.review?.userName ? data?.review?.userName : 'Anonymous'}
               <span>
-                {data?.review?.isScam && (<Image src={scam} preview={false}/>)}
+                {data?.review?.isScam && (<Image alt='Scam' src={scam} preview={false}/>)}
               </span>
             </div>
             <div className='review-item-content'>
@@ -274,7 +274,7 @@ const ReviewItem = (props) => {
             <div className='review-item-list-image'>
               {data?.review?.images?.map((itemImage, index) => (
                 <div className='review-item-list-image-item' key={index}>
-                  <Image src={itemImage} preview={true}/>
+                  <Image src={itemImage} preview={true} alt='Review Image'/>
                 </div>
               ))}
             </div>
@@ -322,7 +322,7 @@ const ReviewItem = (props) => {
             {addReply && token && (
               <div className='add-reply'>
                 <div className='add-reply-form-avatar'>
-                  <Image src={userInfo?.image ? userInfo?.image : user} preview={false} style={{ width: '2.1875rem' }}/>
+                  <Image src={userInfo?.image ? userInfo?.image : user} preview={false} style={{ width: '2.1875rem' }} alt='User Avatar'/>
                 </div>
                 <Form.Item
                   name={`reply ${newData?.data?.id}`}

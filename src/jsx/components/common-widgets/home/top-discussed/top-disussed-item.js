@@ -36,7 +36,7 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
     <div className='previews-info-list hot-coin-item' onClick={() => onItemClicked(type, detail, navigate)}>
       <div className='pre-icon'>
         <span className={`icon-box icon-box-sm`}>
-          {imageUrl !== '' ? <Avatar size={35} src={imageUrl}/> : <NoImage width={35} height={35} alt={name?.substring(0, 2)}/>}
+          {imageUrl !== '' ? <Avatar alt='Project Logo' size={35} src={imageUrl}/> : <NoImage width={35} height={35} alt={name?.substring(0, 2)}/>}
         </span>
         <div className='ms-2'>
           <h6 className='text-etc-overflow cus-hot-coin-name'>{name}{type === 'crypto' ? ` (${symbol})` : null}</h6>

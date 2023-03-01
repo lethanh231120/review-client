@@ -78,6 +78,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             <div>
                               {item?.projectId ? (
                                 <Avatar
+                                  alt='IDO/ICO/IEO Logo'
                                   src={
                                     isValidProductId(item?.projectId)
                                       ? formatImgUrlFromProductId(

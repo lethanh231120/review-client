@@ -123,7 +123,7 @@ const ReplyComment = (props) => {
 
   return (
     <div className='reply' key={index}>
-      <Image src={data?.reply?.acountImage ? data?.reply?.acountImage : user} preview={false}/>
+      <Image src={data?.reply?.acountImage ? data?.reply?.acountImage : user} preview={false} alt='User Avatar'/>
       <div className='reply-description'>
         <div className='reply-data'>
           <div className='reply-name'>
@@ -135,7 +135,7 @@ const ReplyComment = (props) => {
         </div>
         {data?.reply?.image && (
           <div className='reply-item-comment-image'>
-            <Image src={data?.reply?.image} preview={true}/>
+            <Image src={data?.reply?.image} preview={true} alt='Reply Image'/>
           </div>
         )}
         <div className='review-item-action'>

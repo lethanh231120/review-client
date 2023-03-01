@@ -101,7 +101,7 @@ export const TopCoins = () => {
                 <span
                   className='top-coin-icon'
                 >
-                  <Avatar src={`/img/${item?.symbol?.toLowerCase()}.png`}></Avatar>
+                  <Avatar alt='Cryptocurrency Logo' src={`/img/${item?.symbol?.toLowerCase()}.webp`}></Avatar>
                 </span>
                 <div className='ms-2'>
                   <h6 className='top-coin-name'>{item?.name}</h6>
@@ -115,7 +115,7 @@ export const TopCoins = () => {
                 </span>
               </div>
               <div className='chart-img top-coin-img' >
-                <img className='img-fluid' alt='' src={`https://www.coingecko.com/coins/${sparklineIndex[index]}/sparkline`} width={100} height={40} />
+                <img className='img-fluid' alt='Cryptocurrency Chart' src={`https://www.coingecko.com/coins/${sparklineIndex[index]}/sparkline`} width={100} height={40} />
               </div>
             </div>
           )) : <MySkeletonLoadinng count={5} height={70}/>) : <MySkeletonLoadinng count={5} height={70}/>}
