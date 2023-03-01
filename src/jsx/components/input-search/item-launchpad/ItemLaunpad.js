@@ -31,8 +31,8 @@ const ItemLaunch = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {item?.launchPadId && item?.image ? (
-          <Image src={isValidProductId(item?.launchPadId) ? formatImgUrlFromProductId(item?.launchPadId) : imgAbsentImageCrypto} preview={false} alt='Launchpad Logo'/>
+        {item?.launchPadId ? (
+          <Image src={isValidProductId(item?.launchPadId) ? formatImgUrlFromProductId(item?.launchPadId) : imgAbsentImageCrypto} preview={false} />
         ) : (
           (
             <NoImage
