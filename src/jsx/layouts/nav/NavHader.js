@@ -25,17 +25,14 @@ const NavHader = () => {
   useEffect(() => {
     function handleResize() {
       const { innerWidth: width } = window
-      // setScreenWidth(width)
       const mainwrapper = document.querySelector('#main-wrapper')
       if (width < 767.98) {
-        console.log(22222)
         mainwrapper.classList.remove('menu-toggle')
       }
     }
 
     handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    window.addEventListener('load', handleResize)
   }, [])
 
   const toggle = useContext(ToggleContext)
