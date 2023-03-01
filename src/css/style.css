@@ -13350,7 +13350,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 @media screen and (min-width: 47.9375rem) {
   [data-sidebar-style="modern"] .nav-header {
-    width: 10.625rem; }
+    width: 10.625rem;
+    background-color: transparent; }
     [data-sidebar-style="modern"] .nav-header .brand-logo {
       justify-content: center; }
   [data-sidebar-style="modern"] .deznav .header-profile {

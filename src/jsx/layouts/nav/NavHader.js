@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 // / React router dom
 import { Link } from 'react-router-dom'
 
@@ -22,6 +22,21 @@ export function NavMenuToggle() {
 }
 
 const NavHader = () => {
+  useEffect(() => {
+    function handleResize() {
+      const { innerWidth: width } = window
+      // setScreenWidth(width)
+      const mainwrapper = document.querySelector('#main-wrapper')
+      if (width < 767.98) {
+        mainwrapper.classList.remove('menu-toggle')
+      }
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const toggle = useContext(ToggleContext)
   const pathname = useContext(PathNameContext)
   // const [toggle, setToggle] = useState(false)
