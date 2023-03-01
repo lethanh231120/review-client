@@ -142,7 +142,12 @@ const Header = () => {
       <Link
         to='#'
         className='dropdown-item ai-icon'
-        onClick={logout}
+        onClick={() => {
+          const isShowLogout = document.getElementsByClassName('dropdown-menu dropdown-menu-end dropdown-menu show').length > 0
+          if (isShowLogout) {
+            logout()
+          }
+        }}
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
