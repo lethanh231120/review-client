@@ -8593,17 +8593,17 @@ label {
 .nav-control {
   cursor: pointer;
   position: absolute;
-  right: -5rem;
+  right: -2.5rem;
   text-align: center;
   top: 58%;
   transform: translateY(-50%);
   z-index: 9999;
   font-size: 1.4rem;
-  padding: 0.125rem 0.5rem 0;
+  /* padding: 0.125rem 0.5rem 0; */
   border-radius: 0.125rem; }
   @media only screen and (max-width: 87.5rem) {
     .nav-control {
-      right: -4rem; } }
+      right: -2.5rem; } }
   @media only screen and (max-width: 47.9375rem) {
     .nav-control {
       right: -3rem; } }
@@ -8730,20 +8730,25 @@ label {
   transition: all .2s ease; }
   @media only screen and (max-width: 100rem) {
     .header {
-      padding-right: 78px; } }
+      padding-right: 90px; 
+    }
+    .header .header-content{
+      padding-left: 4rem;
+    } 
+  }
   @media only screen and (max-width: 47.9375rem) {
     .header {
       padding-right: 0px; } }
   .header .header-content {
     height: 100%;
-    padding-left: 7rem;
-    padding-right: 1.075rem;
+    padding-left: 3rem;
+    /* padding-right: 1.075rem; */
     align-items: center;
     display: flex;
     position: relative; }
     @media only screen and (max-width: 87.5rem) {
       .header .header-content {
-        padding-left: 7rem; } }
+        padding-left: 4rem; } }
     @media only screen and (max-width: 47.9375rem) {
       .header .header-content {
         padding-left: 3.75rem;
@@ -8905,7 +8910,7 @@ svg.pulse-svg {
     [data-sidebar-style="full"] .header,
     [data-sidebar-style="overlay"] .header {
       width: 100%;
-      padding-left: 17rem; } }
+      padding-left: 19.5rem; } }
   @media only screen and (max-width: 63.9375rem) {
     [data-sidebar-style="full"] .header,
     [data-sidebar-style="overlay"] .header {
@@ -12321,8 +12326,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     justify-content: center; }
     [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header .brand-logo .color-title {
       display: none; }
-  [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header .nav-control {
-    right: -4rem; }
+  /* [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header .nav-control {
+    right: -4rem; } */
     [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header .nav-control .hamburger .line {
       background-color: var(--primary); }
 
@@ -12336,8 +12341,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   [direction="rtl"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .header {
     padding: 0 0.9375rem;
     padding-right: 7.5rem; }
-  [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .header .header-content {
-    padding-left: 5rem; }
+  /* [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .header .header-content {
+    padding-left: 5rem; } */
 
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav {
   width: 6.5rem;
@@ -12512,7 +12517,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     [data-sidebar-style="mini"] .nav-header .hamburger {
       display: none; }
   [data-sidebar-style="mini"] .header .header-content {
-    padding-left: 1.875rem; }
+    padding-left: 1.rem; }
     [direction="rtl"][data-sidebar-style="mini"] .header .header-content {
       padding-right: 1.875rem; }
   [data-sidebar-style="mini"] .deznav {
@@ -13638,13 +13643,14 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 [data-sidebar-position="fixed"][data-layout="vertical"] .menu-toggle .deznav {
   position: fixed; }
 
+
 [data-layout="vertical"] .nav-header {
   border-top-left-radius: 0;
   border-top-right-radius: 2.5rem; }
 
 [data-layout="vertical"] .deznav {
   border-bottom-left-radius: 0;
-  border-bottom-right-radius: 1.25rem; }
+  border-bottom-right-radius: 2.5rem; }
 
 [data-sidebar-style="icon-hover"][data-layout="vertical"][data-container="wide-boxed"] .deznav,
 [data-sidebar-style="icon-hover"][data-layout="vertical"][data-container="boxed"] .deznav,

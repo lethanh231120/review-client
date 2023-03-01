@@ -18,7 +18,7 @@ export function NavMenuToggle() {
     } else {
       mainwrapper.classList.add('menu-toggle') // small menu
     }
-  }, 0)
+  }, 100)
 }
 
 const NavHader = () => {
@@ -28,11 +28,13 @@ const NavHader = () => {
       const mainwrapper = document.querySelector('#main-wrapper')
       if (width < 767.98) {
         mainwrapper.classList.remove('menu-toggle')
+        toggle?.handleChangeToggle(false)
       }
     }
 
     handleResize()
     window.addEventListener('load', handleResize)
+    window.addEventListener('resize', handleResize)
   }, [])
 
   const toggle = useContext(ToggleContext)

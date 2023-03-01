@@ -11,7 +11,19 @@
     z-index: 10;
     width: 100%;
 }
-@media screen and (max-width: 1599.98px) {
+.cus-h1{
+    width: fit-content;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+@media screen and (max-width: 1699.98px) {
+    .cus-h1{
+        max-width: 17rem;
+    }
+}
+@media screen and (max-width: 1600.98px) {
     .list-btn{
         padding: 0.8rem;
     }
@@ -21,6 +33,12 @@
         display: none !important;
     }
     .display-none-btn{
+        display: block !important;
+    }
+    .list-btn{
+        display: none !important;
+    }
+    .list-action{
         display: block !important;
     }
 }

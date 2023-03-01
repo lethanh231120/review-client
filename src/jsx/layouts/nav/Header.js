@@ -272,7 +272,7 @@ const Header = () => {
             <div className='collapse navbar-collapse justify-content-between'>
               <div className='header-left'>
                 <h1
-                  className='dashboard_bar text-etc-overflow'
+                  className='dashboard_bar text-etc-overflow cus-h1'
                   style={{
                     textTransform: 'capitalize',
                     fontSize: '1.5rem'
@@ -298,7 +298,7 @@ const Header = () => {
                   <div className='search-coundry d-flex align-items-center'>
                   </div>
                   <div className='sidebar-social-link '>
-                    <div className={toggle?.toggle ? 'display-block-btn' : 'display-none-btn'}>
+                    <div className={`${toggle?.toggle ? 'display-block-btn' : 'display-none-btn'} list-action`}>
                       {reportScamHtml}
                       {addProjectHtml}
                     </div>

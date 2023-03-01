@@ -403,7 +403,7 @@ const SideBar = () => {
         </ul>
       </PerfectScrollbar>
       <div
-        className={`${!toggle?.toggle ? 'display-block-btn' : 'display-none-btn'} list-btn `}
+        className={`${toggle?.toggle ? 'display-none-btn' : 'display-block-btn'} list-btn `}
       >
         <Button
           className='btn-danger '
