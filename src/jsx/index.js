@@ -118,17 +118,13 @@ const Markup = () => {
                       element={<ProductDetail />}
                     />
                   </Route>
+                  <Route path='terms-of-service' element={<TermOfService />}/>
+                  <Route path='privacy-policy' element={<TermOfService />}/>
                   <Route path='not-found-product' element={<NotFoundProduct />} />
                   <Route path='server-error' element={<ServerError />} />
                   <Route path='not-found' element={<NotFound />} />
                   <Route path='*' element={<NotFound />} />
                 </Route>
-                <Route path='terms-of-service' element={<TermOfService />}/>
-                <Route path='privacy-policy' element={<TermOfService />}/>
-                <Route path='not-found-product' element={<NotFoundProduct />} />
-                <Route path='server-error' element={<ServerError />} />
-                <Route path='not-found' element={<NotFound />} />
-                <Route path='*' element={<NotFound />} />
               </Routes>
               <ScrollToTop />
               <Modal className='fade cus-modal' show={openModalReport} size='lg'>

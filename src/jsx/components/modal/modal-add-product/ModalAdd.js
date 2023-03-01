@@ -375,7 +375,7 @@ const ModalAdd = ({ isModal }) => {
         onFinish={onFinish}
         fields={defaultValue}
         layout='vertical'
-        className='cus-form'
+        className='cus-form modal-add'
       >
         <Row gutter={[12]}>
           <Col sm={{ span: 12 }} xs={{ span: 24 }}>
