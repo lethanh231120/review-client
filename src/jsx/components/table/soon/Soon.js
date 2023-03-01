@@ -28,7 +28,7 @@ const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
   return (
     <div className='font-family' style={{ width: '100%' }}>
-      <div className='card Infra' style={{ height: 'auto', margin: '0 1.7rem 0 0.3rem' }}>
+      <div className='card Infra' style={{ height: 'auto', margin: '0 0.3rem 0 0.3rem' }}>
         <div className='card-header border-0' style={{ padding: '1.5rem 1.875rem 0 1.25rem' }}>
           <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
             A total of&nbsp;<Badge bg='primary'>{total}</Badge>&nbsp;ICOs/ IDOs/ IEOs found.
@@ -46,7 +46,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
         </div>
       </div>
 
-      <div className='row' style={{ width: '100%', marginTop: '1rem' }}>
+      <div className='row' style={{ marginTop: '1.2rem' }}>
         <div className='col-lg-12 col-md-12 col-sm-12 col-12'>
           <ul
             // layout
