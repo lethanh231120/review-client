@@ -341,7 +341,7 @@ const Header = () => {
           <nav className='navbar navbar-expand'>
             <div className='collapse navbar-collapse justify-content-between'>
               <div className='header-left'>
-                <div
+                <h1
                   className='dashboard_bar text-etc-overflow'
                   style={{
                     textTransform: 'capitalize',
@@ -349,7 +349,7 @@ const Header = () => {
                   }}
                 >
                   {pathname?.pathName !== undefined ? (pathname?.pathName === '' ? `Don't trust, verify` : pathname?.pathName) : pathName || (pathName === '' ? `Don't trust, verify` : '')}
-                </div>
+                </h1>
               </div>
               {/* header: search elk input */}
               <div
