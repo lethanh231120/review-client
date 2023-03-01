@@ -32,8 +32,8 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isF
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {item?.dappId && item?.image ? (
-          <Image src={isValidProductId(item?.dappId) ? formatImgUrlFromProductId(item?.dappId) : imgAbsentImageDapp} preview={false} alt='DApp Logo'/>
+        {item?.dappId ? (
+          <Image src={isValidProductId(item?.dappId) ? formatImgUrlFromProductId(item?.dappId) : imgAbsentImageDapp} preview={false} />
         )
           : (
             <NoImage
