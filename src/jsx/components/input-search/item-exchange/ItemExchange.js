@@ -32,7 +32,7 @@ const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem,
     >
       <div className='form-search-data-item-data'>
 
-        {item?.exchangeId && item?.image ? (
+        {item?.exchangeId ? (
           <Image src={isValidProductId(item?.exchangeId) ? formatImgUrlFromProductId(item?.exchangeId) : imgAbsentImageExchange} preview={false} />
         )
           : (
