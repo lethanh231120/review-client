@@ -25,6 +25,330 @@
     }
 }
 
+.nav-text{
+    color: #fff;
+}
+
+.sub-title{
+    a{
+        color: #fff !important;
+    }
+}
+
+// .sidebar-social-link {
+//     // width: calc(100% - 1.5rem);
+//     width: 60px;
+//     position: fixed;
+//     // bottom: 4rem;
+//     right: 0.75rem;
+//     // background-color: red;
+// }
+// /*START: resposive float button in home at screen mobile phone*/
+// .report-scam{
+//     margin-bottom: 1.5rem;
+// }
+  
+// /*END: resposive float button in home at screen mobile phone*/
+
+
+// /*START: ring ring effect for button report scam at home */
+// /* ref: https://codepen.io/mccombsc/pen/ZEzxWPy */
+
+// .report-scam-image{
+//     background: red url(../../../../src/images/svg/report-scam-float-button.svg) no-repeat center center;
+// }
+  
+// .add-project-image{
+//     background: #039f7f url(../../../../src/images/svg/add-project-float-button.svg) no-repeat center center;
+// }
+  
+// /* 3rd circle */
+// .coccoc-alo-ph-circle {
+//     margin-left: auto;
+//     width: 100%;
+//     background-color: transparent;
+//     border-radius: 100%;
+//     border: 2px solid rgba(30, 30, 30, 0.4);
+//     opacity: .1;
+//     transition: all .5s;
+// }
+  
+// .coccoc-alo-phone {
+//     position: relative;
+//     cursor: pointer;
+//     width: 100%;
+//     transition: visibility .5s;
+// }
+  
+  
+// /* 2nd circel */
+// .coccoc-alo-ph-circle-fill {
+//     width: 61px;
+//     height: 61px;
+//     top: -8px;
+//     left: -1px;
+//     position: absolute;
+//     border-radius: 100%;
+//     border: 2px solid transparent;
+//     opacity: .1;
+//     animation: coccoc-alo-circle-fill-anim 2.3s infinite ease-in-out;
+//     transition: all .5s;
+// }
+  
+// @media (max-width: 1600px ) {
+//     .coccoc-alo-ph-circle-fill{
+//         top: -17%;
+//         left: -7.5%;
+//     }
+// }
+// /* 1st cirlce */
+// .coccoc-alo-ph-img-circle {
+//     width: 45px;
+//     height: 45px;
+//     margin: 0 auto;
+//     border-radius: 100%;
+//     border: 2px solid transparent;
+//     opacity: .7;
+//     animation: coccoc-alo-circle-img-anim 1s infinite ease-in-out;
+// }
+
+// .coccoc-alo-ph-circle-fill {
+//     background-color: rgba(3, 151, 135, 0.5);
+//     opacity: .75;
+// }
+
+// .coccoc-alo-ph-circle {
+//     opacity: .5;
+// }
+
+// /* hover 1st circle*/
+// .coccoc-alo-ph-img-circle.report-scam-image:hover{
+//     background-color: red !important;
+// }
+// .coccoc-alo-ph-img-circle.add-project-image:hover{
+//     background-color: green !important;
+// }
+
+//   @-moz-keyframes coccoc-alo-circle-anim {
+//       0% {
+//           transform: rotate(0) scale(.5) skew(1deg);
+//           opacity: .1
+//       }
+//       30% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .5
+//       }
+//       100% {
+//           transform: rotate(0) scale(1) skew(1deg);
+//           opacity: .1
+//       }
+//   }
+  
+//   @-webkit-keyframes coccoc-alo-circle-anim {
+//       0% {
+//           transform: rotate(0) scale(.5) skew(1deg);
+//           opacity: .1
+//       }
+//       30% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .5
+//       }
+//       100% {
+//           transform: rotate(0) scale(1) skew(1deg);
+//           opacity: .1
+//       }
+//   }
+  
+//   @-o-keyframes coccoc-alo-circle-anim {
+//       0% {
+//           transform: rotate(0) scale(.5) skew(1deg);
+//           opacity: .1
+//       }
+//       30% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .5
+//       }
+//       100% {
+//           transform: rotate(0) scale(1) skew(1deg);
+//           opacity: .1
+//       }
+//   }
+  
+//   @keyframes coccoc-alo-circle-anim {
+//       0% {
+//           transform: rotate(0) scale(.5) skew(1deg);
+//           opacity: .1
+//       }
+//       30% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .5
+//       }
+//       100% {
+//           transform: rotate(0) scale(1) skew(1deg);
+//           opacity: .1
+//       }
+//   }
+  
+//   @-moz-keyframes coccoc-alo-circle-fill-anim {
+//       0% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .2
+//       }
+//       50% {
+//           transform: rotate(0) scale(1) skew(1deg);
+//           opacity: .2
+//       }
+//       100% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .2
+//       }
+//   }
+  
+//   @-webkit-keyframes coccoc-alo-circle-fill-anim {
+//       0% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .2
+//       }
+//       50% {
+//           transform: rotate(0) scale(1) skew(1deg);
+//           opacity: .2
+//       }
+//       100% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .2
+//       }
+//   }
+  
+//   @-o-keyframes coccoc-alo-circle-fill-anim {
+//       0% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .2
+//       }
+//       50% {
+//           transform: rotate(0) scale(1) skew(1deg);
+//           opacity: .2
+//       }
+//       100% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .2
+//       }
+//   }
+  
+//   @keyframes coccoc-alo-circle-fill-anim {
+//       0% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .2
+//       }
+//       50% {
+//           transform: rotate(0) scale(1) skew(1deg);
+//           opacity: .2
+//       }
+//       100% {
+//           transform: rotate(0) scale(.7) skew(1deg);
+//           opacity: .2
+//       }
+//   }
+  
+//   @-moz-keyframes coccoc-alo-circle-img-anim {
+//       0% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//       10% {
+//           transform: rotate(-25deg) scale(1) skew(1deg)
+//       }
+//       20% {
+//           transform: rotate(25deg) scale(1) skew(1deg)
+//       }
+//       30% {
+//           transform: rotate(-25deg) scale(1) skew(1deg)
+//       }
+//       40% {
+//           transform: rotate(25deg) scale(1) skew(1deg)
+//       }
+//       50% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//       100% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//   }
+  
+//   @-webkit-keyframes coccoc-alo-circle-img-anim {
+//       0% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//       10% {
+//           transform: rotate(-25deg) scale(1) skew(1deg)
+//       }
+//       20% {
+//           transform: rotate(25deg) scale(1) skew(1deg)
+//       }
+//       30% {
+//           transform: rotate(-25deg) scale(1) skew(1deg)
+//       }
+//       40% {
+//           transform: rotate(25deg) scale(1) skew(1deg)
+//       }
+//       50% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//       100% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//   }
+  
+//   @-o-keyframes coccoc-alo-circle-img-anim {
+//       0% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//       10% {
+//           transform: rotate(-25deg) scale(1) skew(1deg)
+//       }
+//       20% {
+//           transform: rotate(25deg) scale(1) skew(1deg)
+//       }
+//       30% {
+//           transform: rotate(-25deg) scale(1) skew(1deg)
+//       }
+//       40% {
+//           transform: rotate(25deg) scale(1) skew(1deg)
+//       }
+//       50% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//       100% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//   }
+  
+//   @keyframes coccoc-alo-circle-img-anim {
+//       0% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//       10% {
+//           transform: rotate(-25deg) scale(1) skew(1deg)
+//       }
+//       20% {
+//           transform: rotate(25deg) scale(1) skew(1deg)
+//       }
+//       30% {
+//           transform: rotate(-25deg) scale(1) skew(1deg)
+//       }
+//       40% {
+//           transform: rotate(25deg) scale(1) skew(1deg)
+//       }
+//       50% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//       100% {
+//           transform: rotate(0) scale(1) skew(1deg)
+//       }
+//   }
+//   /*END: ring ring effect for button report scam at home */
+  
+/*START: ring ring effect for button report scam at home */
+/* ref: https://codepen.io/mccombsc/pen/ZEzxWPy */
+
 .report-scam-image{
     background: red url(../../../../src/images/svg/report-scam-float-button.svg) no-repeat center center;
   }
