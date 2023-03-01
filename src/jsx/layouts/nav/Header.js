@@ -30,6 +30,7 @@ import { CANCEL_ICON } from '../../../images/svg/cancel'
 import { ToggleContext } from '../../index'
 import './custom-header.scss'
 import { PathNameContext } from '../../index'
+import { DAPP, CRYPTO, EXCHANGE, VENTURE, LAUNCHPAD, SOON, INSIGHT } from '../../constants/category'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
@@ -61,6 +62,7 @@ const Header = () => {
   const reportModal = useContext(ReportModalContext)
   const addModal = useContext(AddModalContext)
   const signInFromAddProductContext = useContext(SignInFromAddProductContext)
+  const [pathName, setPathName] = useState()
 
   const handleAddProject = () => {
     // already log in
@@ -247,6 +249,75 @@ const Header = () => {
     </Dropdown>
   </ul>
 
+  useEffect(() => {
+    const path = window.location.pathname.split('/')
+    if (path) {
+      switch (path[1]) {
+        case '':
+          setPathName('')
+          break
+        case 'dashboard':
+          setPathName('')
+          break
+        case CRYPTO:
+          if (path[2]) {
+            setPathName(path[2]?.split('-')?.join(' '))
+          } else {
+            setPathName('Crypto Projects')
+          }
+          break
+        case DAPP:
+          if (path[2]) {
+            setPathName(path[2]?.split('-')?.join(' '))
+          } else {
+            setPathName('DApps')
+          }
+          break
+        case EXCHANGE:
+          if (path[2]) {
+            setPathName(path[2]?.split('-')?.join(' '))
+          } else {
+            setPathName('Exchanges')
+          }
+          break
+        case VENTURE:
+          if (path[2]) {
+            setPathName(path[2]?.split('-')?.join(' '))
+          } else {
+            setPathName('Ventures')
+          }
+          break
+        case SOON:
+          if (path[2]) {
+            setPathName(path[2]?.split('-')?.join(' '))
+          } else {
+            setPathName('Upcomings')
+          }
+          break
+        case LAUNCHPAD:
+          setPathName('LaunchPads')
+          break
+        case INSIGHT:
+          setPathName('Insights')
+          break
+        case 'report-scam':
+          setPathName('Report Scam')
+          break
+        case 'add-project':
+          setPathName('Add Project')
+          break
+        case 'terms-of-service':
+          setPathName('Terms Of Service')
+          break
+        case 'privacy-policy':
+          setPathName('Privacy Policy')
+          break
+        default:
+          break
+      }
+    }
+  }, [window.location.pathname])
+
   return (
     <>
       <Modal
@@ -272,7 +343,7 @@ const Header = () => {
                     fontSize: '1.5rem'
                   }}
                 >
-                  {pathname?.pathName !== undefined ? (pathname?.pathName === '' ? `Don't trust, verify` : pathname?.pathName) : window.location.pathname === '/' ? `Don't trust, verify` : ''}
+                  {pathname?.pathName !== undefined ? (pathname?.pathName === '' ? `Don't trust, verify` : pathname?.pathName) : pathName || (pathName === '' ? `Don't trust, verify` : '')}
                 </div>
               </div>
               {/* header: search elk input */}

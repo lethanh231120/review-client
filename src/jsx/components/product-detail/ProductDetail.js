@@ -99,7 +99,6 @@ const ProductDetail = () => {
         id = `gear5_${categoryName}_${productName}`
       }
     }
-    pathNameHeader?.handleChangePathName(`${productName} Infomation`)
     setProductId(id)
     setDefaultFilter({
       ...defaultFilter,
@@ -367,6 +366,10 @@ const ProductDetail = () => {
       }
     }
   }, [typeComment, signInContext, auth])
+
+  useEffect(() => {
+    pathNameHeader?.handleChangePathName(`${productInfo?.details?.name || productInfo?.details?.dAppName || productInfo?.details?.ventureName || productInfo?.details?.projectName}`)
+  }, [[productInfo]])
 
   // noti report success
   const notifyTopRight = () => {
