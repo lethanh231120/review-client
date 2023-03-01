@@ -15040,7 +15040,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       color: #fff !important; }
   [data-sidebarbg="color_2"][data-theme-version="dark"] .deznav .metismenu a,
   [data-sidebarbg="color_2"] .deznav .metismenu a {
-    color: rgba(255, 255, 255, 0.8) !important; }
+    /* color: rgba(255, 255, 255, 0.8) !important;  */
+  }
   [data-sidebarbg="color_2"][data-theme-version="dark"] .deznav .metismenu li ul a:hover, [data-sidebarbg="color_2"][data-theme-version="dark"] .deznav .metismenu li ul a:focus, [data-sidebarbg="color_2"][data-theme-version="dark"] .deznav .metismenu li ul a.mm-active,
   [data-sidebarbg="color_2"] .deznav .metismenu li ul a:hover,
   [data-sidebarbg="color_2"] .deznav .metismenu li ul a:focus,

@@ -17,6 +17,7 @@ import { pair1 } from '../../../utils/formatUrl'
 import { ToggleContext } from '../../index'
 import './custom-header.scss'
 import { WARNING_ICON } from '../../components/common-widgets/logo/logo'
+
 import { PathNameContext } from '../../index'
 
 const reducer = (previousState, updatedState) => ({
@@ -325,15 +326,17 @@ const SideBar = () => {
                           return (
                             <li
                               onClick={() => {
+                                console.log(data?.title)
                                 saveFilterTag(data?.category, data?.title)
                                 pathName?.handleChangePathName(data?.title)
                               }}
                               key={index}
+
                               className={`${
                                 state.activeSubmenu === data.title
                                   ? 'mm-active'
                                   : ''
-                              }`}
+                              } sub-title`}
                             >
                               {data.content && data.content.length > 0 ? (
                                 <>
@@ -368,8 +371,9 @@ const SideBar = () => {
                                                     path === data?.to
                                                       ? 'mm-active'
                                                       : ''
-                                                  }`}
+                                                  } `}
                                                   to={data.to}
+
                                                 >
                                                   {data.title}
                                                 </Link>
