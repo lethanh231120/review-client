@@ -360,7 +360,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
             </h2>
           )}
         </div>
-        <div className='profile-name'>
+        <div className='profile-name cus-profile-name'>
           <h4 className='text-primary mb-2 cus-h4'>
             <span className='crypto-overview-name'>
               {productInfo?.details?.name}
@@ -894,8 +894,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   const about = (
     <>
-      <div className='card-header border-0 pb-0'>
-        <h5 className='heading text-primary'>About {productInfo?.details?.name}</h5>
+      <div className='card-header border-0 pb-0 cus-card-header'>
+        <h5 className='heading text-primary cus-heading'>About {productInfo?.details?.name}</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-interest '>

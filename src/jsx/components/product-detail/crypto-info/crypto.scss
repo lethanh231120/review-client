@@ -1,18 +1,37 @@
 @import '../../../../scss/base/font-size.scss';
+.cus-card-header{
+    width: 100%;
+}
+.cus-profile-name{
+    width: calc(100% - 6.875rem);
+}
+.cus-heading{
+    width: max-content;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    word-break: break-all;
+}
 .crypto{
     &-overview{
         &-name{
             width: fit-content;
-            max-width: 12.5rem;
-            word-break: normal;
-            word-wrap: normal;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         &-symbol{
             padding: 0 0.3rem 0 1rem;
             text-transform: uppercase;
             position: relative;
             margin-left: 0.5rem;
-            max-width: 12rem;
+            max-width: 8rem;
             display: -webkit-box;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
@@ -95,72 +114,9 @@
         }
     }
     &-tag{
-        // border-radius: 0.3125rem;
-        // border: 0.2px solid rgba(0, 0, 0, 0.1);
-        // padding: 0.3rem 0.3125rem;
-        // width: fit-content;
-        // margin-right: 0.3125rem;
-        // margin-bottom: 0.3125rem;
-        // font-size: 1.6rem;
         &-item{
-            // padding: 0.3125rem 0.625rem;
-            // border-radius: 0.3125rem;
-            // background-color: rgb(230, 242, 252);
-            // margin: 0 0.3125rem 0.3125rem 0;
-            // cursor: pointer;
-            // transition: all 0.25s linear;
-            // position: relative;
-            // width: fit-content;
-            // font-size: 1rem;
-            // &:hover{
-            //     & .crypto-tag-item-list{
-            //         opacity: 1;
-            //         visibility: visible;
-            //     }
-            // }
-            // & .anticon{
-            //     margin-left: 0.3125rem;
-            //     font-size: 0.875rem;
-            // }
             &-list{
-                // position: absolute;
-                // z-index: 999999;
-                // top: 100%;
-                // padding: 0.625rem;
-                // left: 0;
-                // height: auto;
-                // text-align: left;
-                // min-width: 100%;
-                // width: fit-content;
-                // background-color: #fff;
-                // border-radius: 1rem;
-                // padding: 1rem;
-                // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-                // opacity: 0;
-                // visibility: hidden;
-                // max-height: 40rem;
-                // overflow-y: auto;
-                // &::-webkit-scrollbar {
-                //     width: 0.6rem;
-                //     height: 0.6rem;
-                // }
-                // &::-webkit-scrollbar-track {
-                //     border-radius: 10px;
-                // }
-                // &::-webkit-scrollbar-thumb {
-                //     background: rgba(0, 0, 0, 0.6); 
-                //     border-radius: 10px;
-                // }
                 &-children{
-                    // padding: 0.3125rem 1rem;
-                    // cursor: pointer;
-                    // transition: all 0.2s linear;
-                    // white-space: nowrap;
-                    // background-color: blue($color: #000000);
-                    // &:hover{
-                    //     background-color: rgba(0, 229, 255, 0.388);
-                    //     border-radius: 0.3rem;
-                    // }
                     &-contract{
                         width: fit-content;
                         display: flex !important;
@@ -176,30 +132,6 @@
                             overflow: hidden;
                             text-overflow: ellipsis;
                         }
-                        // &-decimals{
-                        //     width: 10rem;
-                        //     padding: 0 0.3125rem;
-                        //     // display: block;
-                        //     color: rgba(0, 0, 0, 0.6);
-                        //     // display: -webkit-box;
-                        //     line-height: 1.4;
-                        //     font-size: 0.875rem;
-                        //     // -webkit-line-clamp: 1;
-                        //     // -webkit-box-orient: vertical;
-                        //     overflow: hidden;
-                        //     text-overflow: ellipsis;
-                        // }
-                        // &-decimal{
-                        //     padding: 0 0.3125rem;
-                        // }
-                        // &-chain{
-                        //     font-size: 0.875rem;
-                        //     width: fit-content;
-                        //     padding: 0 0.3125rem;
-                        //     font-weight: 600;
-                        //     color: rgba(0, 0, 0, 0.87);
-                        //     text-transform: uppercase;
-                        // }
                         & .ant-image{
                             width: 1.25rem;
                             height: 1.25rem;
@@ -217,11 +149,6 @@
             }
         }
     }
-    // &-list{
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: space-between;
-    // }
 }
 .cus-h4{
     display: flex;
@@ -358,6 +285,15 @@
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
+        }
+    }
+}
+@media (max-width: 575.99px) {
+    .crypto{
+        &-overview{
+            &-name{
+                max-width: calc(100% - 8rem);
+            }
         }
     }
 }
