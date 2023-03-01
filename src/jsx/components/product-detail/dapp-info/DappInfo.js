@@ -17,6 +17,7 @@ import MyScoreComponent from '../../score/scoreComponent'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import './dapp.scss'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
+import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 
 const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -288,6 +289,26 @@ const DappInfo = ({ productInfo, ...rest }) => {
     </div>
   }
 
+  const scam = (
+    <>
+      {detail?.isScam ? (
+        <ScamWarningDetail
+          isShow={true}
+          scamWarningReason={detail?.proof?.isScam}
+          proofType='error'
+        />
+      ) : detail?.isWarning ? (
+        <ScamWarningDetail
+          isShow={true}
+          scamWarningReason={detail?.proof?.isWarning}
+          proofType='warning'
+        />
+      ) : (
+        ''
+      )}
+    </>
+  )
+
   return <DetailLayout Header={<Header />}
     summary={summary}
     more={<More/>}
@@ -297,6 +318,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
     rest={rest}
     setTop={setTop}
     topDiscus={<TopDiscussed />}
+    scam={scam}
   />
 }
 
