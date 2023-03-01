@@ -15,6 +15,7 @@ import { websiteIcon } from '../../common-widgets/icons'
 import MyScoreComponent from '../../score/scoreComponent'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
+import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 
 const ExchangeInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -281,6 +282,27 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
     </div>
   }
 
+  // scam
+  const scam = (
+    <>
+      {detail?.isScam ? (
+        <ScamWarningDetail
+          isShow={true}
+          scamWarningReason={detail?.proof?.isScam}
+          proofType='error'
+        />
+      ) : detail?.isWarning ? (
+        <ScamWarningDetail
+          isShow={true}
+          scamWarningReason={detail?.proof?.isWarning}
+          proofType='warning'
+        />
+      ) : (
+        ''
+      )}
+    </>
+  )
+
   return (
     <DetailLayout
       Header={<Header />}
@@ -292,6 +314,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
       rest={rest}
       setTop={setTop}
       topDiscus={<TopDiscussed />}
+      scam={scam}
     />
   )
 }
