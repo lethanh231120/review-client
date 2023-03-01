@@ -221,8 +221,9 @@ const ModalReport = ({ isModal }) => {
     }
     if (dataAdd) {
       Swal.fire({
-        icon: 'success',
+        icon: dataAdd?.code === 'B.REVIEW.0' ? 'success' : 'warning',
         title: 'Add new report successfully!',
+        text: dataAdd?.code === 'B.REVIEW.1' ? 'Your comment has some words that were banned from our website. Please wait for our admin to verify!' : '',
         showDenyButton: true,
         confirmButtonText: 'Add New Report',
         denyButtonText: `View Detail`

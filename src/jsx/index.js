@@ -1,6 +1,6 @@
-import React, { useContext, createContext, useState } from 'react'
+import React, { useContext, createContext, useState, useEffect } from 'react'
 // / React router dom
-import { Routes, Route, Outlet } from 'react-router-dom'
+import { Routes, Route, Outlet, useLocation } from 'react-router-dom'
 
 // / Css
 import './index.css'
@@ -30,6 +30,7 @@ import { NotFoundProduct } from './components/not-found-product/NotFoundProduct'
 import { ServerError } from './components/server-error/ServerError'
 import InsightMain from './components/insight/InsightMain'
 import { TermOfService } from './components/term-of-service/TermOfService'
+import { CRYPTO, DAPP, EXCHANGE, VENTURE, SOON, LAUNCHPAD, INSIGHT } from './constants/category'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -39,7 +40,7 @@ const Markup = () => {
   const [openModalReport, setOpenModalReport] = useState(false)
   const [openModalAdd, setOpenModalAdd] = useState(false)
   const [toggle, setToggle] = useState(false)
-  const [pathName, setPathName] = useState()
+  const [pathName, setPathName] = useState('')
 
   const allroutes = [
     { url: '', pathName: 'Home', component: <Home /> },
@@ -67,6 +68,76 @@ const Markup = () => {
     openModalAdd: openModalAdd,
     handleSetOpenModal: (isOpen) => setOpenModalAdd(isOpen)
   }
+
+  const location = useLocation()
+  useEffect(() => {
+    const path = location.pathname.split('/')
+    if (path) {
+      switch (path[1]) {
+        case '':
+          setPathName('')
+          break
+        case 'dashboard':
+          setPathName('')
+          break
+        case CRYPTO:
+          if (path[2]) {
+            setPathName(path[2]?.split('-')?.join(' '))
+          } else {
+            setPathName('Crypto Projects')
+          }
+          break
+        case DAPP:
+          if (path[2]) {
+            setPathName(path[2]?.split('-')?.join(' '))
+          } else {
+            setPathName('DApps')
+          }
+          break
+        case EXCHANGE:
+          if (path[2]) {
+            setPathName(path[2]?.split('-')?.join(' '))
+          } else {
+            setPathName('Exchanges')
+          }
+          break
+        case VENTURE:
+          if (path[2]) {
+            setPathName(path[2]?.split('-')?.join(' '))
+          } else {
+            setPathName('Ventures')
+          }
+          break
+        case SOON:
+          if (path[2]) {
+            setPathName(path[2]?.split('-')?.join(' '))
+          } else {
+            setPathName('Upcomings')
+          }
+          break
+        case LAUNCHPAD:
+          setPathName('LaunchPads')
+          break
+        case INSIGHT:
+          setPathName('Insights')
+          break
+        case 'report-scam':
+          setPathName('Report Scam')
+          break
+        case 'add-project':
+          setPathName('Add Project')
+          break
+        case 'terms-of-service':
+          setPathName('Terms Of Service')
+          break
+        case 'privacy-policy':
+          setPathName('Privacy Policy')
+          break
+        default:
+          break
+      }
+    }
+  }, [location])
 
   return (
     <>
