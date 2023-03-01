@@ -36,7 +36,7 @@ const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
 const txtLoginTooltip = 'Sign In'
 const txtSignUpTooltip = 'Sign Up'
-const minimumWidthBigScreenMode = 766
+const minimumWidthBigScreenMode = 767
 
 const Header = () => {
   const toggle = useContext(ToggleContext)

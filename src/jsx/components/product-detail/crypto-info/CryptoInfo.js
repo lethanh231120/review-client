@@ -913,8 +913,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   const exchange = (
     <>
-      {productInfo?.mores?.trading !== null &&
-        !_.isEmpty(productInfo?.mores?.trading) && (
+      {!_.isEmpty(dataExchange) && (
         <>
           <div className='card-header border-0 pb-0'>
             <h5 className='heading text-primary'>Trading On</h5>

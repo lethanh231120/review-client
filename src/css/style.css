@@ -8494,8 +8494,9 @@ label {
   display: none; }
 
 @media only screen and (max-width: 47.9375rem) {
-  [data-sidebar-style="overlay"] .nav-header .logo-abbr {
-    display: none; } }
+  /* [data-sidebar-style="overlay"] .nav-header .logo-abbr {
+    display: none; } */
+   }
 
 [data-header-position="fixed"] .nav-header {
   position: fixed; }
