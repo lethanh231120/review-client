@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { ReviewItem } from './review-item'
 import './reviews-item.scss'
 
-const REVIEW_WS_URL = 'wss://dev-be.client.gear5.guru/reviews/review/latest'
+const REVIEW_WS_URL = 'wss://api-client.gear5.io/reviews/review/latest'
 // const ANONYMOUS_ID = '00000000-0000-0000-0000-000000000000'
 export const ReviewList = () => {
   const [reviewList, setReviewList] = useState([])
