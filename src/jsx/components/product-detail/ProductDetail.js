@@ -106,6 +106,17 @@ const ProductDetail = () => {
     })
   }, [type, productName, path, categoryName])
 
+  // get data review by params filter
+  useEffect(() => {
+    if (defaultFilter?.productId) {
+      const getReview = async() => {
+        const listReviews = await get(`reviews/review`, defaultFilter)
+        setDataReview(listReviews?.data !== null ? listReviews?.data : [])
+      }
+      getReview()
+    }
+  }, [defaultFilter])
+
   // get data detail products
   useEffect(() => {
     const getData = () => {
@@ -343,21 +354,12 @@ const ProductDetail = () => {
           // if review has anonymous
           setReviews(listReview)
         }
+      } else {
+        setReviews([])
       }
     }
     getDataReview()
   }, [listReview])
-
-  // get data review by params filter
-  useEffect(() => {
-    if (defaultFilter?.productId) {
-      const getReview = async() => {
-        const listReviews = await get(`reviews/review`, defaultFilter)
-        setDataReview(listReviews?.data !== null ? listReviews?.data : [])
-      }
-      getReview()
-    }
-  }, [defaultFilter])
 
   useEffect(() => {
     if (typeComment === 'login') {
