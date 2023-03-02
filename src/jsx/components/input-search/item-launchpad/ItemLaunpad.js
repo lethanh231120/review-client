@@ -42,7 +42,7 @@ const ItemLaunch = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
             />
           )
         )}
-        <div>
+        <div className='form-search-data-item-content'>
           <div className='form-search-data-item-data-content'>
             <div className='form-search-data-item-data-content-name'>
               <h6 className='cus-h6'>{item?.name}</h6>
@@ -57,34 +57,34 @@ const ItemLaunch = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
             ) : (
               ''
             )}
-            {item?.chains && (
-              <span className='form-search-data-item-data-content-list'>
-                {item?.chains
-                  ?.split(',')
-                  ?.map((itemChain) => (
-                    <div
-                      className='btn btn-primary light cus-btn mr-2'
-                      key={itemChain}
-                    >
-                      {itemChain}
-                    </div>
-                  ))}
-              </span>
-            )}
           </div>
           <div className='form-search-data-item-data-list'>
-            {item?.marketCap > 0 && (
+            {item?.avgRoiCurrent > 0 && (
               <div className='btn btn-primary light cus-btn cus-tag'>
-                {item?.marketCap
+                {item?.avgRoiCurrent
                   ?.toFixed(2)
                   .replace(
                     /\d(?=(\d{3})+\.)/g,
                     '$&,'
-                  )}{' '}
-                    Market cap
+                  )}{' '}x
+                      Current Roi
               </div>
             )}
           </div>
+          {item?.chains && (
+            <span className='form-search-data-item-data-content-list'>
+              {item?.chains
+                ?.split(',')
+                ?.map((itemChain) => (
+                  <div
+                    className='btn btn-primary light cus-btn mr-2'
+                    key={itemChain}
+                  >
+                    {itemChain}
+                  </div>
+                ))}
+            </span>
+          )}
         </div>
       </div>
     </Link>

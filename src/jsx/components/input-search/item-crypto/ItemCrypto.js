@@ -24,7 +24,7 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
         if (isFormReport) {
           setItem(item)
         } else {
-          navigate(`../../products/crypto/${item?.cryptoId?.split('_')[1]}/${item?.cryptoId?.split('_')[2]}/${item?.cryptoId?.split('_')[1] === 'token' ? item?.cryptoId?.split('_')[3] : ''}`)
+          navigate(`../../products/crypto/${item?.cryptoId?.split('_')[1]}/${item?.cryptoId?.split('_')[2]}${item?.cryptoId?.split('_')[1] === 'token' ? `/${item?.cryptoId?.split('_')[3]}` : ''}`)
           refInput.current.value = ''
         }
       }}
