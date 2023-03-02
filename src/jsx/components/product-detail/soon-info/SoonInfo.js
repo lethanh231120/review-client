@@ -36,6 +36,8 @@ export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
 export const txtTBA = 'TBA'
 
+export const txtGoal = 'Goal'
+
 // match with BE
 const statusUpcoming = 'upcoming'
 const statusOngoing = 'ongoing'
@@ -352,7 +354,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
           </h3>
-          <span className='text-etc-overflow'>Raised</span>
+          <span className='text-etc-overflow'>{txtGoal}</span>
         </div>
         <div className='col-3'>
           <h3 className='m-b-0'>
