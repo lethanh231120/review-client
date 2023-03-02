@@ -213,6 +213,7 @@ const ThemeContextProvider = (props) => {
     body.setAttribute('data-container', 'wide')
     // body.setAttribute('direction', 'ltr')
     const resizeWindow = () => {
+      console.log(666666)
       // setWindowWidth(window.innerWidth);
       dispatch({ windowWidth: window.innerWidth })
       // setWindowHeight(window.innerHeight);
@@ -225,6 +226,7 @@ const ThemeContextProvider = (props) => {
     }
     resizeWindow()
     window.addEventListener('resize', resizeWindow)
+    window.addEventListener('load', resizeWindow)
     return () => window.removeEventListener('resize', resizeWindow)
   }, [])
 
