@@ -315,7 +315,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
     },
     {
       title: 'Status',
-      render: (_, record) => (<Badge className='bg-success badge-sm badge' style={{ textTransform: 'capitalize' }}>{record?.status}</Badge>)
+      render: (_, record) => (<Badge className='bg-success badge-sm badge' style={{ textTransform: 'uppercase' }}>{record?.status}</Badge>)
     },
     {
       title: 'Supply',
@@ -396,6 +396,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               })}
               rowKey={(record) => record?.projectId}
               pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
+              style={{ overflowX: 'scroll' }}
             />
           </div>
         </div>

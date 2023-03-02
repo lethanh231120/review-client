@@ -15,4 +15,30 @@
   tr:hover{
     cursor: pointer;
   }
+  & .ant-pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  width: 100%;
+  & table {
+    width: 100%;
+    overflow: scroll !important;
+    & .ant-table-thead > tr > th {
+      background-color: #fafafa;
+    }
+    & .ant-table-cell-fix-left-first::after,
+    .ant-table-cell-fix-left-last::after {
+      width: 0;
+    }
+    & .ant-table-tbody > tr > td,
+    .ant-table-thead > tr > th {
+      padding: 0.625rem 0.9375rem;
+    }
+    & .ant-table-tbody > tr > td,
+    .ant-table-body > tr > th {
+      padding: 0.625rem 0.9375rem;
+      cursor: pointer;
+    }
+  }
 }
