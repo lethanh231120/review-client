@@ -6,7 +6,7 @@ import warning from '../../../../images/product/warning.png'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import NoImage from '../../common-widgets/no-image/NoImage'
-import { absentImageELK } from '../item-crypto/ItemCrypto'
+import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
 
 const ItemLaunch = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
   const navigate = useNavigate()
@@ -32,7 +32,7 @@ const ItemLaunch = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {(item?.launchPadId && item?.image && item?.image !== absentImageELK) ? (
+        {(item?.launchPadId && item?.image && item?.image !== absentImageElasticSearch) ? (
           <Image src={isValidProductId(item?.launchPadId) ? formatImgUrlFromProductId(item?.launchPadId) : imgAbsentImageCrypto} preview={false} />
         ) : (
           (

@@ -6,7 +6,7 @@ import warning from '../../../../images/product/warning.png'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 import NoImage from '../../common-widgets/no-image/NoImage'
-import { absentImageELK } from '../item-crypto/ItemCrypto'
+import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
 
 const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
   const navigate = useNavigate()
@@ -33,7 +33,7 @@ const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem,
     >
       <div className='form-search-data-item-data'>
 
-        {(item?.exchangeId && item?.image && item?.image !== absentImageELK) ? (
+        {(item?.exchangeId && item?.image && item?.image !== absentImageElasticSearch) ? (
           <Image src={isValidProductId(item?.exchangeId) ? formatImgUrlFromProductId(item?.exchangeId) : imgAbsentImageExchange} preview={false} />
         )
           : (
