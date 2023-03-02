@@ -605,7 +605,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={reviews?.length || 0}
+    totalReviews={productInfo?.details?.totalReviews || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -642,7 +642,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={reviews?.length || 0}
+    totalReviews={productInfo?.details?.totalReviews || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -682,7 +682,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={reviews?.length || 0}
+    totalReviews={productInfo?.details?.totalReviews || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -721,7 +721,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={reviews?.length || 0}
+    totalReviews={productInfo?.details?.totalReviews || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -758,7 +758,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={reviews?.length || 0}
+    totalReviews={productInfo?.details?.totalReviews || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -797,7 +797,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReview={reviews?.length || 0}
+    totalReviews={productInfo?.details?.totalReviews || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}

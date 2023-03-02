@@ -436,7 +436,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         <div className='col'>
           <h3 className='m-b-0'>
             <Badge bg='badge-l' className='badge-success'>
-              {productInfo?.details?.totalReviews}
+              {new Intl.NumberFormat().format(productInfo?.details?.totalReviews)}
             </Badge>
           </h3>
           <span>Reviews</span>
@@ -444,7 +444,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         <div className='col'>
           <h3 className='m-b-0'>
             <Badge bg='badge-l' className='badge-danger'>
-              {productInfo?.details?.totalIsScam}
+              {new Intl.NumberFormat().format(productInfo?.details?.totalIsScam)}
             </Badge>
           </h3>
           <span>Reported Scam</span>
