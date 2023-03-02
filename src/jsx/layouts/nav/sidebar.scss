@@ -251,25 +251,10 @@
     font-weight: 300;
 }
 
-[data-sidebar-style="overlay"] .deznav {
-    left: -100%;
-    -webkit-transition: all 0.5s;
-    -ms-transition: all 0.5s;
-    transition: all 0.5s;
-}
-
 [data-sidebar-style="overlay"][data-layout="vertical"] .deznav {
     border-radius: 0 0 0 0 !important;
 }
-[data-sidebar-style="overlay"] .deznav {
-    left: -100%;
-    -webkit-transition: all 0.5s;
-    -ms-transition: all 0.5s;
-    transition: all 0.5s;
-}
-[data-sidebar-style="overlay"] .menu-toggle .deznav {
-    left: 0;
-}
+
 [data-sidebar-style="overlay"] .deznav .metismenu ul a {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
@@ -317,16 +302,16 @@
     color: #fff;
 }
 
-[data-sidebar-position="fixed"][data-layout="vertical"] .deznav {
-    position: fixed;
-}
+// [data-sidebar-position="fixed"][data-layout="vertical"] .deznav {
+//     position: fixed;
+// }
 [data-sidebar-position="fixed"][data-layout="vertical"] .deznav .deznav-scroll {
     border-top-left-radius: 0rem;
     border-top-right-radius: 0rem;
 }
-[data-sidebar-position="fixed"][data-layout="vertical"] .menu-toggle .deznav {
-    position: fixed;
-}
+// [data-sidebar-position="fixed"][data-layout="vertical"] .menu-toggle .deznav {
+//     position: fixed;
+// }
 
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li {
     transition: all 0.4s ease-in-out;
@@ -666,10 +651,13 @@
 }
 @media screen and (max-width: 767.98px) {
     .deznav {
-        width: 18rem;
-        // left: -100% !important;
-        top: 5rem;
-        position: fixed;
+        position: fixed !important;
+        width: 19.5rem;
+        top: 6rem;
+        left: -100% !important;
+        -webkit-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+        transition: all 0.5s;
         & .metismenu {
             & ul {
                 & a {
@@ -682,8 +670,8 @@
             }
         }
     }
-    [data-sidebar-style="overlay"][data-layout="vertical"] .deznav {
-        border-radius: 0 0 0 0 !important;
+   .menu-toggle .deznav {
+        left: 0 !important;
     }
     [data-sidebar-style="overlay"] .deznav .metismenu > li > a {
         font-size: 0.875rem;

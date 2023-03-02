@@ -9,7 +9,7 @@ import { Button } from 'react-bootstrap'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
-import { ThemeContext } from '../../../context/ThemeContext'
+// import { ThemeContext } from '../../../context/ThemeContext'
 // import { CategoryContext } from '../../index'
 import { CategoryContext } from '../../../App'
 import _ from 'lodash'
@@ -71,8 +71,7 @@ const SideBar = () => {
   mapCategoriesMenuIcon.set(headerItem5, 'auto_graph')
   mapCategoriesMenuIcon.set(headerItem6, 'rocket_launch')
 
-  const { iconHover, sidebarposition, headerposition, sidebarLayout } =
-    useContext(ThemeContext)
+  // const { iconHover, sidebarposition, headerposition, sidebarLayout } = useContext(ThemeContext)
 
   const [state, setState] = useReducer(reducer, initialState)
 
@@ -277,15 +276,7 @@ const SideBar = () => {
 
   return (
     <div
-      className={`deznav  border-right ${iconHover} ${
-        sidebarposition.value === 'fixed' &&
-        sidebarLayout.value === 'horizontal' &&
-        headerposition.value === 'static'
-          ? hideOnScroll > 120
-            ? 'fixed'
-            : ''
-          : ''
-      }`}
+      className={`deznav border-right`}
     >
       <PerfectScrollbar className='deznav-scroll'>
         <ul className='metismenu' id='menu'>
