@@ -27,6 +27,7 @@ const NavHader = () => {
       const { innerWidth: width } = window
       const mainwrapper = document.querySelector('#main-wrapper')
       if (width < 767.98) {
+        console.log(7454598)
         mainwrapper.classList.remove('menu-toggle')
         toggle?.handleChangeToggle(false)
       }

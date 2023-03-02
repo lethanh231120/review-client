@@ -11,7 +11,7 @@ const initialState = {
   sidebarposition: { value: 'fixed', label: 'Fixed' },
   headerposition: { value: 'fixed', label: 'Fixed' },
   sidebarLayout: { value: 'vertical', label: 'Vertical' },
-  direction: { value: 'ltr', label: 'LTR' },
+  // direction: { value: 'ltr', label: 'LTR' },
   primaryColor: 'color_1',
   secondaryColor: 'color_1',
   navigationHader: 'color_4',
@@ -48,56 +48,43 @@ const ThemeContextProvider = (props) => {
   const body = document.querySelector('body')
 
   // layout
-  const layoutOption = [
-    { value: 'vertical', label: 'Vertical' },
-    { value: 'horizontal', label: 'Horizontal' }
-  ]
-  const sideBarOption = [
-    { value: 'compact', label: 'Compact' },
-    { value: 'full', label: 'Full' },
-    { value: 'mini', label: 'Mini' },
-    { value: 'modern', label: 'Modern' },
-    { value: 'overlay', label: 'Overlay' },
-    { value: 'icon-hover', label: 'Icon-hover' }
-  ]
-  const backgroundOption = [
-    { value: 'light', label: 'Light' },
-    { value: 'dark', label: 'Dark' }
-  ]
+  // const layoutOption = [
+  //   { value: 'vertical', label: 'Vertical' },
+  //   { value: 'horizontal', label: 'Horizontal' }
+  // ]
+  // const sideBarOption = [
+  //   { value: 'compact', label: 'Compact' },
+  //   { value: 'full', label: 'Full' },
+  //   { value: 'mini', label: 'Mini' },
+  //   { value: 'modern', label: 'Modern' },
+  //   { value: 'overlay', label: 'Overlay' },
+  //   { value: 'icon-hover', label: 'Icon-hover' }
+  // ]
+  // const backgroundOption = [
+  //   { value: 'light', label: 'Light' },
+  //   { value: 'dark', label: 'Dark' }
+  // ]
   const sidebarpositions = [
     { value: 'fixed', label: 'Fixed' },
     { value: 'static', label: 'Static' }
   ]
-  const headerPositions = [
-    { value: 'fixed', label: 'Fixed' },
-    { value: 'static', label: 'Static' }
-  ]
-  const containerPosition = [
-    { value: 'wide-boxed', label: 'Wide Boxed' },
-    { value: 'boxed', label: 'Boxed' },
-    { value: 'wide', label: 'Wide' }
-  ]
+  // const headerPositions = [
+  //   { value: 'fixed', label: 'Fixed' },
+  //   { value: 'static', label: 'Static' }
+  // ]
+  // const containerPosition = [
+  //   { value: 'wide-boxed', label: 'Wide Boxed' },
+  //   { value: 'boxed', label: 'Boxed' },
+  //   { value: 'wide', label: 'Wide' }
+  // ]
   const colors = [
     'color_1', // white
-    'color_2', // green
-    'color_3',
-    'color_4',
-    'color_5',
-    'color_6',
-    'color_7',
-    'color_8',
-    'color_9',
-    'color_10',
-    'color_11',
-    'color_12'
-    // "color_13",
-    // "color_14",
-    // "color_15",
+    'color_2' // green
   ]
-  const directionPosition = [
-    { value: 'ltr', label: 'LTR' },
-    { value: 'rtl', label: 'RTL' }
-  ]
+  // const directionPosition = [
+  //   { value: 'ltr', label: 'LTR' },
+  //   { value: 'rtl', label: 'RTL' }
+  // ]
   const fontFamily = [
     { value: 'poppins', label: 'Poppins' },
     { value: 'roboto', label: 'Roboto' },
@@ -105,21 +92,21 @@ const ThemeContextProvider = (props) => {
     { value: 'opensans', label: 'Open Sans' },
     { value: 'HelveticaNeue', label: 'HelveticaNeue' }
   ]
-  const changePrimaryColor = (name) => {
-    // setPrimaryColor(name);
-    dispatch({ primaryColor: name })
-    body.setAttribute('data-primary', name)
-  }
+  // const changePrimaryColor = (name) => {
+  //   // setPrimaryColor(name);
+  //   dispatch({ primaryColor: name })
+  //   body.setAttribute('data-primary', name)
+  // }
   const changeSecondaryColor = (name) => {
     // setSecondaryColor(name);
     dispatch({ secondaryColor: name })
     body.setAttribute('data-secondary', name)
   }
-  const changeNavigationHader = (name) => {
-    // setNavigationHader(name);
-    dispatch({ navigationHader: name })
-    body.setAttribute('data-nav-headerbg', name)
-  }
+  // const changeNavigationHader = (name) => {
+  //   // setNavigationHader(name);
+  //   dispatch({ navigationHader: name })
+  //   body.setAttribute('data-nav-headerbg', name)
+  // }
   const chnageHaderColor = (name) => {
     // setHaderColor(name);
     dispatch({ haderColor: name })
@@ -135,14 +122,14 @@ const ThemeContextProvider = (props) => {
     dispatch({ sidebarposition: name })
     body.setAttribute('data-sidebar-position', name.value)
   }
-  const changeDirectionLayout = (name) => {
-    // setDirection(name);
-    dispatch({ direction: name })
-    body.setAttribute('direction', name.value)
-    const html = document.querySelector('html')
-    html.setAttribute('dir', name.value)
-    html.className = name.value
-  }
+  // const changeDirectionLayout = (name) => {
+  //   // setDirection(name);
+  //   dispatch({ direction: name })
+  //   body.setAttribute('direction', name.value)
+  //   const html = document.querySelector('html')
+  //   html.setAttribute('dir', name.value)
+  //   html.className = name.value
+  // }
   const changeSideBarLayout = (name) => {
     if (name.value === 'horizontal') {
       if (sideBarStyle.value === 'overlay') {
@@ -202,13 +189,13 @@ const ThemeContextProvider = (props) => {
     dispatch({ background: name })
   }
 
-  const changeContainerPosition = (name) => {
-    // setcontainerPosition_(name);
-    dispatch({ containerPositionSize: name })
-    body.setAttribute('data-container', name.value)
-    name.value === 'boxed' &&
-      changeSideBarStyle({ value: 'overlay', label: 'Overlay' })
-  }
+  // const changeContainerPosition = (name) => {
+  //   // setcontainerPosition_(name);
+  //   dispatch({ containerPositionSize: name })
+  //   body.setAttribute('data-container', name.value)
+  //   name.value === 'boxed' &&
+  //     changeSideBarStyle({ value: 'overlay', label: 'Overlay' })
+  // }
 
   useEffect(() => {
     const body = document.querySelector('body')
@@ -224,7 +211,7 @@ const ThemeContextProvider = (props) => {
     body.setAttribute('data-sidebar-position', 'fixed')
     body.setAttribute('data-header-position', 'fixed')
     body.setAttribute('data-container', 'wide')
-    body.setAttribute('direction', 'ltr')
+    // body.setAttribute('direction', 'ltr')
     const resizeWindow = () => {
       // setWindowWidth(window.innerWidth);
       dispatch({ windowWidth: window.innerWidth })
@@ -245,22 +232,22 @@ const ThemeContextProvider = (props) => {
     <ThemeContext.Provider
       value={{
         body,
-        sideBarOption,
-        layoutOption,
-        backgroundOption,
+        // sideBarOption,
+        // layoutOption,
+        // backgroundOption,
         sidebarposition,
-        headerPositions,
-        containerPosition,
-        directionPosition,
+        // headerPositions,
+        // containerPosition,
+        // directionPosition,
         fontFamily,
         primaryColor,
         secondaryColor,
         navigationHader,
         windowWidth,
         windowHeight,
-        changePrimaryColor,
+        // changePrimaryColor,
         changeSecondaryColor,
-        changeNavigationHader,
+        // changeNavigationHader,
         changeSideBarStyle,
         sideBarStyle,
         changeSideBarPostion,
@@ -269,8 +256,8 @@ const ThemeContextProvider = (props) => {
         headerposition,
         changeSideBarLayout,
         sidebarLayout,
-        changeDirectionLayout,
-        changeContainerPosition,
+        // changeDirectionLayout,
+        // changeContainerPosition,
         direction,
         colors,
         haderColor,
