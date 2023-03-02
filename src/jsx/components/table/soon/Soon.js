@@ -126,7 +126,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                           </div>
                           <div className='row'>
                             <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>
-                              {item?.startDate || item?.endDate ? (
+                              {item?.startDate && item?.endDate ? (
                                 <span
                                   className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(
                                     getStatusFromStartDateAndEndDate(
@@ -151,7 +151,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                           </div>
                           <div className='row'>
                             <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>
-                              {item?.startDate || item?.endDate ? (
+                              {item?.startDate && item?.endDate ? (
                                 getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(
                                   item?.startDate,
                                   item?.endDate,

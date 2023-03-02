@@ -6,7 +6,7 @@ import { Pagination } from 'antd'
 import { SOON, CRYPTO, VENTURE, LAUNCHPAD } from '../../constants/category'
 
 export const DetailLayout = (props) => {
-  const { Header, type, roundSale, portfolioOrChartOrDesc, summary, more, about, scam, exchange, topDiscus, rest, setTop } = props
+  const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, rest, setTop } = props
   // const [reviews, setReviews] = useState()
   const PAGE_SIZE = 50
 
@@ -40,6 +40,16 @@ export const DetailLayout = (props) => {
         <div className='row'>
           <div className='col-xl-5'>
             <div className='row'>
+              {type === SOON && (timeAndPercentProcess && <div className='col-lg-12'>
+                <div className='card'>
+                  <div className='card-body'>
+                    <div className='profile-statistics'>
+                      {timeAndPercentProcess}
+                    </div>
+                  </div>
+                </div>
+              </div>)}
+
               {summary && <div className='col-lg-12'>
                 <div className='card'>
                   <div className='card-body'>
