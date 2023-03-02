@@ -6,7 +6,7 @@ import { Pagination } from 'antd'
 import { SOON, CRYPTO, VENTURE, LAUNCHPAD } from '../../constants/category'
 
 export const DetailLayout = (props) => {
-  const { Header, type, roundSale, portfolioOrChartOrDesc, summary, more, about, scam, exchange, topDiscus, numberReviews, rest, setTop } = props
+  const { Header, type, roundSale, portfolioOrChartOrDesc, summary, more, about, scam, exchange, topDiscus, rest, setTop } = props
   // const [reviews, setReviews] = useState()
   const PAGE_SIZE = 50
 
@@ -91,7 +91,7 @@ export const DetailLayout = (props) => {
               <FormReport
                 // use in filter review
                 isFormReport={true}
-                numberReviews={rest?.totalReview}
+                numberReviews={rest?.totalReviews}
                 rest={rest}
                 setTop={setTop}
               />
@@ -108,9 +108,9 @@ export const DetailLayout = (props) => {
                 />
               ))}
               <div className='category-paginate cus-category-paginate'>
-                {rest?.reviews?.length > PAGE_SIZE && (
+                {rest?.totalReviews > PAGE_SIZE && (
                   <Pagination
-                    total= {rest?.reviews?.length}
+                    total= {rest?.totalReviews}
                     current={rest?.defaultFilter?.page}
                     pageSize={PAGE_SIZE}
                     showSizeChanger={false}
@@ -162,10 +162,11 @@ export const DetailLayout = (props) => {
               <FormReport
               // use in filter review
                 isFormReport={true}
-                numberReviews={numberReviews}
+                numberReviews={rest?.totalReviews}
                 rest={rest}
                 setTop={setTop}
               />
+              {console.log(rest?.reviews?.length)}
               {rest?.reviews && rest?.reviews?.map((item, index) => (
                 <ReviewItem
                   index={index}
@@ -179,9 +180,9 @@ export const DetailLayout = (props) => {
                 />
               ))}
               <div className='category-paginate cus-category-paginate'>
-                {rest?.reviews?.length > PAGE_SIZE && (
+                {rest?.totalReviews > PAGE_SIZE && (
                   <Pagination
-                    total= {rest?.reviews?.length}
+                    total= {rest?.totalReviews}
                     current={rest?.defaultFilter?.page}
                     pageSize={PAGE_SIZE}
                     showSizeChanger={false}
