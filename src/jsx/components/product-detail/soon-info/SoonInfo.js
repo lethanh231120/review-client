@@ -31,6 +31,7 @@ import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discus
 import LaunchpadDetail from './../../common-widgets/page-soon/LaunchpadDetail'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import { LinkOutlined } from '@ant-design/icons'
+import { LaunchpadTableDetail } from '../../common-widgets/page-soon/LaunchpadTableDetail'
 
 export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
@@ -38,15 +39,17 @@ export const txtTBA = 'TBA'
 
 export const txtGoal = 'Goal'
 
+export const txtAbsentTakeUpData = <>&nbsp;</>
+
 // match with BE
 const statusUpcoming = 'upcoming'
 const statusOngoing = 'ongoing'
 const statusPast = 'past'
 
 // display in FE
-const displayUpcoming = 'COMING SOON'
-const displayOngoing = 'IS ACTIVE'
-const displayPast = 'IS ENDED'
+const displayUpcoming = 'COMING IN'
+const displayOngoing = 'ACTIVE IN'
+const displayPast = 'ENDED'
 
 const getDisplayFromSoonStatus = (status) => {
   switch (status) {
@@ -57,8 +60,31 @@ const getDisplayFromSoonStatus = (status) => {
     case statusPast:
       return displayPast
     default:
-      return ''
+      return txtAbsentTakeUpData
   }
+}
+
+const getRelativeTimeString = (startDate, endDate) =>{
+  const myCurrentDateTimeUnix = getCurrentTimeUnix()
+
+  // string "15-05-2018" to date unix time
+  const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
+
+  const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
+
+  // Ongoing
+  if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
+    return getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)
+  } else
+  // Past
+  if (myCurrentDateTimeUnix > endDateUnix) {
+    return `${getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago`
+  } else
+  // Upcoming
+  if (myCurrentDateTimeUnix < startDateUnix) {
+    return getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)
+  }
+  return ''
 }
 
 const classTxtUpcoming = 'text-warning'
@@ -78,7 +104,7 @@ export const getStatusBackgroundFromSoonStatus = (status) => {
     case statusPast:
       return classBackgroundPast
     default:
-      return ''
+      return txtAbsentTakeUpData
   }
 }
 
@@ -121,7 +147,7 @@ export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
   if (myCurrentDateTimeUnix < startDateUnix) {
     return statusUpcoming
   }
-  return ''
+  return txtAbsentTakeUpData
 }
 
 const getRelativeHumanTime = (timestamp) => {
@@ -241,9 +267,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         </div>
         <div className='profile-email px-2 pt-2'>
           <p className='text-muted mb-0'>
-            <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
-              {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
-            </span>
+            {
+              itemDetail?.startDate || itemDetail?.endDate ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
+                {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
+              </span> : txtAbsentTakeUpData
+            }
           </p>
           {itemDetail?.countryOrigin &&
             <p style={{ display: 'flex' }}>
@@ -280,7 +308,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       title: 'Round',
       dataIndex: 'type',
       key: 'type',
-      render: (_, record) => (<>{record?.type} {getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}</>)
+      render: (_, record) => (<>{record?.type}</>)
     },
     { title: 'Start',
       dataIndex: 'start',
@@ -291,6 +319,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       dataIndex: 'end',
       key: 'end',
       render: (_, record) => (<>{record?.end ? moment(record?.end).format(formatDateStyle) : txtTBA}</>)
+    },
+    { title: 'Launchpad',
+      dataIndex: 'launchPadId',
+      key: 'launchPadId',
+      render: (_, record) => (<LaunchpadTableDetail launchpadId={record?.launchPadId} />)
     },
     { title: 'Raise',
       dataIndex: 'raise',
@@ -310,9 +343,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     { title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: (_, record) => (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
-        {getStatusFromStartDateAndEndDate(record?.start, record?.end)?.toUpperCase()}
-      </span>)
+      render: (_, record) => record?.start || record?.end ? (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
+        {`${getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))} ${getRelativeTimeString(record?.start, record?.end)}`}
+      </span>) : (txtAbsentTakeUpData)
     }
   ]
   const roundSale = (itemRoundSales && !_.isEmpty(itemRoundSales)) ? (
@@ -326,8 +359,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             <Table
               columns={columns}
               expandable={{
-                expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.lockUpPeriod}</p>,
-                rowExpandable: (record) => record.lockUpPeriod // have data
+                expandedRowRender: (record) => <p className='text-primary' style={{ margin: '0 0 0 5rem' }}><b>{record.lockUpPeriod}</b></p>,
+                rowExpandable: (record) => record.lockUpPeriod, // have data
+                defaultExpandAllRows: true
               }}
               dataSource={itemRoundSales}
               className='soon-table-round-sale'
@@ -344,7 +378,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     <div className='text-center'>
       <div className='row mb-4 d-flex'>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-          {getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate, 20)}
+          { (itemDetail?.startDate || itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate, 20) : txtAbsentTakeUpData}
         </div>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> Start: <b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b></div>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> End&nbsp;&nbsp;: <b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b></div>
@@ -522,15 +556,6 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               </Link>
               <div className='row mt-3'>
                 <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-                  {
-                    itemDetail?.website ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.website)}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                      Homepage&nbsp;
-                        <LinkOutlined />
-                      </div>
-                    </div> : ''
-                  }
-
                   {
                     itemDetail?.whitepaperUrl ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.whitepaperUrl)}>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
