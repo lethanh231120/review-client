@@ -17,6 +17,7 @@ import MyScoreComponent from '../../score/scoreComponent'
 import './ventureInfo.scss'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
+import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 
 export const calculateTotalFund = (fund) =>{
   let total = 0
@@ -304,6 +305,27 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       </div></>
   }
 
+  // scam
+  const scam = (
+    <>
+      {detail?.isScam ? (
+        <ScamWarningDetail
+          isShow={true}
+          scamWarningReason={detail?.proof?.isScam}
+          proofType='error'
+        />
+      ) : detail?.isWarning ? (
+        <ScamWarningDetail
+          isShow={true}
+          scamWarningReason={detail?.proof?.isWarning}
+          proofType='warning'
+        />
+      ) : (
+        ''
+      )}
+    </>
+  )
+
   return (
     <DetailLayout
       type={'venture'}
@@ -316,6 +338,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       rest={rest}
       setTop={setTop}
       topDiscus={<TopDiscussed />}
+      scam={scam}
     />
   )
 }
