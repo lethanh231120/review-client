@@ -73,6 +73,6 @@ export const ReviewList = () => {
         key={index}
         data={item && item}
       />
-    ) : <div>There are currently no reviews</div> }
+    ) : <div className='col-12 mb-5'>There are currently no reviews</div> }
   </div>
 }

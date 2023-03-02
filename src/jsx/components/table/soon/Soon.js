@@ -18,6 +18,8 @@ import {
   getStatusBackgroundFromSoonStatus,
   getStatusFromStartDateAndEndDate,
   getTimeRelativeQuantificationWithNowFromStartDateAndEndDate,
+  txtAbsentTakeUpData,
+  txtGoal,
   txtTBA
 } from '../../product-detail/soon-info/SoonInfo'
 import moment from 'moment'
@@ -124,7 +126,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                           </div>
                           <div className='row'>
                             <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>
-                              {item?.startDate && item?.endDate ? (
+                              {item?.startDate || item?.endDate ? (
                                 <span
                                   className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(
                                     getStatusFromStartDateAndEndDate(
@@ -149,7 +151,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                           </div>
                           <div className='row'>
                             <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>
-                              {item?.startDate && item?.endDate ? (
+                              {item?.startDate || item?.endDate ? (
                                 getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(
                                   item?.startDate,
                                   item?.endDate,
@@ -162,12 +164,15 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             </p>
                           </div>
                           <div className='row'>
-                            <p className='mb-0 fs-14 text-success text-center text-etc-overflow'>
-                              {formatLargeNumberMoneyUSD(
-                                item?.fundRaisingGoals
-                              )}{' '}
-                                  raised
-                            </p>
+                            {
+                              item?.fundRaisingGoals
+                                ? <p className='mb-0 fs-14 text-success text-center text-etc-overflow'>
+                                  {txtGoal}:&nbsp;{formatLargeNumberMoneyUSD(
+                                    item?.fundRaisingGoals
+                                  )}
+                                </p>
+                                : txtAbsentTakeUpData
+                            }
                           </div>
                           <div className='d-flex align-items-center justify-content-between'>
                             <div>
@@ -177,7 +182,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                     {item?.roundType}
                                   </b>
                                 ) : (
-                                  <>&nbsp;</>
+                                  txtAbsentTakeUpData
                                 )}{' '}
                                 {item?.launchPads ? 'on' : ''}
                               </p>

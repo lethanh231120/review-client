@@ -4,6 +4,7 @@ import { Image } from 'antd'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 import NoImage from '../../common-widgets/no-image/NoImage'
+import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
 
 const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
   const navigate = useNavigate()
@@ -29,7 +30,7 @@ const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global, setItem, 
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {item?.ventureId && item?.image ? (
+        {(item?.ventureId && item?.image && item?.image !== absentImageElasticSearch) ? (
           <Image src={isValidProductId(item?.ventureId) ? formatImgUrlFromProductId(item?.ventureId) : imgAbsentImageVenture} preview={false} alt='Venture Logo'/>
         )
           : (

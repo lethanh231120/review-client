@@ -31,10 +31,15 @@ import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discus
 import LaunchpadDetail from './../../common-widgets/page-soon/LaunchpadDetail'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import { LinkOutlined } from '@ant-design/icons'
+import { LaunchpadTableDetail } from '../../common-widgets/page-soon/LaunchpadTableDetail'
 
 export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
 export const txtTBA = 'TBA'
+
+export const txtGoal = 'Goal'
+
+export const txtAbsentTakeUpData = <>&nbsp;</>
 
 // match with BE
 const statusUpcoming = 'upcoming'
@@ -42,9 +47,9 @@ const statusOngoing = 'ongoing'
 const statusPast = 'past'
 
 // display in FE
-const displayUpcoming = 'COMING SOON'
-const displayOngoing = 'IS ACTIVE'
-const displayPast = 'IS ENDED'
+const displayUpcoming = 'COMING IN'
+const displayOngoing = 'ACTIVE IN'
+const displayPast = 'ENDED'
 
 const getDisplayFromSoonStatus = (status) => {
   switch (status) {
@@ -55,8 +60,31 @@ const getDisplayFromSoonStatus = (status) => {
     case statusPast:
       return displayPast
     default:
-      return ''
+      return txtAbsentTakeUpData
   }
+}
+
+const getRelativeTimeString = (startDate, endDate) =>{
+  const myCurrentDateTimeUnix = getCurrentTimeUnix()
+
+  // string "15-05-2018" to date unix time
+  const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
+
+  const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
+
+  // Ongoing
+  if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
+    return getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)
+  } else
+  // Past
+  if (myCurrentDateTimeUnix > endDateUnix) {
+    return `${getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago`
+  } else
+  // Upcoming
+  if (myCurrentDateTimeUnix < startDateUnix) {
+    return getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)
+  }
+  return ''
 }
 
 const classTxtUpcoming = 'text-warning'
@@ -76,7 +104,7 @@ export const getStatusBackgroundFromSoonStatus = (status) => {
     case statusPast:
       return classBackgroundPast
     default:
-      return ''
+      return txtAbsentTakeUpData
   }
 }
 
@@ -119,7 +147,7 @@ export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
   if (myCurrentDateTimeUnix < startDateUnix) {
     return statusUpcoming
   }
-  return ''
+  return txtAbsentTakeUpData
 }
 
 const getRelativeHumanTime = (timestamp) => {
@@ -239,9 +267,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         </div>
         <div className='profile-email px-2 pt-2'>
           <p className='text-muted mb-0'>
-            <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
-              {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
-            </span>
+            {
+              itemDetail?.startDate || itemDetail?.endDate ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
+                {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
+              </span> : txtAbsentTakeUpData
+            }
           </p>
           {itemDetail?.countryOrigin &&
             <p style={{ display: 'flex' }}>
@@ -278,7 +308,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       title: 'Round',
       dataIndex: 'type',
       key: 'type',
-      render: (_, record) => (<>{record?.type} {getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}</>)
+      render: (_, record) => (<>{record?.type}</>)
     },
     { title: 'Start',
       dataIndex: 'start',
@@ -289,6 +319,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       dataIndex: 'end',
       key: 'end',
       render: (_, record) => (<>{record?.end ? moment(record?.end).format(formatDateStyle) : txtTBA}</>)
+    },
+    { title: 'Launchpad',
+      dataIndex: 'launchPadId',
+      key: 'launchPadId',
+      render: (_, record) => (<LaunchpadTableDetail launchpadId={record?.launchPadId} />)
     },
     { title: 'Raise',
       dataIndex: 'raise',
@@ -308,9 +343,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     { title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: (_, record) => (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
-        {getStatusFromStartDateAndEndDate(record?.start, record?.end)?.toUpperCase()}
-      </span>)
+      render: (_, record) => record?.start || record?.end ? (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
+        {`${getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))} ${getRelativeTimeString(record?.start, record?.end)}`}
+      </span>) : (txtAbsentTakeUpData)
     }
   ]
   const roundSale = (itemRoundSales && !_.isEmpty(itemRoundSales)) ? (
@@ -324,8 +359,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             <Table
               columns={columns}
               expandable={{
-                expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.lockUpPeriod}</p>,
-                rowExpandable: (record) => record.lockUpPeriod // have data
+                expandedRowRender: (record) => <p className='text-primary' style={{ margin: '0 0 0 5rem' }}><b>{record.lockUpPeriod}</b></p>,
+                rowExpandable: (record) => record.lockUpPeriod, // have data
+                defaultExpandAllRows: true
               }}
               dataSource={itemRoundSales}
               className='soon-table-round-sale'
@@ -342,7 +378,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     <div className='text-center'>
       <div className='row mb-4 d-flex'>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-          {getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate, 20)}
+          { (itemDetail?.startDate || itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate, 20) : txtAbsentTakeUpData}
         </div>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> Start: <b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b></div>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> End&nbsp;&nbsp;: <b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b></div>
@@ -352,7 +388,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
           </h3>
-          <span className='text-etc-overflow'>Raised</span>
+          <span className='text-etc-overflow'>{txtGoal}</span>
         </div>
         <div className='col-3'>
           <h3 className='m-b-0'>
@@ -420,26 +456,14 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               {
                 itemDetail?.type && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    <>
-                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s token type: `}
-                      </div>
-                      <div style={{ display: 'inline-block' }}>
-                        <Badge bg='primary' text='white'>{itemDetail?.type}</Badge>
-                      </div>
-                    </>
+                    {`${itemDetail?.projectName}'s token type: `}<span className='text-primary fs-20 text-capitalize'><b>{itemDetail?.type}</b></span>
                   </div>
                 </div>
               }
               {
                 itemDetail?.roundType && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    <>
-                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s current round: `}
-                      </div>
-                      <div style={{ display: 'inline-block' }}>
-                        <Badge bg='primary' text='white'>{itemDetail?.roundType}</Badge>
-                      </div>
-                    </>
+                    {`${itemDetail?.projectName}'s current round: `}<span className='text-primary fs-20 text-uppercase'><b>{itemDetail?.roundType}</b></span>
                   </div>
                 </div>
               }
@@ -447,17 +471,14 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 itemDetail?.acceptCurrency &&
               <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                 <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                  <>
-                    <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName} acccepts currencies: `}
-                    </div>
-                    {itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
-                      <>
-                        <div style={{ display: 'inline-block' }}>
-                          <Badge bg='primary' text='white' key={index} style={{ margin: '0.3rem 0.3rem 0 0' }}>{keyName}</Badge>
-                        </div>
-                      </>
-                    ))}
-                  </>
+                  {`${itemDetail?.projectName} is exchanged in currencies: `}
+                  {itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
+                    <span className='text-primary fs-20 text-uppercase' key={index}>
+                      <b>{keyName}</b>
+                      {/* last element in array */}
+                      {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : ','}
+                    </span>
+                  ))}
                 </div>
               </div>
               }
@@ -465,16 +486,14 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               {
                 !_.isEmpty(itemDetail?.blockchain) && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    <>
-                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName} belongs blockchain(s): `}</div>
-                      {Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
-                        <>
-                          <div style={{ display: 'inline-block' }}>
-                            <Badge bg='primary' text='white' key={index} style={{ margin: '0.3rem 0.3rem 0 0' }}>{toCammelCase(keyName)}</Badge>
-                          </div>
-                        </>
-                      ))}
-                    </>
+                    {`${itemDetail?.projectName} lives on blockchains: `}
+                    {Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
+                      <span className='text-primary fs-20 text-capitalize' key={index}>
+                        <b>{keyName}</b>
+                        {/* last element in array */}
+                        {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : ','}
+                      </span>
+                    ))}
                   </div>
                 </div>
               }
@@ -483,13 +502,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 // check like this cus && don't pass zero
                 (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    <>
-                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s total scam reports: `}
-                      </div>
-                      <div style={{ display: 'inline-block' }}>
-                        <Badge bg='danger' text='white'>{itemDetail?.totalIsScam}</Badge>
-                      </div>
-                    </>
+                    {itemDetail?.projectName} has <span className='text-danger fs-20'><b>{itemDetail?.totalIsScam}</b></span> scam reports
                   </div>
                 </div> : ''
               }
@@ -498,13 +511,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 // check like this cus && don't pass zero
                 (itemDetail?.totalReviews || itemDetail?.totalReviews === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    <>
-                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s total reviews: `}
-                      </div>
-                      <div style={{ display: 'inline-block' }}>
-                        <Badge bg='primary' text='white'>{itemDetail?.totalReviews}</Badge>
-                      </div>
-                    </>
+                    {itemDetail?.projectName} has <span className='text-primary fs-20'><b>{itemDetail?.totalReviews}</b></span> reviews
                   </div>
                 </div> : ''
               }
@@ -520,15 +527,6 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               </Link>
               <div className='row mt-3'>
                 <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-                  {
-                    itemDetail?.website ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.website)}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                      Homepage&nbsp;
-                        <LinkOutlined />
-                      </div>
-                    </div> : ''
-                  }
-
                   {
                     itemDetail?.whitepaperUrl ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.whitepaperUrl)}>
                       <div style={{ display: 'flex', alignItems: 'center' }}>

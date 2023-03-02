@@ -7,6 +7,7 @@ import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/f
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import NoImage from './../../common-widgets/no-image/NoImage'
 
+export const absentImageElasticSearch = 'empty-token'
 const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
   const navigate = useNavigate()
   return (
@@ -31,7 +32,7 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {item?.cryptoId ? (
+        {(item?.cryptoId && item?.image && item?.image !== absentImageElasticSearch) ? (
           <Image src={isValidProductId(item?.cryptoId) ? formatImgUrlFromProductId(item?.cryptoId) : imgAbsentImageCrypto} preview={false} />
         ) : (
           (
