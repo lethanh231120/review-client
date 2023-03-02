@@ -70,7 +70,7 @@
   position: relative;
 }
 .metismenu .has-arrow:after {
-  position: absolute;
+  /* position: absolute;
   content: '';
   width: 0.5em;
   height: 0.5em;
@@ -83,9 +83,9 @@
   -webkit-transform-origin: top;
   transform-origin: top;
   top: 50%;
-  transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out; */
 }
-[dir='rtl'] .metismenu .has-arrow:after {
+/* [dir='rtl'] .metismenu .has-arrow:after {
   right: auto;
   left: 1em;
   -webkit-transform: rotate(135deg) translateY(-50%);
@@ -100,4 +100,4 @@
 [dir='rtl'] .metismenu .mm-active > .has-arrow:after {
   -webkit-transform: rotate(225deg) translateY(-50%);
   transform: rotate(225deg) translateY(-50%);
-}
+} */

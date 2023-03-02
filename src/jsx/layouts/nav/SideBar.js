@@ -17,6 +17,7 @@ import { pair1 } from '../../../utils/formatUrl'
 import { ToggleContext } from '../../index'
 import './custom-header.scss'
 import { WARNING_ICON } from '../../components/common-widgets/logo/logo'
+import './sidebar.scss'
 
 import { PathNameContext } from '../../index'
 
@@ -40,6 +41,7 @@ const headerItem6 = `Launchpads`
 const SideBar = () => {
   const toggle = useContext(ToggleContext)
   const pathName = useContext(PathNameContext)
+  const [sizeScreen, setSizeScreen] = useState()
   const navigate = useNavigate()
   // set defaul category when no data
   const arrOrderedCategories = [
@@ -101,9 +103,9 @@ const SideBar = () => {
   // Menu dropdown list End
 
   // / Path
-  let path = window.location.pathname
-  path = path.split('/')
-  path = path[path.length - 1]
+  // let path = window.location.pathname
+  // path = path.split('/')
+  // path = path[path.length - 1]
 
   useEffect(() => {
     const objCategories = [
@@ -256,6 +258,22 @@ const SideBar = () => {
       }
     }
   }
+  const mainwrapper = document.querySelector('#main-wrapper')
+
+  useEffect(() => {
+    function handleResize() {
+      const { innerWidth: width } = window
+      setSizeScreen(width)
+      // if (width < 767.98) {
+      //   mainwrapper.classList.remove('menu-toggle')
+      //   toggle?.handleChangeToggle(false)
+      // }
+    }
+
+    handleResize()
+    window.addEventListener('load', handleResize)
+    window.addEventListener('resize', handleResize)
+  }, [])
 
   return (
     <div
@@ -290,25 +308,42 @@ const SideBar = () => {
                   } ${data?.content?.length > 0 ? 'sub-menu' : ''}`}
                   key={index}
                 >
-                  {data.content && data.content.length > 0 ? (
+                  {data?.content && data?.content?.length > 0 ? (
+                    // category has content vd: crypto projects, dapps
                     <Link
                       to={data?.to}
                       className='has-arrow'
-                      onClick={() => {
-                        handleMenuActive(data?.title)
-                        removeFilterTag(data?.title, '')
-                        pathName?.handleChangePathName(data?.title)
-                      }}
                     >
                       {data.iconStyle}
-                      <span className='nav-text'>{data.title}</span>
+                      <span
+                        className='nav-text'
+                        onClick={() => {
+                          pathName?.handleChangePathName(data?.title)
+                          if (sizeScreen < 767.98) {
+                            mainwrapper.classList.remove('menu-toggle')
+                            toggle?.handleChangeToggle(false)
+                          }
+                        }}>{data.title}</span>
+                      <span
+                        className='has-arrow-after'
+                        onClick={() => {
+                          handleMenuActive(data?.title)
+                          removeFilterTag(data?.title, '')
+                          pathName?.handleChangePathName(data?.title)
+                        }}
+                      ></span>
                     </Link>
                   ) : (
+                    // category not has content vd: home, venture, insight, launchpad
                     <NavLink
                       to={data?.to}
                       onClick={() => {
                         handleMenuActive(data?.title)
                         pathName?.handleChangePathName(data?.title)
+                        if (sizeScreen < 767.98) {
+                          mainwrapper.classList.remove('menu-toggle')
+                          toggle?.handleChangeToggle(false)
+                        }
                       }}
                     >
                       {data.iconStyle}
@@ -326,9 +361,13 @@ const SideBar = () => {
                           return (
                             <li
                               onClick={() => {
-                                console.log(data?.title)
                                 saveFilterTag(data?.category, data?.title)
                                 pathName?.handleChangePathName(data?.title)
+                                handleSubmenuActive(data?.title)
+                                if (sizeScreen < 767.98) {
+                                  mainwrapper.classList.remove('menu-toggle')
+                                  toggle?.handleChangeToggle(false)
+                                }
                               }}
                               key={index}
 
@@ -338,7 +377,13 @@ const SideBar = () => {
                                   : ''
                               } sub-title`}
                             >
-                              {data.content && data.content.length > 0 ? (
+                              <NavLink
+                                to={data?.to}
+                                className={data.hasMenu ? 'has-arrow' : ''}
+                              >
+                                {data.title}
+                              </NavLink>
+                              {/* {data.content && data.content.length > 0 ? (
                                 <>
                                   <NavLink
                                     to={data?.to}
@@ -390,7 +435,7 @@ const SideBar = () => {
                                 >
                                   {data.title}
                                 </Link>
-                              )}
+                              )} */}
                             </li>
                           )
                         })}
