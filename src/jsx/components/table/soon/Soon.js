@@ -18,6 +18,7 @@ import {
   getStatusBackgroundFromSoonStatus,
   getStatusFromStartDateAndEndDate,
   getTimeRelativeQuantificationWithNowFromStartDateAndEndDate,
+  txtGoal,
   txtTBA
 } from '../../product-detail/soon-info/SoonInfo'
 import moment from 'moment'
@@ -162,12 +163,15 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             </p>
                           </div>
                           <div className='row'>
-                            <p className='mb-0 fs-14 text-success text-center text-etc-overflow'>
-                              {formatLargeNumberMoneyUSD(
-                                item?.fundRaisingGoals
-                              )}{' '}
-                                  raised
-                            </p>
+                            {
+                              item?.fundRaisingGoals
+                                ? <p className='mb-0 fs-14 text-success text-center text-etc-overflow'>
+                                  {txtGoal}:&nbsp;{formatLargeNumberMoneyUSD(
+                                    item?.fundRaisingGoals
+                                  )}
+                                </p>
+                                : ''
+                            }
                           </div>
                           <div className='d-flex align-items-center justify-content-between'>
                             <div>
