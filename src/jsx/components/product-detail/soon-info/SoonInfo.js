@@ -160,31 +160,31 @@ const getRelativeHumanTime = (timestamp) => {
   // If there are years
   if (time > (1000 * 60 * 60 * 24 * 365)) {
     humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 365), 10)
-    units = 'year(s)'
+    units = 'year'
   } else// If there are months
   if (time > (1000 * 60 * 60 * 24 * 30)) {
     humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 30), 10)
-    units = 'month(s)'
+    units = 'month'
   } else // If there are weeks
   if (time > (1000 * 60 * 60 * 24 * 7)) {
     humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 7), 10)
-    units = 'week(s)'
+    units = 'week'
   } else // If there are days
   if (time > (1000 * 60 * 60 * 24)) {
     humanTime = parseInt(time / (1000 * 60 * 60 * 24), 10)
-    units = 'day(s)'
+    units = 'day'
   } else// If there are hours
   if (time > (1000 * 60 * 60)) {
     humanTime = parseInt(time / (1000 * 60 * 60), 10)
-    units = 'hour(s)'
+    units = 'hour'
   } else // If there are minutes
   if (time > (1000 * 60)) {
     humanTime = parseInt(time / (1000 * 60), 10)
-    units = 'minute(s)'
+    units = 'minute'
   } else {
     // Otherwise, use seconds
     humanTime = parseInt(time / (1000), 10)
-    units = 'second(s)'
+    units = 'second'
   }
 
   return humanTime + ' ' + units
@@ -198,9 +198,11 @@ export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (star
 
   const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
 
-  // Ongoing
+  // Ongoingstartd
   if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
     return <>
+      <span>Started in <b className={`fs-${fontSize} ${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b></span>
+      <br/>
       <span>End in <b className={`fs-${fontSize} ${classTxtOngoing}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b></span>
       <hr className='hr-custome'></hr>
     </>
@@ -209,12 +211,16 @@ export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (star
   if (myCurrentDateTimeUnix > endDateUnix) {
     return <>
       <span><b className={`fs-${fontSize} ${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)}</b> ago</span>
+      <br/>
+      &nbsp;
       <hr className='hr-custome'></hr>
     </>
   } else
   // Upcoming
   if (myCurrentDateTimeUnix < startDateUnix) {
     return <><span>Start in <b className={`fs-${fontSize} ${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b></span>
+      <br/>
+      <span>End in <b className={`fs-${fontSize} ${classTxtUpcoming}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b></span>
       <hr className='hr-custome'></hr>
     </>
   }
@@ -268,7 +274,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <div className='profile-email px-2 pt-2'>
           <p className='text-muted mb-0'>
             {
-              itemDetail?.startDate || itemDetail?.endDate ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
+              itemDetail?.startDate && itemDetail?.endDate ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
                 {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
               </span> : txtAbsentTakeUpData
             }
@@ -295,8 +301,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             }}
           >
             {websiteLoading ? <Spin indicator={<LoadingOutlined spin />} size='small' style={{ color: 'white', marginRight: '0.3rem' }} /> : ''}
-            {websiteIcon}
-            Website
+            {websiteIcon}Website
           </Button>
         }
       </div>
@@ -374,35 +379,31 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </div>
   ) : null
 
+  const timeAndPercentProcess = <div className='row mb-3 d-flex'>
+    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+      <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> Start: <b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b></div>
+      <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> End&nbsp;&nbsp;: <b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b></div>
+
+      { (itemDetail?.startDate && itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate, 18) : txtAbsentTakeUpData}
+    </div>
+  </div>
+
   const summary = (
     <div className='text-center'>
-      <div className='row mb-4 d-flex'>
-        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-          { (itemDetail?.startDate || itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate, 20) : txtAbsentTakeUpData}
-        </div>
-        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> Start: <b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b></div>
-        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> End&nbsp;&nbsp;: <b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b></div>
-      </div>
       <div className='row'>
-        <div className='col-3'>
+        <div className='col-4'>
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
           </h3>
           <span className='text-etc-overflow'>{txtGoal}</span>
         </div>
-        <div className='col-3'>
+        <div className='col-4'>
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.tokenPrice) }</Badge>
           </h3>{' '}
           <span className='text-etc-overflow'>Price</span>
         </div>
-        <div className='col-3'>
-          <h3 className='m-b-0'>
-            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fullyDilutedMarketcap)}</Badge>
-          </h3>{' '}
-          <span className='text-etc-overflow'>Marketcap</span>
-        </div>
-        <div className='col-3'>
+        <div className='col-4'>
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumber(itemDetail?.totalSupply)}</Badge>
           </h3>{' '}
@@ -456,14 +457,14 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               {
                 itemDetail?.type && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    {`${itemDetail?.projectName}'s token type: `}<span className='text-primary fs-20 text-capitalize'><b>{itemDetail?.type}</b></span>
+                    {`${itemDetail?.projectName}'s token type: `}<span className='text-primary fs-16 text-capitalize'><b>{itemDetail?.type}</b></span>
                   </div>
                 </div>
               }
               {
                 itemDetail?.roundType && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    {`${itemDetail?.projectName}'s current round: `}<span className='text-primary fs-20 text-uppercase'><b>{itemDetail?.roundType}</b></span>
+                    {`${itemDetail?.projectName}'s current round: `}<span className='text-primary fs-16 text-uppercase'><b>{itemDetail?.roundType}</b></span>
                   </div>
                 </div>
               }
@@ -473,7 +474,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
                   {`${itemDetail?.projectName} is exchanged in currencies: `}
                   {itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
-                    <span className='text-primary fs-20 text-uppercase' key={index}>
+                    <span className='text-primary fs-16 text-uppercase' key={index}>
                       <b>{keyName}</b>
                       {/* last element in array */}
                       {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : ','}
@@ -488,7 +489,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
                     {`${itemDetail?.projectName} lives on blockchains: `}
                     {Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
-                      <span className='text-primary fs-20 text-capitalize' key={index}>
+                      <span className='text-primary fs-16 text-capitalize' key={index}>
                         <b>{keyName}</b>
                         {/* last element in array */}
                         {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : ','}
@@ -523,7 +524,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <div className='crypto-info'>
             <div className=''>
               <Link to={'#'} >
-                <h4>Website(s):</h4>
+                <h4>Website:</h4>
               </Link>
               <div className='row mt-3'>
                 <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
@@ -549,7 +550,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                     itemDetail?.socials && !_.isEmpty(itemDetail?.socials)
                       ? <Dropdown style={{ display: 'inline-block' }}>
                         <Dropdown.Toggle variant='primary' className='mb-0 btn btn-primary light btn-xs mb-2 me-1'>
-                            Social(s)
+                            Socials
                         </Dropdown.Toggle>
                         <Dropdown.Menu className='cus-dropdown-menu'>
                           {
@@ -695,6 +696,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     <DetailLayout
       Header={header}
       roundSale={roundSale}
+      timeAndPercentProcess={timeAndPercentProcess}
       summary={summary}
       more={more}
       type='soon'

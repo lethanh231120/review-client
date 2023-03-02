@@ -719,7 +719,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
           {!showInfo && (
             <>
-              <div className='crypto-info-item-key my-2'>Explorer(s): </div>
+              <div className='crypto-info-item-key my-2'>Explorers: </div>
               <div
                 className='d-flex align-items-center'
                 style={{ flexWrap: 'wrap' }}
