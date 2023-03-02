@@ -223,7 +223,8 @@ const ModalReport = ({ isModal }) => {
       Swal.fire({
         icon: dataAdd?.code === 'B.REVIEW.0' ? 'success' : 'warning',
         title: 'Add new report successfully!',
-        text: dataAdd?.code === 'B.REVIEW.1' ? 'Your comment has some words that were banned from our website. Please wait for our admin to verify!' : '',
+        text: dataAdd?.code === 'B.REVIEW.1' ? `We will hide reviews with Shill, Ads, Porn.... content !
+        With your review, we will review it directly by the admin team. Enjoy Gear5.io, Thank You !` : '',
         showDenyButton: true,
         confirmButtonText: 'Add New Report',
         denyButtonText: `View Detail`

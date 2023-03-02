@@ -656,8 +656,9 @@
 @media screen and (max-width: 767.98px) {
     .deznav {
         width: 18rem;
-        left: 0;
+        left: -100%;
         top: 5rem;
+        position: fixed;
         & .metismenu {
             & ul {
                 & a {
