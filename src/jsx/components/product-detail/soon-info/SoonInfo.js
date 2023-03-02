@@ -456,26 +456,14 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               {
                 itemDetail?.type && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    <>
-                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s token type: `}
-                      </div>
-                      <div style={{ display: 'inline-block' }}>
-                        <Badge bg='primary' text='white'>{itemDetail?.type}</Badge>
-                      </div>
-                    </>
+                    {`${itemDetail?.projectName}'s token type: `}<span className='text-primary fs-20 text-capitalize'><b>{itemDetail?.type}</b></span>
                   </div>
                 </div>
               }
               {
                 itemDetail?.roundType && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    <>
-                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s current round: `}
-                      </div>
-                      <div style={{ display: 'inline-block' }}>
-                        <Badge bg='primary' text='white'>{itemDetail?.roundType}</Badge>
-                      </div>
-                    </>
+                    {`${itemDetail?.projectName}'s current round: `}<span className='text-primary fs-20 text-uppercase'><b>{itemDetail?.roundType}</b></span>
                   </div>
                 </div>
               }
@@ -483,17 +471,14 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 itemDetail?.acceptCurrency &&
               <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                 <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                  <>
-                    <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName} acccepts currencies: `}
-                    </div>
-                    {itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
-                      <>
-                        <div style={{ display: 'inline-block' }}>
-                          <Badge bg='primary' text='white' key={index} style={{ margin: '0.3rem 0.3rem 0 0' }}>{keyName}</Badge>
-                        </div>
-                      </>
-                    ))}
-                  </>
+                  {`${itemDetail?.projectName} is exchanged in currencies: `}
+                  {itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
+                    <span className='text-primary fs-20 text-uppercase' key={index}>
+                      <b>{keyName}</b>
+                      {/* last element in array */}
+                      {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : ','}
+                    </span>
+                  ))}
                 </div>
               </div>
               }
@@ -501,16 +486,14 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               {
                 !_.isEmpty(itemDetail?.blockchain) && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    <>
-                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName} belongs blockchain(s): `}</div>
-                      {Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
-                        <>
-                          <div style={{ display: 'inline-block' }}>
-                            <Badge bg='primary' text='white' key={index} style={{ margin: '0.3rem 0.3rem 0 0' }}>{toCammelCase(keyName)}</Badge>
-                          </div>
-                        </>
-                      ))}
-                    </>
+                    {`${itemDetail?.projectName} lives on blockchains: `}
+                    {Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
+                      <span className='text-primary fs-20 text-capitalize' key={index}>
+                        <b>{keyName}</b>
+                        {/* last element in array */}
+                        {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : ','}
+                      </span>
+                    ))}
                   </div>
                 </div>
               }
@@ -519,13 +502,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 // check like this cus && don't pass zero
                 (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    <>
-                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s total scam reports: `}
-                      </div>
-                      <div style={{ display: 'inline-block' }}>
-                        <Badge bg='danger' text='white'>{itemDetail?.totalIsScam}</Badge>
-                      </div>
-                    </>
+                    {itemDetail?.projectName} has <span className='text-danger fs-20'><b>{itemDetail?.totalIsScam}</b></span> scam reports
                   </div>
                 </div> : ''
               }
@@ -534,13 +511,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 // check like this cus && don't pass zero
                 (itemDetail?.totalReviews || itemDetail?.totalReviews === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    <>
-                      <div style={{ display: 'inline-block', alignItems: 'center', marginRight: '0.3rem' }}>{`${itemDetail?.projectName}'s total reviews: `}
-                      </div>
-                      <div style={{ display: 'inline-block' }}>
-                        <Badge bg='primary' text='white'>{itemDetail?.totalReviews}</Badge>
-                      </div>
-                    </>
+                    {itemDetail?.projectName} has <span className='text-primary fs-20'><b>{itemDetail?.totalReviews}</b></span> reviews
                   </div>
                 </div> : ''
               }
