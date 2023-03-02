@@ -7,6 +7,7 @@ import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/f
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import { formatLargeNumber } from '../../../../utils/formatNumber'
 import NoImage from '../../common-widgets/no-image/NoImage'
+import { absentImageELK } from '../item-crypto/ItemCrypto'
 
 const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
   const navigate = useNavigate()
@@ -32,7 +33,7 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isF
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {item?.dappId ? (
+        {(item?.dappId && item?.image && item?.image !== absentImageELK) ? (
           <Image src={isValidProductId(item?.dappId) ? formatImgUrlFromProductId(item?.dappId) : imgAbsentImageDapp} preview={false} />
         )
           : (
