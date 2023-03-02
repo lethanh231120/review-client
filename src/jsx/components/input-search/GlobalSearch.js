@@ -74,7 +74,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
             ventures: (data?.data['listVenture']?.ventures !== null) ? data?.data['listVenture']?.ventures?.splice(0, 10) : null
           },
           listLaunchpad: {
-            launchPads: (data?.data['listLaunchpad']?.ventures !== null) ? data?.data['listLaunchpad']?.launchPads?.splice(0, 10) : null
+            launchPads: (data?.data['listLaunchpad']?.launchPads !== null) ? data?.data['listLaunchpad']?.launchPads?.splice(0, 10) : null
           }
         })
       } else {
