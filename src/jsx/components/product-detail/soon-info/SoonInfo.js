@@ -190,7 +190,7 @@ const getRelativeHumanTime = (timestamp) => {
   return humanTime + ' ' + units
 }
 
-export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (startDate, endDate, fontSize) => {
+export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (startDate, endDate) => {
   const myCurrentDateTimeUnix = getCurrentTimeUnix()
 
   // string "15-05-2018" to date unix time
@@ -198,30 +198,42 @@ export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (star
 
   const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
 
-  // Ongoingstartd
+  // Ongoing
   if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
     return <>
-      <span>Started in <b className={`fs-${fontSize} ${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b></span>
-      <br/>
-      <span>End in <b className={`fs-${fontSize} ${classTxtOngoing}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b></span>
-      <hr className='hr-custome'></hr>
+      <div className='d-flex align-items-center justify-content-center'>
+        <i className={`${classTxtOngoing} material-icons fs-18`}>rocket_launch</i>
+        Started in&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
+      </div>
+      <div className='d-flex align-items-center justify-content-center'>
+        <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
+        End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
+      </div>
     </>
   } else
   // Past
   if (myCurrentDateTimeUnix > endDateUnix) {
     return <>
-      <span><b className={`fs-${fontSize} ${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)}</b> ago</span>
-      <br/>
-      &nbsp;
-      <hr className='hr-custome'></hr>
+      <div className='d-flex align-items-center justify-content-center'>
+        <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
+  Ended in
+      </div>
+      <div className='d-flex align-items-center justify-content-center'>
+        <b className={`${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago</b>
+      </div>
     </>
   } else
   // Upcoming
   if (myCurrentDateTimeUnix < startDateUnix) {
-    return <><span>Start in <b className={`fs-${fontSize} ${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b></span>
-      <br/>
-      <span>End in <b className={`fs-${fontSize} ${classTxtUpcoming}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b></span>
-      <hr className='hr-custome'></hr>
+    return <>
+      <div className='d-flex align-items-center justify-content-center'>
+        <i className={`${classTxtUpcoming} material-icons fs-18`}>rocket_launch</i>
+        Start in&nbsp;<b className={`${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b>
+      </div>
+      <div className='d-flex align-items-center justify-content-center'>
+        <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
+        End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
+      </div>
     </>
   }
 
@@ -379,12 +391,39 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </div>
   ) : null
 
+  const countDownHtml = <div className='mt-2'>
+    <h1 id='headline' className='countdown'>Countdown to </h1>
+    <div id='countdown'>
+      <ul>
+        <li className='countdown'><span id='days'></span>days</li>
+        <li className='countdown'><span id='hours'></span>Hours</li>
+        <li className='countdown'><span id='minutes'></span>Minutes</li>
+        <li className='countdown'><span id='seconds'></span>Seconds</li>
+      </ul>
+    </div>
+    <div id='content' className='emoji'>
+      <span>🥳</span>
+      <span>🎉</span>
+      <span>🎂</span>
+    </div>
+  </div>
   const timeAndPercentProcess = <div className='row mb-3 d-flex'>
+    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-center'>
+      <i className='material-icons fs-18'>hourglass_top</i>
+        Start time:&nbsp;<b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b>
+    </div>
+    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-center'>
+      <i className='material-icons fs-18'>hourglass_bottom</i>
+        End time&nbsp;&nbsp;:&nbsp;<b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b>
+    </div>
+    <div className='col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5'>
+    </div>
+    <div className='col-xl-7 col-lg-7 col-md-7 col-sm-7 col-7'>
+      <hr className='hr-custome'></hr>
+      { (itemDetail?.startDate && itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate) : txtAbsentTakeUpData}
+    </div>
     <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-      <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> Start: <b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b></div>
-      <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> End&nbsp;&nbsp;: <b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b></div>
-
-      { (itemDetail?.startDate && itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate, 18) : txtAbsentTakeUpData}
+      {countDownHtml}
     </div>
   </div>
 
