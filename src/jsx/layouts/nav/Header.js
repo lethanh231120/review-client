@@ -36,18 +36,20 @@ const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
 const txtLoginTooltip = 'Sign In'
 const txtSignUpTooltip = 'Sign Up'
-const minimumWidthBigScreenMode = 767.98
+const minimumWidthBigScreenMode = 767
 
 const Header = () => {
   const toggle = useContext(ToggleContext)
   const pathname = useContext(PathNameContext)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
+  // const [isSmallMode, setIsSmallMode] = useState()
   const [isSmallMode, setIsSmallMode] = useState(window.innerWidth <= minimumWidthBigScreenMode)
   const showFullSearchConext = useContext(ShowFullSearchConext)
   const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)
   const summaryData = useContext(SummaryHomeContext)
 
+  console.log(isSmallMode)
   useEffect(() => {
     window.addEventListener('scroll', () => {
       setheaderFix(window.scrollY > 50)
@@ -56,6 +58,10 @@ const Header = () => {
       setIsSmallMode(window.innerWidth <= minimumWidthBigScreenMode)
     })
   }, [])
+
+  window.addEventListener('load', () => {
+    setIsSmallMode(window.innerWidth <= minimumWidthBigScreenMode)
+  })
 
   const authenticated = useContext(Authenticated)
   const signContext = useContext(SignInContext)
@@ -168,7 +174,6 @@ const Header = () => {
         <span className='ms-2'>Logout</span>
       </Link>
     </Dropdown.Menu>
-
   </Dropdown>
 
   const loginHtml =
@@ -238,12 +243,12 @@ const Header = () => {
   const miniSearchHtml =
     <Dropdown
       // as='li'
-      className='nav-item dropdown notification_dropdown '
+      className='nav-item dropdown notification_dropdown cus-icon-search'
     >
       <Dropdown.Toggle
         variant=''
         as='a'
-        className='nav-link  ai-icon i-false c-pointer button-add-project-home'
+        className='nav-link ai-icon i-false c-pointer button-add-project-home'
         role='button'
         onClick={() => showFullSearchConext?.setIsShowFullSearchSmallMode(!showFullSearchConext?.isShowFullSearchSmallMode)}
       >
@@ -265,7 +270,7 @@ const Header = () => {
         <AccountTab activeTabKey={formLoginSignupKeyContext?.loginSignupFormactiveTabKey} />
       </Modal>
       <div className={`header ${headerFix ? 'is-fixed' : ''} ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0' : ''}`}>
-        <div className={`header-content ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0 margin-left-0-3rem' : ''}`}>
+        <div className={`header-content ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0' : ''}`}>
           <nav className='navbar navbar-expand'>
             <div className='collapse navbar-collapse justify-content-between'>
               <div className='header-left'>
@@ -281,18 +286,22 @@ const Header = () => {
               </div>
               {/* header: search elk input */}
               <div
-                className='navbar-nav header-right'
+                className='navbar-nav header-right cus-header-right'
                 style={{ width: isSmallMode ? '100%' : '60%' }}
               >
                 <div
-                  className='nav-item d-flex align-items-center'
+                  className='nav-item d-flex align-items-center cus-header-search'
                   style={{ width: '100%' }}
                 >
-                  {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode ? <InputSearch /> : '') : (summaryData && <InputSearch />) }
+                  {showFullSearchConext?.isShowFullSearchSmallMode && <InputSearch />}
+                  {/* {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode ? <InputSearch /> : '') : (summaryData && <InputSearch />) } */}
+                  <div className='cus-global-search'>
+                    {(summaryData && <InputSearch />) }
+                  </div>
                 </div>
                 {/* side-bar right */}
                 <div className='dz-side-menu'>
-                  { isSmallMode ? miniSearchHtml : '' }
+                  { miniSearchHtml }
                   {/* <div className='search-coundry d-flex align-items-center'>
                   </div> */}
                   <div className='sidebar-social-link '>
@@ -300,7 +309,7 @@ const Header = () => {
                       {reportScamHtml}
                       {addProjectHtml}
                     </div>
-                    {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode || authenticated?.isAuthenticated ? '' : signupHtml) : '' }
+                    {/* {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode || authenticated?.isAuthenticated ? '' : signupHtml) : '' } */}
                   </div>
                   <ul>
                     {authenticated?.isAuthenticated ? (
@@ -311,7 +320,7 @@ const Header = () => {
                     )
                       : <>
                         {showFullSearchConext?.isShowFullSearchSmallMode ? '' : loginHtml}
-                        {isSmallMode ? '' : signupHtml}
+                        {showFullSearchConext?.isShowFullSearchSmallMode ? '' : signupHtml}
                       </>
                     }
                   </ul>
