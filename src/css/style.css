@@ -8700,65 +8700,6 @@ label {
     [data-sidebar-style="mini"] .nav-header {
       height: 5rem; } }
 
-.header {
-  height: 5rem;
-  z-index: 1;
-  position: relative;
-  padding: 0rem;
-  background: var(--headerbg);
-  z-index: 3;
-  padding-left: 19.5rem;
-  padding-right: 100px;
-  padding-top: 0rem;
-  transition: all .2s ease; }
-  @media only screen and (max-width: 100rem) {
-    .header {
-      padding-right: 90px; 
-    }
-    .header .header-content{
-      padding-left: 4rem;
-    } 
-  }
-  @media only screen and (max-width: 47.9375rem) {
-    .header {
-      padding-right: 0px; } }
-  .header .header-content {
-    height: 100%;
-    padding-left: 3rem;
-    /* padding-right: 1.075rem; */
-    align-items: center;
-    display: flex;
-    position: relative; }
-    @media only screen and (max-width: 87.5rem) {
-      .header .header-content {
-        padding-left: 4rem; } }
-    @media only screen and (max-width: 47.9375rem) {
-      .header .header-content {
-        padding-left: 3.75rem;
-        padding-right: 0.938rem; }
-        .header .header-content:after {
-          left: -5rem;
-          width: calc(100% + 5rem); } }
-  .header.is-fixed {
-    background-color: #36246514;
-    backdrop-filter: blur(8px); }
-  .header .navbar {
-    padding: 0;
-    height: 100%;
-    width: 100%; }
-    .header .navbar .navbar-collapse {
-      height: 100%;
-      width: 100%; }
-  @media only screen and (max-width: 87.5rem) {
-    .header {
-      height: 5.5rem; } }
-  @media only screen and (max-width: 74.9375rem) {
-    .header {
-      height: 5rem; } }
-  @media only screen and (max-width: 47.9375rem) {
-    .header {
-      padding-top: 0; } }
-
 [data-headerbg="color_2"] .header {
   background: var(--headerbg); }
 
