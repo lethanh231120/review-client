@@ -650,7 +650,7 @@
     }
 }
 @media screen and (max-width: 767.98px) {
-    .deznav {
+    [data-sidebar-style="overlay"] .deznav {
         position: fixed !important;
         width: 19.5rem;
         top: 6rem;
@@ -658,6 +658,15 @@
         -webkit-transition: all 0.5s;
         -ms-transition: all 0.5s;
         transition: all 0.5s;
+    }
+    .deznav {
+        // position: fixed !important;
+        // width: 19.5rem;
+        // top: 6rem;
+        // left: -100% !important;
+        // -webkit-transition: all 0.5s;
+        // -ms-transition: all 0.5s;
+        // transition: all 0.5s;
         & .metismenu {
             & ul {
                 & a {
