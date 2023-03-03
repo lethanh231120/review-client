@@ -197,7 +197,6 @@ const ThemeContextProvider = (props) => {
   //     changeSideBarStyle({ value: 'overlay', label: 'Overlay' })
   // }
 
-  console.log(1111111)
   const resizeWindow = () => {
     dispatch({ windowWidth: window.innerWidth })
     dispatch({ windowHeight: window.innerHeight })
@@ -207,7 +206,6 @@ const ThemeContextProvider = (props) => {
         ? body.setAttribute('data-sidebar-style', 'overlay')
         : body.setAttribute('data-sidebar-style', 'full') // style item in sidebar
   }
-  // resizeWindow()
 
   useEffect(() => {
     body.setAttribute('data-typography', 'poppins')
