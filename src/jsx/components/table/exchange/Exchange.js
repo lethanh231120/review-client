@@ -189,7 +189,7 @@ const Exchange = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <MyScoreComponent score={record?.score}/>)
+        <MyScoreComponent score={record?.score} type='exchange'/>)
     }
   ]
 
