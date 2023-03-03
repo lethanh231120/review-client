@@ -25,21 +25,6 @@ const initialState = {
   windowHeight: 0
 }
 
-const body = document.querySelector('body')
-// const body = document.querySelector('body')
-// body.setAttribute('data-typography', 'poppins')
-// body.setAttribute('data-theme-version', 'light')
-// body.setAttribute('data-layout', 'vertical')
-// body.setAttribute('data-primary', 'color_2') // body-background, button, border chart
-// body.setAttribute('data-nav-headerbg', 'color_2') // sidebar left header
-// body.setAttribute('data-headerbg', 'color_1') // header
-// body.setAttribute('data-sidebar-style', 'overlay')
-// body.setAttribute('data-sidebarbg', 'color_2') // sidebar left body
-// body.setAttribute('data-secondary', 'color_1')
-// body.setAttribute('data-sidebar-position', 'fixed')
-// body.setAttribute('data-header-position', 'fixed')
-// body.setAttribute('data-container', 'wide')
-
 const ThemeContextProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const {
@@ -61,6 +46,7 @@ const ThemeContextProvider = (props) => {
     windowHeight
   } = state
 
+  const body = document.querySelector('body')
   // layout
   // const layoutOption = [
   //   { value: 'vertical', label: 'Vertical' },
@@ -211,10 +197,9 @@ const ThemeContextProvider = (props) => {
   //     changeSideBarStyle({ value: 'overlay', label: 'Overlay' })
   // }
 
+  console.log(1111111)
   const resizeWindow = () => {
-    // setWindowWidth(window.innerWidth);
     dispatch({ windowWidth: window.innerWidth })
-    // setWindowHeight(window.innerHeight);
     dispatch({ windowHeight: window.innerHeight })
     window.innerWidth >= 768 && window.innerWidth < 1024
       ? body.setAttribute('data-sidebar-style', 'mini')
@@ -222,6 +207,7 @@ const ThemeContextProvider = (props) => {
         ? body.setAttribute('data-sidebar-style', 'overlay')
         : body.setAttribute('data-sidebar-style', 'full') // style item in sidebar
   }
+  // resizeWindow()
 
   useEffect(() => {
     body.setAttribute('data-typography', 'poppins')
@@ -237,11 +223,11 @@ const ThemeContextProvider = (props) => {
     body.setAttribute('data-header-position', 'fixed')
     body.setAttribute('data-container', 'wide')
     body.setAttribute('direction', 'ltr')
-    resizeWindow()
+    // resizeWindow()
     window.addEventListener('resize', resizeWindow)
-    window.addEventListener('load', resizeWindow)
     return () => window.removeEventListener('resize', resizeWindow)
   }, [])
+  window.addEventListener('load', resizeWindow)
 
   return (
     <ThemeContext.Provider

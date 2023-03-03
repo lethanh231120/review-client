@@ -5,8 +5,8 @@
 .deznav {
     width: 19.5rem;
     padding-bottom: 10px;
-    height: calc(100% - 5rem);
-    position: absolute;
+    height: calc(100vh - 5rem);
+    position: fixed;
     top: 5rem;
     padding-top: 1rem;
     z-index: 6;
@@ -204,7 +204,7 @@
     }
     & .deznav-scroll {
         position: relative;
-        height: 79vh;
+        height: 85vh;
         overflow-y: scroll;
     }
     & ul {
@@ -446,11 +446,10 @@
 [data-sidebar-style="mini"][data-layout="vertical"] .deznav .metismenu > li.mega-menu-sm:hover > ul ul a {
     width: 101%;
 }
-
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav {
     width: 6.5rem;
     overflow: visible;
-    position: absolute;
+    position: fixed;
 }
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .nav-text {
     display: none;
@@ -585,7 +584,8 @@
 @media screen and (max-width: 1400px) {
     .deznav {
         top: 5.5rem;
-        height: calc(100% - 78px);
+        // height: calc(100% - 78px);
+        position: fixed;
         width: 19.5rem;
         & .header-info2 {
             padding: 0;
@@ -635,7 +635,7 @@
 @media screen and (max-width: 1199.99px) {
     .deznav {
         top: 5rem;
-        height: calc(100% - 70px);
+        // height: calc(100vh - 5rem);
     }
     [data-sidebar-style="mini"] .deznav li.mm-active ul {
         height: auto !important;
@@ -653,20 +653,18 @@
     [data-sidebar-style="overlay"] .deznav {
         position: fixed !important;
         width: 19.5rem;
-        top: 6rem;
+        // top: 6.3rem;
         left: -100% !important;
         -webkit-transition: all 0.5s;
         -ms-transition: all 0.5s;
         transition: all 0.5s;
     }
     .deznav {
-        // position: fixed !important;
-        // width: 19.5rem;
-        // top: 6rem;
-        // left: -100% !important;
-        // -webkit-transition: all 0.5s;
-        // -ms-transition: all 0.5s;
-        // transition: all 0.5s;
+        padding-top: 0;
+        left: -100%;
+        & .deznav-scroll {
+            height: calc( 100vh - 5rem);
+        }
         & .metismenu {
             & ul {
                 & a {
@@ -705,7 +703,7 @@
     [data-sidebar-style="mini"] .deznav {
         width: 6.25rem;
         overflow: visible;
-        position: absolute;
+        // position: absolute;
         z-index: 2;
         top: 5rem;
     }

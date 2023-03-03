@@ -56,57 +56,57 @@
   }
 }
 
-.dz-side-menu {
-  position: fixed;
-  background: white;
-  text-align: center;
-  height: auto;
-  bottom: 1.25rem;
-  top: 0rem;
-  right: 0;
-  border-radius: 1.875rem;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column-reverse;
-  padding: 1.5625rem 0.75rem;
-  height: 100vh;
-  width: 5.313rem;
-  box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.1);
-  .search-coundry {
-    flex-direction: column;
-    .list {
-      top: -3.875rem;
-      left: -4.8125rem;
-      @include respond('phone-land') {
-        top: unset;
-        left: 0rem;
-      }
-    }
-  }
-  @include respond('phone-land') {
-    position: unset;
-    flex-direction: row;
-    height: auto;
-    width: auto;
-    background: none;
-    padding: 0;
-    align-items: center;
-    .sidebar-social-link {
-      > ul {
-        display: flex;
-      }
-    }
-    .search-coundry {
-      flex-direction: row;
-    }
-  }
-  @include respond('phone') {
-    .search-coundry {
-      display: none !important;
-    }
-    box-shadow: none;
-  }
-}
+// .dz-side-menu {
+//   position: fixed;
+//   background: white;
+//   text-align: center;
+//   height: auto;
+//   bottom: 1.25rem;
+//   top: 0rem;
+//   right: 0;
+//   border-radius: 1.875rem;
+//   display: flex;
+//   justify-content: space-between;
+//   flex-direction: column-reverse;
+//   padding: 1.5625rem 0.75rem;
+//   height: 100vh;
+//   width: 5.313rem;
+//   box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.1);
+//   .search-coundry {
+//     flex-direction: column;
+//     .list {
+//       top: -3.875rem;
+//       left: -4.8125rem;
+//       @include respond('phone-land') {
+//         top: unset;
+//         left: 0rem;
+//       }
+//     }
+//   }
+//   @include respond('phone-land') {
+//     position: unset;
+//     flex-direction: row;
+//     height: auto;
+//     width: auto;
+//     background: none;
+//     padding: 0;
+//     align-items: center;
+//     .sidebar-social-link {
+//       > ul {
+//         display: flex;
+//       }
+//     }
+//     .search-coundry {
+//       flex-direction: row;
+//     }
+//   }
+//   @include respond('phone') {
+//     .search-coundry {
+//       display: none !important;
+//     }
+//     box-shadow: none;
+//   }
+// }
 
 //////login page
 
