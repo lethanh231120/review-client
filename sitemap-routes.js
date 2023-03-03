@@ -18,37 +18,23 @@ export default (
       <Route path='/' ></Route>
       <Route path='search/:keyword' />
       <Route path=''>
-        <Route path=':category'>
-          <Route path='' />
-          <Route
-            path=':subCategory'
-          />
-        </Route>
       </Route>
       <Route path='insight' >
       </Route>
       <Route path='products'>
         <Route path='crypto'>
-          <Route path=':type'>
-            <Route path=':productName'>
-              <Route path='' />
-              {/* token only */}
-              <Route path=':path'/>
-            </Route>
-          </Route>
         </Route>
-        <Route path=':categoryName'>
-          <Route path=':productName'>
-            <Route path='' />
-            <Route path=':path'/>
-          </Route>
-          <Route
-            path=':productId'
-          />
+        <Route path='dapp'>
         </Route>
-        <Route
-          path=':productId'
-        />
+        <Route path='launchpad'>
+        </Route>
+        <Route path='ICO/IDO/IEO'>
+        </Route>
+        <Route path='venture'>
+        </Route>
+        <Route path='exchange'>
+        </Route>
+
       </Route>
       <Route path='not-found-product' />
       <Route path='server-error' />
