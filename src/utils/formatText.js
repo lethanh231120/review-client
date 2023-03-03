@@ -73,9 +73,7 @@ export const formatImgUrlFromProductId = (productId) => {
   return imgUrl
 }
 
-// export const capitalizeFirstLetter = (string) => {
-//   if (string?.length >= 1){
-//     return string?.charAt(0)?.toUpperCase() + string?.slice(1)
-//   }
-//   return string
-// }
+export const encodeSpecialCharacterUrl = (url) =>{
+  url = url?.replaceAll('+', '%2B')
+  return url
+}

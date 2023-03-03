@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './SoonInfo.scss'
 import { Link } from 'react-router-dom'
 import { DetailLayout } from '../detail-layout'
@@ -32,6 +32,7 @@ import LaunchpadDetail from './../../common-widgets/page-soon/LaunchpadDetail'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import { LinkOutlined } from '@ant-design/icons'
 import { LaunchpadTableDetail } from '../../common-widgets/page-soon/LaunchpadTableDetail'
+import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 
 export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
@@ -240,13 +241,67 @@ export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (star
   return null
 }
 
+const loadingTimer = <MySkeletonLoadinng count={1} height={10} />
+
 const SoonInfo = ({ productInfo, ...rest }) => {
   const navigate = useNavigate()
   const itemDetail = productInfo?.details
   const itemTags = productInfo?.mores?.tag
   const itemRoundSales = productInfo?.mores?.roundSale
+  const itemStatus = getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)
+  const itemProgressGoal = 20
   const [websiteLoading, setWebsiteLoading] = useState(false)
   const [top, setTop] = useState()
+  const [timerDay, setTimerDay] = useState(loadingTimer)
+  const [timerHour, setTimerHour] = useState(loadingTimer)
+  const [timerMinute, setTimerMinute] = useState(loadingTimer)
+  const [timerSecond, setTimerSecond] = useState(loadingTimer)
+
+  // milestone in the feture
+  const countDown = (milestoneUnix) => {
+    const second = 1000
+    const minute = second * 60
+    const hour = minute * 60
+    const day = hour * 24
+    const timer = setInterval(() => {
+      const now = getCurrentTimeUnix()
+      const distance = milestoneUnix - now
+
+      setTimerDay(String(Math.floor(distance / (day))).padStart(2, '0'))
+      setTimerHour(String(Math.floor((distance % (day)) / (hour))).padStart(2, '0'))
+      setTimerMinute(String(Math.floor((distance % (hour)) / (minute))).padStart(2, '0'))
+      setTimerSecond(String(Math.floor((distance % (minute)) / second)).padStart(2, '0'))
+
+      // do something later when date is reached
+      if (distance < 0) {
+        document.getElementById('headline').innerText = "It's over in success | failed!"
+        document.getElementById('countdown').style.display = 'none'
+        document.getElementById('content').style.display = 'block'
+        clearInterval(timer)
+      }
+      // seconds
+    }, second)
+  }
+  useEffect(() => {
+    if (itemDetail?.startDate && itemDetail?.endDate) {
+      const soonProjectStatus = itemStatus
+      let milestoneUnix = null
+      switch (soonProjectStatus) {
+        case statusOngoing:{
+          milestoneUnix = convertStringDDMMYYYYToUnix(itemDetail?.endDate)
+          break
+        }
+        case statusUpcoming:{
+          milestoneUnix = convertStringDDMMYYYYToUnix(itemDetail?.startDate)
+          break
+        }
+        case statusPast:{
+          break
+        }
+      }
+      countDown(milestoneUnix)
+    }
+  }, [itemDetail])
 
   const handleReportScam = () => {
     rest?.setData({
@@ -286,14 +341,14 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <div className='profile-email px-2 pt-2'>
           <p className='text-muted mb-0'>
             {
-              itemDetail?.startDate && itemDetail?.endDate ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
-                {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
+              itemDetail?.startDate && itemDetail?.endDate ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(itemStatus)}`}>
+                {itemStatus?.toUpperCase()}
               </span> : txtAbsentTakeUpData
             }
           </p>
           {itemDetail?.countryOrigin &&
             <p style={{ display: 'flex' }}>
-              <i className='material-icons' style={{ fontSize: '0.9rem', display: 'flex', alignItems: 'center' }}>location_on</i>
+              <i className='material-icons text-primary' style={{ fontSize: '0.9rem', display: 'flex', alignItems: 'center' }}>location_on</i>
               {itemDetail?.countryOrigin}
             </p>
           }
@@ -368,7 +423,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const roundSale = (itemRoundSales && !_.isEmpty(itemRoundSales)) ? (
     <div>
       <div className='card-header'>
-        <h4 className='card-title'>{itemDetail?.projectName} IDO</h4>
+        <h4 className='card-title text-primary d-flex align-items-center'>
+          <i className='material-icons fs-30'>auto_awesome</i>
+          &nbsp;
+          {itemDetail?.projectName}&nbsp;IDO
+        </h4>
       </div>
       <div className='card-body' style={{ padding: '0' }}>
         <div className='table-responsive recentOrderTable'>
@@ -392,13 +451,16 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   ) : null
 
   const countDownHtml = <div className='mt-2'>
-    <h1 id='headline' className='countdown'>Countdown to </h1>
+    <h2 id='headline' className='countdown'>{
+      itemStatus === statusOngoing
+        ? 'Countdown to end time' : itemStatus === statusUpcoming ? 'Countdown to start time' : `It's over`
+    } </h2>
     <div id='countdown'>
       <ul>
-        <li className='countdown'><span id='days'></span>days</li>
-        <li className='countdown'><span id='hours'></span>Hours</li>
-        <li className='countdown'><span id='minutes'></span>Minutes</li>
-        <li className='countdown'><span id='seconds'></span>Seconds</li>
+        <li className='countdown'><span>{timerDay}</span>days</li>
+        <li className='countdown'><span>{timerHour}</span>Hours</li>
+        <li className='countdown'><span>{timerMinute}</span>Minutes</li>
+        <li className='countdown'><span>{timerSecond}</span>Seconds</li>
       </ul>
     </div>
     <div id='content' className='emoji'>
@@ -409,11 +471,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   </div>
   const timeAndPercentProcess = <div className='row mb-3 d-flex'>
     <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-center'>
-      <i className='material-icons fs-18'>hourglass_top</i>
+      <i className='material-icons fs-18 text-primary'>hourglass_top</i>
         Start time:&nbsp;<b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b>
     </div>
     <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-center'>
-      <i className='material-icons fs-18'>hourglass_bottom</i>
+      <i className='material-icons fs-18 text-primary'>hourglass_bottom</i>
         End time&nbsp;&nbsp;:&nbsp;<b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b>
     </div>
     <div className='col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5'>
@@ -429,24 +491,49 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
   const summary = (
     <div className='text-center'>
+      <div className='row mb-3 mx-1'>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
+          <div className='progress' style={{ height: '1.2rem' }}>
+            <div className={`progress-bar progress-bar-striped progress-bar-animated ${itemProgressGoal <= 20 ? 'bg-danger' : itemProgressGoal <= 50 ? 'bg-warning' : itemProgressGoal <= 99 ? 'bg-info' : ''}`} role='progressbar' style={{ width: `${itemProgressGoal}%` }} aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'>{itemProgressGoal}% goal</div>
+          </div>
+        </div>
+      </div>
       <div className='row'>
-        <div className='col-4'>
+        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
           </h3>
-          <span className='text-etc-overflow'>{txtGoal}</span>
+          <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
+            <i className='material-icons fs-18 text-primary'>ads_click</i>
+            {txtGoal}
+          </span>
         </div>
-        <div className='col-4'>
+        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
+          <h3 className='m-b-0'>
+            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals / 5)}</Badge>
+          </h3>
+          <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
+            <i className='material-icons fs-18 text-primary'>shopping_cart</i>
+            Sold
+          </span>
+        </div>
+        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.tokenPrice) }</Badge>
-          </h3>{' '}
-          <span className='text-etc-overflow'>Price</span>
+          </h3>
+          <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
+            <i className='material-icons fs-18 text-primary'>payments</i>
+            Price
+          </span>
         </div>
-        <div className='col-4'>
+        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumber(itemDetail?.totalSupply)}</Badge>
-          </h3>{' '}
-          <span className='text-etc-overflow'>Supply</span>
+          </h3>
+          <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
+            <i className='material-icons fs-18 text-primary'>forklift</i>
+            Supply
+          </span>
         </div>
       </div>
       <div className='mt-4 '>
@@ -484,54 +571,79 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const more =
       <div>
         <div className='card-header border-0 pb-0'>
-          <h5 className='heading text-primary'>{itemDetail?.projectName} Information</h5>
+          <h5 className='heading text-primary d-flex align-items-center'>
+            <i className='material-icons fs-30 text-primary'>info</i>
+            &nbsp;
+            {itemDetail?.projectName} Information
+          </h5>
         </div>
         <div className='card-body pt-3'>
           {/* exist alest 1 to display this component */}
           {itemDetail?.projectName && (itemDetail?.roundType || !_.isEmpty(itemDetail?.blockchain || itemDetail?.acceptCurrency || itemDetail?.type || (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) || (itemDetail?.totalReviews || itemDetail?.totalReviews === 0)))
             ? <div className='profile-blog mb-4'>
               <Link to={'#'} >
-                <h4>Short:</h4>
+                <h4 className='d-flex align-items-center'>
+                  <i className='material-icons fs-23 text-primary'>short_text</i>
+                  Short:
+                </h4>
               </Link>
               {
-                itemDetail?.type && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    {`${itemDetail?.projectName}'s token type: `}<span className='text-primary fs-16 text-capitalize'><b>{itemDetail?.type}</b></span>
+                itemDetail?.type && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
+                  <div className='form-check custom-checkbox checkbox-success d-flex align-items-center' style={{ padding: '0' }}>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
+                    {`${itemDetail?.projectName}'s token type:`}
+                  </div>
+                  <div style={{ marginLeft: '1.5rem' }}>
+                    <span className='text-primary fs-16 text-capitalize'><b>{itemDetail?.type}</b></span>
                   </div>
                 </div>
               }
               {
-                itemDetail?.roundType && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    {`${itemDetail?.projectName}'s current round: `}<span className='text-primary fs-16 text-uppercase'><b>{itemDetail?.roundType}</b></span>
+                itemDetail?.roundType && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
+                  <div className='form-check custom-checkbox checkbox-success d-flex align-items-center' style={{ padding: '0' }}>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
+                    {`${itemDetail?.projectName}'s current round:`}
+                  </div>
+                  <div style={{ marginLeft: '1.5rem' }}>
+                    <span className='text-primary fs-16 text-uppercase'><b>{itemDetail?.roundType}</b></span>
                   </div>
                 </div>
               }
               {
                 itemDetail?.acceptCurrency &&
-              <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-                <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                  {`${itemDetail?.projectName} is exchanged in currencies: `}
-                  {itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
-                    <span className='text-primary fs-16 text-uppercase' key={index}>
-                      <b>{keyName}</b>
-                      {/* last element in array */}
-                      {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : ','}
+              <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
+                <div className='form-check custom-checkbox checkbox-success' style={{ padding: '0' }}>
+                  <div className='d-flex align-items-center'>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
+                    <span>
+                      {`${itemDetail?.projectName} is exchanged in currencies:`}
                     </span>
-                  ))}
+                  </div>
+                  <div style={{ marginLeft: '1.5rem' }}>
+                    {itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
+                      <span className='text-primary fs-16 text-uppercase' key={index}>
+                        <b>{keyName}</b>
+                        {/* last element in array */}
+                        {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : <>,&nbsp;</>}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
               }
 
               {
-                !_.isEmpty(itemDetail?.blockchain) && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    {`${itemDetail?.projectName} lives on blockchains: `}
+                !_.isEmpty(itemDetail?.blockchain) && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
+                  <div className='form-check custom-checkboxcheckbox-success d-flex align-items-center' style={{ padding: '0' }}>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
+                    {`${itemDetail?.projectName} lives on blockchains:`}
+                  </div>
+                  <div style={{ marginLeft: '1.5rem' }}>
                     {Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
                       <span className='text-primary fs-16 text-capitalize' key={index}>
                         <b>{keyName}</b>
                         {/* last element in array */}
-                        {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : ','}
+                        {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : <>,&nbsp;</>}
                       </span>
                     ))}
                   </div>
@@ -540,8 +652,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
               {
                 // check like this cus && don't pass zero
-                (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
                     {itemDetail?.projectName} has <span className='text-danger fs-20'><b>{itemDetail?.totalIsScam}</b></span> scam reports
                   </div>
                 </div> : ''
@@ -549,8 +662,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
               {
                 // check like this cus && don't pass zero
-                (itemDetail?.totalReviews || itemDetail?.totalReviews === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                (itemDetail?.totalReviews || itemDetail?.totalReviews === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
                     {itemDetail?.projectName} has <span className='text-primary fs-20'><b>{itemDetail?.totalReviews}</b></span> reviews
                   </div>
                 </div> : ''
@@ -563,10 +677,13 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <div className='crypto-info'>
             <div className=''>
               <Link to={'#'} >
-                <h4>Website:</h4>
+                <h4 className='d-flex align-items-center'>
+                  <i className='material-icons fs-23 text-primary'>language</i>
+                  Website:
+                </h4>
               </Link>
-              <div className='row mt-3'>
-                <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+              <div className='row mt-3' style={{ marginLeft: '1.5rem' }}>
+                <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ paddingLeft: '0' }}>
                   {
                     itemDetail?.whitepaperUrl ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.whitepaperUrl)}>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -661,17 +778,22 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           { !_.isEmpty(itemTags)
             ? <div className='profile-blog mb-3'>
               <Link to={'#'} >
-                <h4>Tag(s):</h4>
+                <h4 className='d-flex align-items-center'>
+                  <i className='material-icons fs-23 text-primary'>sell</i>
+                  Tag:
+                </h4>
               </Link>
-              { Object.keys(itemTags)?.map((index) => (
-                <div
-                  className='mb-0 btn btn-primary light btn-xs mb-2 me-1'
-                  onClick={() => handleClickTag(itemTags[index]?.name)}
-                  key={index}
-                >
-                  {itemTags[index]?.name}
-                </div>
-              )) }
+              <div style={{ marginLeft: '1.5rem' }}>
+                { Object.keys(itemTags)?.map((index) => (
+                  <div
+                    className='mb-0 btn btn-primary light btn-xs mb-2 me-1'
+                    onClick={() => handleClickTag(itemTags[index]?.name)}
+                    key={index}
+                  >
+                    {itemTags[index]?.name}
+                  </div>
+                )) }
+              </div>
             </div> : ''}
 
         </div>
@@ -681,7 +803,10 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const description = itemDetail?.fullDesc || itemDetail?.shortDesc ? (
     <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='heading text-primary'>About {itemDetail?.projectName}</h5>
+        <h5 className='heading text-primary d-flex align-items-center'>
+          <i className='material-icons fs-30 text-primary'>subject</i>
+          About {itemDetail?.projectName}
+        </h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>
