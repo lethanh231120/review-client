@@ -30,12 +30,13 @@ import { CANCEL_ICON } from '../../../images/svg/cancel'
 import { ToggleContext } from '../../index'
 import './custom-header.scss'
 import { PathNameContext } from '../../index'
+import './header.scss'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
 const txtLoginTooltip = 'Sign In'
 const txtSignUpTooltip = 'Sign Up'
-const minimumWidthBigScreenMode = 767
+const minimumWidthBigScreenMode = 767.98
 
 const Header = () => {
   const toggle = useContext(ToggleContext)
@@ -170,9 +171,9 @@ const Header = () => {
 
   </Dropdown>
 
-  const loginHtml = <ul className=''>
+  const loginHtml =
     <Dropdown
-      as='li'
+      // as='li'
       className='nav-item dropdown notification_dropdown'
     >
       <Tooltip title={txtLoginTooltip} placement='left'>
@@ -190,11 +191,10 @@ const Header = () => {
         </Dropdown.Toggle>
       </Tooltip>
     </Dropdown>
-  </ul>
 
-  const signupHtml = <ul className=''>
+  const signupHtml =
     <Dropdown
-      as='li'
+      // as='li'
       className='nav-item dropdown notification_dropdown'
     >
       <Tooltip title={txtSignUpTooltip} placement='left'>
@@ -212,7 +212,6 @@ const Header = () => {
         </Dropdown.Toggle>
       </Tooltip>
     </Dropdown>
-  </ul>
 
   const reportScamHtml = <div className='report-scam'>
     <div className='coccoc-alo-phone report-scam-image-position'>
@@ -236,9 +235,9 @@ const Header = () => {
     </div>
   </div>
 
-  const miniSearchHtml = <ul className=''>
+  const miniSearchHtml =
     <Dropdown
-      as='li'
+      // as='li'
       className='nav-item dropdown notification_dropdown '
     >
       <Dropdown.Toggle
@@ -248,10 +247,9 @@ const Header = () => {
         role='button'
         onClick={() => showFullSearchConext?.setIsShowFullSearchSmallMode(!showFullSearchConext?.isShowFullSearchSmallMode)}
       >
-        { showFullSearchConext?.isShowFullSearchSmallMode ? CANCEL_ICON('#18A493', 17.5, 17.5) : SEARCH_ICON('', 17.5, 17.5) }
+        { showFullSearchConext?.isShowFullSearchSmallMode ? CANCEL_ICON('#18A493', 17.5, 17.5) : SEARCH_ICON('#18A493', 17.5, 17.5) }
       </Dropdown.Toggle>
     </Dropdown>
-  </ul>
 
   return (
     <>
@@ -295,8 +293,8 @@ const Header = () => {
                 {/* side-bar right */}
                 <div className='dz-side-menu'>
                   { isSmallMode ? miniSearchHtml : '' }
-                  <div className='search-coundry d-flex align-items-center'>
-                  </div>
+                  {/* <div className='search-coundry d-flex align-items-center'>
+                  </div> */}
                   <div className='sidebar-social-link '>
                     <div className={`${toggle?.toggle ? 'display-block-btn' : 'display-none-btn'} list-action`}>
                       {reportScamHtml}

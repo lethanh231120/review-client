@@ -719,3 +719,11 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
 	height: auto;
 	display: contents;
 }
+
+
+/* // thanh custom */
+@media only screen and (max-width: 767.99px) {
+  .content-body {
+    margin-left: 0 !important;
+  }
+}
