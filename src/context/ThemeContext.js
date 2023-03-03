@@ -25,6 +25,20 @@ const initialState = {
   windowHeight: 0
 }
 
+const body = document.querySelector('body')
+body.setAttribute('data-typography', 'poppins')
+body.setAttribute('data-theme-version', 'light')
+body.setAttribute('data-layout', 'vertical')
+body.setAttribute('data-primary', 'color_2') // body-background, button, border chart
+body.setAttribute('data-nav-headerbg', 'color_2') // sidebar left header
+body.setAttribute('data-headerbg', 'color_1') // header
+body.setAttribute('data-sidebar-style', 'overlay')
+body.setAttribute('data-sidebarbg', 'color_2') // sidebar left body
+body.setAttribute('data-secondary', 'color_1')
+body.setAttribute('data-sidebar-position', 'fixed')
+body.setAttribute('data-header-position', 'fixed')
+body.setAttribute('data-container', 'wide')
+
 const ThemeContextProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const {
@@ -213,14 +227,13 @@ const ThemeContextProvider = (props) => {
     body.setAttribute('data-container', 'wide')
     // body.setAttribute('direction', 'ltr')
     const resizeWindow = () => {
-      console.log(666666)
       // setWindowWidth(window.innerWidth);
       dispatch({ windowWidth: window.innerWidth })
       // setWindowHeight(window.innerHeight);
       dispatch({ windowHeight: window.innerHeight })
       window.innerWidth >= 768 && window.innerWidth < 1024
         ? body.setAttribute('data-sidebar-style', 'mini')
-        : window.innerWidth <= 768
+        : window.innerWidth < 768
           ? body.setAttribute('data-sidebar-style', 'overlay')
           : body.setAttribute('data-sidebar-style', 'full') // style item in sidebar
     }

@@ -431,9 +431,8 @@ const ProductDetail = () => {
       } else {
         Swal.fire({
           icon: 'warning',
-          title: 'Send Review successfully!',
-          text: `We will hide reviews with Shill, Ads, Porn.... content !
-          With your review, we will review it directly by the admin team. Enjoy Gear5.io, Thank You !`
+          title: 'We will hide reviews with Shill, Ads, Porn.... content !',
+          text: `With your review, we will review it directly by the admin team. Enjoy Gear5.io, Thank You !`
         })
       }
       // set data for form report
