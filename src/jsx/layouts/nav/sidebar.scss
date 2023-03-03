@@ -245,6 +245,8 @@
     -ms-transition: all 0.5s;
     transition: all 0.5s;
     border-radius: 0.625rem;
+    display: flex;
+    align-items: center;
 }
 [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li.mm-active > a i {
     color: #fff;
@@ -276,6 +278,8 @@
     -webkit-transition: all 0.5s;
     -ms-transition: all 0.5s;
     transition: all 0.5s;
+    display: flex;
+    align-items: center;
 }
 [data-sidebar-style="overlay"] .deznav .metismenu > li > a i {
     height: auto;

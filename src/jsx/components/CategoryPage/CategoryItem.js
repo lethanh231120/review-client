@@ -308,7 +308,7 @@ const CategoryItem = () => {
   }, 200)
 
   const getDataSearch = async(content) => {
-    const data = await search('search/suggest', { keyword: content })
+    const data = await search('search/list', { keyword: content })
     if (data) {
       setListProduct(data?.data)
       setLoading(false)

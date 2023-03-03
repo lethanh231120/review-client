@@ -9679,7 +9679,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   border-radius: 0 2.5rem 0 0; }
 
 [data-sidebar-style="overlay"] .content-body {
-  margin-left: 0; }
+  margin-left: 19.5rem; 
+}
 
 [data-sidebar-style="overlay"] .nav-header {
   position: absolute; }
@@ -14905,6 +14906,8 @@ button {
   padding: 0.7875rem 1.819rem;
   border-radius: 0.5rem;
   font-weight: 600;
+  /* display: flex; */
+  /* align-items: center; */
   font-size: 14px;
   line-height: 1.5; }
   .btn:hover, .btn:focus, .btn:active, .btn.active {
@@ -21291,7 +21294,7 @@ div#mCSB_1 {
 
 /* custom coin content */
 .cus-card-header{
-  padding:  1.5rem 1.875rem 0rem !important;
+  /* padding:  1.5rem 1.875rem 0rem !important; */
 }
 
 /* Custom review card body */
@@ -21303,7 +21306,6 @@ div#mCSB_1 {
   height: 100%;
   margin-bottom: 0 !important;
 }
-
 
 /* START: reponsive row 1(banner, summary, top coin) in home */
 /* small menu */

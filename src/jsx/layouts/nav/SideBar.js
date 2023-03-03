@@ -306,15 +306,17 @@ const SideBar = () => {
                       className='has-arrow'
                     >
                       {data.iconStyle}
-                      <span
+                      <div
                         className='nav-text'
+                        style={{ width: '12rem' }}
                         onClick={() => {
                           pathName?.handleChangePathName(data?.title)
                           if (sizeScreen < 767.98) {
                             mainwrapper.classList.remove('menu-toggle')
                             toggle?.handleChangeToggle(false)
                           }
-                        }}>{data.title}</span>
+                        }}
+                      >{data.title}</div>
                       <span
                         className='has-arrow-after'
                         onClick={() => {
@@ -338,7 +340,7 @@ const SideBar = () => {
                       }}
                     >
                       {data.iconStyle}
-                      <span className='nav-text'>{data.title}</span>
+                      <div style={{ width: '12rem' }} className='nav-text'>{data.title}</div>
                     </NavLink>
                   )}
                   <Collapse in={state.active === data.title}>

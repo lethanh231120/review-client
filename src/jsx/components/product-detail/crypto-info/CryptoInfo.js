@@ -369,6 +369,27 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               {productInfo?.details?.symbol ? productInfo?.details?.symbol : ''}
             </span>
           </h4>
+          {productInfo?.details?.type === 'coin' && productInfo?.details?.explorer && (
+            <p className='crypto-info-item-address'>
+              <a
+                href={productInfo?.details?.explorer}
+                target='_blank'
+                rel='noreferrer'
+                className='product-name-text text-primary'
+                style={{ cursor: 'pointer' }}
+              >
+                {/* <Image
+                  alt='Blockchain Logo'
+                  src={isValidProductId(productInfo?.details?.cryptoId)
+                    ? formatImgUrlFromProductId(productInfo?.details?.cryptoId)
+                    : imgAbsentImageCrypto}
+                  preview={false}
+                /> */}
+                {productInfo?.details?.explorer?.split('/')[2]}
+              </a>
+              <LinkOutlined/>
+            </p>
+          )}
           {productInfo?.details?.address && (
             <p className='crypto-info-item-address'>
               <a
