@@ -30,7 +30,7 @@
 }
 // thanh custom
 .dz-side-menu .cus-icon-search {
-    display: none;
+    display: none !important;
 }
 // .cus-header-right{
 //     width: 60%;
@@ -73,7 +73,7 @@
         align-items: center;
     }
     .dz-side-menu .cus-icon-search {
-        display: inline;
+        display: inline !important;
     }
     .cus-header-right {
         width: calc(100% - 35px) !important;
