@@ -1,44 +1,40 @@
 import {
   Drawer,
   Button,
-  Collapse,
   Form,
-  Slider,
   Select,
   Checkbox,
   Row,
   Col
 } from 'antd'
 import React, { useState, useEffect, useContext } from 'react'
-import { CaretRightOutlined } from '@ant-design/icons'
 import { FilterOutlined } from '@ant-design/icons'
 import './drawer.scss'
 import { get } from '../../../api/BaseRequest'
 import {
-  pairCountMarks,
-  visit7dMarks,
-  fullyDilutedMarketCapMarks,
-  totalFundsMarks,
-  // tvlMarks,
-  seriesMarks,
-  marketCapMarks,
-  priceUSDMarks,
-  userMarks,
-  strategicMarks,
-  volume1mMarks,
-  volume7dMarks,
-  fundRaisingGoalsMarks,
-  tokenPriceMarks,
   getScoreMarks,
-  launchpadFoundedYearMarks,
-  launchpadFundRaisedMarks,
-  launchpadAvgRoiCurrentMarks,
-  launchpadAvgRoiATHMarks,
-  launchpadMarketcapMarks,
-  launchpadVolume24hMarks
+  CRYPTO_MARKETCAP_SELECTION,
+  CRYPTO_PRICE_SELECTION,
+  DAPP_USER24H_SELECTION,
+  VENTURE_SERIES_SELECTION,
+  VENTURE_STRATEGIC_SELECTION,
+  VENTURE_TOTALFUNDS_SELECTION,
+  EXCHANGE_PAIRCOUNT_SELECTION,
+  EXCHANGE_VOLUME1M_SELECTION,
+  EXCHANGE_VOLUME7D_SELECTION,
+  EXCHANGE_VISIT7D_SELECTION,
+  SOON_FDMC_SELECTION,
+  SOON_GOAL_SELECTION,
+  SOON_TOKENPRICE_SELECTION,
+  LAUNCHPAD_YEAR_SELECTION,
+  LAUNCHPAD_FUNDRAISED_SELECTION,
+  LAUNCHPAD_ATHROI_SELECTION,
+  LAUNCHPAD_ROICURRENT_SELECTION,
+  LAUNCHPAD_MARKETCAP_SELECTION,
+  LAUNCHPAD_VOLUME24H_SELECTION
 } from './marks.js'
-import { cryptoFilterDefaultValue, dappFilterDefaultValue, exchangeFilterDefaultValue, fromObjectToArray, launchpadFilterDefaultValue, soonFilterDefaultValue, ventureFilterDefaultValue } from './defaultValues'
 import { LaunchpadMapContext } from '../../../App'
+import _ from 'lodash'
 
 const tradingOnList = [
   { label: 'Uniswap', value: 'isUniswap' },
@@ -49,7 +45,6 @@ const tradingOnList = [
 
 const DrawerFilter = ({ type, handleFilter }) => {
   const [showDrawer, setShowDrawer] = useState(false)
-  const { Panel } = Collapse
   const [form] = Form.useForm()
   const [tagList, setTagList] = useState([])
   const { Option } = Select
@@ -58,23 +53,27 @@ const DrawerFilter = ({ type, handleFilter }) => {
   const [roundType, setRoundType] = useState([])
   const [initialValues, setInititalValues] = useState()
   const launchpadContext = useContext(LaunchpadMapContext)
+  const [launchpadList, setLaunchpadList] = useState([])
   const [filterCount, setFilterCount] = useState(0)
-  const [defautlActiveKey, setDefaultActiveKey] = useState([])
+  // const [defautlActiveKey, setDefaultActiveKey] = useState([])
 
-  const mapDefaultOpenPanel = () => {
-    const data = []
-    const savedStates = window.localStorage.getItem(type) && JSON.parse(window.localStorage.getItem(type))
-    savedStates && Object.keys(savedStates)?.forEach(key => {
-      data.push(key)
+  useEffect(() =>{
+    const temp = Array.from(launchpadContext)?.map(item => ({ label: item[1]?.name, value: item[1]?.launchPadId }))
+    temp && setLaunchpadList(launchpadList => [{ label: 'All', value: '' }, ...temp])
+  }, [])
+  const fromObjectToArray = (stringData) => {
+    const arr = []
+    const parsedData = JSON.parse(stringData)
+
+    parsedData && Object.keys(parsedData)?.forEach(key => {
+      if (!_.isEmpty(parsedData[key])) {
+        arr.push({ name: key, value: parsedData[key] })
+      }
     })
-
-    setDefaultActiveKey(data)
+    return arr
   }
-
-  const getNewFormData = (key, defaultValue) => {
-    if (!window.localStorage.getItem(key)) {
-      setInititalValues(defaultValue)
-    } else {
+  const getNewFormData = (key) => {
+    if (window.localStorage.getItem(key)) {
       setInititalValues(fromObjectToArray(window.localStorage.getItem(key)))
     }
   }
@@ -83,22 +82,22 @@ const DrawerFilter = ({ type, handleFilter }) => {
     if (type) {
       switch (type) {
         case 'dapp':
-          getNewFormData('dapp', dappFilterDefaultValue)
+          getNewFormData('dapp')
           break
         case 'crypto':
-          getNewFormData('crypto', cryptoFilterDefaultValue)
+          getNewFormData('crypto')
           break
         case 'exchange':
-          getNewFormData('exchange', exchangeFilterDefaultValue)
+          getNewFormData('exchange')
           break
         case 'soon':
-          getNewFormData('soon', soonFilterDefaultValue)
+          getNewFormData('soon')
           break
         case 'venture':
-          getNewFormData('venture', ventureFilterDefaultValue)
+          getNewFormData('venture')
           break
         case 'launchpad':
-          getNewFormData('launchpad', launchpadFilterDefaultValue)
+          getNewFormData('launchpad')
           break
         default:
           break
@@ -107,17 +106,36 @@ const DrawerFilter = ({ type, handleFilter }) => {
   }
 
   useEffect(() => {
-    let count = 0
-    if (window.localStorage.getItem(type)) {
-      count = Object.keys(JSON.parse(window.localStorage.getItem(type))).length
+    if (type === 'crypto') {
+      if (window.localStorage.getItem(type)) {
+        const savedData = JSON.parse(window.localStorage.getItem(type))
+        Object.keys(savedData).forEach(key => {
+          if (key === 'type') {
+            setCryptoType(savedData[key])
+          }
+        })
+      }
     }
+  }, [])
+
+  useEffect(() => {
+    let count = 0
+
+    if (window.localStorage.getItem(type)) {
+      const savedData = JSON.parse(window.localStorage.getItem(type))
+      Object.keys(savedData).forEach(key => {
+        if (!_.isEmpty(savedData[key])) {
+          count++
+        }
+      })
+    }
+
     setFilterCount(count)
   }, [])
 
   useEffect(() => {
     setFormNewData()
-    mapDefaultOpenPanel()
-  }, [])
+  }, [showDrawer])
 
   const openDrawer = (type) => {
     setShowDrawer(true)
@@ -137,7 +155,8 @@ const DrawerFilter = ({ type, handleFilter }) => {
   const getCryptoTag = async() => {
     if (type === 'crypto') {
       const res = await get(`reviews/tag?type=${cryptoType}`)
-      setTagList(res?.data)
+      const temp = res?.data
+      temp && setTagList(tagList => ['All', ...temp])
     }
   }
 
@@ -145,13 +164,16 @@ const DrawerFilter = ({ type, handleFilter }) => {
     if (showDrawer) {
       if (type === 'dapp') {
         const res = await get('reviews/tag?type=dapp')
-        setTagList(res?.data)
+        const temp = res?.data
+        temp && setTagList(tagList => ['All', ...temp])
       } else if (type === 'exchange') {
         const res = await get('reviews/tag?type=exchange')
-        setTagList(res?.data)
+        const temp = res?.data
+        temp && setTagList(tagList => ['All', ...temp])
       } else if (type === 'soon') {
         const res = await get('reviews/tag?type=soon')
-        setTagList(res?.data)
+        const temp = res?.data
+        temp && setTagList(tagList => ['All', ...temp])
       }
     }
   }
@@ -159,19 +181,26 @@ const DrawerFilter = ({ type, handleFilter }) => {
   const getLocation = async() => {
     if (showDrawer) {
       const res = await get('reviews/location')
-      setLocation(res?.data)
+      const temp = res?.data
+      temp && setLocation(location => ['All', ...temp])
     }
   }
 
   const getRoundType = async() => {
     if (showDrawer) {
       const res = await get('reviews/roundtype')
-      setRoundType(res?.data)
+      const temp = res?.data
+      temp && setRoundType(roundType => ['All', ...temp])
     }
   }
-
   useEffect(() => {
-    cryptoType && getCryptoTag()
+    if (cryptoType === 'coin') {
+      getCryptoTag()
+    }
+    if (cryptoType === 'token' || cryptoType === '') {
+      form.setFieldValue('tag', '')
+      setTagList([])
+    }
   }, [cryptoType])
 
   useEffect(() => {
@@ -185,8 +214,8 @@ const DrawerFilter = ({ type, handleFilter }) => {
       getOtherTag()
     }
   }, [showDrawer])
-
   const onFinish = (values) => {
+    console.log(values)
     // SAVE STATE INTO LOCAL STORAGE
     window.localStorage.setItem(type, JSON.stringify(values))
     const filterParams = {}
@@ -194,24 +223,24 @@ const DrawerFilter = ({ type, handleFilter }) => {
     // ---------------------------CRYPTO
     if (type === 'crypto') {
       // PRICE
-      if (values?.priceUSD) {
+      if (values?.priceUSD?.from && values?.priceUSD?.to) {
         filterParams['priceUSD'] = `${
-          priceUSDMarks[values?.priceUSD[0]]?.value
-        }.${priceUSDMarks[values?.priceUSD[1]]?.value}`
+          values?.priceUSD?.from
+        }.${values?.priceUSD?.to}`
       }
 
       // --MARKET CAP
-      if (values?.marketCap) {
+      if (values?.marketcapUSD?.from && values?.marketcapUSD?.to) {
         filterParams['marketcapUSD'] = `${
-          marketCapMarks[values?.marketCap[0]]?.value
-        }.${marketCapMarks[values?.marketCap[1]]?.value}`
+          values?.marketcapUSD?.from
+        }.${values?.marketcapUSD?.to}`
       }
 
       // TOTAL LP USD
-      if (values?.totalLpUSD) {
+      if (values?.totalLpUSD?.from && values?.totalLpUSD?.from) {
         filterParams['totalLpUSD'] = `${
-          marketCapMarks[values?.totalLpUSD[0]]?.value
-        }.${marketCapMarks[values?.totalLpUSD[1]]?.value}`
+          values?.totalLpUSD?.from
+        }.${values?.totalLpUSD?.to}`
       }
 
       // TRADING ON
@@ -220,17 +249,19 @@ const DrawerFilter = ({ type, handleFilter }) => {
       }
 
       // --TYPE
-      if (values?.type) {
-        filterParams['type'] = values?.type
-      }
+      filterParams['type'] = values?.type
 
       if (values?.tag) {
-        filterParams['tag'] = values?.tag
+        if (values?.tag === 'All') {
+          filterParams['tag'] = ''
+        } else {
+          filterParams['tag'] = values?.tag
+        }
       }
 
-      if (values?.score) {
-        filterParams['score'] = `${getScoreMarks('crypto')[values?.score[0]]?.value}.${
-          getScoreMarks('crypto')[values?.score[1]]?.value
+      if (values?.score?.from && values?.score?.from) {
+        filterParams['score'] = `${values?.score?.from}.${
+          values?.score?.to
         }`
       }
       // --IS SCAM
@@ -245,29 +276,33 @@ const DrawerFilter = ({ type, handleFilter }) => {
     // ---------------------------DAPP
     if (type === 'dapp') {
       // --VOLUME 24H
-      if (values?.volume24h) {
+      if (values?.volume24h?.from && values?.volume24h?.to) {
         filterParams['volume24h'] = `${
-          marketCapMarks[values?.volume24h[0]]?.value
-        }.${marketCapMarks[values?.volume24h[1]]?.value}`
+          values?.volume24h?.from
+        }.${values?.volume24h?.to}`
       }
 
       // --USER 24H
-      if (values?.user24h) {
-        filterParams['user24h'] = `${userMarks[values?.user24h[0]]?.value}.${
-          userMarks[values?.user24h[1]]?.value
+      if (values?.user24h?.from && values?.user24h?.to) {
+        filterParams['user24h'] = `${values?.user24h?.from}.${
+          values?.user24h?.to
         }`
       }
 
       // --TVL
-      if (values?.balance) {
-        filterParams['balance'] = `${marketCapMarks[values?.balance[0]]?.value}.${
-          marketCapMarks[values?.balance[1]]?.value
+      if (values?.balance?.from && values?.balance?.to) {
+        filterParams['balance'] = `${values?.balance?.from}.${
+          values?.balance?.to
         }`
       }
 
       // ------=---------TAG
       if (values?.tag) {
-        filterParams['tag'] = values?.tag
+        if (values?.tag === 'All') {
+          filterParams['tag'] = ''
+        } else {
+          filterParams['tag'] = values?.tag
+        }
       }
 
       if (values?.isScam) {
@@ -281,54 +316,58 @@ const DrawerFilter = ({ type, handleFilter }) => {
     // ---------------------------VENTURE
     if (type === 'venture') {
       // --VOLUME TOTAL FUND
-      if (values?.volumeTotalFunds) {
+      if (values?.volumeTotalFunds?.from && values?.volumeTotalFunds?.to) {
         filterParams['volumeTotalFunds'] = `${
-          marketCapMarks[values?.volumeTotalFunds[0]]?.value
-        }.${marketCapMarks[values?.volumeTotalFunds[1]]?.value}`
+          values?.volumeTotalFunds?.from
+        }.${values?.volumeTotalFunds?.to}`
       }
 
       // Series A
-      if (values?.seriesA) {
-        filterParams['seriesA'] = `${seriesMarks[values?.seriesA[0]]?.value}.${
-          seriesMarks[values?.seriesA[1]]?.value
+      if (values?.seriesA?.from && values?.seriesA?.to) {
+        filterParams['seriesA'] = `${values?.seriesA?.from}.${
+          values?.seriesA?.to
         }`
       }
 
       // Series B
-      if (values?.seriesB) {
-        filterParams['seriesB'] = `${seriesMarks[values?.seriesB[0]]?.value}.${
-          seriesMarks[values?.seriesB[1]]?.value
+      if (values?.seriesB?.from && values?.seriesB?.to) {
+        filterParams['seriesB'] = `${values?.seriesB?.from}.${
+          values?.seriesB?.to
         }`
       }
 
       // Series C
-      if (values?.seriesC) {
-        filterParams['seriesC'] = `${seriesMarks[values?.seriesC[0]]?.value}.${
-          seriesMarks[values?.seriesC[1]]?.value
+      if (values?.seriesC?.from && values?.seriesC?.to) {
+        filterParams['seriesC'] = `${values?.seriesC?.from}.${
+          values?.seriesC?.to
         }`
       }
 
       if (values?.location) {
-        filterParams['location'] = values?.location
+        if (values?.location === 'All') {
+          filterParams['location'] = ''
+        } else {
+          filterParams['location'] = values?.location
+        }
       }
 
       // Ico
-      if (values?.ico) {
-        filterParams['ico'] = `${seriesMarks[values?.ico[0]]?.value}.${
-          seriesMarks[values?.ico[1]]?.value
+      if (values?.ico?.from && values?.ico?.to) {
+        filterParams['ico'] = `${values?.seriesC?.from}.${
+          values?.seriesC?.to
         }`
       }
 
-      if (values?.strategic) {
+      if (values?.strategic?.from && values?.strategic?.to) {
         filterParams['strategic'] = `${
-          strategicMarks[values?.strategic[0]]?.value
-        }.${strategicMarks[values?.strategic[1]]?.value}`
+          values?.strategic?.from
+        }.${values?.strategic?.to}`
       }
 
-      if (values?.totalFund) {
+      if (values?.totalFund?.from && values?.totalFund?.to) {
         filterParams['totalFund'] = `${
-          totalFundsMarks[values?.totalFund[0]]?.value
-        }.${totalFundsMarks[values?.totalFund[1]]?.value}`
+          values?.totalFund?.from
+        }.${values?.totalFund?.to}`
       }
 
       if (values?.isScam) {
@@ -344,36 +383,36 @@ const DrawerFilter = ({ type, handleFilter }) => {
       // --PAIR COUNT
       if (values?.pairCount) {
         filterParams['pairCount'] = `${
-          pairCountMarks[values?.pairCount[0]]?.value
-        }.${pairCountMarks[values?.pairCount[1]]?.value}`
+          values?.pairCount?.from
+        }.${values?.pairCount?.to}`
       }
 
       // --VISIT 7D
       if (values?.visit7d) {
-        filterParams['visit7d'] = `${visit7dMarks[values?.visit7d[0]]?.value}.${
-          visit7dMarks[values?.visit7d[1]]?.value
+        filterParams['visit7d'] = `${values?.visit7d?.from}.${
+          values?.visit7d?.to
         }`
       }
 
       // --VOLUME 24H
       if (values?.volume24h) {
         filterParams['volume24h'] = `${
-          marketCapMarks[values?.volume24h[0]]?.value
-        }.${marketCapMarks[values?.volume24h[1]]?.value}`
+          values?.volume24h?.from
+        }.${values?.volume24h?.to}`
       }
 
       // --VOLUME 7D
       if (values?.volume7d) {
         filterParams['volume7d'] = `${
-          volume7dMarks[values?.volume7d[0]]?.value
-        }.${volume7dMarks[values?.volume7d[1]]?.value}`
+          values?.volume7d?.from
+        }.${values?.volume7d?.to}`
       }
 
       // --VOLUME 1M
       if (values?.volume1m) {
         filterParams['volume1m'] = `${
-          volume1mMarks[values?.volume1m[0]]?.value
-        }.${volume1mMarks[values?.volume1m[1]]?.value}`
+          values?.volume1m?.from
+        }.${values?.volume1m?.to}`
       }
 
       if (values?.isScam) {
@@ -387,27 +426,29 @@ const DrawerFilter = ({ type, handleFilter }) => {
     // -------------------SOON
     if (type === 'soon') {
       if (values?.roundType) {
-        filterParams['roundType'] = values?.roundType
+        if (values?.roundType === 'All') {
+          filterParams['roundType'] = ''
+        } else {
+          filterParams['roundType'] = values?.roundType
+        }
       }
 
-      if (values?.fullyDilutedMarketCap) {
+      if (values?.fullyDilutedMarketCap?.from && values?.fullyDilutedMarketCap?.to) {
         filterParams['fullyDilutedMarketCap'] = `${
-          fullyDilutedMarketCapMarks[values?.fullyDilutedMarketCap[0]]?.value
-        }.${
-          fullyDilutedMarketCapMarks[values?.fullyDilutedMarketCap[1]]?.value
-        }`
+          values?.fullyDilutedMarketCap?.from
+        }.${values?.fullyDilutedMarketCap?.to}`
       }
 
-      if (values?.fundRaisingGoals) {
+      if (values?.fundRaisingGoals?.from && values?.fundRaisingGoals?.to) {
         filterParams['fundRaisingGoals'] = `${
-          fundRaisingGoalsMarks[values?.fundRaisingGoals[0]]?.value
-        }.${fundRaisingGoalsMarks[values?.fundRaisingGoals[1]]?.value}`
+          values?.fundRaisingGoals?.from
+        }.${values?.fundRaisingGoals?.to}`
       }
 
-      if (values?.tokenPrice) {
+      if (values?.tokenPrice?.from && values?.tokenPrice?.to) {
         filterParams['tokenPrice'] = `${
-          tokenPriceMarks[values?.tokenPrice[0]]?.value
-        }.${tokenPriceMarks[values?.tokenPrice[1]]?.value}`
+          values?.tokenPrice?.from
+        }.${values?.tokenPrice?.to}`
       }
 
       if (values?.launchpad) {
@@ -415,78 +456,112 @@ const DrawerFilter = ({ type, handleFilter }) => {
       }
 
       if (values?.tag) {
-        filterParams['tag'] = values?.tag
+        if (values?.tag === 'All') {
+          filterParams['tag'] = ''
+        } else {
+          filterParams['tag'] = values?.tag
+        }
       }
     }
     if (type === 'launchpad') {
       // Market cap
-      if (values?.marketCap) {
+      if (values?.marketCap?.from && values?.marketCap?.to) {
         filterParams['marketCap'] = `${
-          launchpadMarketcapMarks[values?.marketCap[0]]?.value
+          values?.marketCap?.from
         }.${
-          launchpadMarketcapMarks[values?.marketCap[1]]?.value
+          values?.marketCap?.to
         }`
       }
 
       // total fund raise
-      if (values?.totalFundsRaised) {
+      if (values?.totalFundsRaised?.from && values?.totalFundsRaised?.to) {
         filterParams['totalFundsRaised'] = `${
-          launchpadFundRaisedMarks[values?.totalFundsRaised[0]]?.value
-        }.${launchpadFundRaisedMarks[values?.totalFundsRaised[1]]?.value}`
+          values?.totalFundsRaised?.from
+        }.${values?.totalFundsRaised?.to}`
       }
 
       // year founded
-      if (values?.yearFounded) {
+      if (values?.yearFounded?.from && values?.yearFounded?.to) {
         filterParams['yearFounded'] = `${
-          launchpadFoundedYearMarks[values?.yearFounded[0]]?.value
-        }.${launchpadFoundedYearMarks[values?.yearFounded[1]]?.value}`
+          values?.yearFounded?.from
+        }.${values?.yearFounded?.to}`
       }
 
       // avgRoiCurrent
-      if (values?.avgRoiCurrent) {
+      if (values?.avgRoiCurrent?.from && values?.avgRoiCurrent?.to) {
         filterParams['avgRoiCurrent'] = `${
-          launchpadAvgRoiCurrentMarks[values?.avgRoiCurrent[0]]?.value
-        }.${launchpadAvgRoiCurrentMarks[values?.avgRoiCurrent[1]]?.value}`
+          values?.avgRoiCurrent?.from
+        }.${values?.avgRoiCurrent?.to}`
       }
 
       // avgRoiATH
-      if (values?.avgRoiATH) {
+      if (values?.avgRoiATH?.from && values?.avgRoiATH?.to) {
         filterParams['avgRoiATH'] = `${
-          launchpadAvgRoiATHMarks[values?.avgRoiATH[0]]?.value
-        }.${launchpadAvgRoiATHMarks[values?.avgRoiATH[1]]?.value}`
+          values?.avgRoiATH?.from
+        }.${values?.avgRoiATH?.to}`
       }
 
       // colume 24h
-      if (values?.volume24h) {
+      if (values?.volume24h?.from && values?.volume24h?.to) {
         filterParams['volume24h'] = `${
-          launchpadVolume24hMarks[values?.volume24h[0]]?.value
-        }.${launchpadVolume24hMarks[values?.volume24h[1]]?.value}`
+          values?.volume24h?.from
+        }.${values?.volume24h?.to}`
       }
 
       // Score
-      if (values?.score) {
-        filterParams['score'] = `${getScoreMarks('launchpad')[values?.score[0]]?.value}.${
-          getScoreMarks('launchpad')[values?.score[1]]?.value
+      if (values?.score?.from && values?.score?.to) {
+        filterParams['score'] = `${values?.score?.from}.${
+          values?.score?.to
         }`
       }
     }
-
+    console.log(filterParams)
     handleFilter(filterParams)
     setShowDrawer(false)
   }
 
-  const CustomSlider = (header, key, marks) =>{
-    return <Panel header={header} className='filter-item' key={key}>
-      <Form.Item name={key}>
-        <Slider
-          range
-          defaultValue={[0, Object.keys(marks)?.length - 1]}
-          marks={marks}
-          min={0}
-          max={Object.keys(marks)?.length - 1 }
-        />
-      </Form.Item>
-    </Panel>
+  const customDropDown = (options, attr, header) => {
+    return <Row >
+      <Col span={6}>{header}:</Col>
+      <Col span={7}>
+        <Form.Item name={[attr, 'from']}
+          key={[attr, 'from']}
+          rules={[
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                const max = getFieldValue(attr)?.to
+                if (max) {
+                  if (value > max) {
+                    return Promise.reject(`${header} filter not valid`)
+                  }
+                }
+                return Promise.resolve()
+              }
+            })
+          ]}
+        >
+          <Select options={options} />
+        </Form.Item>
+      </Col>
+      <Col span={4} className='d-flex justify-content-center mt-1'>To</Col>
+      <Col span={7}>
+        <Form.Item name={[attr, 'to']} key={[attr, 'to']} rules={[
+          ({ getFieldValue }) => ({
+            validator(rule, value) {
+              const min = getFieldValue(attr)?.from
+              if (min) {
+                if (value < min) {
+                  return Promise.reject(`${header} filter not valid`)
+                }
+              }
+              return Promise.resolve()
+            }
+          })
+        ]}>
+          <Select options={options}/>
+        </Form.Item></Col>
+
+    </Row>
   }
 
   return (
@@ -499,113 +574,99 @@ const DrawerFilter = ({ type, handleFilter }) => {
       </Button>
 
       <Drawer
-        width='50%'
+        width='20%'
         title={`Filter ${
           type.toString()[0].toUpperCase() + type.toString().substring(1)
         }`}
         placement='right'
+        style={{ borderTopLeftRadius: '30px', borderBottomLeftRadius: '30px' }}
         onClose={closeDrawer}
         open={showDrawer}
         destroyOnClose={true}
         className='filter'
       >
-        <Form form={form} onFinish={onFinish} fields={initialValues} >
-          <Collapse
-            defaultActiveKey={defautlActiveKey}
-            bordered={false}
-            expandIcon={({ isActive }) => (
-              <CaretRightOutlined rotate={isActive ? 90 : 0} />
-            )}
-            style={{ display: 'block' }}
-          >
-            {type === 'crypto' && (
-              <>
-                <Panel header='Type' className='filter-item' key='type'>
-                  <Form.Item name='type'>
-                    <Select
-                      placeholder='Crypto Type'
-                      onChange={(e) => setCryptoType(e)}
-                      width='100%'
-                    >
-                      <Option value='coin'>Coin</Option>
-                      <Option value='token'>Token</Option>
-                    </Select>
-                  </Form.Item>
-                </Panel>
-
-                {CustomSlider('Market Cap', 'marketCap', marketCapMarks)}
-                {CustomSlider('Price', 'priceUSD', priceUSDMarks)}
-                {CustomSlider('Total LP', 'totalLpUSD', marketCapMarks)}
-
-                <Panel header='Trading On' className='filter-item' key='tradingOn'>
-                  <Form.Item name='tradingOn'>
-                    <Select
-                      mode='multiple'
-                      options={tradingOnList}
-                      placeholder='Exchanges'
-                    ></Select>
-                  </Form.Item>
-                </Panel>
-
-                <Panel header='Tag' className='filter-item' key='tag'>
-                  <Form.Item name='tag'>
-                    <Select
-                      showSearch
-                      style={{ width: '100%' }}
-                      options={
-                        tagList &&
+        <Form form={form} onFinish={onFinish} fields={initialValues}>
+          {type === 'crypto' && (
+            <>
+              <Form.Item name='type' label='Crypto Type'>
+                <Select
+                  placeholder='Crypto Type'
+                  onChange={(e) => setCryptoType(e)}
+                  width='100%'
+                >
+                  <Option value=''>All</Option>
+                  <Option value='coin'>Coin</Option>
+                  <Option value='token'>Token</Option>
+                </Select>
+              </Form.Item>
+              <Form.Item name='tag' label='Tag'>
+                <Select
+                  notFoundContent={<div style={{ color: 'green' }}>Only Type Coin has tags</div>}
+                  showSearch
+                  style={{ width: '100%' }}
+                  options={
+                    tagList &&
                       tagList?.map((item) => ({ label: item, value: item }))
-                      }
-                    />
-                  </Form.Item>
-                </Panel>
+                  }
+                />
+              </Form.Item>
+              {customDropDown(CRYPTO_PRICE_SELECTION, 'priceUSD', 'Price USD')}
+              {customDropDown(CRYPTO_MARKETCAP_SELECTION, 'marketcapUSD', 'Market Cap USD')}
+              {customDropDown(CRYPTO_MARKETCAP_SELECTION, 'totalLpUSD', 'Total LP USD')}
 
-                { CustomSlider('Score', 'score', getScoreMarks('crypto'))}
+              <Form.Item name='tradingOn' label='Trading On'>
+                <Select
+                  mode='multiple'
+                  options={tradingOnList}
+                  placeholder='Exchanges'
+                ></Select>
+              </Form.Item>
 
-                <Row style={{ width: '100%', display: 'flex' }}>
-                  <Col span={11}>
-                    { (
-                      // -------------------- <div>
-                      <Form.Item
-                        name='isWarning'
-                        label='Warning:'
-                        valuePropName='checked'
-                      >
-                        <Checkbox />
-                      </Form.Item>
-                    )}
-                  </Col>
+              {customDropDown(getScoreMarks('crypto'), 'score', 'Score')}
 
+              <Row style={{ width: '100%', display: 'flex' }}>
+                <Col span={11}>
                   { (
-                    <Form.Item name='isScam' label='Scam' valuePropName='checked'>
+                    // -------------------- <div>
+                    <Form.Item
+                      name='isWarning'
+                      label='Warning:'
+                      valuePropName='checked'
+                    >
                       <Checkbox />
                     </Form.Item>
                   )}
-                </Row>
+                </Col>
 
-              </>
+                { (
+                  <Form.Item name='isScam' label='Scam' valuePropName='checked'>
+                    <Checkbox />
+                  </Form.Item>
+                )}
+              </Row>
 
-            )}
+            </>
 
-            {
-              type === 'dapp' &&
+          )}
+
+          {
+            type === 'dapp' &&
                (<>
-                 {CustomSlider('Volume 24h', 'volume24h', marketCapMarks)}
-                 {CustomSlider('User 24h', 'user24h', userMarks)}
-                 {CustomSlider('Balance', 'balance', marketCapMarks)}
+                 {customDropDown(CRYPTO_MARKETCAP_SELECTION, 'volume24h', 'Volume 24H')}
+                 {customDropDown(DAPP_USER24H_SELECTION, 'user24h', 'User 24H')}
+                 {customDropDown(CRYPTO_MARKETCAP_SELECTION, 'balance', 'Balance')}
 
-                 <Panel header='Tag' className='filter-item' key='tag'>
-                   <Form.Item name='tag'>
-                     <Select
-                       showSearch
-                       style={{ width: '100%' }}
-                       options={
-                         tagList &&
+                 <Form.Item name='tag' label='Tag'>
+                   <Select
+                     placeholder='Tag'
+                     showSearch
+                     style={{ width: '100%' }}
+                     options={
+                       tagList &&
                     tagList?.map((item) => ({ label: item, value: item }))
-                       }
-                     />
-                   </Form.Item>
-                 </Panel>
+                     }
+                   />
+                 </Form.Item>
 
                  {/* { CustomSlider('Score', 'score', getScoreMarks('dapp'))} */}
 
@@ -630,146 +691,136 @@ const DrawerFilter = ({ type, handleFilter }) => {
                    )}
                  </Row>
                </>)
-            }
+          }
 
-            {type === 'venture' && (
-              <>
-                {CustomSlider('Series A', 'seriesA', seriesMarks)}
-                {CustomSlider('Series B', 'seriesB', seriesMarks)}
-                {CustomSlider('Series C', 'seriesC', seriesMarks)}
-                {CustomSlider('ICO', 'ico', seriesMarks)}
-                {CustomSlider('Strategic', 'strategic', strategicMarks)}
-                {CustomSlider('Total Fund', 'totalFund', totalFundsMarks)}
-                {CustomSlider('Volume Total Funds', 'volumeTotalFunds', marketCapMarks)}
+          {type === 'venture' && (
+            <>
+              {customDropDown(VENTURE_SERIES_SELECTION, 'seriesA', 'Series A')}
+              {customDropDown(VENTURE_SERIES_SELECTION, 'seriesB', 'Series B')}
+              {customDropDown(VENTURE_SERIES_SELECTION, 'seriesC', 'Series C')}
+              {customDropDown(VENTURE_SERIES_SELECTION, 'ico', 'ICO')}
+              {customDropDown(VENTURE_STRATEGIC_SELECTION, 'strategic', 'Strategic')}
+              {customDropDown(VENTURE_TOTALFUNDS_SELECTION, 'totalFund', 'Total Fund')}
+              {customDropDown(CRYPTO_MARKETCAP_SELECTION, 'volumeTotalFunds', 'Volume Total Fund')}
 
-                <Panel header='Location' className='filter-item' key='location'>
-                  <Form.Item name='location'>
-                    <Select
-                      placeholder='Location'
-                      showSearch
-                      options={location?.map((item) => ({
-                        label: item,
-                        value: item
-                      }))}
-                    />
-                  </Form.Item>
-                </Panel>
+              <Form.Item name='location' label='Location'>
+                <Select
+                  placeholder='Location'
+                  showSearch
+                  options={location?.map((item) => ({
+                    label: item,
+                    value: item
+                  }))}
+                />
+              </Form.Item>
 
-                <Row style={{ width: '100%', display: 'flex' }}>
-                  <Col span={11}>
-                    { (
-                      // -------------------- <div>
-                      <Form.Item
-                        name='isWarning'
-                        label='Warning:'
-                        valuePropName='checked'
-                      >
-                        <Checkbox />
-                      </Form.Item>
-                    )}
-                  </Col>
-
+              <Row style={{ width: '100%', display: 'flex' }}>
+                <Col span={11}>
                   { (
-                    <Form.Item name='isScam' label='Scam' valuePropName='checked'>
+                    // -------------------- <div>
+                    <Form.Item
+                      name='isWarning'
+                      label='Warning:'
+                      valuePropName='checked'
+                    >
                       <Checkbox />
                     </Form.Item>
                   )}
-                </Row>
-              </>
-            )}
+                </Col>
 
-            {type === 'exchange' && (
-              <>
-                {CustomSlider('Pair Count', 'pairCount', pairCountMarks)}
-                {CustomSlider('Volume 24H', 'volume24h', marketCapMarks)}
-                {CustomSlider('Volume 7D', 'volume7d', volume7dMarks)}
-                {CustomSlider('Volume 1M', 'volume1m', volume1mMarks)}
-                {CustomSlider('Visit 7D', 'visit7d', visit7dMarks)}
+                { (
+                  <Form.Item name='isScam' label='Scam' valuePropName='checked'>
+                    <Checkbox />
+                  </Form.Item>
+                )}
+              </Row>
+            </>
+          )}
 
-                <Row style={{ width: '100%', display: 'flex' }}>
-                  <Col span={11}>
-                    { (
-                      // -------------------- <div>
-                      <Form.Item
-                        name='isWarning'
-                        label='Warning:'
-                        valuePropName='checked'
-                      >
-                        <Checkbox />
-                      </Form.Item>
-                    )}
-                  </Col>
+          {type === 'exchange' && (
+            <>
+              {customDropDown(EXCHANGE_PAIRCOUNT_SELECTION, 'pairCount', 'Pair Count')}
+              {customDropDown(CRYPTO_MARKETCAP_SELECTION, 'volume24h', 'Volume 24H')}
+              {customDropDown(EXCHANGE_VOLUME7D_SELECTION, 'volume7d', 'Volume 7D')}
+              {customDropDown(EXCHANGE_VOLUME1M_SELECTION, 'volume1m', 'Volume 1M')}
+              {customDropDown(EXCHANGE_VISIT7D_SELECTION, 'visit7d', 'Visit 7D')}
 
+              <Row style={{ width: '100%', display: 'flex' }}>
+                <Col span={11}>
                   { (
-                    <Form.Item name='isScam' label='Scam' valuePropName='checked'>
+                    // -------------------- <div>
+                    <Form.Item
+                      name='isWarning'
+                      label='Warning:'
+                      valuePropName='checked'
+                    >
                       <Checkbox />
                     </Form.Item>
                   )}
-                </Row>
-              </>
-            )}
+                </Col>
 
-            {type === 'soon' && (
+                { (
+                  <Form.Item name='isScam' label='Scam' valuePropName='checked'>
+                    <Checkbox />
+                  </Form.Item>
+                )}
+              </Row>
+            </>
+          )}
+
+          {type === 'soon' && (
+            <>
+              <Form.Item name='roundType' label='Round Type'>
+                <Select
+                  showSearch
+                  placeholder='Round Type'
+                  width='100%'
+                  options={roundType?.map((item) => ({
+                    label: item,
+                    value: item
+                  }))}
+                ></Select>
+              </Form.Item>
+
+              <Form.Item name='tag' label='Tag'>
+                <Select
+                  showSearch
+                  placeholder='Tag'
+                  width='100%'
+                  options={tagList?.map((item) => ({
+                    label: item,
+                    value: item
+                  }))}
+                ></Select>
+              </Form.Item>
+              {customDropDown(SOON_FDMC_SELECTION, 'fullyDilutedMarketCap', 'Market Cap')}
+              {customDropDown(SOON_GOAL_SELECTION, 'fundRaisingGoals', 'Goal')}
+              {customDropDown(SOON_TOKENPRICE_SELECTION, 'tokenPrice', 'Token Price')}
+
+              <Form.Item name='launchpad' label='Launchpad'>
+                <Select
+                  showSearch
+                  placeholder='Launchpad'
+                  width='100%'
+                  options={launchpadList}
+                ></Select>
+              </Form.Item>
+            </>
+          )}
+
+          {
+            type === 'launchpad' &&
               <>
-                <Panel header='Round Type' className='filter-item' key='roundType'>
-                  <Form.Item name='roundType'>
-                    <Select
-                      showSearch
-                      placeholder='Round Type'
-                      width='100%'
-                      options={roundType?.map((item) => ({
-                        label: item,
-                        value: item
-                      }))}
-                    ></Select>
-                  </Form.Item>
-                </Panel>
-
-                <Panel header='Tag' className='filter-item' key='tag'>
-                  <Form.Item name='tag'>
-                    <Select
-                      showSearch
-                      placeholder='Tag'
-                      width='100%'
-                      options={tagList?.map((item) => ({
-                        label: item,
-                        value: item
-                      }))}
-                    ></Select>
-                  </Form.Item>
-                </Panel>
-
-                {CustomSlider('Fully Diluted Market Cap', 'fullyDilutedMarketCap', fullyDilutedMarketCapMarks)}
-                {CustomSlider('Fund Raising Goals', 'fundRaisingGoals', fundRaisingGoalsMarks)}
-                {CustomSlider('Token Price', 'tokenPrice', tokenPriceMarks)}
-
-                <Panel header='Launchpad' className='filter-item' key='launchpad'>
-                  <Form.Item name='launchpad'>
-                    <Select
-                      showSearch
-                      placeholder='Launchpad'
-                      width='100%'
-                      options={Array.from(launchpadContext)?.map(item => ({ label: item[1]?.name, value: item[1]?.launchPadId }))}
-                    ></Select>
-                  </Form.Item>
-                </Panel>
+                {customDropDown(LAUNCHPAD_YEAR_SELECTION, 'yearFounded', 'Founded Year')}
+                {customDropDown(LAUNCHPAD_FUNDRAISED_SELECTION, 'totalFundsRaised', 'Raised')}
+                {customDropDown(LAUNCHPAD_ROICURRENT_SELECTION, 'avgRoiCurrent', 'AVG ROI Current')}
+                {customDropDown(LAUNCHPAD_ATHROI_SELECTION, 'avgRoiATH', 'AVG ATH ROI')}
+                {customDropDown(LAUNCHPAD_MARKETCAP_SELECTION, 'marketCap', 'Market Cap')}
+                {customDropDown(LAUNCHPAD_VOLUME24H_SELECTION, 'volume24h', 'Volume 24H')}
+                {customDropDown(getScoreMarks('launchpad'), 'score', 'Score')}
               </>
-            )}
+          }
 
-            {
-              type === 'launchpad' &&
-              <>
-                { CustomSlider('Year Founded', 'yearFounded', launchpadFoundedYearMarks)}
-                { CustomSlider('Total Fund Raised', 'totalFundsRaised', launchpadFundRaisedMarks)}
-                { CustomSlider('Average ROI Current', 'avgRoiCurrent', launchpadAvgRoiCurrentMarks)}
-                { CustomSlider('Average ROI ATH', 'avgRoiATH', launchpadAvgRoiATHMarks)}
-                { CustomSlider('Market Cap', 'marketCap', launchpadMarketcapMarks)}
-                { CustomSlider('Volume24h', 'volume24h', launchpadVolume24hMarks)}
-                { CustomSlider('Score', 'score', getScoreMarks('launchpad'))}
-              </>
-            }
-
-          </Collapse>
           <div>
             <Button htmlType='text' style={{ backgroundColor: '#18A594', color: '#fff', borderColor: '#18A594', minWidth: '6.875rem' }} >
               Filter

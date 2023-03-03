@@ -8,7 +8,7 @@ const Sitemap = require('react-router-sitemap').default
 function generateSitemap() {
   return (
     new Sitemap(router)
-      .build('https://soon1.geaar5.io')
+      .build('https://soon1.gear5.io')
       .save('./public/sitemap.xml')
   )
 }

@@ -3,6 +3,12 @@ import { formatMoneyLessOneDollar, formatMoneyGreaterEqualOneDollar, formatLarge
 import TradingViewWidget from '../../common-widgets/home/home-chart/trading-view-chart'
 
 const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, symbolForChart }) => {
+  const STABLE_COINS = ['USDT', 'USDC', 'DAI', 'BUSD']
+  const STABLE_SYMBOlS = []
+  STABLE_COINS.forEach(symbol => {
+    STABLE_SYMBOlS.push(`BINANCE:${symbol}USDT`)
+  })
+
   return (
     <>
       <div className='coin-content'>
@@ -41,7 +47,7 @@ const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, s
           </div>
           {/* <div id="bitcoinhChart"></div> */}
           <div className='mt-2'>
-            {symbolForChart && <TradingViewWidget symbol={symbolForChart}/> }
+            {symbolForChart && !STABLE_SYMBOlS.includes(symbolForChart) && <TradingViewWidget symbol={symbolForChart}/> }
           </div>
         </div>
       </div>

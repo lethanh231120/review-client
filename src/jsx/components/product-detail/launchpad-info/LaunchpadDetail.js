@@ -323,7 +323,8 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
     },
     {
       title: 'Market Cap',
-      render: (_, record) => <span>{formatMoney(record?.fullyDilutedMarketcap)}</span>
+      render: (_, record) => <span>{formatMoney(record?.fullyDilutedMarketcap)}</span>,
+      responsive: ['sm', 'lg']
     },
     {
       title: 'Goal',
