@@ -10,7 +10,7 @@ import moment from 'moment'
 // import FormReport from '../../Forms/form-report/FormReport'
 import { useNavigate } from 'react-router-dom'
 import { LoadingOutlined } from '@ant-design/icons'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import { isValidProductId, formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
 import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 import { websiteIcon } from '../../common-widgets/icons'
 import MyScoreComponent from '../../score/scoreComponent'
@@ -88,13 +88,13 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     <div className='row'>
       <div className='col'>
         <h3 className='m-b-0'>
-          <Badge bg='badge-l' className='badge-success'>{productInfo?.details?.totalReviews}</Badge>
+          <Badge bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalReviews}</Badge>
         </h3>
         <span>Reviews</span>
       </div>
       <div className='col'>
         <h3 className='m-b-0'>
-          <Badge bg='badge-l' className='badge-warning'>{productInfo?.details?.totalIsScam}</Badge>
+          <Badge bg='badge-l' className='badge-warning progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalIsScam}</Badge>
         </h3>
         <span>
         Reported Scam
@@ -159,7 +159,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
                 <Tooltip
                   className='me-1 mt-2'
                   placementTooltip='topLeft'
-                  title={socialName}
+                  title={toCammelCase(socialName)}
                   key={socialName}
                 >
                   <a
@@ -222,7 +222,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
 
             {detail?.socials && (
               <div className='community-list-item'>
-                {communityItem('Socials', detail?.socials)}
+                {communityItem('Social', detail?.socials)}
               </div>
             )}
           </div>
@@ -288,7 +288,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
         <h5 className='heading text-primary'>{detail?.ventureName} Portfolio</h5>
       </div>
       <div className='card-body pt-3'>
-        <div className='profile-blog portfolio-table'>
+        <div className='profile-blog portfolio-table table-responsive'>
           <Table
             rowClassName='portfolio-item portfolio-table'
             columns={portfolioColumns}

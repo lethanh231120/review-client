@@ -12,15 +12,21 @@ export const NotFoundProduct = () => {
             <div className='form-input-content text-center error-page'>
               <h1 className='error-text fw-bold'>WOW</h1>
               <h4>
-                <i className='fa fa-exclamation-triangle text-info' />{` This product don't exist in system.`}
+                <i className='fa fa-info-circle text-primary' />{` This product don't exist in system.`}
               </h4>
               <p>
                 We are very happy if you contribute product you are finding, to make a extraordinary thing, it is valuable to our social and community.
               </p>
               <div>
-                {/* 0 currrent not found product page -->  -1 back not found page --> -2 before not found page */}
-                <Button className='btn btn-primary' onClick={() => navigate('/add-project') }>
+                <Button className='btn btn-primary' onClick={() => navigate('/') } style={{ marginRight: '1rem' }}>
+                  Go Home
+                </Button>
+                <Button className='btn-lg btn-primary' onClick={() => navigate('/add-project') } style={{ marginRight: '1rem' }}>
                   Contribute
+                </Button>
+                {/* 0 currrent not found product page -->  -1 back not found page --> -2 before not found page */}
+                <Button className='btn btn-primary' onClick={() => navigate(-2) }>
+                  Back
                 </Button>
               </div>
             </div>

@@ -15,7 +15,7 @@ export const ExchangeDetail = ({ coinName, exchangeList }) => {
 
   return coinName && !_.isEmpty(exchangeList) ? <div className='crypto-info'>
     <div>
-      <div className='crypto-info-item-key'>Exchanges: </div>
+      <div className='crypto-info-item-key'>Exchange: </div>
       <div className='row mt-3'>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
           <div

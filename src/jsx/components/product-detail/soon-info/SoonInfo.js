@@ -50,9 +50,9 @@ const statusOngoing = 'ongoing'
 const statusPast = 'past'
 
 // display in FE
-const displayUpcoming = 'COMING IN'
-const displayOngoing = 'ACTIVE IN'
-const displayPast = 'ENDED'
+const displayUpcoming = 'START IN'
+const displayOngoing = 'END IN'
+const displayPast = 'ENDED IN'
 
 const getDisplayFromSoonStatus = (status) => {
   switch (status) {
@@ -163,34 +163,39 @@ const getRelativeHumanTime = (timestamp) => {
   // If there are years
   if (time > (1000 * 60 * 60 * 24 * 365)) {
     humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 365), 10)
-    units = 'year'
-  } else// If there are months
+    units = 'years'
+  } else
+  // If there are months
   if (time > (1000 * 60 * 60 * 24 * 30)) {
     humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 30), 10)
-    units = 'month'
-  } else // If there are weeks
+    units = 'months'
+  } else
+  // If there are weeks
   if (time > (1000 * 60 * 60 * 24 * 7)) {
     humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 7), 10)
-    units = 'week'
-  } else // If there are days
+    units = 'weeks'
+  } else
+  // If there are days
   if (time > (1000 * 60 * 60 * 24)) {
     humanTime = parseInt(time / (1000 * 60 * 60 * 24), 10)
-    units = 'day'
-  } else// If there are hours
+    units = 'days'
+  } else
+  // If there are hours
   if (time > (1000 * 60 * 60)) {
     humanTime = parseInt(time / (1000 * 60 * 60), 10)
-    units = 'hour'
-  } else // If there are minutes
+    units = 'hours'
+  } else
+  // If there are minutes
   if (time > (1000 * 60)) {
     humanTime = parseInt(time / (1000 * 60), 10)
-    units = 'minute'
+    units = 'minutes'
   } else {
-    // Otherwise, use seconds
+  // Otherwise, use seconds
     humanTime = parseInt(time / (1000), 10)
-    units = 'second'
+    units = 'seconds'
   }
 
-  return humanTime + ' ' + units
+  return `≈${humanTime} ${units}`
 }
 
 export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (startDate, endDate) => {
@@ -219,7 +224,7 @@ export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (star
     return <>
       <div className='d-flex align-items-center justify-content-center'>
         <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
-  Ended in
+        Ended in
       </div>
       <div className='d-flex align-items-center justify-content-center'>
         <b className={`${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago</b>
@@ -315,8 +320,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const [timerMinute, setTimerMinute] = useState(loadingTimer)
   const [timerSecond, setTimerSecond] = useState(loadingTimer)
   const itemStatus = getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)
-  const [timerHeadline, setTimerHeadline] = useState(itemStatus === statusOngoing
-    ? 'Countdown to end time' : itemStatus === statusUpcoming ? 'Countdown to start time' : `It's over`)
+  const [timerHeadline, setTimerHeadline] = useState()
   const [timerCountdownShow, setTimerCountdownShow] = useState(true)
   const [timerCountdownHideContent, setTimerCountdownHideContent] = useState(false)
 
@@ -326,9 +330,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     const minute = second * 60
     const hour = minute * 60
     const day = hour * 24
+
     const timer = setInterval(() => {
       const now = getCurrentTimeUnix()
       let distance
+
       // in the feture
       if (milestoneUnix) {
         distance = milestoneUnix - now
@@ -353,6 +359,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     }, second)
   }
   useEffect(() => {
+    setTimerHeadline(itemStatus === statusOngoing
+      ? 'Countdown to end time' : itemStatus === statusUpcoming ? 'Countdown to start time' : `It's over`)
+
     if (itemDetail?.startDate && itemDetail?.endDate) {
       const soonProjectStatus = itemStatus
       let milestoneUnix = null
@@ -456,6 +465,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'left',
       dataIndex: 'type',
       key: 'type',
       render: (_, record) => (<><b className='text-primary'>{record?.type}</b></>)
@@ -469,6 +479,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <InfoCircleOutlined />
       </Tooltip>
     </span>,
+    align: 'left',
     dataIndex: 'start',
     key: 'start',
     render: (_, record) => (<>{record?.start ? moment(record?.start).format(formatDateStyle) : txtTBA}</>)
@@ -482,6 +493,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <InfoCircleOutlined />
       </Tooltip>
     </span>,
+    align: 'left',
     dataIndex: 'end',
     key: 'end',
     render: (_, record) => (<>{record?.end ? moment(record?.end).format(formatDateStyle) : txtTBA}</>)
@@ -495,6 +507,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <InfoCircleOutlined />
       </Tooltip>
     </span>,
+    align: 'left',
     dataIndex: 'launchPadId',
     key: 'launchPadId',
     render: (_, record) => (<LaunchpadTableDetail launchpadId={record?.launchPadId} />)
@@ -508,6 +521,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <InfoCircleOutlined />
       </Tooltip>
     </span>,
+    align: 'right',
     dataIndex: 'raise',
     key: 'raise',
     render: (_, record) => (<><b className='text-primary'>{formatLargeNumberMoneyUSD(record?.raise)}</b></>)
@@ -521,6 +535,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <InfoCircleOutlined />
       </Tooltip>
     </span>,
+    align: 'right',
     dataIndex: 'tokenForSale',
     key: 'tokenForSale',
     render: (_, record) => (<>{formatLargeNumber(record?.tokenForSale)}</>)
@@ -534,6 +549,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <InfoCircleOutlined />
       </Tooltip>
     </span>,
+    align: 'right',
     dataIndex: 'price',
     key: 'price',
     render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.price)}</>)
@@ -547,9 +563,10 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <InfoCircleOutlined />
       </Tooltip>
     </span>,
+    align: 'right',
     dataIndex: 'status',
     key: 'status',
-    render: (_, record) => record?.start && record?.end ? (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
+    render: (_, record) => record?.start && record?.end ? (<span className={`badge badge-rounded text-uppercase ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
       {`${getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))} ${getRelativeTimeString(record?.start, record?.end)}`}
     </span>) : (txtAbsentTakeUpData)
     }
@@ -565,33 +582,31 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       </div>
       <div className='card-body' style={{ padding: '0' }}>
         <div className='table-responsive recentOrderTable'>
-          <table className='table verticle-middle table-responsive-md'>
-            <Table
-              columns={columns}
-              expandable={{
-                expandedRowRender: (record) => <p className='text-primary' style={{ margin: '0 0 0 5rem' }}><b>{record.lockUpPeriod}</b></p>,
-                rowExpandable: (record) => record.lockUpPeriod, // have data
-                defaultExpandAllRows: true
-              }}
-              dataSource={itemRoundSales}
-              className='soon-table-round-sale'
-              pagination={false}
-              rowKey={(record) => record?.id}
-            />
-          </table>
+          <Table
+            columns={columns}
+            expandable={{
+              expandedRowRender: (record) => <p className='text-primary' style={{ margin: '0 0 0 5rem' }}><b>{record.lockUpPeriod}</b></p>,
+              rowExpandable: (record) => record.lockUpPeriod, // have data
+              defaultExpandAllRows: true
+            }}
+            dataSource={itemRoundSales}
+            className='soon-table-round-sale'
+            pagination={false}
+            rowKey={(record) => record?.id}
+          />
         </div>
       </div>
     </div>
   ) : null
 
   const countDownHtml = <div className='mt-4 text-center'>
-    <h2 className='countdown'>{timerHeadline} </h2>
+    <h2 className='countdown'>{timerHeadline}</h2>
     {timerCountdownShow ? <div>
       <ul>
-        <li className='countdown'><span>{timerDay}</span>days</li>
-        <li className='countdown'><span>{timerHour}</span>Hours</li>
-        <li className='countdown'><span>{timerMinute}</span>Minutes</li>
-        <li className='countdown'><span>{timerSecond}</span>Seconds</li>
+        <li className='countdown'><span id='days'>{timerDay}</span>days</li>
+        <li className='countdown'><span id='hours'>{timerHour}</span>Hours</li>
+        <li className='countdown'><span id='minutes'>{timerMinute}</span>Minutes</li>
+        <li className='countdown'><span id='seconds'>{timerSecond}</span>Seconds</li>
       </ul>
     </div> : ''}
     {
@@ -613,10 +628,6 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         End time&nbsp;&nbsp;:&nbsp;<b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b>
     </div>
     <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-      <hr className='hr-custome'></hr>
-      { (itemDetail?.startDate && itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDateDetail(itemDetail?.startDate, itemDetail?.endDate) : txtAbsentTakeUpData}
-    </div>
-    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
       {countDownHtml}
     </div>
   </div>
@@ -629,11 +640,15 @@ const SoonInfo = ({ productInfo, ...rest }) => {
             <div className={`progress-bar progress-bar-striped progress-bar-animated ${itemProgressGoal <= 20 ? 'bg-danger' : itemProgressGoal <= 50 ? 'bg-warning' : itemProgressGoal <= 99 ? 'bg-info' : ''}`} role='progressbar' style={{ width: `${itemProgressGoal}%` }} aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'>{itemProgressGoal}% goal</div>
           </div>
         </div>
+        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+          <hr className='hr-custome'></hr>
+          { (itemDetail?.startDate && itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDateDetail(itemDetail?.startDate, itemDetail?.endDate) : txtAbsentTakeUpData}
+        </div>
       </div>
       <div className='row'>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
           <h3 className='m-b-0'>
-            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals / 5)}</Badge>
+            <Badge bg='warning' text='white' className='progress-bar-striped progress-bar-animated'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals / 5)}</Badge>
           </h3>
           <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
             <i className='material-icons fs-18 text-primary'>shopping_cart</i>
@@ -642,7 +657,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         </div>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
           <h3 className='m-b-0'>
-            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.tokenPrice) }</Badge>
+            <Badge bg='warning' text='white' className='progress-bar-striped progress-bar-animated'>{formatLargeNumberMoneyUSD(itemDetail?.tokenPrice) }</Badge>
           </h3>
           <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
             <i className='material-icons fs-18 text-primary'>payments</i>
@@ -651,7 +666,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         </div>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
           <h3 className='m-b-0'>
-            <Badge bg='warning' text='white'>{formatLargeNumber(itemDetail?.totalSupply)}</Badge>
+            <Badge bg='warning' text='white' className='progress-bar-striped progress-bar-animated'>{formatLargeNumber(itemDetail?.totalSupply)}</Badge>
           </h3>
           <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
             <i className='material-icons fs-18 text-primary'>forklift</i>
@@ -660,7 +675,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         </div>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
           <h3 className='m-b-0'>
-            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
+            <Badge bg='warning' text='white' className='progress-bar-striped progress-bar-animated'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
           </h3>
           <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
             <i className='material-icons fs-18 text-primary'>ads_click</i>
@@ -785,9 +800,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               {
                 // check like this cus && don't pass zero
                 (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success d-flex align-items-center' style={{ padding: '0' }}>
                     <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
-                    {itemDetail?.projectName} has <span className='text-danger fs-20'><b>{itemDetail?.totalIsScam}</b></span> scam reports
+                    {itemDetail?.projectName} has&nbsp;<span className='text-danger fs-20'><b>{itemDetail?.totalIsScam}</b></span>&nbsp;scam reports
                   </div>
                 </div> : ''
               }
@@ -795,9 +810,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               {
                 // check like this cus && don't pass zero
                 (itemDetail?.totalReviews || itemDetail?.totalReviews === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success  d-flex align-items-center' style={{ padding: '0' }}>
                     <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
-                    {itemDetail?.projectName} has <span className='text-primary fs-20'><b>{itemDetail?.totalReviews}</b></span> reviews
+                    {itemDetail?.projectName} has&nbsp;<span className='text-primary fs-20'><b>{itemDetail?.totalReviews}</b></span>&nbsp;reviews
                   </div>
                 </div> : ''
               }
