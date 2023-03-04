@@ -27,3 +27,14 @@ export const launchpadExplain = {
   'marketCap': 'Launchpad market capitalization',
   'score': 'Gear5 score for this launchpad'
 }
+
+export const soonRoundSaleExplain = {
+  'round': 'round',
+  'start': 'start',
+  'end': 'end',
+  'launchPadId': 'launchpad',
+  'raise': 'raise',
+  'tokenForSale': 'total',
+  'price': 'price',
+  'status': 'status'
+}

@@ -33,6 +33,8 @@ import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import { LinkOutlined } from '@ant-design/icons'
 import { LaunchpadTableDetail } from '../../common-widgets/page-soon/LaunchpadTableDetail'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { soonRoundSaleExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 
 export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
@@ -204,11 +206,11 @@ export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (star
     return <>
       <div className='d-flex align-items-center justify-content-center'>
         <i className={`${classTxtOngoing} material-icons fs-18`}>rocket_launch</i>
-        Started in&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
+      Started in&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
       </div>
       <div className='d-flex align-items-center justify-content-center'>
         <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
-        End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
+      End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
       </div>
     </>
   } else
@@ -240,6 +242,65 @@ export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (star
 
   return null
 }
+
+const getTimeRelativeQuantificationWithNowFromStartDateAndEndDateDetail = (startDate, endDate) => {
+  const myCurrentDateTimeUnix = getCurrentTimeUnix()
+
+  // string "15-05-2018" to date unix time
+  const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
+
+  const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
+
+  // Ongoing
+  if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
+    return <div className='row mt-2'>
+      <div className='col-6'>
+        <div className='d-flex align-items-center justify-content-center'>
+          <i className={`${classTxtOngoing} material-icons fs-18`}>rocket_launch</i>
+        Started in&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
+        </div>
+      </div>
+      <div className='col-6'>
+        <div className='d-flex align-items-center justify-content-center'>
+          <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
+        End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
+        </div>
+      </div>
+    </div>
+  } else
+  // Past
+  if (myCurrentDateTimeUnix > endDateUnix) {
+    return <div className='row mt-2'>
+      <div className='col-12'>
+        <div className='d-flex align-items-center justify-content-center'>
+          <i className={`${classTxtPast} material-icons fs-18`}>rocket_launch</i>
+        Ended in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago</b>
+        </div>
+      </div>
+    </div>
+  } else
+  // Upcoming
+  if (myCurrentDateTimeUnix < startDateUnix) {
+    return <div className='row mt-2'>
+      <div className='col-6'>
+        <div className='d-flex align-items-center justify-content-center'>
+          <i className={`${classTxtUpcoming} material-icons fs-18`}>rocket_launch</i>
+        Start in&nbsp;<b className={`${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b>
+        </div>
+      </div>
+      <div className='col-6'>
+        <div className='d-flex align-items-center justify-content-center'>
+          <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
+      End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
+        </div>
+      </div>
+    </div>
+  }
+
+  return null
+}
+
+console.log(getTimeRelativeQuantificationWithNowFromStartDateAndEndDateDetail)
 
 const loadingTimer = <MySkeletonLoadinng count={1} height={10} />
 
@@ -377,47 +438,111 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
   const columns = [
     {
-      title: 'Round',
+      title: <span className='crypto-table-tooltip text-black'>
+        Round
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={soonRoundSaleExplain['round']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       dataIndex: 'type',
       key: 'type',
-      render: (_, record) => (<>{record?.type}</>)
+      render: (_, record) => (<><b className='text-primary'>{record?.type}</b></>)
     },
-    { title: 'Start',
-      dataIndex: 'start',
-      key: 'start',
-      render: (_, record) => (<>{record?.start ? moment(record?.start).format(formatDateStyle) : txtTBA}</>)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Start
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['start']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'start',
+    key: 'start',
+    render: (_, record) => (<>{record?.start ? moment(record?.start).format(formatDateStyle) : txtTBA}</>)
     },
-    { title: 'End',
-      dataIndex: 'end',
-      key: 'end',
-      render: (_, record) => (<>{record?.end ? moment(record?.end).format(formatDateStyle) : txtTBA}</>)
+    { title: <span className='crypto-table-tooltip text-black'>
+      End
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['end']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'end',
+    key: 'end',
+    render: (_, record) => (<>{record?.end ? moment(record?.end).format(formatDateStyle) : txtTBA}</>)
     },
-    { title: 'Launchpad',
-      dataIndex: 'launchPadId',
-      key: 'launchPadId',
-      render: (_, record) => (<LaunchpadTableDetail launchpadId={record?.launchPadId} />)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Launchpad
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['launchPadId']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'launchPadId',
+    key: 'launchPadId',
+    render: (_, record) => (<LaunchpadTableDetail launchpadId={record?.launchPadId} />)
     },
-    { title: 'Raise',
-      dataIndex: 'raise',
-      key: 'raise',
-      render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.raise)}</>)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Raise
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['raise']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'raise',
+    key: 'raise',
+    render: (_, record) => (<><b className='text-primary'>{formatLargeNumberMoneyUSD(record?.raise)}</b></>)
     },
-    { title: 'Total',
-      dataIndex: 'tokenForSale',
-      key: 'tokenForSale',
-      render: (_, record) => (<>{formatLargeNumber(record?.tokenForSale)}</>)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Total
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['tokenForSale']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'tokenForSale',
+    key: 'tokenForSale',
+    render: (_, record) => (<>{formatLargeNumber(record?.tokenForSale)}</>)
     },
-    { title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-      render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.price)}</>)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Price
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['price']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'price',
+    key: 'price',
+    render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.price)}</>)
     },
-    { title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: (_, record) => record?.start || record?.end ? (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
-        {`${getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))} ${getRelativeTimeString(record?.start, record?.end)}`}
-      </span>) : (txtAbsentTakeUpData)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Status
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['status']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'status',
+    key: 'status',
+    render: (_, record) => record?.start || record?.end ? (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
+      {`${getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))} ${getRelativeTimeString(record?.start, record?.end)}`}
+    </span>) : (txtAbsentTakeUpData)
     }
   ]
   const roundSale = (itemRoundSales && !_.isEmpty(itemRoundSales)) ? (
@@ -450,7 +575,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </div>
   ) : null
 
-  const countDownHtml = <div className='mt-2'>
+  const countDownHtml = <div className='mt-4 text-center'>
     <h2 id='headline' className='countdown'>{
       itemStatus === statusOngoing
         ? 'Countdown to end time' : itemStatus === statusUpcoming ? 'Countdown to start time' : `It's over`
@@ -470,19 +595,17 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </div>
   </div>
   const timeAndPercentProcess = <div className='row mb-3 d-flex'>
-    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-center'>
+    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-center justify-content-center'>
       <i className='material-icons fs-18 text-primary'>hourglass_top</i>
         Start time:&nbsp;<b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b>
     </div>
-    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-center'>
+    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-center justify-content-center'>
       <i className='material-icons fs-18 text-primary'>hourglass_bottom</i>
         End time&nbsp;&nbsp;:&nbsp;<b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b>
     </div>
-    <div className='col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5'>
-    </div>
-    <div className='col-xl-7 col-lg-7 col-md-7 col-sm-7 col-7'>
+    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
       <hr className='hr-custome'></hr>
-      { (itemDetail?.startDate && itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate) : txtAbsentTakeUpData}
+      { (itemDetail?.startDate && itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDateDetail(itemDetail?.startDate, itemDetail?.endDate) : txtAbsentTakeUpData}
     </div>
     <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
       {countDownHtml}
