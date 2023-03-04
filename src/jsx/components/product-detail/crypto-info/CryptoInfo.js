@@ -40,6 +40,23 @@ import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import { websiteIcon } from '../../common-widgets/icons'
 import { ExchangeDetail } from '../../common-widgets/page-crypto/ExchangeDetail'
 
+import {
+  FacebookIcon,
+  LinkedinIcon,
+  PinterestIcon,
+  RedditIcon,
+  TelegramIcon,
+  TwitterIcon
+} from 'react-share'
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  TelegramShareButton,
+  LinkedinShareButton,
+  PinterestShareButton,
+  RedditShareButton
+} from 'react-share'
+import Similar from '../similar/Similar'
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const PAGE_SIZE = 10
   const navigate = useNavigate()
@@ -291,7 +308,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     window.scrollTo(0, top)
   }
 
-  const columns = [
+  const columnExchanges = [
     {
       title: 'Exchange',
       dataIndex: 'symbol',
@@ -338,6 +355,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   ]
 
+  // console.log(window.location.href)
   // Header
   const header = (
     <div className='profile-info'>
@@ -369,83 +387,139 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               {productInfo?.details?.symbol ? productInfo?.details?.symbol : ''}
             </span>
           </h4>
-          {productInfo?.details?.type === 'coin' && productInfo?.details?.explorer && (
-            <p className='crypto-info-item-address'>
-              <a
-                href={productInfo?.details?.explorer}
-                target='_blank'
-                rel='noreferrer'
-                className='product-name-text text-primary'
-                style={{ cursor: 'pointer' }}
-              >
-                {/* <Image
-                  alt='Blockchain Logo'
-                  src={isValidProductId(productInfo?.details?.cryptoId)
-                    ? formatImgUrlFromProductId(productInfo?.details?.cryptoId)
-                    : imgAbsentImageCrypto}
-                  preview={false}
-                /> */}
-                {productInfo?.details?.explorer?.split('/')[2]}
-              </a>
-              <LinkOutlined/>
-            </p>
-          )}
-          {productInfo?.details?.address && (
-            <p className='crypto-info-item-address'>
-              <a
-                href={mainExplorer}
-                target='_blank'
-                rel='noreferrer'
-                className='product-name-text text-primary'
-                style={{ cursor: 'pointer' }}
-              >
-                <Image
-                  alt='Blockchain Logo'
-                  src={chainList[`${productInfo?.details?.chainName}`]?.image}
-                  preview={false}
+          <div className='d-flex align-items-center'>
+
+            {productInfo?.details?.type === 'coin' && productInfo?.details?.explorer && (
+              <p className='crypto-info-item-address'>
+                <a
+                  href={productInfo?.details?.explorer}
+                  target='_blank'
+                  rel='noreferrer'
+                  className='product-name-text text-primary'
+                  style={{ cursor: 'pointer' }}
+                >
+                  {productInfo?.details?.explorer?.split('/')[2]}
+                </a>
+                <LinkOutlined/>
+              </p>
+            )}
+            {productInfo?.details?.address && (
+              <p className='crypto-info-item-address'>
+                <a
+                  href={mainExplorer}
+                  target='_blank'
+                  rel='noreferrer'
+                  className='product-name-text text-primary'
+                  style={{ cursor: 'pointer' }}
+                >
+                  <Image
+                    alt='Blockchain Logo'
+                    src={chainList[`${productInfo?.details?.chainName}`]?.image}
+                    preview={false}
+                  />
+                  {`${productInfo?.details?.address?.slice(
+                    0,
+                    5
+                  )}...${productInfo?.details?.address?.slice(
+                    productInfo?.details?.address?.length - 5,
+                    productInfo?.details?.address?.length
+                  )}`}
+                </a>
+                <CopyOutlined
+                  style={{ padding: '0, 1rem' }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    copyContractAddress(e, productInfo?.details?.address)
+                  }}
                 />
-                {`${productInfo?.details?.address?.slice(
-                  0,
-                  5
-                )}...${productInfo?.details?.address?.slice(
-                  productInfo?.details?.address?.length - 5,
-                  productInfo?.details?.address?.length
-                )}`}
-              </a>
-              <CopyOutlined
-                style={{ padding: '0, 1rem' }}
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  copyContractAddress(e, productInfo?.details?.address)
-                }}
-              />
-            </p>
+              </p>
+            )}
+            {productInfo?.details?.type && (
+              <Badge className='badge-sm' >{productInfo?.details?.type}</Badge>
+            )}
+          </div>
+        </div>
+
+        <div className='detail-button'>
+          <Dropdown className='sidebar-dropdown me-2 cus-dropdown'>
+            <Dropdown.Toggle
+              variant=''
+              as='a'
+              className='ai-icon i-false c-pointer button-signup-home'
+              role='button'
+            >
+              <Button className='btn btn-primary'>Share</Button>
+            </Dropdown.Toggle>
+            <Dropdown.Menu className='detail-list-social-share'>
+              <Dropdown.Item >
+                <FacebookShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <FacebookIcon size={26} round />
+                  </span>
+                </FacebookShareButton>
+              </Dropdown.Item>
+              <Dropdown.Item >
+                <TwitterShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <TwitterIcon size={26} round={true}/>
+                  </span>
+                </TwitterShareButton>
+              </Dropdown.Item>
+              <Dropdown.Item >
+                <TelegramShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <TelegramIcon size={26} round={true}/>
+                  </span>
+                </TelegramShareButton>
+              </Dropdown.Item>
+              <Dropdown.Item >
+                <LinkedinShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <LinkedinIcon size={26} round={true}/>
+                  </span>
+                </LinkedinShareButton>
+              </Dropdown.Item>
+              <Dropdown.Item >
+                <PinterestShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <PinterestIcon size={26} round={true}/>
+                  </span>
+                </PinterestShareButton>
+              </Dropdown.Item>
+              <Dropdown.Item >
+                <RedditShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <RedditIcon size={26} round={true}/>
+                  </span>
+                </RedditShareButton>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          {productInfo?.details?.website && (
+            <Button
+              className='btn btn-primary ms-auto'
+              onClick={() =>
+                openWebsite(
+                  productInfo?.details?.website,
+                  setLoading,
+                  waitMillSecOpenWebsite
+                )
+              }
+            >
+              {loading ? (
+                <Spin
+                  indicator={<LoadingOutlined spin />}
+                  style={{ color: 'white', marginRight: '0.3rem' }}
+                />
+              ) : (
+                ''
+              )}
+              {websiteIcon}
+            Website
+            </Button>
           )}
         </div>
-        {productInfo?.details?.website && (
-          <Button
-            className='btn btn-primary mb-1 ms-auto'
-            onClick={() =>
-              openWebsite(
-                productInfo?.details?.website,
-                setLoading,
-                waitMillSecOpenWebsite
-              )
-            }
-          >
-            {loading ? (
-              <Spin
-                indicator={<LoadingOutlined spin />}
-                style={{ color: 'white', marginRight: '0.3rem' }}
-              />
-            ) : (
-              ''
-            )}
-            {websiteIcon}
-            Website
-          </Button>
-        )}
       </div>
     </div>
   )
@@ -941,7 +1015,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           </div>
           <div className='card-body pt-3 exchange'>
             <Table
-              columns={columns}
+              columns={columnExchanges}
               dataSource={dataExchange}
               pagination={
                 dataExchange?.length > 10
@@ -958,6 +1032,21 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       )}
     </>
   )
+
+  const similar = <>
+    {!_.isEmpty(productInfo?.similars) && (
+      <>
+        <div className='card-header border-0 pb-0 cus-card-header'>
+          <h5 className='heading text-primary cus-heading'>Similar</h5>
+        </div>
+        <div className='card-body pt-3'>
+          <div className='profile-interest '>
+            <Similar type={CRYPTO} listProjectId={productInfo?.similars}/>
+          </div>
+        </div>
+      </>
+    )}
+  </>
 
   const NO_CHART_LIST = ['DAI', 'USDT', 'USDC']
   let symbol = ''
@@ -1001,6 +1090,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         portfolioOrChartOrDesc={priceChart}
         setTop={setTop}
         rest={rest}
+        similar={similar}
+        productInfo={productInfo}
       />
     </>
   )

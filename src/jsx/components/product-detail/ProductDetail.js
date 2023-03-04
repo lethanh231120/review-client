@@ -81,7 +81,11 @@ const ProductDetail = () => {
   const [listReply, setListReply] = useState()
   const [dataReaction, setDataReaction] = useState({})
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
+  const [offsetTopByListComment, setOffsetTopByListComment] = useState()
+  const [loadingFilter, setLoadingFilter] = useState(false)
+  const [totalSortBy, setTotalSortBy] = useState()
 
+  console.log('totalSortBy', totalSortBy)
   // set productId
   useEffect(() => {
     setReviews()
@@ -106,12 +110,34 @@ const ProductDetail = () => {
     })
   }, [type, productName, path, categoryName])
 
+  useEffect(() => {
+    if (defaultFilter?.orderBy === 'createdDate') {
+      if (defaultFilter?.isScam !== undefined) {
+        if (defaultFilter?.isScam === true) {
+          setTotalSortBy(productInfo?.details?.totalIsScam)
+        } else {
+          setTotalSortBy(productInfo?.details?.totalNotScam)
+        }
+      } else {
+        console.log(productInfo?.details?.totalReviews)
+        setTotalSortBy(productInfo?.details?.totalReviews)
+      }
+    }
+    if (defaultFilter?.orderBy === 'totalReply') {
+      setTotalSortBy(productInfo?.details?.totalReviews)
+    }
+  }, [defaultFilter])
+
   // get data review by params filter
   useEffect(() => {
     if (defaultFilter?.productId) {
       const getReview = async() => {
         const listReviews = await get(`reviews/review`, defaultFilter)
         setDataReview(listReviews?.data !== null ? listReviews?.data : [])
+        if (loadingFilter === true) {
+          setLoadingFilter(false)
+          window.scrollTo(0, offsetTopByListComment)
+        }
       }
       getReview()
     }
@@ -189,6 +215,7 @@ const ProductDetail = () => {
             ]?.flat(1)
           }
         })
+        setTotalSortBy(res?.data?.details?.totalReviews)
       }).catch((error) => {
         if (error?.response?.data?.error === 'product not exist') {
           navigate('/not-found-product')
@@ -607,12 +634,14 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReviews={productInfo?.details?.totalReviews || 0}
+    totalReviews={totalSortBy || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
     setReviews={setReviews}
     productId={productId}
+    setOffsetTopByListComment={setOffsetTopByListComment}
+    setLoadingFilter={setLoadingFilter}
   />
 
   const soon = <SoonInfo

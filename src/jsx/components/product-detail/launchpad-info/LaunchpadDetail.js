@@ -1,6 +1,6 @@
 import { Avatar, Spin, Table, Tooltip } from 'antd'
 import React, { useContext, useState } from 'react'
-import { Badge, Button } from 'react-bootstrap'
+import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 import Description from '../description/Description'
@@ -16,6 +16,24 @@ import _ from 'lodash'
 import './LaunchpadInfo.scss'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
+import { LAUNCHPAD } from '../../../constants/category'
+import Similar from '../similar/Similar'
+import {
+  FacebookIcon,
+  LinkedinIcon,
+  PinterestIcon,
+  RedditIcon,
+  TelegramIcon,
+  TwitterIcon
+} from 'react-share'
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  TelegramShareButton,
+  LinkedinShareButton,
+  PinterestShareButton,
+  RedditShareButton
+} from 'react-share'
 
 const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -63,15 +81,71 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
             </span>
           }
         </div>
-        <div className='profile-name'>
+        <div className='profile-name cus-profile-name'>
           <h4 className='text-primary mb-2 cus-h4'>{detail?.name} {detail?.symbol ? `(${detail?.symbol})` : null}</h4>
           <Badge className='badge-sm' >{detail?.type}</Badge>
         </div>
-        {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
-          {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '0.3rem' }} /> : ''}
-          {websiteIcon}
-          Website
-        </Button>}
+        <div className='detail-button'>
+          <Dropdown className='sidebar-dropdown me-2 cus-dropdown'>
+            <Dropdown.Toggle
+              variant=''
+              as='a'
+              className='ai-icon i-false c-pointer button-signup-home'
+              role='button'
+            >
+              <Button className='btn btn-primary'>Share</Button>
+            </Dropdown.Toggle>
+            <Dropdown.Menu className='detail-list-social-share'>
+              <Dropdown.Item >
+                <FacebookShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <FacebookIcon size={26} round />
+                  </span>
+                </FacebookShareButton>
+              </Dropdown.Item>
+              <Dropdown.Item >
+                <TwitterShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <TwitterIcon size={26} round={true}/>
+                  </span>
+                </TwitterShareButton>
+              </Dropdown.Item>
+              <Dropdown.Item >
+                <TelegramShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <TelegramIcon size={26} round={true}/>
+                  </span>
+                </TelegramShareButton>
+              </Dropdown.Item>
+              <Dropdown.Item >
+                <LinkedinShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <LinkedinIcon size={26} round={true}/>
+                  </span>
+                </LinkedinShareButton>
+              </Dropdown.Item>
+              <Dropdown.Item >
+                <PinterestShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <PinterestIcon size={26} round={true}/>
+                  </span>
+                </PinterestShareButton>
+              </Dropdown.Item>
+              <Dropdown.Item >
+                <RedditShareButton url={window.location.href} quote={productInfo?.details?.name}>
+                  <span className='share-icon'>
+                    <RedditIcon size={26} round={true}/>
+                  </span>
+                </RedditShareButton>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
+            {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '0.3rem' }} /> : ''}
+            {websiteIcon}
+            Website
+          </Button>}
+        </div>
       </div>
     </div>
   }
@@ -274,6 +348,21 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
     </div>
   }
 
+  const similar = <>
+    {!_.isEmpty(productInfo?.similars) && (
+      <>
+        <div className='card-header border-0 pb-0 cus-card-header'>
+          <h5 className='heading text-primary cus-heading'>Similar</h5>
+        </div>
+        <div className='card-body pt-3'>
+          <div className='profile-interest '>
+            <Similar type={LAUNCHPAD} listProjectId={productInfo?.similars}/>
+          </div>
+        </div>
+      </>
+    )}
+  </>
+
   const portfolioColumns = [
     {
       title: 'Name',
@@ -416,6 +505,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       rest={rest}
       setTop={setTop}
       topDiscus={<TopDiscussed />}
+      similar={similar}
     />
   )
 }

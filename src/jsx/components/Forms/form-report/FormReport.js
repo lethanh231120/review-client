@@ -33,7 +33,7 @@ const defaultValue = [
   { name: 'isScam', value: false },
   { name: 'star', value: undefined }
 ]
-const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
+const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) => {
   const {
     data,
     setData,
@@ -230,6 +230,8 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop }) => {
           defaultFilter={rest?.defaultFilter}
           setDefaultFilter={rest?.setDefaultFilter}
           numberReviews={numberReviews}
+          setLoadingFilter={rest?.setLoadingFilter}
+          productInfo={productInfo}
         />
       )}
       <Form
