@@ -785,7 +785,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               {
                 // check like this cus && don't pass zero
                 (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success d-flex align-items-center' style={{ padding: '0' }}>
                     <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
                     {itemDetail?.projectName} has <span className='text-danger fs-20'><b>{itemDetail?.totalIsScam}</b></span> scam reports
                   </div>
@@ -795,7 +795,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               {
                 // check like this cus && don't pass zero
                 (itemDetail?.totalReviews || itemDetail?.totalReviews === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                  <div className='form-check custom-checkbox mb-3 checkbox-success  d-flex align-items-center' style={{ padding: '0' }}>
                     <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
                     {itemDetail?.projectName} has <span className='text-primary fs-20'><b>{itemDetail?.totalReviews}</b></span> reviews
                   </div>

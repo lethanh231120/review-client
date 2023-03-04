@@ -12,7 +12,7 @@ export const NotFoundProduct = () => {
             <div className='form-input-content text-center error-page'>
               <h1 className='error-text fw-bold'>WOW</h1>
               <h4>
-                <i className='fa fa-exclamation-triangle text-info' />{` This product don't exist in system.`}
+                <i className='fa fa-info-circle text-primary' />{` This product don't exist in system.`}
               </h4>
               <p>
                 We are very happy if you contribute product you are finding, to make a extraordinary thing, it is valuable to our social and community.

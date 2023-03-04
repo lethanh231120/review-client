@@ -13,7 +13,6 @@ import {
   EXCHANGE,
   CRYPTO,
   SOON,
-  SCAM,
   VENTURE,
   CRYPTO_COIN,
   CRYPTO_TOKEN,
@@ -30,7 +29,6 @@ import _ from 'lodash'
 import LaunchpadList from '../table/launchpad/LaunchpadTable'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 // import { exchanges } from '../../../utils/ExchangeImage'
-import { NoDataInfo } from './../no-data-info/NoDataInfo'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -179,64 +177,13 @@ const CategoryItem = () => {
     setParams(sort)
   }
 
-  const renderComponent = (item) => {
-    if (listProduct) {
-      let projectType = category
-      if (projectType === SCAM) {
-        let commonItemId = ''
-        if (item?.dAppId) {
-          commonItemId = item.dAppId
-        } else if (item?.projectId) {
-          // soon project
-          commonItemId = item.projectId
-        } else if (item?.ventureId) {
-          commonItemId = item.ventureId
-        } else if (item?.cryptoId) {
-          commonItemId = item.cryptoId
-        } else if (item?.exchangeId) {
-          commonItemId = item.exchangeId
-        }
-        // sample common item id: "gear5_exchange_tokocrypto_coinmarketcap"
-        const parts = commonItemId.split('_')
-        // need keyword above: exchange
-        if (parts.length >= 2) {
-          projectType = parts[1]
-          // path API token, coin (product id) is detail screen of crypto
-          if (projectType === CRYPTO_TOKEN || projectType === CRYPTO_COIN) {
-            projectType = CRYPTO
-          }
-        }
-      }
-      switch (projectType) {
-        case DAPP:
-          return (
-            <Col span={24}>
-              <Dapp
-                listProduct={listProduct}
-                handleChangeTable={handleChangeTable}
-                params={params}
-                loading={loading}
-                handleFilter={handleFilter}
-                total={total}
-              />
-            </Col>
-          )
-        case CRYPTO:
-          return (
-            <Col span={24}>
-              <Crypto
-                listProduct={listProduct}
-                handleChangeTable={handleChangeTable}
-                params={params}
-                loading={loading}
-                handleFilter={handleFilter}
-                total={total}
-              />
-            </Col>
-          )
-        case EXCHANGE:
-          return (
-            <Exchange
+  const renderComponent = () => {
+    const projectType = category
+    switch (projectType) {
+      case DAPP:
+        return (
+          <Col span={24}>
+            <Dapp
               listProduct={listProduct}
               handleChangeTable={handleChangeTable}
               params={params}
@@ -244,10 +191,12 @@ const CategoryItem = () => {
               handleFilter={handleFilter}
               total={total}
             />
-          )
-        case VENTURE:
-          return (
-            <Venture
+          </Col>
+        )
+      case CRYPTO:
+        return (
+          <Col span={24}>
+            <Crypto
               listProduct={listProduct}
               handleChangeTable={handleChangeTable}
               params={params}
@@ -255,33 +204,55 @@ const CategoryItem = () => {
               handleFilter={handleFilter}
               total={total}
             />
-          )
-        case SOON:
-          return (
-            <Soon
-              listProduct={listProduct}
-              handleChangeTable={handleChangeTable}
-              params={params}
-              loading={loading}
-              handleFilter={handleFilter}
-              total={total}
-            />
-          )
-        case LAUNCHPAD:
-          return (
-            <LaunchpadList
-              listProduct={listProduct}
-              handleChangeTable={handleChangeTable}
-              params={params}
-              loading={loading}
-              handleFilter={handleFilter}
-              total={total}
-            />
-          )
-        default:
-          navigate('/not-found')
-          break
-      }
+          </Col>
+        )
+      case EXCHANGE:
+        return (
+          <Exchange
+            listProduct={listProduct}
+            handleChangeTable={handleChangeTable}
+            params={params}
+            loading={loading}
+            handleFilter={handleFilter}
+            total={total}
+          />
+        )
+      case VENTURE:
+        return (
+          <Venture
+            listProduct={listProduct}
+            handleChangeTable={handleChangeTable}
+            params={params}
+            loading={loading}
+            handleFilter={handleFilter}
+            total={total}
+          />
+        )
+      case SOON:
+        return (
+          <Soon
+            listProduct={listProduct}
+            handleChangeTable={handleChangeTable}
+            params={params}
+            loading={loading}
+            handleFilter={handleFilter}
+            total={total}
+          />
+        )
+      case LAUNCHPAD:
+        return (
+          <LaunchpadList
+            listProduct={listProduct}
+            handleChangeTable={handleChangeTable}
+            params={params}
+            loading={loading}
+            handleFilter={handleFilter}
+            total={total}
+          />
+        )
+      default:
+        navigate('/not-found')
+        break
     }
   }
 
@@ -335,53 +306,53 @@ const CategoryItem = () => {
   }
 
   return (
-    total === 0 ? <NoDataInfo />
-      : <div className='category-page section' ref={refabc}>
+    <div className='category-page section' ref={refabc}>
 
-        <div className={`category-list detail ${category === SOON ? 'format-list-soon-background' : ''}`}>
-          <Row gutter={[10, 10]}>
-            {keyword ? (
-              <Col span={24}>
-                <TabSearch
-                  listProduct={listProduct}
-                  keywordSearch={keywordSearch}
-                  keyword={keyword}
-                  handleChangeInput={handleChangeInput}
-                  handleSubmitSearch={handleSubmitSearch}
-                  handleSubmitBtn={handleSubmitBtn}
-                  setLoading={setLoading}
-                  loading={loading}
-                />
-              </Col>
-            ) : (
-              <>
-                {loading ? (
-                  <div style={{ width: '100%' }}>  <MySkeletonLoadinng count={50} height={70} /></div>
-                ) : (
-                  <>{renderComponent(listProduct && listProduct[0])}</>
-                )}
-              </>
-            )}
-          </Row>
-        </div>
-        {total > PAGE_SIZE && (
-          <>
-            {!loading && (
-              <div className='category-paginate'>
-                <Pagination
-                  total={
-                    total > MAX_PAGE * PAGE_SIZE ? MAX_PAGE * PAGE_SIZE : total
-                  }
-                  current={params?.page}
-                  pageSize={PAGE_SIZE}
-                  showSizeChanger={false}
-                  onChange={(value) => handleChangePage(value)}
-                />
-              </div>
-            )}
-          </>
-        )}
+      <div className={`category-list detail ${category === SOON ? 'format-list-soon-background' : ''}`}>
+        <Row gutter={[10, 10]}>
+          {keyword ? (
+            <Col span={24}>
+              <TabSearch
+                listProduct={listProduct}
+                keywordSearch={keywordSearch}
+                keyword={keyword}
+                handleChangeInput={handleChangeInput}
+                handleSubmitSearch={handleSubmitSearch}
+                handleSubmitBtn={handleSubmitBtn}
+                setLoading={setLoading}
+                loading={loading}
+              />
+            </Col>
+          ) : (
+            <>
+              {loading ? (
+                <div style={{ width: '100%' }}>  <MySkeletonLoadinng count={50} height={70} /></div>
+              ) : (
+                <>{renderComponent()}</>
+              )}
+            </>
+          )}
+        </Row>
       </div>
+      {/* Pagination */}
+      {total > PAGE_SIZE && (
+        <>
+          {!loading && (
+            <div className='category-paginate'>
+              <Pagination
+                total={
+                  total > MAX_PAGE * PAGE_SIZE ? MAX_PAGE * PAGE_SIZE : total
+                }
+                current={params?.page}
+                pageSize={PAGE_SIZE}
+                showSizeChanger={false}
+                onChange={(value) => handleChangePage(value)}
+              />
+            </div>
+          )}
+        </>
+      )}
+    </div>
   )
 }
 export default CategoryItem
