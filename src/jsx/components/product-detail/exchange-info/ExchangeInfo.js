@@ -9,7 +9,7 @@ import moment from 'moment'
 import Description from '../description/Description'
 // import FormReport from '../../Forms/form-report/FormReport'
 import { LoadingOutlined } from '@ant-design/icons'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
+import { isValidProductId, formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
 import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 import { websiteIcon } from '../../common-widgets/icons'
 import MyScoreComponent from '../../score/scoreComponent'
@@ -74,13 +74,13 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
     <div className='row'>
       <div className='col'>
         <h3 className='m-b-0'>
-          <Badge bg='badge-l' className='badge-success'>{productInfo?.details?.totalReviews}</Badge>
+          <Badge bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalReviews}</Badge>
         </h3>
         <span>Reviews</span>
       </div>
       <div className='col'>
         <h3 className='m-b-0'>
-          <Badge bg='badge-l' className='badge-warning'>{productInfo?.details?.totalIsScam}</Badge>
+          <Badge bg='badge-l' className='badge-warning progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalIsScam}</Badge>
         </h3>
         <span>
         Reported Scam
@@ -145,7 +145,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                 <Tooltip
                   className='ms-1 mt-2'
                   placementTooltip='topLeft'
-                  title={socialName}
+                  title={toCammelCase(socialName)}
                   key={socialName}
                 >
                   <a
@@ -249,7 +249,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
 
             {detail?.socials && (
               <div className='community-list-item'>
-                {communityItem('Socials', detail?.socials)}
+                {communityItem('Social', detail?.socials)}
               </div>
             )}
 

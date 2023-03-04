@@ -80,13 +80,13 @@ const DappInfo = ({ productInfo, ...rest }) => {
       <div className='row'>
         <div className='col'>
           <h3 className='m-b-0'>
-            <Badge bg='badge-l' className='badge-success'>{productInfo?.details?.totalReviews}</Badge>
+            <Badge bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalReviews}</Badge>
           </h3>
           <span>Reviews</span>
         </div>
         <div className='col'>
           <h3 className='m-b-0'>
-            <Badge bg='badge-l' className='badge-warning'>{productInfo?.details?.totalIsScam}</Badge>
+            <Badge bg='badge-l' className='badge-warning progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalIsScam}</Badge>
           </h3>
           <span>
           Reported Scam
@@ -209,7 +209,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
             {!_.isEmpty(detail?.chains) && (
               <div className='community-list-item'>
                 <div className='d-flex text-align-center mb-2'>
-                  <p className='mb-0'>Chain(s):</p>
+                  <p className='mb-0'>Chain:</p>
                   <Avatar.Group className='ms-1'
                     alt='Blockchains Logos'
                     maxCount={4}
@@ -251,7 +251,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
             )}
             {detail?.socials && (
               <div className='community-list-item'>
-                {communityItem('Socials', detail?.socials)}
+                {communityItem('Social', detail?.socials)}
               </div>
             )}
 

@@ -33,7 +33,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
       <div className='card Infra' style={{ height: 'auto', margin: '0 0.35rem 0 0.3rem' }}>
         <div className='card-header border-0' style={{ padding: '1.5rem 1.875rem 0 1.25rem' }}>
           <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
-            A total of&nbsp;<Badge bg='primary'>{total}</Badge>&nbsp;ICOs/ IDOs/ IEOs found.
+            A total of&nbsp;<Badge bg='primary' className='progress-bar-striped progress-bar-animated'>{total}</Badge>&nbsp;ICOs/ IDOs/ IEOs found.
           </div>
         </div>
         <div className='card-body' style={{ padding: '0 1rem' }}>

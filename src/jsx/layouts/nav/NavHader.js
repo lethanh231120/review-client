@@ -66,7 +66,7 @@ const NavHader = () => {
         <span className='line'></span>
         <span className='line'></span>
         <span className='line'></span>
-        <svg width='26' height='26' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg' version='1.1' fill='none' stroke='#039F7F' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5'>
+        <svg width='26' height='26' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg' version='1.1' fill='none' stroke='#039F7F' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5' style={{ marginTop: '0.12rem' }}>
           <path d='m2.75 12.25h10.5m-10.5-4h10.5m-10.5-4h10.5'/>
         </svg>
         {/* <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24' fill='none' stroke='#039F7F' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>

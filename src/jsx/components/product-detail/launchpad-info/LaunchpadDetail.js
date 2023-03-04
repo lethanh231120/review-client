@@ -15,7 +15,7 @@ import { ChainListContext } from '../../../../App'
 import _ from 'lodash'
 import './LaunchpadInfo.scss'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
-import { formatImgUrlFromProductId } from '../../../../utils/formatText'
+import { formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
 
 const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -82,13 +82,13 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
     <div className='row'>
       <div className='col'>
         <h3 className='m-b-0'>
-          <Badge bg='badge-l' className='badge-success'>{productInfo?.details?.totalReviews}</Badge>
+          <Badge bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalReviews}</Badge>
         </h3>
         <span>Reviews</span>
       </div>
       <div className='col'>
         <h3 className='m-b-0'>
-          <Badge bg='badge-l' className='badge-warning'>{productInfo?.details?.totalIsScam}</Badge>
+          <Badge bg='badge-l' className='badge-warning progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalIsScam}</Badge>
         </h3>
         <span>
         Reported Scam
@@ -153,7 +153,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
                 <Tooltip
 
                   placementTooltip='topLeft'
-                  title={socialName}
+                  title={toCammelCase(socialName)}
                   key={socialName}
                 >
                   <a
@@ -251,7 +251,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
 
             {detail?.socials && (
               <div className='community-list-item'>
-                {communityItem('Socials', detail?.socials)}
+                {communityItem('', detail?.socials)}
               </div>
             )}
 
@@ -385,7 +385,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               </div>}
             </div>
           </div>
-          <div className='mt-5'>
+          <div className='mt-5 table-responsive'>
             <Table
               className='invest-table'
               columns={portfolioColumns}
@@ -397,7 +397,6 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               })}
               rowKey={(record) => record?.projectId}
               pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
-              style={{ overflowX: 'scroll' }}
             />
           </div>
         </div>

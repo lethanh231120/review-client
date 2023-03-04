@@ -49,7 +49,6 @@ const Header = () => {
   const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)
   const summaryData = useContext(SummaryHomeContext)
 
-  console.log(isSmallMode)
   useEffect(() => {
     window.addEventListener('scroll', () => {
       setheaderFix(window.scrollY > 50)

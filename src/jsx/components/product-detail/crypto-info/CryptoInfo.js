@@ -456,7 +456,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       <div className='row'>
         <div className='col'>
           <h3 className='m-b-0'>
-            <Badge bg='badge-l' className='badge-success'>
+            <Badge bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>
               {new Intl.NumberFormat().format(productInfo?.details?.totalReviews)}
             </Badge>
           </h3>
@@ -464,7 +464,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         </div>
         <div className='col'>
           <h3 className='m-b-0'>
-            <Badge bg='badge-l' className='badge-danger'>
+            <Badge bg='badge-l' className='badge-danger progress-bar-striped progress-bar-animated'>
               {new Intl.NumberFormat().format(productInfo?.details?.totalIsScam)}
             </Badge>
           </h3>
@@ -740,7 +740,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
           {!showInfo && (
             <>
-              <div className='crypto-info-item-key my-2'>Explorers: </div>
+              <div className='crypto-info-item-key my-2'>Explorer: </div>
               <div
                 className='d-flex align-items-center'
                 style={{ flexWrap: 'wrap' }}
@@ -891,7 +891,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           {productInfo?.mores?.tag && !_.isEmpty(productInfo?.mores?.tag) && (
             <div className='crypto-info'>
               <div className=''>
-                <div className='crypto-info-item-key'>Tag(s): </div>
+                <div className='crypto-info-item-key'>Tag: </div>
                 <div className='row mt-3'>
                   <div className='col-xxl-12 col-12'>
                     {productInfo?.mores?.tag?.map((item, index) => (

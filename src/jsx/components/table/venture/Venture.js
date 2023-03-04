@@ -48,6 +48,7 @@ const Venture = ({
     },
     {
       title: 'Year Founded',
+      align: 'left',
       showSorterTooltip: false,
       dataIndex: 'yearFounded',
       sorter: true,
@@ -63,6 +64,7 @@ const Venture = ({
     },
     {
       title: 'Location',
+      align: 'left',
       showSorterTooltip: false,
       dataIndex: 'location',
       render: (_, record) => (
@@ -79,6 +81,7 @@ const Venture = ({
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'right',
       dataIndex: 'seed',
       showSorterTooltip: false,
       sorter: true,
@@ -102,6 +105,7 @@ const Venture = ({
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'right',
       dataIndex: 'seriesA',
       showSorterTooltip: false,
       sorter: true,
@@ -125,6 +129,7 @@ const Venture = ({
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'right',
       dataIndex: 'seriesB',
       showSorterTooltip: false,
       sorter: true,
@@ -148,6 +153,7 @@ const Venture = ({
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'right',
       dataIndex: 'seriesC',
       showSorterTooltip: false,
       sorter: true,
@@ -163,6 +169,7 @@ const Venture = ({
     },
     {
       title: 'Strategic',
+      align: 'right',
       dataIndex: 'strategic',
       showSorterTooltip: false,
       sorter: true,
@@ -178,6 +185,7 @@ const Venture = ({
     },
     {
       title: 'Total Funds',
+      align: 'right',
       dataIndex: 'totalFund',
       showSorterTooltip: false,
       sorter: true,
@@ -188,7 +196,7 @@ const Venture = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <span>{record?.totalFund ? renderNumber(record?.totalFund) : '$0' }</span>
+        <span>{record?.totalFund ? <b className='text-primary'>{renderNumber(record?.totalFund)}</b> : 'Unkowned' }</span>
       )
     },
     {
@@ -221,7 +229,7 @@ const Venture = ({
     <div className='font-family venture-table'>
       <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
         A total of{' '}
-        <Badge bg='primary'>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Ventures
+        <Badge bg='primary' className='progress-bar-striped progress-bar-animated'>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Ventures
         found.
       </div>
       <Row>
