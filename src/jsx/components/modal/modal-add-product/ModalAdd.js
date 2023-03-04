@@ -502,7 +502,7 @@ const ModalAdd = ({ isModal }) => {
                             handleClickItemChain(itemChain)
                           }}
                         >
-                          <Image src={itemChain?.image} preview={false} alt='Chain Logo'/>
+                          <Image src={itemChain?.image} alt='Chain Logo'/>
                           <span style={{ textTransform: 'capitalize' }}>{itemChain?.chainName}</span>
                         </div>
                       ))}
