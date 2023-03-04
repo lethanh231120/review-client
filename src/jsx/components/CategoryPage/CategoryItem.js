@@ -95,42 +95,42 @@ const CategoryItem = () => {
   }, [category, subCategory])
 
   const getData = async(category, paramSort) => {
-    setListProduct([]) // reset for loading
+    setListProduct() // reset for loading
     paramSort['tag'] = decodeUrl(paramSort?.tag)
     switch (category) {
       case DAPP: {
         const dataDapp = await get('reviews/dapp/filter', paramSort)
-        setListProduct(dataDapp?.data?.dApps)
+        setListProduct({ dapp: dataDapp?.data?.dApps })
         setTotal(dataDapp?.data?.dAppCount)
         break
       }
       case CRYPTO: {
         const dataCrypto = await get('reviews/crypto/filter', paramSort)
-        setListProduct(dataCrypto?.data?.cryptos)
+        setListProduct({ crypto: dataCrypto?.data?.cryptos })
         setTotal(dataCrypto?.data?.cryptoCount)
         break
       }
       case EXCHANGE: {
         const dataExchange = await get('reviews/exchange/filter', paramSort)
-        setListProduct(dataExchange?.data?.exchanges)
+        setListProduct({ exchange: dataExchange?.data?.exchanges })
         setTotal(dataExchange?.data?.exchangeCount)
         break
       }
       case VENTURE: {
         const dataVenture = await get('reviews/venture/filter', paramSort)
-        setListProduct(dataVenture?.data?.ventures)
+        setListProduct({ venture: dataVenture?.data?.ventures })
         setTotal(dataVenture?.data?.ventureCount)
         break
       }
       case SOON: {
         const dataSoon = await get('reviews/soon/filter', paramSort)
-        setListProduct(dataSoon?.data?.soons)
+        setListProduct({ soon: dataSoon?.data?.soons })
         setTotal(dataSoon?.data?.soonCount)
         break
       }
       case LAUNCHPAD: {
         const dataLaunchpad = await get('reviews/launchpad/filter', paramSort)
-        setListProduct(dataLaunchpad?.data?.launchPads)
+        setListProduct({ launchpad: dataLaunchpad?.data?.launchPads })
         setTotal(dataLaunchpad?.data?.launchPadCount)
         break
       }
@@ -184,7 +184,7 @@ const CategoryItem = () => {
         return (
           <Col span={24}>
             <Dapp
-              listProduct={listProduct}
+              listProduct={listProduct?.dapp}
               handleChangeTable={handleChangeTable}
               params={params}
               loading={loading}
@@ -197,7 +197,7 @@ const CategoryItem = () => {
         return (
           <Col span={24}>
             <Crypto
-              listProduct={listProduct}
+              listProduct={listProduct?.crypto}
               handleChangeTable={handleChangeTable}
               params={params}
               loading={loading}
@@ -209,7 +209,7 @@ const CategoryItem = () => {
       case EXCHANGE:
         return (
           <Exchange
-            listProduct={listProduct}
+            listProduct={listProduct?.exchange}
             handleChangeTable={handleChangeTable}
             params={params}
             loading={loading}
@@ -220,7 +220,7 @@ const CategoryItem = () => {
       case VENTURE:
         return (
           <Venture
-            listProduct={listProduct}
+            listProduct={listProduct?.venture}
             handleChangeTable={handleChangeTable}
             params={params}
             loading={loading}
@@ -231,7 +231,7 @@ const CategoryItem = () => {
       case SOON:
         return (
           <Soon
-            listProduct={listProduct}
+            listProduct={listProduct?.soon}
             handleChangeTable={handleChangeTable}
             params={params}
             loading={loading}
@@ -242,7 +242,7 @@ const CategoryItem = () => {
       case LAUNCHPAD:
         return (
           <LaunchpadList
-            listProduct={listProduct}
+            listProduct={listProduct?.launchpad}
             handleChangeTable={handleChangeTable}
             params={params}
             loading={loading}
