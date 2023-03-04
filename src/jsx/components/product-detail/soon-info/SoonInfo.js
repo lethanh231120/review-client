@@ -462,7 +462,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           overlayClassName='crypto-table-tooltip-box'
           title={soonRoundSaleExplain['round']}
         >
-          <InfoCircleOutlined />
+          {/* <InfoCircleOutlined /> */}
         </Tooltip>
       </span>,
       align: 'left',
@@ -504,7 +504,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         overlayClassName='crypto-table-tooltip-box'
         title={soonRoundSaleExplain['launchPadId']}
       >
-        <InfoCircleOutlined />
+        {/* <InfoCircleOutlined /> */}
       </Tooltip>
     </span>,
     align: 'left',
@@ -513,7 +513,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     render: (_, record) => (<LaunchpadTableDetail launchpadId={record?.launchPadId} />)
     },
     { title: <span className='crypto-table-tooltip text-black'>
-      Raise
+      Raised
       <Tooltip
         overlayClassName='crypto-table-tooltip-box'
         title={soonRoundSaleExplain['raise']}
