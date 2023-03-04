@@ -10,13 +10,17 @@ export const DetailLayout = (props) => {
   const PAGE_SIZE = 50
 
   const getPosition = () => {
-    const top = document.getElementById('list-review')?.offsetTop
+    const top = document.getElementById('div2')?.offsetTop
     rest?.setOffsetTopByListComment && rest?.setOffsetTopByListComment(top - 150)
   }
 
   useEffect(() => {
     window.addEventListener('load', getPosition)
   }, [])
+
+  // useEffect(() => {
+  //   window.addEventListener('mouseover', getPosition)
+  // }, [])
 
   return <>
     <div className='row'>
@@ -116,7 +120,7 @@ export const DetailLayout = (props) => {
                 setTop={setTop}
                 productInfo={productInfo}
               />
-              <div id='list-review'>
+              <div id='div2'>
                 {rest?.reviews && rest?.reviews?.map((item, index) => (
                   <ReviewItem
                     index={index}
@@ -197,7 +201,7 @@ export const DetailLayout = (props) => {
                 setTop={setTop}
                 productInfo={productInfo}
               />
-              <div id='list-review'>
+              <div id='div2'>
                 {rest?.reviews && rest?.reviews?.map((item, index) => (
                   <ReviewItem
                     index={index}

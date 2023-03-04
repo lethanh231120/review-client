@@ -85,7 +85,6 @@ const ProductDetail = () => {
   const [loadingFilter, setLoadingFilter] = useState(false)
   const [totalSortBy, setTotalSortBy] = useState()
 
-  console.log('totalSortBy', totalSortBy)
   // set productId
   useEffect(() => {
     setReviews()
@@ -119,7 +118,6 @@ const ProductDetail = () => {
           setTotalSortBy(productInfo?.details?.totalNotScam)
         }
       } else {
-        console.log(productInfo?.details?.totalReviews)
         setTotalSortBy(productInfo?.details?.totalReviews)
       }
     }

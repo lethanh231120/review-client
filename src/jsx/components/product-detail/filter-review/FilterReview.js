@@ -27,11 +27,13 @@ const FilterReview = (props) => {
     }
   }, [defaultFilter])
 
-  console.log(productInfo)
   return (
     <div className='list-review'>
       <div className='list-review-header'>
-        <div className='text-primary list-review-header-title'>Reviews ({new Intl.NumberFormat().format(numberReviews)})</div>
+        <div className='text-primary list-review-header-title'>
+          {defaultText === 'All Review' ? 'Reviews' : <span style={{ color: defaultText === 'Report Scam' ? 'red' : '' }}>{defaultText}</span>}
+          <span style={{ color: defaultText === 'Report Scam' ? 'red' : '' }}>({new Intl.NumberFormat().format(numberReviews)})</span>
+        </div>
         <div className='list-review-header-right'>
           <Dropdown>
             <Dropdown.Toggle variant='primary' className='cus-dropdown-select btn btn-primary light sharp'>

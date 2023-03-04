@@ -26,12 +26,14 @@ const CategorySearch = ({ type }) => {
   const [itemSubmit, setItemSubmit] = useState()
 
   const handleSearch = _.debounce(async(value) => {
+    setDataSearch({
+      ...dataSearch,
+      data: {},
+      status: '',
+      loading: true,
+      isActive: true
+    })
     if (value !== '') {
-      setDataSearch({
-        ...dataSearch,
-        loading: true,
-        isActive: true
-      })
       const data = await search('search/suggest', { keyword: value })
       if (data) {
         switch (type) {
@@ -139,7 +141,7 @@ const CategorySearch = ({ type }) => {
   const subMitForm = () => {
     if (itemSubmit) {
       const productId = itemSubmit?.cryptoId
-        ? `${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
+        ? `${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
         : itemSubmit?.dappId
           ? `${itemSubmit?.dappId?.split('_')[2]}`
           : itemSubmit?.exchangeId

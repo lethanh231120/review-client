@@ -682,16 +682,26 @@ const Similar = ({ type, listProjectId }) => {
         <span
           className='crypto-table-info image-list'
         >
-          {record?.projectId && record?.bigLogo ? (
-            <Image src={isValidProductId(record?.projectId) ? formatImgUrlFromProductId(record?.projectId) : imgAbsentImageSoon} preview={false} alt='ICO/IDO/IEO Logo' />
-          )
-            : (
-              <NoImage
-                alt={record?.projectName?.slice(0, 3)}
-                height={52}
-                width={52}
-              />
-            )}
+          {record?.projectId ? (
+            <Image
+              alt={`${record?.projectName} Logo`}
+              src={
+                isValidProductId(record?.projectId)
+                  ? formatImgUrlFromProductId(
+                    record?.projectId
+                  )
+                  : imgAbsentImageSoon
+              }
+              preview={false}
+              size={40}
+            />
+          ) : (
+            <NoImage
+              alt={record?.projectName?.slice(0, 3)}
+              height={36}
+              width={36}
+            />
+          )}
           <span>
             <Tooltip
               title={(
@@ -716,9 +726,6 @@ const Similar = ({ type, listProjectId }) => {
       render: (_, record) => (
         <>
           {record?.subCategory ? (
-            // <Tag onClick={(e) => handleClickTag(e, record?.subCategory)} color={mainColorHex}>
-            //   {record?.subCategory}
-            // </Tag>
             <Badge bg=' badge-l' className='badge-success' style={{ cursor: 'pointer' }}>
               {record?.subCategory}
             </Badge>
@@ -987,7 +994,7 @@ const Similar = ({ type, listProjectId }) => {
   }
 
   const handleonRowClickSoon = (record) => {
-    navigate(`../../../../products/soon/${record?.projectId}`)
+    navigate(`../../../../products/soon/${record?.projectId?.split('_')[2]}`)
   }
 
   return (<>
