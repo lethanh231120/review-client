@@ -300,8 +300,6 @@ const getTimeRelativeQuantificationWithNowFromStartDateAndEndDateDetail = (start
   return null
 }
 
-console.log(getTimeRelativeQuantificationWithNowFromStartDateAndEndDateDetail)
-
 const loadingTimer = <MySkeletonLoadinng count={1} height={10} />
 
 const SoonInfo = ({ productInfo, ...rest }) => {
@@ -309,14 +307,18 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const itemDetail = productInfo?.details
   const itemTags = productInfo?.mores?.tag
   const itemRoundSales = productInfo?.mores?.roundSale
-  const itemStatus = getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)
-  const itemProgressGoal = 20
+  const itemProgressGoal = 20 // sold / goal * 100
   const [websiteLoading, setWebsiteLoading] = useState(false)
   const [top, setTop] = useState()
   const [timerDay, setTimerDay] = useState(loadingTimer)
   const [timerHour, setTimerHour] = useState(loadingTimer)
   const [timerMinute, setTimerMinute] = useState(loadingTimer)
   const [timerSecond, setTimerSecond] = useState(loadingTimer)
+  const itemStatus = getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)
+  const [timerHeadline, setTimerHeadline] = useState(itemStatus === statusOngoing
+    ? 'Countdown to end time' : itemStatus === statusUpcoming ? 'Countdown to start time' : `It's over`)
+  const [timerCountdownShow, setTimerCountdownShow] = useState(true)
+  const [timerCountdownHideContent, setTimerCountdownHideContent] = useState(false)
 
   // milestone in the feture
   const countDown = (milestoneUnix) => {
@@ -326,18 +328,25 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     const day = hour * 24
     const timer = setInterval(() => {
       const now = getCurrentTimeUnix()
-      const distance = milestoneUnix - now
+      let distance
+      // in the feture
+      if (milestoneUnix) {
+        distance = milestoneUnix - now
 
-      setTimerDay(String(Math.floor(distance / (day))).padStart(2, '0'))
-      setTimerHour(String(Math.floor((distance % (day)) / (hour))).padStart(2, '0'))
-      setTimerMinute(String(Math.floor((distance % (hour)) / (minute))).padStart(2, '0'))
-      setTimerSecond(String(Math.floor((distance % (minute)) / second)).padStart(2, '0'))
+        setTimerDay(String(Math.floor(distance / (day))).padStart(2, '0'))
+        setTimerHour(String(Math.floor((distance % (day)) / (hour))).padStart(2, '0'))
+        setTimerMinute(String(Math.floor((distance % (hour)) / (minute))).padStart(2, '0'))
+        setTimerSecond(String(Math.floor((distance % (minute)) / second)).padStart(2, '0'))
+      } else {
+        // in the past
+        distance = -1
+      }
 
       // do something later when date is reached
       if (distance < 0) {
-        document.getElementById('headline').innerText = "It's over in success | failed!"
-        document.getElementById('countdown').style.display = 'none'
-        document.getElementById('content').style.display = 'block'
+        setTimerHeadline(`It's over in ${itemProgressGoal === 100 ? 'success !' : 'failed.'}`)
+        setTimerCountdownShow(false)
+        setTimerCountdownHideContent(true)
         clearInterval(timer)
       }
       // seconds
@@ -540,7 +549,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </span>,
     dataIndex: 'status',
     key: 'status',
-    render: (_, record) => record?.start || record?.end ? (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
+    render: (_, record) => record?.start && record?.end ? (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
       {`${getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))} ${getRelativeTimeString(record?.start, record?.end)}`}
     </span>) : (txtAbsentTakeUpData)
     }
@@ -576,23 +585,23 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   ) : null
 
   const countDownHtml = <div className='mt-4 text-center'>
-    <h2 id='headline' className='countdown'>{
-      itemStatus === statusOngoing
-        ? 'Countdown to end time' : itemStatus === statusUpcoming ? 'Countdown to start time' : `It's over`
-    } </h2>
-    <div id='countdown'>
+    <h2 className='countdown'>{timerHeadline} </h2>
+    {timerCountdownShow ? <div>
       <ul>
         <li className='countdown'><span>{timerDay}</span>days</li>
         <li className='countdown'><span>{timerHour}</span>Hours</li>
         <li className='countdown'><span>{timerMinute}</span>Minutes</li>
         <li className='countdown'><span>{timerSecond}</span>Seconds</li>
       </ul>
-    </div>
-    <div id='content' className='emoji'>
-      <span>🥳</span>
-      <span>🎉</span>
-      <span>🎂</span>
-    </div>
+    </div> : ''}
+    {
+      timerCountdownHideContent ? <div className='emoji'>
+        <span>{itemProgressGoal === 100 ? '🥳' : '🙉'}</span>
+        <span>{itemProgressGoal === 100 ? '🎉' : '💔'}</span>
+        <span>{itemProgressGoal === 100 ? '🎂' : '🙈'}</span>
+      </div> : ''
+    }
+
   </div>
   const timeAndPercentProcess = <div className='row mb-3 d-flex'>
     <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-center justify-content-center'>
@@ -624,15 +633,6 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       <div className='row'>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
           <h3 className='m-b-0'>
-            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
-          </h3>
-          <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
-            <i className='material-icons fs-18 text-primary'>ads_click</i>
-            {txtGoal}
-          </span>
-        </div>
-        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-          <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals / 5)}</Badge>
           </h3>
           <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
@@ -656,6 +656,15 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
             <i className='material-icons fs-18 text-primary'>forklift</i>
             Supply
+          </span>
+        </div>
+        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
+          <h3 className='m-b-0'>
+            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
+          </h3>
+          <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
+            <i className='material-icons fs-18 text-primary'>ads_click</i>
+            {txtGoal}
           </span>
         </div>
       </div>
