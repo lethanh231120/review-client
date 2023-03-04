@@ -293,6 +293,7 @@ const CategoryItem = () => {
 
   const handleFilter = (param) => {
     if (_.isEmpty(param)) {
+      console.log(param)
       setParram()
     } else {
       setParams({

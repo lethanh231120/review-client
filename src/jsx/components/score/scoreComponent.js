@@ -6,14 +6,18 @@ const MyScoreComponent = ({ score, type }) => {
   let output = 0
   let classname = 'success'
   if (score) {
-    if (type === 'launchpad') {
-      output = score / 3.5
-    }
-    if (type === 'venture' || type === 'exchange') {
-      output = score / 20
-    }
-    if (type === 'crypto' || type === 'dapp') {
-      output = score / 10
+    if (score < 0) {
+      output = 0
+    } else {
+      if (type === 'launchpad') {
+        output = score / 3.5
+      }
+      if (type === 'venture' || type === 'exchange') {
+        output = score / 20
+      }
+      if (type === 'crypto' || type === 'dapp') {
+        output = score / 10
+      }
     }
 
     // color
