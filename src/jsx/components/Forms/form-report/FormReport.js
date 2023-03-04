@@ -62,7 +62,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
 
-  const currenRef = useRef(null)
+  // const currenRef = useRef(null)
   // submit form
   const onFinish = (values) => {
     handleSubmitComment(values)
@@ -237,7 +237,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
       <Form
         name='nest-messages'
         form={form}
-        ref={currenRef}
+        // ref={currenRef}
         onFinish={onFinish}
         layout='vertical'
         id='div1'

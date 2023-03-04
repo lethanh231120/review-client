@@ -46,15 +46,15 @@ const InputSearch = ({ isFormReport, setItem }) => {
   const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState(FIRST_SEARCH_PLACEHOLDER_TEXT)
 
   const handleSearch = _.debounce(async(value) => {
+    setDataSearch({
+      ...dataSearch,
+      data: {},
+      status: '',
+      loading: true,
+      isActive: true
+    })
     if (value !== '') {
       setKeyWord(value)
-      setDataSearch({
-        ...dataSearch,
-        data: {},
-        status: '',
-        loading: true,
-        isActive: true
-      })
       const data = await search('search/suggest', { keyword: value })
       if (data) {
         setListDataSearch({
@@ -132,7 +132,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
     } else {
       if (itemSubmit) {
         const productId = itemSubmit?.cryptoId
-          ? `${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
+          ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
           : itemSubmit?.dappId
             ? `${itemSubmit?.dappId?.split('_')[2]}`
             : itemSubmit?.exchangeId
