@@ -40,14 +40,9 @@ const Exchange = ({
           </span>)
         }
         <span>
-          {/* <Tooltip
-            title={(
-              <p>{`${record?.name}`}</p>
-            )}> */}
           <div className='data-table-name ms-2'>
             <div>{record?.name ? record?.name : 'Unknown'}</div>
           </div>
-          {/* </Tooltip> */}
         </span>
       </Link>)
 
@@ -55,9 +50,9 @@ const Exchange = ({
     {
       title: 'Subcategory',
       align: 'center',
-      render: (_, record) => (<Badge bg=' badge-l' className='badge-success '>
+      render: (_, record) => (<div className='mb-0 btn btn-primary light btn-xs mb-2 me-1'>
         {record?.subCategory}
-      </Badge>)
+      </div>)
     },
 
     {
@@ -70,6 +65,7 @@ const Exchange = ({
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'right',
       showSorterTooltip: false,
       dataIndex: 'pairCount',
       sorter: true,
@@ -94,6 +90,7 @@ const Exchange = ({
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'right',
       showSorterTooltip: false,
       dataIndex: 'feeTxs',
       // sorter: true,
@@ -118,8 +115,9 @@ const Exchange = ({
             ? 'descend'
             : 'ascend'
           : '',
+      align: 'right',
       render: (_, record) => (
-        <span>{record?.volume24h ? renderNumber(record?.volume24h) : 'Unknown' }</span>
+        <span>{record?.volume24h ? <b className='text-primary'>{ renderNumber(record?.volume24h)}</b> : 'Unknown' }</span>
       )
     },
     {
@@ -133,8 +131,9 @@ const Exchange = ({
             ? 'descend'
             : 'ascend'
           : '',
+      align: 'right',
       render: (_, record) => (
-        <span>{record?.volume7d ? renderNumber(record?.volume7d) : 'Unknown' }</span>
+        <span>{record?.volume7d ? <b className='text-primary'>{ renderNumber(record?.volume7d)}</b> : 'Unknown' }</span>
       )
     },
     {
@@ -148,12 +147,14 @@ const Exchange = ({
             ? 'descend'
             : 'ascend'
           : '',
+      align: 'right',
       render: (_, record) => (
-        <span>{record?.volume1m ? renderNumber(record?.volume1m) : 'Unknown' }</span>
+        <span>{record?.volume1m ? <b className='text-primary'>{ renderNumber(record?.volume1m)}</b> : 'Unknown' }</span>
       )
     },
     {
       title: 'Visit 7d',
+      align: 'right',
       dataIndex: 'visit7d',
       showSorterTooltip: false,
       sorter: true,
@@ -164,7 +165,7 @@ const Exchange = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <span>{record?.visit7d ? formatLargeNumber(record?.visit7d) : 'Unknown' }</span>
+        <span>{record?.visit7d ? <b className='text-primary'>{ formatLargeNumber(record?.visit7d)}</b> : 'Unknown' }</span>
       )
     },
     {
@@ -197,7 +198,7 @@ const Exchange = ({
     <div className=' font-family exchange-table '>
       <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
         A total of{' '}
-        <Badge>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Exchanges
+        <Badge className='progress-bar-striped progress-bar-animated'>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Exchanges
         found.
       </div>
       <Row>

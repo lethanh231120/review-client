@@ -254,9 +254,9 @@ const Crypto = ({
         <>
           {
             record?.priceUSD && record?.priceUSD >= 1 // format money greater than or equal with 1
-              ? formatMoneyGreaterEqualOneDollar(record?.priceUSD)
+              ? <b className='text-primary'>{formatMoneyGreaterEqualOneDollar(record?.priceUSD)}</b>
               : record?.priceUSD > 0 // format money greater than 0
-                ? formatMoneyLessOneDollar(record.priceUSD)
+                ? <b className='text-primary'>{formatMoneyLessOneDollar(record.priceUSD)}</b>
                 : NO_DATA // money less than or equal with 0
           }
         </>
@@ -274,6 +274,7 @@ const Crypto = ({
           </Tooltip>
         </span>
       ),
+      align: 'left',
       dataIndex: 'chains',
       key: 'chains',
       render: (_, record) => (
@@ -349,6 +350,7 @@ const Crypto = ({
           </Tooltip>
         </span>
       ),
+      align: 'left',
       dataIndex: 'exchanges',
       // width: '10rem',
       render: (_, record) => (
@@ -466,7 +468,7 @@ const Crypto = ({
             ? 'descend'
             : 'ascend'
           : '',
-      render: (_, record) => <span>{record?.marketcapUSD ? renderNumber(record?.marketcapUSD) : NO_DATA}</span>
+      render: (_, record) => <span>{record?.marketcapUSD ? <b className='text-primary'>{renderNumber(record?.marketcapUSD)}</b> : NO_DATA}</span>
     },
     {
       title: (
@@ -539,7 +541,7 @@ const Crypto = ({
         <>
           <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
             A total of{' '}
-            <Badge>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Coins/
+            <Badge className='progress-bar-striped progress-bar-animated'>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Coins/
             Token Contracts found.
           </div>
           <Row>

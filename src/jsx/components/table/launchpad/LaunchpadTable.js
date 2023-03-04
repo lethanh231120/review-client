@@ -51,6 +51,7 @@ const LaunchpadList = ({ listProduct,
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'left',
       dataIndex: 'chains',
       key: 'chains',
       render: (_, record) => (
@@ -96,6 +97,7 @@ const LaunchpadList = ({ listProduct,
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'left',
       dataIndex: 'avgRoiCurrent',
       showSorterTooltip: false,
       sorter: true,
@@ -119,6 +121,7 @@ const LaunchpadList = ({ listProduct,
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'left',
       showSorterTooltip: false,
       dataIndex: 'avgRoiATH',
       sorter: true,
@@ -134,6 +137,7 @@ const LaunchpadList = ({ listProduct,
     },
     {
       title: 'Year Founded',
+      align: 'left',
       showSorterTooltip: false,
       dataIndex: 'yearFounded',
       sorter: true,
@@ -157,6 +161,7 @@ const LaunchpadList = ({ listProduct,
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'right',
       showSorterTooltip: false,
       dataIndex: 'totalFundsRaised',
       sorter: true,
@@ -181,6 +186,7 @@ const LaunchpadList = ({ listProduct,
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'right',
       showSorterTooltip: false,
       dataIndex: 'marketCap',
       sorter: true,
@@ -191,7 +197,7 @@ const LaunchpadList = ({ listProduct,
                   : 'ascend'
                 : '',
       render: (_, record) => (
-        <span>{record?.marketCap ? renderNumber(record?.marketCap) : 'Unknown' }</span>
+        <span>{record?.marketCap ? <b className='text-primary'>{renderNumber(record?.marketCap)}</b> : 'Unknown' }</span>
       )
     },
     {
@@ -204,6 +210,7 @@ const LaunchpadList = ({ listProduct,
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'right',
       showSorterTooltip: false,
       dataIndex: 'volume24h',
       sorter: true,
@@ -248,7 +255,7 @@ const LaunchpadList = ({ listProduct,
     <div className='font-family launchpad-table'>
       <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
             A total of{' '}
-        <Badge>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Launchpads
+        <Badge className='progress-bar-striped progress-bar-animated'>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Launchpads
             found.
       </div>
       <Row>

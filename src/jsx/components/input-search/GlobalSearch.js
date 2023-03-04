@@ -222,6 +222,10 @@ const InputSearch = ({ isFormReport, setItem }) => {
     for (const char of text) {
       await sleep(millSecAppendChar)
       chars += char
+      // while focus search elk global
+      while (document.activeElement === globalSearchHTML) {
+        await sleep(500)
+      }
       globalSearchHTML.placeholder = chars
     }
     // while focus search elk global

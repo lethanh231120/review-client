@@ -33,6 +33,7 @@ const Dapp = ({
   const columns = [
     {
       title: 'Name',
+      align: 'left',
       render: (_, record) => (<Link className='crypto-table-info image-list' to={`../../products/${record?.dAppId?.split('_')[1]}/${record?.dAppId?.split('_')[2]}`}>
         {record?.dAppId && record?.dAppLogo ? (
           <Image alt='DApp Logo' onError={() => console.log(1)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
@@ -42,23 +43,19 @@ const Dapp = ({
           </span>)
         }
         <span>
-          {/* <Tooltip
-            title={(
-              <p>{`${record?.dAppName}`}</p>
-            )}> */}
           <div className='data-table-name ms-2'>
             <div>{record?.dAppName ? record?.dAppName : 'Unknown'}</div>
           </div>
-          {/* </Tooltip> */}
         </span>
       </Link>)
 
     },
     {
       title: 'Subcategory',
-      render: (_, record) => (<Badge bg=' badge-l' className='badge-success '>
+      align: 'left',
+      render: (_, record) => (<div className='mb-0 btn btn-primary light btn-xs mb-2 me-1'>
         {record?.subCategory}
-      </Badge>)
+      </div>)
     },
     {
       title: <span className='crypto-table-tooltip'>
@@ -70,6 +67,7 @@ const Dapp = ({
           <InfoCircleOutlined />
         </Tooltip>
       </span>,
+      align: 'left',
       render: (_, record) => (
         <Avatar.Group
           alt='Blockchains Logos'
@@ -86,6 +84,7 @@ const Dapp = ({
     },
     {
       title: 'Volume24h',
+      align: 'right',
       showSorterTooltip: false,
       dataIndex: 'volume24h',
       sorter: true,
@@ -96,11 +95,12 @@ const Dapp = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <span>{record?.volume24h ? renderNumber(record?.volume24h) : 'Unknown' }</span>
+        <span>{record?.volume24h ? <b className='text-primary'>{renderNumber(record?.volume24h)}</b> : 'Unknown' }</span>
       )
     },
     {
       title: 'User24h',
+      align: 'right',
       showSorterTooltip: false,
       dataIndex: 'user24h',
       sorter: true,
@@ -111,11 +111,12 @@ const Dapp = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <span>{record?.user24h ? formatLargeNumber(record?.user24h) : 'Unknown' }</span>
+        <span>{record?.user24h ? <b className='text-primary'>{formatLargeNumber(record?.user24h)}</b> : 'Unknown' }</span>
       )
     },
     {
       title: 'Balance',
+      align: 'right',
       dataIndex: 'balance',
       showSorterTooltip: false,
       sorter: true,
@@ -159,7 +160,7 @@ const Dapp = ({
     <div className='font-family dapp-table'>
       <div style={{ fontSize: '1rem', padding: '0 0 1rem 0', color: 'black' }}>
         A total of{' '}
-        <Badge>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Dapps
+        <Badge className='progress-bar-striped progress-bar-animated'>{total ? new Intl.NumberFormat().format(total) : 0}</Badge> Dapps
         found.
       </div>
       <Row>

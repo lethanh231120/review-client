@@ -6,13 +6,8 @@ import MyScoreComponent from '../../score/scoreComponent'
 import { ChainListContext } from '../../../../App'
 import { toCammelCase } from '../../../../utils/formatText'
 import { myLogo } from '../../common-widgets/logo/logo'
-// import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { launchpadExplain } from '../../common-widgets/row-explaination/RowExplainationText'
-// import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { InfoCircleOutlined } from '@ant-design/icons'
-// import CategorySearch from '../../input-search/CategorySearch'
-// import { LAUNCHPAD } from '../../../constants/category'
-// import { Badge } from 'react-bootstrap'
 
 const LaunchPadTable = ({ loading, listData }) => {
   const navigate = useNavigate()
