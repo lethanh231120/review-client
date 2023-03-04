@@ -553,7 +553,6 @@ const Crypto = ({
             </Col>
           </Row>
           <Table
-            // loading={loading}
             columns={columns}
             dataSource={listData}
             onChange={handleChangeTable}

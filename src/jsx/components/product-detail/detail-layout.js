@@ -1,18 +1,22 @@
 // import { scaleBand } from 'd3-scale'
-// import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import FormReport from '../Forms/form-report/FormReport'
 import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
 import { SOON, CRYPTO, VENTURE, LAUNCHPAD } from '../../constants/category'
 
 export const DetailLayout = (props) => {
-  const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, rest, setTop } = props
-  // const [reviews, setReviews] = useState()
+  const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, similar, rest, setTop, productInfo } = props
   const PAGE_SIZE = 50
 
-  // useEffect(() => {
-  //   setReviews(rest?.dataReview)
-  // }, [rest?.dataReview])
+  const getPosition = () => {
+    const top = document.getElementById('list-review')?.offsetTop
+    rest?.setOffsetTopByListComment && rest?.setOffsetTopByListComment(top - 150)
+  }
+
+  useEffect(() => {
+    window.addEventListener('load', getPosition)
+  }, [])
 
   return <>
     <div className='row'>
@@ -89,13 +93,19 @@ export const DetailLayout = (props) => {
               <div className='col-lg-12'>
                 {topDiscus}
               </div>
+
+              {/* similar*/}
+              {similar && <div className='col-lg-12 mt-4'>
+                <div className='card'>
+                  {similar}
+                </div>
+              </div>}
             </div>
           </div>
           <div className='col-xl-7'>
             {portfolioOrChartOrDesc && <div className='card cus-margin-top'>
               {portfolioOrChartOrDesc}
-            </div>
-            }
+            </div>}
             {/* form report */}
             <div className='product-detail' id='comment'>
               <FormReport
@@ -104,19 +114,22 @@ export const DetailLayout = (props) => {
                 numberReviews={rest?.totalReviews}
                 rest={rest}
                 setTop={setTop}
+                productInfo={productInfo}
               />
-              {rest?.reviews && rest?.reviews?.map((item, index) => (
-                <ReviewItem
-                  index={index}
-                  key={item?.id}
-                  data={item}
-                  reviews={rest?.reviews}
-                  setReviews={rest?.setReviews}
-                  setCurrentReview={rest?.setCurrentReview}
-                  curentReview={rest?.curentReview}
-                  productId={rest?.productId}
-                />
-              ))}
+              <div id='list-review'>
+                {rest?.reviews && rest?.reviews?.map((item, index) => (
+                  <ReviewItem
+                    index={index}
+                    key={item?.id}
+                    data={item}
+                    reviews={rest?.reviews}
+                    setReviews={rest?.setReviews}
+                    setCurrentReview={rest?.setCurrentReview}
+                    curentReview={rest?.curentReview}
+                    productId={rest?.productId}
+                  />
+                ))}
+              </div>
               <div className='category-paginate cus-category-paginate'>
                 {rest?.totalReviews > PAGE_SIZE && (
                   <Pagination
@@ -164,6 +177,13 @@ export const DetailLayout = (props) => {
             <div className='col-lg-12'>
               {topDiscus}
             </div>
+
+            {/* similar*/}
+            {similar && <div className='col-lg-12 mt-4'>
+              <div className='card'>
+                {similar}
+              </div>
+            </div>}
           </div>
 
           {/* Comments */}
@@ -175,20 +195,22 @@ export const DetailLayout = (props) => {
                 numberReviews={rest?.totalReviews}
                 rest={rest}
                 setTop={setTop}
+                productInfo={productInfo}
               />
-              {console.log(rest?.reviews?.length)}
-              {rest?.reviews && rest?.reviews?.map((item, index) => (
-                <ReviewItem
-                  index={index}
-                  key={item?.id}
-                  data={item}
-                  reviews={rest?.reviews}
-                  setReviews={rest?.setReviews}
-                  productId={rest?.productId}
-                  setCurrentReview={rest?.setCurrentReview}
-                  curentReview={rest?.curentReview}
-                />
-              ))}
+              <div id='list-review'>
+                {rest?.reviews && rest?.reviews?.map((item, index) => (
+                  <ReviewItem
+                    index={index}
+                    key={item?.id}
+                    data={item}
+                    reviews={rest?.reviews}
+                    setReviews={rest?.setReviews}
+                    productId={rest?.productId}
+                    setCurrentReview={rest?.setCurrentReview}
+                    curentReview={rest?.curentReview}
+                  />
+                ))}
+              </div>
               <div className='category-paginate cus-category-paginate'>
                 {rest?.totalReviews > PAGE_SIZE && (
                   <Pagination

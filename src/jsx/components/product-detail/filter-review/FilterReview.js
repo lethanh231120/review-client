@@ -3,7 +3,7 @@ import './filterReview.scss'
 import { Dropdown } from 'react-bootstrap'
 
 const FilterReview = (props) => {
-  const { setDefaultFilter, defaultFilter, numberReviews } = props
+  const { setDefaultFilter, defaultFilter, numberReviews, setLoadingFilter, productInfo } = props
   const ALL_REVIEW = 'All Review'
   const MOST_RELEVANT = 'Most Relevant'
   const REPORT_SCAM = 'Report Scam'
@@ -27,6 +27,7 @@ const FilterReview = (props) => {
     }
   }, [defaultFilter])
 
+  console.log(productInfo)
   return (
     <div className='list-review'>
       <div className='list-review-header'>
@@ -40,6 +41,7 @@ const FilterReview = (props) => {
               <Dropdown.Item
                 className={`${defaultText === ALL_REVIEW ? 'active' : ''} list-review-header-popover-item cus-dropdown-item`}
                 onClick={() => {
+                  setLoadingFilter(true)
                   setDefaultFilter({
                     page: defaultFilter?.page,
                     productId: defaultFilter?.productId,
@@ -47,11 +49,12 @@ const FilterReview = (props) => {
                   })
                 }}
               >
-                <div className='list-review-header-popover-title'>All Review</div>
+                <div className='list-review-header-popover-title'>All Review ({new Intl.NumberFormat().format(productInfo?.details?.totalReviews)})</div>
               </Dropdown.Item>
               <Dropdown.Item
                 className={`${defaultText === MOST_RELEVANT ? 'active' : ''} list-review-header-popover-item cus-dropdown-item`}
                 onClick={() => {
+                  setLoadingFilter(true)
                   setDefaultFilter({
                     page: defaultFilter?.page,
                     productId: defaultFilter?.productId,
@@ -59,11 +62,12 @@ const FilterReview = (props) => {
                   })
                 }}
               >
-                <div className='list-review-header-popover-title'>Most Relevant</div>
+                <div className='list-review-header-popover-title'>Most Relevant ({new Intl.NumberFormat().format(productInfo?.details?.totalReviews)})</div>
               </Dropdown.Item>
               <Dropdown.Item
                 className={`${defaultText === REPORT_SCAM ? 'active' : ''} list-review-header-popover-item cus-dropdown-item`}
                 onClick={() => {
+                  setLoadingFilter(true)
                   setDefaultFilter({
                     page: defaultFilter?.page,
                     productId: defaultFilter?.productId,
@@ -73,11 +77,12 @@ const FilterReview = (props) => {
                 }}
                 style={{ color: 'red' }}
               >
-                <div className='list-review-header-popover-title'>Report Scam</div>
+                <div className='list-review-header-popover-title'>Report Scam ({new Intl.NumberFormat().format(productInfo?.details?.totalIsScam)})</div>
               </Dropdown.Item>
               <Dropdown.Item
                 className={`${defaultText === NOT_SCAM ? 'active' : ''} list-review-header-popover-item cus-dropdown-item`}
                 onClick={() => {
+                  setLoadingFilter(true)
                   setDefaultFilter({
                     page: defaultFilter?.page,
                     productId: defaultFilter?.productId,
@@ -86,7 +91,7 @@ const FilterReview = (props) => {
                   })
                 }}
               >
-                <div className='list-review-header-popover-title'>Not Scam</div>
+                <div className='list-review-header-popover-title'>Not Scam ({new Intl.NumberFormat().format(productInfo?.details?.totalNotScam)})</div>
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
