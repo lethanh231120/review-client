@@ -1,19 +1,15 @@
-import { Avatar } from 'antd'
+import { Avatar, Tooltip } from 'antd'
 import _ from 'lodash'
 import React, { useContext } from 'react'
 import {
   Card,
-  Table,
-  Badge
-  // ProgressBar
+  Table
 } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { ChainListContext } from '../../../../../App'
-// import { formatMoney } from '../../../../utils/formatNumber'
 import './blockchain-data.scss'
-// import { LinkOutlined } from '@ant-design/icons'
 
-const color = ['success', 'info', 'warning', 'danger', 'secondary']
+const color = ['#EFB80B', '#58BAD7', '#DA4344', '#8147E7', '#18A594']
 
 export const ScamEachChainsList = ({ data }) => {
   const chainList = useContext(ChainListContext)
@@ -48,7 +44,7 @@ export const ScamEachChainsList = ({ data }) => {
       <td >{index}</td>
       <td >
         <div className='d-flex justify-content-start align-items-center'>
-          {chainName !== 'Others' && <Avatar alt='Blockchain Logo' size={25} src={img}/>}
+          {chainName !== 'Others' ? <Avatar alt='Blockchain Logo' size={25} src={img}/> : <Avatar size={25} src={'./logo.png'} />}
           <span className='ms-2'>{capitalizeFirstLetter(chainName)}</span>
         </div>
       </td>
@@ -57,10 +53,10 @@ export const ScamEachChainsList = ({ data }) => {
       </td>
       <td >
         {totalAmount}
-        {/* <ProgressBar variant={color} now={scamPercent} style={{ backgroundColor: '#A9A9A9' }}/> */}
       </td>
       <td >
-        <Badge bg={color}>{scamPercent}%</Badge>
+        {/* <Badge style={{ backgroundColor: `${color}` }} color={color}>{scamPercent}%</Badge> */}
+        <div className='cus-badge' style={{ backgroundColor: `${color}` }}>{scamPercent}%</div>
       </td>
     </tr>
   }
@@ -79,7 +75,8 @@ export const ScamEachChainsList = ({ data }) => {
             <th scope='col'>Chain Name</th>
             <th scope='col'>Scam or Dead Projects</th>
             <th scope='col'>Total Projects</th>
-            <th scope='col'>Scam Percentage</th>
+            <th scope='col'><Tooltip title=''>Scam/Dead Percentage</Tooltip></th>
+
           </tr>
         </thead>
         <tbody>
