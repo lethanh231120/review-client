@@ -29,7 +29,7 @@ import LaunchpadDetail from './launchpad-info/LaunchpadDetail'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import imgAbsentImageCrypto from '../../../images/absent_image_crypto.png'
 import { Helmet } from 'react-helmet-async'
-import { formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
+import { encodeSpecialCharacterUrl, formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
 import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
 import { SEO } from './../SEO/SEO'
 import { PathNameContext } from '../../index'
@@ -120,7 +120,7 @@ const ProductDetail = () => {
   // get data detail products
   useEffect(() => {
     const getData = () => {
-      get(`reviews/product/detail?productId=${productId}`).then(res => {
+      get(`reviews/product/detail?productId=${encodeSpecialCharacterUrl(productId)}`).then(res => {
         // check show data
         const shows = {
           sourceCode: false,

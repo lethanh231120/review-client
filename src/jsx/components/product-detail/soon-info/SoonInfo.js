@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './SoonInfo.scss'
 import { Link } from 'react-router-dom'
 import { DetailLayout } from '../detail-layout'
@@ -32,6 +32,9 @@ import LaunchpadDetail from './../../common-widgets/page-soon/LaunchpadDetail'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import { LinkOutlined } from '@ant-design/icons'
 import { LaunchpadTableDetail } from '../../common-widgets/page-soon/LaunchpadTableDetail'
+import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { soonRoundSaleExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 
 export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
@@ -190,7 +193,7 @@ const getRelativeHumanTime = (timestamp) => {
   return humanTime + ' ' + units
 }
 
-export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (startDate, endDate, fontSize) => {
+export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (startDate, endDate) => {
   const myCurrentDateTimeUnix = getCurrentTimeUnix()
 
   // string "15-05-2018" to date unix time
@@ -198,43 +201,177 @@ export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (star
 
   const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
 
-  // Ongoingstartd
+  // Ongoing
   if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
     return <>
-      <span>Started in <b className={`fs-${fontSize} ${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b></span>
-      <br/>
-      <span>End in <b className={`fs-${fontSize} ${classTxtOngoing}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b></span>
-      <hr className='hr-custome'></hr>
+      <div className='d-flex align-items-center justify-content-center'>
+        <i className={`${classTxtOngoing} material-icons fs-18`}>rocket_launch</i>
+      Started in&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
+      </div>
+      <div className='d-flex align-items-center justify-content-center'>
+        <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
+      End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
+      </div>
     </>
   } else
   // Past
   if (myCurrentDateTimeUnix > endDateUnix) {
     return <>
-      <span><b className={`fs-${fontSize} ${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)}</b> ago</span>
-      <br/>
-      &nbsp;
-      <hr className='hr-custome'></hr>
+      <div className='d-flex align-items-center justify-content-center'>
+        <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
+  Ended in
+      </div>
+      <div className='d-flex align-items-center justify-content-center'>
+        <b className={`${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago</b>
+      </div>
     </>
   } else
   // Upcoming
   if (myCurrentDateTimeUnix < startDateUnix) {
-    return <><span>Start in <b className={`fs-${fontSize} ${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b></span>
-      <br/>
-      <span>End in <b className={`fs-${fontSize} ${classTxtUpcoming}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b></span>
-      <hr className='hr-custome'></hr>
+    return <>
+      <div className='d-flex align-items-center justify-content-center'>
+        <i className={`${classTxtUpcoming} material-icons fs-18`}>rocket_launch</i>
+        Start in&nbsp;<b className={`${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b>
+      </div>
+      <div className='d-flex align-items-center justify-content-center'>
+        <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
+        End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
+      </div>
     </>
   }
 
   return null
 }
 
+const getTimeRelativeQuantificationWithNowFromStartDateAndEndDateDetail = (startDate, endDate) => {
+  const myCurrentDateTimeUnix = getCurrentTimeUnix()
+
+  // string "15-05-2018" to date unix time
+  const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
+
+  const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
+
+  // Ongoing
+  if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
+    return <div className='row mt-2'>
+      <div className='col-6'>
+        <div className='d-flex align-items-center justify-content-center'>
+          <i className={`${classTxtOngoing} material-icons fs-18`}>rocket_launch</i>
+        Started in&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
+        </div>
+      </div>
+      <div className='col-6'>
+        <div className='d-flex align-items-center justify-content-center'>
+          <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
+        End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
+        </div>
+      </div>
+    </div>
+  } else
+  // Past
+  if (myCurrentDateTimeUnix > endDateUnix) {
+    return <div className='row mt-2'>
+      <div className='col-12'>
+        <div className='d-flex align-items-center justify-content-center'>
+          <i className={`${classTxtPast} material-icons fs-18`}>rocket_launch</i>
+        Ended in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago</b>
+        </div>
+      </div>
+    </div>
+  } else
+  // Upcoming
+  if (myCurrentDateTimeUnix < startDateUnix) {
+    return <div className='row mt-2'>
+      <div className='col-6'>
+        <div className='d-flex align-items-center justify-content-center'>
+          <i className={`${classTxtUpcoming} material-icons fs-18`}>rocket_launch</i>
+        Start in&nbsp;<b className={`${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b>
+        </div>
+      </div>
+      <div className='col-6'>
+        <div className='d-flex align-items-center justify-content-center'>
+          <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
+      End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
+        </div>
+      </div>
+    </div>
+  }
+
+  return null
+}
+
+const loadingTimer = <MySkeletonLoadinng count={1} height={10} />
+
 const SoonInfo = ({ productInfo, ...rest }) => {
   const navigate = useNavigate()
   const itemDetail = productInfo?.details
   const itemTags = productInfo?.mores?.tag
   const itemRoundSales = productInfo?.mores?.roundSale
+  const itemProgressGoal = 20 // sold / goal * 100
   const [websiteLoading, setWebsiteLoading] = useState(false)
   const [top, setTop] = useState()
+  const [timerDay, setTimerDay] = useState(loadingTimer)
+  const [timerHour, setTimerHour] = useState(loadingTimer)
+  const [timerMinute, setTimerMinute] = useState(loadingTimer)
+  const [timerSecond, setTimerSecond] = useState(loadingTimer)
+  const itemStatus = getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)
+  const [timerHeadline, setTimerHeadline] = useState(itemStatus === statusOngoing
+    ? 'Countdown to end time' : itemStatus === statusUpcoming ? 'Countdown to start time' : `It's over`)
+  const [timerCountdownShow, setTimerCountdownShow] = useState(true)
+  const [timerCountdownHideContent, setTimerCountdownHideContent] = useState(false)
+
+  // milestone in the feture
+  const countDown = (milestoneUnix) => {
+    const second = 1000
+    const minute = second * 60
+    const hour = minute * 60
+    const day = hour * 24
+    const timer = setInterval(() => {
+      const now = getCurrentTimeUnix()
+      let distance
+      // in the feture
+      if (milestoneUnix) {
+        distance = milestoneUnix - now
+
+        setTimerDay(String(Math.floor(distance / (day))).padStart(2, '0'))
+        setTimerHour(String(Math.floor((distance % (day)) / (hour))).padStart(2, '0'))
+        setTimerMinute(String(Math.floor((distance % (hour)) / (minute))).padStart(2, '0'))
+        setTimerSecond(String(Math.floor((distance % (minute)) / second)).padStart(2, '0'))
+      } else {
+        // in the past
+        distance = -1
+      }
+
+      // do something later when date is reached
+      if (distance < 0) {
+        setTimerHeadline(`It's over in ${itemProgressGoal === 100 ? 'success !' : 'failed.'}`)
+        setTimerCountdownShow(false)
+        setTimerCountdownHideContent(true)
+        clearInterval(timer)
+      }
+      // seconds
+    }, second)
+  }
+  useEffect(() => {
+    if (itemDetail?.startDate && itemDetail?.endDate) {
+      const soonProjectStatus = itemStatus
+      let milestoneUnix = null
+      switch (soonProjectStatus) {
+        case statusOngoing:{
+          milestoneUnix = convertStringDDMMYYYYToUnix(itemDetail?.endDate)
+          break
+        }
+        case statusUpcoming:{
+          milestoneUnix = convertStringDDMMYYYYToUnix(itemDetail?.startDate)
+          break
+        }
+        case statusPast:{
+          break
+        }
+      }
+      countDown(milestoneUnix)
+    }
+  }, [itemDetail])
 
   const handleReportScam = () => {
     rest?.setData({
@@ -274,14 +411,14 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <div className='profile-email px-2 pt-2'>
           <p className='text-muted mb-0'>
             {
-              itemDetail?.startDate && itemDetail?.endDate ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate))}`}>
-                {getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)?.toUpperCase()}
+              itemDetail?.startDate && itemDetail?.endDate ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(itemStatus)}`}>
+                {itemStatus?.toUpperCase()}
               </span> : txtAbsentTakeUpData
             }
           </p>
           {itemDetail?.countryOrigin &&
             <p style={{ display: 'flex' }}>
-              <i className='material-icons' style={{ fontSize: '0.9rem', display: 'flex', alignItems: 'center' }}>location_on</i>
+              <i className='material-icons text-primary' style={{ fontSize: '0.9rem', display: 'flex', alignItems: 'center' }}>location_on</i>
               {itemDetail?.countryOrigin}
             </p>
           }
@@ -310,53 +447,121 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
   const columns = [
     {
-      title: 'Round',
+      title: <span className='crypto-table-tooltip text-black'>
+        Round
+        <Tooltip
+          overlayClassName='crypto-table-tooltip-box'
+          title={soonRoundSaleExplain['round']}
+        >
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
       dataIndex: 'type',
       key: 'type',
-      render: (_, record) => (<>{record?.type}</>)
+      render: (_, record) => (<><b className='text-primary'>{record?.type}</b></>)
     },
-    { title: 'Start',
-      dataIndex: 'start',
-      key: 'start',
-      render: (_, record) => (<>{record?.start ? moment(record?.start).format(formatDateStyle) : txtTBA}</>)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Start
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['start']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'start',
+    key: 'start',
+    render: (_, record) => (<>{record?.start ? moment(record?.start).format(formatDateStyle) : txtTBA}</>)
     },
-    { title: 'End',
-      dataIndex: 'end',
-      key: 'end',
-      render: (_, record) => (<>{record?.end ? moment(record?.end).format(formatDateStyle) : txtTBA}</>)
+    { title: <span className='crypto-table-tooltip text-black'>
+      End
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['end']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'end',
+    key: 'end',
+    render: (_, record) => (<>{record?.end ? moment(record?.end).format(formatDateStyle) : txtTBA}</>)
     },
-    { title: 'Launchpad',
-      dataIndex: 'launchPadId',
-      key: 'launchPadId',
-      render: (_, record) => (<LaunchpadTableDetail launchpadId={record?.launchPadId} />)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Launchpad
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['launchPadId']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'launchPadId',
+    key: 'launchPadId',
+    render: (_, record) => (<LaunchpadTableDetail launchpadId={record?.launchPadId} />)
     },
-    { title: 'Raise',
-      dataIndex: 'raise',
-      key: 'raise',
-      render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.raise)}</>)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Raise
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['raise']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'raise',
+    key: 'raise',
+    render: (_, record) => (<><b className='text-primary'>{formatLargeNumberMoneyUSD(record?.raise)}</b></>)
     },
-    { title: 'Total',
-      dataIndex: 'tokenForSale',
-      key: 'tokenForSale',
-      render: (_, record) => (<>{formatLargeNumber(record?.tokenForSale)}</>)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Total
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['tokenForSale']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'tokenForSale',
+    key: 'tokenForSale',
+    render: (_, record) => (<>{formatLargeNumber(record?.tokenForSale)}</>)
     },
-    { title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-      render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.price)}</>)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Price
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['price']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'price',
+    key: 'price',
+    render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.price)}</>)
     },
-    { title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: (_, record) => record?.start || record?.end ? (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
-        {`${getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))} ${getRelativeTimeString(record?.start, record?.end)}`}
-      </span>) : (txtAbsentTakeUpData)
+    { title: <span className='crypto-table-tooltip text-black'>
+      Status
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['status']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    dataIndex: 'status',
+    key: 'status',
+    render: (_, record) => record?.start && record?.end ? (<span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
+      {`${getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))} ${getRelativeTimeString(record?.start, record?.end)}`}
+    </span>) : (txtAbsentTakeUpData)
     }
   ]
   const roundSale = (itemRoundSales && !_.isEmpty(itemRoundSales)) ? (
     <div>
       <div className='card-header'>
-        <h4 className='card-title'>{itemDetail?.projectName} IDO</h4>
+        <h4 className='card-title text-primary d-flex align-items-center'>
+          <i className='material-icons fs-30'>auto_awesome</i>
+          &nbsp;
+          {itemDetail?.projectName}&nbsp;IDO
+        </h4>
       </div>
       <div className='card-body' style={{ padding: '0' }}>
         <div className='table-responsive recentOrderTable'>
@@ -379,35 +584,88 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </div>
   ) : null
 
-  const timeAndPercentProcess = <div className='row mb-3 d-flex'>
-    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-      <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> Start: <b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b></div>
-      <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> End&nbsp;&nbsp;: <b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b></div>
+  const countDownHtml = <div className='mt-4 text-center'>
+    <h2 className='countdown'>{timerHeadline} </h2>
+    {timerCountdownShow ? <div>
+      <ul>
+        <li className='countdown'><span>{timerDay}</span>days</li>
+        <li className='countdown'><span>{timerHour}</span>Hours</li>
+        <li className='countdown'><span>{timerMinute}</span>Minutes</li>
+        <li className='countdown'><span>{timerSecond}</span>Seconds</li>
+      </ul>
+    </div> : ''}
+    {
+      timerCountdownHideContent ? <div className='emoji'>
+        <span>{itemProgressGoal === 100 ? '🥳' : '🙉'}</span>
+        <span>{itemProgressGoal === 100 ? '🎉' : '💔'}</span>
+        <span>{itemProgressGoal === 100 ? '🎂' : '🙈'}</span>
+      </div> : ''
+    }
 
-      { (itemDetail?.startDate && itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate, 18) : txtAbsentTakeUpData}
+  </div>
+  const timeAndPercentProcess = <div className='row mb-3 d-flex'>
+    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-center justify-content-center'>
+      <i className='material-icons fs-18 text-primary'>hourglass_top</i>
+        Start time:&nbsp;<b className='text-primary'>{itemDetail?.startDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.startDate)).format(formatDateStyle) : txtTBA}</b>
+    </div>
+    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-center justify-content-center'>
+      <i className='material-icons fs-18 text-primary'>hourglass_bottom</i>
+        End time&nbsp;&nbsp;:&nbsp;<b className='text-primary'>{itemDetail?.endDate ? moment(convertStringDDMMYYYYToUnix(itemDetail?.endDate)).format(formatDateStyle) : txtTBA}</b>
+    </div>
+    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+      <hr className='hr-custome'></hr>
+      { (itemDetail?.startDate && itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDateDetail(itemDetail?.startDate, itemDetail?.endDate) : txtAbsentTakeUpData}
+    </div>
+    <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+      {countDownHtml}
     </div>
   </div>
 
   const summary = (
     <div className='text-center'>
+      <div className='row mb-3 mx-1'>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
+          <div className='progress' style={{ height: '1.2rem' }}>
+            <div className={`progress-bar progress-bar-striped progress-bar-animated ${itemProgressGoal <= 20 ? 'bg-danger' : itemProgressGoal <= 50 ? 'bg-warning' : itemProgressGoal <= 99 ? 'bg-info' : ''}`} role='progressbar' style={{ width: `${itemProgressGoal}%` }} aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'>{itemProgressGoal}% goal</div>
+          </div>
+        </div>
+      </div>
       <div className='row'>
-        <div className='col-4'>
+        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
+          <h3 className='m-b-0'>
+            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals / 5)}</Badge>
+          </h3>
+          <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
+            <i className='material-icons fs-18 text-primary'>shopping_cart</i>
+            Sold
+          </span>
+        </div>
+        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
+          <h3 className='m-b-0'>
+            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.tokenPrice) }</Badge>
+          </h3>
+          <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
+            <i className='material-icons fs-18 text-primary'>payments</i>
+            Price
+          </span>
+        </div>
+        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
+          <h3 className='m-b-0'>
+            <Badge bg='warning' text='white'>{formatLargeNumber(itemDetail?.totalSupply)}</Badge>
+          </h3>
+          <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
+            <i className='material-icons fs-18 text-primary'>forklift</i>
+            Supply
+          </span>
+        </div>
+        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
           <h3 className='m-b-0'>
             <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)}</Badge>
           </h3>
-          <span className='text-etc-overflow'>{txtGoal}</span>
-        </div>
-        <div className='col-4'>
-          <h3 className='m-b-0'>
-            <Badge bg='warning' text='white'>{formatLargeNumberMoneyUSD(itemDetail?.tokenPrice) }</Badge>
-          </h3>{' '}
-          <span className='text-etc-overflow'>Price</span>
-        </div>
-        <div className='col-4'>
-          <h3 className='m-b-0'>
-            <Badge bg='warning' text='white'>{formatLargeNumber(itemDetail?.totalSupply)}</Badge>
-          </h3>{' '}
-          <span className='text-etc-overflow'>Supply</span>
+          <span className='text-etc-overflow d-flex align-items-center justify-content-center'>
+            <i className='material-icons fs-18 text-primary'>ads_click</i>
+            {txtGoal}
+          </span>
         </div>
       </div>
       <div className='mt-4 '>
@@ -445,54 +703,79 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const more =
       <div>
         <div className='card-header border-0 pb-0'>
-          <h5 className='heading text-primary'>{itemDetail?.projectName} Information</h5>
+          <h5 className='heading text-primary d-flex align-items-center'>
+            <i className='material-icons fs-30 text-primary'>info</i>
+            &nbsp;
+            {itemDetail?.projectName} Information
+          </h5>
         </div>
         <div className='card-body pt-3'>
           {/* exist alest 1 to display this component */}
           {itemDetail?.projectName && (itemDetail?.roundType || !_.isEmpty(itemDetail?.blockchain || itemDetail?.acceptCurrency || itemDetail?.type || (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) || (itemDetail?.totalReviews || itemDetail?.totalReviews === 0)))
             ? <div className='profile-blog mb-4'>
               <Link to={'#'} >
-                <h4>Short:</h4>
+                <h4 className='d-flex align-items-center'>
+                  <i className='material-icons fs-23 text-primary'>short_text</i>
+                  Short:
+                </h4>
               </Link>
               {
-                itemDetail?.type && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    {`${itemDetail?.projectName}'s token type: `}<span className='text-primary fs-16 text-capitalize'><b>{itemDetail?.type}</b></span>
+                itemDetail?.type && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
+                  <div className='form-check custom-checkbox checkbox-success d-flex align-items-center' style={{ padding: '0' }}>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
+                    {`${itemDetail?.projectName}'s token type:`}
+                  </div>
+                  <div style={{ marginLeft: '1.5rem' }}>
+                    <span className='text-primary fs-16 text-capitalize'><b>{itemDetail?.type}</b></span>
                   </div>
                 </div>
               }
               {
-                itemDetail?.roundType && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    {`${itemDetail?.projectName}'s current round: `}<span className='text-primary fs-16 text-uppercase'><b>{itemDetail?.roundType}</b></span>
+                itemDetail?.roundType && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
+                  <div className='form-check custom-checkbox checkbox-success d-flex align-items-center' style={{ padding: '0' }}>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
+                    {`${itemDetail?.projectName}'s current round:`}
+                  </div>
+                  <div style={{ marginLeft: '1.5rem' }}>
+                    <span className='text-primary fs-16 text-uppercase'><b>{itemDetail?.roundType}</b></span>
                   </div>
                 </div>
               }
               {
                 itemDetail?.acceptCurrency &&
-              <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-                <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                  {`${itemDetail?.projectName} is exchanged in currencies: `}
-                  {itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
-                    <span className='text-primary fs-16 text-uppercase' key={index}>
-                      <b>{keyName}</b>
-                      {/* last element in array */}
-                      {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : ','}
+              <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
+                <div className='form-check custom-checkbox checkbox-success' style={{ padding: '0' }}>
+                  <div className='d-flex align-items-center'>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
+                    <span>
+                      {`${itemDetail?.projectName} is exchanged in currencies:`}
                     </span>
-                  ))}
+                  </div>
+                  <div style={{ marginLeft: '1.5rem' }}>
+                    {itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
+                      <span className='text-primary fs-16 text-uppercase' key={index}>
+                        <b>{keyName}</b>
+                        {/* last element in array */}
+                        {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : <>,&nbsp;</>}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
               }
 
               {
-                !_.isEmpty(itemDetail?.blockchain) && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
-                    {`${itemDetail?.projectName} lives on blockchains: `}
+                !_.isEmpty(itemDetail?.blockchain) && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
+                  <div className='form-check custom-checkboxcheckbox-success d-flex align-items-center' style={{ padding: '0' }}>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
+                    {`${itemDetail?.projectName} lives on blockchains:`}
+                  </div>
+                  <div style={{ marginLeft: '1.5rem' }}>
                     {Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
                       <span className='text-primary fs-16 text-capitalize' key={index}>
                         <b>{keyName}</b>
                         {/* last element in array */}
-                        {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : ','}
+                        {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : <>,&nbsp;</>}
                       </span>
                     ))}
                   </div>
@@ -501,8 +784,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
               {
                 // check like this cus && don't pass zero
-                (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
                     {itemDetail?.projectName} has <span className='text-danger fs-20'><b>{itemDetail?.totalIsScam}</b></span> scam reports
                   </div>
                 </div> : ''
@@ -510,8 +794,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
               {
                 // check like this cus && don't pass zero
-                (itemDetail?.totalReviews || itemDetail?.totalReviews === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                (itemDetail?.totalReviews || itemDetail?.totalReviews === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
                   <div className='form-check custom-checkbox mb-3 checkbox-success' style={{ padding: '0' }}>
+                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
                     {itemDetail?.projectName} has <span className='text-primary fs-20'><b>{itemDetail?.totalReviews}</b></span> reviews
                   </div>
                 </div> : ''
@@ -524,10 +809,13 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <div className='crypto-info'>
             <div className=''>
               <Link to={'#'} >
-                <h4>Website:</h4>
+                <h4 className='d-flex align-items-center'>
+                  <i className='material-icons fs-23 text-primary'>language</i>
+                  Website:
+                </h4>
               </Link>
-              <div className='row mt-3'>
-                <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+              <div className='row mt-3' style={{ marginLeft: '1.5rem' }}>
+                <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ paddingLeft: '0' }}>
                   {
                     itemDetail?.whitepaperUrl ? <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={() => window.open(itemDetail?.whitepaperUrl)}>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -622,17 +910,22 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           { !_.isEmpty(itemTags)
             ? <div className='profile-blog mb-3'>
               <Link to={'#'} >
-                <h4>Tag(s):</h4>
+                <h4 className='d-flex align-items-center'>
+                  <i className='material-icons fs-23 text-primary'>sell</i>
+                  Tag:
+                </h4>
               </Link>
-              { Object.keys(itemTags)?.map((index) => (
-                <div
-                  className='mb-0 btn btn-primary light btn-xs mb-2 me-1'
-                  onClick={() => handleClickTag(itemTags[index]?.name)}
-                  key={index}
-                >
-                  {itemTags[index]?.name}
-                </div>
-              )) }
+              <div style={{ marginLeft: '1.5rem' }}>
+                { Object.keys(itemTags)?.map((index) => (
+                  <div
+                    className='mb-0 btn btn-primary light btn-xs mb-2 me-1'
+                    onClick={() => handleClickTag(itemTags[index]?.name)}
+                    key={index}
+                  >
+                    {itemTags[index]?.name}
+                  </div>
+                )) }
+              </div>
             </div> : ''}
 
         </div>
@@ -642,7 +935,10 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const description = itemDetail?.fullDesc || itemDetail?.shortDesc ? (
     <div>
       <div className='card-header border-0 pb-0'>
-        <h5 className='heading text-primary'>About {itemDetail?.projectName}</h5>
+        <h5 className='heading text-primary d-flex align-items-center'>
+          <i className='material-icons fs-30 text-primary'>subject</i>
+          About {itemDetail?.projectName}
+        </h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog '>

@@ -4,12 +4,11 @@ import _ from 'lodash'
 
 export const LaunchpadTableDetail = ({ launchpadId }) => {
   const launchpadMapContext = useContext(LaunchpadMapContext)
-  console.log(launchpadMapContext, launchpadId, launchpadMapContext?.get(launchpadId))
 
   if (!_.isEmpty(launchpadMapContext) && launchpadId) {
     const dataLaunchpad = launchpadMapContext?.get(launchpadId)
     if (dataLaunchpad) {
-      return <div className='mb-0 btn btn-primary light btn-xs' onClick={() => { window.open(dataLaunchpad?.website, '_blank') }}><img src={dataLaunchpad?.thumbLogo} height={24} width={24}/>&nbsp;{dataLaunchpad?.name}</div>
+      return <a className='mb-0 btn-xs link-success' href={dataLaunchpad?.website} target='_blank' rel='noreferrer'><img src={dataLaunchpad?.thumbLogo} height={24} width={24}/>&nbsp;{dataLaunchpad?.name}</a>
     }
   }
   return ''

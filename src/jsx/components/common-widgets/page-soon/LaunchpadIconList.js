@@ -24,7 +24,7 @@ const LaunchpadIconList = ({ listLaunchpad }) => {
   return (
     <Avatar.Group
       alt='Launchpads Logos'
-      maxCount={2}
+      maxCount={1}
       size={20}
       maxStyle={{
         color: '#fff',

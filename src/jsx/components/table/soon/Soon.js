@@ -150,23 +150,23 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             </p>
                           </div>
                           <div className='row'>
-                            <p className='mb-0 fs-14 text-black text-center text-etc-overflow'>
+                            <p className='mb-0 fs-14 text-black text-etc-overflow text-center'>
                               {item?.startDate && item?.endDate ? (
-                                getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(
-                                  item?.startDate,
-                                  item?.endDate,
-                                  19
-                                )
+                                <>
+                                  {getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(item?.startDate, item?.endDate)}
+                                  <hr className='hr-custome'></hr>
+                                </>
                               ) : (
                               // same height with ...ago/ left
-                                <span className='fs-20'>&nbsp;</span>
+                                <span>&nbsp;</span>
                               )}
                             </p>
                           </div>
                           <div className='row'>
                             {
                               item?.fundRaisingGoals
-                                ? <p className='mb-0 fs-14 text-success text-center text-etc-overflow'>
+                                ? <p className='mb-0 fs-14 text-success text-center text-etc-overflow d-flex align-items-center justify-content-center'>
+                                  <i className='material-icons fs-18'>ads_click</i>
                                   {txtGoal}:&nbsp;{formatLargeNumberMoneyUSD(
                                     item?.fundRaisingGoals
                                   )}
@@ -183,10 +183,10 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                   </b>
                                 ) : (
                                   txtAbsentTakeUpData
-                                )}{' '}
-                                {item?.launchPads ? 'on' : ''}
+                                )}
                               </p>
-                              <span className='fs-12'>
+                              <span className='fs-12 d-flex align-items-center'>
+                                {item?.launchPads ? <>on&nbsp;</> : ''}
                                 <LaunchpadIconList
                                   listLaunchpad={item?.launchPads}
                                 />
@@ -196,7 +196,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             <Tooltip
                               title={
                                 <>
-                                      Start:{' '}
+                                      Start time:{' '}
                                   {item?.startDate
                                     ? moment(
                                       convertStringDDMMYYYYToUnix(
@@ -205,7 +205,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                     ).format(formatDateStyle)
                                     : txtTBA}
                                   <br />
-                                      End&nbsp;&nbsp;:{' '}
+                                      End time&nbsp;&nbsp;:{' '}
                                   {item?.startDate
                                     ? moment(
                                       convertStringDDMMYYYYToUnix(
@@ -218,25 +218,31 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                               placement='bottom'
                             >
                               <div className='text-etc-overflow'>
-                                <p className='mb-0 fs-12 text-etc-overflow'>
-                                      Start:{' '}
-                                  {item?.startDate
-                                    ? moment(
-                                      convertStringDDMMYYYYToUnix(
-                                        item?.startDate
-                                      )
-                                    ).format(formatDateStyle)
-                                    : txtTBA}
-                                </p>
-                                <span className='fs-12 text-etc-overflow'>
-                                      End&nbsp;&nbsp;:{' '}
-                                  {item?.startDate
-                                    ? moment(
-                                      convertStringDDMMYYYYToUnix(
-                                        item?.endDate
-                                      )
-                                    ).format(formatDateStyle)
-                                    : txtTBA}
+                                <div className='mb-0 fs-12 d-flex align-items-center'>
+                                  <i className='material-icons fs-18 text-primary'>hourglass_top</i>:
+                                  <span className='text-etc-overflow'>
+                                    &nbsp;
+                                    {item?.startDate
+                                      ? moment(
+                                        convertStringDDMMYYYYToUnix(
+                                          item?.startDate
+                                        )
+                                      ).format(formatDateStyle)
+                                      : txtTBA}
+                                  </span>
+                                </div>
+                                <span className='fs-12 text-etc-overflow d-flex align-items-center'>
+                                  <i className='material-icons fs-18 text-primary'>hourglass_bottom</i>:
+                                  <span className='text-etc-overflow'>
+                                  &nbsp;
+                                    {item?.startDate
+                                      ? moment(
+                                        convertStringDDMMYYYYToUnix(
+                                          item?.endDate
+                                        )
+                                      ).format(formatDateStyle)
+                                      : txtTBA}
+                                  </span>
                                 </span>
                               </div>
                             </Tooltip>

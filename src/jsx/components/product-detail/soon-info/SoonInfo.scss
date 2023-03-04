@@ -16,3 +16,50 @@
       cursor: pointer;
     }
   }
+
+
+// START: countdown
+h2.countdown {
+  font-size: 1rem;
+  font-weight: normal;
+  letter-spacing: .125rem;
+  text-transform: uppercase;
+}
+
+li.countdown {
+  display: inline-block;
+  font-size: 0.8rem;
+  list-style-type: none;
+  padding: 0.5rem 1rem 0;
+  text-transform: uppercase;
+}
+
+li.countdown span {
+  display: block;
+  font-size: 1.5rem;
+  color: #039F7F;
+}
+
+.emoji {
+  padding: 1rem;
+}
+
+.emoji span {
+  font-size: 2.5rem;
+  padding: 0 .5rem;
+}
+
+@media all and (max-width: 768px) {
+  h1 {
+    font-size: calc(1.5rem * var(--smaller));
+  }
+  
+  li {
+    font-size: calc(1.125rem * var(--smaller));
+  }
+  
+  li span {
+    font-size: calc(3.375rem * var(--smaller));
+  }
+}
+// END: countdown
