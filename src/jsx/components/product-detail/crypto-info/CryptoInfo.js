@@ -311,7 +311,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                   ? formatImgUrlFromProductId(record?.exchangeId)
                   : imgAbsentImageCrypto
               }
-              preview={false}
+              // preview={false}
             />
           ) : (
             <span className='exchange-no-data'>
@@ -352,7 +352,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                   ? formatImgUrlFromProductId(productInfo?.details?.cryptoId)
                   : imgAbsentImageCrypto
               }
-              preview={false}
+              // preview={false}
             />
           ) : (
             <h2 className='image-list-no-data-detail'>
@@ -402,7 +402,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                 <Image
                   alt='Blockchain Logo'
                   src={chainList[`${productInfo?.details?.chainName}`]?.image}
-                  preview={false}
+                  // preview={false}
                 />
                 {`${productInfo?.details?.address?.slice(
                   0,
@@ -861,7 +861,9 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                             key={index}
                             className='crypto-tag-item-list-children-contract'
                           >
-                            <Image src={item?.image} preview={false} alt='Website Logo'/>
+                            <Image src={item?.image}
+                            // preview={false}
+                              alt='Website Logo'/>
                             <Tooltip title={toCammelCase(item?.chainName)}>
                               <span
                                 className='crypto-tag-item-list-children-contract-address product-name-text text-primary'

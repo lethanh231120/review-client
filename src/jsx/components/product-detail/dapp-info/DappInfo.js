@@ -149,7 +149,6 @@ const DappInfo = ({ productInfo, ...rest }) => {
             (socialName) => {
               return content[socialName] !== '' ? (
                 <Tooltip className='ms-1'
-                  placementTooltip='topLeft'
                   title={toCammelCase(socialName)}
                   key={socialName}
                 >
@@ -162,7 +161,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
                       alt='Social Logo'
                       className='img-fluid p-1 rounded-circle cus-avatar'
                       style={{ backgroundColor: '#F0F2F5' }}
-                      preview={false}
+                      // preview={false}
                       src={
                         socials?.find(
                           (social) =>
@@ -221,19 +220,18 @@ const DappInfo = ({ productInfo, ...rest }) => {
                     }}
                   >
                     {detail?.chains && Object.keys(detail?.chains).map((keyChainName, index) => (
-                      <>
+                      <div key={index}>
                         {keyChainName && (
-                          <Tooltip title={toCammelCase(keyChainName)}>
+                          <Tooltip title={toCammelCase(keyChainName)} >
                             <Avatar
-                              alt='Blockchain Logo'
+                              alt='Gear5'
                               size={20}
                               src={chainList[keyChainName]?.image}
-                              key={index}
                               className='crypto-info-exchange'
                             />
                           </Tooltip>
                         )}
-                      </>
+                      </div>
                     ))}
                   </Avatar.Group>
                 </div>

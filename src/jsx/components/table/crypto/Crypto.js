@@ -118,20 +118,20 @@ const Crypto = ({
     e.stopPropagation()
   }
 
-  const getAddressFromCryptoId = async(cryptoId) =>{
-    const parts = await cryptoId?.split('_')
+  const getAddressFromCryptoId = (cryptoId) =>{
+    const parts = cryptoId?.split('_')
     if (parts.length < 4) {
       return null
     }
     return parts[3]
   }
 
-  const getMainExplorer = async records => {
+  const getMainExplorer = records => {
     const mainExplorerMapLocal = new Map()
-    for (const record of records) {
+    records?.forEach(record => {
       if (!_.isEmpty(record?.multichain)) {
         const newMultiChain = []
-        record?.multichain?.forEach(async(itemMulti) => {
+        record?.multichain?.forEach((itemMulti) => {
           const itemChain = chainList[itemMulti?.chainName]
           if (itemChain) {
             newMultiChain.push({
@@ -140,7 +140,7 @@ const Crypto = ({
             })
             // main address to display
             if (record.chainName === itemMulti?.chainName) {
-              const address = await getAddressFromCryptoId(record.cryptoId)
+              const address = getAddressFromCryptoId(record?.cryptoId)
               const url = itemChain?.exploreWebsite + itemChain?.path + address
               mainExplorerMapLocal.set(record?.cryptoId, url)
             }
@@ -148,21 +148,30 @@ const Crypto = ({
         })
       } else {
         // don't have multiple chain
-        const dataChain = chainList[record.chainName]
+        const dataChain = chainList[record?.chainName]
         // have data in chain list
         if (dataChain) {
-          return (
-            `${dataChain?.exploreWebsite}${dataChain?.path}${record.address}`
-          )
+          const address = getAddressFromCryptoId(record?.cryptoId)
+          console.log(`${dataChain?.exploreWebsite}${dataChain?.path}${address}`)
+          const url =
+            `${dataChain?.exploreWebsite}${dataChain?.path}${address}`
+          mainExplorerMapLocal.set(record?.cryptoId, url)
         }
       }
-    }
+    })
     setMainExplorerMap(mainExplorerMapLocal)
   }
 
   useEffect(() => {
     getMainExplorer(listProduct)
   }, [])
+  const onAddressClicked = (e, cryptoId) => {
+    e.stopPropagation()
+    e.preventDefault()
+    const url = mainExplorerMap?.get(cryptoId)
+    console.log(url)
+    url && window.open(url, '_blank')
+  }
 
   const columns = [
     {
@@ -180,7 +189,7 @@ const Crypto = ({
           className='crypto-table-info image-list'
         >
           {record?.cryptoId && record?.bigLogo
-            ? <Image alt='Cryptocurrency Logo' src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} />
+            ? <Image alt='Cryptocurrency Logo' src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false}/>
             : (
               <span className='image-list-no-data'>
                 {record?.name?.slice(0, 3)}
@@ -196,9 +205,9 @@ const Crypto = ({
                 <div className='data-table-symbol'>{record?.symbol}</div>
                 <div className='image-list-icon-scam-warning'>
                   {record?.isScam ? (
-                    <Image alt='Scam' src={scam} preview={false} />
+                    <Image alt='Scam' src={scam} />
                   ) : record?.isWarning ? (
-                    <Image alt='Warning' src={warning} preview={false} />
+                    <Image alt='Warning' src={warning} />
                   ) : (
                     ''
                   )}
@@ -207,7 +216,8 @@ const Crypto = ({
             </Tooltip>
             {record?.cryptoId?.split('_')[1] === CRYPTO_TOKEN && (
               <div className='data-table-address'>
-                <a href={mainExplorerMap?.get(record?.cryptoId)} target='_blank' className='product-name-text text-primary' style={{ cursor: 'pointer' }} onClick={(e) => onCancelClick(e) } rel='noreferrer' >
+                <span className='product-name-text text-primary' style={{ cursor: 'pointer' }}
+                  onClick={(e) => onAddressClicked(e, record?.cryptoId)}>
                   {`${record?.cryptoId
                     ?.split('_')[3]
                     ?.slice(0, 4)}...${record?.cryptoId
@@ -216,7 +226,7 @@ const Crypto = ({
                       record?.cryptoId?.split('_')[3]?.length - 4,
                       record?.cryptoId?.split('_')[3]?.length
                     )}`}
-                </a>
+                </span>
                 <CopyOutlined
                   onClick={(e) =>
                     copyContractAddress(e, record?.cryptoId?.split('_')[3])
@@ -325,7 +335,7 @@ const Crypto = ({
                 <Avatar
                   alt='Blockchain Logo'
                   src={formatImgUrlFromProductId(record?.cryptoId)}
-                  preview={false}
+                  // preview={false}
                   size={25}
                   key={record}
                   onClick={(e) => onCancelClick(e)}

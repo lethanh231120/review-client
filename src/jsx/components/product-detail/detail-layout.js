@@ -176,7 +176,7 @@ export const DetailLayout = (props) => {
                 rest={rest}
                 setTop={setTop}
               />
-              {console.log(rest?.reviews?.length)}
+              {/* {console.log(rest?.reviews?.length)} */}
               {rest?.reviews && rest?.reviews?.map((item, index) => (
                 <ReviewItem
                   index={index}
