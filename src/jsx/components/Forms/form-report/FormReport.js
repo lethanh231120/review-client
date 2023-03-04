@@ -254,7 +254,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
               <Image
                 alt='User Avatar'
                 src={userInfo?.image ? userInfo?.image : user}
-                preview={false}
+                // preview={false}
               />
             </div>
           )}

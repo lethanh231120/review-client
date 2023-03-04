@@ -29,12 +29,12 @@ export const launchpadExplain = {
 }
 
 export const soonRoundSaleExplain = {
-  'round': 'round',
-  'start': 'start',
-  'end': 'end',
+  'round': '',
+  'start': 'Round Start Date',
+  'end': 'Round End Date',
   'launchPadId': 'launchpad',
-  'raise': 'raise',
-  'tokenForSale': 'total',
-  'price': 'price',
-  'status': 'status'
+  'raise': 'Total Raised Amount In USD',
+  'tokenForSale': 'Total Token For Sale In This Round',
+  'price': 'Token Sale Price In this Round In USD',
+  'status': 'Round Status'
 }

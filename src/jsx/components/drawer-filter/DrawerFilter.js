@@ -103,26 +103,12 @@ const DrawerFilter = ({ type, handleFilter }) => {
     }
   }
 
-  // useEffect(() => {
-  //   if (type === 'crypto') {
-  //     if (window.localStorage.getItem(type)) {
-  //       const savedData = JSON.parse(window.localStorage.getItem(type))
-  //       Object.keys(savedData).forEach(key => {
-  //         if (key === 'type') {
-  //           setCryptoType(savedData[key])
-  //         }
-  //       })
-  //     }
-  //   }
-  // }, [])
-
   useEffect(() => {
     let count = 0
-
     if (window.localStorage.getItem(type)) {
       const savedData = JSON.parse(window.localStorage.getItem(type))
       Object.keys(savedData).forEach(key => {
-        if (!_.isEmpty(savedData[key])) {
+        if (!_.isEmpty(savedData[key]) || key === 'isWarning' || key === 'isScam') {
           count++
         }
       })
