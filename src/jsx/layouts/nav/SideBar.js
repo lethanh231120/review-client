@@ -6,7 +6,7 @@ import Collapse from 'react-bootstrap/Collapse'
 import { Button } from 'react-bootstrap'
 
 // / Link
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 // import { ThemeContext } from '../../../context/ThemeContext'
@@ -20,6 +20,7 @@ import { WARNING_ICON } from '../../components/common-widgets/logo/logo'
 import './sidebar.scss'
 
 import { PathNameContext } from '../../index'
+import { CRYPTO, DAPP, EXCHANGE, INSIGHT, LAUNCHPAD, SOON, VENTURE } from '../../constants/category'
 
 const reducer = (previousState, updatedState) => ({
   ...previousState,
@@ -28,7 +29,8 @@ const reducer = (previousState, updatedState) => ({
 
 const initialState = {
   active: '',
-  activeSubmenu: ''
+  activeSubmenu: '',
+  openDropdown: false
 }
 
 const headerItem1 = `Crypto Projects`
@@ -39,6 +41,7 @@ const headerItem5 = `ICO/IDO/IEO`
 const headerItem6 = `Launchpads`
 
 const SideBar = () => {
+  const path = useLocation()
   const toggle = useContext(ToggleContext)
   const pathName = useContext(PathNameContext)
   const [sizeScreen, setSizeScreen] = useState()
@@ -100,11 +103,6 @@ const SideBar = () => {
     }
   }
   // Menu dropdown list End
-
-  // / Path
-  // let path = window.location.pathname
-  // path = path.split('/')
-  // path = path[path.length - 1]
 
   useEffect(() => {
     const objCategories = [
@@ -196,6 +194,33 @@ const SideBar = () => {
     })
     setCategories(objCategories)
   }, [categoryContext])
+
+  useEffect(() => {
+    if (path?.pathname?.split('/')[1] === '') {
+      setState({ active: 'Home' })
+    }
+    if (path?.pathname?.split('/')?.includes(DAPP)) {
+      setState({ active: 'DApps' })
+    }
+    if (path?.pathname?.split('/')?.includes(CRYPTO)) {
+      setState({ active: 'Crypto Projects' })
+    }
+    if (path?.pathname?.split('/')?.includes(VENTURE)) {
+      setState({ active: 'Ventures' })
+    }
+    if (path?.pathname?.split('/')?.includes(EXCHANGE)) {
+      setState({ active: 'Exchanges' })
+    }
+    if (path?.pathname?.split('/')?.includes(SOON)) {
+      setState({ active: 'ICO/IDO/IEO' })
+    }
+    if (path?.pathname?.split('/')?.includes(LAUNCHPAD)) {
+      setState({ active: 'Launchpads' })
+    }
+    if (path?.pathname?.split('/')?.includes(INSIGHT)) {
+      setState({ active: 'Insights' })
+    }
+  }, [path])
 
   const saveFilterTag = (type, tag) => {
     let tempType = ''
@@ -294,9 +319,7 @@ const SideBar = () => {
             } else {
               return (
                 <li
-                  className={` ${
-                    state.active === data.title ? 'mm-active' : ''
-                  } ${data?.content?.length > 0 ? 'sub-menu' : ''}`}
+                  className={`${state.active === data.title ? 'mm-active' : ''}${data?.content?.length > 0 ? ' sub-menu' : ''}${state.openDropdown ? ' opendropdown' : ''}`}
                   key={index}
                 >
                   {data?.content && data?.content?.length > 0 ? (
@@ -310,6 +333,7 @@ const SideBar = () => {
                         className='nav-text'
                         style={{ width: '12rem' }}
                         onClick={() => {
+                          handleMenuActive(data?.title)
                           pathName?.handleChangePathName(data?.title)
                           if (sizeScreen < 767.98) {
                             mainwrapper.classList.remove('menu-toggle')
@@ -320,7 +344,11 @@ const SideBar = () => {
                       <span
                         className='has-arrow-after'
                         onClick={() => {
-                          handleMenuActive(data?.title)
+                          setState({
+                            ...state,
+                            openDropdown: !state?.openDropdown,
+                            active: state.active === data?.title ? '' : data?.title
+                          })
                           removeFilterTag(data?.title, '')
                           pathName?.handleChangePathName(data?.title)
                         }}
@@ -343,11 +371,11 @@ const SideBar = () => {
                       <div style={{ width: '12rem' }} className='nav-text'>{data.title}</div>
                     </NavLink>
                   )}
-                  <Collapse in={state.active === data.title}>
+                  <Collapse in={state.active === data.title && state?.openDropdown === true}>
                     <ul
-                      className={`${!data?.content ? 'display-none' : ''} ${
-                        menuClass === 'mm-collapse' ? 'mm-show' : ''
-                      }`}
+                      className={`${!data?.content ? 'display-none' : ''} 
+                      ${menuClass === 'mm-collapse' ? 'mm-show' : ''}
+                      `}
                     >
                       {data.content &&
                         data.content.map((data, index) => {

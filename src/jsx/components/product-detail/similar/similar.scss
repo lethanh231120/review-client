@@ -1,0 +1,618 @@
+
+@media (max-width: 3300px) {
+    .similar{
+        &-crypto {
+            & table .ant-table-thead > tr > th:nth-child(7) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(7) {
+                display: none;
+            }
+            & table .ant-table-thead > tr > th:nth-child(6) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(6) {
+                display: none;
+            }
+        }
+        &-exchange{
+            & table .ant-table-thead > tr > th:nth-child(8) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(8) {
+                display: none;
+            }
+            & table .ant-table-thead > tr > th:nth-child(7) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(7) {
+                display: none;
+            }
+            & table .ant-table-thead > tr > th:nth-child(6) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(6) {
+                display: none;
+            }
+        }
+        &-venture{
+            & table .ant-table-thead > tr > th:nth-child(3) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+                display: none;
+            }
+            & table .ant-table-thead > tr > th:nth-child(5) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(5) {
+                display: none;
+            }
+            & table .ant-table-thead > tr > th:nth-child(6) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(6) {
+                display: none;
+            }
+            & table .ant-table-thead > tr > th:nth-child(7) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(7) {
+                display: none;
+            }
+        }
+        &-launchpad{
+            & table .ant-table-thead > tr > th:nth-child(5) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(5) {
+                display: none;
+            }
+            & table .ant-table-thead > tr > th:nth-child(7) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(7) {
+                display: none;
+            }
+            & table .ant-table-thead > tr > th:nth-child(9) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(9) {
+                display: none;
+            }
+        }
+        &-soon{
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: none;
+            }
+            & table .ant-table-thead > tr > th:nth-child(3) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+                display: none;
+            }
+            & table .ant-table-thead > tr > th:nth-child(8) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(8) {
+                display: none;
+            }
+        }
+    }
+}
+@media (max-width: 2700px) {
+    .similar{
+        &-dapp {
+            & table .ant-table-thead > tr > th:nth-child(6) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(6) {
+                display: none;
+            }
+        }
+    }
+}
+
+@media (max-width: 2350px) {
+    .similar{
+        &-crypto {
+            & table .ant-table-thead > tr > th:nth-child(5) {
+            display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(5) {
+            display: none;
+            }
+        }
+        &-dapp {
+            & table .ant-table-thead > tr > th:nth-child(5) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(5) {
+                display: none;
+            }
+        }
+        &-venture {
+            & table .ant-table-thead > tr > th:nth-child(8) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(8) {
+                display: none;
+            }
+        }
+        &-launchpad{
+            & table .ant-table-thead > tr > th:nth-child(8) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(8) {
+                display: none;
+            } 
+        }
+        &-soon{
+            & table .ant-table-thead > tr > th:nth-child(5) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(5) {
+                display: none;
+            } 
+        }
+    }
+}
+@media (max-width: 2100px) {
+    .similar{
+        &-crypto {
+            & table .ant-table-thead > tr > th:nth-child(4) {
+            display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+            display: none;
+            }
+        }
+        &-dapp {
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: none;
+            }
+        }
+        &-exchange{
+            & table .ant-table-thead > tr > th:nth-child(3) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+                display: none;
+            }
+        }
+        &-venture{
+            & table .ant-table-thead > tr > th:nth-child(9) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(9) {
+                display: none;
+            } 
+        }
+        &-launchpad{
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: none;
+            } 
+        }
+        &-soon{
+            & table .ant-table-thead > tr > th:nth-child(7) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(7) {
+                display: none;
+            } 
+        }
+    }
+}
+@media (max-width: 1950px) {
+    .similar{
+        &-exchange {
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: none;
+            }
+        }
+    }
+}
+@media (max-width: 1850px) {
+    .similar{
+        &-crypto {
+            & table .ant-table-thead > tr > th:nth-child(3) {
+            display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+            display: none;
+            }
+        }
+        &-dapp {
+            & table .ant-table-thead > tr > th:nth-child(3) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+                display: none;
+            }
+        }
+        &-launchpad {
+            & table .ant-table-thead > tr > th:nth-child(6) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(6) {
+                display: none;
+            }
+        }
+        &-soon {
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: none;
+            }
+        }
+    }
+}
+@media (max-width: 1700px) {
+    .similar{
+        &-exchange {
+            & table .ant-table-thead > tr > th:nth-child(5) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(5) {
+                display: none;
+            }
+        }
+        &-venture{
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: none;
+            }
+        }
+    }
+}
+@media (max-width: 1450px) {
+    .similar{
+        &-crypto {
+            & table .ant-table-thead > tr > th:nth-child(2) {
+            display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+            display: none;
+            }
+        }
+        &-dapp {
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: none;
+            }
+        }
+        &-venture{
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: none;
+            }
+        }
+        &-launchpad{
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: none;
+            } 
+        }
+    }
+}
+@media (max-width: 1200px) {
+    .similar{
+        &-crypto {
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: table-cell;
+            }
+            & table .ant-table-thead > tr > th:nth-child(3) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+                display: table-cell;
+            }
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: table-cell;
+            }
+        }
+        &-dapp {
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: table-cell;
+            }
+            & table .ant-table-thead > tr > th:nth-child(3) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+                display: table-cell;
+            }
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: table-cell;
+            }
+        }
+        &-exchange{
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: table-cell;
+            }
+            & table .ant-table-thead > tr > th:nth-child(3) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+                display: table-cell;
+            }
+            & table .ant-table-thead > tr > th:nth-child(5) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(5) {
+                display: table-cell;
+            }
+        }
+        &-venture{
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: table-cell;
+            }
+            & table .ant-table-thead > tr > th:nth-child(3) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+                display: table-cell;
+            }
+            & table .ant-table-thead > tr > th:nth-child(9) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(9) {
+                display: table-cell;
+            }
+        }
+        &-launchpad{
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: table-cell;
+            }
+            & table .ant-table-thead > tr > th:nth-child(6) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(6) {
+                display: table-cell;
+            }
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: table-cell;
+            }
+        }
+        &-soon {
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: table-cell;
+            }
+            & table .ant-table-thead > tr > th:nth-child(7) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(7) {
+                display: table-cell;
+            }
+        }
+    }
+}
+@media (max-width: 991px) {
+    .similar{
+        &-dapp {
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: none;
+            }
+        }
+        &-exchange{
+            & table .ant-table-thead > tr > th:nth-child(5) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(5) {
+                display: none;
+            }
+        }
+        &-launchpad{
+            & table .ant-table-thead > tr > th:nth-child(6) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(6) {
+                display: none;
+            }
+        }
+        &-soon {
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: none;
+            }
+        }
+    }
+}
+@media (max-width: 650px) {
+    .similar{
+        &-crypto {
+            & table .ant-table-thead > tr > th:nth-child(4) {
+            display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+            display: none;
+            }
+        }
+        &-venture{
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: none;
+            } 
+        }
+    }
+}
+@media (max-width: 550px) {
+    .similar{
+        &-crypto {
+            & table .ant-table-thead > tr > th:nth-child(3) {
+            display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+            display: none;
+            }
+        }
+        &-dapp {
+            & table .ant-table-thead > tr > th:nth-child(3) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+                display: none;
+            }
+        }
+        &-exchange{
+            & table .ant-table-thead > tr > th:nth-child(3) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+                display: none;
+            }
+        }
+        &-venture{
+            & table .ant-table-thead > tr > th:nth-child(9) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(9) {
+                display: none;
+            }
+        }
+        &-launchpad{
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: none;
+            }
+        }
+        &-soon {
+            & table .ant-table-thead > tr > th:nth-child(7) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(7) {
+                display: none;
+            }
+        }
+    }
+}
+@media (max-width: 480px) {
+    .similar{
+        &-exchange{
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: none;
+            }
+        }
+    }
+}   
+@media (max-width: 440px) {
+    .similar{
+        &-crypto {
+            & table .ant-table-thead > tr > th:nth-child(2) {
+            display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+            display: none;
+            }
+        }
+        &-dapp {
+            & table .ant-table-thead > tr > th:nth-child(2) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(2) {
+                display: none;
+            }
+        }
+        &-venture{
+            & table .ant-table-thead > tr > th:nth-child(3) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(3) {
+                display: none;
+            }
+        }
+        &-launchpad{
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: none;
+            }
+        }
+        &-soon {
+            & table .ant-table-thead > tr > th:nth-child(6) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(6) {
+                display: none;
+            }
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: table-cell;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: table-cell;
+            }
+        }
+    }
+}
+@media (max-width: 360px) {
+    .similar{
+        &-exchange{
+            & table .ant-table-thead > tr > th:nth-child(4) {
+                display: none;
+            }
+            & table .ant-table-tbody > tr > td:nth-child(4) {
+                display: none;
+            }
+        }
+    }
+}  

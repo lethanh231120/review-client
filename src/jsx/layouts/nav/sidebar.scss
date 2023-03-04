@@ -126,6 +126,7 @@
                 display: inline-block;
                 font-size: 1rem;
                 color: #737b8b;
+                padding: 0.75rem 1.5rem !important;
                 & i {
                     color: #96a0af;
                 }
@@ -322,7 +323,7 @@
     padding: 0.125rem 1.25rem;
 }
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li > a {
-    padding: 0.725rem 0.775rem;
+    padding: 1.725rem 1.3rem;
     margin: 3px 6px;
     text-align: center;
     border-radius: 0.625rem;
@@ -580,7 +581,7 @@
     border-color: rgba(255, 255, 255, 0.85) transparent transparent rgba(255, 255, 255, 0.85) !important;
 }
 .metismenu .has-arrow[aria-expanded="true"]:after,
-.metismenu .mm-active > .has-arrow > .has-arrow-after {
+.metismenu .mm-active.opendropdown > .has-arrow > .has-arrow-after {
     -webkit-transform: rotate(-135deg) translateY(-50%);
     transform: rotate(-135deg) translateY(-50%);
 }
