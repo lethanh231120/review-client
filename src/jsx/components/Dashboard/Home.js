@@ -15,13 +15,7 @@ import './home.scss'
 import Banner from '../common-widgets/home/banner'
 import { SummaryHomeContext } from '../../../App'
 
-const fillColors = [
-  '#18A594',
-  '#58BAD7',
-  '#F0A901',
-  '#EB5757',
-  '#362465'
-]
+const fillColors = ['#EFB80B', '#58BAD7', '#DA4344', '#8147E7', '#18A594']
 
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)

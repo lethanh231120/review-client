@@ -48,14 +48,13 @@ const DrawerFilter = ({ type, handleFilter }) => {
   const [form] = Form.useForm()
   const [tagList, setTagList] = useState([])
   const { Option } = Select
-  const [cryptoType, setCryptoType] = useState('')
+  // const [cryptoType, setCryptoType] = useState('')
   const [location, setLocation] = useState([])
   const [roundType, setRoundType] = useState([])
   const [initialValues, setInititalValues] = useState()
   const launchpadContext = useContext(LaunchpadMapContext)
   const [launchpadList, setLaunchpadList] = useState([])
   const [filterCount, setFilterCount] = useState(0)
-  // const [defautlActiveKey, setDefaultActiveKey] = useState([])
 
   useEffect(() =>{
     const temp = Array.from(launchpadContext)?.map(item => ({ label: item[1]?.name, value: item[1]?.launchPadId }))
@@ -64,9 +63,8 @@ const DrawerFilter = ({ type, handleFilter }) => {
   const fromObjectToArray = (stringData) => {
     const arr = []
     const parsedData = JSON.parse(stringData)
-
     parsedData && Object.keys(parsedData)?.forEach(key => {
-      if (!_.isEmpty(parsedData[key])) {
+      if (!_.isEmpty(parsedData[key]) || key === 'isWarning' || key === 'isScam') {
         arr.push({ name: key, value: parsedData[key] })
       }
     })
@@ -105,18 +103,18 @@ const DrawerFilter = ({ type, handleFilter }) => {
     }
   }
 
-  useEffect(() => {
-    if (type === 'crypto') {
-      if (window.localStorage.getItem(type)) {
-        const savedData = JSON.parse(window.localStorage.getItem(type))
-        Object.keys(savedData).forEach(key => {
-          if (key === 'type') {
-            setCryptoType(savedData[key])
-          }
-        })
-      }
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (type === 'crypto') {
+  //     if (window.localStorage.getItem(type)) {
+  //       const savedData = JSON.parse(window.localStorage.getItem(type))
+  //       Object.keys(savedData).forEach(key => {
+  //         if (key === 'type') {
+  //           setCryptoType(savedData[key])
+  //         }
+  //       })
+  //     }
+  //   }
+  // }, [])
 
   useEffect(() => {
     let count = 0
@@ -146,24 +144,18 @@ const DrawerFilter = ({ type, handleFilter }) => {
   }
 
   const onResetClicked = () => {
-    if (window.localStorage.getItem(type)) {
-      window.localStorage.removeItem(type)
-    }
+    window.localStorage.removeItem(type)
     form.resetFields()
   }
 
-  const getCryptoTag = async() => {
-    if (type === 'crypto') {
-      const res = await get(`reviews/tag?type=${cryptoType}`)
-      const temp = res?.data
-      temp && setTagList(tagList => ['All', ...temp])
-    }
-  }
-
-  const getOtherTag = async() => {
+  const getTags = async() => {
     if (showDrawer) {
       if (type === 'dapp') {
         const res = await get('reviews/tag?type=dapp')
+        const temp = res?.data
+        temp && setTagList(tagList => ['All', ...temp])
+      } else if (type === 'crypto') {
+        const res = await get('reviews/tag?type=coin')
         const temp = res?.data
         temp && setTagList(tagList => ['All', ...temp])
       } else if (type === 'exchange') {
@@ -193,15 +185,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
       temp && setRoundType(roundType => ['All', ...temp])
     }
   }
-  useEffect(() => {
-    if (cryptoType === 'coin') {
-      getCryptoTag()
-    }
-    if (cryptoType === 'token' || cryptoType === '') {
-      form.setFieldValue('tag', '')
-      setTagList([])
-    }
-  }, [cryptoType])
 
   useEffect(() => {
     if (type === 'venture') {
@@ -209,9 +192,9 @@ const DrawerFilter = ({ type, handleFilter }) => {
     }
     if (type === 'soon') {
       getRoundType()
-      getOtherTag()
+      getTags()
     } else {
-      getOtherTag()
+      getTags()
     }
   }, [showDrawer])
   const onFinish = (values) => {
@@ -249,7 +232,14 @@ const DrawerFilter = ({ type, handleFilter }) => {
       }
 
       // --TYPE
-      filterParams['type'] = values?.type
+
+      if (values?.type) {
+        if (values?.type === 'All') {
+          filterParams['type'] = ''
+        } else {
+          filterParams['type'] = values?.type
+        }
+      }
 
       if (values?.tag) {
         if (values?.tag === 'All') {
@@ -591,7 +581,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
               <Form.Item name='type' label='Crypto Type'>
                 <Select
                   placeholder='Crypto Type'
-                  onChange={(e) => setCryptoType(e)}
                   width='100%'
                 >
                   <Option value=''>All</Option>
