@@ -52,6 +52,8 @@ import {
   PinterestShareButton,
   RedditShareButton
 } from 'react-share'
+import ShortItem from '../../common-widgets/page-soon/ShortItem'
+import ShortItemScamWarning, { typeReview, typeScamReport } from '../../common-widgets/page-soon/ShortItemScamWarning'
 
 export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
 
@@ -808,86 +810,67 @@ const SoonInfo = ({ productInfo, ...rest }) => {
                 </h4>
               </Link>
               {
-                itemDetail?.type && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
-                  <div className='form-check custom-checkbox checkbox-success d-flex align-items-center' style={{ padding: '0' }}>
-                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
-                    {`${itemDetail?.projectName}'s token type:`}
-                  </div>
-                  <div style={{ marginLeft: '1.5rem' }}>
-                    <span className='text-primary fs-16 text-capitalize'><b>{itemDetail?.type}</b></span>
-                  </div>
-                </div>
+                itemDetail?.type &&
+                <ShortItem
+                  title={`${itemDetail?.projectName}'s token type:`}
+                  content={itemDetail?.type}
+                />
               }
               {
-                itemDetail?.roundType && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
-                  <div className='form-check custom-checkbox checkbox-success d-flex align-items-center' style={{ padding: '0' }}>
-                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
-                    {`${itemDetail?.projectName}'s current round:`}
-                  </div>
-                  <div style={{ marginLeft: '1.5rem' }}>
-                    <span className='text-primary fs-16 text-uppercase'><b>{itemDetail?.roundType}</b></span>
-                  </div>
-                </div>
+                itemDetail?.roundType &&
+                <ShortItem
+                  title={`${itemDetail?.projectName}'s current round:`}
+                  content={itemDetail?.roundType}
+                />
               }
               {
                 itemDetail?.acceptCurrency &&
-              <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
-                <div className='form-check custom-checkbox checkbox-success' style={{ padding: '0' }}>
-                  <div className='d-flex align-items-center'>
-                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
-                    <span>
-                      {`${itemDetail?.projectName} is exchanged in currencies:`}
+                <ShortItem
+                  title={`${itemDetail?.projectName} is exchanged in currencies:`}
+                  content={itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
+                    <span className='text-primary fs-16 text-uppercase' key={index}>
+                      <b>{keyName}</b>
+                      {/* last element in array */}
+                      {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : <>,&nbsp;</>}
                     </span>
-                  </div>
-                  <div style={{ marginLeft: '1.5rem' }}>
-                    {itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
-                      <span className='text-primary fs-16 text-uppercase' key={index}>
-                        <b>{keyName}</b>
-                        {/* last element in array */}
-                        {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : <>,&nbsp;</>}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+                  ))}
+                />
               }
 
               {
-                !_.isEmpty(itemDetail?.blockchain) && <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
-                  <div className='form-check custom-checkboxcheckbox-success d-flex align-items-center' style={{ padding: '0' }}>
-                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
-                    {`${itemDetail?.projectName} lives on blockchains:`}
-                  </div>
-                  <div style={{ marginLeft: '1.5rem' }}>
-                    {Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
-                      <span className='text-primary fs-16 text-capitalize' key={index}>
-                        <b>{keyName}</b>
-                        {/* last element in array */}
-                        {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : <>,&nbsp;</>}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                !_.isEmpty(itemDetail?.blockchain) &&
+                <ShortItem
+                  title={`${itemDetail?.projectName} lives on blockchains:`}
+                  content={Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
+                    <span className='text-primary fs-16 text-capitalize' key={index}>
+                      <b>{keyName}</b>
+                      {/* last element in array */}
+                      {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : <>,&nbsp;</>}
+                    </span>
+                  ))}
+                />
               }
 
               {
                 // check like this cus && don't pass zero
-                (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success d-flex align-items-center' style={{ padding: '0' }}>
-                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
-                    {itemDetail?.projectName} has&nbsp;<span className='text-danger fs-20'><b>{itemDetail?.totalIsScam}</b></span>&nbsp;scam reports
-                  </div>
-                </div> : ''
+                (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0)
+                  ? <ShortItemScamWarning
+                    type={typeScamReport}
+                    projectName={itemDetail?.projectName}
+                    total={itemDetail?.totalIsScam}
+                  />
+                  : ''
               }
 
               {
                 // check like this cus && don't pass zero
-                (itemDetail?.totalReviews || itemDetail?.totalReviews === 0) ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
-                  <div className='form-check custom-checkbox mb-3 checkbox-success  d-flex align-items-center' style={{ padding: '0' }}>
-                    <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
-                    {itemDetail?.projectName} has&nbsp;<span className='text-primary fs-20'><b>{itemDetail?.totalReviews}</b></span>&nbsp;reviews
-                  </div>
-                </div> : ''
+                (itemDetail?.totalReviews || itemDetail?.totalReviews === 0)
+                  ? <ShortItemScamWarning
+                    type={typeReview}
+                    projectName={itemDetail?.projectName}
+                    total={itemDetail?.totalReviews}
+                  />
+                  : ''
               }
 
             </div> : ''}
@@ -1098,7 +1081,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       timeAndPercentProcess={timeAndPercentProcess}
       summary={summary}
       more={more}
-      type='soon'
+      type={SOON}
       portfolioOrChartOrDesc={description}
       about={about}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
