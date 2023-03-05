@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Spin, Tooltip, Table } from 'antd'
+import { Tooltip, Table } from 'antd'
 import Description from '../description/Description'
 import {
   CopyOutlined,
@@ -26,8 +26,7 @@ import {
 import { DetailLayout } from '../detail-layout'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import MyScoreComponent from '../../score/scoreComponent'
-import { copyContractAddress, openWebsite } from '../../../../utils/effect'
-import { LoadingOutlined } from '@ant-design/icons'
+import { copyContractAddress } from '../../../../utils/effect'
 import CoinChart from '../../charts/coinchart/CoinChart'
 import { Link } from 'react-router-dom'
 import {
@@ -37,26 +36,10 @@ import {
   slash
 } from '../../../constants/exchanges'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
-import { websiteIcon } from '../../common-widgets/icons'
 import { ExchangeDetail } from '../../common-widgets/page-crypto/ExchangeDetail'
-
-import {
-  FacebookIcon,
-  LinkedinIcon,
-  PinterestIcon,
-  RedditIcon,
-  TelegramIcon,
-  TwitterIcon
-} from 'react-share'
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  TelegramShareButton,
-  LinkedinShareButton,
-  PinterestShareButton,
-  RedditShareButton
-} from 'react-share'
-import Similar from '../similar/Similar'
+import ShareButton from '../../common-widgets/page-detail/ShareButton'
+import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
+import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const PAGE_SIZE = 10
   const navigate = useNavigate()
@@ -65,8 +48,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const [showInfo, setShowInfo] = useState()
   const [multichain, setMultichain] = useState()
   const [mainExplorer, setMainExplorer] = useState()
-  const [loading, setLoading] = useState(false)
-  const waitMillSecOpenWebsite = 3000
   const [dataExchange, setDataExchange] = useState([])
   const [top, setTop] = useState()
 
@@ -442,83 +423,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         </div>
 
         <div className='detail-button'>
-          <Dropdown className='sidebar-dropdown me-2 cus-dropdown'>
-            <Dropdown.Toggle
-              variant=''
-              as='a'
-              className='ai-icon i-false c-pointer button-signup-home'
-              role='button'
-            >
-              <Button className='btn btn-primary'>Share</Button>
-            </Dropdown.Toggle>
-            <Dropdown.Menu className='detail-list-social-share'>
-              <Dropdown.Item >
-                <FacebookShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <FacebookIcon size={26} round />
-                  </span>
-                </FacebookShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <TwitterShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <TwitterIcon size={26} round={true}/>
-                  </span>
-                </TwitterShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <TelegramShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <TelegramIcon size={26} round={true}/>
-                  </span>
-                </TelegramShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <LinkedinShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <LinkedinIcon size={26} round={true}/>
-                  </span>
-                </LinkedinShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <PinterestShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <PinterestIcon size={26} round={true}/>
-                  </span>
-                </PinterestShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <RedditShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <RedditIcon size={26} round={true}/>
-                  </span>
-                </RedditShareButton>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-          {productInfo?.details?.website && (
-            <Button
-              className='btn btn-primary ms-auto'
-              onClick={() =>
-                openWebsite(
-                  productInfo?.details?.website,
-                  setLoading,
-                  waitMillSecOpenWebsite
-                )
-              }
-            >
-              {loading ? (
-                <Spin
-                  indicator={<LoadingOutlined spin />}
-                  style={{ color: 'white', marginRight: '0.3rem' }}
-                />
-              ) : (
-                ''
-              )}
-              {websiteIcon}
-            Website
-            </Button>
-          )}
+          <ShareButton name={productInfo?.details?.name} />
+          <WebsiteButton website={productInfo?.details?.website} />
         </div>
       </div>
     </div>
@@ -1021,21 +927,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     </>
   )
 
-  const similar = <>
-    {!_.isEmpty(productInfo?.similars) && (
-      <>
-        <div className='card-header border-0 pb-0 cus-card-header'>
-          <h5 className='heading text-primary cus-heading'>Similar</h5>
-        </div>
-        <div className='card-body pt-3'>
-          <div className='profile-interest '>
-            <Similar type={CRYPTO} listProjectId={productInfo?.similars}/>
-          </div>
-        </div>
-      </>
-    )}
-  </>
-
   const NO_CHART_LIST = ['DAI', 'USDT', 'USDC']
   let symbol = ''
   if (!NO_CHART_LIST.includes(productInfo?.details?.symbol)) {
@@ -1060,28 +951,20 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     />
   )
 
-  return (
-    <>
-      {/* <Helmet>
-        <title>HELMET TEST</title>
-        <meta name='description' content={productInfo?.detail?.description}></meta>
-      </Helmet> */}
-      <DetailLayout
-        Header={header}
-        type='crypto'
-        summary={summary}
-        scam={scam}
-        more={more}
-        about={about}
-        exchange={exchange}
-        topDiscus={<TopDiscussed />}
-        portfolioOrChartOrDesc={priceChart}
-        setTop={setTop}
-        rest={rest}
-        similar={similar}
-        productInfo={productInfo}
-      />
-    </>
-  )
+  return <DetailLayout
+    Header={header}
+    type='crypto'
+    summary={summary}
+    scam={scam}
+    more={more}
+    about={about}
+    exchange={exchange}
+    topDiscus={<TopDiscussed />}
+    portfolioOrChartOrDesc={priceChart}
+    setTop={setTop}
+    rest={rest}
+    similar={ <ProductSimilar productType={CRYPTO} similarList={productInfo?.similars} /> }
+    productInfo={productInfo}
+  />
 }
 export default CryptoInfo
