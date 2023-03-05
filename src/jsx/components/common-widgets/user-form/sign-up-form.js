@@ -66,7 +66,7 @@ export const SignUpComponent = () => {
         Swal.fire({
           allowOutsideClick: false,
           icon: 'success',
-          title: 'Resgister successfully. ',
+          title: 'Resgister successfully',
           html: 'Please check email to activate your account',
           showClass: {
             popup: 'animate__animated animate__fadeInDown'
@@ -86,8 +86,8 @@ export const SignUpComponent = () => {
       Swal.fire({
         allowOutsideClick: false,
         icon: 'error',
-        title: 'Resgister failed.',
-        html: e?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later.',
+        title: 'Resgister failed',
+        html: e?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later',
         showClass: {
           popup: 'animate__animated animate__fadeInDown'
         },

@@ -1,13 +1,14 @@
 import React, { useEffect, useContext } from 'react'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import Swal from 'sweetalert2'
-import { SignInContext, FormLoginSignupKeyContext } from '../../../App'
+import { SignInContext, FormLoginSignupKeyContext, SignInFromAddProductContext } from '../../../App'
 import ModalAdd from '../modal/modal-add-product/ModalAdd'
 import { logInKey } from '../common-widgets/user-form/account-tab'
 
 const AddProject = ({ isModal }) => {
   const signContext = useContext(SignInContext)
   const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)
+  const signInFromAddProductContext = useContext(SignInFromAddProductContext)
 
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
@@ -17,7 +18,7 @@ const AddProject = ({ isModal }) => {
       Swal.fire({
         allowOutsideClick: false,
         icon: 'info',
-        title: 'Please login first',
+        title: 'Please sign in first',
         showClass: {
           popup: 'animate__animated animate__fadeInDown'
         },
@@ -29,6 +30,7 @@ const AddProject = ({ isModal }) => {
         // click out modal notification, or click [OK] in modal
         if (result?.isDismissed || result?.isConfirmed) {
           // keep state in context, login form raise when click add project
+          signInFromAddProductContext?.setIsOpenModalAddProduct(true)
           signContext?.handleSetOpenModal(true)
           formLoginSignupKeyContext?.setLoginSignupFormactiveTabKey(logInKey)
         }

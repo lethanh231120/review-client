@@ -12,19 +12,14 @@ import {
   formatImgUrlFromProductId
 } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
-import {
-  convertStringDDMMYYYYToUnix,
-  formatDateStyle,
-  getStatusBackgroundFromSoonStatus,
-  getStatusFromStartDateAndEndDate,
-  getTimeRelativeQuantificationWithNowFromStartDateAndEndDate,
-  txtAbsentTakeUpData,
-  txtGoal,
-  txtTBA
-} from '../../product-detail/soon-info/SoonInfo'
 import moment from 'moment'
 import CategorySearch from './../../input-search/CategorySearch'
 import { Badge } from 'react-bootstrap'
+import { getStatusBackgroundFromSoonStatus, getTimeRelativeQuantificationWithNowFromStartDateAndEndDate } from '../../product-detail/soon-info/SoonInfo'
+import { getStatusFromStartDateAndEndDate } from '../../../../utils/time/page-soon/time'
+import { txtGoal, txtTBA } from '../../../constants/page-soon'
+import { txtAbsentTakeUpData } from '../../../constants/data'
+import { convertStringDDMMYYYYToUnix, formatDateStyle } from '../../../../utils/time/time'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
