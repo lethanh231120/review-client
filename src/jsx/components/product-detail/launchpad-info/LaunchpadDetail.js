@@ -335,18 +335,10 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
     </div>
   }
 
-  const About = () => {
-    return <div>
-      <div className='card-header border-0 pb-0'>
-        <h5 className='heading text-primary'>About {detail?.name}</h5>
-      </div>
-      <div className='card-body pt-3'>
-        <div className='profile-blog '>
-          {detail?.description && <Description text={detail?.description}/>}
-        </div>
-      </div>
-    </div>
-  }
+  const about = <Description
+    projectName={detail?.name}
+    text={detail?.description}
+  />
 
   const similar = <>
     {!_.isEmpty(productInfo?.similars) && (
@@ -499,7 +491,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       Header={<Header />}
       summary={summary}
       more={<More />}
-      about={<About />}
+      about={about}
       portfolioOrChartOrDesc={productInfo?.mores?.soon ? <IDOList /> : null}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}

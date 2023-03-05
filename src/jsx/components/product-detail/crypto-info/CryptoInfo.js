@@ -989,24 +989,10 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     </>
   )
 
-  const about = (
-    <>
-      <div className='card-header border-0 pb-0 cus-card-header'>
-        <h5 className='heading text-primary cus-heading'>About {productInfo?.details?.name}</h5>
-      </div>
-      <div className='card-body pt-3'>
-        <div className='profile-interest '>
-          <Description
-            text={
-              productInfo?.details?.description
-                ? productInfo?.details?.description
-                : ''
-            }
-          />
-        </div>
-      </div>
-    </>
-  )
+  const about = <Description
+    projectName={productInfo?.details?.name}
+    text={ productInfo?.details?.description }
+  />
 
   const exchange = (
     <>
