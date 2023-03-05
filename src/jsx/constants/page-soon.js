@@ -11,3 +11,11 @@ export const displayPast = 'ENDED IN'
 export const txtTBA = 'TBA'
 
 export const txtGoal = 'Goal'
+
+export const classTxtUpcoming = 'text-warning'
+export const classTxtOngoing = 'text-primary'
+export const classTxtPast = 'text-danger'
+
+export const classBackgroundUpcoming = 'badge-warning'
+export const classBackgroundOngoing = 'badge-primary'
+export const classBackgroundPast = 'badge-danger'

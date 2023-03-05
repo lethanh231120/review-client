@@ -55,154 +55,13 @@ import ShortItemScamWarning, { typeReview, typeScamReport } from '../../common-w
 import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
 import InformationSubTitle, { typeShort, typeWebsite } from '../../common-widgets/page-detail/InformationSubTitle'
 import { typeTag } from './../../common-widgets/page-detail/InformationSubTitle'
-import { convertStringDDMMYYYYToUnix, formatDateStyle, getCurrentTimeUnix, getRelativeHumanTime, getRelativeTimeString } from '../../../../utils/time/time'
-import { displayOngoing, displayPast, displayUpcoming, statusOngoing, statusPast, statusUpcoming, txtGoal } from '../../../constants/page-soon'
+import { convertStringDDMMYYYYToUnix, formatDateStyle, getCurrentTimeUnix, getRelativeTimeString } from '../../../../utils/time/time'
+import { statusOngoing, statusPast, statusUpcoming, txtGoal } from '../../../constants/page-soon'
 import { txtTBA } from './../../../constants/page-soon'
 import { txtAbsentTakeUpData } from '../../../constants/data'
-import { getStatusFromStartDateAndEndDate } from '../../../../utils/time/page-soon/time'
-
-const getDisplayFromSoonStatus = (status) => {
-  switch (status) {
-    case statusUpcoming:
-      return displayUpcoming
-    case statusOngoing:
-      return displayOngoing
-    case statusPast:
-      return displayPast
-    default:
-      return txtAbsentTakeUpData
-  }
-}
-
-const classTxtUpcoming = 'text-warning'
-const classTxtOngoing = 'text-primary'
-const classTxtPast = 'text-danger'
-
-const classBackgroundUpcoming = 'badge-warning'
-const classBackgroundOngoing = 'badge-primary'
-const classBackgroundPast = 'badge-danger'
-
-export const getStatusBackgroundFromSoonStatus = (status) => {
-  switch (status) {
-    case statusUpcoming:
-      return classBackgroundUpcoming
-    case statusOngoing:
-      return classBackgroundOngoing
-    case statusPast:
-      return classBackgroundPast
-    default:
-      return txtAbsentTakeUpData
-  }
-}
-
-export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (startDate, endDate) => {
-  const myCurrentDateTimeUnix = getCurrentTimeUnix()
-
-  // string "15-05-2018" to date unix time
-  const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
-
-  const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
-
-  // Ongoing
-  if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
-    return <>
-      <div className='d-flex align-items-center justify-content-center'>
-        <i className={`${classTxtOngoing} material-icons fs-18`}>rocket_launch</i>
-      Started in&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
-      </div>
-      <div className='d-flex align-items-center justify-content-center'>
-        <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
-      End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
-      </div>
-    </>
-  } else
-  // Past
-  if (myCurrentDateTimeUnix > endDateUnix) {
-    return <>
-      <div className='d-flex align-items-center justify-content-center'>
-        <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
-        Ended in
-      </div>
-      <div className='d-flex align-items-center justify-content-center'>
-        <b className={`${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago</b>
-      </div>
-    </>
-  } else
-  // Upcoming
-  if (myCurrentDateTimeUnix < startDateUnix) {
-    return <>
-      <div className='d-flex align-items-center justify-content-center'>
-        <i className={`${classTxtUpcoming} material-icons fs-18`}>rocket_launch</i>
-        Start in&nbsp;<b className={`${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b>
-      </div>
-      <div className='d-flex align-items-center justify-content-center'>
-        <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
-        End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
-      </div>
-    </>
-  }
-
-  return null
-}
-
-const getTimeRelativeQuantificationWithNowFromStartDateAndEndDateDetail = (startDate, endDate) => {
-  const myCurrentDateTimeUnix = getCurrentTimeUnix()
-
-  // string "15-05-2018" to date unix time
-  const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
-
-  const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
-
-  // Ongoing
-  if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
-    return <div className='row mt-2'>
-      <div className='col-6'>
-        <div className='d-flex align-items-center justify-content-center'>
-          <i className={`${classTxtOngoing} material-icons fs-18`}>rocket_launch</i>
-        Started in&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
-        </div>
-      </div>
-      <div className='col-6'>
-        <div className='d-flex align-items-center justify-content-center'>
-          <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
-        End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
-        </div>
-      </div>
-    </div>
-  } else
-  // Past
-  if (myCurrentDateTimeUnix > endDateUnix) {
-    return <div className='row mt-2'>
-      <div className='col-12'>
-        <div className='d-flex align-items-center justify-content-center'>
-          <i className={`${classTxtPast} material-icons fs-18`}>rocket_launch</i>
-        Ended in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago</b>
-        </div>
-      </div>
-    </div>
-  } else
-  // Upcoming
-  if (myCurrentDateTimeUnix < startDateUnix) {
-    return <div className='row mt-2'>
-      <div className='col-6'>
-        <div className='d-flex align-items-center justify-content-center'>
-          <i className={`${classTxtUpcoming} material-icons fs-18`}>rocket_launch</i>
-        Start in&nbsp;<b className={`${classTxtUpcoming}`}>{getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)}</b>
-        </div>
-      </div>
-      <div className='col-6'>
-        <div className='d-flex align-items-center justify-content-center'>
-          <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
-      End in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)}</b>
-        </div>
-      </div>
-    </div>
-  }
-
-  return null
-}
-
-const loadingTimer = <MySkeletonLoadinng count={1} height={10} />
+import { getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../../../utils/page-soon/status'
+import TimeRelativeQuantificationDetail from '../../common-widgets/page-soon/TimeRelativeQuantificationDetail'
+import { StatusTextDisplay } from '../../common-widgets/page-soon/StatusTextDisplay'
 
 const SoonInfo = ({ productInfo, ...rest }) => {
   const navigate = useNavigate()
@@ -212,6 +71,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const itemProgressGoal = 20 // sold / goal * 100
   const [websiteLoading, setWebsiteLoading] = useState(false)
   const [top, setTop] = useState()
+  const loadingTimer = <MySkeletonLoadinng count={1} height={10} />
   const [timerDay, setTimerDay] = useState(loadingTimer)
   const [timerHour, setTimerHour] = useState(loadingTimer)
   const [timerMinute, setTimerMinute] = useState(loadingTimer)
@@ -520,7 +380,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     dataIndex: 'status',
     key: 'status',
     render: (_, record) => record?.start && record?.end ? (<span className={`badge badge-rounded text-uppercase ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
-      {`${getDisplayFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))} ${getRelativeTimeString(record?.start, record?.end)}`}
+      <StatusTextDisplay status={getStatusFromStartDateAndEndDate(record?.start, record?.end)} />
+      &nbsp;
+      {getRelativeTimeString(record?.start, record?.end)}
     </span>) : (txtAbsentTakeUpData)
     }
   ]
@@ -595,7 +457,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         </div>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
           <hr className='hr-custome'></hr>
-          { (itemDetail?.startDate && itemDetail?.endDate) ? getTimeRelativeQuantificationWithNowFromStartDateAndEndDateDetail(itemDetail?.startDate, itemDetail?.endDate) : txtAbsentTakeUpData}
+          { (itemDetail?.startDate && itemDetail?.endDate) ? <TimeRelativeQuantificationDetail startDate={itemDetail?.startDate} endDate={itemDetail?.endDate}/> : txtAbsentTakeUpData}
         </div>
       </div>
       <div className='row'>
