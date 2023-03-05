@@ -1,4 +1,4 @@
-import { Avatar, Spin, Tooltip, Image } from 'antd'
+import { Avatar, Tooltip, Image } from 'antd'
 import _ from 'lodash'
 import React, { useContext, useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
@@ -7,50 +7,24 @@ import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
 // import FormReport from '../../Forms/form-report/FormReport'
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
-import { LoadingOutlined } from '@ant-design/icons'
 import Description from '../description/Description'
 import { isValidProductId, formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
-import { openWebsite } from '../../../../utils/effect'
-import { websiteIcon } from '../../common-widgets/icons'
 import MyScoreComponent from '../../score/scoreComponent'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import './dapp.scss'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { DAPP } from '../../../constants/category'
-import Similar from '../similar/Similar'
-import {
-  FacebookIcon,
-  LinkedinIcon,
-  PinterestIcon,
-  RedditIcon,
-  TelegramIcon,
-  TwitterIcon
-} from 'react-share'
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  TelegramShareButton,
-  LinkedinShareButton,
-  PinterestShareButton,
-  RedditShareButton
-} from 'react-share'
+import ShareButton from '../../common-widgets/page-detail/ShareButton'
+import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
+import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
 
 const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
-  const waitMillSecOpenWebsite = 3000
   const chainList = useContext(ChainListContext)
-  const [loading, setLoading] = useState(false)
   const [top, setTop] = useState()
 
-  // const onOpenDapp = (link) => {
-  //   setLoading(true)
-  //   setTimeout(() => {
-  //     link && window.open(link)
-  //     setLoading(false)
-  //   }, 3000)
-  // }
   const handleReportScam = () => {
     rest?.setData({
       ...rest.data,
@@ -82,67 +56,8 @@ const DappInfo = ({ productInfo, ...rest }) => {
           <Badge className='badge-sm' >{detail?.subCategory}</Badge>
         </div>
         <div className='detail-button'>
-          <Dropdown className='sidebar-dropdown me-2 cus-dropdown'>
-            <Dropdown.Toggle
-              variant=''
-              as='a'
-              className='ai-icon i-false c-pointer button-signup-home'
-              role='button'
-            >
-              <Button className='btn btn-primary'>Share</Button>
-            </Dropdown.Toggle>
-            <Dropdown.Menu className='detail-list-social-share'>
-              <Dropdown.Item >
-                <FacebookShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <FacebookIcon size={26} round />
-                  </span>
-                </FacebookShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <TwitterShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <TwitterIcon size={26} round={true}/>
-                  </span>
-                </TwitterShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <TelegramShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <TelegramIcon size={26} round={true}/>
-                  </span>
-                </TelegramShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <LinkedinShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <LinkedinIcon size={26} round={true}/>
-                  </span>
-                </LinkedinShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <PinterestShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <PinterestIcon size={26} round={true}/>
-                  </span>
-                </PinterestShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <RedditShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <RedditIcon size={26} round={true}/>
-                  </span>
-                </RedditShareButton>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-          {
-            detail?.website && <Button className='ms-auto' onClick={() => openWebsite(detail?.website, setLoading, waitMillSecOpenWebsite)}>
-              {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '0.3rem' }} /> : ''}
-              {websiteIcon}
-             Website
-            </Button>
-          }
+          <ShareButton name={detail?.name} />
+          <WebsiteButton website={detail?.website} />
         </div>
       </div>
     </div>
@@ -347,19 +262,11 @@ const DappInfo = ({ productInfo, ...rest }) => {
     </div>
   }
 
-  // VENTURE DESCRIPTION
-  const About = () => {
-    return <div>
-      <div className='card-header border-0 pb-0'>
-        <h3 className='heading text-primary'>About {detail?.dAppName}</h3>
-      </div>
-      <div className='card-body pt-3'>
-        <div className='profile-blog '>
-          {detail?.description && <Description text={detail?.description}/>}
-        </div>
-      </div>
-    </div>
-  }
+  // DAPP DESCRIPTION
+  const about = <Description
+    projectName={detail?.dAppName}
+    text={detail?.description}
+  />
 
   const scam = (
     <>
@@ -381,32 +288,17 @@ const DappInfo = ({ productInfo, ...rest }) => {
     </>
   )
 
-  const similar = <>
-    {!_.isEmpty(productInfo?.similars) && (
-      <>
-        <div className='card-header border-0 pb-0 cus-card-header'>
-          <h5 className='heading text-primary cus-heading'>Similar</h5>
-        </div>
-        <div className='card-body pt-3'>
-          <div className='profile-interest '>
-            <Similar type={DAPP} listProjectId={productInfo?.similars}/>
-          </div>
-        </div>
-      </>
-    )}
-  </>
-
   return <DetailLayout Header={<Header />}
     summary={summary}
     more={<More/>}
-    about={<About />}
+    about={about}
     isScam={detail?.isScam}
     numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
     rest={rest}
     setTop={setTop}
     topDiscus={<TopDiscussed />}
     scam={scam}
-    similar={similar}
+    similar={ <ProductSimilar productType={DAPP} similarList={productInfo?.similars} /> }
   />
 }
 

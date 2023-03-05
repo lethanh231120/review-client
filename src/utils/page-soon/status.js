@@ -1,6 +1,6 @@
-import { txtAbsentTakeUpData } from '../../../jsx/constants/data'
-import { statusOngoing, statusPast, statusUpcoming } from '../../../jsx/constants/page-soon'
-import { convertStringDDMMYYYYToUnix, getCurrentTimeUnix } from '../time'
+import { txtAbsentTakeUpData } from '../../jsx/constants/data'
+import { classBackgroundOngoing, classBackgroundPast, classBackgroundUpcoming, statusOngoing, statusPast, statusUpcoming } from '../../jsx/constants/page-soon'
+import { convertStringDDMMYYYYToUnix, getCurrentTimeUnix } from '../time/time'
 
 export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
   const myCurrentDateTimeUnix = getCurrentTimeUnix()
@@ -24,3 +24,17 @@ export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
   }
   return txtAbsentTakeUpData
 }
+
+export const getStatusBackgroundFromSoonStatus = (status) => {
+  switch (status) {
+    case statusUpcoming:
+      return classBackgroundUpcoming
+    case statusOngoing:
+      return classBackgroundOngoing
+    case statusPast:
+      return classBackgroundPast
+    default:
+      return txtAbsentTakeUpData
+  }
+}
+

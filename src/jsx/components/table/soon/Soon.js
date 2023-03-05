@@ -15,11 +15,11 @@ import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import moment from 'moment'
 import CategorySearch from './../../input-search/CategorySearch'
 import { Badge } from 'react-bootstrap'
-import { getStatusBackgroundFromSoonStatus, getTimeRelativeQuantificationWithNowFromStartDateAndEndDate } from '../../product-detail/soon-info/SoonInfo'
-import { getStatusFromStartDateAndEndDate } from '../../../../utils/time/page-soon/time'
 import { txtGoal, txtTBA } from '../../../constants/page-soon'
 import { txtAbsentTakeUpData } from '../../../constants/data'
 import { convertStringDDMMYYYYToUnix, formatDateStyle } from '../../../../utils/time/time'
+import { getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../../../utils/page-soon/status'
+import { TimeRelativeQuantificationList } from '../../common-widgets/page-soon/TimeRelativeQuantificationList'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
@@ -148,7 +148,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             <p className='mb-0 fs-14 text-black text-etc-overflow text-center'>
                               {item?.startDate && item?.endDate ? (
                                 <>
-                                  {getTimeRelativeQuantificationWithNowFromStartDateAndEndDate(item?.startDate, item?.endDate)}
+                                  {<TimeRelativeQuantificationList startDate={item?.startDate} endDate={item?.endDate}/>}
                                   <hr className='hr-custome'></hr>
                                 </>
                               ) : (

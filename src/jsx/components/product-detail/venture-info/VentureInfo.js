@@ -1,6 +1,6 @@
-import { Avatar, Spin, Table, Tooltip, Image } from 'antd'
+import { Avatar, Table, Tooltip, Image } from 'antd'
 import React, { useState } from 'react'
-import { Badge, Button, Dropdown } from 'react-bootstrap'
+import { Badge, Button } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 import { renderNumber } from '../../../../utils/formatNumber'
@@ -9,33 +9,17 @@ import Description from '../description/Description'
 import moment from 'moment'
 // import FormReport from '../../Forms/form-report/FormReport'
 import { useNavigate } from 'react-router-dom'
-import { LoadingOutlined } from '@ant-design/icons'
 import { isValidProductId, formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
 import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
-import { websiteIcon } from '../../common-widgets/icons'
 import MyScoreComponent from '../../score/scoreComponent'
 import './ventureInfo.scss'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { VENTURE } from '../../../constants/category'
-import Similar from '../similar/Similar'
-import {
-  FacebookIcon,
-  LinkedinIcon,
-  PinterestIcon,
-  RedditIcon,
-  TelegramIcon,
-  TwitterIcon
-} from 'react-share'
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  TelegramShareButton,
-  LinkedinShareButton,
-  PinterestShareButton,
-  RedditShareButton
-} from 'react-share'
+import ShareButton from '../../common-widgets/page-detail/ShareButton'
+import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
+import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
 
 export const calculateTotalFund = (fund) =>{
   let total = 0
@@ -49,16 +33,7 @@ export const calculateTotalFund = (fund) =>{
 const VentureInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
   const [top, setTop] = useState()
-
-  const onOpenDapp = (link) => {
-    setLoading(true)
-    setTimeout(() => {
-      link && window.open(link)
-      setLoading(false)
-    }, 3000)
-  }
 
   const handleReportScam = () => {
     rest?.setData({
@@ -92,65 +67,8 @@ const VentureInfo = ({ productInfo, ...rest }) => {
           <Badge className='badge-sm' >{detail?.subCategory}</Badge>
         </div>
         <div className='detail-button'>
-          <Dropdown className='sidebar-dropdown me-2 cus-dropdown'>
-            <Dropdown.Toggle
-              variant=''
-              as='a'
-              className='ai-icon i-false c-pointer button-signup-home'
-              role='button'
-            >
-              <Button className='btn btn-primary'>Share</Button>
-            </Dropdown.Toggle>
-            <Dropdown.Menu className='detail-list-social-share'>
-              <Dropdown.Item >
-                <FacebookShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <FacebookIcon size={26} round />
-                  </span>
-                </FacebookShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <TwitterShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <TwitterIcon size={26} round={true}/>
-                  </span>
-                </TwitterShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <TelegramShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <TelegramIcon size={26} round={true}/>
-                  </span>
-                </TelegramShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <LinkedinShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <LinkedinIcon size={26} round={true}/>
-                  </span>
-                </LinkedinShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <PinterestShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <PinterestIcon size={26} round={true}/>
-                  </span>
-                </PinterestShareButton>
-              </Dropdown.Item>
-              <Dropdown.Item >
-                <RedditShareButton url={window.location.href} quote={productInfo?.details?.name}>
-                  <span className='share-icon'>
-                    <RedditIcon size={26} round={true}/>
-                  </span>
-                </RedditShareButton>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-          {detail?.website && <Button className='ms-auto' onClick={() => onOpenDapp(detail?.website)}>
-            {loading ? <Spin indicator={<LoadingOutlined spin />} style={{ color: 'white', marginRight: '0.3rem' }} /> : ''}
-            {websiteIcon}
-            Website
-          </Button>}
+          <ShareButton name={detail.name} />
+          <WebsiteButton website={detail?.website} />
         </div>
       </div>
     </div>
@@ -305,33 +223,10 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     </div>
   }
 
-  const About = () => {
-    return <div>
-      <div className='card-header border-0 pb-0'>
-        <h5 className='heading text-primary'>About {detail?.ventureName}</h5>
-      </div>
-      <div className='card-body pt-3'>
-        <div className='profile-blog '>
-          {detail?.description && <Description text={detail?.description}/>}
-        </div>
-      </div>
-    </div>
-  }
-
-  const similar = <>
-    {!_.isEmpty(productInfo?.similars) && (
-      <>
-        <div className='card-header border-0 pb-0 cus-card-header'>
-          <h5 className='heading text-primary cus-heading'>Similar</h5>
-        </div>
-        <div className='card-body pt-3'>
-          <div className='profile-interest '>
-            <Similar type={VENTURE} listProjectId={productInfo?.similars}/>
-          </div>
-        </div>
-      </>
-    )}
-  </>
+  const about = <Description
+    projectName={detail?.ventureName}
+    text={detail?.description}
+  />
 
   const portfolioColumns = [
     {
@@ -421,14 +316,14 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       Header={<Header />}
       summary={summary}
       more={<More />}
-      about={<About />}
+      about={about}
       portfolioOrChartOrDesc={<PortfolioTable />}
       numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
       setTop={setTop}
       topDiscus={<TopDiscussed />}
       scam={scam}
-      similar={similar}
+      similar={<ProductSimilar productType={VENTURE} similarList={productInfo?.similars} />}
     />
   )
 }

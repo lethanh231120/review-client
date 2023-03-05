@@ -33,11 +33,7 @@ import { encodeSpecialCharacterUrl, formatImgUrlFromProductId, isValidProductId 
 import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
 import { SEO } from './../SEO/SEO'
 import { PathNameContext } from '../../index'
-import { getStatusFromStartDateAndEndDate } from '../../../utils/time/page-soon/time'
-// import SEO from '../SEO/SEO'
-// import { formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
-// import imgAbsentImageCrypto from '../../../images/absent_image_crypto.png'
-// import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
+import { getStatusFromStartDateAndEndDate } from '../../../utils/page-soon/status'
 
 const ProductDetail = () => {
   const TYPE_REVIEW = 0

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toCammelCase } from '../../../../utils/formatText'
 import _ from 'lodash'
 import { LaunchpadMapContext } from '../../../../App'
@@ -18,7 +18,7 @@ export const filterDuplicateLaunchpadId = (launchpadList) => {
   return outputListLaunchpad
 }
 
-const LaunchpadDetail = ({ projectName, launchpadList }) => {
+const LaunchpadDetail = ({ launchpadList }) => {
   const launchpadMapContext = useContext(LaunchpadMapContext)
   launchpadList = filterDuplicateLaunchpadId(launchpadList)
   const navigate = useNavigate()
@@ -32,24 +32,15 @@ const LaunchpadDetail = ({ projectName, launchpadList }) => {
     }
   }
 
-  return projectName &&
-    !_.isEmpty(launchpadList) &&
+  return !_.isEmpty(launchpadList) &&
     !_.isEmpty(launchpadMapContext) ? (
       <div className='profile-blog mb-3'>
-        <Link to={'#'}>
-          <h4 className='d-flex align-items-center'>
-            <i className={`material-icons fs-23 text-primary`}>rocket_launch</i>
-            Launchpad:
-          </h4>
-        </Link>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
           <div
             className='form-check custom-checkbox mb-3 checkbox-success'
             style={{ padding: '0' }}
           >
             <div style={{ display: 'block', marginLeft: '1.5rem' }}>
-
-              {`${projectName} launches on `}
               {launchpadList?.map((key, index) => (
                 <>
                   <div key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'inline-block' }} className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={(e) => { forwardDetailLaunchpad(e, key) } }>
