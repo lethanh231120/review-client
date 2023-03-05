@@ -1,0 +1,19 @@
+import React from 'react'
+
+const ShortItem = ({ title, content }) => {
+  return <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
+    <div className='form-check custom-checkbox checkbox-success d-flex align-items-center' style={{ padding: '0' }}>
+      <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
+      {title}
+    </div>
+    <div style={{ marginLeft: '1.5rem' }}>
+      <span className='text-primary fs-16 text-capitalize'>
+        <b>
+          {content}
+        </b>
+      </span>
+    </div>
+  </div>
+}
+
+export default ShortItem
