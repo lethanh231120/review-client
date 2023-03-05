@@ -999,7 +999,7 @@ const Similar = ({ type, listProjectId }) => {
 
   return (<>
     {type === CRYPTO ? (
-      <div className='similar-crypto'>
+      <div className='similar-crypto table-responsive'>
         <Table
           columns={columnCryptos}
           dataSource={listProject}
