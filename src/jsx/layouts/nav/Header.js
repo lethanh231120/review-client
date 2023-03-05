@@ -77,7 +77,7 @@ const Header = () => {
       Swal.fire({
         allowOutsideClick: false,
         icon: 'info',
-        title: 'Please login first',
+        title: 'Please sign in first',
         showClass: {
           popup: 'animate__animated animate__fadeInDown'
         },

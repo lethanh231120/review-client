@@ -51,28 +51,28 @@ export const SignInComponent = () => {
   }
 
   const openNotification = (error, loginTypeFE) => {
-    let msg = 'Login failed.'
+    let msg = 'Login failed'
     msg += `<br />`
 
     const errMsgBEResp = error?.response?.data?.error
     // normal, but not activated account
     if (errMsgBEResp === 'account is not activated') {
-      msg += 'Your account is not activated. Please check your mail.'
+      msg += 'Your account is not activated. Please check your mail'
     } else
     // normal, but not register before
     if (errMsgBEResp === 'this email is not registered, please signup') {
-      msg += 'This email is not registered before. Please register first.'
+      msg += 'This email is not registered before. Please register first'
     } else {
       let error = errMsgBEResp?.split(':wrong email or password')
       let loginTypeBEResponse = error[0]
       if (error?.length === 2) {
         // Login as activated normal, but still wrong email or password.
         if (loginTypeBEResponse === loginTypeNormal && loginTypeFE === loginTypeNormal) {
-          msg = `Your email or passowrd is incorrect. Please try again.`
+          msg = `Your email or passowrd is incorrect. Please try again`
         } else
         // Login as socail, but login as normal
         if (loginTypeBEResponse !== loginTypeNormal && loginTypeFE === loginTypeNormal) {
-          msg = `This email registered by ${loginTypeBEResponse}. Please login by ${loginTypeBEResponse}`
+          msg = `This email registered by ${loginTypeBEResponse}. Please signin by ${loginTypeBEResponse}`
         }
       } else {
         error = errMsgBEResp?.split('User id is incorrect')
@@ -80,7 +80,7 @@ export const SignInComponent = () => {
         if (error?.length === 2) {
           // has account registered with gear 5, but still login this email through social.
           if (loginTypeBEResponse === loginTypeNormal && loginTypeFE !== loginTypeNormal) {
-            msg = `This email registerd in Gear5. Please login by your email and password directly.`
+            msg = `This email registerd in Gear5. Please signin by your email and password directly`
           }
         }
       }
@@ -246,20 +246,9 @@ export const SignInComponent = () => {
                   className='btn btn-primary dz-xs-flex m-r5'
                   disabled={isLoading}
                 >
-                  Login
+                  Sign In
                 </button>
                 {isLoading ? <>&nbsp;&nbsp; <Spin indicator={<LoadingOutlined spin />} size='large' /> </> : ''}
-                <span className='form-check d-inline-block ms-2' style={ { float: 'right' }}>
-                  <label
-                    className='form-check-label'
-                    htmlFor='check1'
-                  >
-                    <a to={'#'} className={`nav-link m-auto btn tp-btn-light btn-primary${isLoading ? 'none-click' : ''}`}>
-                      Forgot Password ?
-                    </a>
-                  </label>
-                </span>
-
               </div>
               <div className='dz-social'>
                 <h5 className='form-title fs-20'>
