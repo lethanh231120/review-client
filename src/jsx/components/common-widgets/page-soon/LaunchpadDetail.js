@@ -18,7 +18,7 @@ export const filterDuplicateLaunchpadId = (launchpadList) => {
   return outputListLaunchpad
 }
 
-const LaunchpadDetail = ({ projectName, launchpadList }) => {
+const LaunchpadDetail = ({ launchpadList }) => {
   const launchpadMapContext = useContext(LaunchpadMapContext)
   launchpadList = filterDuplicateLaunchpadId(launchpadList)
   const navigate = useNavigate()
@@ -32,8 +32,7 @@ const LaunchpadDetail = ({ projectName, launchpadList }) => {
     }
   }
 
-  return projectName &&
-    !_.isEmpty(launchpadList) &&
+  return !_.isEmpty(launchpadList) &&
     !_.isEmpty(launchpadMapContext) ? (
       <div className='profile-blog mb-3'>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
@@ -42,8 +41,6 @@ const LaunchpadDetail = ({ projectName, launchpadList }) => {
             style={{ padding: '0' }}
           >
             <div style={{ display: 'block', marginLeft: '1.5rem' }}>
-
-              {`${projectName} launches on `}
               {launchpadList?.map((key, index) => (
                 <>
                   <div key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'inline-block' }} className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={(e) => { forwardDetailLaunchpad(e, key) } }>
