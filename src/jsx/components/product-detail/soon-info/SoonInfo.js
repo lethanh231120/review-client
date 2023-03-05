@@ -722,23 +722,10 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       </div>
 
   // wait load finish modal, avoid excpetion
-  const description = itemDetail?.fullDesc || itemDetail?.shortDesc ? (
-    <div>
-      <div className='card-header border-0 pb-0'>
-        <h5 className='heading text-primary d-flex align-items-center'>
-          <i className='material-icons fs-30 text-primary'>subject</i>
-          About {itemDetail?.projectName}
-        </h5>
-      </div>
-      <div className='card-body pt-3'>
-        <div className='profile-blog '>
-          <p className='mb-0'>
-            <Description text={itemDetail?.fullDesc || itemDetail?.shortDesc} />
-          </p>
-        </div>
-      </div>
-    </div>
-  ) : ''
+  const description = <Description
+    projectName={itemDetail?.projectName}
+    text={itemDetail?.fullDesc || itemDetail?.shortDesc}
+  />
 
   const about = itemDetail?.media && !_.isEmpty(itemDetail?.media)
     ? (

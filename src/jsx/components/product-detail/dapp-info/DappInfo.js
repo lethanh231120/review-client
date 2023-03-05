@@ -44,13 +44,6 @@ const DappInfo = ({ productInfo, ...rest }) => {
   const [loading, setLoading] = useState(false)
   const [top, setTop] = useState()
 
-  // const onOpenDapp = (link) => {
-  //   setLoading(true)
-  //   setTimeout(() => {
-  //     link && window.open(link)
-  //     setLoading(false)
-  //   }, 3000)
-  // }
   const handleReportScam = () => {
     rest?.setData({
       ...rest.data,
@@ -347,19 +340,11 @@ const DappInfo = ({ productInfo, ...rest }) => {
     </div>
   }
 
-  // VENTURE DESCRIPTION
-  const About = () => {
-    return <div>
-      <div className='card-header border-0 pb-0'>
-        <h3 className='heading text-primary'>About {detail?.dAppName}</h3>
-      </div>
-      <div className='card-body pt-3'>
-        <div className='profile-blog '>
-          {detail?.description && <Description text={detail?.description}/>}
-        </div>
-      </div>
-    </div>
-  }
+  // DAPP DESCRIPTION
+  const about = <Description
+    projectName={detail?.dAppName}
+    text={detail?.description}
+  />
 
   const scam = (
     <>
@@ -399,7 +384,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
   return <DetailLayout Header={<Header />}
     summary={summary}
     more={<More/>}
-    about={<About />}
+    about={about}
     isScam={detail?.isScam}
     numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
     rest={rest}
