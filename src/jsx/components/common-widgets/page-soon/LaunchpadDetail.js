@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toCammelCase } from '../../../../utils/formatText'
 import _ from 'lodash'
 import { LaunchpadMapContext } from '../../../../App'
@@ -36,12 +36,6 @@ const LaunchpadDetail = ({ projectName, launchpadList }) => {
     !_.isEmpty(launchpadList) &&
     !_.isEmpty(launchpadMapContext) ? (
       <div className='profile-blog mb-3'>
-        <Link to={'#'}>
-          <h4 className='d-flex align-items-center'>
-            <i className={`material-icons fs-23 text-primary`}>rocket_launch</i>
-            Launchpad:
-          </h4>
-        </Link>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
           <div
             className='form-check custom-checkbox mb-3 checkbox-success'

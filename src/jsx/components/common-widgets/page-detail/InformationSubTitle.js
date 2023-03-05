@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom'
 export const typeShort = 'short_text'
 export const typeWebsite = 'language'
 export const typeTag = 'sell'
+export const typeLaunchpad = 'rocket_launch'
 const titleShort = 'Short:'
 const titleWebsite = 'Website:'
 const titleTag = 'Tag:'
+const titleLaunchpad = 'Launchpad:'
 
 const InformationSubTitle = ({ type }) => {
   let title
@@ -19,6 +21,9 @@ const InformationSubTitle = ({ type }) => {
       break
     case typeTag:
       title = titleTag
+      break
+    case typeLaunchpad:
+      title = titleLaunchpad
       break
     default:
       break
