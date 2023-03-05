@@ -22,17 +22,14 @@ import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { SOON } from '../../../constants/category'
 import { encodeUrl } from '../../../../utils/formatUrl'
-import { Spin, Tooltip, Image, Table } from 'antd'
+import { Spin, Tooltip, Image } from 'antd'
 import { formatImgUrlFromProductId, isValidProductId, toCammelCase } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import LaunchpadDetail from './../../common-widgets/page-soon/LaunchpadDetail'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import { LinkOutlined } from '@ant-design/icons'
-import { LaunchpadTableDetail } from '../../common-widgets/page-soon/LaunchpadTableDetail'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
-import { InfoCircleOutlined } from '@ant-design/icons'
-import { soonRoundSaleExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 import Similar from '../similar/Similar'
 import {
   FacebookIcon,
@@ -53,15 +50,15 @@ import {
 import ShortItem from '../../common-widgets/page-detail/ShortItem'
 import ShortItemScamWarning, { typeReview, typeScamReport } from '../../common-widgets/page-detail/ShortItemScamWarning'
 import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
-import InformationSubTitle, { typeShort, typeWebsite } from '../../common-widgets/page-detail/InformationSubTitle'
+import InformationSubTitle, { typeLaunchpad, typeShort, typeWebsite } from '../../common-widgets/page-detail/InformationSubTitle'
 import { typeTag } from './../../common-widgets/page-detail/InformationSubTitle'
-import { convertStringDDMMYYYYToUnix, formatDateStyle, getCurrentTimeUnix, getRelativeTimeString } from '../../../../utils/time/time'
+import { convertStringDDMMYYYYToUnix, formatDateStyle, getCurrentTimeUnix } from '../../../../utils/time/time'
 import { statusOngoing, statusPast, statusUpcoming, txtGoal } from '../../../constants/page-soon'
 import { txtTBA } from './../../../constants/page-soon'
 import { txtAbsentTakeUpData } from '../../../constants/data'
 import { getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../../../utils/page-soon/status'
 import TimeRelativeQuantificationDetail from '../../common-widgets/page-soon/TimeRelativeQuantificationDetail'
-import { StatusTextDisplay } from '../../common-widgets/page-soon/StatusTextDisplay'
+import TableRoundSale from '../../common-widgets/page-soon/TableRoundSale'
 
 const SoonInfo = ({ productInfo, ...rest }) => {
   const navigate = useNavigate()
@@ -267,152 +264,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </div>
   ) : ''
 
-  const columns = [
-    {
-      title: <span className='crypto-table-tooltip text-black'>
-        Round
-        <Tooltip
-          overlayClassName='crypto-table-tooltip-box'
-          title={soonRoundSaleExplain['round']}
-        >
-          <InfoCircleOutlined />
-        </Tooltip>
-      </span>,
-      align: 'left',
-      dataIndex: 'type',
-      key: 'type',
-      render: (_, record) => (<><b className='text-primary'>{record?.type}</b></>)
-    },
-    { title: <span className='crypto-table-tooltip text-black'>
-      Start
-      <Tooltip
-        overlayClassName='crypto-table-tooltip-box'
-        title={soonRoundSaleExplain['start']}
-      >
-        <InfoCircleOutlined />
-      </Tooltip>
-    </span>,
-    align: 'left',
-    dataIndex: 'start',
-    key: 'start',
-    render: (_, record) => (<>{record?.start ? moment(record?.start).format(formatDateStyle) : txtTBA}</>)
-    },
-    { title: <span className='crypto-table-tooltip text-black'>
-      End
-      <Tooltip
-        overlayClassName='crypto-table-tooltip-box'
-        title={soonRoundSaleExplain['end']}
-      >
-        <InfoCircleOutlined />
-      </Tooltip>
-    </span>,
-    align: 'left',
-    dataIndex: 'end',
-    key: 'end',
-    render: (_, record) => (<>{record?.end ? moment(record?.end).format(formatDateStyle) : txtTBA}</>)
-    },
-    { title: <span className='crypto-table-tooltip text-black'>
-      Launchpad
-      <Tooltip
-        overlayClassName='crypto-table-tooltip-box'
-        title={soonRoundSaleExplain['launchPadId']}
-      >
-        <InfoCircleOutlined />
-      </Tooltip>
-    </span>,
-    align: 'left',
-    dataIndex: 'launchPadId',
-    key: 'launchPadId',
-    render: (_, record) => (<LaunchpadTableDetail launchpadId={record?.launchPadId} />)
-    },
-    { title: <span className='crypto-table-tooltip text-black'>
-      Raise
-      <Tooltip
-        overlayClassName='crypto-table-tooltip-box'
-        title={soonRoundSaleExplain['raise']}
-      >
-        <InfoCircleOutlined />
-      </Tooltip>
-    </span>,
-    align: 'right',
-    dataIndex: 'raise',
-    key: 'raise',
-    render: (_, record) => (<><b className='text-primary'>{formatLargeNumberMoneyUSD(record?.raise)}</b></>)
-    },
-    { title: <span className='crypto-table-tooltip text-black'>
-      Total
-      <Tooltip
-        overlayClassName='crypto-table-tooltip-box'
-        title={soonRoundSaleExplain['tokenForSale']}
-      >
-        <InfoCircleOutlined />
-      </Tooltip>
-    </span>,
-    align: 'right',
-    dataIndex: 'tokenForSale',
-    key: 'tokenForSale',
-    render: (_, record) => (<>{formatLargeNumber(record?.tokenForSale)}</>)
-    },
-    { title: <span className='crypto-table-tooltip text-black'>
-      Price
-      <Tooltip
-        overlayClassName='crypto-table-tooltip-box'
-        title={soonRoundSaleExplain['price']}
-      >
-        <InfoCircleOutlined />
-      </Tooltip>
-    </span>,
-    align: 'right',
-    dataIndex: 'price',
-    key: 'price',
-    render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.price)}</>)
-    },
-    { title: <span className='crypto-table-tooltip text-black'>
-      Status
-      <Tooltip
-        overlayClassName='crypto-table-tooltip-box'
-        title={soonRoundSaleExplain['status']}
-      >
-        <InfoCircleOutlined />
-      </Tooltip>
-    </span>,
-    align: 'center',
-    dataIndex: 'status',
-    key: 'status',
-    render: (_, record) => record?.start && record?.end ? (<span className={`badge badge-rounded text-uppercase ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
-      <StatusTextDisplay status={getStatusFromStartDateAndEndDate(record?.start, record?.end)} />
-      &nbsp;
-      {getRelativeTimeString(record?.start, record?.end)}
-    </span>) : (txtAbsentTakeUpData)
-    }
-  ]
-  const roundSale = (itemRoundSales && !_.isEmpty(itemRoundSales)) ? (
-    <div>
-      <div className='card-header'>
-        <h4 className='card-title text-primary d-flex align-items-center'>
-          <i className='material-icons fs-30'>auto_awesome</i>
-          &nbsp;
-          {itemDetail?.projectName}&nbsp;IDO
-        </h4>
-      </div>
-      <div className='card-body' style={{ padding: '0' }}>
-        <div className='table-responsive recentOrderTable'>
-          <Table
-            columns={columns}
-            expandable={{
-              expandedRowRender: (record) => <p className='text-primary' style={{ margin: '0 0 0 5rem' }}><b>{record.lockUpPeriod}</b></p>,
-              rowExpandable: (record) => record.lockUpPeriod, // have data
-              defaultExpandAllRows: true
-            }}
-            dataSource={itemRoundSales}
-            className='soon-table-round-sale'
-            pagination={false}
-            rowKey={(record) => record?.id}
-          />
-        </div>
-      </div>
-    </div>
-  ) : null
+  const roundSale = (itemRoundSales && !_.isEmpty(itemRoundSales)) && <TableRoundSale projectName={itemDetail?.projectName} roundSales={itemRoundSales} />
 
   const countDownHtml = <div className='mt-4 text-center'>
     <h2 className='countdown'>{timerHeadline}</h2>
@@ -604,6 +456,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
             </div> : ''}
 
+          <InformationSubTitle type={typeLaunchpad}/>
           <LaunchpadDetail projectName={itemDetail?.projectName} launchpadList={itemDetail?.launchPads}/>
 
           <div className='crypto-info'>

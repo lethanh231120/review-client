@@ -2,6 +2,8 @@ import React from 'react'
 import './description.scss'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
 
+// projectName has data will description detail
+// projectName has no data --> review
 const Description = ({ projectName, text }) => {
   // max length displayed first time(more length withh display show more, less length withh display all)
   const length = 250
