@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import './SoonInfo.scss'
-import { Link } from 'react-router-dom'
 import { DetailLayout } from '../detail-layout'
 
 import { Badge, Button, Dropdown } from 'react-bootstrap'
@@ -9,7 +8,6 @@ import {
   formatLargeNumber
 } from '../../../../utils/formatNumber'
 import moment from 'moment'
-// import FormReport from '../../Forms/form-report/FormReport'
 import Description from '../description/Description'
 import { LoadingOutlined } from '@ant-design/icons'
 import LightGallery from 'lightgallery/react'
@@ -52,26 +50,16 @@ import {
   PinterestShareButton,
   RedditShareButton
 } from 'react-share'
-import ShortItem from '../../common-widgets/page-soon/ShortItem'
-import ShortItemScamWarning, { typeReview, typeScamReport } from '../../common-widgets/page-soon/ShortItemScamWarning'
-
-export const formatDateStyle = 'ddd, DD MMM YYYY' // Mon, 06 Feb 2023
-
-export const txtTBA = 'TBA'
-
-export const txtGoal = 'Goal'
-
-export const txtAbsentTakeUpData = <>&nbsp;</>
-
-// match with BE
-const statusUpcoming = 'upcoming'
-const statusOngoing = 'ongoing'
-const statusPast = 'past'
-
-// display in FE
-const displayUpcoming = 'START IN'
-const displayOngoing = 'END IN'
-const displayPast = 'ENDED IN'
+import ShortItem from '../../common-widgets/page-detail/ShortItem'
+import ShortItemScamWarning, { typeReview, typeScamReport } from '../../common-widgets/page-detail/ShortItemScamWarning'
+import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
+import InformationSubTitle, { typeShort, typeWebsite } from '../../common-widgets/page-detail/InformationSubTitle'
+import { typeTag } from './../../common-widgets/page-detail/InformationSubTitle'
+import { convertStringDDMMYYYYToUnix, formatDateStyle, getCurrentTimeUnix, getRelativeHumanTime, getRelativeTimeString } from '../../../../utils/time/time'
+import { displayOngoing, displayPast, displayUpcoming, statusOngoing, statusPast, statusUpcoming, txtGoal } from '../../../constants/page-soon'
+import { txtTBA } from './../../../constants/page-soon'
+import { txtAbsentTakeUpData } from '../../../constants/data'
+import { getStatusFromStartDateAndEndDate } from '../../../../utils/time/page-soon/time'
 
 const getDisplayFromSoonStatus = (status) => {
   switch (status) {
@@ -84,29 +72,6 @@ const getDisplayFromSoonStatus = (status) => {
     default:
       return txtAbsentTakeUpData
   }
-}
-
-const getRelativeTimeString = (startDate, endDate) =>{
-  const myCurrentDateTimeUnix = getCurrentTimeUnix()
-
-  // string "15-05-2018" to date unix time
-  const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
-
-  const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
-
-  // Ongoing
-  if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
-    return getRelativeHumanTime(endDateUnix - myCurrentDateTimeUnix)
-  } else
-  // Past
-  if (myCurrentDateTimeUnix > endDateUnix) {
-    return `${getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago`
-  } else
-  // Upcoming
-  if (myCurrentDateTimeUnix < startDateUnix) {
-    return getRelativeHumanTime(startDateUnix - myCurrentDateTimeUnix)
-  }
-  return ''
 }
 
 const classTxtUpcoming = 'text-warning'
@@ -128,93 +93,6 @@ export const getStatusBackgroundFromSoonStatus = (status) => {
     default:
       return txtAbsentTakeUpData
   }
-}
-
-// getEndDate = true (plus one day to get next day)
-export const convertStringDDMMYYYYToUnix = (ddmmyyyy, getEndDate = false) =>{
-  let dateUnix = new Date(ddmmyyyy?.replace(/(\d{2})-(\d{2})-(\d{4})/, '$2/$1/$3'))
-  dateUnix.setTime(dateUnix?.getTime()) // Local user to GMT + 0
-  if (getEndDate) {
-    const millSecInOneDay = 1000 * 60 * 60 * 24 // 86400000 milliseconds.
-    // convert start day to end day --> (>=start && <end of endDate) still in status ongoing project IDO/ ICO/ IEO
-    dateUnix.setTime(dateUnix?.getTime() + millSecInOneDay)
-  }
-  dateUnix = dateUnix?.getTime()
-  return (dateUnix)
-}
-
-const getCurrentTimeUnix = () => {
-  let myCurrentDateTimeUnix = (new Date())
-  myCurrentDateTimeUnix = myCurrentDateTimeUnix?.getTime()
-  return myCurrentDateTimeUnix
-}
-
-export const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
-  const myCurrentDateTimeUnix = getCurrentTimeUnix()
-
-  // string "15-05-2018" to date unix time
-  const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
-
-  const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
-
-  // Ongoing
-  if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
-    return statusOngoing
-  } else
-  // Past
-  if (myCurrentDateTimeUnix > endDateUnix) {
-    return statusPast
-  } else
-  // Upcoming
-  if (myCurrentDateTimeUnix < startDateUnix) {
-    return statusUpcoming
-  }
-  return txtAbsentTakeUpData
-}
-
-const getRelativeHumanTime = (timestamp) => {
-  // Convert to a positive integer
-  var time = Math.abs(timestamp)
-
-  // Define humanTime and units
-  var humanTime, units
-
-  // If there are years
-  if (time > (1000 * 60 * 60 * 24 * 365)) {
-    humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 365), 10)
-    units = 'years'
-  } else
-  // If there are months
-  if (time > (1000 * 60 * 60 * 24 * 30)) {
-    humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 30), 10)
-    units = 'months'
-  } else
-  // If there are weeks
-  if (time > (1000 * 60 * 60 * 24 * 7)) {
-    humanTime = parseInt(time / (1000 * 60 * 60 * 24 * 7), 10)
-    units = 'weeks'
-  } else
-  // If there are days
-  if (time > (1000 * 60 * 60 * 24)) {
-    humanTime = parseInt(time / (1000 * 60 * 60 * 24), 10)
-    units = 'days'
-  } else
-  // If there are hours
-  if (time > (1000 * 60 * 60)) {
-    humanTime = parseInt(time / (1000 * 60 * 60), 10)
-    units = 'hours'
-  } else
-  // If there are minutes
-  if (time > (1000 * 60)) {
-    humanTime = parseInt(time / (1000 * 60), 10)
-    units = 'minutes'
-  } else {
-  // Otherwise, use seconds
-    humanTime = parseInt(time / (1000), 10)
-    units = 'seconds'
-  }
-
-  return `≈${humanTime} ${units}`
 }
 
 export const getTimeRelativeQuantificationWithNowFromStartDateAndEndDate = (startDate, endDate) => {
@@ -792,23 +670,12 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
   const more =
       <div>
-        <div className='card-header border-0 pb-0'>
-          <h5 className='heading text-primary d-flex align-items-center'>
-            <i className='material-icons fs-30 text-primary'>info</i>
-            &nbsp;
-            {itemDetail?.projectName} Information
-          </h5>
-        </div>
+        <InformationHeader projectName={itemDetail?.projectName}/>
         <div className='card-body pt-3'>
           {/* exist alest 1 to display this component */}
           {itemDetail?.projectName && (itemDetail?.roundType || !_.isEmpty(itemDetail?.blockchain || itemDetail?.acceptCurrency || itemDetail?.type || (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) || (itemDetail?.totalReviews || itemDetail?.totalReviews === 0)))
             ? <div className='profile-blog mb-4'>
-              <Link to={'#'} >
-                <h4 className='d-flex align-items-center'>
-                  <i className='material-icons fs-23 text-primary'>short_text</i>
-                  Short:
-                </h4>
-              </Link>
+              <InformationSubTitle type={typeShort}/>
               {
                 itemDetail?.type &&
                 <ShortItem
@@ -879,12 +746,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
           <div className='crypto-info'>
             <div className=''>
-              <Link to={'#'} >
-                <h4 className='d-flex align-items-center'>
-                  <i className='material-icons fs-23 text-primary'>language</i>
-                  Website:
-                </h4>
-              </Link>
+              <InformationSubTitle type={typeWebsite}/>
               <div className='row mt-3' style={{ marginLeft: '1.5rem' }}>
                 <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ paddingLeft: '0' }}>
                   {
@@ -980,12 +842,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
 
           { !_.isEmpty(itemTags)
             ? <div className='profile-blog mb-3'>
-              <Link to={'#'} >
-                <h4 className='d-flex align-items-center'>
-                  <i className='material-icons fs-23 text-primary'>sell</i>
-                  Tag:
-                </h4>
-              </Link>
+              <InformationSubTitle type={typeTag}/>
               <div style={{ marginLeft: '1.5rem' }}>
                 { Object.keys(itemTags)?.map((index) => (
                   <div

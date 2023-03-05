@@ -1,4 +1,5 @@
 export const absentData = '__'
+export const txtAbsentTakeUpData = <>&nbsp;</>
 
 export const crypto_score_explain_text = 'Gear5 ranks and scores projects based on the following: Reputation; Average Liquidity; Listing; Contract Information; Holders; Transfers; Signal. Weights are assigned to the above-mentioned factors and a score from 0.0 to 10.0 is given.'
 
