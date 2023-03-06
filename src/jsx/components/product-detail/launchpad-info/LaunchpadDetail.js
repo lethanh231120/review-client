@@ -61,7 +61,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
           <Badge className='badge-sm' >{detail?.type}</Badge>
         </div>
         <div className='detail-button'>
-          <ShareButton name={detail.name} />
+          <ShareButton name={detail?.name} />
           <WebsiteButton website={detail?.website} />
         </div>
       </div>
