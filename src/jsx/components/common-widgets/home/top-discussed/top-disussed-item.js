@@ -8,29 +8,30 @@ import './top-discussed.scss'
 import { WARNING_ICON } from '../../logo/logo'
 
 const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) => {
-  let imageUrl = ''
-  switch (type) {
-    case 'crypto':
-      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.cryptoId}.png`
-      break
-    case 'exchange':
-      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.exchangeId}.png`
-      break
-    case 'soon':
-      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.projectId}.png`
-      break
-    case 'dapp':
-      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.dappId}.png`
-      break
-    case 'launchpad':
-      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.launchpadId}.png`
-      break
-    case 'venture':
-      imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.ventureId}.png`
-      break
-    default:
-      break
-  }
+  console.log(detail)
+  const imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
+  // switch (type) {
+  //   case 'crypto':
+  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
+  //     break
+  //   case 'exchange':
+  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
+  //     break
+  //   case 'soon':
+  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
+  //     break
+  //   case 'dapp':
+  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
+  //     break
+  //   case 'launchpad':
+  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.launchpadId}.png`
+  //     break
+  //   case 'venture':
+  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.ventureId}.png`
+  //     break
+  //   default:
+  //     break
+  // }
 
   return <>
     <div className='previews-info-list hot-coin-item' onClick={() => onItemClicked(type, detail, navigate)}>
@@ -39,7 +40,9 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
           {imageUrl !== '' ? <Avatar alt='Project Logo' size={35} src={imageUrl}/> : <NoImage width={35} height={35} alt={name?.substring(0, 2)}/>}
         </span>
         <div className='ms-2'>
-          <h6 className='text-etc-overflow cus-hot-coin-name'>{name}{type === 'crypto' ? ` (${symbol})` : null}</h6>
+          <h6 className='text-etc-overflow cus-hot-coin-name'>{name}
+            {/* {type === 'crypto' ? ` (${symbol})` : null} */}
+          </h6>
           <span><Badge className='badge-sm'>{type}</Badge></span>
         </div>
       </div>
@@ -62,18 +65,20 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
 
 export const TopDiscussedItem = ({ item }) => {
   const navigate = useNavigate()
-
-  switch (item?.type) {
-    case 'crypto':
-      return singleTopItem(item?.detail?.name, item?.detail?.symbol, item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
+  const type = item?.productId?.split('_')[1]
+  switch (type) {
+    case 'token':
+      return singleTopItem(item?.name, item?.symbol, 'crypto', item?.totalReviews, item?.totalIsScam, item, navigate)
+    case 'coin':
+      return singleTopItem(item?.name, item?.symbol, 'crypto', item?.totalReviews, item?.totalIsScam, item, navigate)
     case 'exchange':
-      return singleTopItem(item?.detail?.name, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
+      return singleTopItem(item?.name, '', type, item?.totalReviews, item?.totalIsScam, item, navigate)
     case 'dapp':
-      return singleTopItem(item?.detail?.dAppName, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
+      return singleTopItem(item?.name, '', type, item?.totalReviews, item?.totalIsScam, item, navigate)
     case 'venture':
-      return singleTopItem(item?.detail?.ventureName, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
+      return singleTopItem(item?.name, '', type, item?.totalReviews, item?.totalIsScam, item, navigate)
     case 'soon':
-      return singleTopItem(item?.detail?.projectName, '', item?.type, item?.detail?.totalReviews, item?.detail?.totalIsScam, item?.detail, navigate)
+      return singleTopItem(item?.name, '', type, item?.totalReviews, item?.totalIsScam, item, navigate)
     default:
       return <></>
   }

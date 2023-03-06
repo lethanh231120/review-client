@@ -76,7 +76,6 @@ export const ScamEachChainsList = ({ data }) => {
             <th scope='col'>Scam or Dead Projects</th>
             <th scope='col'>Total Projects</th>
             <th scope='col'><Tooltip title=''>Scam/Dead Percentage</Tooltip></th>
-
           </tr>
         </thead>
         <tbody>
