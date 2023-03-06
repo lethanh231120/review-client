@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Table, Image, Tooltip, Avatar, Empty } from 'antd'
+import { Table, Image, Tooltip, Avatar } from 'antd'
 import {
   CopyOutlined,
   CheckCircleOutlined,
@@ -18,7 +18,6 @@ import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatTex
 import { MAX_PAGE } from '../../../constants/pagination'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
-import nodata from '../../../../images/product/nodata.png'
 import { copyContractAddress } from '../../../../utils/effect'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 
@@ -371,48 +370,20 @@ const CryptoTable = ({ loading, listData }) => {
   return (
     <div className='crypto-table'>
       {loading ? (<MySkeletonLoadinng count={10} height={70}/>) : (
-        <>
-          {listProduct ? (
-            <Table
-              columns={columns}
-              dataSource={listProduct}
-              pagination={{
-                defaultPageSize: 20,
-                showSizeChanger: false
-              }}
-              rowKey={(record) => record?.cryptoId}
-              onRow={(record) => ({
-                onClick: () => {
-                  handleRowClicked(record)
-                }
-              })}
-            />
-          ) : (
-            <>
-              <Empty
-                image={nodata}
-                description={
-                  <span>
-                    <span
-                      style={{ fontSize: '1.8em', color: 'red', fontWeight: 600 }}
-                    >
-                        SORRY{' '}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: '1.6rem',
-                        color: 'rgba(0, 0, 0, 0.6)',
-                        fontWeight: '600'
-                      }}
-                    >
-                        NO DATA FOUND
-                    </span>
-                  </span>
-                }
-              />
-            </>
-          )}
-        </>
+        <Table
+          columns={columns}
+          dataSource={listProduct}
+          pagination={listProduct?.length > 20 ? {
+            defaultPageSize: 20,
+            showSizeChanger: false
+          } : false}
+          rowKey={(record) => record?.cryptoId}
+          onRow={(record) => ({
+            onClick: () => {
+              handleRowClicked(record)
+            }
+          })}
+        />
       )}
     </div>
   )

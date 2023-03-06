@@ -15,8 +15,8 @@ import { SearchOutlined } from '@ant-design/icons'
 import './categoryItem.scss'
 
 const TabSearch = (props) => {
-  const { listProduct, keyword, handleChangeInput, handleSubmitSearch, handleSubmitBtn, setLoading, loading } = props
-  const [tab, setTab] = useState(CRYPTO)
+  const { listProduct, keyword, handleChangeInput, handleSubmitSearch, handleSubmitBtn, setLoading, loading, activeTab } = props
+  const [tab, setTab] = useState()
   const [listData, setListData] = useState({
     dapp: [],
     venture: [],
@@ -27,130 +27,137 @@ const TabSearch = (props) => {
   })
 
   useEffect(() => {
+    setTab(activeTab)
+  }, [activeTab])
+
+  useEffect(() => {
     const getData = async() => {
-      setLoading(true)
-      switch (tab) {
-        case DAPP: {
-          const listDappId = []
-          listProduct[LIST_DAPP]?.dapps?.forEach((itemDapp) => {
-            listDappId.push(itemDapp?.dappId)
-          })
-          if (!_.isEmpty(listDappId)) {
-            const dataDapp = await read('reviews/dapp/list', { dAppIds: listDappId })
-            setListData({
-              dapp: dataDapp?.data?.dApps ? dataDapp?.data?.dApps : []
+      if (tab) {
+        setLoading(true)
+        switch (tab) {
+          case DAPP: {
+            const listDappId = []
+            listProduct[LIST_DAPP]?.dapps?.forEach((itemDapp) => {
+              listDappId.push(itemDapp?.dappId)
             })
-            setLoading(false)
-          } else {
-            setListData({
-              dapp: []
-            })
+            if (!_.isEmpty(listDappId)) {
+              const dataDapp = await read('reviews/dapp/list', { dAppIds: listDappId })
+              setListData({
+                dapp: dataDapp?.data?.dApps ? dataDapp?.data?.dApps : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                dapp: []
+              })
+            }
+            break
           }
-          break
-        }
-        case CRYPTO: {
-          const listCryptoId = []
-          listProduct[LIST_CRYPTO]?.cryptos?.forEach((itemCrypto) => {
-            listCryptoId.push(itemCrypto?.cryptoId)
-          })
-          if (!_.isEmpty(listCryptoId)) {
-            const dataCrypto = await read('reviews/crypto/list', { cryptoIds: listCryptoId })
-            setListData({
-              crypto: dataCrypto?.data?.cryptos ? dataCrypto?.data?.cryptos : []
+          case CRYPTO: {
+            const listCryptoId = []
+            listProduct[LIST_CRYPTO]?.cryptos?.forEach((itemCrypto) => {
+              listCryptoId.push(itemCrypto?.cryptoId)
             })
-            setLoading(false)
-          } else {
-            setListData({
-              crypto: []
-            })
+            if (!_.isEmpty(listCryptoId)) {
+              const dataCrypto = await read('reviews/crypto/list', { cryptoIds: listCryptoId })
+              setListData({
+                crypto: dataCrypto?.data?.cryptos ? dataCrypto?.data?.cryptos : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                crypto: []
+              })
+            }
+            break
           }
-          break
-        }
-        case EXCHANGE: {
-          const listExchangeId = []
-          listProduct[LIST_EXCHANGE]?.exchanges?.forEach((itemExchange) => {
-            listExchangeId.push(itemExchange?.exchangeId)
-          })
-          if (!_.isEmpty(listExchangeId)) {
-            const dataExchange = await read('reviews/exchange/list', { exchangeIds: listExchangeId })
-            setListData({
-              exchange: dataExchange?.data?.exchanges ? dataExchange?.data?.exchanges : []
+          case EXCHANGE: {
+            const listExchangeId = []
+            listProduct[LIST_EXCHANGE]?.exchanges?.forEach((itemExchange) => {
+              listExchangeId.push(itemExchange?.exchangeId)
             })
-            setLoading(false)
-          } else {
-            setListData({
-              exchange: []
-            })
+            if (!_.isEmpty(listExchangeId)) {
+              const dataExchange = await read('reviews/exchange/list', { exchangeIds: listExchangeId })
+              setListData({
+                exchange: dataExchange?.data?.exchanges ? dataExchange?.data?.exchanges : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                exchange: []
+              })
+            }
+            break
           }
-          break
-        }
-        case VENTURE: {
-          const listVentureId = []
-          listProduct[LIST_VENTURE]?.ventures?.forEach((itemVenture) => {
-            listVentureId.push(itemVenture?.ventureId)
-          })
-          if (!_.isEmpty(listVentureId)) {
-            const dataVenture = await read('reviews/venture/list', { ventureIds: listVentureId })
-            setListData({
-              venture: dataVenture?.data?.ventures ? dataVenture?.data?.ventures : []
+          case VENTURE: {
+            const listVentureId = []
+            listProduct[LIST_VENTURE]?.ventures?.forEach((itemVenture) => {
+              listVentureId.push(itemVenture?.ventureId)
             })
-            setLoading(false)
-          } else {
-            setListData({
-              venture: []
-            })
+            if (!_.isEmpty(listVentureId)) {
+              const dataVenture = await read('reviews/venture/list', { ventureIds: listVentureId })
+              setListData({
+                venture: dataVenture?.data?.ventures ? dataVenture?.data?.ventures : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                venture: []
+              })
+            }
+            break
           }
-          break
-        }
-        case LAUNCHPAD: {
-          const listLaunchPadId = []
-          listProduct[LIST_LAUNCHPAD]?.launchPads?.forEach((itemLaunchPad) => {
-            listLaunchPadId.push(itemLaunchPad?.launchPadId)
-          })
-          if (!_.isEmpty(listLaunchPadId)) {
-            const dataLaunchPad = await read('reviews/launchpad/list', { launchpadIds: listLaunchPadId })
-            setListData({
-              launchpad: dataLaunchPad?.data?.launchPads ? dataLaunchPad?.data?.launchPads : []
+          case LAUNCHPAD: {
+            const listLaunchPadId = []
+            listProduct[LIST_LAUNCHPAD]?.launchPads?.forEach((itemLaunchPad) => {
+              listLaunchPadId.push(itemLaunchPad?.launchPadId)
             })
-            setLoading(false)
-          } else {
-            setListData({
-              launchpad: []
-            })
+            if (!_.isEmpty(listLaunchPadId)) {
+              const dataLaunchPad = await read('reviews/launchpad/list', { launchpadIds: listLaunchPadId })
+              setListData({
+                launchpad: dataLaunchPad?.data?.launchPads ? dataLaunchPad?.data?.launchPads : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                launchpad: []
+              })
+            }
+            break
           }
-          break
-        }
-        case SOON: {
-          const listSoonId = []
-          listProduct[LIST_SOON]?.soons?.forEach((itemSoon) => {
-            listSoonId.push(itemSoon?.soonId)
-          })
-          if (!_.isEmpty(listSoonId)) {
-            const dataSoon = await read('reviews/soon/list', { projectIds: listSoonId })
-            setListData({
-              soon: dataSoon?.data?.soons ? dataSoon?.data?.soons : []
+          case SOON: {
+            const listSoonId = []
+            listProduct[LIST_SOON]?.soons?.forEach((itemSoon) => {
+              listSoonId.push(itemSoon?.soonId)
             })
-            setLoading(false)
-          } else {
-            setListData({
-              soone: []
-            })
+            if (!_.isEmpty(listSoonId)) {
+              const dataSoon = await read('reviews/soon/list', { projectIds: listSoonId })
+              setListData({
+                soon: dataSoon?.data?.soons ? dataSoon?.data?.soons : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                soone: []
+              })
+            }
+            break
           }
-          break
+          default:
+            break
         }
-        default:
-          break
+        setLoading(false)
       }
-      setLoading(false)
     }
     listProduct && getData()
   }, [tab, listProduct])
 
+  console.log(listProduct)
   return (
     <>
       <div className='col-xl-12'>
         <div>
-          <Tab.Container defaultActiveKey='crypto'>
+          <Tab.Container activeKey={tab}>
             <div className='row'>
               <div className='col-xl-8 col-lg-9 col-md-8'>
                 <Nav as='ul' className='order nav-tabs' id='pills-tab' role='tablist'>
@@ -163,7 +170,10 @@ const TabSearch = (props) => {
                       setTab(CRYPTO)
                     }}
                   >
-                    <Nav.Link as='button' eventKey='crypto' type='button' >Cryptos</Nav.Link>
+                    <Nav.Link as='button' eventKey='crypto' type='button'>
+                      Cryptos
+                      ({listProduct[`${LIST_CRYPTO}`]?.cryptos?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_CRYPTO}`]?.cryptos?.length) : 0})
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item
                     as='li'
@@ -174,7 +184,10 @@ const TabSearch = (props) => {
                       setTab(DAPP)
                     }}
                   >
-                    <Nav.Link as='button' eventKey='dapp' type='button'>DApps</Nav.Link>
+                    <Nav.Link as='button' eventKey='dapp' type='button'>
+                      DApps
+                      ({listProduct[`${LIST_DAPP}`]?.dapps?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_DAPP}`]?.dapps?.length) : 0})
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item
                     as='li'
@@ -185,7 +198,10 @@ const TabSearch = (props) => {
                       setTab(EXCHANGE)
                     }}
                   >
-                    <Nav.Link as='button' eventKey='exchange' type='button'>Exchanges</Nav.Link>
+                    <Nav.Link as='button' eventKey='exchange' type='button'>
+                      Exchanges
+                      ({listProduct[`${LIST_EXCHANGE}`]?.exchanges?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_EXCHANGE}`]?.exchanges?.length) : 0})
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item
                     as='li'
@@ -196,7 +212,10 @@ const TabSearch = (props) => {
                       setTab(VENTURE)
                     }}
                   >
-                    <Nav.Link as='button' className='me-0' eventKey='venture' type='button'>Ventures</Nav.Link>
+                    <Nav.Link as='button' className='me-0' eventKey='venture' type='button'>
+                      Ventures
+                      ({listProduct[`${LIST_VENTURE}`]?.ventures?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_VENTURE}`]?.ventures?.length) : 0})
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item
                     as='li'
@@ -207,7 +226,10 @@ const TabSearch = (props) => {
                       setTab(SOON)
                     }}
                   >
-                    <Nav.Link as='button' className='me-0' eventKey='soon' type='button'>Soons</Nav.Link>
+                    <Nav.Link as='button' className='me-0' eventKey='soon' type='button'>
+                      Soons
+                      ({listProduct[`${LIST_SOON}`]?.soons?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_SOON}`]?.soons?.length) : 0})
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item
                     as='li'
@@ -218,7 +240,10 @@ const TabSearch = (props) => {
                       setTab(LAUNCHPAD)
                     }}
                   >
-                    <Nav.Link as='button' className='me-0' eventKey='launchpad' type='button'>LaunchPads</Nav.Link>
+                    <Nav.Link as='button' className='me-0' eventKey='launchpad' type='button'>
+                      LaunchPads
+                      ({listProduct[`${LIST_LAUNCHPAD}`]?.launchPads?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_LAUNCHPAD}`]?.launchPads?.length) : 0})
+                    </Nav.Link>
                   </Nav.Item>
                 </Nav>
               </div>

@@ -177,7 +177,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
       if (keyWord) {
         form.resetFields()
         setIsSubmit(false)
-        navigate(`../../../search/${keyWord}`)
+        navigate(`../../../search/crypto/${keyWord}`)
         setDataSearch({
           isActive: false, data: {}, loading: false, status: ''
         })
@@ -300,7 +300,18 @@ const InputSearch = ({ isFormReport, setItem }) => {
                     {dataSearch?.data?.listCrypto &&
                       dataSearch?.data?.listCrypto?.cryptos !== null && (
                       <div className='form-search-data-box'>
-                        <h4 className='card-title card-intro-title form-search-data-title'>Cryptos</h4>
+                        <h4 className='card-title card-intro-title form-search-data-title d-flex align-items-center justify-content-between'>
+                          Cryptos
+                          <span
+                            className='text-primary'
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              navigate(`../../../search/crypto/${keyWord}`)
+                            }}
+                          >
+                            View All
+                          </span>
+                        </h4>
                         {dataSearch?.data?.listCrypto?.cryptos?.map(
                           (item, index) => (
                             <>
@@ -325,7 +336,18 @@ const InputSearch = ({ isFormReport, setItem }) => {
                     {dataSearch?.data?.listDapp &&
                       dataSearch?.data?.listDapp?.dapps !== null && (
                       <div className='form-search-data-box'>
-                        <h4 className='card-title card-intro-title form-search-data-title'>Dapps</h4>
+                        <h4 className='card-title card-intro-title form-search-data-title d-flex align-items-center justify-content-between'>
+                          Dapps
+                          <span
+                            className='text-primary'
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              navigate(`../../../search/dapp/${keyWord}`)
+                            }}
+                          >
+                            View All
+                          </span>
+                        </h4>
                         {dataSearch?.data?.listDapp?.dapps?.map(
                           (item, index) => (
                             <ItemDapp
@@ -348,7 +370,18 @@ const InputSearch = ({ isFormReport, setItem }) => {
                     {dataSearch?.data?.listExchange &&
                       dataSearch?.data?.listExchange?.exchanges !== null && (
                       <div className='form-search-data-box'>
-                        <h4 className='card-title card-intro-title form-search-data-title'>Exchanges</h4>
+                        <h4 className='card-title card-intro-title form-search-data-title d-flex align-items-center justify-content-between'>
+                          Exchanges
+                          <span
+                            className='text-primary'
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              navigate(`../../../search/exchange/${keyWord}`)
+                            }}
+                          >
+                            View All
+                          </span>
+                        </h4>
                         {dataSearch?.data?.listExchange?.exchanges?.map(
                           (item, index) => (
                             <ItemExchange
@@ -371,7 +404,18 @@ const InputSearch = ({ isFormReport, setItem }) => {
                     {dataSearch?.data?.listSoon &&
                       dataSearch?.data?.listSoon?.soons !== null && (
                       <div className='form-search-data-box'>
-                        <h4 className='card-title card-intro-title form-search-data-title'>Soons</h4>
+                        <h4 className='card-title card-intro-title form-search-data-title d-flex align-items-center justify-content-between'>
+                          Soons
+                          <span
+                            className='text-primary'
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              navigate(`../../../search/soon/${keyWord}`)
+                            }}
+                          >
+                            View All
+                          </span>
+                        </h4>
                         {dataSearch?.data?.listSoon?.soons?.map((item) => (
                           <ItemSoon
                             key={item?.soonId}
@@ -391,7 +435,18 @@ const InputSearch = ({ isFormReport, setItem }) => {
                     {dataSearch?.data?.listVenture &&
                       dataSearch?.data?.listVenture?.ventures !== null && (
                       <div className='form-search-data-box'>
-                        <h4 className='card-title card-intro-title form-search-data-title'>Ventures</h4>
+                        <h4 className='card-title card-intro-title form-search-data-title d-flex align-items-center justify-content-between'>
+                          Ventures
+                          <span
+                            className='text-primary'
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              navigate(`../../../search/venture/${keyWord}`)
+                            }}
+                          >
+                            View All
+                          </span>
+                        </h4>
                         {dataSearch?.data?.listVenture?.ventures?.map(
                           (item, index) => (
                             <ItemVenture
@@ -414,7 +469,18 @@ const InputSearch = ({ isFormReport, setItem }) => {
                     {dataSearch?.data?.listLaunchpad &&
                       dataSearch?.data?.listLaunchpad?.launchPads !== null && (
                       <div className='form-search-data-box'>
-                        <h4 className='card-title card-intro-title form-search-data-title'>LaunchPads</h4>
+                        <h4 className='card-title card-intro-title form-search-data-title d-flex align-items-center justify-content-between'>
+                          LaunchPads
+                          <span
+                            className='text-primary'
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              navigate(`../../../search/launchpad/${keyWord}`)
+                            }}
+                          >
+                            View All
+                          </span>
+                        </h4>
                         {dataSearch?.data?.listLaunchpad?.launchPads?.map(
                           (item, index) => (
                             <ItemLaunch

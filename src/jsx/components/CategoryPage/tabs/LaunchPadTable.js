@@ -8,12 +8,13 @@ import { toCammelCase } from '../../../../utils/formatText'
 import { myLogo } from '../../common-widgets/logo/logo'
 import { launchpadExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 import { InfoCircleOutlined } from '@ant-design/icons'
+import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import '../../table/launchpad/LaunchpadTable.scss'
 
 const LaunchPadTable = ({ loading, listData }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
 
-  console.log(listData)
   const handleonRowClicked = (record)=> {
     const splitedId = record?.launchPadId?.split('_')
     splitedId && navigate(`../../products/${splitedId[1]}/${splitedId[2]}`)
@@ -176,23 +177,25 @@ const LaunchPadTable = ({ loading, listData }) => {
     }
   ]
   return (
-    <div>
-      <Table
-        loading={loading}
-        columns={columns}
-        dataSource={listData}
-        pagination={{
-          defaultPageSize: 20,
-          showSizeChanger: false
-        }}
-        rowKey={(record) => record?.launchPadId}
-        onRow={(record) => ({
-          onClick: () => {
-            handleonRowClicked(record)
-          }
-        })}
-        scroll={{ x: 'max-content' }}
-      />
+    <div className='launchpad-table'>
+      {loading ? (<MySkeletonLoadinng count={10} height={70}/>) : (
+        <Table
+          loading={loading}
+          columns={columns}
+          dataSource={listData}
+          pagination={ listData?.length > 20 ? {
+            defaultPageSize: 20,
+            showSizeChanger: false
+          } : false}
+          rowKey={(record) => record?.launchPadId}
+          onRow={(record) => ({
+            onClick: () => {
+              handleonRowClicked(record)
+            }
+          })}
+          scroll={{ x: 'max-content' }}
+        />
+      )}
     </div>
   )
 }

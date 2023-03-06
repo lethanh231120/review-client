@@ -1,12 +1,11 @@
 import React, { useContext } from 'react'
 import '../../table/dapp/dapp.scss'
-import { Image, Table, Avatar, Tooltip, Empty } from 'antd'
+import { Image, Table, Avatar, Tooltip } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
 import { PREFIX_DETAIL, DAPP } from '../../../constants/category'
 import { ChainListContext } from '../../../../App'
-import nodata from '../../../../images/product/nodata.png'
 import MyScoreComponent from '../../score/scoreComponent'
 import { encodeUrl } from '../../../../utils/formatUrl'
 import { Badge } from 'react-bootstrap'
@@ -172,48 +171,20 @@ const DappTable = ({ loading, listData }) => {
   return (
     <div className='dapp-table'>
       {loading ? (<MySkeletonLoadinng count={10} height={70}/>) : (
-        <>
-          {listData ? (
-            <Table
-              columns={colunms}
-              dataSource={listData}
-              pagination={{
-                defaultPageSize: 20,
-                showSizeChanger: false
-              }}
-              rowKey={(record) => record?.dAppId}
-              onRow={(record) => ({
-                onClick: () => {
-                  onRowClicked(record)
-                }
-              })}
-            />
-          ) : (
-            <>
-              <Empty
-                image={nodata}
-                description={
-                  <span>
-                    <span
-                      style={{ fontSize: '1.8em', color: 'red', fontWeight: 600 }}
-                    >
-                  SORRY{' '}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: '1.6rem',
-                        color: 'rgba(0, 0, 0, 0.6)',
-                        fontWeight: '600'
-                      }}
-                    >
-                  NO DATA FOUND
-                    </span>
-                  </span>
-                }
-              />
-            </>
-          )}
-        </>
+        <Table
+          columns={colunms}
+          dataSource={listData}
+          pagination={listData?.length > 20 ? {
+            defaultPageSize: 20,
+            showSizeChanger: false
+          } : false}
+          rowKey={(record) => record?.dAppId}
+          onRow={(record) => ({
+            onClick: () => {
+              onRowClicked(record)
+            }
+          })}
+        />
       )}
     </div>
   )

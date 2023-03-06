@@ -3,12 +3,11 @@ import '../../table/exchange/exchange.scss'
 
 import { Link } from 'react-router-dom'
 // display table
-import { Image, Table, Tooltip, Empty } from 'antd'
+import { Image, Table, Tooltip } from 'antd'
 import { PREFIX_DETAIL, EXCHANGE } from '../../../constants/category'
 import { renderNumber } from '../../../../utils/formatNumber'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
-import nodata from '../../../../images/product/nodata.png'
 import MyScoreComponent from '../../score/scoreComponent'
 import { encodeUrl } from '../../../../utils/formatUrl'
 import { Badge } from 'react-bootstrap'
@@ -149,49 +148,21 @@ const ExchangeTable = ({ listData, loading }) => {
   return (
     <div className='exchange-table'>
       {loading ? (<MySkeletonLoadinng count={10} height={70}/>) : (
-        <>
-          {listData ? (
-            <Table
-              columns={columns}
-              dataSource={listData}
-              pagination={{
-                defaultPageSize: 20,
-                showSizeChanger: false
-              }}
-              loading={loading}
-              rowKey={(record) => record?.exchangeId}
-              onRow={(record) => ({
-                onClick: () => {
-                  onRowClicked(record)
-                }
-              })}
-            />
-          ) : (
-            <>
-              <Empty
-                image={nodata}
-                description={
-                  <span>
-                    <span
-                      style={{ fontSize: '1.8em', color: 'red', fontWeight: 600 }}
-                    >
-                  SORRY{' '}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: '1.6rem',
-                        color: 'rgba(0, 0, 0, 0.6)',
-                        fontWeight: '600'
-                      }}
-                    >
-                  NO DATA FOUND
-                    </span>
-                  </span>
-                }
-              />
-            </>
-          )}
-        </>
+        <Table
+          columns={columns}
+          dataSource={listData}
+          pagination={ listData?.length > 20 ? {
+            defaultPageSize: 20,
+            showSizeChanger: false
+          } : false}
+          loading={loading}
+          rowKey={(record) => record?.exchangeId}
+          onRow={(record) => ({
+            onClick: () => {
+              onRowClicked(record)
+            }
+          })}
+        />
       )}
     </div>
   )
