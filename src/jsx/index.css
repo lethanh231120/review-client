@@ -4,7 +4,7 @@
 }
 html{
   scroll-behavior: smooth;
-  scroll-padding-top: 7rem;
+  /* scroll-padding-top: 7rem; */
 }
 .testimonial-one img {
   display: unset !important;
@@ -17,6 +17,7 @@ html{
   margin: 0 auto;
   width: 95% !important;
 }
+
 .dataTables_wrapper .dataTables_paginate span .paginate_button {
   display: inline-block;
 }

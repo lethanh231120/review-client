@@ -959,14 +959,14 @@ const Similar = ({ type, listProjectId }) => {
   const handleRowClicked = (record) => {
     if (record?.cryptoId?.split('_')[1] === CRYPTO_TOKEN) {
       navigate(
-        `../../../../${PREFIX_DETAIL}/${CRYPTO}/${
+        `../../../../../${PREFIX_DETAIL}/${CRYPTO}/${
           record?.cryptoId?.split('_')[1]
         }/${record?.cryptoId?.split('_')[2]}/${record?.cryptoId?.split('_')[3]}`
       )
     } else {
       // type === coin
       navigate(
-        `../../../../${PREFIX_DETAIL}/${CRYPTO}/${
+        `../../../../../${PREFIX_DETAIL}/${CRYPTO}/${
           record?.cryptoId?.split('_')[1]
         }/${record?.cryptoId?.split('_')[2]}`
       )

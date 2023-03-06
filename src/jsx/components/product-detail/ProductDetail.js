@@ -115,11 +115,11 @@ const ProductDetail = () => {
           setTotalSortBy(productInfo?.details?.totalNotScam)
         }
       } else {
-        setTotalSortBy(productInfo?.details?.totalReviews)
+        setTotalSortBy(totalSortBy)
       }
     }
     if (defaultFilter?.orderBy === 'totalReply') {
-      setTotalSortBy(productInfo?.details?.totalReviews)
+      setTotalSortBy(totalSortBy)
     }
   }, [defaultFilter])
 
@@ -346,7 +346,7 @@ const ProductDetail = () => {
                 }
                 // reaction of reply
                 const newListReactionInReplies = []
-                itemReplies?.reaction?.forEach((itemReactionInReplies) => {
+                itemReplies?.reactions?.forEach((itemReactionInReplies) => {
                   const newReactionInReplies = listUser?.data?.accounts?.find(item => item?.id === itemReactionInReplies?.accountId)
                   newListReactionInReplies.push({
                     ...itemReactionInReplies,
@@ -668,7 +668,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReviews={productInfo?.details?.totalReviews || 0}
+    totalReviews={totalSortBy || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -676,7 +676,8 @@ const ProductDetail = () => {
 
     // use in list review
     productId={productId}
-
+    setOffsetTopByListComment={setOffsetTopByListComment}
+    setLoadingFilter={setLoadingFilter}
   />
 
   const dapp = <DappInfo
@@ -708,7 +709,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReviews={productInfo?.details?.totalReviews || 0}
+    totalReviews={totalSortBy || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -716,6 +717,8 @@ const ProductDetail = () => {
 
     // use in list review
     productId={productId}
+    setOffsetTopByListComment={setOffsetTopByListComment}
+    setLoadingFilter={setLoadingFilter}
   />
 
   const exchange = <ExchangeInfo
@@ -747,12 +750,14 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReviews={productInfo?.details?.totalReviews || 0}
+    totalReviews={totalSortBy || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
     setReviews={setReviews}
     productId={productId}
+    setOffsetTopByListComment={setOffsetTopByListComment}
+    setLoadingFilter={setLoadingFilter}
   />
 
   const venture = <VentureInfo
@@ -784,7 +789,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReviews={productInfo?.details?.totalReviews || 0}
+    totalReviews={totalSortBy || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -792,6 +797,8 @@ const ProductDetail = () => {
 
     // use in list review
     productId={productId}
+    setOffsetTopByListComment={setOffsetTopByListComment}
+    setLoadingFilter={setLoadingFilter}
   />
 
   const launchpad = <LaunchpadDetail
@@ -823,7 +830,7 @@ const ProductDetail = () => {
     id={productInfo?.details?.id}
     form={form}
 
-    totalReviews={productInfo?.details?.totalReviews || 0}
+    totalReviews={totalSortBy || 0}
     setCurrentReview={setCurrentReview}
     curentReview={curentReview}
     reviews={reviews}
@@ -831,6 +838,8 @@ const ProductDetail = () => {
 
     // use in list review
     productId={productId}
+    setOffsetTopByListComment={setOffsetTopByListComment}
+    setLoadingFilter={setLoadingFilter}
   />
 
   const getMetaProductDetail = (categoryName, type, detail) => {

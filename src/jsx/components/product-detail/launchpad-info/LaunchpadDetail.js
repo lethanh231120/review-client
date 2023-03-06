@@ -396,11 +396,11 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       more={<More />}
       about={about}
       portfolioOrChartOrDesc={productInfo?.mores?.soon ? <IDOList /> : null}
-      numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
       setTop={setTop}
       topDiscus={<TopDiscussed />}
       similar={<ProductSimilar productType={LAUNCHPAD} similarList={productInfo?.similars} />}
+      productInfo={productInfo}
     />
   )
 }

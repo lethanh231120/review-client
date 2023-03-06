@@ -12,7 +12,7 @@ import { SignInContext, Authenticated } from '../../../../../App'
 import scam from '../../../../../images/product/scam.png'
 import ListEmoji from '../emoji/ListEmoji'
 import Description from '../../description/Description'
-import { reactions } from '../../../../constants/reaction'
+import { reactions, reactionImg } from '../../../../constants/reaction'
 import { timeAgoConvert } from '../../../common-widgets/home/click-function'
 import { formatLargeNumberMoneyUSD } from '../../../../../utils/formatNumber'
 
@@ -42,7 +42,7 @@ const ReviewItem = (props) => {
     const listReactionType = []
     data?.reactions?.forEach((item) => {
       if (item?.commentId === data?.review?.id) {
-        listReactionType.push(item?.reactionType)
+        listReactionType.push(reactionImg[`${item?.reactionType}`])
       }
     })
 
@@ -51,12 +51,38 @@ const ReviewItem = (props) => {
     }
 
     const unique = listReactionType?.filter(onlyUnique)
+    // 1: Scam, Fucking Run Away
+    // 2:  Warning, Be Careful
+    // 3: Okay, Not Bad
+    // 4:  Good, Should Try
+    // 5: Great, To The Moon
+    let textStar
+    switch (data?.review?.star) {
+      case 1:
+        textStar = 'Scam, Fucking Run Away'
+        break
+      case 2:
+        textStar = 'Warning, Be Careful'
+        break
+      case 3:
+        textStar = 'Okay, Not Bad'
+        break
+      case 4:
+        textStar = 'Good, Should Try'
+        break
+      case 5:
+        textStar = 'Great, To The Moon'
+        break
+      default:
+        break
+    }
     setNewData({
       reactionType: unique,
       isReaction: data?.reactions?.some((item) => item?.accountId === userInfo?.id),
       currenReaction: currenReaction || '',
       isCollapse: data?.replies?.length > 2,
-      reviewId: data?.replies?.length > 2 ? '' : data?.review?.id
+      reviewId: data?.replies?.length > 2 ? '' : data?.review?.id,
+      textStar: textStar
     })
   }, [data])
 
@@ -145,16 +171,21 @@ const ReviewItem = (props) => {
     if (!token) {
       signContext?.handleSetOpenModal(true)
     } else {
-      if (e.target.value !== '') {
-        const params = {
-          content: e.target.value,
-          reviewId: data?.review?.id,
-          productId: productId,
-          image: ''
-        }
-        functionAddReply(params)
+      if (e.ctrlKey && e.key === 'Enter') {
+        form.setFieldsValue({ 'comment': `${comment}\n` })
       } else {
-        setValidateTextArea(true)
+        e.preventDefault()
+        if (e.target.value !== '') {
+          const params = {
+            content: e.target.value,
+            reviewId: data?.review?.id,
+            productId: productId,
+            image: ''
+          }
+          functionAddReply(params)
+        } else {
+          setValidateTextArea(true)
+        }
       }
     }
   }
@@ -162,36 +193,39 @@ const ReviewItem = (props) => {
   const handleClickReaction = async(value) => {
     if (token) {
       if (newData?.isReaction) {
-        const body = {
-          commentId: data?.review?.id,
-          type: TYPE_REVIEW,
-          reactionType: value,
-          productId: productId
-        }
-        const dataUpdate = await patch('reviews/reaction', body)
-        if (dataUpdate) {
-          const newListReview = [...reviews]
-          const indexOfCurrentReaction = data?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
-          if (indexOfCurrentReaction !== -1) {
-            // update reactionType for current reaction
-            const currentReactionAfterUpdate = {
-              // newListReview[index] is current repview
-              // newListReview[index].reaction[indexOfCurrentReaction] is current raction in current review
-              ...data?.reactions[indexOfCurrentReaction],
-              reactionType: body?.reactionType
-            }
+        const itemReaction = data?.reactions?.find((item) => item?.accountId === userInfo?.id)
+        if (itemReaction?.reactionType !== value) {
+          const body = {
+            commentId: data?.review?.id,
+            type: TYPE_REVIEW,
+            reactionType: value,
+            productId: productId
+          }
+          const dataUpdate = await patch('reviews/reaction', body)
+          if (dataUpdate) {
+            const newListReview = [...reviews]
+            const indexOfCurrentReaction = data?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
+            if (indexOfCurrentReaction !== -1) {
+              // update reactionType for current reaction
+              const currentReactionAfterUpdate = {
+                // newListReview[index] is current repview
+                // newListReview[index].reaction[indexOfCurrentReaction] is current raction in current review
+                ...data?.reactions[indexOfCurrentReaction],
+                reactionType: body?.reactionType
+              }
 
-            // clone list reaction in current review
-            const reactionAfterUpdate = [newListReview[index].reactions]
-            // update list reaction in current review
-            reactionAfterUpdate[indexOfCurrentReaction] = currentReactionAfterUpdate
+              // clone list reaction in current review
+              const reactionAfterUpdate = [...newListReview[index].reactions]
+              // update list reaction in current review
+              reactionAfterUpdate[indexOfCurrentReaction] = currentReactionAfterUpdate
 
-            // update data of current review
-            newListReview[index] = {
-              ...newListReview[index],
-              reactions: reactionAfterUpdate
+              // update data of current review
+              newListReview[index] = {
+                ...newListReview[index],
+                reactions: reactionAfterUpdate
+              }
+              setReviews(newListReview)
             }
-            setReviews(newListReview)
           }
         }
       } else {
@@ -225,11 +259,12 @@ const ReviewItem = (props) => {
   const handleChangeComment = _.debounce(async(e) => {
     if (e.target.value === '') {
       setValidateTextArea(true)
+      setComment('')
     } else {
       setComment(e.target.value)
       setValidateTextArea(false)
     }
-  }, 1000)
+  }, 200)
 
   return (
     <>
@@ -244,6 +279,13 @@ const ReviewItem = (props) => {
               </span>
             </div>
             <div className='review-item-content'>
+              {newData?.textStar && (
+                <div>
+                  <strong>
+                    {newData?.textStar}
+                  </strong>
+                </div>
+              )}
               {data?.review?.scamAmountUSD && (
                 <div>
                   <strong>
@@ -295,7 +337,7 @@ const ReviewItem = (props) => {
               <div className='review-item-action-reaction'>
                 {newData?.reactionType?.map((item, index) => (
                   <div className='review-item-action-reaction-item' key={index}>
-                    {item}
+                    <img src={item} alt={`reaction ${index} icon`}/>
                   </div>
                 ))}
                 <div className='review-item-action-reaction-item'>
@@ -325,9 +367,9 @@ const ReviewItem = (props) => {
                   <Image src={userInfo?.image ? userInfo?.image : user} preview={false} style={{ width: '2.1875rem' }} alt='User Avatar'/>
                 </div>
                 <Form.Item
-                  name={`reply ${newData?.data?.id}`}
+                  name={`comment`}
                 >
-                  <Input
+                  {/* <Input
                     name={`reply ${newData?.data?.id}`}
                     className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
                     autoFocus
@@ -340,6 +382,21 @@ const ReviewItem = (props) => {
                     placeholder={`${validateTextArea ? 'Please enter reply' : 'Enter reply...'}`}
                     onChange={handleChangeComment}
                     onPressEnter={handleSubmit}
+                  /> */}
+                  <Input.TextArea
+                    className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
+                    autoFocus
+                    // value={comment}
+                    suffix={<>
+                      <SendOutlined
+                        style={{ cursor: 'pointer' }}
+                        onClick={handleSend}
+                      />
+                    </>}
+                    placeholder={`${validateTextArea ? 'Please enter reply' : 'Enter reply...'}`}
+                    onChange={handleChangeComment}
+                    onPressEnter={handleSubmit}
+                    autoSize={{ minRows: 2 }}
                   />
                 </Form.Item>
               </div>

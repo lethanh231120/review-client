@@ -32,7 +32,7 @@ const FilterReview = (props) => {
       <div className='list-review-header'>
         <div className='text-primary list-review-header-title'>
           {defaultText === 'All Review' ? 'Reviews' : <span style={{ color: defaultText === 'Report Scam' ? 'red' : '' }}>{defaultText}</span>}
-          <span style={{ color: defaultText === 'Report Scam' ? 'red' : '' }}>({new Intl.NumberFormat().format(numberReviews)})</span>
+          <span style={{ color: defaultText === 'Report Scam' ? 'red' : '' }}>({new Intl.NumberFormat().format(numberReviews || 0)})</span>
         </div>
         <div className='list-review-header-right'>
           <Dropdown>
@@ -51,7 +51,7 @@ const FilterReview = (props) => {
                   })
                 }}
               >
-                <div className='list-review-header-popover-title'>All Review ({new Intl.NumberFormat().format(productInfo?.details?.totalReviews)})</div>
+                <div className='list-review-header-popover-title'>All Review ({new Intl.NumberFormat().format(productInfo?.details?.totalReviews || 0)})</div>
               </Dropdown.Item>
               <Dropdown.Item
                 className={`${defaultText === MOST_RELEVANT ? 'active' : ''} list-review-header-popover-item cus-dropdown-item`}
@@ -64,7 +64,7 @@ const FilterReview = (props) => {
                   })
                 }}
               >
-                <div className='list-review-header-popover-title'>Most Relevant ({new Intl.NumberFormat().format(productInfo?.details?.totalReviews)})</div>
+                <div className='list-review-header-popover-title'>Most Relevant ({new Intl.NumberFormat().format(productInfo?.details?.totalReviews || 0)})</div>
               </Dropdown.Item>
               <Dropdown.Item
                 className={`${defaultText === REPORT_SCAM ? 'active' : ''} list-review-header-popover-item cus-dropdown-item`}
@@ -79,7 +79,7 @@ const FilterReview = (props) => {
                 }}
                 style={{ color: 'red' }}
               >
-                <div className='list-review-header-popover-title'>Report Scam ({new Intl.NumberFormat().format(productInfo?.details?.totalIsScam)})</div>
+                <div className='list-review-header-popover-title'>Report Scam ({new Intl.NumberFormat().format(productInfo?.details?.totalIsScam || 0)})</div>
               </Dropdown.Item>
               <Dropdown.Item
                 className={`${defaultText === NOT_SCAM ? 'active' : ''} list-review-header-popover-item cus-dropdown-item`}
@@ -93,7 +93,7 @@ const FilterReview = (props) => {
                   })
                 }}
               >
-                <div className='list-review-header-popover-title'>Not Scam ({new Intl.NumberFormat().format(productInfo?.details?.totalNotScam)})</div>
+                <div className='list-review-header-popover-title'>Not Scam ({new Intl.NumberFormat().format(productInfo?.details?.totalNotScam || 0)})</div>
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
