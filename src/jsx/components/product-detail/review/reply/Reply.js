@@ -8,7 +8,7 @@ import user from '../../../../../images/product/user.png'
 import ListEmoji from '../emoji/ListEmoji'
 import { getCookie, STORAGEKEY } from '../../../../../utils/storage'
 import { SignInContext, Authenticated } from '../../../../../App'
-import { reactions } from '../../../../constants/reaction'
+import { reactionImg, reactions } from '../../../../constants/reaction'
 import { timeAgoConvert } from '../../../common-widgets/home/click-function'
 
 const ReplyComment = (props) => {
@@ -38,7 +38,7 @@ const ReplyComment = (props) => {
     const listReactionType = []
     data?.reactions?.forEach((item) => {
       if (item?.commentId === data?.reply?.id) {
-        listReactionType.push(item?.reactionType)
+        listReactionType.push(reactionImg[`${item?.reactionType}`])
       }
     })
 
@@ -62,33 +62,36 @@ const ReplyComment = (props) => {
     } else {
       // check if the account has reacted to the current reply, update the reactionType for the reaction
       if (newData?.isReaction) {
-        const body = {
-          commentId: data?.reply?.id,
-          type: TYPE_REPLY,
-          reactionType: value,
-          productId: productId
-        }
-        const dataUpdate = await patch('reviews/reaction', body)
-        if (dataUpdate) {
-          // find index of item reaction by current account in list reaction of current reply
-          const indexOfReaction = data?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
-          if (indexOfReaction !== -1) {
-            const currentReaction = {
-              ...data.reactions[indexOfReaction],
-              reactionType: body?.reactionType
+        const itemReaction = data?.reactions?.find((item) => item?.accountId === userInfo?.id)
+        if (itemReaction?.reactionType !== value) {
+          const body = {
+            commentId: data?.reply?.id,
+            type: TYPE_REPLY,
+            reactionType: value,
+            productId: productId
+          }
+          const dataUpdate = await patch('reviews/reaction', body)
+          if (dataUpdate) {
+            // find index of item reaction by current account in list reaction of current reply
+            const indexOfReaction = data?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
+            if (indexOfReaction !== -1) {
+              const currentReaction = {
+                ...data.reactions[indexOfReaction],
+                reactionType: body?.reactionType
+              }
+
+              const listReactionAfterUpdate = [...data.reactions]
+              listReactionAfterUpdate[indexOfReaction] = currentReaction
+
+              const newListReview = [...reviews]
+              // newListReview[indexReview].replies[index].reactions = listReactionAfterUpdate
+
+              newListReview[indexReview].replies[index] = {
+                ...newListReview[indexReview].replies[index],
+                reactions: listReactionAfterUpdate
+              }
+              setReviews(newListReview)
             }
-
-            const listReactionAfterUpdate = [...data.reactions]
-            listReactionAfterUpdate[indexOfReaction] = currentReaction
-
-            const newListReview = [...reviews]
-            // newListReview[indexReview].replies[index].reactions = listReactionAfterUpdate
-
-            newListReview[indexReview].replies[index] = {
-              ...newListReview[indexReview].replies[index],
-              reactions: listReactionAfterUpdate
-            }
-            setReviews(newListReview)
           }
         }
       } else {
@@ -153,7 +156,7 @@ const ReplyComment = (props) => {
             <div className='review-item-action-reaction'>
               {newData?.reactionType?.map((item, index) => (
                 <div className='review-item-action-reaction-item' key={index}>
-                  {item}
+                  <img src={item} alt={`reaction ${index} icon`}/>
                 </div>
               ))}
               <div className='review-item-action-reaction-item'>

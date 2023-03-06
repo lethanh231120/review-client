@@ -294,12 +294,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
       more={<More />}
       about={about}
       isScam={detail?.isScam}
-      numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
       setTop={setTop}
       topDiscus={<TopDiscussed />}
       scam={scam}
       similar={<ProductSimilar productType={EXCHANGE} similarList={productInfo?.similars} />}
+      productInfo={productInfo}
     />
   )
 }

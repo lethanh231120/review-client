@@ -142,11 +142,11 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         text={itemDetail?.fullDesc || itemDetail?.shortDesc}
       />}
       about={<ScreenShot screenshots={itemDetail?.media} />}
-      numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
       setTop={setTop}
       topDiscus={<TopDiscussed />}
       similar={<ProductSimilar productType={SOON} similarList={productInfo?.similars} />}
+      productInfo={productInfo}
     />
   )
 }

@@ -10,25 +10,7 @@
                 display: flex;
                 align-items: center;
                 padding: 0rem 0.75rem;
-            }
-            &-item{
-                font-size: 0.8125rem;
-                font-weight: 700;
-                padding: 0 0.675rem 0 0;
-                cursor: pointer;
-                position: relative;
-                color: rgba(0, 0, 0, 0.6);
-                & span{
-                    color: rgba(0, 140, 255, 0.648);
-                }
-                &:hover{
-                    & .review-item-action-item-emoji{
-                        opacity: 1;
-                        visibility: visible;
-                    }
-                }
                 &-emoji{
-                    font-size: 1.25rem;
                     position: absolute;
                     top: -2.5rem;
                     left: -1.25rem;
@@ -44,6 +26,34 @@
                     visibility: hidden;
                     transition: all 0.2s linear;
                     padding: 0.2rem  0.3125rem;
+                    & div{
+                        width: 1.6rem;
+                        height: 1.6rem;
+                        &:not(:last-child) {
+                            margin-right: 0.4rem;
+                        }
+                        & img{
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                }
+            }
+            &-item{
+                font-weight: 700;
+                padding: 0 0.675rem 0 0;
+                cursor: pointer;
+                position: relative;
+                color: rgba(0, 0, 0, 0.6);
+                & span{
+                    color: rgba(0, 140, 255, 0.648);
+                }
+                &:hover{
+                    & .review-item-action-list-emoji{
+                        opacity: 1;
+                        visibility: visible;
+                    }
                 }
                 &-time{
                     display: inline;
@@ -75,8 +85,15 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    width: 1.3rem;
+                    height: 1.3rem;
+                    & img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
                     &:last-child{
-                        margin-left: 0.625rem;
+                        margin-left: 0.5rem;
                     }
                 }
             }

@@ -318,12 +318,12 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       more={<More />}
       about={about}
       portfolioOrChartOrDesc={<PortfolioTable />}
-      numberReviews={productInfo?.reviews?.length ? productInfo?.reviews?.length : 0}
       rest={rest}
       setTop={setTop}
       topDiscus={<TopDiscussed />}
       scam={scam}
       similar={<ProductSimilar productType={VENTURE} similarList={productInfo?.similars} />}
+      productInfo={productInfo}
     />
   )
 }

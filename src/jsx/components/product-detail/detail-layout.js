@@ -15,12 +15,11 @@ export const DetailLayout = (props) => {
   }
 
   useEffect(() => {
-    window.addEventListener('load', getPosition)
+    getPosition()
+    // window.addEventListener('load', getPosition)
+    window.addEventListener('mouseover', getPosition)
+    window.addEventListener('resize', getPosition)
   }, [])
-
-  // useEffect(() => {
-  //   window.addEventListener('mouseover', getPosition)
-  // }, [])
 
   return <>
     <div className='row'>
@@ -141,10 +140,13 @@ export const DetailLayout = (props) => {
                     current={rest?.defaultFilter?.page}
                     pageSize={PAGE_SIZE}
                     showSizeChanger={false}
-                    onChange={(value) => rest?.setDefaultFilter({
-                      ...rest.defaultFilter,
-                      page: value
-                    })}
+                    onChange={(value) => {
+                      rest?.setDefaultFilter({
+                        ...rest.defaultFilter,
+                        page: value
+                      })
+                      rest?.setLoadingFilter(true)
+                    }}
                   />
                 )}
               </div>
@@ -190,6 +192,7 @@ export const DetailLayout = (props) => {
             </div>}
           </div>
 
+          {console.log(productInfo)}
           {/* Comments */}
           <div className='col-xl-7'>
             <div className='product-detail' id='comment'>
@@ -222,10 +225,13 @@ export const DetailLayout = (props) => {
                     current={rest?.defaultFilter?.page}
                     pageSize={PAGE_SIZE}
                     showSizeChanger={false}
-                    onChange={(value) => rest?.setDefaultFilter({
-                      ...rest.defaultFilter,
-                      page: value
-                    })}
+                    onChange={(value) => {
+                      rest?.setDefaultFilter({
+                        ...rest.defaultFilter,
+                        page: value
+                      })
+                      rest?.setLoadingFilter(true)
+                    }}
                   />
                 )}
               </div>
