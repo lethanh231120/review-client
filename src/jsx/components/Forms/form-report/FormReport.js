@@ -26,6 +26,34 @@ import '../../../../scss/base/cus-form.scss'
 import './formReport.scss'
 import Swal from 'sweetalert2'
 import _ from 'lodash'
+// toast message
+const notifyTopRight = (content) => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true
+  })
+
+  Toast.fire({
+    icon: 'error',
+    title: content
+  })
+}
+console.log(notifyTopRight)
+
+export const beforeUpload = (file) => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+  if (!isJpgOrPng) {
+    notifyTopRight('You can only upload JPG/PNG file!')
+  }
+  const isLt10M = file.size / 1024 / 1024 < 10
+  if (!isLt10M) {
+    notifyTopRight('Image must smaller than 10MB!')
+  }
+  return isJpgOrPng && isLt10M
+}
 
 const { Option } = Select
 const defaultValue = [
@@ -76,34 +104,6 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
   useEffect(() => {
     window.addEventListener('mouseover', getPosition)
   }, [])
-
-  // toast message
-  const notifyTopRight = (content) => {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true
-    })
-
-    Toast.fire({
-      icon: 'error',
-      title: content
-    })
-  }
-
-  const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isJpgOrPng) {
-      notifyTopRight('You can only upload JPG/PNG file!')
-    }
-    const isLt2M = file.size / 1024 / 1024 < 10
-    if (!isLt2M) {
-      notifyTopRight('Image must smaller than 10MB!')
-    }
-    return isJpgOrPng && isLt2M
-  }
 
   // chose file in select
   const handleChangeFile = (e) => {

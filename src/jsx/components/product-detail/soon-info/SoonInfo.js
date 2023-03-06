@@ -16,7 +16,7 @@ import { InfoTagDetail } from '../../common-widgets/page-soon/InfoTagDetail'
 import { InfoWebsiteDetail } from '../../common-widgets/page-soon/InfoWebsiteDetail'
 import { InfoLaunchpadDetail } from '../../common-widgets/page-soon/InfoLaunchpadDetail'
 import { InfoShortDetail } from './../../common-widgets/page-soon/InfoShortDetail'
-import { iconPayments, iconSold, iconSupply, SummaryDetail } from '../../common-widgets/page-detail/SummaryDetail'
+import { bgYellow, iconPayments, iconSold, iconSupply, SummaryDetail } from '../../common-widgets/page-detail/SummaryDetail'
 import { ButtonReportScam } from '../../common-widgets/page-detail/ButtonReportScam'
 import ButtonAddReview from '../../common-widgets/page-detail/ButtonAddReview'
 import { ProgressBarGoal } from '../../common-widgets/page-soon/ProgressBarGoal'
@@ -97,16 +97,16 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       </div>
       <div className='row'>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals / 5)} icon={iconSold} text={'Sold'} />
+          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals / 5)} icon={iconSold} text={'Sold'} backgroundColor={bgYellow} />
         </div>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.tokenPrice)} icon={iconPayments} text={'Price'} />
+          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.tokenPrice)} icon={iconPayments} text={'Price'} backgroundColor={bgYellow}/>
         </div>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-          <SummaryDetail number={formatLargeNumber(itemDetail?.totalSupply)} icon={iconSupply} text={'Supply'} />
+          <SummaryDetail number={formatLargeNumber(itemDetail?.totalSupply)} icon={iconSupply} text={'Supply'} backgroundColor={bgYellow}/>
         </div>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)} icon={iconSupply} text={txtGoal} />
+          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)} icon={iconSupply} text={txtGoal} backgroundColor={bgYellow}/>
         </div>
       </div>
       <div className='mt-4'>

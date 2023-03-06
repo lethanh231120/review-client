@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
-import { Modal, Tooltip } from 'antd'
+import { Modal, Tooltip, Upload } from 'antd'
 
 // / Image
 import profile from '../../../images/product/user.png'
@@ -21,7 +21,7 @@ import InputSearch from '../../components/input-search/GlobalSearch'
 import { getCookie, removeCookie, STORAGEKEY } from '../../../utils/storage'
 import ExpiredJWTChecker from '../../components/auth/ExpiredJWTChecker'
 import Swal from 'sweetalert2'
-import { ReportModalContext, AddModalContext } from '../../index'
+import { ReportModalContext, AddModalContext, NormalUserProfileContext } from '../../index'
 import imgLogIn from '../../../images/svg/log-in-primary.svg'
 import imgSignUp from '../../../images/svg/sign-up-primary.svg'
 import { Link } from 'react-router-dom'
@@ -31,6 +31,7 @@ import { ToggleContext } from '../../index'
 import './custom-header.scss'
 import { PathNameContext } from '../../index'
 import './header.scss'
+import { beforeUpload } from '../../components/Forms/form-report/FormReport'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
@@ -48,6 +49,8 @@ const Header = () => {
   const showFullSearchConext = useContext(ShowFullSearchConext)
   const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)
   const summaryData = useContext(SummaryHomeContext)
+  const profileModal = useContext(NormalUserProfileContext)
+  const userInfo = getCookie(STORAGEKEY?.USER_INFO)
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -74,30 +77,12 @@ const Header = () => {
     if (userInfo) {
       addModal?.handleSetOpenModal(true)
     } else {
-      Swal.fire({
-        allowOutsideClick: false,
-        icon: 'info',
-        title: 'Please sign in first',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        backdrop: `rgba(4,148,114,0.4)`
-      }).then((result) => {
-        // click out modal notification, or click [OK] in modal
-        if (result?.isDismissed || result?.isConfirmed) {
-          // keep state in context, login form raise when click add project
-          signInFromAddProductContext?.setIsOpenModalAddProduct(true)
-          signContext?.handleSetOpenModal(true)
-          formLoginSignupKeyContext?.setLoginSignupFormactiveTabKey(logInKey)
-        }
-      })
+      // keep state in context, login form raise when click add project
+      signInFromAddProductContext?.setIsOpenModalAddProduct(true)
+      signContext?.handleSetOpenModal(true)
+      formLoginSignupKeyContext?.setLoginSignupFormactiveTabKey(logInKey)
     }
   }
-
-  const userInfo = getCookie(STORAGEKEY?.USER_INFO)
 
   const logout = () => {
     removeCookie(STORAGEKEY.ACCESS_TOKEN)
@@ -116,6 +101,8 @@ const Header = () => {
       title: 'Log Out ...'
     })
   }
+
+  profileModal?.setOpenModalUserProfile(true)
 
   const onCloseLoginSignupForm = () => {
     signContext?.handleSetOpenModal(false)
@@ -144,6 +131,29 @@ const Header = () => {
       align='right'
       className='dropdown-menu dropdown-menu-end'
     >
+      {/* Profile */}
+      {userInfo?.accountType === 'normal'// Normal user
+        ? <Link
+          to='#'
+          className='dropdown-item ai-icon'
+          onClick={() => {
+            const isShowSubMenu = document.getElementsByClassName('dropdown-menu dropdown-menu-end dropdown-menu show').length > 0
+            if (isShowSubMenu) {
+              profileModal?.setOpenModalUserProfile(true)
+              // hide submenu see profile/ logout
+              document.getElementsByClassName('dropdown-menu dropdown-menu-end dropdown-menu show')[0].classList.toggle('show')
+            }
+          }}
+        >
+          <svg id='icon-user1' xmlns='http://www.w3.org/2000/svg' className='text-primary me-1' width={18} height={18} viewBox='0 0 24 24' fill='none'
+            stroke='currentColor' strokeWidth={2} strokeLinecap='round' strokeLinejoin='round'
+          >
+            <path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2' />
+            <circle cx={12} cy={7} r={4} />
+          </svg>
+          <span className='ms-2'>Profile</span>
+        </Link> : ''}
+      {/* Logout */}
       <Link
         to='#'
         className='dropdown-item ai-icon'
@@ -255,19 +265,50 @@ const Header = () => {
       </Dropdown.Toggle>
     </Dropdown>
 
+  const onCloseUserProfileForm = () =>{
+    profileModal?.setOpenModalUserProfile(false)
+  }
+
   return (
     <>
-      <Modal
-        open={signContext?.openModalSignIn}
-        onCancel={onCloseLoginSignupForm}
-        onOk={onCloseLoginSignupForm}
-        footer={false}
-        destroyOnClose={true}
-        show={signContext?.openModalSignIn}
-        style={{ zIndex: '9999' }}
-      >
-        <AccountTab activeTabKey={formLoginSignupKeyContext?.loginSignupFormactiveTabKey} />
-      </Modal>
+      {/* only when login exist, for only normal User*/}
+      {/* Form Profile */}
+      {authenticated?.isAuthenticated && userInfo?.accountType === 'normal'
+        ? <>
+          <Modal
+            open={profileModal?.openModalUserProfile}
+            onCancel={onCloseUserProfileForm}
+            onOk={onCloseUserProfileForm}
+            footer={false}
+            destroyOnClose={true}
+            show={profileModal?.openModalUserProfile}
+          >
+            <img src={userInfo?.image ? userInfo?.image : profile} alt='error' width={64} height={64}/>
+            {userInfo?.userName}
+            <br />
+            <Upload
+              listType='picture-card'
+              beforeUpload={beforeUpload}
+            >
+              +Upload
+            </Upload>
+          </Modal>
+        </>
+        : <>
+          {/* only when logout exist */}
+          {/* Form Sign in, Sign up */}
+          <Modal
+            open={signContext?.openModalSignIn}
+            onCancel={onCloseLoginSignupForm}
+            onOk={onCloseLoginSignupForm}
+            footer={false}
+            destroyOnClose={true}
+            show={signContext?.openModalSignIn}
+            style={{ zIndex: '9999' }}
+          >
+            <AccountTab activeTabKey={formLoginSignupKeyContext?.loginSignupFormactiveTabKey} />
+          </Modal>
+        </>}
       <div className={`header ${headerFix ? 'is-fixed' : ''} ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0' : ''}`}>
         <div className={`header-content ${showFullSearchConext?.isShowFullSearchSmallMode ? 'p-0' : ''}`}>
           <nav className='navbar navbar-expand'>

@@ -2,7 +2,7 @@ import { useEffect, useContext } from 'react'
 import { getCookie, STORAGEKEY } from '../../../utils/storage/index'
 import Swal from 'sweetalert2'
 import { ShowFullSearchConext } from '../../../App'
-import { parseJwt } from '../../../utils/decode'
+import { convertType, parseJwt } from '../../../utils/decode'
 
 const ExpiredJWTChecker = ({ logout }) => {
   const millSecPerSec = 1000
@@ -46,18 +46,9 @@ const ExpiredJWTChecker = ({ logout }) => {
     }, durationCheckMillSec)
   }
 
-  const convertType = function(value) {
-    try {
-      return (new Function('return ' + value + ';'))()
-    } catch (e) {
-      return value
-    }
-  }
-
   const isJWTExpired = async() => {
     let token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
-    // 'undefined' to undefined
-    token = convertType(token)
+    token = convertType(token) // 'undefined' to undefined
     // already log in
     if (token) {
       const jwtExpiredTimeSec = parseJwt(token)?.exp

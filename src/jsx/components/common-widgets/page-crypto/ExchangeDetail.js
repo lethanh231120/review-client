@@ -2,6 +2,8 @@ import React from 'react'
 import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { formatUrlDetailFromUrlImageExchange, getExchangeNameFromUrlImageExchage } from './../../../../utils/formatText'
+import InformationSubTitle from '../page-detail/InformationSubTitle'
+import { typeExchange } from './../page-detail/InformationSubTitle'
 
 export const ExchangeDetail = ({ coinName, exchangeList }) => {
   const navigate = useNavigate()
@@ -15,9 +17,9 @@ export const ExchangeDetail = ({ coinName, exchangeList }) => {
 
   return coinName && !_.isEmpty(exchangeList) ? <div className='crypto-info'>
     <div>
-      <div className='crypto-info-item-key'>Exchange: </div>
-      <div className='row mt-3'>
-        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+      <InformationSubTitle type={typeExchange}/>
+      <div className='row mt-3' style={{ marginLeft: '1.5rem' }}>
+        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ paddingLeft: '0' }}>
           <div
             className='form-check custom-checkbox mb-3 checkbox-success'
             style={{ padding: '0' }}
@@ -25,14 +27,11 @@ export const ExchangeDetail = ({ coinName, exchangeList }) => {
             <>
               {exchangeList?.map((itemImageUrl, index) => (
                 <>
-                  <div style={{ display: 'block' }}>
-                    {`${coinName} is existing on `}
-                    <div key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'inline-block' }} className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={(e) => { handleClickExchange(e, itemImageUrl) } }>
-                      <img src={itemImageUrl} height={24} width={24} alt='Exchange Logo'/>
+                  <span key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'inline-block' }} className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={(e) => { handleClickExchange(e, itemImageUrl) } }>
+                    <img src={itemImageUrl} height={24} width={24} alt='Exchange Logo'/>
                       &nbsp;&nbsp;
-                      {getExchangeNameFromUrlImageExchage(itemImageUrl)}
-                    </div>
-                  </div>
+                    {getExchangeNameFromUrlImageExchage(itemImageUrl)}
+                  </span>
                 </>
               ))}
             </>

@@ -152,7 +152,6 @@ const Crypto = ({
         // have data in chain list
         if (dataChain) {
           const address = getAddressFromCryptoId(record?.cryptoId)
-          console.log(`${dataChain?.exploreWebsite}${dataChain?.path}${address}`)
           const url =
             `${dataChain?.exploreWebsite}${dataChain?.path}${address}`
           mainExplorerMapLocal.set(record?.cryptoId, url)

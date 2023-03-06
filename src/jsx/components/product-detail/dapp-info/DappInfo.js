@@ -19,6 +19,7 @@ import { DAPP } from '../../../constants/category'
 import ShareButton from '../../common-widgets/page-detail/ShareButton'
 import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
+import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
 
 const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -83,7 +84,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
         </div>
         <div className='col'>
           <h3 className='m-b-0'>
-            <MyScoreComponent score={productInfo?.details?.score} />
+            <MyScoreComponent score={productInfo?.details?.score} type={DAPP}/>
           </h3>
           <span>
           Score
@@ -178,9 +179,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
 
   const More = () => {
     return <div>
-      <div className='card-header border-0 pb-0'>
-        <h3 className='heading text-primary'>{detail?.dAppName} Information</h3>
-      </div>
+      <InformationHeader projectName={detail?.dAppName}/>
       <div className='card-body pt-3'>
         <div className='profile-blog'>
           <div className='community-list'>
