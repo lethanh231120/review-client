@@ -74,26 +74,10 @@ const Header = () => {
     if (userInfo) {
       addModal?.handleSetOpenModal(true)
     } else {
-      Swal.fire({
-        allowOutsideClick: false,
-        icon: 'info',
-        title: 'Please sign in first',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        backdrop: `rgba(4,148,114,0.4)`
-      }).then((result) => {
-        // click out modal notification, or click [OK] in modal
-        if (result?.isDismissed || result?.isConfirmed) {
-          // keep state in context, login form raise when click add project
-          signInFromAddProductContext?.setIsOpenModalAddProduct(true)
-          signContext?.handleSetOpenModal(true)
-          formLoginSignupKeyContext?.setLoginSignupFormactiveTabKey(logInKey)
-        }
-      })
+      // keep state in context, login form raise when click add project
+      signInFromAddProductContext?.setIsOpenModalAddProduct(true)
+      signContext?.handleSetOpenModal(true)
+      formLoginSignupKeyContext?.setLoginSignupFormactiveTabKey(logInKey)
     }
   }
 

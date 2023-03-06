@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from 'react'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
-import Swal from 'sweetalert2'
 import { SignInContext, FormLoginSignupKeyContext, SignInFromAddProductContext } from '../../../App'
 import ModalAdd from '../modal/modal-add-product/ModalAdd'
 import { logInKey } from '../common-widgets/user-form/account-tab'
@@ -15,26 +14,10 @@ const AddProject = ({ isModal }) => {
   useEffect(() => {
     // already log in
     if (!userInfo) {
-      Swal.fire({
-        allowOutsideClick: false,
-        icon: 'info',
-        title: 'Please sign in first',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        backdrop: `rgba(4,148,114,0.4)`
-      }).then((result) => {
-        // click out modal notification, or click [OK] in modal
-        if (result?.isDismissed || result?.isConfirmed) {
-          // keep state in context, login form raise when click add project
-          signInFromAddProductContext?.setIsOpenModalAddProduct(true)
-          signContext?.handleSetOpenModal(true)
-          formLoginSignupKeyContext?.setLoginSignupFormactiveTabKey(logInKey)
-        }
-      })
+      // keep state in context, login form raise when click add project
+      signInFromAddProductContext?.setIsOpenModalAddProduct(true)
+      signContext?.handleSetOpenModal(true)
+      formLoginSignupKeyContext?.setLoginSignupFormactiveTabKey(logInKey)
     }
   }, [userInfo])
 
