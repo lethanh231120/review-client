@@ -25,7 +25,7 @@ import TimeText, { typeEnd, typeStart } from './../../common-widgets/page-soon/T
 import { ScreenShot } from './../../common-widgets/page-soon/ScreenShot'
 import ShareButton from '../../common-widgets/page-detail/ShareButton'
 import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
-import ProductImage from '../../common-widgets/page-detail/ProductImage'
+import ProductImage, { altSoon } from '../../common-widgets/page-detail/ProductImage'
 import { ProductNameSubName } from '../../common-widgets/page-detail/ProductNameSubName'
 import { SoonStatusLocation } from './../../common-widgets/page-soon/SoonStatusLocation'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
@@ -66,7 +66,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const header = itemDetail ? (
     <div className='profile-info'>
       <div className='profile-details'>
-        <ProductImage productId={itemDetail?.projectId} productName={itemDetail?.projectName} />
+        <ProductImage productId={itemDetail?.projectId} productName={itemDetail?.projectName} altImageType={altSoon} />
         <ProductNameSubName projectName={itemDetail?.projectName} projectSubName={itemDetail?.projectSymbol}/>
         <SoonStatusLocation status={itemStatus} detail={itemDetail}/>
         <div className='detail-button ms-auto'>

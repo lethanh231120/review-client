@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons'
 import './crypto.scss'
 import _ from 'lodash'
-import { CRYPTO } from '../../../constants/category'
+import { CRYPTO, CRYPTO_COIN } from '../../../constants/category'
 import { encodeUrl } from '../../../../utils/formatUrl'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { ChainListContext, ExchangeContext } from '../../../../App'
@@ -40,7 +40,10 @@ import { ExchangeDetail } from '../../common-widgets/page-crypto/ExchangeDetail'
 import ShareButton from '../../common-widgets/page-detail/ShareButton'
 import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
+import ProductImage, { altCrypto } from '../../common-widgets/page-detail/ProductImage'
+import { ProductNameSubName } from '../../common-widgets/page-detail/ProductNameSubName'
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
+  const detail = productInfo?.details
   const PAGE_SIZE = 10
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
@@ -54,7 +57,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   useEffect(() => {
     setShowInfo(
       !isShow?.community &&
-        _.isEmpty(productInfo?.details?.multichain) &&
+        _.isEmpty(detail?.multichain) &&
         !isShow?.founders &&
         !isShow?.explorer &&
         !isShow?.sourceCode
@@ -67,9 +70,9 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   useEffect(() => {
     const getDataVenture = async() => {
-      if (!_.isEmpty(productInfo?.details?.multichain)) {
+      if (!_.isEmpty(detail?.multichain)) {
         const newMultiChain = []
-        productInfo?.details?.multichain?.forEach((itemMulti) => {
+        detail?.multichain?.forEach((itemMulti) => {
           const itemChain = chainList[itemMulti?.chainName]
           if (itemChain) {
             newMultiChain.push({
@@ -77,9 +80,9 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               ...itemMulti
             })
             // main address to display
-            if (productInfo?.details?.chainName === itemMulti?.chainName) {
+            if (detail?.chainName === itemMulti?.chainName) {
               setMainExplorer(
-                `${itemChain?.exploreWebsite}${itemChain?.path}${productInfo?.details?.address}`
+                `${itemChain?.exploreWebsite}${itemChain?.path}${detail?.address}`
               )
             }
           }
@@ -89,11 +92,11 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         }
       } else {
         // don't have multiple chain
-        const dataChain = chainList[productInfo?.details?.chainName]
+        const dataChain = chainList[detail?.chainName]
         // have data in chain list
         if (dataChain) {
           setMainExplorer(
-            `${dataChain?.exploreWebsite}${dataChain?.path}${productInfo?.details?.address}`
+            `${dataChain?.exploreWebsite}${dataChain?.path}${detail?.address}`
           )
         }
       }
@@ -336,95 +339,78 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   ]
 
-  // console.log(window.location.href)
-  // Header
+  const projectNameSymbol = <h4 className='text-primary mb-2 cus-h4'>
+    <span className='crypto-overview-name'>
+      {detail?.name}
+    </span>
+    <span className='crypto-overview-symbol'>
+      {detail?.symbol ? detail?.symbol : ''}
+    </span>
+  </h4>
+  const projectAddressType = <div className='d-flex align-items-center'>
+    {(detail?.type === CRYPTO_COIN && detail?.explorer) && (
+      <p className='crypto-info-item-address'>
+        <a
+          href={detail?.explorer}
+          target='_blank'
+          rel='noreferrer'
+          className='product-name-text text-primary'
+          style={{ cursor: 'pointer' }}
+        >
+          {detail?.explorer?.split('/')[2]}
+        </a>
+        <LinkOutlined/>
+      </p>
+    )}
+    {detail?.address && (
+      <p className='crypto-info-item-address'>
+        <a
+          href={mainExplorer}
+          target='_blank'
+          rel='noreferrer'
+          className='product-name-text text-primary'
+          style={{ cursor: 'pointer' }}
+        >
+          <Image
+            alt='Blockchain Logo'
+            src={chainList[`${detail?.chainName}`]?.image}
+            preview={false}
+          />
+          {`${detail?.address?.slice(
+            0,
+            5
+          )}...${detail?.address?.slice(
+            detail?.address?.length - 5,
+            detail?.address?.length
+          )}`}
+        </a>
+        <CopyOutlined
+          style={{ padding: '0, 1rem' }}
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            copyContractAddress(e, detail?.address)
+          }}
+        />
+      </p>
+    )}
+    {detail?.type && (
+      <Badge className='badge-sm' >{detail?.type}</Badge>
+    )}
+  </div>
+
   const header = (
     <div className='profile-info'>
       <div className='profile-details'>
-        <div className='profile-photo'>
-          {/* must have crypto id and its image */}
-          {productInfo?.details?.cryptoId && productInfo?.details?.bigLogo ? (
-            <Image
-              alt='Cryptocurrency Logo'
-              src={
-                isValidProductId(productInfo?.details?.cryptoId)
-                  ? formatImgUrlFromProductId(productInfo?.details?.cryptoId)
-                  : imgAbsentImageCrypto
-              }
-              // preview={false}
-            />
-          ) : (
-            <h2 className='image-list-no-data-detail'>
-              {productInfo?.details?.name?.slice(0, 3)}
-            </h2>
-          )}
-        </div>
-        <div className='profile-name cus-profile-name'>
-          <h4 className='text-primary mb-2 cus-h4'>
-            <span className='crypto-overview-name'>
-              {productInfo?.details?.name}
-            </span>
-            <span className='crypto-overview-symbol'>
-              {productInfo?.details?.symbol ? productInfo?.details?.symbol : ''}
-            </span>
-          </h4>
-          <div className='d-flex align-items-center'>
+        <ProductImage productId={detail?.cryptoId} productName={detail?.name} altImageType={altCrypto} />
+        <ProductNameSubName
+          projectName={projectNameSymbol}
+          projectSubName={projectAddressType}
+        />
 
-            {productInfo?.details?.type === 'coin' && productInfo?.details?.explorer && (
-              <p className='crypto-info-item-address'>
-                <a
-                  href={productInfo?.details?.explorer}
-                  target='_blank'
-                  rel='noreferrer'
-                  className='product-name-text text-primary'
-                  style={{ cursor: 'pointer' }}
-                >
-                  {productInfo?.details?.explorer?.split('/')[2]}
-                </a>
-                <LinkOutlined/>
-              </p>
-            )}
-            {productInfo?.details?.address && (
-              <p className='crypto-info-item-address'>
-                <a
-                  href={mainExplorer}
-                  target='_blank'
-                  rel='noreferrer'
-                  className='product-name-text text-primary'
-                  style={{ cursor: 'pointer' }}
-                >
-                  <Image
-                    alt='Blockchain Logo'
-                    src={chainList[`${productInfo?.details?.chainName}`]?.image}
-                    preview={false}
-                  />
-                  {`${productInfo?.details?.address?.slice(
-                    0,
-                    5
-                  )}...${productInfo?.details?.address?.slice(
-                    productInfo?.details?.address?.length - 5,
-                    productInfo?.details?.address?.length
-                  )}`}
-                </a>
-                <CopyOutlined
-                  style={{ padding: '0, 1rem' }}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    copyContractAddress(e, productInfo?.details?.address)
-                  }}
-                />
-              </p>
-            )}
-            {productInfo?.details?.type && (
-              <Badge className='badge-sm' >{productInfo?.details?.type}</Badge>
-            )}
-          </div>
-        </div>
-
-        <div className='detail-button'>
-          <ShareButton name={productInfo?.details?.name} />
-          <WebsiteButton website={productInfo?.details?.website} />
+        <div className='detail-button detail-button ms-auto'>
+          <ShareButton name={detail?.name} />
+          <WebsiteButton website={detail?.website} />
         </div>
       </div>
     </div>
@@ -437,7 +423,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         <div className='col'>
           <h3 className='m-b-0'>
             <Badge bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>
-              {new Intl.NumberFormat().format(productInfo?.details?.totalReviews)}
+              {new Intl.NumberFormat().format(detail?.totalReviews)}
             </Badge>
           </h3>
           <span>Reviews</span>
@@ -445,14 +431,14 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         <div className='col'>
           <h3 className='m-b-0'>
             <Badge bg='badge-l' className='badge-danger progress-bar-striped progress-bar-animated'>
-              {new Intl.NumberFormat().format(productInfo?.details?.totalIsScam)}
+              {new Intl.NumberFormat().format(detail?.totalIsScam)}
             </Badge>
           </h3>
           <span>Reported Scam</span>
         </div>
         <div className='col'>
           <h3 className='m-b-0'>
-            <MyScoreComponent score={productInfo?.details?.score} />
+            <MyScoreComponent score={detail?.score} />
           </h3>
           <span>Score</span>
         </div>
@@ -510,16 +496,16 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   // scam
   const scam = (
     <>
-      {productInfo?.details?.isScam ? (
+      {detail?.isScam ? (
         <ScamWarningDetail
           isShow={true}
-          scamWarningReason={productInfo?.details?.proof?.isScam}
+          scamWarningReason={detail?.proof?.isScam}
           proofType='error'
         />
-      ) : productInfo?.details?.isWarning ? (
+      ) : detail?.isWarning ? (
         <ScamWarningDetail
           isShow={true}
-          scamWarningReason={productInfo?.details?.proof?.isWarning}
+          scamWarningReason={detail?.proof?.isWarning}
           proofType='warning'
         />
       ) : (
@@ -537,18 +523,18 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       </div>
       <div className='card-body'>
         <div className='basic-form'>
-          {(productInfo?.details?.isProxy !== null ||
-          productInfo?.details?.contractVerified !== null) ? (
+          {(detail?.isProxy !== null ||
+          detail?.contractVerified !== null) ? (
               <>
                 <div className='crypto-info-item-key'>Contract detail: </div>
                 <div className='row mt-3'>
                   {
-                    productInfo?.details?.contractVerified !== null ? <div className='col-xxl-12 col-12'>
+                    detail?.contractVerified !== null ? <div className='col-xxl-12 col-12'>
                       <div
                         className='form-check custom-checkbox mb-3 checkbox-success'
                         style={{ padding: '0', display: 'flex' }}
                       >
-                        { (productInfo?.details?.contractVerified ? (
+                        { (detail?.contractVerified ? (
                           <>
                             <CheckCircleOutlined
                               style={{
@@ -559,7 +545,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                               }}
                             />
                             <span>
-                              {productInfo?.details?.name} is a{' '}
+                              {detail?.name} is a{' '}
                               <Badge>verified contract</Badge>
                             </span>
                           </>
@@ -574,7 +560,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                               }}
                             />
                             <span>
-                              {productInfo?.details?.name} is not a{' '}
+                              {detail?.name} is not a{' '}
                               <Badge bg='danger'>verified contract</Badge>
                             </span>
                           </>
@@ -583,12 +569,12 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                     </div> : ''
                   }
 
-                  {productInfo?.details?.isProxy !== null ? <div className='col-xxl-12 col-12'>
+                  {detail?.isProxy !== null ? <div className='col-xxl-12 col-12'>
                     <div
                       className='form-check custom-checkbox mb-3 checkbox-success'
                       style={{ padding: '0', display: 'flex' }}
                     >
-                      { (productInfo?.details?.isProxy ? (
+                      { (detail?.isProxy ? (
                         <>
                           <ApartmentOutlined
                             style={{
@@ -599,7 +585,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                             }}
                           />
                           <span>
-                            {productInfo?.details?.name} is a{' '}
+                            {detail?.name} is a{' '}
                             <Badge bg='danger'>proxy contract</Badge>
                           </span>
                         </>
@@ -614,7 +600,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                             }}
                           />
                           <span>
-                            {productInfo?.details?.name} is not a{' '}
+                            {detail?.name} is not a{' '}
                             <Badge>proxy contract</Badge>
                           </span>
                         </>
@@ -627,17 +613,17 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               ''
             )}
 
-          {productInfo?.details?.isCoinmarketcap !== null ||
-          productInfo?.details?.isCoingecko !== null ? (
+          {detail?.isCoinmarketcap !== null ||
+          detail?.isCoingecko !== null ? (
               <>
                 <div className='crypto-info-item-key mt-3'>Available on: </div>
                 <div className='row mt-3'>
-                  { productInfo?.details?.isCoinmarketcap !== null ? <div className='col-xxl-12 col-12'>
+                  { detail?.isCoinmarketcap !== null ? <div className='col-xxl-12 col-12'>
                     <div
                       className='form-check custom-checkbox mb-3 checkbox-success'
                       style={{ padding: '0', display: 'flex' }}
                     >
-                      { (productInfo?.details?.isCoinmarketcap ? (
+                      { (detail?.isCoinmarketcap ? (
                         <>
                           <CheckCircleOutlined
                             style={{
@@ -648,7 +634,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                             }}
                           />
                           <span>
-                            {productInfo?.details?.name} are existing on{' '}
+                            {detail?.name} are existing on{' '}
                             <Badge>Coinmarketcap</Badge>
                           </span>
                         </>
@@ -663,7 +649,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                             }}
                           />
                           <span>
-                            {productInfo?.details?.name} are not existing on{' '}
+                            {detail?.name} are not existing on{' '}
                             <Badge bg='danger'>Coinmarketcap</Badge>
                           </span>
                         </>
@@ -672,12 +658,12 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                   </div> : ''
                   }
 
-                  {productInfo?.details?.isCoingecko !== null ? <div className='col-xxl-12 col-12'>
+                  {detail?.isCoingecko !== null ? <div className='col-xxl-12 col-12'>
                     <div
                       className='form-check custom-checkbox mb-3 checkbox-success'
                       style={{ padding: '0', display: 'flex' }}
                     >
-                      { (productInfo?.details?.isCoingecko ? (
+                      { (detail?.isCoingecko ? (
                         <>
                           <CheckCircleOutlined
                             style={{
@@ -688,7 +674,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                             }}
                           />
                           <span>
-                            {productInfo?.details?.name} are existing on{' '}
+                            {detail?.name} are existing on{' '}
                             <Badge>Coingecko</Badge>
                           </span>
                         </>
@@ -703,7 +689,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                             }}
                           />
                           <span>
-                            {productInfo?.details?.name} are not existing on{' '}
+                            {detail?.name} are not existing on{' '}
                             <Badge bg='danger'>Coingecko</Badge>
                           </span>
                         </>
@@ -716,7 +702,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               ''
             )}
 
-          <ExchangeDetail coinName={productInfo?.details?.name} exchangeList={productInfo?.details?.exchanges} />
+          <ExchangeDetail coinName={detail?.name} exchangeList={detail?.exchanges} />
 
           {!showInfo && (
             <>
@@ -738,26 +724,26 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                         Community
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        {productInfo?.details &&
-                          Object.keys(productInfo?.details?.community).map(
+                        {detail &&
+                          Object.keys(detail?.community).map(
                             (key) => {
                               return (
                                 <React.Fragment key={key}>
-                                  {productInfo?.details?.community[key] !==
+                                  {detail?.community[key] !==
                                     '' && (
                                     <Dropdown.Item
                                       href={
-                                        productInfo?.details?.community[key]
+                                        detail?.community[key]
                                       }
                                       key={key}
                                       className='crypto-tag-item-list-children-contract cus-dropdown-item'
                                       target='_blank'
                                     >
-                                      {productInfo?.details?.community[key] && (
+                                      {detail?.community[key] && (
                                         <>
                                           <span>
                                             {
-                                              productInfo?.details?.community[
+                                              detail?.community[
                                                 key
                                               ]?.split('/')[2]
                                             }
@@ -788,22 +774,22 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                         Source Code
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        {productInfo?.details?.sourceCode &&
-                          Object.keys(productInfo?.details?.sourceCode)?.map(
+                        {detail?.sourceCode &&
+                          Object.keys(detail?.sourceCode)?.map(
                             (key) => {
                               return (
                                 <React.Fragment key={key}>
-                                  {productInfo?.details?.sourceCode[key] !==
+                                  {detail?.sourceCode[key] !==
                                     '' && (
                                     <Dropdown.Item
                                       href={
-                                        productInfo?.details?.sourceCode[key]
+                                        detail?.sourceCode[key]
                                       }
                                       key={key}
                                       className='crypto-tag-item-list-children-contract cus-dropdown-item'
                                       target='_blank'
                                     >
-                                      {productInfo?.details?.sourceCode[
+                                      {detail?.sourceCode[
                                         key
                                       ] && (
                                         <>
@@ -896,8 +882,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   )
 
   const about = <Description
-    projectName={productInfo?.details?.name}
-    text={ productInfo?.details?.description }
+    projectName={detail?.name}
+    text={ detail?.description }
   />
 
   const exchange = (
@@ -929,24 +915,24 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   const NO_CHART_LIST = ['DAI', 'USDT', 'USDC']
   let symbol = ''
-  if (!NO_CHART_LIST.includes(productInfo?.details?.symbol)) {
-    if (productInfo?.details?.isBinance) {
-      symbol = `BINANCE:${productInfo?.details?.symbol}USDT`
+  if (!NO_CHART_LIST.includes(detail?.symbol)) {
+    if (detail?.isBinance) {
+      symbol = `BINANCE:${detail?.symbol}USDT`
     } else {
-      if (productInfo?.details?.isCoinbase) {
-        symbol = `COINBASE${productInfo?.details?.symbol}USDT`
+      if (detail?.isCoinbase) {
+        symbol = `COINBASE${detail?.symbol}USDT`
       }
     }
   }
 
   const priceChart = (
     <CoinChart
-      symbol={productInfo?.details?.symbol}
-      price={productInfo?.details?.priceUSD}
-      holders={productInfo?.details?.holders}
-      marketCap={productInfo?.details?.marketcapUSD}
-      totalSupply={productInfo?.details?.totalSupply}
-      transfer={productInfo?.details?.transfers}
+      symbol={detail?.symbol}
+      price={detail?.priceUSD}
+      holders={detail?.holders}
+      marketCap={detail?.marketcapUSD}
+      totalSupply={detail?.totalSupply}
+      transfer={detail?.transfers}
       symbolForChart={symbol}
     />
   )
