@@ -18,6 +18,7 @@ import { LAUNCHPAD } from '../../../constants/category'
 import ShareButton from '../../common-widgets/page-detail/ShareButton'
 import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
+import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
 
 const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -68,7 +69,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
     </div>
   }
 
-  // VENTURE SUMMARY
+  // LAUNCHPAD SUMMARY
   const summary =
   <div className='text-center'>
     <div className='row'>
@@ -88,7 +89,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       </div>
       <div className='col'>
         <h3 className='m-b-0'>
-          <MyScoreComponent score={productInfo?.details?.score} />
+          <MyScoreComponent score={productInfo?.details?.score} type={LAUNCHPAD} />
         </h3>
         <span>
         Score
@@ -184,9 +185,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
 
   const More = () => {
     return <div>
-      <div className='card-header border-0 pb-0'>
-        <h5 className='heading text-primary'>{detail?.name} Information</h5>
-      </div>
+      <InformationHeader projectName={detail?.name}/>
       <div className='card-body pt-3'>
         <div className='profile-blog'>
           <div className='community-list'>

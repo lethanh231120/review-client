@@ -20,6 +20,7 @@ import { VENTURE } from '../../../constants/category'
 import ShareButton from '../../common-widgets/page-detail/ShareButton'
 import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
+import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
 
 export const calculateTotalFund = (fund) =>{
   let total = 0
@@ -94,7 +95,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       </div>
       <div className='col'>
         <h3 className='m-b-0'>
-          <MyScoreComponent score={productInfo?.details?.score} />
+          <MyScoreComponent score={productInfo?.details?.score} type={VENTURE} />
         </h3>
         <span>
         Score
@@ -190,9 +191,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
 
   const More = () => {
     return <div>
-      <div className='card-header border-0 pb-0'>
-        <h5 className='heading text-primary'>{detail?.dAppName} Information</h5>
-      </div>
+      <InformationHeader projectName={detail?.ventureName}/>
       <div className='card-body pt-3'>
         <div className='profile-blog '>
           <div className='community-list'>

@@ -17,6 +17,7 @@ import { EXCHANGE } from '../../../constants/category'
 import ShareButton from '../../common-widgets/page-detail/ShareButton'
 import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
+import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
 
 const ExchangeInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -80,7 +81,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
       </div>
       <div className='col'>
         <h3 className='m-b-0'>
-          <MyScoreComponent score={productInfo?.details?.score} />
+          <MyScoreComponent score={productInfo?.details?.score} type={EXCHANGE} />
         </h3>
         <span>
         Score
@@ -178,10 +179,8 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
 
   const More = () => {
     return <div>
-      <div className='card-header border-0 pb-0'>
-        <h5 className='heading text-primary'>{detail?.dAppName} Information</h5>
-      </div>
-      <div className='card-body pt-3'>
+      <InformationHeader projectName={detail?.name}/>
+      <div className='card-body'>
         <div className='profile-blog '>
           <div className='community-list'>
 
