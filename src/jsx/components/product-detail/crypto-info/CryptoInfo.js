@@ -1,20 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Tooltip, Table } from 'antd'
 import Description from '../description/Description'
-import {
-  CopyOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  ApartmentOutlined
-} from '@ant-design/icons'
+import { CopyOutlined } from '@ant-design/icons'
 import './crypto.scss'
 import _ from 'lodash'
 import { CRYPTO, CRYPTO_COIN } from '../../../constants/category'
-import { encodeUrl } from '../../../../utils/formatUrl'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { ChainListContext, ExchangeContext } from '../../../../App'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { LinkOutlined } from '@ant-design/icons'
@@ -42,10 +35,16 @@ import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
 import ProductImage, { altCrypto } from '../../common-widgets/page-detail/ProductImage'
 import { ProductNameSubName } from '../../common-widgets/page-detail/ProductNameSubName'
+import { bgRed, SummaryDetail } from '../../common-widgets/page-detail/SummaryDetail'
+import { bgGreen } from './../../common-widgets/page-detail/SummaryDetail'
+import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
+import InfoContractDetail from '../../common-widgets/page-crypto/InfoContractDetail'
+import InfoAvailableDetail from './../../common-widgets/page-crypto/InfoAvailableDetail'
+import { InfoExplorerDetail } from '../../common-widgets/page-crypto/InfoExplorerDetail'
+import { InfoTagDetail } from './../../common-widgets/page-crypto/InfoTagDetail'
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const detail = productInfo?.details
   const PAGE_SIZE = 10
-  const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
   const exchanges = useContext(ExchangeContext)
   const [showInfo, setShowInfo] = useState()
@@ -63,10 +62,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         !isShow?.sourceCode
     )
   }, [isShow, productInfo])
-
-  const handleClickTag = (value) => {
-    navigate(`../../../../../${CRYPTO}/${encodeUrl(value)}`)
-  }
 
   useEffect(() => {
     const getDataVenture = async() => {
@@ -420,28 +415,21 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const summary = (
     <div className='text-center'>
       <div className='row'>
-        <div className='col'>
-          <h3 className='m-b-0'>
-            <Badge bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>
-              {new Intl.NumberFormat().format(detail?.totalReviews)}
-            </Badge>
-          </h3>
-          <span>Reviews</span>
+        <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
+          <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalReviews)} text={'Reviews'} backgroundColor={bgGreen} />
         </div>
-        <div className='col'>
-          <h3 className='m-b-0'>
-            <Badge bg='badge-l' className='badge-danger progress-bar-striped progress-bar-animated'>
-              {new Intl.NumberFormat().format(detail?.totalIsScam)}
-            </Badge>
-          </h3>
-          <span>Reported Scam</span>
+
+        <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
+          <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalIsScam)} text={'Reported Scam'} backgroundColor={bgRed} />
         </div>
-        <div className='col'>
+
+        <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
           <h3 className='m-b-0'>
-            <MyScoreComponent score={detail?.score} />
+            <MyScoreComponent score={detail?.score} type={CRYPTO} />
           </h3>
           <span>Score</span>
         </div>
+
       </div>
       <div className='mt-4 '>
         <Button
@@ -514,217 +502,45 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     </>
   )
 
-  const more = (
-    <>
-      <div className='card-header pb-0 border-0 flex-wrap'>
-        <div>
-          <h2 className='heading text-primary mb-0'>More Info</h2>
-        </div>
-      </div>
-      <div className='card-body'>
-        <div className='basic-form'>
-          {(detail?.isProxy !== null ||
-          detail?.contractVerified !== null) ? (
-              <>
-                <div className='crypto-info-item-key'>Contract detail: </div>
-                <div className='row mt-3'>
-                  {
-                    detail?.contractVerified !== null ? <div className='col-xxl-12 col-12'>
-                      <div
-                        className='form-check custom-checkbox mb-3 checkbox-success'
-                        style={{ padding: '0', display: 'flex' }}
-                      >
-                        { (detail?.contractVerified ? (
-                          <>
-                            <CheckCircleOutlined
-                              style={{
-                                color: 'green',
-                                display: 'flex',
-                                alignItems: 'center',
-                                paddingRight: '0.3rem'
-                              }}
-                            />
-                            <span>
-                              {detail?.name} is a{' '}
-                              <Badge>verified contract</Badge>
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <CloseCircleOutlined
-                              style={{
-                                color: 'red',
-                                display: 'flex',
-                                alignItems: 'center',
-                                paddingRight: '0.3rem'
-                              }}
-                            />
-                            <span>
-                              {detail?.name} is not a{' '}
-                              <Badge bg='danger'>verified contract</Badge>
-                            </span>
-                          </>
-                        ))}
-                      </div>
-                    </div> : ''
-                  }
+  const more = <div>
+    <InformationHeader projectName={detail?.name}/>
+    <div className='card-body pt-3'>
+      <div className='basic-form'>
+        {(detail?.isProxy !== null ||
+          detail?.contractVerified !== null)
+          ? <InfoContractDetail detail={detail} />
+          : ''
+        }
 
-                  {detail?.isProxy !== null ? <div className='col-xxl-12 col-12'>
-                    <div
-                      className='form-check custom-checkbox mb-3 checkbox-success'
-                      style={{ padding: '0', display: 'flex' }}
+        {detail?.isCoinmarketcap !== null ||
+          detail?.isCoingecko !== null
+          ? <InfoAvailableDetail detail={detail} />
+          : ''
+        }
+
+        <ExchangeDetail coinName={detail?.name} exchangeList={detail?.exchanges} />
+
+        {!showInfo && (
+          <>
+            <InfoExplorerDetail/>
+            <div
+              className='d-flex align-items-center'
+              style={{ flexWrap: 'wrap', marginLeft: '1.5rem' }}
+            >
+              {isShow?.community && (
+                <div
+                  className='basic-dropdown'
+                  style={{ marginRight: '10px', marginBottom: '10px' }}
+                >
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      variant='primary'
+                      className='cus-dropdown-select btn btn-primary light sharp'
                     >
-                      { (detail?.isProxy ? (
-                        <>
-                          <ApartmentOutlined
-                            style={{
-                              color: 'red',
-                              display: 'flex',
-                              alignItems: 'center',
-                              paddingRight: '0.3rem'
-                            }}
-                          />
-                          <span>
-                            {detail?.name} is a{' '}
-                            <Badge bg='danger'>proxy contract</Badge>
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <ApartmentOutlined
-                            style={{
-                              color: 'green',
-                              display: 'flex',
-                              alignItems: 'center',
-                              paddingRight: '0.3rem'
-                            }}
-                          />
-                          <span>
-                            {detail?.name} is not a{' '}
-                            <Badge>proxy contract</Badge>
-                          </span>
-                        </>
-                      ))}
-                    </div>
-                  </div> : ''}
-                </div>
-              </>
-            ) : (
-              ''
-            )}
-
-          {detail?.isCoinmarketcap !== null ||
-          detail?.isCoingecko !== null ? (
-              <>
-                <div className='crypto-info-item-key mt-3'>Available on: </div>
-                <div className='row mt-3'>
-                  { detail?.isCoinmarketcap !== null ? <div className='col-xxl-12 col-12'>
-                    <div
-                      className='form-check custom-checkbox mb-3 checkbox-success'
-                      style={{ padding: '0', display: 'flex' }}
-                    >
-                      { (detail?.isCoinmarketcap ? (
-                        <>
-                          <CheckCircleOutlined
-                            style={{
-                              color: 'green',
-                              display: 'flex',
-                              alignItems: 'center',
-                              paddingRight: '0.3rem'
-                            }}
-                          />
-                          <span>
-                            {detail?.name} are existing on{' '}
-                            <Badge>Coinmarketcap</Badge>
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <CloseCircleOutlined
-                            style={{
-                              color: 'red',
-                              display: 'flex',
-                              alignItems: 'center',
-                              paddingRight: '0.3rem'
-                            }}
-                          />
-                          <span>
-                            {detail?.name} are not existing on{' '}
-                            <Badge bg='danger'>Coinmarketcap</Badge>
-                          </span>
-                        </>
-                      ))}
-                    </div>
-                  </div> : ''
-                  }
-
-                  {detail?.isCoingecko !== null ? <div className='col-xxl-12 col-12'>
-                    <div
-                      className='form-check custom-checkbox mb-3 checkbox-success'
-                      style={{ padding: '0', display: 'flex' }}
-                    >
-                      { (detail?.isCoingecko ? (
-                        <>
-                          <CheckCircleOutlined
-                            style={{
-                              color: 'green',
-                              display: 'flex',
-                              alignItems: 'center',
-                              paddingRight: '0.3rem'
-                            }}
-                          />
-                          <span>
-                            {detail?.name} are existing on{' '}
-                            <Badge>Coingecko</Badge>
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <CloseCircleOutlined
-                            style={{
-                              color: 'red',
-                              display: 'flex',
-                              alignItems: 'center',
-                              paddingRight: '0.3rem'
-                            }}
-                          />
-                          <span>
-                            {detail?.name} are not existing on{' '}
-                            <Badge bg='danger'>Coingecko</Badge>
-                          </span>
-                        </>
-                      ))}
-                    </div>
-                  </div> : ''}
-                </div>
-              </>
-            ) : (
-              ''
-            )}
-
-          <ExchangeDetail coinName={detail?.name} exchangeList={detail?.exchanges} />
-
-          {!showInfo && (
-            <>
-              <div className='crypto-info-item-key my-2'>Explorer: </div>
-              <div
-                className='d-flex align-items-center'
-                style={{ flexWrap: 'wrap' }}
-              >
-                {isShow?.community && (
-                  <div
-                    className='basic-dropdown'
-                    style={{ marginRight: '10px', marginBottom: '10px' }}
-                  >
-                    <Dropdown>
-                      <Dropdown.Toggle
-                        variant='primary'
-                        className='cus-dropdown-select btn btn-primary light sharp'
-                      >
                         Community
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        {detail &&
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {detail &&
                           Object.keys(detail?.community).map(
                             (key) => {
                               return (
@@ -757,24 +573,24 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                               )
                             }
                           )}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                )}
-                {isShow?.sourceCode && (
-                  <div
-                    className='basic-dropdown'
-                    style={{ marginRight: '10px', marginBottom: '10px' }}
-                  >
-                    <Dropdown>
-                      <Dropdown.Toggle
-                        variant='primary'
-                        className='cus-dropdown-select btn btn-primary light sharp'
-                      >
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+              )}
+              {isShow?.sourceCode && (
+                <div
+                  className='basic-dropdown'
+                  style={{ marginRight: '10px', marginBottom: '10px' }}
+                >
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      variant='primary'
+                      className='cus-dropdown-select btn btn-primary light sharp'
+                    >
                         Source Code
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        {detail?.sourceCode &&
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {detail?.sourceCode &&
                           Object.keys(detail?.sourceCode)?.map(
                             (key) => {
                               return (
@@ -803,83 +619,63 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                               )
                             }
                           )}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                )}
-                {multichain && (
-                  <div
-                    className='basic-dropdown'
-                    style={{ marginRight: '10px', marginBottom: '10px' }}
-                  >
-                    <Dropdown>
-                      <Dropdown.Toggle
-                        variant='primary'
-                        className='cus-dropdown-select btn btn-primary light sharp'
-                      >
-                        Contract
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu className='cus-dropdown-menu'>
-                        {multichain?.map((item, index) => (
-                          <Dropdown.Item
-                            href={`${item?.exploreWebsite}${item?.path}${item?.address}`}
-                            target='_blank'
-                            key={index}
-                            className='crypto-tag-item-list-children-contract'
-                          >
-                            <Image src={item?.image}
-                            // preview={false}
-                              alt='Website Logo'/>
-                            <Tooltip title={toCammelCase(item?.chainName)}>
-                              <span
-                                className='crypto-tag-item-list-children-contract-address product-name-text text-primary'
-                                style={{ cursor: 'pointer' }}
-                              >
-                                {item?.address}
-                              </span>
-                            </Tooltip>
-                            <CopyOutlined
-                              style={{ padding: '0, 1rem' }}
-                              onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                                copyContractAddress(e, item?.address)
-                              }}
-                            />
-                          </Dropdown.Item>
-                        ))}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-
-          {productInfo?.mores?.tag && !_.isEmpty(productInfo?.mores?.tag) && (
-            <div className='crypto-info'>
-              <div className=''>
-                <div className='crypto-info-item-key'>Tag: </div>
-                <div className='row mt-3'>
-                  <div className='col-xxl-12 col-12'>
-                    {productInfo?.mores?.tag?.map((item, index) => (
-                      <div
-                        className='mb-0 btn btn-primary light btn-xs mb-2 me-1'
-                        onClick={() => handleClickTag(item?.name)}
-                        key={index}
-                      >
-                        {item?.name}
-                      </div>
-                    ))}
-                  </div>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
-              </div>
+              )}
+              {multichain && (
+                <div
+                  className='basic-dropdown'
+                  style={{ marginRight: '10px', marginBottom: '10px' }}
+                >
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      variant='primary'
+                      className='cus-dropdown-select btn btn-primary light sharp'
+                    >
+                        Contract
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className='cus-dropdown-menu'>
+                      {multichain?.map((item, index) => (
+                        <Dropdown.Item
+                          href={`${item?.exploreWebsite}${item?.path}${item?.address}`}
+                          target='_blank'
+                          key={index}
+                          className='crypto-tag-item-list-children-contract'
+                        >
+                          <Image src={item?.image}
+                            // preview={false}
+                            alt='Website Logo'/>
+                          <Tooltip title={toCammelCase(item?.chainName)}>
+                            <span
+                              className='crypto-tag-item-list-children-contract-address product-name-text text-primary'
+                              style={{ cursor: 'pointer' }}
+                            >
+                              {item?.address}
+                            </span>
+                          </Tooltip>
+                          <CopyOutlined
+                            style={{ padding: '0, 1rem' }}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              copyContractAddress(e, item?.address)
+                            }}
+                          />
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
+
+        <InfoTagDetail itemTags={productInfo?.mores?.tag} />
       </div>
-    </>
-  )
+    </div>
+  </div>
 
   const about = <Description
     projectName={detail?.name}
