@@ -15,12 +15,11 @@ export const DetailLayout = (props) => {
   }
 
   useEffect(() => {
-    window.addEventListener('load', getPosition)
+    getPosition()
+    // window.addEventListener('load', getPosition)
+    window.addEventListener('mouseover', getPosition)
+    window.addEventListener('resize', getPosition)
   }, [])
-
-  // useEffect(() => {
-  //   window.addEventListener('mouseover', getPosition)
-  // }, [])
 
   return <>
     <div className='row'>
