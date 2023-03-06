@@ -370,7 +370,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                   ? formatImgUrlFromProductId(productInfo?.details?.cryptoId)
                   : imgAbsentImageCrypto
               }
-              // preview={false}
+              preview={false}
             />
           ) : (
             <h2 className='image-list-no-data-detail'>
