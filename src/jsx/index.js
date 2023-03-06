@@ -131,6 +131,9 @@ const Markup = () => {
         case 'report-scam':
           setPathName('Report Scam')
           break
+        case 'search':
+          setPathName('Search resolve')
+          break
         case 'add-project':
           setPathName('Add Project')
           break

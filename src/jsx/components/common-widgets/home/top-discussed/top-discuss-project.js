@@ -11,7 +11,6 @@ export const TopDiscussed = () => {
   const [screenWidth, setScreenWidth] = useState()
   const [list, setList] = useState()
   const [topCoin, setTopCoin] = useState()
-  console.log(hotList)
   useEffect(() => {
     setList(hotList?.sort((a, b) => parseInt(b?.totalReviews) - parseInt(a?.totalReviews)))
   }, [hotList])

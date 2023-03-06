@@ -8,7 +8,6 @@ import './top-discussed.scss'
 import { WARNING_ICON } from '../../logo/logo'
 
 const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) => {
-  console.log(detail)
   const imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
   // switch (type) {
   //   case 'crypto':
