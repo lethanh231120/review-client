@@ -93,7 +93,10 @@ const FilterReview = (props) => {
                   })
                 }}
               >
-                <div className='list-review-header-popover-title'>Not Scam ({new Intl.NumberFormat().format(productInfo?.details?.totalNotScam || 0)})</div>
+                <div className='list-review-header-popover-title'>
+                  Not Scam
+                  ({new Intl.NumberFormat().format(productInfo?.details?.totalReviews - productInfo?.details?.totalIsScam || 0)})
+                </div>
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

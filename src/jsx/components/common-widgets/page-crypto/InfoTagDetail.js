@@ -15,13 +15,13 @@ export const InfoTagDetail = ({ itemTags }) => {
     ? <div className='profile-blog mb-3 mt-2'>
       <InformationSubTitle type={typeTag}/>
       <div style={{ marginLeft: '1.5rem' }}>
-        { Object.keys(itemTags)?.map((index) => (
+        {itemTags?.map((item) => (
           <div
             className='mb-0 btn btn-primary light btn-xs mb-2 me-1'
-            onClick={() => handleClickTag(itemTags[index]?.name)}
-            key={index}
+            onClick={() => handleClickTag(item)}
+            key={item}
           >
-            {itemTags[index]?.name}
+            {item}
           </div>
         )) }
       </div>

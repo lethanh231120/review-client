@@ -2,7 +2,7 @@ import React from 'react'
 import { Image } from 'antd'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
-import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP } from '../../../constants/category'
+import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP, LAUNCHPAD } from '../../../constants/category'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
 
 const ProjectHot = ({ data, setItemHot }) => {
@@ -12,34 +12,68 @@ const ProjectHot = ({ data, setItemHot }) => {
 
   const SCAM_REPORT_ICON = WARNING_ICON('#d85b53', '14px')
 
-  switch (data?.type) {
-    case 'crypto':
+  const type = data?.productId?.split('_')[1]
+  switch (type) {
+    case 'token':
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot'
-          onClick={() => setItemHot({ type: CRYPTO, data: data?.detail })}
+          onClick={() => setItemHot({ type: CRYPTO, data: data })}
         >
-          {data?.detail?.cryptoId && data?.detail?.bigLogo ? (
-            <Image src={isValidProductId(data?.detail?.cryptoId) ? formatImgUrlFromProductId(data?.detail?.cryptoId) : imgAbsentImageCrypto} preview={false} alt='Project Logo'/>
+          {data?.productId && data?.logo ? (
+            <Image src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false} alt='Project Logo'/>
           ) : (
             <span className='project-hot-no-data'>
-              {data?.detail?.name?.slice(0, 3)}
+              {data?.name?.slice(0, 3)}
             </span>
           )}
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
-              {shortenString(data?.detail?.name)}
-              <div className='project-hot-content-symbol'>{data?.detail?.symbol ? data?.detail?.symbol : '' }</div>
+              {shortenString(data?.name)}
+              <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div>
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
                 <i className='far fa-comment me-1' />
-                {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
+                {new Intl.NumberFormat().format(data?.totalReviews)}
               </span>
               <span style={{ padding: '0 0.5rem' }}>/</span>
               <span className='post-comment' style={{ color: 'red' }}>
                 <span className='d-flex align-items-center'>
                   <span className='me-1'>   {SCAM_REPORT_ICON}</span>
-                  {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                  {new Intl.NumberFormat().format(data?.totalIsScam)}
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    case 'coin':
+      return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
+        <div className='project-hot'
+          onClick={() => setItemHot({ type: CRYPTO, data: data })}
+        >
+          {data?.productId && data?.logo ? (
+            <Image src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false} alt='Project Logo'/>
+          ) : (
+            <span className='project-hot-no-data'>
+              {data?.name?.slice(0, 3)}
+            </span>
+          )}
+          <div className='project-hot-content'>
+            <div className='project-hot-content-name'>
+              {shortenString(data?.name)}
+              <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div>
+            </div>
+            <div className='d-flex '>
+              <span className='post-comment' style={{ color: '#18A594' }}>
+                <i className='far fa-comment me-1' />
+                {new Intl.NumberFormat().format(data?.totalReviews)}
+              </span>
+              <span style={{ padding: '0 0.5rem' }}>/</span>
+              <span className='post-comment' style={{ color: 'red' }}>
+                <span className='d-flex align-items-center'>
+                  <span className='me-1'>   {SCAM_REPORT_ICON}</span>
+                  {new Intl.NumberFormat().format(data?.totalIsScam)}
                 </span>
               </span>
             </div>
@@ -48,28 +82,28 @@ const ProjectHot = ({ data, setItemHot }) => {
       </div>
     case 'exchange':
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
-        <div className='project-hot' onClick={() => setItemHot({ type: EXCHANGE, data: data?.detail })}>
-          {data?.detail?.exchangeId && data?.detail?.smallLogo ? (
-            <Image alt='Exchange Logo' src={isValidProductId(data?.detail?.exchangeId) ? formatImgUrlFromProductId(data?.detail?.exchangeId) : imgAbsentImageCrypto} preview={false}/>
+        <div className='project-hot' onClick={() => setItemHot({ type: EXCHANGE, data: data })}>
+          {data?.productId && data?.logo ? (
+            <Image alt='Exchange Logo' src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false}/>
           ) : (
             <span className='project-hot-no-data'>
-              {data?.detail?.name?.slice(0, 3)}
+              {data?.name?.slice(0, 3)}
             </span>
           )}
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
-              {shortenString(data?.detail?.name)}
+              {shortenString(data?.name)}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
                 <i className='far fa-comment me-1' />
-                {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
+                {new Intl.NumberFormat().format(data?.totalReviews)}
               </span>
               <span style={{ padding: '0 0.5rem' }}>/</span>
               <span className='post-comment' style={{ color: 'red' }}>
                 <span className='d-flex align-items-center'>
                   <span className='me-1'>   {SCAM_REPORT_ICON}</span>
-                  {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                  {new Intl.NumberFormat().format(data?.totalIsScam)}
                 </span>
               </span>
             </div>
@@ -78,28 +112,28 @@ const ProjectHot = ({ data, setItemHot }) => {
       </div>
     case 'dapp':
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
-        <div className='project-hot' onClick={() => setItemHot({ type: DAPP, data: data?.detail })}>
-          {data?.detail?.dAppId && data?.detail?.dAppLogo ? (
-            <Image alt='DApp Logo' src={isValidProductId(data?.detail?.dAppId) ? formatImgUrlFromProductId(data?.detail?.dAppId) : imgAbsentImageCrypto} preview={false}/>
+        <div className='project-hot' onClick={() => setItemHot({ type: DAPP, data: data })}>
+          {data?.productId && data?.logo ? (
+            <Image alt='DApp Logo' src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false}/>
           ) : (
             <span className='project-hot-no-data'>
-              {data?.detail?.dAppName?.slice(0, 3)}
+              {data?.dAppName?.slice(0, 3)}
             </span>
           )}
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
-              {shortenString(data?.detail?.dAppName)}
+              {shortenString(data?.dAppName)}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
                 <i className='far fa-comment me-1' />
-                {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
+                {new Intl.NumberFormat().format(data?.totalReviews)}
               </span>
               <span style={{ padding: '0 0.5rem' }}>/</span>
               <span className='post-comment' style={{ color: 'red' }}>
                 <span className='d-flex align-items-center'>
                   <span className='me-1'>   {SCAM_REPORT_ICON}</span>
-                  {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                  {new Intl.NumberFormat().format(data?.totalIsScam)}
                 </span>
               </span>
             </div>
@@ -108,28 +142,28 @@ const ProjectHot = ({ data, setItemHot }) => {
       </div>
     case 'venture':
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
-        <div className='project-hot' onClick={() => setItemHot({ type: VENTURE, data: data?.detail })}>
-          {data?.detail?.ventureId && data?.detail?.ventureLogo ? (
-            <Image alt='Venture Logo' src={isValidProductId(data?.detail?.ventureId) ? formatImgUrlFromProductId(data?.detail?.ventureId) : imgAbsentImageCrypto} preview={false}/>
+        <div className='project-hot' onClick={() => setItemHot({ type: VENTURE, data: data })}>
+          {data?.productId && data?.logo ? (
+            <Image alt='Venture Logo' src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false}/>
           ) : (
             <span className='project-hot-no-data'>
-              {data?.detail?.ventureName?.slice(0, 3)}
+              {data?.name?.slice(0, 3)}
             </span>
           )}
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
-              {shortenString(data?.detail?.ventureName)}
+              {shortenString(data?.name)}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
                 <i className='far fa-comment me-1' />
-                {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
+                {new Intl.NumberFormat().format(data?.totalReviews)}
               </span>
               <span style={{ padding: '0 0.5rem' }}>/</span>
               <span className='post-comment' style={{ color: 'red' }}>
                 <span className='d-flex align-items-center'>
                   <span className='me-1'>   {SCAM_REPORT_ICON}</span>
-                  {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                  {new Intl.NumberFormat().format(data?.totalIsScam)}
                 </span>
               </span>
             </div>
@@ -138,29 +172,60 @@ const ProjectHot = ({ data, setItemHot }) => {
       </div>
     case 'soon':
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
-        <div className='project-hot' onClick={() => setItemHot({ type: SOON, data: data?.detail })}>
-          {data?.detail?.projectId && data?.detail?.bigLogo ? (
-            <Image alt='Crypto Logo' src={isValidProductId(data?.detail?.projectId) ? formatImgUrlFromProductId(data?.detail?.projectId) : imgAbsentImageCrypto} preview={false}/>
+        <div className='project-hot' onClick={() => setItemHot({ type: SOON, data: data })}>
+          {data?.productId && data?.logo ? (
+            <Image alt='Crypto Logo' src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false}/>
           ) : (
             <span className='project-hot-no-data'>
-              {data?.detail?.projectName?.slice(0, 3)}
+              {data?.name?.slice(0, 3)}
             </span>
           )}
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
-              {shortenString(data?.detail?.projectName)}
-              <div className='project-hot-content-symbol'>{data?.detail?.projectSymbol ? data?.detail?.projectSymbol : '' }</div>
+              {shortenString(data?.name)}
+              <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div>
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
                 <i className='far fa-comment me-1' />
-                {new Intl.NumberFormat().format(data?.detail?.totalReviews)}
+                {new Intl.NumberFormat().format(data?.totalReviews)}
               </span>
               <span style={{ padding: '0 0.5rem' }}>/</span>
               <span className='post-comment' style={{ color: 'red' }}>
                 <span className='d-flex align-items-center'>
                   <span className='me-1'>   {SCAM_REPORT_ICON}</span>
-                  {new Intl.NumberFormat().format(data?.detail?.totalIsScam)}
+                  {new Intl.NumberFormat().format(data?.totalIsScam)}
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    case 'launchpad':
+      return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
+        <div className='project-hot' onClick={() => setItemHot({ type: LAUNCHPAD, data: data })}>
+          {data?.productId && data?.logo ? (
+            <Image alt='Crypto Logo' src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false}/>
+          ) : (
+            <span className='project-hot-no-data'>
+              {data?.name?.slice(0, 3)}
+            </span>
+          )}
+          <div className='project-hot-content'>
+            <div className='project-hot-content-name'>
+              {shortenString(data?.name)}
+              <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div>
+            </div>
+            <div className='d-flex '>
+              <span className='post-comment' style={{ color: '#18A594' }}>
+                <i className='far fa-comment me-1' />
+                {new Intl.NumberFormat().format(data?.totalReviews)}
+              </span>
+              <span style={{ padding: '0 0.5rem' }}>/</span>
+              <span className='post-comment' style={{ color: 'red' }}>
+                <span className='d-flex align-items-center'>
+                  <span className='me-1'>   {SCAM_REPORT_ICON}</span>
+                  {new Intl.NumberFormat().format(data?.totalIsScam)}
                 </span>
               </span>
             </div>

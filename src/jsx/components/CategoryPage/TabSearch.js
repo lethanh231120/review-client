@@ -16,7 +16,7 @@ import './categoryItem.scss'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 
 const TabSearch = (props) => {
-  const { listProduct, keyword, handleChangeInput, handleSubmitSearch, handleSubmitBtn, setLoading, loading, activeTab } = props
+  const { listProduct, setKeyWordSearch, handleSubmitSearch, handleSubmitBtn, setLoading, loading, activeTab, keywordSearch } = props
   const [tab, setTab] = useState()
   const [listData, setListData] = useState({
     dapp: [],
@@ -153,7 +153,6 @@ const TabSearch = (props) => {
     listProduct && getData()
   }, [tab, listProduct])
 
-  console.log(listProduct)
   return (
     <>
       {listProduct ? (
@@ -251,10 +250,9 @@ const TabSearch = (props) => {
                 </div>
                 <div className='col-xl-4 col-lg-3 col-md-4'>
                   <Input
-                  // value={keywordSearch}
-                    defaultValue={keyword}
-                    placeholder={keyword}
-                    onChange={handleChangeInput}
+                    value={keywordSearch}
+                    placeholder={keywordSearch}
+                    onChange={(e) => setKeyWordSearch(e.target.value)}
                     onKeyPress={handleSubmitSearch}
                     suffix={<SearchOutlined onClick={handleSubmitBtn} className='icon-submit'/>}
                   />

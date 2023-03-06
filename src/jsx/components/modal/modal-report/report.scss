@@ -35,8 +35,6 @@
         border: 0.1px solid rgba(0, 0, 0, 0.1);
         &-overview{
             & .ant-image{
-                width: 6.25rem;
-                margin-right: 1.5rem;
                 & img{
                    @include image;
                     border-radius: 1.2rem;

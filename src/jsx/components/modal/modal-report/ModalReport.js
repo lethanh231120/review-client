@@ -17,7 +17,7 @@ import Swal from 'sweetalert2'
 import { Button } from 'react-bootstrap'
 import hot from '../../../../images/product/hot.png'
 import ProjectHot from './ProjectHot'
-import { CRYPTO, EXCHANGE, SOON, VENTURE, DAPP } from '../../../constants/category'
+import { CRYPTO, EXCHANGE, SOON, VENTURE, DAPP, LAUNCHPAD } from '../../../constants/category'
 
 const ModalReport = ({ isModal }) => {
   const signInContext = useContext(SignInContext)
@@ -77,68 +77,80 @@ const ModalReport = ({ isModal }) => {
     form.setFieldsValue({ isScam: true })
   }, [reportModal])
 
+  console.log(itemHot)
   useEffect(() => {
     let newDataItem
     switch (itemHot?.type) {
       case CRYPTO:
         newDataItem = {
-          image: itemHot?.data?.thumbLogo ? itemHot?.data?.thumbLogo : (itemHot?.data?.bigLogo ? itemHot?.data?.bigLogo : itemHot?.data?.smallLogo),
+          image: itemHot?.data?.logo,
           description: itemHot?.data?.description,
           name: itemHot?.data?.name,
           symbol: itemHot?.data?.symbol,
           holders: itemHot?.data?.holders,
-          isScam: itemHot?.data?.holders,
+          isScam: itemHot?.data?.isScam,
           isWarning: itemHot?.data?.isWarning,
           score: itemHot?.data?.score,
-          cryptoId: itemHot?.data?.cryptoId
+          cryptoId: itemHot?.data?.productId
         }
         break
       case EXCHANGE:
         newDataItem = {
-          image: itemHot?.data?.smallLogo,
+          image: itemHot?.data?.logo,
           description: itemHot?.data?.fullDescription,
           name: itemHot?.data?.name,
           isScam: itemHot?.data?.isScam,
           isWarning: itemHot?.data?.isWarning,
           score: itemHot?.data?.score,
-          exchangeId: itemHot?.data?.exchangeId
+          exchangeId: itemHot?.data?.productId
         }
         break
       case DAPP:
         newDataItem = {
-          image: itemHot?.data?.dAppLogo,
+          image: itemHot?.data?.logo,
           description: itemHot?.data?.description,
-          name: itemHot?.data?.dAppName,
+          name: itemHot?.data?.name,
           isScam: itemHot?.data?.isScam,
           isWarning: itemHot?.data?.isWarning,
           score: itemHot?.data?.score,
-          dappId: itemHot?.data?.dAppId
+          dappId: itemHot?.data?.productId
         }
         break
       case VENTURE:
         newDataItem = {
-          image: itemHot?.data?.ventureLogo,
+          image: itemHot?.data?.logo,
           description: itemHot?.data?.description,
-          name: itemHot?.data?.ventureName,
+          name: itemHot?.data?.name,
           isScam: itemHot?.data?.isScam,
           isWarning: itemHot?.data?.isWarning,
           score: itemHot?.data?.score,
           yearFounded: itemHot?.data?.yearFounded,
           location: itemHot?.data?.location,
-          ventureId: itemHot?.data?.ventureId
+          ventureId: itemHot?.data?.productId
         }
         break
       case SOON:
         newDataItem = {
-          image: itemHot?.data?.ventureLogo,
+          image: itemHot?.data?.logo,
           description: itemHot?.data?.description,
-          name: itemHot?.data?.ventureName,
+          name: itemHot?.data?.name,
           isScam: itemHot?.data?.isScam,
           isWarning: itemHot?.data?.isWarning,
           score: itemHot?.data?.score,
           yearFounded: itemHot?.data?.yearFounded,
           location: itemHot?.data?.location,
-          soonId: itemHot?.data?.soonId
+          soonId: itemHot?.data?.productId
+        }
+        break
+      case LAUNCHPAD:
+        newDataItem = {
+          image: itemHot?.data?.logo,
+          description: itemHot?.data?.description,
+          name: itemHot?.data?.name,
+          isScam: itemHot?.data?.isScam,
+          isWarning: itemHot?.data?.isWarning,
+          score: itemHot?.data?.score,
+          soonId: itemHot?.data?.productId
         }
         break
       default:
@@ -163,7 +175,8 @@ const ModalReport = ({ isModal }) => {
       : (item?.dappId ? item?.dappId
         : (item?.ventureId ? item?.ventureId
           : (item?.soonId ? item?.soonId
-            : item?.exchangeId)))
+            : item?.exchangeId ? item?.exchangeId
+              : item?.launchPadId)))
     if (id?.split('_')[1] === 'token' || id?.split('_')[1] === 'coin') {
       const productId = `products/crypto/${id?.split('_')[1]}/${id?.split('_')[2]}${id?.split('_')[1] === 'token' ? `/${id?.split('_')[3]}` : ''}`
       setProductId(productId)
@@ -318,7 +331,7 @@ const ModalReport = ({ isModal }) => {
                     <div className='profile-details'>
                       <div className='profile-photo'>
                         {item?.image && (item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? (
-                          <Image src={isValidProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? formatImgUrlFromProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) : imgAbsentImage} preview={false} className='image-list' height={64} width={64} alt='Project Logo'/>
+                          <Image src={isValidProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? formatImgUrlFromProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) : imgAbsentImage} preview={false} className='image-list' alt='Project Logo'/>
                         ) : (
                           <NoImage
                             alt={item?.name?.slice(0, 3)}
@@ -342,6 +355,7 @@ const ModalReport = ({ isModal }) => {
                         </h4>
                       </div>
                     </div>
+                    {/* <ProductImage productId={detail?.cryptoId} productName={detail?.name} altImageType={altCrypto} /> */}
                   </div>
                 </div>
                 <Description text={item?.description}/>
