@@ -31,7 +31,7 @@ import { ToggleContext } from '../../index'
 import './custom-header.scss'
 import { PathNameContext } from '../../index'
 import './header.scss'
-import { beforeUpload } from '../../components/Forms/form-report/FormReport'
+import { beforeUpload, getBase64 } from '../../components/Forms/form-report/FormReport'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
@@ -101,8 +101,6 @@ const Header = () => {
       title: 'Log Out ...'
     })
   }
-
-  profileModal?.setOpenModalUserProfile(true)
 
   const onCloseLoginSignupForm = () => {
     signContext?.handleSetOpenModal(false)
@@ -269,6 +267,24 @@ const Header = () => {
     profileModal?.setOpenModalUserProfile(false)
   }
 
+  // Upload image
+  // profileModal?.setOpenModalUserProfile(true)
+
+  const [previewOpen, setPreviewOpen] = useState(false)
+  const [previewImage, setPreviewImage] = useState('')
+  const [previewTitle, setPreviewTitle] = useState('')
+
+  const onPreview = async(file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
+    }
+    setPreviewImage(file.url || file.preview)
+    setPreviewOpen(true)
+    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1))
+  }
+
+  const handleCancel = () => setPreviewOpen(false)
+
   return (
     <>
       {/* only when login exist, for only normal User*/}
@@ -287,11 +303,23 @@ const Header = () => {
             {userInfo?.userName}
             <br />
             <Upload
-              listType='picture-card'
-              beforeUpload={beforeUpload}
+              listType='picture-circle' // shape of uploader
+              onPreview={onPreview} // view in eye
+              beforeUpload={beforeUpload} // validate ???
+              name='avatar'
+              className='avatar-uploader'
             >
               +Upload
             </Upload>
+          </Modal>
+          <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+            <img
+              alt='example'
+              style={{
+                width: '100%'
+              }}
+              src={previewImage}
+            />
           </Modal>
         </>
         : <>
