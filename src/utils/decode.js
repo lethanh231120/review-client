@@ -8,3 +8,12 @@ export const parseJwt = (token) => {
 
   return JSON.parse(jsonPayload)
 }
+
+// 'undefined' to undefined
+export const convertType = function(value) {
+  try {
+    return (new Function('return ' + value + ';'))()
+  } catch (e) {
+    return value
+  }
+}
