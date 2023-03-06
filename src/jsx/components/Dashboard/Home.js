@@ -8,7 +8,7 @@ import { TopCoinChart } from '../common-widgets/home/home-chart/bitcoin-chart'
 import { ScamEachChainsList } from '../common-widgets/home/blockchain-data-table/scam-each-chain-chart'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import _ from 'lodash'
-import { renderRandomColor } from '../../../utils/formatNumber'
+// import { renderRandomColor } from '../../../utils/formatNumber'
 import { ReviewList } from '../common-widgets/home/reviews/review-list'
 import SummaryRow from '../../components/common-widgets/home/summary/BalanceCardSlider'
 import './home.scss'
@@ -20,7 +20,7 @@ const fillColors = ['#EFB80B', '#58BAD7', '#DA4344', '#8147E7', '#18A594']
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
   const summaryData = useContext(SummaryHomeContext)
-
+  console.log(summaryData)
   useEffect(() => {
     changeBackground({ value: 'light', label: 'Light' })
   }, [])
@@ -33,8 +33,7 @@ const Home = () => {
     const dataList = data?.chainTokens
     // sort token data
     if (!_.isEmpty(dataList)) {
-      const sorted = Object.keys(dataList).sort((a, b) => dataList[b]?.total - dataList[a]?.total).map(key =>({ [key]: dataList[key]?.total }))
-
+      const sorted = Object.keys(dataList)?.sort((a, b) => dataList[b]?.total - dataList[a]?.total).map(key =>({ [key]: dataList[key]?.total }))
       // get first 5 tokens
       for (var i = 0; i < SHOW_DATA_NUMBER; i++) {
         dataArr.push({ fillcolor: fillColors[i], datatitle: Object.keys(sorted[i])[0], amount: Object.values(sorted[i])[0] })
@@ -51,27 +50,18 @@ const Home = () => {
   }
 
   const setScamDataEachChains = (data) => {
-    const SHOW_DATA_NUMBER = 4
-    const dataArr = []
-    const dataList = data?.chainTokens
+    const list = []
+    const temp = data?.chainTokens
+    const others = { scam: data?.chainTokens?.others?.scam, total: data?.chainTokens?.others?.total, datatitle: 'Others' }
 
-    if (!_.isEmpty(dataList)) {
-      const sorted = Object.keys(dataList).sort((a, b) => dataList[b]?.total - dataList[a]?.total).map(key =>({ [key]: dataList[key] }))
-      // get first 5 tokens
-      for (var i = 0; i < SHOW_DATA_NUMBER; i++) {
-        dataArr.push({ fillcolor: renderRandomColor(), datatitle: Object.keys(sorted[i])[0], total: Object.values(sorted[i])[0]?.total, scam: Object.values(sorted[i])[0]?.scam })
+    Object.keys(temp)?.map(key => {
+      if (key !== 'others') {
+        list.push({ scam: temp[key]?.scam, total: temp[key]?.total, datatitle: key })
       }
+    })
 
-      // calulate other
-      let totalAllOther = 0
-      let totalScamOther = 0
-      for (var k = SHOW_DATA_NUMBER; k < sorted?.length; k++) {
-        totalAllOther += Object.values(sorted[k])[0]?.total
-        totalScamOther += Object.values(sorted[k])[0]?.scam
-      }
-      dataArr.push({ fillcolor: renderRandomColor(), datatitle: 'Others', total: totalAllOther, scam: totalScamOther })
-    }
-    return dataArr
+    list.push(others)
+    return list
   }
 
   return (
