@@ -41,7 +41,6 @@ const notifyTopRight = (content) => {
     title: content
   })
 }
-console.log(notifyTopRight)
 
 export const beforeUpload = (file) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
@@ -54,6 +53,14 @@ export const beforeUpload = (file) => {
   }
   return isJpgOrPng && isLt10M
 }
+
+export const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = (error) => reject(error)
+  })
 
 const { Option } = Select
 const defaultValue = [
@@ -187,14 +194,6 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
       }
     }
   }
-
-  const getBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = () => resolve(reader.result)
-      reader.onerror = (error) => reject(error)
-    })
 
   const onPreview = async(file) => {
     if (!file.url && !file.preview) {

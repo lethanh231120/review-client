@@ -192,7 +192,6 @@ export const DetailLayout = (props) => {
             </div>}
           </div>
 
-          {console.log(productInfo)}
           {/* Comments */}
           <div className='col-xl-7'>
             <div className='product-detail' id='comment'>
