@@ -1,12 +1,11 @@
 import React from 'react'
-import { Image, Table, Tooltip, Empty } from 'antd'
+import { Image, Table, Tooltip } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
 // import { GlobalOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import { formatMoney, renderNumber } from '../../../../utils/formatNumber'
 import '../../table/venture/venture.scss'
-import nodata from '../../../../images/product/nodata.png'
 import MyScoreComponent from '../../score/scoreComponent'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
@@ -147,46 +146,20 @@ const VentureTable = ({ loading, listData }) => {
     <div className='venture-table'>
       {loading ? (<MySkeletonLoadinng count={10} height={70}/>) : (
         <>
-          {listData ? (
-            <Table
-              columns={columns}
-              dataSource={listData}
-              pagination={{
-                defaultPageSize: 20,
-                showSizeChanger: false
-              }}
-              rowKey={(record) => record?.ventureId}
-              onRow={(record) => ({
-                onClick: () => {
-                  handleRowClicked(record)
-                }
-              })}
-            />
-          ) : (
-            <>
-              <Empty
-                image={nodata}
-                description={
-                  <span>
-                    <span
-                      style={{ fontSize: '1.8em', color: 'red', fontWeight: 600 }}
-                    >
-                SORRY{' '}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: '1.6rem',
-                        color: 'rgba(0, 0, 0, 0.6)',
-                        fontWeight: '600'
-                      }}
-                    >
-                NO DATA FOUND
-                    </span>
-                  </span>
-                }
-              />
-            </>
-          )}
+          <Table
+            columns={columns}
+            dataSource={listData}
+            pagination={listData?.length > 20 ? {
+              defaultPageSize: 20,
+              showSizeChanger: false
+            } : false}
+            rowKey={(record) => record?.ventureId}
+            onRow={(record) => ({
+              onClick: () => {
+                handleRowClicked(record)
+              }
+            })}
+          />
         </>
       )}
     </div>

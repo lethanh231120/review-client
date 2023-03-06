@@ -115,11 +115,11 @@ const ProductDetail = () => {
           setTotalSortBy(productInfo?.details?.totalNotScam)
         }
       } else {
-        setTotalSortBy(totalSortBy)
+        setTotalSortBy(productInfo?.details?.totalReviews)
       }
     }
     if (defaultFilter?.orderBy === 'totalReply') {
-      setTotalSortBy(totalSortBy)
+      setTotalSortBy(productInfo?.details?.totalReviews)
     }
   }, [defaultFilter])
 
@@ -600,6 +600,7 @@ const ProductDetail = () => {
     ref.current.scrollTo(0, 0)
   }, [pathname])
 
+  console.log(totalSortBy)
   const crypto = <CryptoInfo
     // use in crypto info
     isShow={isShow}

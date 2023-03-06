@@ -2,25 +2,13 @@ import React, { useRef, useState, useEffect } from 'react'
 import './categoryItem.scss'
 import { useParams } from 'react-router-dom'
 import { Pagination, Row, Col } from 'antd'
-// import { SearchOutlined } from '@ant-design/icons'
 import Dapp from '../table/dapp/Dapp'
 import Exchange from '../table/exchange/Exchange'
 import Crypto from '../table/crypto/Crypto'
 import Venture from '../table/venture/Venture'
 import Soon from '../table/soon/Soon'
-import {
-  DAPP,
-  EXCHANGE,
-  CRYPTO,
-  SOON,
-  VENTURE,
-  CRYPTO_COIN,
-  CRYPTO_TOKEN,
-  LAUNCHPAD
-} from '../../constants/category'
+import { DAPP, EXCHANGE, CRYPTO, SOON, VENTURE, CRYPTO_COIN, CRYPTO_TOKEN, LAUNCHPAD } from '../../constants/category'
 import { get, search } from '../../../api/BaseRequest'
-// import { search } from '../../api/BaseRequest'
-// import SpinLoading from '../spin-loading/SpinLoading'
 import TabSearch from './TabSearch'
 import { PAGE_SIZE, MAX_PAGE } from '../../constants/pagination'
 import { useNavigate } from 'react-router-dom'
@@ -28,11 +16,10 @@ import { decodeUrl } from '../../../utils/formatUrl'
 import _ from 'lodash'
 import LaunchpadList from '../table/launchpad/LaunchpadTable'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
-// import { exchanges } from '../../../utils/ExchangeImage'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
-  const { category, subCategory, keyword } = useParams()
+  const { category, subCategory, keyword, categorySearch } = useParams()
   const refabc = useRef()
   const [listProduct, setListProduct] = useState()
   const [total, setTotal] = useState()
@@ -251,7 +238,6 @@ const CategoryItem = () => {
           />
         )
       default:
-        navigate('/not-found')
         break
     }
   }
@@ -264,7 +250,6 @@ const CategoryItem = () => {
 
   const handleFilter = (param) => {
     if (_.isEmpty(param)) {
-      console.log(param)
       setParram()
     } else {
       setParams({
@@ -283,7 +268,9 @@ const CategoryItem = () => {
     const data = await search('search/list', { keyword: content })
     if (data) {
       setListProduct(data?.data)
-      setLoading(false)
+      if (categorySearch !== CRYPTO) {
+        setLoading(false)
+      }
       setKeyWordSearch()
     }
   }
@@ -297,17 +284,16 @@ const CategoryItem = () => {
 
   const handleSubmitSearch = (e) => {
     if (e.key === 'Enter') {
-      navigate(`/search/${keywordSearch}`, { replace: true })
+      navigate(`/search/${categorySearch}/${keywordSearch}`, { replace: true })
     }
   }
 
   const handleSubmitBtn = () => {
-    navigate(`/search/${keywordSearch}`, { replace: true })
+    navigate(`/search/${categorySearch}/${keywordSearch}`, { replace: true })
   }
 
   return (
     <div className='category-page section' ref={refabc}>
-
       <div className={`category-list detail ${category === SOON ? 'format-list-soon-background' : ''}`}>
         <Row gutter={[10, 10]}>
           {keyword ? (
@@ -321,6 +307,7 @@ const CategoryItem = () => {
                 handleSubmitBtn={handleSubmitBtn}
                 setLoading={setLoading}
                 loading={loading}
+                activeTab={categorySearch}
               />
             </Col>
           ) : (

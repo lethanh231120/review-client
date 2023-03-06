@@ -1,8 +1,7 @@
 import React from 'react'
 import '../../table/soon/soon.scss'
-import { Image, Table, Avatar, Tooltip, Empty } from 'antd'
+import { Image, Table, Avatar, Tooltip } from 'antd'
 import { useNavigate, Link } from 'react-router-dom'
-import nodata from '../../../../images/product/nodata.png'
 import { renderNumber } from '../../../../utils/formatNumber'
 import moment from 'moment'
 import { encodeUrl } from '../../../../utils/formatUrl'
@@ -212,47 +211,21 @@ const SoonTable = ({ listData, loading }) => {
     <div className='soon-table'>
       {loading ? (<MySkeletonLoadinng count={10} height={70}/>) : (
         <>
-          {listData ? (
-            <Table
-              columns={columns}
-              dataSource={listData}
-              pagination={{
-                defaultPageSize: 20,
-                showSizeChanger: false
-              }}
-              loading={loading}
-              rowKey={(record) => record?.projectId}
-              onRow={(record) => ({
-                onClick: () => {
-                  onRowClicked(record)
-                }
-              })}
-            />
-          ) : (
-            <>
-              <Empty
-                image={nodata}
-                description={
-                  <span>
-                    <span
-                      style={{ fontSize: '1.8em', color: 'red', fontWeight: 600 }}
-                    >
-                SORRY{' '}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: '1.6rem',
-                        color: 'rgba(0, 0, 0, 0.6)',
-                        fontWeight: '600'
-                      }}
-                    >
-                NO DATA FOUND
-                    </span>
-                  </span>
-                }
-              />
-            </>
-          )}
+          <Table
+            columns={columns}
+            dataSource={listData}
+            pagination={listData?.length > 20 ? {
+              defaultPageSize: 20,
+              showSizeChanger: false
+            } : false}
+            loading={loading}
+            rowKey={(record) => record?.projectId}
+            onRow={(record) => ({
+              onClick: () => {
+                onRowClicked(record)
+              }
+            })}
+          />
         </>
       )}
     </div>
