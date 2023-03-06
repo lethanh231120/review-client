@@ -25,7 +25,7 @@ const CategoryItem = () => {
   const [total, setTotal] = useState()
   const [loading, setLoading] = useState(true)
   const [params, setParams] = useState()
-  const [keywordSearch, setKeyWordSearch] = useState(keyword)
+  const [keywordSearch, setKeyWordSearch] = useState()
 
   const defaultParams = {
     dapp: { page: 1, sort: 'desc', orderBy: 'score', tag: subCategory || '' },
@@ -260,10 +260,6 @@ const CategoryItem = () => {
     }
   }
 
-  const handleChangeInput = _.debounce(async(e) => {
-    setKeyWordSearch(e.target.value)
-  }, 200)
-
   const getDataSearch = async(content) => {
     const data = await search('search/list', { keyword: content })
     if (data) {
@@ -271,7 +267,6 @@ const CategoryItem = () => {
       if (categorySearch !== CRYPTO) {
         setLoading(false)
       }
-      setKeyWordSearch()
     }
   }
 
@@ -279,6 +274,7 @@ const CategoryItem = () => {
     if (keyword) {
       setLoading(true)
       getDataSearch(keyword)
+      setKeyWordSearch(keyword)
     }
   }, [keyword])
 
@@ -301,8 +297,7 @@ const CategoryItem = () => {
               <TabSearch
                 listProduct={listProduct}
                 keywordSearch={keywordSearch}
-                keyword={keyword}
-                handleChangeInput={handleChangeInput}
+                setKeyWordSearch={setKeyWordSearch}
                 handleSubmitSearch={handleSubmitSearch}
                 handleSubmitBtn={handleSubmitBtn}
                 setLoading={setLoading}
