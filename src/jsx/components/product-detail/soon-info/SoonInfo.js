@@ -70,7 +70,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <ProductNameSubName projectName={itemDetail?.projectName} projectSubName={itemDetail?.projectSymbol}/>
         <SoonStatusLocation status={itemStatus} detail={itemDetail}/>
         <div className='detail-button ms-auto'>
-          <ShareButton name={itemDetail.name} />
+          <ShareButton name={itemDetail?.name} />
           <WebsiteButton website={itemDetail?.website} />
         </div>
       </div>

@@ -67,7 +67,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
           <Badge className='badge-sm' >{detail?.subCategory}</Badge>
         </div>
         <div className='detail-button'>
-          <ShareButton name={detail.name} />
+          <ShareButton name={detail?.name} />
           <WebsiteButton website={detail?.website} />
         </div>
       </div>
