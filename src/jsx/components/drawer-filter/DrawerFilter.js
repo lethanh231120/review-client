@@ -3,7 +3,6 @@ import {
   Button,
   Form,
   Select,
-  Checkbox,
   Row,
   Col
 } from 'antd'
@@ -240,13 +239,21 @@ const DrawerFilter = ({ type, handleFilter }) => {
           values?.score?.to
         }`
       }
-      // --IS SCAM
-      if (values?.isScam) {
-        filterParams['isScam'] = values?.isScam
-      }
-      // --IS WARNING
-      if (values?.isWarning) {
-        filterParams['isWarning'] = values?.isWarning
+
+      if (values?.status) {
+        const status = values?.status
+        if (status === 'isWarning') {
+          delete filterParams['isScam']
+          filterParams['isWarning'] = true
+        }
+        if (status === 'isScam') {
+          filterParams['isScam'] = true
+          delete filterParams['isWarning']
+        }
+        if (status === 'none') {
+          delete filterParams['isWarning']
+          delete filterParams['isScam']
+        }
       }
     }
     // ---------------------------DAPP
@@ -281,12 +288,21 @@ const DrawerFilter = ({ type, handleFilter }) => {
         }
       }
 
-      if (values?.isScam) {
-        filterParams['isScam'] = values?.isScam
-      }
-      // --IS WARNING
-      if (values?.isWarning) {
-        filterParams['isWarning'] = values?.isWarning
+      if (values?.status) {
+        const status = values?.status
+        if (status === 'isWarning') {
+          delete filterParams['isScam']
+          filterParams['isWarning'] = true
+        }
+        if (status === 'isScam') {
+          filterParams['isScam'] = true
+          delete filterParams['isWarning']
+        }
+        if (status === 'none') {
+          console.log(status)
+          delete filterParams?.isWarning
+          delete filterParams?.isScam
+        }
       }
     }
     // ---------------------------VENTURE
@@ -346,12 +362,20 @@ const DrawerFilter = ({ type, handleFilter }) => {
         }.${values?.totalFund?.to}`
       }
 
-      if (values?.isScam) {
-        filterParams['isScam'] = values?.isScam
-      }
-      // --IS WARNING
-      if (values?.isWarning) {
-        filterParams['isWarning'] = values?.isWarning
+      if (values?.status) {
+        const status = values?.status
+        if (status === 'isWarning') {
+          delete filterParams['isScam']
+          filterParams['isWarning'] = true
+        }
+        if (status === 'isScam') {
+          filterParams['isScam'] = true
+          delete filterParams['isWarning']
+        }
+        if (status === 'none') {
+          delete filterParams['isWarning']
+          delete filterParams['isScam']
+        }
       }
     }
     // ---------------------------EXCHANGE
@@ -391,12 +415,20 @@ const DrawerFilter = ({ type, handleFilter }) => {
         }.${values?.volume1m?.to}`
       }
 
-      if (values?.isScam) {
-        filterParams['isScam'] = values?.isScam
-      }
-      // --IS WARNING
-      if (values?.isWarning) {
-        filterParams['isWarning'] = values?.isWarning
+      if (values?.status) {
+        const status = values?.status
+        if (status === 'isWarning') {
+          delete filterParams['isScam']
+          filterParams['isWarning'] = true
+        }
+        if (status === 'isScam') {
+          filterParams['isScam'] = true
+          delete filterParams['isWarning']
+        }
+        if (status === 'none') {
+          delete filterParams['isWarning']
+          delete filterParams['isScam']
+        }
       }
     }
     // -------------------SOON
@@ -508,7 +540,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
                 const max = getFieldValue(attr)?.to
                 if (max) {
                   if (value > max) {
-                    return Promise.reject(`${header} filter not valid`)
+                    return Promise.reject(`Filter range is not valid`)
                   }
                 }
                 return Promise.resolve()
@@ -527,7 +559,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
               const min = getFieldValue(attr)?.from
               if (min) {
                 if (value < min) {
-                  return Promise.reject(`${header} filter not valid`)
+                  return Promise.reject(`Filter range is not valid`)
                 }
               }
               return Promise.resolve()
@@ -540,6 +572,16 @@ const DrawerFilter = ({ type, handleFilter }) => {
     </Row>
   }
 
+  const projectStatusDropdown = () => {
+    return <Form.Item name='status' label='Project Status'>
+      <Select>
+        <Option value='isWarning' style={{ color: '#FF8C00' }}>Warning</Option>
+        <Option value='isScam' style={{ color: '#FF0000' }}>Scam</Option>
+        <Option value='none'>Safe</Option>
+      </Select>
+    </Form.Item>
+  }
+
   return (
     <div className='drawer'>
       <Button onClick={openDrawer} style={{ background: filterCount === 0 ? '#fff' : '#18A594', color: filterCount === 0 ? 'black' : '#fff' }}>
@@ -550,7 +592,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
       </Button>
 
       <Drawer
-        width='20%'
+        width='40%'
         title={`Filter ${
           type.toString()[0].toUpperCase() + type.toString().substring(1)
         }`}
@@ -598,28 +640,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
               </Form.Item>
 
               {customDropDown(getScoreMarks('crypto'), 'score', 'Score')}
-
-              <Row style={{ width: '100%', display: 'flex' }}>
-                <Col span={11}>
-                  { (
-                    // -------------------- <div>
-                    <Form.Item
-                      name='isWarning'
-                      label='Warning:'
-                      valuePropName='checked'
-                    >
-                      <Checkbox />
-                    </Form.Item>
-                  )}
-                </Col>
-
-                { (
-                  <Form.Item name='isScam' label='Scam' valuePropName='checked'>
-                    <Checkbox />
-                  </Form.Item>
-                )}
-              </Row>
-
+              {projectStatusDropdown()}
             </>
 
           )}
@@ -643,28 +664,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
                    />
                  </Form.Item>
 
-                 {/* { CustomSlider('Score', 'score', getScoreMarks('dapp'))} */}
-
-                 <Row style={{ width: '100%', display: 'flex' }}>
-                   <Col span={11}>
-                     { (
-                       // -------------------- <div>
-                       <Form.Item
-                         name='isWarning'
-                         label='Warning:'
-                         valuePropName='checked'
-                       >
-                         <Checkbox />
-                       </Form.Item>
-                     )}
-                   </Col>
-
-                   { (
-                     <Form.Item name='isScam' label='Scam' valuePropName='checked'>
-                       <Checkbox />
-                     </Form.Item>
-                   )}
-                 </Row>
+                 {projectStatusDropdown()}
                </>)
           }
 
@@ -689,26 +689,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
                 />
               </Form.Item>
 
-              <Row style={{ width: '100%', display: 'flex' }}>
-                <Col span={11}>
-                  { (
-                    // -------------------- <div>
-                    <Form.Item
-                      name='isWarning'
-                      label='Warning:'
-                      valuePropName='checked'
-                    >
-                      <Checkbox />
-                    </Form.Item>
-                  )}
-                </Col>
-
-                { (
-                  <Form.Item name='isScam' label='Scam' valuePropName='checked'>
-                    <Checkbox />
-                  </Form.Item>
-                )}
-              </Row>
+              {projectStatusDropdown()}
             </>
           )}
 
@@ -720,26 +701,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
               {customDropDown(EXCHANGE_VOLUME1M_SELECTION, 'volume1m', 'Volume 1M')}
               {customDropDown(EXCHANGE_VISIT7D_SELECTION, 'visit7d', 'Visit 7D')}
 
-              <Row style={{ width: '100%', display: 'flex' }}>
-                <Col span={11}>
-                  { (
-                    // -------------------- <div>
-                    <Form.Item
-                      name='isWarning'
-                      label='Warning:'
-                      valuePropName='checked'
-                    >
-                      <Checkbox />
-                    </Form.Item>
-                  )}
-                </Col>
-
-                { (
-                  <Form.Item name='isScam' label='Scam' valuePropName='checked'>
-                    <Checkbox />
-                  </Form.Item>
-                )}
-              </Row>
+              {projectStatusDropdown()}
             </>
           )}
 
