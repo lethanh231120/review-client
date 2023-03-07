@@ -15,6 +15,8 @@ import Description from '../../description/Description'
 import { reactions, reactionImg } from '../../../../constants/reaction'
 import { timeAgoConvert } from '../../../common-widgets/home/click-function'
 import { formatLargeNumberMoneyUSD } from '../../../../../utils/formatNumber'
+import imgshit from '../../../common-widgets/home/reviews/shit-icon.svg'
+import { StarFilled } from '@ant-design/icons'
 
 const ReviewItem = (props) => {
   const { data, productId, index, reviews, setReviews, setCurrentReview, curentReview } = props
@@ -266,6 +268,43 @@ const ReviewItem = (props) => {
     }
   }, 200)
 
+  const renderStar = () => {
+    if (data?.review?.star === 1) {
+      return <span style={{ marginRight: '0.4rem', marginBottom: '0.2rem' }}>
+        <StarFilled className='star'/>
+      </span>
+    }
+    if (data?.review?.star === 2) {
+      return <span style={{ marginRight: '0.4rem' }}>
+        <StarFilled className='star'/>
+        <StarFilled className='star'/>
+      </span>
+    }
+    if (data?.review?.star === 3) {
+      return <span style={{ marginRight: '0.4rem' }}>
+        <StarFilled className='star'/>
+        <StarFilled className='star'/>
+        <StarFilled className='star'/>
+      </span>
+    }
+    if (data?.review?.star === 4) {
+      return <span style={{ marginRight: '0.4rem' }}>
+        <StarFilled className='star'/>
+        <StarFilled className='star'/>
+        <StarFilled className='star'/>
+        <StarFilled className='star'/>
+      </span>
+    }
+    if (data?.review?.star === 5) {
+      return <span style={{ marginRight: '0.4rem' }}>
+        <StarFilled className='star'/>
+        <StarFilled className='star'/>
+        <StarFilled className='star'/>
+        <StarFilled className='star'/>
+        <StarFilled className='star'/>
+      </span>
+    }
+  }
   return (
     <>
       <div className='review-item'>
@@ -281,8 +320,16 @@ const ReviewItem = (props) => {
             <div className='review-item-content'>
               {newData?.textStar && (
                 <div>
-                  <strong>
-                    {newData?.textStar}
+                  <strong style={{ display: 'flex', alignItems: 'flex-end', marginBottom: '0.5rem' }}>
+                    {renderStar()}
+                    <span>{newData?.textStar}</span>
+                    {data?.review?.isScam && (
+                      <>
+                        <img src={imgshit} alt='scam' style={{ width: '1.5rem', marginLeft: '0.3rem' }}/>
+                        <img src={imgshit} alt='scam' style={{ width: '1.5rem' }}/>
+                        <img src={imgshit} alt='scam' style={{ width: '1.5rem' }}/>
+                      </>
+                    )}
                   </strong>
                 </div>
               )}
