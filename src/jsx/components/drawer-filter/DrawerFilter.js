@@ -191,21 +191,21 @@ const DrawerFilter = ({ type, handleFilter }) => {
     // ---------------------------CRYPTO
     if (type === 'crypto') {
       // PRICE
-      if (values?.priceUSD?.from && values?.priceUSD?.to) {
+      if (values?.priceUSD?.from >= 0 && values?.priceUSD?.to >= 0) {
         filterParams['priceUSD'] = `${
           values?.priceUSD?.from
         }.${values?.priceUSD?.to}`
       }
 
       // --MARKET CAP
-      if (values?.marketcapUSD?.from && values?.marketcapUSD?.to) {
+      if (values?.marketcapUSD?.from >= 0 && values?.marketcapUSD?.to >= 0) {
         filterParams['marketcapUSD'] = `${
           values?.marketcapUSD?.from
         }.${values?.marketcapUSD?.to}`
       }
 
       // TOTAL LP USD
-      if (values?.totalLpUSD?.from && values?.totalLpUSD?.from) {
+      if (values?.totalLpUSD?.from >= 0 && values?.totalLpUSD?.from >= 0) {
         filterParams['totalLpUSD'] = `${
           values?.totalLpUSD?.from
         }.${values?.totalLpUSD?.to}`
@@ -234,7 +234,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
         }
       }
 
-      if (values?.score?.from && values?.score?.from) {
+      if (values?.score?.from >= 0 && values?.score?.from >= 0) {
         filterParams['score'] = `${values?.score?.from}.${
           values?.score?.to
         }`
@@ -243,37 +243,41 @@ const DrawerFilter = ({ type, handleFilter }) => {
       if (values?.status) {
         const status = values?.status
         if (status === 'isWarning') {
-          delete filterParams['isScam']
           filterParams['isWarning'] = true
+          filterParams['isScam'] = ''
         }
         if (status === 'isScam') {
           filterParams['isScam'] = true
-          delete filterParams['isWarning']
+          filterParams['isWarning'] = ''
+        }
+        if (status === 'safe') {
+          filterParams['isWarning'] = false
+          filterParams['isScam'] = false
         }
         if (status === 'none') {
-          delete filterParams['isWarning']
-          delete filterParams['isScam']
+          filterParams['isWarning'] = ''
+          filterParams['isScam'] = ''
         }
       }
     }
     // ---------------------------DAPP
     if (type === 'dapp') {
       // --VOLUME 24H
-      if (values?.volume24h?.from && values?.volume24h?.to) {
+      if (values?.volume24h?.from >= 0 && values?.volume24h?.to >= 0) {
         filterParams['volume24h'] = `${
           values?.volume24h?.from
         }.${values?.volume24h?.to}`
       }
 
       // --USER 24H
-      if (values?.user24h?.from && values?.user24h?.to) {
+      if (values?.user24h?.from >= 0 && values?.user24h?.to >= 0) {
         filterParams['user24h'] = `${values?.user24h?.from}.${
           values?.user24h?.to
         }`
       }
 
       // --TVL
-      if (values?.balance?.from && values?.balance?.to) {
+      if (values?.balance?.from >= 0 && values?.balance?.to >= 0) {
         filterParams['balance'] = `${values?.balance?.from}.${
           values?.balance?.to
         }`
@@ -291,45 +295,48 @@ const DrawerFilter = ({ type, handleFilter }) => {
       if (values?.status) {
         const status = values?.status
         if (status === 'isWarning') {
-          delete filterParams['isScam']
           filterParams['isWarning'] = true
+          filterParams['isScam'] = ''
         }
         if (status === 'isScam') {
           filterParams['isScam'] = true
-          delete filterParams['isWarning']
+          filterParams['isWarning'] = ''
+        }
+        if (status === 'safe') {
+          filterParams['isWarning'] = false
+          filterParams['isScam'] = false
         }
         if (status === 'none') {
-          console.log(status)
-          delete filterParams?.isWarning
-          delete filterParams?.isScam
+          filterParams['isWarning'] = ''
+          filterParams['isScam'] = ''
         }
       }
     }
     // ---------------------------VENTURE
     if (type === 'venture') {
       // --VOLUME TOTAL FUND
-      if (values?.volumeTotalFunds?.from && values?.volumeTotalFunds?.to) {
+      if (values?.volumeTotalFunds?.from >= 0 && values?.volumeTotalFunds?.to >= 0) {
         filterParams['volumeTotalFunds'] = `${
           values?.volumeTotalFunds?.from
         }.${values?.volumeTotalFunds?.to}`
       }
 
       // Series A
-      if (values?.seriesA?.from && values?.seriesA?.to) {
+      if (values?.seriesA?.from >= 0 && values?.seriesA?.to >= 0) {
         filterParams['seriesA'] = `${values?.seriesA?.from}.${
           values?.seriesA?.to
         }`
       }
 
       // Series B
-      if (values?.seriesB?.from && values?.seriesB?.to) {
+      if (values?.seriesB?.from >= 0 && values?.seriesB?.to >= 0) {
         filterParams['seriesB'] = `${values?.seriesB?.from}.${
           values?.seriesB?.to
         }`
       }
 
       // Series C
-      if (values?.seriesC?.from && values?.seriesC?.to) {
+      if (values?.seriesC?.from >= 0 && values?.seriesC?.to >= 0) {
         filterParams['seriesC'] = `${values?.seriesC?.from}.${
           values?.seriesC?.to
         }`
@@ -344,19 +351,19 @@ const DrawerFilter = ({ type, handleFilter }) => {
       }
 
       // Ico
-      if (values?.ico?.from && values?.ico?.to) {
-        filterParams['ico'] = `${values?.seriesC?.from}.${
-          values?.seriesC?.to
+      if (values?.ico?.from >= 0 && values?.ico?.to >= 0) {
+        filterParams['ico'] = `${values?.ico?.from}.${
+          values?.ico?.to
         }`
       }
 
-      if (values?.strategic?.from && values?.strategic?.to) {
+      if (values?.strategic?.from >= 0 && values?.strategic?.to >= 0) {
         filterParams['strategic'] = `${
           values?.strategic?.from
         }.${values?.strategic?.to}`
       }
 
-      if (values?.totalFund?.from && values?.totalFund?.to) {
+      if (values?.totalFund?.from >= 0 && values?.totalFund?.to >= 0) {
         filterParams['totalFund'] = `${
           values?.totalFund?.from
         }.${values?.totalFund?.to}`
@@ -365,51 +372,55 @@ const DrawerFilter = ({ type, handleFilter }) => {
       if (values?.status) {
         const status = values?.status
         if (status === 'isWarning') {
-          delete filterParams['isScam']
           filterParams['isWarning'] = true
+          filterParams['isScam'] = ''
         }
         if (status === 'isScam') {
           filterParams['isScam'] = true
-          delete filterParams['isWarning']
+          filterParams['isWarning'] = ''
+        }
+        if (status === 'safe') {
+          filterParams['isWarning'] = false
+          filterParams['isScam'] = false
         }
         if (status === 'none') {
-          delete filterParams['isWarning']
-          delete filterParams['isScam']
+          filterParams['isWarning'] = ''
+          filterParams['isScam'] = ''
         }
       }
     }
     // ---------------------------EXCHANGE
     if (type === 'exchange') {
       // --PAIR COUNT
-      if (values?.pairCount) {
+      if (values?.pairCount?.from >= 0 && values?.pairCoun?.to >= 0) {
         filterParams['pairCount'] = `${
           values?.pairCount?.from
         }.${values?.pairCount?.to}`
       }
 
       // --VISIT 7D
-      if (values?.visit7d) {
+      if (values?.visit7d?.from >= 0 && values?.visit7d?.to >= 0) {
         filterParams['visit7d'] = `${values?.visit7d?.from}.${
           values?.visit7d?.to
         }`
       }
 
       // --VOLUME 24H
-      if (values?.volume24h) {
+      if (values?.volume24h?.from >= 0 && values?.volume24h?.to >= 0) {
         filterParams['volume24h'] = `${
           values?.volume24h?.from
         }.${values?.volume24h?.to}`
       }
 
       // --VOLUME 7D
-      if (values?.volume7d) {
+      if (values?.volume7d?.from >= 0 && values?.volume7d?.to >= 0) {
         filterParams['volume7d'] = `${
           values?.volume7d?.from
         }.${values?.volume7d?.to}`
       }
 
       // --VOLUME 1M
-      if (values?.volume1m) {
+      if (values?.volume1m?.from >= 0 && values?.volume1m?.to >= 0) {
         filterParams['volume1m'] = `${
           values?.volume1m?.from
         }.${values?.volume1m?.to}`
@@ -418,16 +429,20 @@ const DrawerFilter = ({ type, handleFilter }) => {
       if (values?.status) {
         const status = values?.status
         if (status === 'isWarning') {
-          delete filterParams['isScam']
           filterParams['isWarning'] = true
+          filterParams['isScam'] = ''
         }
         if (status === 'isScam') {
           filterParams['isScam'] = true
-          delete filterParams['isWarning']
+          filterParams['isWarning'] = ''
+        }
+        if (status === 'safe') {
+          filterParams['isWarning'] = false
+          filterParams['isScam'] = false
         }
         if (status === 'none') {
-          delete filterParams['isWarning']
-          delete filterParams['isScam']
+          filterParams['isWarning'] = ''
+          filterParams['isScam'] = ''
         }
       }
     }
@@ -441,19 +456,19 @@ const DrawerFilter = ({ type, handleFilter }) => {
         }
       }
 
-      if (values?.fullyDilutedMarketCap?.from && values?.fullyDilutedMarketCap?.to) {
+      if (values?.fullyDilutedMarketCap?.from >= 0 && values?.fullyDilutedMarketCap?.to >= 0) {
         filterParams['fullyDilutedMarketCap'] = `${
           values?.fullyDilutedMarketCap?.from
         }.${values?.fullyDilutedMarketCap?.to}`
       }
 
-      if (values?.fundRaisingGoals?.from && values?.fundRaisingGoals?.to) {
+      if (values?.fundRaisingGoals?.from >= 0 && values?.fundRaisingGoals?.to >= 0) {
         filterParams['fundRaisingGoals'] = `${
           values?.fundRaisingGoals?.from
         }.${values?.fundRaisingGoals?.to}`
       }
 
-      if (values?.tokenPrice?.from && values?.tokenPrice?.to) {
+      if (values?.tokenPrice?.from >= 0 && values?.tokenPrice?.to >= 0) {
         filterParams['tokenPrice'] = `${
           values?.tokenPrice?.from
         }.${values?.tokenPrice?.to}`
@@ -473,7 +488,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
     }
     if (type === 'launchpad') {
       // Market cap
-      if (values?.marketCap?.from && values?.marketCap?.to) {
+      if (values?.marketCap?.from >= 0 && values?.marketCap?.to >= 0) {
         filterParams['marketCap'] = `${
           values?.marketCap?.from
         }.${
@@ -482,42 +497,42 @@ const DrawerFilter = ({ type, handleFilter }) => {
       }
 
       // total fund raise
-      if (values?.totalFundsRaised?.from && values?.totalFundsRaised?.to) {
+      if (values?.totalFundsRaised?.from >= 0 && values?.totalFundsRaised?.to >= 0) {
         filterParams['totalFundsRaised'] = `${
           values?.totalFundsRaised?.from
         }.${values?.totalFundsRaised?.to}`
       }
 
       // year founded
-      if (values?.yearFounded?.from && values?.yearFounded?.to) {
+      if (values?.yearFounded?.from >= 0 && values?.yearFounded?.to >= 0) {
         filterParams['yearFounded'] = `${
           values?.yearFounded?.from
         }.${values?.yearFounded?.to}`
       }
 
       // avgRoiCurrent
-      if (values?.avgRoiCurrent?.from && values?.avgRoiCurrent?.to) {
+      if (values?.avgRoiCurrent?.from >= 0 && values?.avgRoiCurrent?.to >= 0) {
         filterParams['avgRoiCurrent'] = `${
           values?.avgRoiCurrent?.from
         }.${values?.avgRoiCurrent?.to}`
       }
 
       // avgRoiATH
-      if (values?.avgRoiATH?.from && values?.avgRoiATH?.to) {
+      if (values?.avgRoiATH?.from >= 0 && values?.avgRoiATH?.to >= 0) {
         filterParams['avgRoiATH'] = `${
           values?.avgRoiATH?.from
         }.${values?.avgRoiATH?.to}`
       }
 
       // colume 24h
-      if (values?.volume24h?.from && values?.volume24h?.to) {
+      if (values?.volume24h?.from >= 0 && values?.volume24h?.to >= 0) {
         filterParams['volume24h'] = `${
           values?.volume24h?.from
         }.${values?.volume24h?.to}`
       }
 
       // Score
-      if (values?.score?.from && values?.score?.to) {
+      if (values?.score?.from >= 0 && values?.score?.to >= 0) {
         filterParams['score'] = `${values?.score?.from}.${
           values?.score?.to
         }`
@@ -577,7 +592,8 @@ const DrawerFilter = ({ type, handleFilter }) => {
       <Select>
         <Option value='isWarning' style={{ color: '#FF8C00' }}>Warning</Option>
         <Option value='isScam' style={{ color: '#FF0000' }}>Scam</Option>
-        <Option value='none'>Safe</Option>
+        <Option value='safe'>Safe</Option>
+        <Option value='none'>All</Option>
       </Select>
     </Form.Item>
   }
