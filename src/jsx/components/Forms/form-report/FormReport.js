@@ -266,19 +266,19 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
                 rules={[
                   {
                     required: true,
-                    message: 'Please enter content.'
+                    message: 'Please enter content'
                   },
                   {
                     min: 100,
-                    message: 'Content must be minimum 100 characters.'
+                    message: 'Content must be minimum 100 characters'
                   },
                   {
                     max: 5000,
-                    message: 'You can enter 5000 characters only.'
+                    message: 'You can enter 5000 characters only'
                   },
                   {
                     pattern: new RegExp(/^(?!.*<[^>]+>).*/g),
-                    message: 'Wrong format!'
+                    message: 'Wrong format'
                   }
                 ]}
               >

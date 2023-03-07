@@ -9,15 +9,19 @@ export const typeContract = 'integration_instructions'
 export const typeAvailable = 'check'
 export const typeExchange = 'currency_exchange'
 export const typeExplorer = 'travel_explore'
+export const typeBlockchain = ''
+export const typeSocial = ''
 
-const titleShort = 'Short:'
-const titleWebsite = 'Website:'
-const titleTag = 'Tag:'
-const titleLaunchpad = 'Launchpad:'
-const titleContract = 'Contract detail:'
-const titleAvailable = 'Available on:'
-const titleExchange = 'Exchange:'
-const titleExplorer = 'Explorer:'
+const titleShort = 'Short:'// Soon detail
+const titleWebsite = 'Website:'// Soon detail
+const titleTag = 'Tag:'// Soon, Crypto detail
+const titleLaunchpad = 'Launchpad:' // Soon detail
+const titleContract = 'Contract detail:'// Crypto detail
+const titleAvailable = 'Available on:'// Crypto detail
+const titleExchange = 'Exchange:'// Crypto detail
+const titleExplorer = 'Explorer:' // Crypto detail
+const titleBlockchain = 'Chain:' // Dapp detail
+const titleSocial = 'Social:' // Dapp detail
 
 const InformationSubTitle = ({ type }) => {
   let title
@@ -45,6 +49,12 @@ const InformationSubTitle = ({ type }) => {
       break
     case typeExplorer:
       title = titleExplorer
+      break
+    case typeBlockchain:
+      title = titleBlockchain
+      break
+    case typeSocial:
+      title = titleSocial
       break
     default:
       break

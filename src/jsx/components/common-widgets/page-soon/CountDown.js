@@ -39,7 +39,7 @@ export const CountDown = ({ progressGoal, projectStatus, startDate, endDate }) =
 
       // do something later when date is reached
       if (distance < 0) {
-        setTimerHeadline(`It's over in ${progressGoal === 100 ? 'success !' : 'failed.'}`)
+        setTimerHeadline(`It's over in ${progressGoal === 100 ? 'success' : 'failed'}`)
         setTimerCountdownShow(false)
         setTimerCountdownHideContent(true)
         clearInterval(timer)
