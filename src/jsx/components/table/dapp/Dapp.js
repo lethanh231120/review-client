@@ -152,7 +152,7 @@ const Dapp = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <MyScoreComponent score={record?.score} type='dapp'/>)
+        <MyScoreComponent score={record?.score} type={DAPP}/>)
     }
   ]
 

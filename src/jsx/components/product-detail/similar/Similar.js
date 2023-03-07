@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { post } from '../../../../api/BaseRequest'
 import { Image, Tooltip, Avatar, Table } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { CRYPTO, DAPP, EXCHANGE, SOON, VENTURE } from '../../../constants/category'
+import { CRYPTO, DAPP, EXCHANGE, LAUNCHPAD, SOON, VENTURE } from '../../../constants/category'
 import _ from 'lodash'
 import { isValidProductId } from '../../../../utils/formatText'
 import { formatImgUrlFromProductId } from '../../../../utils/formatText'
@@ -296,7 +296,7 @@ const Similar = ({ type, listProjectId }) => {
       className: 'width-120',
       dataIndex: 'score',
       align: 'center',
-      render: (_, record) => <MyScoreComponent score={record?.score} type='crypto'/>
+      render: (_, record) => <MyScoreComponent score={record?.score} type={CRYPTO}/>
     }
   ]
 
@@ -371,7 +371,7 @@ const Similar = ({ type, listProjectId }) => {
       dataIndex: 'score',
       align: 'center',
       render: (_, record) => (
-        <MyScoreComponent score={record?.score} type='dapp'/>)
+        <MyScoreComponent score={record?.score} type={DAPP}/>)
     }
   ]
 
@@ -461,7 +461,7 @@ const Similar = ({ type, listProjectId }) => {
       dataIndex: 'score',
       align: 'center',
       render: (_, record) => (
-        <MyScoreComponent score={record?.score} type='exchange'/>)
+        <MyScoreComponent score={record?.score} type={EXCHANGE}/>)
     }
   ]
 
@@ -555,7 +555,7 @@ const Similar = ({ type, listProjectId }) => {
       dataIndex: 'score',
       align: 'center',
       render: (_, record) => (
-        <MyScoreComponent score={record?.score} type='venture'/>)
+        <MyScoreComponent score={record?.score} type={VENTURE}/>)
     }
   ]
 
@@ -671,7 +671,7 @@ const Similar = ({ type, listProjectId }) => {
       dataIndex: 'score',
       align: 'center',
       render: (_, record) => (
-        <MyScoreComponent score={record?.score} type='launchpad'/>)
+        <MyScoreComponent score={record?.score} type={LAUNCHPAD} />)
     }
   ]
 
