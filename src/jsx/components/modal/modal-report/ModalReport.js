@@ -20,6 +20,7 @@ import ProjectHot from './ProjectHot'
 import { CRYPTO, EXCHANGE, SOON, VENTURE, DAPP, LAUNCHPAD } from '../../../constants/category'
 import { get } from '../../../../api/BaseRequest'
 import { encodeSpecialCharacterUrl } from '../../../../utils/formatText'
+import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 
 const ModalReport = ({ isModal }) => {
   const signInContext = useContext(SignInContext)
@@ -55,6 +56,7 @@ const ModalReport = ({ isModal }) => {
   const [screenWidth, setScreenWidth] = useState()
   const [listHot, setListHot] = useState()
   const [itemSearch, setItemSearch] = useState()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     function handleResize() {
@@ -185,21 +187,23 @@ const ModalReport = ({ isModal }) => {
           break
       }
       setItem(newDataItem)
+      setLoading(false)
     }
   }
 
   useEffect(() => {
+    itemHot && setLoading(true)
     itemHot && getDetailData(itemHot?.data?.productId, itemHot?.type)
   }, [itemHot])
 
   useEffect(() => {
+    itemSearch && setLoading(true)
     const id = itemSearch?.cryptoId ? itemSearch?.cryptoId
       : (itemSearch?.dappId ? itemSearch?.dappId
         : (itemSearch?.ventureId ? itemSearch?.ventureId
           : (itemSearch?.soonId ? itemSearch?.soonId
             : itemSearch?.exchangeId ? itemSearch?.exchangeId
               : itemSearch?.launchPadId)))
-    console.log(id)
     itemSearch && getDetailData(id, id?.split('_')[1])
   }, [itemSearch])
 
@@ -344,85 +348,89 @@ const ModalReport = ({ isModal }) => {
     reportModal?.handleSetOpenModal(false)
   }
 
-  console.log(item)
+  console.log(loading)
   return (
     <>
       <InputSearch
         isFormReport={true}
         setItemSearch={setItemSearch}
       />
-      {item && (
+      {loading ? <MySkeletonLoadinng count={1} height={150}/> : (
         <>
-          <div className='row report-item-overview'>
-            <div className='col-lg-12'>
-              <div className='profile card card-body px-3 pt-3 pb-3 mt-3 cus-card'>
-                <div className='profile-head mb-3'>
-                  <div className='profile-info cus-profile-info'>
-                    <div className='profile-details'>
-                      <div className='profile-photo'>
-                        {item?.image && (item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? (
-                          <Image src={isValidProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? formatImgUrlFromProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) : imgAbsentImage} preview={false} className='image-list' alt='Project Logo'/>
-                        ) : (
-                          <NoImage
-                            alt={item?.name?.slice(0, 3)}
-                            height={64}
-                            width={64}
-                          />
-                        )}
-                      </div>
-                      <div className='profile-name px-3 pt-2'>
-                        <h4 className='text-primary mb-2 cus-h4'>
-                          <span className='crypto-overview-name'>
-                            {item?.name}
-                          </span>
-                          {item?.symbol ? (
-                            <span className='crypto-overview-symbol'>
-                              {item?.symbol}
-                            </span>
-                          ) : (
-                            ''
-                          )}
-                        </h4>
+          {item && (
+            <>
+              <div className='row report-item-overview'>
+                <div className='col-lg-12'>
+                  <div className='profile card card-body px-3 pt-3 pb-3 mt-3 cus-card'>
+                    <div className='profile-head mb-3'>
+                      <div className='profile-info cus-profile-info'>
+                        <div className='profile-details'>
+                          <div className='profile-photo'>
+                            {item?.image && (item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? (
+                              <Image src={isValidProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? formatImgUrlFromProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) : imgAbsentImage} preview={false} className='image-list' alt='Project Logo'/>
+                            ) : (
+                              <NoImage
+                                alt={item?.name?.slice(0, 3)}
+                                height={64}
+                                width={64}
+                              />
+                            )}
+                          </div>
+                          <div className='profile-name px-3 pt-2'>
+                            <h4 className='text-primary mb-2 cus-h4'>
+                              <span className='crypto-overview-name'>
+                                {item?.name}
+                              </span>
+                              {item?.symbol ? (
+                                <span className='crypto-overview-symbol'>
+                                  {item?.symbol}
+                                </span>
+                              ) : (
+                                ''
+                              )}
+                            </h4>
+                          </div>
+                        </div>
+                        {/* <ProductImage productId={detail?.cryptoId} productName={detail?.name} altImageType={altCrypto} /> */}
                       </div>
                     </div>
+                    <Description text={item?.description}/>
                   </div>
                 </div>
-                <Description text={item?.description}/>
               </div>
-            </div>
-          </div>
-          <FormReport
-            isFormReport={false}
-            rest={{
-              setData: setData,
-              handleComment: handleComment,
-              setValidateTextArea: setValidateTextArea,
-              setFileList: setFileList,
-              handleSubmitComment: handleSubmitComment,
-              setErrorLink: setErrorLink,
-              setIsRecaptcha: setIsRecaptcha,
-              setTypeComment: setTypeComment,
-              setErrorType: setErrorType,
-              form: form,
-              showUser: false,
-              data: data,
-              validateTextArea: validateTextArea,
-              fileList: fileList,
-              recapcharRef: recapcharRef,
-              isRecaptcha: isRecaptcha,
-              errorLink: errorLink,
-              typeComment: typeComment,
-              errorType: errorType,
-              id: item?.cryptoId ? item?.cryptoId
-                : (item?.dappId ? item?.dappId
-                  : (item?.ventureId ? item?.ventureId
-                    : (item?.cryptoId ? item?.cryptoId
-                      : item?.exchangeId)))
-            }}
-          />
+              <FormReport
+                isFormReport={false}
+                rest={{
+                  setData: setData,
+                  handleComment: handleComment,
+                  setValidateTextArea: setValidateTextArea,
+                  setFileList: setFileList,
+                  handleSubmitComment: handleSubmitComment,
+                  setErrorLink: setErrorLink,
+                  setIsRecaptcha: setIsRecaptcha,
+                  setTypeComment: setTypeComment,
+                  setErrorType: setErrorType,
+                  form: form,
+                  showUser: false,
+                  data: data,
+                  validateTextArea: validateTextArea,
+                  fileList: fileList,
+                  recapcharRef: recapcharRef,
+                  isRecaptcha: isRecaptcha,
+                  errorLink: errorLink,
+                  typeComment: typeComment,
+                  errorType: errorType,
+                  id: item?.cryptoId ? item?.cryptoId
+                    : (item?.dappId ? item?.dappId
+                      : (item?.ventureId ? item?.ventureId
+                        : (item?.cryptoId ? item?.cryptoId
+                          : item?.exchangeId)))
+                }}
+              />
+            </>
+          )}
         </>
       )}
-
       <h4 className='project-hot-title'>Project Hot <Image src={hot} preview={false} alt='Hot Project'/></h4>
       <div className='mt-3 row'>
         {listHot && listHot?.slice(0, 8)?.map((item, index) => (

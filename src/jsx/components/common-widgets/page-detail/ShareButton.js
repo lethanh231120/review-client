@@ -17,7 +17,7 @@ const ShareButton = ({ name, setOpenModalShare }) => {
 
     Toast.fire({
       icon: 'success',
-      title: 'Copy address successfully !'
+      title: 'Copy link successfully !'
     })
     setOpenModalShare(false)
   }

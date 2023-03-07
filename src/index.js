@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+// import { render } from 'react-snapshot'
 // import './index.css';
 import App from './App'
 import reportWebVitals from './reportWebVitals'
@@ -21,7 +22,8 @@ root.render(
         <App />
       </ThemeContext>
     </BrowserRouter>
-  </HelmetProvider>
+  </HelmetProvider>,
+  document.getElementById('root')
 
 )
 
