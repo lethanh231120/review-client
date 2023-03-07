@@ -115,7 +115,7 @@ export const TopCoins = () => {
                 </span>
               </div>
               <div className='chart-img top-coin-img' >
-                <img className='img-fluid' alt='Cryptocurrency Chart' src={`https://www.coingecko.com/coins/${sparklineIndex[index]}/sparkline`} width={100} height={40} />
+                <img className='img-fluid' alt='Cryptocurrency Chart' src={`https://www.coingecko.com/coins/${sparklineIndex[index]}/sparkline.svg`} width={100} height={40} />
               </div>
             </div>
           )) : <MySkeletonLoadinng count={5} height={70}/>) : <MySkeletonLoadinng count={5} height={70}/>}
