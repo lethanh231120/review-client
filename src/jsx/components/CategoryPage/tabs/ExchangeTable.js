@@ -135,7 +135,7 @@ const ExchangeTable = ({ listData, loading }) => {
       align: 'center',
       // sorter: (a, b) => a.score - b.score,
       // showSorterTooltip: false,
-      render: (_, record) => <MyScoreComponent score={record?.score} />,
+      render: (_, record) => <MyScoreComponent score={record?.score} type={EXCHANGE} />,
       dataIndex: 'score' // override by render but still keep for pass param to server
       // defaultSortOrder: 'descend'
     }

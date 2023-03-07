@@ -247,7 +247,7 @@ const LaunchpadList = ({ listProduct,
                 : 'ascend'
               : '',
       render: (_, record) => (
-        <MyScoreComponent score={record?.score} type='launchpad'/>)
+        <MyScoreComponent score={record?.score} type={LAUNCHPAD}/>)
     }
   ]
 

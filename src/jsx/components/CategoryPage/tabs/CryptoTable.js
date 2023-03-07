@@ -20,6 +20,7 @@ import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/f
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import { copyContractAddress } from '../../../../utils/effect'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import { CRYPTO } from './../../../constants/category'
 
 const CryptoTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -363,7 +364,7 @@ const CryptoTable = ({ loading, listData }) => {
       align: 'center',
       // sorter: (a, b) => a.score - b.score,
       // defaultSortOrder: 'descend',
-      render: (_, record) => <MyScoreComponent score={record?.score} />
+      render: (_, record) => <MyScoreComponent score={record?.score} type={CRYPTO} />
     }
   ]
 

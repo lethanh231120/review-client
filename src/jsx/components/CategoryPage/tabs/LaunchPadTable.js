@@ -10,6 +10,7 @@ import { launchpadExplain } from '../../common-widgets/row-explaination/RowExpla
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import '../../table/launchpad/LaunchpadTable.scss'
+import { LAUNCHPAD } from '../../../constants/category'
 
 const LaunchPadTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -173,7 +174,7 @@ const LaunchPadTable = ({ loading, listData }) => {
       dataIndex: 'score',
       align: 'center',
       render: (_, record) => (
-        <MyScoreComponent score={record?.score}/>)
+        <MyScoreComponent score={record?.score} type={LAUNCHPAD}/>)
     }
   ]
   return (
