@@ -17,7 +17,7 @@ import { SummaryHomeContext } from '../../../App'
 import { formatLargeNumber } from '../../../utils/formatNumber'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 
-const InputSearch = ({ isFormReport, setItem }) => {
+const InputSearch = ({ isFormReport, setItemSearch }) => {
   const summaryData = useContext(SummaryHomeContext)
   const FIRST_SEARCH_PLACEHOLDER_TEXT = 'Search your projects here'
   const LAST_SEARCH_PLACEHOLDER_TEXT = `Search for ${summaryData?.soons ? `${formatLargeNumber(summaryData?.soons)}+ ` : ''}ICOs/ IDOs/ IEOs`
@@ -128,7 +128,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
 
   const subMitForm = () => {
     if (isFormReport) {
-      setItem(itemSubmit)
+      setItemSearch(itemSubmit)
     } else {
       if (itemSubmit) {
         const productId = itemSubmit?.cryptoId
@@ -270,7 +270,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
             onChange={(e) => {
               handleSearch(e.target.value)
               if (isFormReport) {
-                setItem()
+                setItemSearch()
               }
             }}
             onKeyPress={handleSubmitSearch}
@@ -325,7 +325,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                                 // if global === true, search global reverse, search in table of category
                                 global={true}
                                 // use in form report
-                                setItem={setItem}
+                                setItemSearch={setItemSearch}
                                 isFormReport={isFormReport}
                               />
                             </>
@@ -360,7 +360,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                               refInput={refInput}
                               global={true}
 
-                              setItem={setItem}
+                              setItemSearch={setItemSearch}
                               isFormReport={isFormReport}
                             />
                           )
@@ -394,7 +394,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                               refInput={refInput}
                               global={true}
 
-                              setItem={setItem}
+                              setItemSearch={setItemSearch}
                               isFormReport={isFormReport}
                             />
                           )
@@ -426,7 +426,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                             refInput={refInput}
                             global={true}
 
-                            setItem={setItem}
+                            setItemSearch={setItemSearch}
                             isFormReport={isFormReport}
                           />
                         ))}
@@ -459,7 +459,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                               refInput={refInput}
                               global={true}
 
-                              setItem={setItem}
+                              setItemSearch={setItemSearch}
                               isFormReport={isFormReport}
                             />
                           )
@@ -492,7 +492,7 @@ const InputSearch = ({ isFormReport, setItem }) => {
                               refInput={refInput}
                               global={true}
 
-                              setItem={setItem}
+                              setItemSearch={setItemSearch}
                               isFormReport={isFormReport}
                             />
                           )

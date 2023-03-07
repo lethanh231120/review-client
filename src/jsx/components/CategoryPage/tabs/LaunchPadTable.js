@@ -173,7 +173,7 @@ const LaunchPadTable = ({ loading, listData }) => {
       dataIndex: 'score',
       align: 'center',
       render: (_, record) => (
-        <MyScoreComponent score={record?.score}/>)
+        <MyScoreComponent score={record?.score} type='launchpad'/>)
     }
   ]
   return (

@@ -18,6 +18,8 @@ import { Button } from 'react-bootstrap'
 import hot from '../../../../images/product/hot.png'
 import ProjectHot from './ProjectHot'
 import { CRYPTO, EXCHANGE, SOON, VENTURE, DAPP, LAUNCHPAD } from '../../../constants/category'
+import { get } from '../../../../api/BaseRequest'
+import { encodeSpecialCharacterUrl } from '../../../../utils/formatText'
 
 const ModalReport = ({ isModal }) => {
   const signInContext = useContext(SignInContext)
@@ -52,6 +54,7 @@ const ModalReport = ({ isModal }) => {
 
   const [screenWidth, setScreenWidth] = useState()
   const [listHot, setListHot] = useState()
+  const [itemSearch, setItemSearch] = useState()
 
   useEffect(() => {
     function handleResize() {
@@ -77,87 +80,128 @@ const ModalReport = ({ isModal }) => {
     form.setFieldsValue({ isScam: true })
   }, [reportModal])
 
-  console.log(itemHot)
-  useEffect(() => {
-    let newDataItem
-    switch (itemHot?.type) {
-      case CRYPTO:
-        newDataItem = {
-          image: itemHot?.data?.logo,
-          description: itemHot?.data?.description,
-          name: itemHot?.data?.name,
-          symbol: itemHot?.data?.symbol,
-          holders: itemHot?.data?.holders,
-          isScam: itemHot?.data?.isScam,
-          isWarning: itemHot?.data?.isWarning,
-          score: itemHot?.data?.score,
-          cryptoId: itemHot?.data?.productId
-        }
-        break
-      case EXCHANGE:
-        newDataItem = {
-          image: itemHot?.data?.logo,
-          description: itemHot?.data?.fullDescription,
-          name: itemHot?.data?.name,
-          isScam: itemHot?.data?.isScam,
-          isWarning: itemHot?.data?.isWarning,
-          score: itemHot?.data?.score,
-          exchangeId: itemHot?.data?.productId
-        }
-        break
-      case DAPP:
-        newDataItem = {
-          image: itemHot?.data?.logo,
-          description: itemHot?.data?.description,
-          name: itemHot?.data?.name,
-          isScam: itemHot?.data?.isScam,
-          isWarning: itemHot?.data?.isWarning,
-          score: itemHot?.data?.score,
-          dappId: itemHot?.data?.productId
-        }
-        break
-      case VENTURE:
-        newDataItem = {
-          image: itemHot?.data?.logo,
-          description: itemHot?.data?.description,
-          name: itemHot?.data?.name,
-          isScam: itemHot?.data?.isScam,
-          isWarning: itemHot?.data?.isWarning,
-          score: itemHot?.data?.score,
-          yearFounded: itemHot?.data?.yearFounded,
-          location: itemHot?.data?.location,
-          ventureId: itemHot?.data?.productId
-        }
-        break
-      case SOON:
-        newDataItem = {
-          image: itemHot?.data?.logo,
-          description: itemHot?.data?.description,
-          name: itemHot?.data?.name,
-          isScam: itemHot?.data?.isScam,
-          isWarning: itemHot?.data?.isWarning,
-          score: itemHot?.data?.score,
-          yearFounded: itemHot?.data?.yearFounded,
-          location: itemHot?.data?.location,
-          soonId: itemHot?.data?.productId
-        }
-        break
-      case LAUNCHPAD:
-        newDataItem = {
-          image: itemHot?.data?.logo,
-          description: itemHot?.data?.description,
-          name: itemHot?.data?.name,
-          isScam: itemHot?.data?.isScam,
-          isWarning: itemHot?.data?.isWarning,
-          score: itemHot?.data?.score,
-          soonId: itemHot?.data?.productId
-        }
-        break
-      default:
-        break
+  const getDetailData = async(productId, type) => {
+    const data = await get(`reviews/product/detail?productId=${encodeSpecialCharacterUrl(productId)}`)
+    if (data?.data?.details) {
+      let newDataItem
+      switch (type) {
+        case 'token':
+          newDataItem = {
+            image: data?.data?.details?.thumbLogo ? data?.data?.details?.thumbLogo : (data?.data?.details?.bigLogo ? data?.data?.details?.bigLogo : data?.data?.details?.smallLogo),
+            description: data?.data?.details?.description,
+            name: data?.data?.details?.name,
+            symbol: data?.data?.details?.symbol,
+            holders: data?.data?.details?.holders,
+            isScam: data?.data?.details?.isScam,
+            isWarning: data?.data?.details?.isWarning,
+            score: data?.data?.details?.score,
+            cryptoId: data?.data?.details?.cryptoId
+          }
+          break
+        case 'coin':
+          newDataItem = {
+            image: data?.data?.details?.thumbLogo ? data?.data?.details?.thumbLogo : (data?.data?.details?.bigLogo ? data?.data?.details?.bigLogo : data?.data?.details?.smallLogo),
+            description: data?.data?.details?.description,
+            name: data?.data?.details?.name,
+            symbol: data?.data?.details?.symbol,
+            holders: data?.data?.details?.holders,
+            isScam: data?.data?.details?.isScam,
+            isWarning: data?.data?.details?.isWarning,
+            score: data?.data?.details?.score,
+            cryptoId: data?.data?.details?.cryptoId
+          }
+          break
+        case CRYPTO:
+          newDataItem = {
+            image: data?.data?.details?.thumbLogo ? data?.data?.details?.thumbLogo : (data?.data?.details?.bigLogo ? data?.data?.details?.bigLogo : data?.data?.details?.smallLogo),
+            description: data?.data?.details?.description,
+            name: data?.data?.details?.name,
+            symbol: data?.data?.details?.symbol,
+            holders: data?.data?.details?.holders,
+            isScam: data?.data?.details?.isScam,
+            isWarning: data?.data?.details?.isWarning,
+            score: data?.data?.details?.score,
+            cryptoId: data?.data?.details?.cryptoId
+          }
+          break
+        case EXCHANGE:
+          newDataItem = {
+            image: data?.data?.details?.smallLogo,
+            description: data?.data?.details?.fullDescription,
+            name: data?.data?.details?.name,
+            isScam: data?.data?.details?.isScam,
+            isWarning: data?.data?.details?.isWarning,
+            score: data?.data?.details?.score,
+            exchangeId: data?.data?.details?.exchangeId
+          }
+          break
+        case DAPP:
+          newDataItem = {
+            image: data?.data?.details?.dAppLogo,
+            description: data?.data?.details?.description,
+            name: data?.data?.details?.dAppName,
+            isScam: data?.data?.details?.isScam,
+            isWarning: data?.data?.details?.isWarning,
+            score: data?.data?.details?.score,
+            dappId: data?.data?.details?.dAppId
+          }
+          break
+        case VENTURE:
+          newDataItem = {
+            image: data?.data?.details?.ventureLogo,
+            description: data?.data?.details?.description,
+            name: data?.data?.details?.ventureName,
+            isScam: data?.data?.details?.isScam,
+            isWarning: data?.data?.details?.isWarning,
+            score: data?.data?.details?.score,
+            yearFounded: data?.data?.details?.yearFounded,
+            location: data?.data?.details?.location,
+            ventureId: data?.data?.details?.ventureId
+          }
+          break
+        case SOON:
+          newDataItem = {
+            image: data?.data?.details?.thumbLogo ? data?.data?.details?.thumbLogo : (data?.data?.details?.bigLogo ? data?.data?.details?.bigLogo : data?.data?.details?.smallLogo),
+            description: data?.data?.details?.fullDesc,
+            name: data?.data?.details?.projectName,
+            isScam: data?.data?.details?.isScam,
+            isWarning: data?.data?.details?.isWarning,
+            score: data?.data?.details?.score,
+            soonId: data?.data?.details?.productId
+          }
+          break
+        case LAUNCHPAD:
+          newDataItem = {
+            image: data?.data?.details?.thumbLogo,
+            description: data?.data?.details?.description,
+            name: data?.data?.details?.name,
+            isScam: data?.data?.details?.isScam,
+            isWarning: data?.data?.details?.isWarning,
+            score: data?.data?.details?.score,
+            soonId: data?.data?.details?.launchPadId
+          }
+          break
+        default:
+          break
+      }
+      setItem(newDataItem)
     }
-    setItem(newDataItem)
+  }
+
+  useEffect(() => {
+    itemHot && getDetailData(itemHot?.data?.productId, itemHot?.type)
   }, [itemHot])
+
+  useEffect(() => {
+    const id = itemSearch?.cryptoId ? itemSearch?.cryptoId
+      : (itemSearch?.dappId ? itemSearch?.dappId
+        : (itemSearch?.ventureId ? itemSearch?.ventureId
+          : (itemSearch?.soonId ? itemSearch?.soonId
+            : itemSearch?.exchangeId ? itemSearch?.exchangeId
+              : itemSearch?.launchPadId)))
+    console.log(id)
+    itemSearch && getDetailData(id, id?.split('_')[1])
+  }, [itemSearch])
 
   useEffect(() => {
     if (typeComment === 'login') {
@@ -185,22 +229,6 @@ const ModalReport = ({ isModal }) => {
       setProductId(productId)
     }
   }, [item])
-
-  // noti report success
-  // const notifyTopRight = () => {
-  //   const Toast = Swal.mixin({
-  //     toast: true,
-  //     position: 'top-end',
-  //     showConfirmButton: false,
-  //     timer: 2000,
-  //     timerProgressBar: true
-  //   })
-
-  //   Toast.fire({
-  //     icon: 'success',
-  //     title: 'Post comemnt successfully!'
-  //   })
-  // }
 
   const handleReset = () => {
     // reset the value of state data
@@ -278,7 +306,8 @@ const ModalReport = ({ isModal }) => {
         : (item?.dappId ? item?.dappId
           : (item?.ventureId ? item?.ventureId
             : (item?.soonId ? item?.soonId
-              : item?.exchangeId))),
+              : item?.exchangeId ? item?.exchangeId
+                : item?.launchPadId))),
       ...values
     }
     if (typeComment) {
@@ -315,11 +344,12 @@ const ModalReport = ({ isModal }) => {
     reportModal?.handleSetOpenModal(false)
   }
 
+  console.log(item)
   return (
     <>
       <InputSearch
         isFormReport={true}
-        setItem={setItem}
+        setItemSearch={setItemSearch}
       />
       {item && (
         <>

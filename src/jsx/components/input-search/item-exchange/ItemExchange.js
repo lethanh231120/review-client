@@ -8,7 +8,7 @@ import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png
 import NoImage from '../../common-widgets/no-image/NoImage'
 import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
 
-const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
+const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearch, isFormReport, refInput }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -23,7 +23,7 @@ const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItem,
         e.stopPropagation()
         e.preventDefault()
         if (isFormReport) {
-          setItem(item)
+          setItemSearch(item)
         } else {
           navigate(`../../products/exchange/${item?.exchangeId?.split('_')[2]}`)
           refInput.current.value = ''

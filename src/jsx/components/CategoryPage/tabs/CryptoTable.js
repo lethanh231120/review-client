@@ -363,7 +363,7 @@ const CryptoTable = ({ loading, listData }) => {
       align: 'center',
       // sorter: (a, b) => a.score - b.score,
       // defaultSortOrder: 'descend',
-      render: (_, record) => <MyScoreComponent score={record?.score} />
+      render: (_, record) => <MyScoreComponent score={record?.score} type='crypto'/>
     }
   ]
 

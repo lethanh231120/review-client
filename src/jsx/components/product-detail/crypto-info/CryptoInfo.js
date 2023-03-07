@@ -42,6 +42,10 @@ import InfoContractDetail from '../../common-widgets/page-crypto/InfoContractDet
 import InfoAvailableDetail from './../../common-widgets/page-crypto/InfoAvailableDetail'
 import { InfoExplorerDetail } from '../../common-widgets/page-crypto/InfoExplorerDetail'
 import { InfoTagDetail } from './../../common-widgets/page-crypto/InfoTagDetail'
+import share from '../../../../images/svg/share.svg'
+
+import { Modal } from 'antd'
+
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const detail = productInfo?.details
   const PAGE_SIZE = 10
@@ -52,6 +56,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const [mainExplorer, setMainExplorer] = useState()
   const [dataExchange, setDataExchange] = useState([])
   const [top, setTop] = useState()
+  const [openModalShare, setOpenModalShare] = useState(false)
 
   useEffect(() => {
     setShowInfo(
@@ -403,11 +408,22 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           projectSubName={projectAddressType}
         />
 
-        <div className='detail-button detail-button ms-auto'>
-          <ShareButton name={detail?.name} />
+        <div className='detail-button ms-auto'>
+          <Button onClick={() => setOpenModalShare(true)}>
+            <img src={share} alt='share button'/>
+            Share
+          </Button>
           <WebsiteButton website={detail?.website} />
         </div>
       </div>
+      <Modal
+        open={openModalShare}
+        onCancel={() => setOpenModalShare(false)}
+        onOk={() => setOpenModalShare(false)}
+        footer={null}
+      >
+        <ShareButton name={detail?.name} setOpenModalShare={setOpenModalShare}/>
+      </Modal>
     </div>
   )
 

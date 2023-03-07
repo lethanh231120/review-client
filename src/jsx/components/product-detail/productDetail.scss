@@ -498,6 +498,88 @@
     //     width: 0;
     // }
 }
+.detail-button {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    & button{
+        margin-left: 1rem;
+        height: 45px;
+        width: max-content;
+        & img{
+            width: 1.4rem;
+            height: 1.4rem;
+            margin-right: 0.4rem;
+        }
+    }
+}
+
+@media (max-width: 575.99px) {
+    .detail-button {
+        flex-direction: column;
+        justify-content: right;
+        text-align: right;
+        align-items: flex-end;
+        & button{
+            &:first-child{
+                margin-bottom: 0.2rem;
+            }
+        }
+    }
+}
+// .detail-list-social-share{
+//     // width: 200px;
+//     width: max-content;
+//     display: flex;
+//     align-items: center;
+//     flex-wrap: wrap;
+//     transform: translate3d(-10px, -20px, 0px) !important;
+// }
+
+// .detail-list-social-share .dropdown-item{
+//     width: calc(100% / 3 - 0.5rem);
+//     margin-right: 0.5rem;
+//     margin-bottom: 0.5rem;
+//     display: inline !important;
+// }
+// .detail-list-social-share .dropdown-item:hover, .detail-list-social-share .dropdown-item:focus{
+//     background-color:  #fff;
+// }
+
+.share{
+    padding: 2rem;
+    &-list{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    &-input{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        // background-color: red;
+        border-radius: 10px;
+        margin-top: 2rem;
+        border: 0.1px solid rgba(0, 0, 0, 0.3);
+        padding: 0.5rem 1rem;
+        &-text{
+            // word-wrap: normal;
+            text-overflow: ellipsis;
+            max-width: calc(100% - 1rem);
+            overflow-x: hidden;
+            word-wrap: normal;
+            word-break: normal;
+        }
+        &-button{
+            background-color: #039F7F;
+            color: #fff;
+            border-radius: 2rem;
+            padding: 0.2rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+    }
+}
 // css custom 
 .cus-category-paginate{
     padding: 1.5rem 0 !important;

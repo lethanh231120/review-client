@@ -86,6 +86,8 @@ const ReviewItem = (props) => {
     })
   }, [data])
 
+  console.log(newData)
+  console.log(curentReview)
   useEffect(() => {
     setToken(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
   }, [authenticated?.isAuthenticated])
@@ -93,14 +95,12 @@ const ReviewItem = (props) => {
   const handleAddReply = () => {
     if (token) {
       setAddReply(!addReply)
-      // setNewData({
-      //   ...newData,
-      //   reviewId: ''
-      // })
-      setCurrentReview({
-        reviewId: data?.review?.id,
-        isCollapse: !!addReply
-      })
+      if (data?.replies?.length > 2) {
+        setCurrentReview({
+          reviewId: data?.review?.id,
+          isCollapse: !!addReply
+        })
+      }
     } else {
       signContext?.handleSetOpenModal(true)
     }
@@ -403,10 +403,11 @@ const ReviewItem = (props) => {
             )}
           </Form>
           <div
-            className={`${(
-              curentReview?.reviewId !== undefined
-                ? (!curentReview?.isCollapse && curentReview?.reviewId === data?.review?.id) ? 'comment-reply' : 'isCollapse'
-                : (!newData?.isCollapse && newData?.reviewId === data?.review?.id) ? 'comment-reply' : 'isCollapse')}`}
+            className={`${
+              data?.replies?.length > 2 ? (
+                curentReview?.reviewId !== undefined
+                  ? (!curentReview?.isCollapse && curentReview?.reviewId === data?.review?.id) ? 'comment-reply' : 'isCollapse'
+                  : (!newData?.isCollapse && newData?.reviewId === data?.review?.id) ? 'comment-reply' : 'isCollapse') : 'comment-reply'}`}
           >
             {data?.replies !== null && data?.replies?.map((item, i) => (<>
               <ReplyComment

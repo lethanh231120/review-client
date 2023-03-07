@@ -5,11 +5,7 @@
 .cus-profile-name {
     width: calc(100% - 21rem);
 }
-.detail-button {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-}
+
 .cus-heading {
     width: max-content;
     display: -webkit-box;
@@ -216,22 +212,22 @@
         }
     }
 }
-.detail-list-social-share{
-    width: 200px;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    transform: translate3d(-10px, -20px, 0px) !important;
-}
-.detail-list-social-share .dropdown-item{
-    width: calc(100% / 3 - 0.5rem);
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
-    display: inline !important;
-}
-.detail-list-social-share .dropdown-item:hover, .detail-list-social-share .dropdown-item:focus{
-    background-color:  #fff;
-}
+// .detail-list-social-share{
+//     width: 200px;
+//     display: flex;
+//     align-items: center;
+//     flex-wrap: wrap;
+//     transform: translate3d(-10px, -20px, 0px) !important;
+// }
+// .detail-list-social-share .dropdown-item{
+//     width: calc(100% / 3 - 0.5rem);
+//     margin-right: 0.5rem;
+//     margin-bottom: 0.5rem;
+//     display: inline !important;
+// }
+// .detail-list-social-share .dropdown-item:hover, .detail-list-social-share .dropdown-item:focus{
+//     background-color:  #fff;
+// }
 // css exchange
 .exchange {
     & table {

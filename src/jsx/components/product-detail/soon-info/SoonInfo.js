@@ -29,6 +29,9 @@ import ProductImage, { altSoon } from '../../common-widgets/page-detail/ProductI
 import { ProductNameSubName } from '../../common-widgets/page-detail/ProductNameSubName'
 import { SoonStatusLocation } from './../../common-widgets/page-soon/SoonStatusLocation'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
+import share from '../../../../images/svg/share.svg'
+import { Modal } from 'antd'
+import { Button } from 'react-bootstrap'
 
 const SoonInfo = ({ productInfo, ...rest }) => {
   const itemDetail = productInfo?.details
@@ -37,6 +40,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const itemProgressGoal = 20 // sold / goal * 100
   const [top, setTop] = useState()
   const itemStatus = getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)
+  const [openModalShare, setOpenModalShare] = useState(false)
 
   // Click button report scam
   const handleReportScam = () => {
@@ -69,11 +73,23 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <ProductImage productId={itemDetail?.projectId} productName={itemDetail?.projectName} altImageType={altSoon} />
         <ProductNameSubName projectName={itemDetail?.projectName} projectSubName={itemDetail?.projectSymbol}/>
         <SoonStatusLocation status={itemStatus} detail={itemDetail}/>
+
         <div className='detail-button ms-auto'>
-          <ShareButton name={itemDetail?.name} />
+          <Button onClick={() => setOpenModalShare(true)}>
+            <img src={share} alt='share button'/>
+            Share
+          </Button>
           <WebsiteButton website={itemDetail?.website} />
         </div>
       </div>
+      <Modal
+        open={openModalShare}
+        onCancel={() => setOpenModalShare(false)}
+        onOk={() => setOpenModalShare(false)}
+        footer={null}
+      >
+        <ShareButton name={itemDetail?.name} setOpenModalShare={setOpenModalShare}/>
+      </Modal>
     </div>
   ) : ''
 

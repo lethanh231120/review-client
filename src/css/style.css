@@ -8683,7 +8683,7 @@ label {
       [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header .brand-logo .color-title {
         display: none; }
     [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header .nav-control {
-      right: -4rem; }
+      right: -2.5rem; }
       [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header .nav-control .hamburger .line {
         background-color: var(--primary); }
 
@@ -9515,6 +9515,11 @@ svg.pulse-svg {
 [data-nav-headerbg="color_1"] .menu-toggle .color-title {
   display: none !important; }
 
+  [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .header {
+    padding-left: 6.5rem;
+    width: 100%; }
+    [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .header .header-content {
+      padding-left: 5rem; }
 /*
 0 - 600: Phone
 600 - 900: Tablet portrait

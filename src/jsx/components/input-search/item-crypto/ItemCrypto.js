@@ -8,7 +8,7 @@ import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import NoImage from './../../common-widgets/no-image/NoImage'
 
 export const absentImageElasticSearch = 'empty-token'
-const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
+const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearch, isFormReport, refInput }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -23,7 +23,7 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
         e.stopPropagation()
         e.preventDefault()
         if (isFormReport) {
-          setItem(item)
+          setItemSearch(item)
         } else {
           navigate(`../../products/crypto/${item?.cryptoId?.split('_')[1]}/${item?.cryptoId?.split('_')[2]}${item?.cryptoId?.split('_')[1] === 'token' ? `/${item?.cryptoId?.split('_')[3]}` : ''}`)
           refInput.current.value = ''

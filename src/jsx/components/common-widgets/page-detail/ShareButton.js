@@ -1,63 +1,75 @@
 import React from 'react'
-import { Dropdown, Button } from 'react-bootstrap'
 import { FacebookIcon, LinkedinIcon, PinterestIcon, RedditIcon, TelegramIcon, TwitterIcon } from 'react-share'
 import { FacebookShareButton, TwitterShareButton, TelegramShareButton, LinkedinShareButton, PinterestShareButton, RedditShareButton } from 'react-share'
+import Swal from 'sweetalert2'
 
-const ShareButton = ({ name }) => {
-  return <Dropdown className='sidebar-dropdown me-2 cus-dropdown'>
-    <Dropdown.Toggle
-      variant=''
-      as='a'
-      className='ai-icon i-false c-pointer button-signup-home'
-      role='button'
-    >
-      <Button className='btn btn-primary'>Share</Button>
-    </Dropdown.Toggle>
-    <Dropdown.Menu className='detail-list-social-share'>
-      <Dropdown.Item >
-        <FacebookShareButton url={window.location.href} quote={name}>
-          <span className='share-icon'>
-            <FacebookIcon size={26} round />
-          </span>
-        </FacebookShareButton>
-      </Dropdown.Item>
-      <Dropdown.Item >
-        <TwitterShareButton url={window.location.href} quote={name}>
-          <span className='share-icon'>
-            <TwitterIcon size={26} round={true}/>
-          </span>
-        </TwitterShareButton>
-      </Dropdown.Item>
-      <Dropdown.Item >
-        <TelegramShareButton url={window.location.href} quote={name}>
-          <span className='share-icon'>
-            <TelegramIcon size={26} round={true}/>
-          </span>
-        </TelegramShareButton>
-      </Dropdown.Item>
-      <Dropdown.Item >
-        <LinkedinShareButton url={window.location.href} quote={name}>
-          <span className='share-icon'>
-            <LinkedinIcon size={26} round={true}/>
-          </span>
-        </LinkedinShareButton>
-      </Dropdown.Item>
-      <Dropdown.Item >
-        <PinterestShareButton url={window.location.href} quote={name}>
-          <span className='share-icon'>
-            <PinterestIcon size={26} round={true}/>
-          </span>
-        </PinterestShareButton>
-      </Dropdown.Item>
-      <Dropdown.Item >
-        <RedditShareButton url={window.location.href} quote={name}>
-          <span className='share-icon'>
-            <RedditIcon size={26} round={true}/>
-          </span>
-        </RedditShareButton>
-      </Dropdown.Item>
-    </Dropdown.Menu>
-  </Dropdown>
+const ShareButton = ({ name, setOpenModalShare }) => {
+  const coppyLink = (value) => {
+    navigator.clipboard.writeText(value)
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true
+    })
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Copy address successfully !'
+    })
+    setOpenModalShare(false)
+  }
+
+  return <>
+    <div className='share'>
+      <div className='share-list'>
+        <div className='share-list-item'>
+          <FacebookShareButton url={window.location.href} quote={name}>
+            <FacebookIcon size={45} round />
+            <div>Facebook</div>
+          </FacebookShareButton>
+        </div>
+        <div className='share-list-item'>
+          <TwitterShareButton url={window.location.href} quote={name}>
+            <TwitterIcon size={45} round={true}/>
+            <div>Twitter</div>
+          </TwitterShareButton>
+        </div>
+        <div className='share-list-item'>
+          <TelegramShareButton url={window.location.href} quote={name}>
+            <TelegramIcon size={45} round={true}/>
+            <div>Telegram</div>
+          </TelegramShareButton>
+        </div>
+        <div className='share-list-item'>
+          <LinkedinShareButton url={window.location.href} quote={name}>
+            <LinkedinIcon size={45} round={true}/>
+            <div>Linkedin</div>
+          </LinkedinShareButton>
+        </div>
+        <div className='share-list-item'>
+          <PinterestShareButton url={window.location.href} quote={name}>
+            <PinterestIcon size={45} round={true}/>
+            <div>Pinterest</div>
+          </PinterestShareButton>
+        </div>
+        <div className='share-list-item'>
+          <RedditShareButton url={window.location.href} quote={name}>
+            <RedditIcon size={45} round={true}/>
+            <div>Reddit</div>
+          </RedditShareButton>
+        </div>
+      </div>
+      <div className='share-input'>
+        <div className='share-input-text'>
+          {window.location.href}
+        </div>
+        <div className='share-input-button' onClick={() => coppyLink(window.location.href)}>Copy</div>
+      </div>
+    </div>
+  </>
 }
 
 export default ShareButton

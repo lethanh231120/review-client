@@ -136,9 +136,7 @@ const VentureTable = ({ loading, listData }) => {
       </span>
       ),
       dataIndex: 'score',
-      // sorter: (a, b) => a.score - b.score,
-      // showSorterTooltip: false,
-      render: (_, record) => <MyScoreComponent score={record?.score} />
+      render: (_, record) => <MyScoreComponent score={record?.score} type='venture'/>
     }
   ]
 

@@ -1,4 +1,4 @@
-import { Avatar, Table, Tooltip } from 'antd'
+import { Avatar, Table, Tooltip, Modal } from 'antd'
 import React, { useContext, useState } from 'react'
 import { Badge, Button } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
@@ -19,12 +19,14 @@ import ShareButton from '../../common-widgets/page-detail/ShareButton'
 import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
 import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
+import share from '../../../../images/svg/share.svg'
 
 const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
   const [top, setTop] = useState()
+  const [openModalShare, setOpenModalShare] = useState(false)
 
   const handleReportScam = () => {
     rest?.setData({
@@ -61,11 +63,22 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
           <h4 className='text-primary mb-2 cus-h4'>{detail?.name} {detail?.symbol ? `(${detail?.symbol})` : null}</h4>
           <Badge className='badge-sm' >{detail?.type}</Badge>
         </div>
-        <div className='detail-button'>
-          <ShareButton name={detail?.name} />
+        <div className='detail-button ms-auto'>
+          <Button onClick={() => setOpenModalShare(true)}>
+            <img src={share} alt='share button'/>
+            Share
+          </Button>
           <WebsiteButton website={detail?.website} />
         </div>
       </div>
+      <Modal
+        open={openModalShare}
+        onCancel={() => setOpenModalShare(false)}
+        onOk={() => setOpenModalShare(false)}
+        footer={null}
+      >
+        <ShareButton name={detail?.name} setOpenModalShare={setOpenModalShare}/>
+      </Modal>
     </div>
   }
 

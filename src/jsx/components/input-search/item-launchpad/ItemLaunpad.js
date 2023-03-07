@@ -8,7 +8,7 @@ import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
 
-const ItemLaunch = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
+const ItemLaunch = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearch, isFormReport, refInput }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -23,7 +23,7 @@ const ItemLaunch = ({ item, index, itemSubmit, setItemSubmit, global, setItem, i
         e.stopPropagation()
         e.preventDefault()
         if (isFormReport) {
-          setItem(item)
+          setItemSearch(item)
         } else {
           navigate(`../../products/launchpad/${item?.launchPadId?.split('_')[2]}`)
           refInput.current.value = ''
