@@ -133,7 +133,7 @@ const ModalAdd = ({ isModal }) => {
         })
       }
     } catch (error) {
-      toartError('Add project failed. Please try again.')
+      toartError('Add project failed. Please try again')
     }
   }
 

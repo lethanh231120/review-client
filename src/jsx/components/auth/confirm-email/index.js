@@ -12,7 +12,7 @@ export const ConfirmEmail = () => {
       allowOutsideClick: false,
       icon: 'success',
       title: 'Success',
-      html: 'You confirmed email successfully.',
+      html: 'You confirmed email successfully',
       showClass: {
         popup: 'animate__animated animate__fadeInDown'
       },
@@ -33,7 +33,7 @@ export const ConfirmEmail = () => {
       allowOutsideClick: false,
       icon: 'warning',
       title: 'Warning',
-      html: 'Active email failed.',
+      html: 'Active email failed',
       showClass: {
         popup: 'animate__animated animate__fadeInDown'
       },

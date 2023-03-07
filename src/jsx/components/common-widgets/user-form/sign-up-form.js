@@ -173,7 +173,13 @@ export const SignUpComponent = () => {
                 )}
               </div>
               <div className='mb-3 mt-3'>
-                <span className='form-check float-start me-2' style={{ display: 'flex', alignItems: 'center' }}>
+                {errors.isConfirm && <>
+                  <div className='text-danger fs-12'>
+                    {errors.isConfirm}
+                  </div>
+                </>
+                }
+                <span className='form-check float-start me-2 d-flex align-items-center'>
                   <input
                     type='checkbox'
                     className='form-check-input mt-0'
@@ -200,11 +206,7 @@ export const SignUpComponent = () => {
                     signContext?.handleSetOpenModal(false) // close form sign-in, sign-up
                   }}>Privacy Policy</Link>
                 </label>
-                {errors.isConfirm && (
-                  <div className='text-danger fs-12'>
-                    {errors.isConfirm}
-                  </div>
-                )}
+
               </div>
               <button
                 type='submit'

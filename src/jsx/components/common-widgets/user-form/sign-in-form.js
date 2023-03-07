@@ -51,17 +51,28 @@ export const SignInComponent = () => {
     msg += `<br />`
 
     const statusCode = error?.response?.data?.code
+    const codeWrongEmailOrPassword = 'B.AUTH.2'
     const codeNotActivated = 'B.AUTH.6'
     const codeNotExistedEmail = 'B.AUTH.5'
-    // normal, but not activated account
+    const codeBlockAccount = 'B.AUTH.8'
+    // not activated account
     if (statusCode === codeNotActivated) {
       msg += 'Your account is not activated. Please check your mail'
     } else
-    // normal, but not register before
+    //  not register before
     if (statusCode === codeNotExistedEmail) {
       msg += 'This email is not registered before. Please register first'
+    } else
+    // registed email, but wrong
+    if (statusCode === codeWrongEmailOrPassword) {
+      msg += 'Wrong email or password. Please check again'
+    } else
+    // registed email, but blocked
+    if (statusCode === codeBlockAccount) {
+      msg += 'Your account is blocked. Please contact with the administrator'
     } else {
-      // exist in another platform
+      // otherwise default message from BE
+      msg += error?.response?.data?.error
     }
 
     Swal.fire({

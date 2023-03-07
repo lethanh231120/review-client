@@ -105,6 +105,7 @@ const TableRoundSale = ({ projectName, roundSales }) => {
         <InfoCircleOutlined />
       </Tooltip>
     </span>,
+    className: '',
     align: 'right',
     dataIndex: 'price',
     key: 'price',

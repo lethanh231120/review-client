@@ -21551,4 +21551,11 @@ li.countdown span {
 /* END: image change profile */
 
 
-/* START:  */
+/* link url */
+.txt-link{
+  text-decoration: underline;
+  cursor: pointer;
+}
+.txt-link:hover{
+  text-decoration: none;
+}

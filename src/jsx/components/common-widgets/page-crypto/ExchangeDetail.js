@@ -26,24 +26,23 @@ export const ExchangeDetail = ({ coinName, exchangeList }) => {
             style={{ padding: '0' }}
           >
             <>
-              {exchangeList?.map((itemImageUrl, index) => (<span key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'inline-block' }}
-                className='mb-2'
+              {exchangeList?.map((itemImageUrl, index) => (<div key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'block' }}
+                className='mb-3'
               >
                 <ShortItem
                   title={<>
                     {coinName} are existing on
                     &nbsp;
-                    <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo'/>
+                    <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
                       &nbsp;
                     <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
-                      className='text-primary'
-                      style={{ textDecoration: 'underline' }}
+                      className='text-primary txt-link'
                     >
                       {getExchangeNameFromUrlImageExchage(itemImageUrl)}
                     </span>
                   </>}
                 />
-              </span>
+              </div>
               ))}
             </>
           </div>
