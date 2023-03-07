@@ -4,6 +4,7 @@ import { toCammelCase } from '../../../../utils/formatText'
 import _ from 'lodash'
 import { LaunchpadMapContext } from '../../../../App'
 import { LAUNCHPAD, PREFIX_DETAIL } from '../../../constants/category'
+import ShortItem from './../page-detail/ShortItem'
 
 export const filterDuplicateLaunchpadId = (launchpadList) => {
   const mapLaunchpad = new Map()
@@ -18,7 +19,7 @@ export const filterDuplicateLaunchpadId = (launchpadList) => {
   return outputListLaunchpad
 }
 
-const LaunchpadDetail = ({ launchpadList }) => {
+const LaunchpadDetail = ({ projectName, launchpadList }) => {
   const launchpadMapContext = useContext(LaunchpadMapContext)
   launchpadList = filterDuplicateLaunchpadId(launchpadList)
   const navigate = useNavigate()
@@ -40,13 +41,25 @@ const LaunchpadDetail = ({ launchpadList }) => {
             className='form-check custom-checkbox mb-3 checkbox-success'
             style={{ padding: '0' }}
           >
-            <div style={{ display: 'block', marginLeft: '1.5rem' }}>
+            <div style={{ display: 'block' }}>
               {launchpadList?.map((key, index) => (
                 <>
-                  <div key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'inline-block' }} className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={(e) => { forwardDetailLaunchpad(e, key) } }>
-                    <img alt='Launchpad Logo' src={launchpadMapContext?.get(key)?.thumbLogo} height={24} width={24} />
-                      &nbsp;&nbsp;
-                    {toCammelCase(launchpadMapContext?.get(key)?.name)}
+                  <div key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'block' }}
+                    className='mb-3'
+                  >
+                    <ShortItem
+                      title={<>
+                        {projectName} is traded on
+                        &nbsp;
+                        <img src={launchpadMapContext?.get(key)?.thumbLogo} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
+                        &nbsp;
+                        <span onClick={(e) => { forwardDetailLaunchpad(e, key) } }
+                          className='text-primary txt-link'
+                        >
+                          {toCammelCase(launchpadMapContext?.get(key)?.name)}
+                        </span>
+                      </>}
+                    />
                   </div>
                 </>
               ))}
