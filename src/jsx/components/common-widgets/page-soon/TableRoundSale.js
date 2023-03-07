@@ -4,13 +4,10 @@ import moment from 'moment'
 import { Table, Tooltip } from 'antd'
 import { soonRoundSaleExplain } from '../row-explaination/RowExplainationText'
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { formatDateStyle, getRelativeTimeString } from '../../../../utils/time/time'
+import { formatDateStyle } from '../../../../utils/time/time'
 import { txtTBA } from '../../../constants/page-soon'
 import { LaunchpadTableDetail } from './LaunchpadTableDetail'
 import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../../utils/formatNumber'
-import { getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../../../utils/page-soon/status'
-import { StatusTextDisplay } from './StatusTextDisplay'
-import { txtAbsentTakeUpData } from '../../../constants/data'
 
 const TableRoundSale = ({ projectName, roundSales }) => {
   const columns = [
@@ -112,25 +109,6 @@ const TableRoundSale = ({ projectName, roundSales }) => {
     dataIndex: 'price',
     key: 'price',
     render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.price)}</>)
-    },
-    { title: <span className='crypto-table-tooltip text-black'>
-          Status
-      <Tooltip
-        overlayClassName='crypto-table-tooltip-box'
-        title={soonRoundSaleExplain['status']}
-      >
-        <InfoCircleOutlined />
-      </Tooltip>
-    </span>,
-    fixed: 'center',
-    align: 'center',
-    dataIndex: 'status',
-    key: 'status',
-    render: (_, record) => record?.start && record?.end ? (<span className={`badge badge-rounded text-uppercase ${getStatusBackgroundFromSoonStatus(getStatusFromStartDateAndEndDate(record?.start, record?.end))}`}>
-      <StatusTextDisplay status={getStatusFromStartDateAndEndDate(record?.start, record?.end)} />
-          &nbsp;
-      {getRelativeTimeString(record?.start, record?.end)}
-    </span>) : (txtAbsentTakeUpData)
     }
   ]
 

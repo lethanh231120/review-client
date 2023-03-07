@@ -48,7 +48,7 @@ export const getRelativeHumanTime = (timestamp) => {
     units = 'seconds'
   }
 
-  return `≈${humanTime} ${units}`
+  return `${humanTime} ${units}`
 }
 
 // getEndDate = true (plus one day to get next day)
