@@ -121,6 +121,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
           ...itemFile,
           status: 'done'
         })
+        // pass de lay anh, ko tra error
         if (itemFile?.uid === e.file.uid) {
           const formData = new FormData()
           formData.append('file', itemFile?.originFileObj)
