@@ -9,7 +9,7 @@ import { formatLargeNumber } from '../../../../utils/formatNumber'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
 
-const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
+const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearch, isFormReport, refInput }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -24,7 +24,7 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItem, isF
         e.stopPropagation()
         e.preventDefault()
         if (isFormReport) {
-          setItem(item)
+          setItemSearch(item)
         } else {
           navigate(`../../products/dapp/${item?.dappId?.split('_')[2]}`)
           refInput.current.value = ''

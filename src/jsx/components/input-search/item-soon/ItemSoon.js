@@ -6,7 +6,7 @@ import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import NoImage from './../../common-widgets/no-image/NoImage'
 import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
 
-const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItem, isFormReport, refInput }) => {
+const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItemSearch, isFormReport, refInput }) => {
   const navigate = useNavigate()
   return (
     <Link
@@ -21,7 +21,7 @@ const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItem, isFormRepo
         e.stopPropagation()
         e.preventDefault()
         if (isFormReport) {
-          setItem(item)
+          setItemSearch(item)
         } else {
           navigate(`../../products/soon/${item?.soonId?.split('_')[2]}${item?.soonId?.split('_')[3] ? `/${item?.soonId?.split('_')[3]}` : ''}`)
           refInput.current.value = ''

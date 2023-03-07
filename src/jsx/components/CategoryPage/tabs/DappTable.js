@@ -157,7 +157,7 @@ const DappTable = ({ loading, listData }) => {
       </span>
       ),
       dataIndex: 'score',
-      render: (_, record) => <MyScoreComponent score={record?.score} />
+      render: (_, record) => <MyScoreComponent score={record?.score} type='dapp'/>
       // sorter: (a, b) => a.score - b.score,
       // showSorterTooltip: false,
       // defaultSortOrder: 'descend'

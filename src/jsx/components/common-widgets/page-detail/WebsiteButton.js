@@ -10,7 +10,7 @@ export const WebsiteButton = ({ website }) => {
   const [websiteLoading, setWebsiteLoading] = useState(false)
 
   return website && <Button
-    className='btn btn-primary ms-auto'
+    className='btn btn-primary'
     onClick={() => openWebsite(website, setWebsiteLoading, waitMillSecOpenWebsite)}
   >
     <div className='d-flex align-items-center'>
