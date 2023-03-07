@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
-import { Modal, Tooltip, Upload } from 'antd'
+import { Modal, Tooltip } from 'antd'
 
 // / Image
 import profile from '../../../images/product/user.png'
@@ -31,7 +31,7 @@ import { ToggleContext } from '../../index'
 import './custom-header.scss'
 import { PathNameContext } from '../../index'
 import './header.scss'
-import { beforeUpload, getBase64 } from '../../components/Forms/form-report/FormReport'
+import FormProfile from '../../components/Forms/form-profile/FormProfile'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
@@ -267,30 +267,12 @@ const Header = () => {
     profileModal?.setOpenModalUserProfile(false)
   }
 
-  // Upload image
-  // profileModal?.setOpenModalUserProfile(true)
-
-  const [previewOpen, setPreviewOpen] = useState(false)
-  const [previewImage, setPreviewImage] = useState('')
-  const [previewTitle, setPreviewTitle] = useState('')
-
-  const onPreview = async(file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj)
-    }
-    setPreviewImage(file.url || file.preview)
-    setPreviewOpen(true)
-    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1))
-  }
-
-  const handleCancel = () => setPreviewOpen(false)
-
   return (
     <>
       {/* only when login exist, for only normal User*/}
-      {/* Form Profile */}
       {authenticated?.isAuthenticated && userInfo?.accountType === 'normal'
         ? <>
+          {/* Form Profile */}
           <Modal
             open={profileModal?.openModalUserProfile}
             onCancel={onCloseUserProfileForm}
@@ -299,27 +281,7 @@ const Header = () => {
             destroyOnClose={true}
             show={profileModal?.openModalUserProfile}
           >
-            <img src={userInfo?.image ? userInfo?.image : profile} alt='error' width={64} height={64}/>
-            {userInfo?.userName}
-            <br />
-            <Upload
-              listType='picture-circle' // shape of uploader
-              onPreview={onPreview} // view in eye
-              beforeUpload={beforeUpload} // validate ???
-              name='avatar'
-              className='avatar-uploader'
-            >
-              +Upload
-            </Upload>
-          </Modal>
-          <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-            <img
-              alt='example'
-              style={{
-                width: '100%'
-              }}
-              src={previewImage}
-            />
+            <FormProfile userInfo={userInfo}/>
           </Modal>
         </>
         : <>

@@ -397,7 +397,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const header = (
     <div className='profile-info'>
       <div className='profile-details'>
-        <ProductImage productId={detail?.cryptoId} productName={detail?.name} altImageType={altCrypto} />
+        <ProductImage productId={detail?.bigLogo ? detail?.cryptoId : ''} productName={detail?.name} altImageType={altCrypto} />
         <ProductNameSubName
           projectName={projectNameSymbol}
           projectSubName={projectAddressType}

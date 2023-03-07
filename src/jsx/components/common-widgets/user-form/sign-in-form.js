@@ -13,10 +13,6 @@ import { GoogleLogin } from '@react-oauth/google'
 import { parseJwt } from '../../../../utils/decode'
 import { txtEnterEmail, txtEnterPassword } from './sign-up-form'
 
-const loginTypeNormal = 'normal'
-const loginTypeFacebook = 'facebook'
-const loginTypeGoogle = 'google'
-
 export const SignInComponent = () => {
   const authenticated = useContext(Authenticated)
   const signContext = useContext(SignInContext)
@@ -42,7 +38,7 @@ export const SignInComponent = () => {
         }
       }
     } catch (error) {
-      openNotification(error, loginTypeFacebook)
+      openNotification(error)
     }
   }
 
@@ -50,41 +46,21 @@ export const SignInComponent = () => {
     console.log(value)
   }
 
-  const openNotification = (error, loginTypeFE) => {
+  const openNotification = (error) => {
     let msg = 'Login failed'
     msg += `<br />`
 
-    const errMsgBEResp = error?.response?.data?.error
+    const statusCode = error?.response?.data?.code
+    const codeNotActivated = 'B.AUTH.6'
+    const codeNotExistedEmail = 'B.AUTH.5'
     // normal, but not activated account
-    if (errMsgBEResp === 'account is not activated') {
+    if (statusCode === codeNotActivated) {
       msg += 'Your account is not activated. Please check your mail'
     } else
     // normal, but not register before
-    if (errMsgBEResp === 'this email is not registered, please signup') {
+    if (statusCode === codeNotExistedEmail) {
       msg += 'This email is not registered before. Please register first'
     } else {
-      let error = errMsgBEResp?.split(':wrong email or password')
-      let loginTypeBEResponse = error[0]
-      if (error?.length === 2) {
-        // Login as activated normal, but still wrong email or password.
-        if (loginTypeBEResponse === loginTypeNormal && loginTypeFE === loginTypeNormal) {
-          msg = `Your email or passowrd is incorrect. Please try again`
-        } else
-        // Login as socail, but login as normal
-        if (loginTypeBEResponse !== loginTypeNormal && loginTypeFE === loginTypeNormal) {
-          msg = `This email registered by ${loginTypeBEResponse}. Please signin by ${loginTypeBEResponse}`
-        }
-      } else {
-        error = errMsgBEResp?.split('User id is incorrect')
-        loginTypeBEResponse = error[0]
-        if (error?.length === 2) {
-          // has account registered with gear 5, but still login this email through social.
-          if (loginTypeBEResponse === loginTypeNormal && loginTypeFE !== loginTypeNormal) {
-            msg = `This email registerd in Gear5. Please signin by your email and password directly`
-          }
-        }
-      }
-
       // exist in another platform
     }
 
@@ -145,7 +121,7 @@ export const SignInComponent = () => {
         setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
       }
     } catch (error) {
-      openNotification(error, loginTypeNormal)
+      openNotification(error)
     } finally {
       setIsLoading(false)
     }
@@ -184,7 +160,7 @@ export const SignInComponent = () => {
         }
       }
     } catch (error) {
-      openNotification(error, loginTypeGoogle)
+      openNotification(error)
     }
   }
 
