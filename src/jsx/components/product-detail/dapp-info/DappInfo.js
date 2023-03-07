@@ -21,6 +21,8 @@ import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
 import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
 import share from '../../../../images/svg/share.svg'
+import ShortItem from '../../common-widgets/page-detail/ShortItem'
+import InformationSubTitle, { typeBlockchain, typeShort, typeSocial } from '../../common-widgets/page-detail/InformationSubTitle'
 
 const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -136,12 +138,12 @@ const DappInfo = ({ productInfo, ...rest }) => {
     </div>
 
   // DAPP MORE
-  const dataItem = (title, content) =>{
-    return <div className='d-flex text-align-center mb-1'>
-      <p className='mb-0'>{title}:</p>
-      <h5 className='ms-1 ' >{content} </h5>
-    </div>
-  }
+  // const dataItem = (title, content) =>{
+  //   return <div className='d-flex text-align-center mb-1'>
+  //     <p className='mb-0'>{title}:</p>
+  //     <h5 className='ms-1 ' >{content} </h5>
+  //   </div>
+  // }
 
   const communityItem = (title, content) => {
     return <div className='d-flex align-items-start'>
@@ -190,89 +192,91 @@ const DappInfo = ({ productInfo, ...rest }) => {
     </div>
   }
 
-  const More = () => {
-    return <div>
-      <InformationHeader projectName={detail?.dAppName}/>
-      <div className='card-body pt-3'>
-        <div className='profile-blog'>
-          <div className='community-list'>
-            {detail?.balance > 0 && (
-              <div className='community-list-item'>
-                {dataItem('Balance', formatMoney(detail?.balance))}
-              </div>
-            )}
-            {detail?.totalUser > 0 && (
-              <div className='community-list-item'>
-                { dataItem('Total Users', detail?.totalUser)}
-              </div>
-            )}
-            {!_.isEmpty(detail?.chains) && (
-              <div className='community-list-item'>
-                <div className='d-flex text-align-center mb-2'>
-                  <p className='mb-0'>Chain:</p>
-                  <Avatar.Group className='ms-1'
-                    alt='Blockchains Logos'
-                    maxCount={4}
-                    size={20}
-                    maxStyle={{
-                      color: '#fff',
-                      backgroundColor: '#039F7F',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {detail?.chains && Object.keys(detail?.chains).map((keyChainName, index) => (
-                      <div key={index}>
-                        {keyChainName && (
-                          <Tooltip title={toCammelCase(keyChainName)} >
-                            <Avatar
-                              alt='Gear5'
-                              size={20}
-                              src={chainList[keyChainName]?.image}
-                              className='crypto-info-exchange'
-                            />
-                          </Tooltip>
-                        )}
-                      </div>
-                    ))}
-                  </Avatar.Group>
-                </div>
-              </div>
-            )}
-            {detail?.user24h > 0 && (
-              <div className='community-list-item'>
-                {dataItem('User 24h', formatLargeNumber(detail?.user24h)?.replace('$', ''))}
-              </div>
-            )}
-            {detail?.volume24h > 0 && (
-              <div className='community-list-item'>
-                {dataItem('Volume 24h', formatMoney(detail?.volume24h))}
-              </div>
-            )}
-            {detail?.socials && (
-              <div className='community-list-item'>
-                {communityItem('Social', detail?.socials)}
-              </div>
-            )}
+  const more = <div>
+    <InformationHeader projectName={detail?.dAppName}/>
+    <div className='card-body pt-3'>
+      <div className='profile-blog'>
+        <div className='community-list'>
+          <InformationSubTitle type={typeShort}/>
+          { (detail?.balance && detail?.balance !== 0)
+            ? <ShortItem
+              title={'Balance:'}
+              content={formatMoney(detail?.balance)} />
+            : ''
+          }
+          {(detail?.totalUser && detail?.totalUser !== 0)
+            ? <ShortItem
+              title={'Total Users:'}
+              content={detail?.totalUser} />
+            : ''
+          }
+          {(detail?.user24h && detail?.user24h !== 0) ? <ShortItem
+            title={'User 24h:'}
+            content={formatLargeNumber(detail?.user24h)?.replace('$', '')} />
+            : ''
+          }
 
-            {!_.isEmpty(detail?.sourceCode) && <div className='col-12'>
-              <Dropdown className='mt-1'>
-                <Dropdown.Toggle variant='primary' className=' btn btn-success light sharp'>
+          {(detail?.volume24h && detail?.volume24h !== 0) ? <ShortItem
+            title={'Volume 24h:'}
+            content={formatMoney(detail?.volume24h)} /> : ''}
+
+          <InformationSubTitle type={typeBlockchain}/>
+          {!_.isEmpty(detail?.chains) && <ShortItem
+            title={<>
+              <Avatar.Group className='ms-1'
+                alt='Blockchains Logos'
+                maxCount={4}
+                size={20}
+                maxStyle={{
+                  color: '#fff',
+                  backgroundColor: '#039F7F',
+                  cursor: 'pointer'
+                }}
+              >
+                {detail?.chains && Object.keys(detail?.chains).map((keyChainName, index) => (
+                  <div key={index}>
+                    {keyChainName && (
+                      <Tooltip title={toCammelCase(keyChainName)} >
+                        <Avatar
+                          alt='Gear5'
+                          size={20}
+                          src={chainList[keyChainName]?.image}
+                          className='crypto-info-exchange'
+                        />
+                      </Tooltip>
+                    )}
+                  </div>
+                ))}
+              </Avatar.Group>
+            </>}
+          />
+          }
+
+          <InformationSubTitle type={typeSocial}/>
+          {detail?.socials && (
+            <div className='community-list-item'>
+              {communityItem('Social', detail?.socials)}
+            </div>
+          )}
+
+          {!_.isEmpty(detail?.sourceCode) && <div className='col-12'>
+            <Dropdown className='mt-1'>
+              <Dropdown.Toggle variant='primary' className=' btn btn-success light sharp'>
                               Source Code
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {Object.keys(detail?.sourceCode)?.map((key, index) => key && <Dropdown.Item key={index} ><a href={detail?.sourceCode[key]}>{detail?.sourceCode[key]}</a></Dropdown.Item>)}
-                </Dropdown.Menu>
-              </Dropdown>
-              {/* <div className='d-flex text-align-center mb-1'>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {Object.keys(detail?.sourceCode)?.map((key, index) => key && <Dropdown.Item key={index} ><a href={detail?.sourceCode[key]}>{detail?.sourceCode[key]}</a></Dropdown.Item>)}
+              </Dropdown.Menu>
+            </Dropdown>
+            {/* <div className='d-flex text-align-center mb-1'>
               <p className='mb-0'>Source Code:</p>
               <h4 className='ms-1 mb-1'>{detail?.sourceCode} </h4>
                       </div> */}
-            </div>}
-          </div>
+          </div>}
         </div>
       </div>
     </div>
-  }
+  </div>
 
   // DAPP DESCRIPTION
   const about = <Description
@@ -302,7 +306,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
 
   return <DetailLayout Header={<Header />}
     summary={summary}
-    more={<More/>}
+    more={more}
     about={about}
     isScam={detail?.isScam}
     rest={rest}

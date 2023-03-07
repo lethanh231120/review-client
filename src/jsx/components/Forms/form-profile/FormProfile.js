@@ -90,7 +90,7 @@ const FormProfile = ({ userInfo }) => {
         Swal.fire({
           allowOutsideClick: false,
           icon: 'success',
-          title: 'Change profile successfully',
+          title: 'Update profile successfully',
           html: 'Your information has changed',
           showClass: {
             popup: 'animate__animated animate__fadeInDown'
@@ -186,7 +186,7 @@ const FormProfile = ({ userInfo }) => {
                 className='btn btn-primary'
                 disabled={isLoading || (_.isEmpty(fileList) && username === userInfo?.userName)}
               >
-                      Change
+                Update
               </button>
               {isLoading ? <>&nbsp;&nbsp; <Spin indicator={<LoadingOutlined spin />} size='large' /> </> : ''}
             </div>
