@@ -22,7 +22,7 @@ import { get } from '../../../../api/BaseRequest'
 import { encodeSpecialCharacterUrl } from '../../../../utils/formatText'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 
-const ModalReport = ({ isModal }) => {
+const ModalReport = ({ isModal, setOpenModalReport }) => {
   const signInContext = useContext(SignInContext)
   const reportModal = useContext(ReportModalContext)
   const addModal = useContext(AddModalContext)
@@ -451,6 +451,14 @@ const ModalReport = ({ isModal }) => {
           onClick={handleAddProject}
         >
           Add Project
+        </Button>
+        <Button
+          className='me-2 ml-2'
+          variant='danger'
+          style={{ marginLeft: '0.3rem', padding: '0.5rem' }}
+          onClick={() => setOpenModalReport(false)}
+        >
+          Cancle
         </Button>
       </div>
 

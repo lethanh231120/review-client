@@ -26,6 +26,8 @@ import '../../../../scss/base/cus-form.scss'
 import './formReport.scss'
 import Swal from 'sweetalert2'
 import _ from 'lodash'
+import imgshit from '../../common-widgets/home/reviews/shit-icon.svg'
+
 // toast message
 const notifyTopRight = (content) => {
   const Toast = Swal.mixin({
@@ -311,6 +313,9 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
                         <StarFilled className='star'/>
                       </span>
                        Scam, Fucking Run Away
+                      <img src={imgshit} alt='scam' style={{ width: '1.3rem' }}/>
+                      <img src={imgshit} alt='scam' style={{ width: '1.3rem' }}/>
+                      <img src={imgshit} alt='scam' style={{ width: '1.3rem' }}/>
                     </div>
                   </Option>
                   <Option value={2}>

@@ -221,7 +221,7 @@ const Markup = () => {
                     </Button>
                   </Modal.Header>
                   <Modal.Body className='cus-modal'>
-                    <ModalReport isModal={true}/>
+                    <ModalReport isModal={true} setOpenModalReport={setOpenModalReport}/>
                   </Modal.Body>
                 </Modal>
                 <Modal className='fade' show={openModalAdd} size='lg'>
