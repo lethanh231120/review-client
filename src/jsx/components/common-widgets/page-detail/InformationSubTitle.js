@@ -6,7 +6,7 @@ export const typeWebsite = 'language'
 export const typeTag = 'sell'
 export const typeLaunchpad = 'rocket_launch'
 export const typeContract = 'integration_instructions'
-export const typeAvailable = 'event_available'
+export const typeAvailable = 'check'
 export const typeExchange = 'currency_exchange'
 export const typeExplorer = 'travel_explore'
 
@@ -53,6 +53,7 @@ const InformationSubTitle = ({ type }) => {
   return <Link to={'#'} >
     <h4 className='d-flex align-items-center'>
       <i className='material-icons fs-20 text-primary'>{type}</i>
+      &nbsp;
       { title }
     </h4>
   </Link>
