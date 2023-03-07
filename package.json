@@ -15,7 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.1.7",
     "apexcharts": "^3.36.3",
-    "axios": "^1.2.0",
+    "axios": "^1.3.4",
     "chart.js": "^4.2.0",
     "framer-motion": "^8.0.2",
     "javascript-time-ago": "^2.5.9",
@@ -55,7 +55,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "sitemap": "babel-node ./sitemap-generator.js",
-    "predeploy": "npm run sitemap"
+    "predeploy": "npm run sitemap",
+    "gear5": "npm run build&&node server/index1.js"
   },
   "eslintConfig": {
     "extends": [
