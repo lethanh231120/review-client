@@ -9,28 +9,6 @@ import { WARNING_ICON } from '../../logo/logo'
 
 const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) => {
   const imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
-  // switch (type) {
-  //   case 'crypto':
-  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
-  //     break
-  //   case 'exchange':
-  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
-  //     break
-  //   case 'soon':
-  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
-  //     break
-  //   case 'dapp':
-  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
-  //     break
-  //   case 'launchpad':
-  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.launchpadId}.png`
-  //     break
-  //   case 'venture':
-  //     imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.ventureId}.png`
-  //     break
-  //   default:
-  //     break
-  // }
 
   return <>
     <div className='previews-info-list hot-coin-item' onClick={() => onItemClicked(type, detail, navigate)}>
