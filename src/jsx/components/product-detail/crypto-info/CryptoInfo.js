@@ -68,17 +68,23 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       if (!_.isEmpty(detail?.multichain)) {
         const newMultiChain = []
         detail?.multichain?.forEach((itemMulti) => {
-          const itemChain = chainList[itemMulti?.chainName]
-          if (itemChain) {
-            newMultiChain.push({
-              ...itemChain,
-              ...itemMulti
-            })
-            // main address to display
-            if (detail?.chainName === itemMulti?.chainName) {
-              setMainExplorer(
-                `${itemChain?.exploreWebsite}${itemChain?.path}${detail?.address}`
-              )
+          const parts = itemMulti?.split('_')
+          if (parts?.length === 4) {
+            const chainName = parts[2]
+            const itemChain = chainList[chainName]
+            if (itemChain) {
+              // add new address field to item chain
+              itemChain['address'] = parts[3]
+              newMultiChain.push({
+                ...itemChain,
+                ...itemMulti
+              })
+              // main address to display
+              if (detail?.chainName === itemMulti?.chainName) {
+                setMainExplorer(
+                  `${itemChain?.exploreWebsite}${itemChain?.path}${detail?.address}`
+                )
+              }
             }
           }
         })
@@ -397,7 +403,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const header = (
     <div className='profile-info'>
       <div className='profile-details'>
-        <ProductImage productId={detail?.bigLogo ? detail?.cryptoId : ''} productName={detail?.name} altImageType={altCrypto} />
+        <ProductImage productId={detail?.bigLogo ? detail?.cryptoId : null} productName={detail?.name} altImageType={altCrypto} />
         <ProductNameSubName
           projectName={projectNameSymbol}
           projectSubName={projectAddressType}
