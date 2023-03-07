@@ -477,7 +477,7 @@ const Crypto = ({
             ? 'descend'
             : 'ascend'
           : '',
-      render: (_, record) => <span>{record?.marketcapUSD ? <b className='text-primary'>{renderNumber(record?.marketcapUSD)}</b> : NO_DATA}</span>
+      render: (_, record) => <span>{record?.marketcapUSD ? <>{renderNumber(record?.marketcapUSD)}</> : NO_DATA}</span>
     },
     {
       title: (
