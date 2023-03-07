@@ -8,7 +8,7 @@ export const LaunchpadTableDetail = ({ launchpadId }) => {
   if (!_.isEmpty(launchpadMapContext) && launchpadId) {
     const dataLaunchpad = launchpadMapContext?.get(launchpadId)
     if (dataLaunchpad) {
-      return <a className='mb-0 btn-xs link-success' style={{ textDecoration: 'underline' }} href={dataLaunchpad?.website} target='_blank' rel='noreferrer'><img src={dataLaunchpad?.thumbLogo} height={24} width={24}/>&nbsp;{dataLaunchpad?.name}</a>
+      return <a className='mb-0 btn-xs link-success txt-link' href={dataLaunchpad?.website} target='_blank' rel='noreferrer'><img src={dataLaunchpad?.thumbLogo} height={24} width={24}/>&nbsp;{dataLaunchpad?.name}</a>
     }
   }
   return ''

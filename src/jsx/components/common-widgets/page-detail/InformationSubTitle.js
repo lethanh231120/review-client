@@ -61,7 +61,7 @@ const InformationSubTitle = ({ type }) => {
   }
 
   return <Link to={'#'} >
-    <h4 className='d-flex align-items-center'>
+    <h4 className='d-flex align-items-center' style={{ cursor: 'auto' }}>
       <i className='material-icons fs-20 text-primary'>{type}</i>
       &nbsp;
       { title }

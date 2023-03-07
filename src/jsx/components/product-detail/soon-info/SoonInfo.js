@@ -37,7 +37,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const itemDetail = productInfo?.details
   const itemTags = productInfo?.mores?.tag
   const itemRoundSales = productInfo?.mores?.roundSale
-  const itemProgressGoal = 20 // sold / goal * 100
+  const itemProgressGoal = (itemDetail?.fundRaisingGoals !== 0) ? itemDetail?.rasiedmoney / itemDetail?.fundRaisingGoals * 100 : 0
   const [top, setTop] = useState()
   const itemStatus = getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)
   const [openModalShare, setOpenModalShare] = useState(false)
@@ -103,6 +103,13 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     <div className='text-center'>
       <div className='row mb-3 mx-1'>
         <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
+          {itemDetail?.linkDetail
+            ? <div className='fs-18 mb-2'>Buy&nbsp;<a href={itemDetail?.linkDetail} target='_blank' rel='noreferrer' className='text-primary txt-link'><b>here</b></a>&nbsp;now</div>
+            : ''
+          }
+        </div>
+
+        <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
           <ProgressBarGoal progressGoal={itemProgressGoal}/>
         </div>
 
@@ -113,7 +120,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       </div>
       <div className='row'>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals / 5)} icon={iconSold} text={'Sold'} backgroundColor={bgYellow} />
+          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.rasiedmoney)} icon={iconSold} text={'Sold'} backgroundColor={bgYellow} />
         </div>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
           <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.tokenPrice)} icon={iconPayments} text={'Price'} backgroundColor={bgYellow}/>
