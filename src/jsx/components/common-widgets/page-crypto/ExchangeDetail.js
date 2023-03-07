@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { formatUrlDetailFromUrlImageExchange, getExchangeNameFromUrlImageExchage } from './../../../../utils/formatText'
 import InformationSubTitle from '../page-detail/InformationSubTitle'
 import { typeExchange } from './../page-detail/InformationSubTitle'
+import ShortItem from './../page-detail/ShortItem'
 
 export const ExchangeDetail = ({ coinName, exchangeList }) => {
   const navigate = useNavigate()
@@ -18,21 +19,31 @@ export const ExchangeDetail = ({ coinName, exchangeList }) => {
   return coinName && !_.isEmpty(exchangeList) ? <div className='crypto-info'>
     <div>
       <InformationSubTitle type={typeExchange}/>
-      <div className='row mt-3' style={{ marginLeft: '1.5rem' }}>
+      <div className=''>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ paddingLeft: '0' }}>
           <div
             className='form-check custom-checkbox mb-3 checkbox-success'
             style={{ padding: '0' }}
           >
             <>
-              {exchangeList?.map((itemImageUrl, index) => (
-                <>
-                  <span key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'inline-block' }} className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={(e) => { handleClickExchange(e, itemImageUrl) } }>
-                    <img src={itemImageUrl} height={24} width={24} alt='Exchange Logo'/>
-                      &nbsp;&nbsp;
-                    {getExchangeNameFromUrlImageExchage(itemImageUrl)}
-                  </span>
-                </>
+              {exchangeList?.map((itemImageUrl, index) => (<span key={index} style={{ margin: '0.3rem 0.3rem 0 0', display: 'inline-block' }}
+                className='mb-2'
+              >
+                <ShortItem
+                  title={<>
+                    {coinName} are existing on
+                    &nbsp;
+                    <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo'/>
+                      &nbsp;
+                    <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
+                      className='text-primary'
+                      style={{ textDecoration: 'underline' }}
+                    >
+                      {getExchangeNameFromUrlImageExchage(itemImageUrl)}
+                    </span>
+                  </>}
+                />
+              </span>
               ))}
             </>
           </div>

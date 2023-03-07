@@ -16,7 +16,7 @@ import { InfoTagDetail } from '../../common-widgets/page-soon/InfoTagDetail'
 import { InfoWebsiteDetail } from '../../common-widgets/page-soon/InfoWebsiteDetail'
 import { InfoLaunchpadDetail } from '../../common-widgets/page-soon/InfoLaunchpadDetail'
 import { InfoShortDetail } from './../../common-widgets/page-soon/InfoShortDetail'
-import { bgYellow, iconPayments, iconSold, iconSupply, SummaryDetail } from '../../common-widgets/page-detail/SummaryDetail'
+import { bgYellow, iconGoal, iconPayments, iconSold, iconSupply, SummaryDetail } from '../../common-widgets/page-detail/SummaryDetail'
 import { ButtonReportScam } from '../../common-widgets/page-detail/ButtonReportScam'
 import ButtonAddReview from '../../common-widgets/page-detail/ButtonAddReview'
 import { ProgressBarGoal } from '../../common-widgets/page-soon/ProgressBarGoal'
@@ -122,7 +122,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <SummaryDetail number={formatLargeNumber(itemDetail?.totalSupply)} icon={iconSupply} text={'Supply'} backgroundColor={bgYellow}/>
         </div>
         <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)} icon={iconSupply} text={txtGoal} backgroundColor={bgYellow}/>
+          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)} icon={iconGoal} text={txtGoal} backgroundColor={bgYellow}/>
         </div>
       </div>
       <div className='mt-4'>

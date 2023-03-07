@@ -20,6 +20,7 @@ import { txtAbsentTakeUpData } from '../../../constants/data'
 import { convertStringDDMMYYYYToUnix, formatDateStyle } from '../../../../utils/time/time'
 import { getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../../../utils/page-soon/status'
 import { TimeRelativeQuantificationList } from '../../common-widgets/page-soon/TimeRelativeQuantificationList'
+import { iconGoal } from './../../common-widgets/page-detail/SummaryDetail'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
@@ -161,7 +162,8 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             {
                               item?.fundRaisingGoals
                                 ? <p className='mb-0 fs-14 text-success text-center text-etc-overflow d-flex align-items-center justify-content-center'>
-                                  <i className='material-icons fs-18'>ads_click</i>
+                                  <i className='material-icons fs-18'>{iconGoal}</i>
+                                  &nbsp;
                                   {txtGoal}:&nbsp;{formatLargeNumberMoneyUSD(
                                     item?.fundRaisingGoals
                                   )}

@@ -1,12 +1,13 @@
 import React from 'react'
 import InformationSubTitle, { typeContract } from '../page-detail/InformationSubTitle'
 import { CloseCircleOutlined, CheckCircleOutlined, ApartmentOutlined } from '@ant-design/icons'
+import ShortItem from './../page-detail/ShortItem'
 
 const InfoContractDetail = ({ detail }) => {
   return <div className='crypto-info'>
     <div className=''>
       <InformationSubTitle type={typeContract}/>
-      <div className='row' style={{ marginLeft: '1.5rem' }}>
+      <div>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ paddingLeft: '0' }}>
           {
             detail?.contractVerified !== null ? <div className='col-xxl-12 col-12'>
@@ -14,35 +15,49 @@ const InfoContractDetail = ({ detail }) => {
                 className='form-check custom-checkbox mb-3 checkbox-success'
                 style={{ padding: '0', display: 'flex' }}
               >
-                { (detail?.contractVerified ? (
-                  <>
-                    <CheckCircleOutlined
-                      style={{
-                        color: 'green',
-                        display: 'flex',
-                        alignItems: 'center',
-                        paddingRight: '0.3rem'
-                      }}
-                    />
+                { (detail?.contractVerified ? (<ShortItem
+                  icon={
+                    <>
+                      <CheckCircleOutlined
+                        style={{
+                          color: 'green',
+                          display: 'flex',
+                          alignItems: 'center',
+                          paddingRight: '0.3rem'
+                        }}
+                      />
+                    </>
+                  }
+                  title={
                     <span>
                       {detail?.name} is a{' '}
                       <span className='text-primary'>verified contract</span>
                     </span>
-                  </>
+                  }
+                />
                 ) : (
                   <>
-                    <CloseCircleOutlined
-                      style={{
-                        color: 'red',
-                        display: 'flex',
-                        alignItems: 'center',
-                        paddingRight: '0.3rem'
-                      }}
+                    <ShortItem
+                      icon={
+                        <>
+                          <CloseCircleOutlined
+                            style={{
+                              color: 'red',
+                              display: 'flex',
+                              alignItems: 'center',
+                              paddingRight: '0.3rem'
+                            }}
+                          />
+                        </>
+                      }
+                      title={
+                        <span>
+                          {detail?.name} is not a{' '}
+                          <span className='text-danger'>verified contract</span>
+                        </span>
+                      }
                     />
-                    <span>
-                      {detail?.name} is not a{' '}
-                      <span className='text-danger'>verified contract</span>
-                    </span>
+
                   </>
                 ))}
               </div>
@@ -54,36 +69,46 @@ const InfoContractDetail = ({ detail }) => {
               className='form-check custom-checkbox mb-3 checkbox-success'
               style={{ padding: '0', display: 'flex' }}
             >
-              { (detail?.isProxy ? (
-                <>
-                  <ApartmentOutlined
-                    style={{
-                      color: 'red',
-                      display: 'flex',
-                      alignItems: 'center',
-                      paddingRight: '0.3rem'
-                    }}
-                  />
+              { (detail?.isProxy ? (<ShortItem
+                icon={
+                  <>
+                    <ApartmentOutlined
+                      style={{
+                        color: 'red',
+                        display: 'flex',
+                        alignItems: 'center',
+                        paddingRight: '0.3rem'
+                      }}
+                    />
+                  </>
+                }
+                title={
                   <span>
                     {detail?.name} is a{' '}
                     <span className='text-danger'>proxy contract</span>
                   </span>
-                </>
-              ) : (
-                <>
-                  <ApartmentOutlined
-                    style={{
-                      color: 'green',
-                      display: 'flex',
-                      alignItems: 'center',
-                      paddingRight: '0.3rem'
-                    }}
-                  />
+                }
+              />
+              ) : (<ShortItem
+                icon={
+                  <>
+                    <ApartmentOutlined
+                      style={{
+                        color: 'green',
+                        display: 'flex',
+                        alignItems: 'center',
+                        paddingRight: '0.3rem'
+                      }}
+                    />
+                  </>
+                }
+                title={
                   <span>
                     {detail?.name} is not a{' '}
                     <span className='text-primary'>proxy contract</span>
                   </span>
-                </>
+                }
+              />
               ))}
             </div>
           </div> : ''}
