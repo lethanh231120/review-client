@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Tooltip, Table } from 'antd'
+import { Table } from 'antd'
 import Description from '../description/Description'
 import { CopyOutlined } from '@ant-design/icons'
 import './crypto.scss'
@@ -7,7 +7,7 @@ import _ from 'lodash'
 import { CRYPTO, CRYPTO_COIN } from '../../../constants/category'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { ChainListContext, ExchangeContext } from '../../../../App'
-import { Badge, Button, Dropdown } from 'react-bootstrap'
+import { Badge, Button } from 'react-bootstrap'
 import { Image } from 'antd'
 import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { LinkOutlined } from '@ant-design/icons'
@@ -73,17 +73,23 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       if (!_.isEmpty(detail?.multichain)) {
         const newMultiChain = []
         detail?.multichain?.forEach((itemMulti) => {
-          const itemChain = chainList[itemMulti?.chainName]
-          if (itemChain) {
-            newMultiChain.push({
-              ...itemChain,
-              ...itemMulti
-            })
-            // main address to display
-            if (detail?.chainName === itemMulti?.chainName) {
-              setMainExplorer(
-                `${itemChain?.exploreWebsite}${itemChain?.path}${detail?.address}`
-              )
+          const parts = itemMulti?.split('_')
+          if (parts?.length === 4) {
+            const chainName = parts[2]
+            const itemChain = chainList[chainName]
+            if (itemChain) {
+              // add new address field to item chain
+              itemChain['address'] = parts[3]
+              newMultiChain.push({
+                ...itemChain,
+                ...itemMulti
+              })
+              // main address to display
+              if (detail?.chainName === itemMulti?.chainName) {
+                setMainExplorer(
+                  `${itemChain?.exploreWebsite}${itemChain?.path}${detail?.address}`
+                )
+              }
             }
           }
         })
@@ -395,14 +401,14 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       </p>
     )}
     {detail?.type && (
-      <Badge className='badge-sm' >{detail?.type}</Badge>
+      <Badge className='badge-sm' >{toCammelCase(detail?.type) }</Badge>
     )}
   </div>
 
   const header = (
     <div className='profile-info'>
       <div className='profile-details'>
-        <ProductImage productId={detail?.bigLogo ? detail?.cryptoId : ''} productName={detail?.name} altImageType={altCrypto} />
+        <ProductImage productId={detail?.bigLogo ? detail?.cryptoId : null} productName={detail?.name} altImageType={altCrypto} />
         <ProductNameSubName
           projectName={projectNameSymbol}
           projectSubName={projectAddressType}
@@ -536,157 +542,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
         <ExchangeDetail coinName={detail?.name} exchangeList={detail?.exchanges} />
 
-        {!showInfo && (
-          <>
-            <InfoExplorerDetail/>
-            <div
-              className='d-flex align-items-center'
-              style={{ flexWrap: 'wrap', marginLeft: '1.5rem' }}
-            >
-              {isShow?.community && (
-                <div
-                  className='basic-dropdown'
-                  style={{ marginRight: '10px', marginBottom: '10px' }}
-                >
-                  <Dropdown>
-                    <Dropdown.Toggle
-                      variant='primary'
-                      className='cus-dropdown-select btn btn-primary light sharp'
-                    >
-                        Community
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      {detail &&
-                          Object.keys(detail?.community).map(
-                            (key) => {
-                              return (
-                                <React.Fragment key={key}>
-                                  {detail?.community[key] !==
-                                    '' && (
-                                    <Dropdown.Item
-                                      href={
-                                        detail?.community[key]
-                                      }
-                                      key={key}
-                                      className='crypto-tag-item-list-children-contract cus-dropdown-item'
-                                      target='_blank'
-                                    >
-                                      {detail?.community[key] && (
-                                        <>
-                                          <span>
-                                            {
-                                              detail?.community[
-                                                key
-                                              ]?.split('/')[2]
-                                            }
-                                          </span>
-                                          <LinkOutlined />
-                                        </>
-                                      )}
-                                    </Dropdown.Item>
-                                  )}
-                                </React.Fragment>
-                              )
-                            }
-                          )}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
-              )}
-              {isShow?.sourceCode && (
-                <div
-                  className='basic-dropdown'
-                  style={{ marginRight: '10px', marginBottom: '10px' }}
-                >
-                  <Dropdown>
-                    <Dropdown.Toggle
-                      variant='primary'
-                      className='cus-dropdown-select btn btn-primary light sharp'
-                    >
-                        Source Code
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      {detail?.sourceCode &&
-                          Object.keys(detail?.sourceCode)?.map(
-                            (key) => {
-                              return (
-                                <React.Fragment key={key}>
-                                  {detail?.sourceCode[key] !==
-                                    '' && (
-                                    <Dropdown.Item
-                                      href={
-                                        detail?.sourceCode[key]
-                                      }
-                                      key={key}
-                                      className='crypto-tag-item-list-children-contract cus-dropdown-item'
-                                      target='_blank'
-                                    >
-                                      {detail?.sourceCode[
-                                        key
-                                      ] && (
-                                        <>
-                                          {key}
-                                          <LinkOutlined />
-                                        </>
-                                      )}
-                                    </Dropdown.Item>
-                                  )}
-                                </React.Fragment>
-                              )
-                            }
-                          )}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
-              )}
-              {multichain && (
-                <div
-                  className='basic-dropdown'
-                  style={{ marginRight: '10px', marginBottom: '10px' }}
-                >
-                  <Dropdown>
-                    <Dropdown.Toggle
-                      variant='primary'
-                      className='cus-dropdown-select btn btn-primary light sharp'
-                    >
-                        Contract
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu className='cus-dropdown-menu'>
-                      {multichain?.map((item, index) => (
-                        <Dropdown.Item
-                          href={`${item?.exploreWebsite}${item?.path}${item?.address}`}
-                          target='_blank'
-                          key={index}
-                          className='crypto-tag-item-list-children-contract'
-                        >
-                          <Image src={item?.image}
-                            // preview={false}
-                            alt='Website Logo'/>
-                          <Tooltip title={toCammelCase(item?.chainName)}>
-                            <span
-                              className='crypto-tag-item-list-children-contract-address product-name-text text-primary'
-                              style={{ cursor: 'pointer' }}
-                            >
-                              {item?.address}
-                            </span>
-                          </Tooltip>
-                          <CopyOutlined
-                            style={{ padding: '0, 1rem' }}
-                            onClick={(e) => {
-                              e.preventDefault()
-                              e.stopPropagation()
-                              copyContractAddress(e, item?.address)
-                            }}
-                          />
-                        </Dropdown.Item>
-                      ))}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
-              )}
-            </div>
-          </>
-        )}
+        {!showInfo && <InfoExplorerDetail isShow={isShow} detail={detail} multichain={multichain}/>
+        }
 
         <InfoTagDetail itemTags={productInfo?.mores?.tag} />
       </div>

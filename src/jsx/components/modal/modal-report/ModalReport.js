@@ -385,7 +385,6 @@ const ModalReport = ({ isModal }) => {
                         </h4>
                       </div>
                     </div>
-                    {/* <ProductImage productId={detail?.cryptoId} productName={detail?.name} altImageType={altCrypto} /> */}
                   </div>
                 </div>
                 <Description text={item?.description}/>

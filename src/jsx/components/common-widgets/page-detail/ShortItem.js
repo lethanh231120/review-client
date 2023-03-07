@@ -1,9 +1,11 @@
 import React from 'react'
 
-const ShortItem = ({ title, content }) => {
+const defaultIcon = <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
+
+const ShortItem = ({ title, content, icon = defaultIcon }) => {
   return <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem' }}>
     <div className='form-check custom-checkbox checkbox-success d-flex align-items-center' style={{ padding: '0' }}>
-      <i className='material-icons fs-18 text-primary'>keyboard_arrow_right</i>
+      {icon}
       {title}
     </div>
     <div style={{ marginLeft: '1.5rem' }}>

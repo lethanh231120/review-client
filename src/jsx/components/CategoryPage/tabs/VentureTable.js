@@ -10,6 +10,7 @@ import MyScoreComponent from '../../score/scoreComponent'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import { VENTURE } from './../../../constants/category'
 
 const VentureTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -136,7 +137,9 @@ const VentureTable = ({ loading, listData }) => {
       </span>
       ),
       dataIndex: 'score',
-      render: (_, record) => <MyScoreComponent score={record?.score} type='venture'/>
+      // sorter: (a, b) => a.score - b.score,
+      // showSorterTooltip: false,
+      render: (_, record) => <MyScoreComponent score={record?.score} type={VENTURE} />
     }
   ]
 

@@ -221,7 +221,7 @@ const Venture = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <MyScoreComponent score={record?.score} type='venture'/>)
+        <MyScoreComponent score={record?.score} type={VENTURE} />)
     }
   ]
 

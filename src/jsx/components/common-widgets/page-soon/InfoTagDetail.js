@@ -19,10 +19,10 @@ export const InfoTagDetail = ({ itemTags }) => {
         { Object.keys(itemTags)?.map((index) => (
           <div
             className='mb-0 btn btn-primary light btn-xs mb-2 me-1'
-            onClick={() => handleClickTag(itemTags[index]?.name)}
+            onClick={() => handleClickTag(itemTags[index])}
             key={index}
           >
-            {itemTags[index]?.name}
+            {itemTags[index]}
           </div>
         )) }
       </div>

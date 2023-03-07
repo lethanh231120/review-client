@@ -13,7 +13,7 @@ export const SoonStatusLocation = ({ status, detail }) => {
     </p>
     {detail?.countryOrigin &&
     <p style={{ display: 'flex' }}>
-      <i className='material-icons text-primary' style={{ fontSize: '0.9rem', display: 'flex', alignItems: 'center' }}>location_on</i>
+      <i className='material-icons text-primary' style={{ fontSize: '0.9rem', display: 'flex', alignItems: 'center', marginRight: '0.1rem' }}>location_on</i>
       {detail?.countryOrigin}
     </p>
     }
