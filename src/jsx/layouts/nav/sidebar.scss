@@ -126,7 +126,7 @@
                 display: inline-block;
                 font-size: 1rem;
                 color: #737b8b;
-                padding: 0.75rem 1.5rem !important;
+                padding: 0.75rem 1.5rem;
                 & i {
                     color: #96a0af;
                 }
@@ -668,7 +668,7 @@
         transition: all 0.5s;
     }
     .deznav {
-        padding-top: 0;
+        padding-top: 20px;
         left: -100%;
         & .deznav-scroll {
             height: calc( 100vh - 5rem);
