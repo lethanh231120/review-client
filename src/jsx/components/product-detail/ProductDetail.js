@@ -127,8 +127,6 @@ const ProductDetail = () => {
   // get data review by params filter
   useEffect(() => {
     if (defaultFilter?.productId) {
-      console.log(33333)
-      console.log(defaultFilter)
       const getReview = async() => {
         const listReviews = await get(`reviews/review`, defaultFilter)
         setDataReview(listReviews?.data !== null ? listReviews?.data : [])

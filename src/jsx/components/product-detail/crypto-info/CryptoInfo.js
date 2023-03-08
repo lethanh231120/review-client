@@ -309,6 +309,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           to={`../../../../../products/${record?.exchangeId?.split('_')[1]}/${
             record?.exchangeId?.split('_')[2]
           }`}
+          target={'_blank'}
           className='exchange-source'
         >
           {record?.exchangeId && record?.smallLogo ? (
@@ -339,9 +340,9 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       dataIndex: 'symbol',
       key: 'symbol',
       render: (_, record) => (
-        <Link to={`${record?.website}`} className='exchange-pair'>
+        <a href={`${record?.website}`} rel='noopener noreferrer' target='_blank' className='exchange-pair'>
           {record?.symbol}
-        </Link>
+        </a>
       )
     }
   ]
@@ -548,7 +549,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
         <InfoTagDetail itemTags={productInfo?.mores?.tag} />
         <p>
-          if you have any good or bad experience with
+          If you have any good or bad experience with
           <span className='text-primary'>
             {` ${detail?.name}`}
           </span>, please share with us in informing everyone
