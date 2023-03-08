@@ -38,20 +38,20 @@ const genDetailHeader = (res, productId = '') => {
   })
 }
 
-// crypto(coin)
+// detail: crypto(coin)
 app.get(`/products/crypto/coin/:coinName`, (req, res) => {
   const coinName = req?.params?.coinName
   genDetailHeader(res, coinName ? `coin_${coinName}` : '')
 })
 
-// crypto(coin)
+// detail: crypto(token)
 app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
   const chainName = req?.params?.chainName
   const tokenAddress = req?.params?.tokenAddress
   genDetailHeader(res, (chainName && tokenAddress) ? `token_${chainName}_${tokenAddress}` : '')
 })
 
-// dApp, venture, exchange, soon, launchpad
+// detail: dApp, venture, exchange, soon, launchpad
 app.get(`/products/:category/:productName`, (req, res) => {
   const category = req?.params?.category
   const productName = req?.params?.productName
@@ -66,11 +66,13 @@ app.get('/*', (req, res, next) => {
       console.error('Error during file reading', err)
       return res.status(404).end()
     }
+
+    // inject meta tags
     htmlData = htmlData.replace(
       '<title>React App</title>',
-      '<title>Gear5 - Don`t trust, verify</title>'
+      `<title>${`Gear5 - Don't trust, verify`}</title>`
     )
-      .replace('__META_OG_TITLE__', 'Gear5 - Don`t trust, verify')
+      .replace('__META_OG_TITLE__', `Gear5 - Don't trust, verify`)
       .replace('__META_OG_DESCRIPTION__', `Gear5 is a website that help you connect to the web3 world.`)
       .replace('__META_DESCRIPTION__', `Gear5 is a website that help you connect to the web3 world.`)
       .replace('__META_OG_IMAGE__', `%PUBLIC_URL%/logo.png`)
