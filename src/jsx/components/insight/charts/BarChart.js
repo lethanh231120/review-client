@@ -23,7 +23,7 @@ ChartJS.register(
   Legend
 )
 
-const Barchart = ({ dataSet }) => {
+const Barchart = ({ dataSet, height, width, isDetail }) => {
   const data = {
     defaultFontFamily: 'Poppins',
     labels: dataSet?.results?.map(item => item[0]),
@@ -59,22 +59,34 @@ const Barchart = ({ dataSet }) => {
     scales: {
       y:
           {
-            display: false,
+            display: isDetail,
             ticks: {
               beginAtZero: true
+
             },
             grid: {
               display: false
             }
+
           },
 
       x:
           {
-            display: false,
+            display: isDetail,
             // Change here
             barPercentage: 0.1,
             grid: {
-              display: false
+              display: isDetail
+            },
+            ticks: {
+              callback: function(value) {
+                const label = this.getLabelForValue(value)
+                if (moment(label)?.isValid()) {
+                  return moment(label)?.format('YYYY-MM-DD')
+                } else {
+                  return label
+                }
+              }
             }
           }
 
@@ -83,7 +95,7 @@ const Barchart = ({ dataSet }) => {
 
   return (
     <>
-      <Bar data={data} height={150} options={options} />
+      <Bar data={data} height={height} style={{ width: '100%' }} options={options} />
     </>
   )
 }
