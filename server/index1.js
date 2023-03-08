@@ -60,8 +60,14 @@ app.get(`/products/:category/:productName`, (req, res) => {
   genDetailHeader(res, (category && productName) ? `${category}_${productName}` : '')
 })
 
+// test active expressJs
+app.get(`/trieudd`, (req, res) => {
+  console.log(`trieudd`)
+})
+
 // here we serve the index.html page
 app.get('/*', (req, res, next) => {
+  console.log(`other`)
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
     if (err) {
       console.error('Error during file reading', err)
@@ -69,9 +75,9 @@ app.get('/*', (req, res, next) => {
     }
     htmlData = htmlData.replace(
       '<title>React App</title>',
-      `<title>Gear5 - Don't trust, verify</title>`
+      '<title>Gear5 - Don`t trust, verify</title>'
     )
-      .replace('__META_OG_TITLE__', `Gear5 - Don't trust, verify`)
+      .replace('__META_OG_TITLE__', 'Gear5 - Don`t trust, verify')
       .replace('__META_OG_DESCRIPTION__', `Gear5 is a website that help you connect to the web3 world.`)
       .replace('__META_DESCRIPTION__', `Gear5 is a website that help you connect to the web3 world.`)
       .replace('__META_OG_IMAGE__', `%PUBLIC_URL%/logo.png`)
