@@ -58,11 +58,6 @@ app.get(`/products/:category/:productName`, (req, res) => {
   genDetailHeader(res, (category && productName) ? `${category}_${productName}` : '')
 })
 
-// test active expressJs
-app.get(`/trieudd`, (req, res) => {
-  console.log(`trieudd`)
-})
-
 // here we serve the index.html page
 app.get('/*', (req, res, next) => {
   console.log(`other`)
