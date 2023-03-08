@@ -458,7 +458,7 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
           style={{ marginLeft: '0.3rem', padding: '0.5rem' }}
           onClick={() => setOpenModalReport(false)}
         >
-          Cancle
+          Cancel
         </Button>
       </div>
 

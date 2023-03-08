@@ -5,11 +5,28 @@ import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
 import { SOON, CRYPTO, VENTURE, LAUNCHPAD } from '../../constants/category'
 import logocolor from '../../../images/logo/gear5_logo_notext.png'
+import hands from '../../../images/svg/hands.svg'
+import rocket from '../../../images/svg/rocket.svg'
+import shit_review from '../../../images/svg/shit-review.svg'
 
 const dataReviewFounder = {
   acountImage: logocolor,
   accountName: 'Gear5 Founder',
-  content: 'We understand that the cryptocurrency market is a potential investment channel that brings great profits, but there are also many projects that are traps and scams, honey pot....  So if you have any good or bad experience, please share with us in informing everyone !'
+  content: <p className='cus-text-justify'>
+    <span>
+    We understand that the cryptocurrency market is a potential investment channel that brings great profits
+      <img src={rocket} alt='icon-rocket' style={{ marginLeft: '0.3rem' }}/>
+      <img src={rocket} alt='icon-rocket'/>
+      <img src={rocket} alt='icon-rocket' style={{ marginRight: '0.3rem' }}/>,
+      but there are also many projects that are traps and scams, honey pot
+      <img src={shit_review} alt='icon shit review' style={{ marginLeft: '0.3rem' }}/>
+      <img src={shit_review} alt='icon shit review'/>
+      <img src={shit_review} alt='icon shit review' style={{ marginRight: '0.3rem' }}/>....  So if you have any good or bad experience, please share with us in informing everyone !
+      <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem' }}/>
+      <img src={hands} alt='icon-hand'/>
+      <img src={hands} alt='icon-hand' style={{ marginRight: '0.3rem' }}/>
+    </span>
+  </p>
 }
 export const DetailLayout = (props) => {
   const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, similar, rest, setTop, productInfo } = props

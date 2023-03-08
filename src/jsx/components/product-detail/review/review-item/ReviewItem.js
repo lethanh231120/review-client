@@ -339,7 +339,9 @@ const ReviewItem = (props) => {
                 </>
               )}
               {type === 'founder' ? (
-                <p className='cus-text-justify' dangerouslySetInnerHTML={{ __html: data?.content }}></p>
+                <>
+                  {data?.content}
+                </>
               ) : (
                 <Description text={type === 'founder' ? data?.content : data?.review?.content}/>
               )}

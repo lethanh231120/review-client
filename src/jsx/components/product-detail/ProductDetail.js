@@ -225,6 +225,11 @@ const ProductDetail = () => {
   useEffect(() => {
     // get data reply, reaction
     const getDataReply = async() => {
+      setDefaultFilter({
+        productId: productId,
+        page: 1,
+        orderBy: 'createdDate'
+      })
       const dataReply = await get(`reviews/reply?productId=${productId}`)
       const dataReactions = await get(`reviews/reaction?productId=${productId}`)
       let groupByType
@@ -484,6 +489,7 @@ const ProductDetail = () => {
     }
     if (typeComment) {
       const recaptchaValue = recapcharRef.current.getValue()
+      console.log(recaptchaValue)
       if (recaptchaValue) {
         handleAddComment(params, 'anonymous')
       } else {
