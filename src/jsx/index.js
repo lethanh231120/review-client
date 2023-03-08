@@ -31,6 +31,7 @@ import { ServerError } from './components/server-error/ServerError'
 import InsightMain from './components/insight/InsightMain'
 import { TermOfService } from './components/term-of-service/TermOfService'
 import { CRYPTO, DAPP, EXCHANGE, VENTURE, SOON, LAUNCHPAD, INSIGHT } from './constants/category'
+import ChartDetail from './components/insight/chartDetail/ChartDetail'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -173,7 +174,9 @@ const Markup = () => {
                         />
                       </Route>
                     </Route>
-                    <Route path='insight' element={<InsightMain />}>
+                    <Route path='insight' >
+                      <Route path='' element={<InsightMain />}/>
+                      <Route path=':id' element={<ChartDetail />}/>
                     </Route>
                     <Route path='products'>
                       <Route path='crypto'>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Bar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -9,6 +9,8 @@ import {
   Tooltip,
   Legend
 } from 'chart.js'
+import { chartColorPallet } from './PieChart'
+import moment from 'moment/moment'
 // import { Bar } from 'react-chartjs-2';
 // import faker from 'faker';
 
@@ -21,60 +23,81 @@ ChartJS.register(
   Legend
 )
 
-class Barchart extends Component {
-  render() {
-    const data = {
-      defaultFontFamily: 'Poppins',
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-      datasets: [
-        {
-          label: 'My First dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          borderColor: 'rgba(149, 105, 255, 1)',
-          borderWidth: '0',
-          backgroundColor: 'rgba(149, 105, 255, 1)',
-          barThickness: 40
+const Barchart = ({ dataSet, height, width, isDetail }) => {
+  const data = {
+    defaultFontFamily: 'Poppins',
+    labels: dataSet?.results?.map(item => item[0]),
+    datasets: [
+      {
+        data: dataSet?.results?.map(item => item[1]),
+        borderColor: 'rgba(149, 105, 255, 1)',
+        borderWidth: '0',
+        backgroundColor: chartColorPallet,
+        barThickness: 20
 
+      }
+    ]
+  }
+
+  const options = {
+    plugins: {
+      legend: false,
+      tooltip: {
+        callbacks: {
+          title: (xDatapoint) => {
+            // console.log(xDatapoint)
+            const label = xDatapoint[0]?.label
+            if (moment(label)?.isValid()) {
+              return moment(label)?.format('YYYY-MM-DD')
+            } else {
+              return label
+            }
+          }
         }
-      ]
-    }
-
-    const options = {
-      plugins: {
-        legend: false
-
-      },
-      scales: {
-        y:
+      }
+    },
+    scales: {
+      y:
           {
-            display: false,
+            display: isDetail,
             ticks: {
               beginAtZero: true
+
             },
             grid: {
               display: false
             }
+
           },
 
-        x:
+      x:
           {
-            display: false,
+            display: isDetail,
             // Change here
             barPercentage: 0.1,
             grid: {
-              display: false
+              display: isDetail
+            },
+            ticks: {
+              callback: function(value) {
+                const label = this.getLabelForValue(value)
+                if (moment(label)?.isValid()) {
+                  return moment(label)?.format('YYYY-MM-DD')
+                } else {
+                  return label
+                }
+              }
             }
           }
 
-      }
     }
-
-    return (
-      <>
-        <Bar data={data} height={150} options={options} />
-      </>
-    )
   }
+
+  return (
+    <>
+      <Bar data={data} height={height} style={{ width: '100%' }} options={options} />
+    </>
+  )
 }
 
 export default Barchart
