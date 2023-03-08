@@ -101,8 +101,9 @@ const ProductDetail = () => {
     }
     setProductId(id)
     setDefaultFilter({
-      ...defaultFilter,
-      productId: id
+      productId: undefined,
+      page: 1,
+      orderBy: 'createdDate'
     })
   }, [type, productName, path, categoryName])
 
@@ -126,6 +127,8 @@ const ProductDetail = () => {
   // get data review by params filter
   useEffect(() => {
     if (defaultFilter?.productId) {
+      console.log(33333)
+      console.log(defaultFilter)
       const getReview = async() => {
         const listReviews = await get(`reviews/review`, defaultFilter)
         setDataReview(listReviews?.data !== null ? listReviews?.data : [])
