@@ -20,11 +20,9 @@ const genDetailHeader = (res, productId = '') => {
       return res.status(404).end()
     }
 
-    console.log(`1===productId`, productId)
     if (productId) {
       axios.get(`https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`).then((resp) =>{
         const data = resp?.data?.data?.details
-        console.log(`2===data`, data?.name)
         // inject meta tags
         htmlData = htmlData.replace(
           '<title>React App</title>',
