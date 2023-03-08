@@ -81,7 +81,7 @@ const App = () => {
 
   const getHotList = async() => {
     const res = await get('reviews/hot')
-    if (res?.code === '200') {
+    if (res?.status) {
       if (res?.data?.products && !_.isEmpty(res?.data?.products)) {
         const list = res?.data?.products
         const sorted = list?.sort((a, b) => parseInt(a?.totalReviews) - parseInt(b?.totalReviews))
@@ -120,7 +120,7 @@ const App = () => {
   // GET SUMMARY DATA
   const getSummaryDataHome = async() => {
     const response = await get('reviews/summary')
-    if (response?.code === '200') {
+    if (response?.status) {
       setSummaryHome(response?.data)
     }
   }
