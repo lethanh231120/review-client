@@ -97,17 +97,17 @@ const ModalAdd = ({ isModal }) => {
     })
   }
 
-  const sendData = async(data) => {
+  const sendData = async(data, recaptchaValue) => {
     try {
       let res
       if (category === CRYPTO) {
-        res = await post('reviews/crypto/upload', data)
+        res = await post('reviews/crypto/upload', data, { ReCaptchaResponse: recaptchaValue })
       }
       if (category === EXCHANGE) {
-        res = await post('reviews/exchange/upload', data)
+        res = await post('reviews/exchange/upload', data, { ReCaptchaResponse: recaptchaValue })
       }
       if (category === DAPP) {
-        res = await post('reviews/dapp/upload', data)
+        res = await post('reviews/dapp/upload', data, { ReCaptchaResponse: recaptchaValue })
       }
       if (res?.status) {
         Swal.fire({
@@ -203,7 +203,7 @@ const ModalAdd = ({ isModal }) => {
             }
           }
         }
-        sendData(body)
+        sendData(body, recaptchaValue)
       } else {
         setIsRecaptcha(true)
       }

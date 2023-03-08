@@ -30,9 +30,12 @@ const setHeaderRead = async() => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
   instanceRead.defaults.headers.common[authorizationText] = `${bearerText} ${token}`
 }
-const setHeaderWrite = async() => {
+const setHeaderWrite = async(header) => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
   instanceWrite.defaults.headers.common[authorizationText] = `${bearerText} ${token}`
+  if (header?.ReCaptchaResponse) {
+    instanceWrite.defaults.headers.common['ReCaptchaResponse'] = `${header?.ReCaptchaResponse}`
+  }
 }
 
 const search = async(url, params = {}) => {
@@ -56,6 +59,7 @@ const get = async(url, params = {}) => {
     return _errorHandler(error)
   }
 }
+
 const getPrice = async(url, params = {}) => {
   try {
     const config = { params: params }
@@ -96,9 +100,9 @@ const put = async(url, data = {}) => {
   }
 }
 
-const post = async(url, data = {}) => {
+const post = async(url, data = {}, header) => {
   try {
-    await setHeaderWrite()
+    await setHeaderWrite(header)
     const response = await instanceWrite.post(getUrlPrefix() + url, data)
     return _responseHandler(response)
   } catch (error) {

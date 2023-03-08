@@ -19,6 +19,7 @@ import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
 import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
 import share from '../../../../images/svg/share.svg'
+import hands from '../../../../images/svg/hands.svg'
 
 const ExchangeInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -267,6 +268,32 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                 </Dropdown.Menu>
               </Dropdown>
             </div>}
+
+            <p>
+          if you have any good or bad experience with
+              <span className='text-primary'>
+                {` ${detail?.name}`}
+              </span>, please share with us in informing everyone
+              <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem', width: '1.1rem' }}/>
+              <img src={hands} alt='icon-hand' style={{ width: '1.1rem' }}/>
+              <img src={hands} alt='icon-hand' style={{ marginRight: '0.3rem', width: '1.1rem' }}/>
+              <span
+                onClick={() => {
+                  rest?.setData({ ...rest.data, isScam: false })
+                  rest?.form.setFieldsValue({
+                    isScam: false,
+                    star: undefined,
+                    sources: []
+                  })
+                  window.scrollTo(0, top)
+                }}
+                className='text-primary txt-link'
+                style={{ marginLeft: '0.5rem' }}
+
+              >
+            Review Now
+              </span>
+            </p>
           </div>
         </div>
       </div>

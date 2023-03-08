@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { post } from '../../../../api/BaseRequest'
 import Swal from 'sweetalert2'
@@ -6,6 +6,7 @@ import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
 import { SignInContext } from '../../../../App'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 export const txtEnterEmail = 'Enter your e-mail address'
 export const txtEnterPassword = 'Enter your password'
@@ -22,7 +23,9 @@ export const SignUpComponent = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isShowPassword, setIsShowPassword] = useState(false)
   const [isShowRePassword, setIsReShowPassword] = useState(false)
+  const [isRecaptcha, setIsRecaptcha] = useState(false)
 
+  const recapcharRef = useRef(null)
   const onSignUp = async(e) => {
     e.preventDefault()
     let error = false
@@ -54,20 +57,43 @@ export const SignUpComponent = () => {
 
     setErrors(errorObj)
     if (error) return
-
-    try {
-      const dataSignin = {
-        email: email,
-        password: password
-      }
-      setIsLoading(true)
-      const resp = await post('reviews/auth/signup/normal', dataSignin)
-      if (resp?.status) {
+    const recaptchaValue = recapcharRef.current.getValue()
+    if (!recaptchaValue) {
+      setIsRecaptcha(true)
+    } else {
+      try {
+        const dataSignin = {
+          email: email,
+          password: password
+        }
+        setIsLoading(true)
+        const resp = await post('reviews/auth/signup/normal', dataSignin, { ReCaptchaResponse: recaptchaValue })
+        if (resp?.status) {
+          Swal.fire({
+            allowOutsideClick: false,
+            icon: 'success',
+            title: 'Resgister successfully',
+            html: 'Please check email to activate your account',
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+            },
+            backdrop: `rgba(4,148,114,0.4)`
+          }).then((result) => {
+            // click out modal notification, or click [OK] in modal
+            if (result?.isDismissed || result?.isConfirmed) {
+              signContext?.handleSetOpenModal(false)
+            }
+          })
+        }
+      } catch (e) {
         Swal.fire({
           allowOutsideClick: false,
-          icon: 'success',
-          title: 'Resgister successfully',
-          html: 'Please check email to activate your account',
+          icon: 'error',
+          title: 'Resgister failed',
+          html: e?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later',
           showClass: {
             popup: 'animate__animated animate__fadeInDown'
           },
@@ -75,33 +101,19 @@ export const SignUpComponent = () => {
             popup: 'animate__animated animate__fadeOutUp'
           },
           backdrop: `rgba(4,148,114,0.4)`
-        }).then((result) => {
-          // click out modal notification, or click [OK] in modal
-          if (result?.isDismissed || result?.isConfirmed) {
-            signContext?.handleSetOpenModal(false)
-          }
         })
+        console.error(e)
+      } finally {
+        setIsLoading(false)
       }
-    } catch (e) {
-      Swal.fire({
-        allowOutsideClick: false,
-        icon: 'error',
-        title: 'Resgister failed',
-        html: e?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        backdrop: `rgba(4,148,114,0.4)`
-      })
-      console.error(e)
-    } finally {
-      setIsLoading(false)
     }
   }
 
+  const handleChangeRecapchar = (value) => {
+    if (value) {
+      setIsRecaptcha(false)
+    }
+  }
   return <div className='login-form style-2'>
     <div className='card-body'>
       <nav className='nav nav-tabs border-bottom-0'>
@@ -198,6 +210,7 @@ export const SignUpComponent = () => {
                             I agree to the
                   </label>
                 </span>
+
                 <label>
                   <Link to={'/terms-of-service'} onClick={() => {
                     signContext?.handleSetOpenModal(false) // close form sign-in, sign-up
@@ -207,6 +220,20 @@ export const SignUpComponent = () => {
                   }}>Privacy Policy</Link>
                 </label>
 
+                <div
+                  style={{
+                    background: isRecaptcha ? 'red' : '',
+                    border: `0.1px solid ${isRecaptcha ? 'red' : 'rgba(0, 0, 0, 0.01'}`,
+                    width: '303px',
+                    marginTop: '1.6rem'
+                  }}
+                >
+                  <ReCAPTCHA
+                    ref={recapcharRef}
+                    onChange={handleChangeRecapchar}
+                    sitekey='6Lcab8wjAAAAAEeXUCE7iFIga2fynoCIZn4W8Q-l'
+                  />
+                </div>
               </div>
               <button
                 type='submit'

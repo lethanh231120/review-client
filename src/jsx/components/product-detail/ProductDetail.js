@@ -418,15 +418,15 @@ const ProductDetail = () => {
     })
   }
 
-  const handleAddComment = async(params, type) => {
+  const handleAddComment = async(params, type, header) => {
     let dataAdd
     if (type === 'anonymous') {
-      dataAdd = await post('reviews/review/anonymous', params)
+      dataAdd = await post('reviews/review/anonymous', params, { ReCaptchaResponse: header })
     } else {
-      dataAdd = await post('reviews/review', params)
+      dataAdd = await post('reviews/review', params, { ReCaptchaResponse: header })
     }
     if (dataAdd) {
-      if (dataAdd?.code === 'B.REVIEW.0') {
+      if (dataAdd?.code === 'B.CODE.12') {
         const newReview = {
           ...dataAdd?.data,
           accountType: type === 'auth' ? userInfo?.accountType : '',
@@ -491,7 +491,7 @@ const ProductDetail = () => {
       const recaptchaValue = recapcharRef.current.getValue()
       console.log(recaptchaValue)
       if (recaptchaValue) {
-        handleAddComment(params, 'anonymous')
+        handleAddComment(params, 'anonymous', recaptchaValue)
       } else {
         setIsRecaptcha(true)
       }
@@ -499,7 +499,7 @@ const ProductDetail = () => {
       if (auth?.isAuthenticated) {
         const recaptchaValue = recapcharRef.current.getValue()
         if (recaptchaValue) {
-          handleAddComment(params, 'auth')
+          handleAddComment(params, 'auth', recaptchaValue)
         } else {
           setIsRecaptcha(true)
         }
