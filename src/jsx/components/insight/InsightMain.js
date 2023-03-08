@@ -14,7 +14,7 @@ const InsightMain = () => {
   useEffect(() =>{
     const getInsightChart = async() => {
       const res = await get('reviews/chart')
-      if (res?.code === '200' || res?.code === 200) {
+      if (res?.code === 'B.CODE.200') {
         setData(res?.data)
         setLoading(false)
       }
@@ -51,7 +51,7 @@ const InsightMain = () => {
 
   return loading ? <MySkeletonLoadinng count={4} height={100}/>
     : <>
-      <h3 style={{ marginBottom: '20px' }}>Gear5 Data Insights</h3>
+      {/* <h3 style={{ marginBottom: '20px' }}>Gear5 Data Insights</h3> */}
       <Row >
         {data && Object.keys(data)?.map(key => chartSection(data[key], key))}
       </Row>

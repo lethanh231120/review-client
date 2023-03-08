@@ -13,7 +13,7 @@ const ChartDetail = () => {
   useEffect(() => {
     const getChartById = async() => {
       const res = await get(`reviews/chart/detail?id=${id}`)
-      if (res?.code === '200' || res?.code === 200) {
+      if (res?.code === 'B.CODE.200') {
         setChartData(res?.data)
       }
     }
