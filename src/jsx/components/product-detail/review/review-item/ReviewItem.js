@@ -16,6 +16,7 @@ import { reactions, reactionImg } from '../../../../constants/reaction'
 import { timeAgoConvert } from '../../../common-widgets/home/click-function'
 import { formatLargeNumberMoneyUSD } from '../../../../../utils/formatNumber'
 import imgshit from '../../../common-widgets/home/reviews/shit-icon.svg'
+import Swal from 'sweetalert2'
 
 const ReviewItem = (props) => {
   const { data, productId, index, reviews, setReviews, setCurrentReview, curentReview, type } = props
@@ -106,44 +107,56 @@ const ReviewItem = (props) => {
   }
 
   const functionAddReply = async(params) => {
-    let newDataReply
-    const dataAdd = await post('reviews/reply', params)
-    if (dataAdd) {
-      const dataReply = {
-        ...dataAdd?.data,
-        accountType: userInfo?.accountType,
-        email: userInfo?.email,
-        acountImage: userInfo?.image,
-        role: userInfo?.role,
-        userName: userInfo?.userName
-      }
-      if (_.isEmpty(data?.replies)) {
-        newDataReply = [{
-          reply: dataReply,
-          reactions: []
-        }]
-      } else {
-        newDataReply = [
-          {
+    try {
+      let newDataReply
+      const dataAdd = await post('reviews/reply', params)
+      if (dataAdd) {
+        const dataReply = {
+          ...dataAdd?.data,
+          accountType: userInfo?.accountType,
+          email: userInfo?.email,
+          acountImage: userInfo?.image,
+          role: userInfo?.role,
+          userName: userInfo?.userName
+        }
+        if (_.isEmpty(data?.replies)) {
+          newDataReply = [{
             reply: dataReply,
             reactions: []
-          },
-          ...data.replies
-        ]
+          }]
+        } else {
+          newDataReply = [
+            {
+              reply: dataReply,
+              reactions: []
+            },
+            ...data.replies
+          ]
+        }
+        form.resetFields()
+        setCurrentReview({
+          isCollapse: false,
+          reviewId: data?.review?.id
+        })
+        const currentReviews = [...reviews]
+        currentReviews[index] = {
+          ...currentReviews[index],
+          replies: newDataReply
+        }
+        setReviews(currentReviews)
+        setValidateTextArea(false)
+        setComment('')
       }
-      form.resetFields()
-      setCurrentReview({
-        isCollapse: false,
-        reviewId: data?.review?.id
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Review does not exist, has been hidden by Gear5 Admin!'
       })
-      const currentReviews = [...reviews]
-      currentReviews[index] = {
-        ...currentReviews[index],
-        replies: newDataReply
-      }
-      setReviews(currentReviews)
-      setValidateTextArea(false)
-      setComment('')
+
+      const newReviews = [...reviews]
+      const indexReviewHide = newReviews?.findIndex((itemReview) => itemReview?.review?.id === params?.reviewId)
+      newReviews?.splice(indexReviewHide, 1)
+      setReviews(newReviews)
     }
   }
 
@@ -200,31 +213,43 @@ const ReviewItem = (props) => {
             reactionType: value,
             productId: productId
           }
-          const dataUpdate = await patch('reviews/reaction', body)
-          if (dataUpdate) {
-            const newListReview = [...reviews]
-            const indexOfCurrentReaction = data?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
-            if (indexOfCurrentReaction !== -1) {
-              // update reactionType for current reaction
-              const currentReactionAfterUpdate = {
-                // newListReview[index] is current repview
-                // newListReview[index].reaction[indexOfCurrentReaction] is current raction in current review
-                ...data?.reactions[indexOfCurrentReaction],
-                reactionType: body?.reactionType
-              }
+          try {
+            const dataUpdate = await patch('reviews/reaction', body)
+            if (dataUpdate) {
+              const newListReview = [...reviews]
+              const indexOfCurrentReaction = data?.reactions?.findIndex((itemReaction) => itemReaction?.accountId === userInfo?.id)
+              if (indexOfCurrentReaction !== -1) {
+                // update reactionType for current reaction
+                const currentReactionAfterUpdate = {
+                  // newListReview[index] is current repview
+                  // newListReview[index].reaction[indexOfCurrentReaction] is current raction in current review
+                  ...data?.reactions[indexOfCurrentReaction],
+                  reactionType: body?.reactionType
+                }
 
-              // clone list reaction in current review
-              const reactionAfterUpdate = [...newListReview[index].reactions]
-              // update list reaction in current review
-              reactionAfterUpdate[indexOfCurrentReaction] = currentReactionAfterUpdate
+                // clone list reaction in current review
+                const reactionAfterUpdate = [...newListReview[index].reactions]
+                // update list reaction in current review
+                reactionAfterUpdate[indexOfCurrentReaction] = currentReactionAfterUpdate
 
-              // update data of current review
-              newListReview[index] = {
-                ...newListReview[index],
-                reactions: reactionAfterUpdate
+                // update data of current review
+                newListReview[index] = {
+                  ...newListReview[index],
+                  reactions: reactionAfterUpdate
+                }
+                setReviews(newListReview)
               }
-              setReviews(newListReview)
             }
+          } catch (error) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Review does not exist, has been hidden by Gear5 Admin!'
+            })
+
+            const newReviews = [...reviews]
+            const indexReviewHide = newReviews?.findIndex((itemReview) => itemReview?.review?.id === 'f15ee224-35be-4a79-a4ab-f77abe971310')
+            newReviews?.splice(indexReviewHide, 1)
+            setReviews(newReviews)
           }
         }
       } else {
@@ -234,20 +259,32 @@ const ReviewItem = (props) => {
           reactionType: value,
           productId: productId
         }
-        const dataAddReact = await post('reviews/reaction', body)
-        if (dataAddReact) {
+        try {
+          const dataAddReact = await post('reviews/reaction', body)
+          if (dataAddReact) {
           // clone new list reply
-          const newListReview = [...reviews]
-          // update data of current reply
-          newListReview[index] = {
-            ...newListReview[index],
-            reactions: [dataAddReact?.data]
+            const newListReview = [...reviews]
+            // update data of current reply
+            newListReview[index] = {
+              ...newListReview[index],
+              reactions: [dataAddReact?.data]
+            }
+            setReviews(newListReview)
+            setNewData({
+              ...newData,
+              isReaction: true
+            })
           }
-          setReviews(newListReview)
-          setNewData({
-            ...newData,
-            isReaction: true
+        } catch (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Review does not exist, has been hidden by Gear5 Admin!'
           })
+
+          const newReviews = [...reviews]
+          const indexReviewHide = newReviews?.findIndex((itemReview) => itemReview?.review?.id === 'f15ee224-35be-4a79-a4ab-f77abe971310')
+          newReviews?.splice(indexReviewHide, 1)
+          setReviews(newReviews)
         }
       }
     } else {

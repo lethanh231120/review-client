@@ -266,9 +266,9 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
     }
     if (dataAdd) {
       Swal.fire({
-        icon: dataAdd?.code === 'B.REVIEW.0' ? 'success' : 'warning',
-        title: dataAdd?.code === 'B.REVIEW.0' ? 'Add report successfully!' : 'We will hide reviews with Shill, Ads, Porn.... content !',
-        text: dataAdd?.code === 'B.REVIEW.1' ? `With your review, we will review it directly by the admin team. Enjoy Gear5.io, Thank You !` : '',
+        icon: dataAdd?.code === 'B.CODE.12' ? 'success' : 'warning',
+        title: dataAdd?.code === 'B.CODE.12' ? 'Add report successfully!' : 'We will hide reviews with Shill, Ads, Porn.... content !',
+        text: dataAdd?.code === 'B.REVIEW.13' ? `With your review, we will review it directly by the admin team. Enjoy Gear5.io, Thank You !` : '',
         showDenyButton: true,
         confirmButtonText: 'Add New Report',
         denyButtonText: `View Detail`
@@ -348,7 +348,6 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
     reportModal?.handleSetOpenModal(false)
   }
 
-  console.log(loading)
   return (
     <>
       <InputSearch
