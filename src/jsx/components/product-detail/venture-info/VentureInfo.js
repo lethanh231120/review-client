@@ -236,7 +236,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
             )}
 
             <p>
-          if you have any good or bad experience with
+          If you have any good or bad experience with
               <span className='text-primary'>
                 {` ${detail?.ventureName}`}
               </span>, please share with us in informing everyone

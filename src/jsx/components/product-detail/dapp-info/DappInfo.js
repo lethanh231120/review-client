@@ -275,7 +275,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
                       </div> */}
           </div>}
           <p>
-          if you have any good or bad experience with
+          If you have any good or bad experience with
             <span className='text-primary'>
               {` ${detail?.dAppName}`}
             </span>, please share with us in informing everyone
