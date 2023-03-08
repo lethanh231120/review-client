@@ -5,7 +5,7 @@ import _ from 'lodash'
 Chart.register(ArcElement)
 
 export const chartColorPallet = ['#76c68f', '#a6d75b', '#22a7f0', '#115f9a', '#48b5c4', '#1984c5', '#c9e52f', '#d0ee11', '#d0f400']
-const PieChart = ({ dataSet }) => {
+const PieChart = ({ dataSet, height, width, isDetail }) => {
   const data = {
     labels: dataSet?.results?.map(item => item[0]),
     datasets: [
@@ -20,7 +20,15 @@ const PieChart = ({ dataSet }) => {
   }
   const options = {
     plugins: {
-      legend: false,
+      legend: {
+        display: isDetail,
+        position: 'bottom',
+        align: ' center',
+        labels: {
+          boxWidth: 20,
+          padding: 15
+        }
+      },
       responsive: true,
       tooltip: {
         callbacks: {
@@ -36,7 +44,7 @@ const PieChart = ({ dataSet }) => {
   }
 
   return (
-    <Pie data={data} height={ 200} options={options} />
+    <Pie data={data} height={ height} width={width} options={options} />
   )
 }
 

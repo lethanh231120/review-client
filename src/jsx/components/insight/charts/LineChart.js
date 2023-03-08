@@ -3,7 +3,7 @@ import { Line } from 'react-chartjs-2'
 
 import 'chart.js/auto'
 
-const LineChart = ({ dataSet })=> {
+const LineChart = ({ dataSet, height })=> {
   const data = {
     defaultFontFamily: 'Poppins',
     labels: dataSet?.results?.map(item => item[0]),
@@ -59,7 +59,7 @@ const LineChart = ({ dataSet })=> {
       <Line
         data={data}
         options={options}
-        height={this.props.height ? this.props.height : 150}
+        height={height}
       />
     </>
   )
