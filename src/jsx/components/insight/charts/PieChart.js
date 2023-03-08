@@ -4,7 +4,7 @@ import { Chart, ArcElement } from 'chart.js'
 import _ from 'lodash'
 Chart.register(ArcElement)
 
-export const chartColorPallet = ['#76c68f', '#a6d75b', '#22a7f0', '#115f9a', '#48b5c4', '#1984c5', '#c9e52f', '#d0ee11', '#d0f400']
+export const chartColorPallet = ['#18A594', '#a6d75b', '#22a7f0', '#115f9a', '#48b5c4', '#1984c5', '#c9e52f', '#d0ee11', '#d0f400']
 const PieChart = ({ dataSet, height, width, isDetail }) => {
   const data = {
     labels: dataSet?.results?.map(item => item[0]),
@@ -23,7 +23,7 @@ const PieChart = ({ dataSet, height, width, isDetail }) => {
       legend: {
         display: isDetail,
         position: 'bottom',
-        align: ' center',
+        align: 'center',
         labels: {
           boxWidth: 20,
           padding: 15

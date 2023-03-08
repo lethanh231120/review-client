@@ -6,6 +6,7 @@ import NoImage from '../../no-image/NoImage'
 
 import './top-discussed.scss'
 import { WARNING_ICON } from '../../logo/logo'
+import _ from 'lodash'
 
 const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) => {
   const imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
@@ -18,9 +19,9 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
         </span>
         <div className='ms-2'>
           <h6 className='text-etc-overflow cus-hot-coin-name'>{name}
-            {/* {type === 'crypto' ? ` (${symbol})` : null} */}
+            {type === 'crypto' ? ` (${symbol})` : null}
           </h6>
-          <span><Badge className='badge-sm'>{type}</Badge></span>
+          <span><Badge className='badge-sm'>{_.capitalize(type)}</Badge></span>
         </div>
       </div>
       <div>

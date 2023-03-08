@@ -60,20 +60,6 @@ export const TopCoins = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // useEffect(() => {
-  //   const getTopCoins = async() => {
-  //     const res = await getPrice('prices/crypto/top')
-  //     if (res?.code === 'B.200') {
-  //       const dataList = res?.data?.slice(0, 5)
-  //       setTopCoins(dataList)
-  //     }
-  //   }
-
-  //   setInterval(() => {
-  //     getTopCoins()
-  //   }, 1000)
-  // }, [])
-
   const onTopCoinsClicked = (item) => {
     const type = item?.cryptoId?.split('_')[1]
     const name = item?.cryptoId?.split('_')[2]
@@ -109,9 +95,9 @@ export const TopCoins = () => {
                 </div>
               </div>
               <div className='count top-coin-price'>
-                <h6>${new Intl.NumberFormat().format(item?.price)}</h6>
-                <span className={item?.percentChange24h > 0 ? 'text-success' : 'text-danger'}>
-                  {item?.percentChange24h?.toFixed(2)}%
+                <h6>${new Intl.NumberFormat().format(item?.priceUSD)}</h6>
+                <span className={item?.pricePercentChange24h > 0 ? 'text-success' : 'text-danger'}>
+                  {item?.pricePercentChange24h?.toFixed(2)}%
                 </span>
               </div>
               <div className='chart-img top-coin-img' >
