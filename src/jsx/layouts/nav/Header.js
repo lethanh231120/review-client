@@ -72,6 +72,7 @@ const Header = () => {
   const signInFromAddProductContext = useContext(SignInFromAddProductContext)
   // const [pathName, setPathName] = useState()
 
+  console.log('userInfo', userInfo)
   const handleAddProject = () => {
     // already log in
     if (userInfo) {
