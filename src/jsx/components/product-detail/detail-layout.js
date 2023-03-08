@@ -4,7 +4,13 @@ import FormReport from '../Forms/form-report/FormReport'
 import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
 import { SOON, CRYPTO, VENTURE, LAUNCHPAD } from '../../constants/category'
+import logocolor from '../../../images/logo/gear5_logo_notext.png'
 
+const dataReviewFounder = {
+  acountImage: logocolor,
+  accountName: 'Gear5 Founder',
+  content: 'We understand that the cryptocurrency market is a potential investment channel that brings great profits, but there are also many projects that are traps and scams, honey pot....  So if you have any good or bad experience, please share with us in informing everyone !'
+}
 export const DetailLayout = (props) => {
   const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, similar, rest, setTop, productInfo } = props
   const PAGE_SIZE = 50
@@ -41,7 +47,6 @@ export const DetailLayout = (props) => {
       </div>
         : ''
     }
-
     {type === CRYPTO || type === VENTURE || type === LAUNCHPAD || type === SOON
       ? <>
         <div className='row'>
@@ -120,8 +125,13 @@ export const DetailLayout = (props) => {
                 productInfo={productInfo}
               />
               <div id='div2'>
+                <ReviewItem
+                  type='founder'
+                  data={dataReviewFounder}
+                />
                 {rest?.reviews && rest?.reviews?.map((item, index) => (
                   <ReviewItem
+                    type='normal'
                     index={index}
                     key={item?.id}
                     data={item}
@@ -204,8 +214,13 @@ export const DetailLayout = (props) => {
                 productInfo={productInfo}
               />
               <div id='div2'>
+                <ReviewItem
+                  type='founder'
+                  data={dataReviewFounder}
+                />
                 {rest?.reviews && rest?.reviews?.map((item, index) => (
                   <ReviewItem
+                    type='normal'
                     index={index}
                     key={item?.id}
                     data={item}
@@ -237,8 +252,6 @@ export const DetailLayout = (props) => {
             </div>
           </div>
         </div>
-
       </>}
-
   </>
 }
