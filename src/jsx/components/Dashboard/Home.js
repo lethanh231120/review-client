@@ -15,7 +15,13 @@ import './home.scss'
 import Banner from '../common-widgets/home/banner'
 import { SummaryHomeContext } from '../../../App'
 
-const fillColors = ['#EFB80B', '#58BAD7', '#DA4344', '#8147E7', '#18A594']
+const fillColors = {
+  'binance': '#EFB80B',
+  'ethereum': '#58BAD7',
+  'avalanche': '#DA4344',
+  'polygon': '#8147E7',
+  'others': '#18A594'
+}
 
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
@@ -28,25 +34,24 @@ const Home = () => {
   // GET TOP COINS DATA
 
   const setTotalCrytosData = (data) => {
-    const SHOW_DATA_NUMBER = 4
     const dataArr = []
+    let sorted = []
+    const others = { fillcolor: fillColors['others'], datatitle: 'Others', amount: data?.chainTokens?.others?.total }
     const dataList = data?.chainTokens
     // sort token data
     if (!_.isEmpty(dataList)) {
-      const sorted = Object.keys(dataList)?.sort((a, b) => dataList[b]?.total - dataList[a]?.total).map(key =>({ [key]: dataList[key]?.total }))
       // get first 5 tokens
-      for (var i = 0; i < SHOW_DATA_NUMBER; i++) {
-        dataArr.push({ fillcolor: fillColors[i], datatitle: Object.keys(sorted[i])[0], amount: Object.values(sorted[i])[0] })
-      }
+      Object.keys(dataList)?.map((key, index) => {
+        if (key !== 'others') {
+          dataArr.push({ fillcolor: fillColors[key], datatitle: key, amount: dataList[key]?.total })
+        }
+      })
+      sorted = dataArr?.sort((a, b) => b?.amount - a?.amount)
 
+      sorted.push(others)
       // calulate other
-      let totalOther = 0
-      for (var k = SHOW_DATA_NUMBER; k < sorted?.length; k++) {
-        totalOther += Object.values(sorted[k])[0]
-      }
-      dataArr.push({ fillcolor: fillColors[fillColors.length - 1], datatitle: 'Others', amount: totalOther })
     }
-    return dataArr
+    return sorted
   }
 
   const setScamDataEachChains = (data) => {
@@ -59,9 +64,9 @@ const Home = () => {
         list.push({ scam: temp[key]?.scam, total: temp[key]?.total, datatitle: key })
       }
     })
-
-    list.push(others)
-    return list
+    const sorted = list?.sort((a, b) => b?.total - a?.total)
+    sorted.push(others)
+    return sorted
   }
 
   return (
