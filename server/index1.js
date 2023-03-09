@@ -39,9 +39,9 @@ const genDetailHeader = (res, productId = '') => {
       axios.get(`https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`).then((resp) =>{
         const data = resp?.data?.data?.details
         // inject meta tags
-        htmlData = htmlData.replaceAll(META_TITLE, data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE)
-          .replaceAll(META_DESCRIPTION, data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || META_DESCRIPTION)
-          .replaceAll(META_IMAGE, data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo || META_IMAGE)
+        htmlData = htmlData.replace(META_TITLE, data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE)
+          .replace(META_DESCRIPTION, data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || META_DESCRIPTION)
+          .replace(META_IMAGE, data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo || META_IMAGE)
         return res.send(htmlData)
       })
     }
@@ -75,9 +75,9 @@ app.get(`/products/:category/:productName`, (req, res) => {
 // ######## Otherwise page,..
 const injectHtmlHeader = (htmlData, metaTag) => {
   console.log(htmlData, metaTag)
-  return htmlData.replaceAll(META_TITLE, metaTag.title)
-    .replaceAll(META_DESCRIPTION, metaTag.description)
-    .replaceAll(META_IMAGE, metaTag.image)
+  return htmlData.replace(META_TITLE, metaTag.title)
+    .replace(META_DESCRIPTION, metaTag.description)
+    .replace(META_IMAGE, metaTag.image)
 }
 
 const genHeader = (res, metaTag) => {
