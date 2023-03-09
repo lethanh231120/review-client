@@ -16,6 +16,9 @@ import { decodeUrl } from '../../../utils/formatUrl'
 import _ from 'lodash'
 import LaunchpadList from '../table/launchpad/LaunchpadTable'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
+import SEO from '../SEO/SEO'
+import { toCammelCase } from '../../../utils/formatText'
+import { formatLargeNumber } from '../../../utils/formatNumber'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -26,6 +29,26 @@ const CategoryItem = () => {
   const [loading, setLoading] = useState(true)
   const [params, setParams] = useState()
   const [keywordSearch, setKeyWordSearch] = useState()
+  const [titleSEO, setTitleSEO] = useState()
+
+  // only main-menu changed
+  useEffect(() => {
+    const parts = window.location.href?.replaceAll('http://', '')?.replaceAll('https://', '')?.split('/')
+    let category, subCategory
+    // click subCategory
+    if (parts.length === 3) {
+      subCategory = parts[parts.length - 1]
+      category = parts[parts.length - 2]
+    } else
+    // click category
+    if (parts.length === 2) {
+      category = parts[parts.length - 1]
+    }
+    // aleast click category
+    if (category) {
+      setTitleSEO(`${total ? `${formatLargeNumber(total)}+` : ''} ${category && toCammelCase(category)} Projects ${subCategory ? `| ${subCategory}` : ''} | Gear5`)
+    }
+  }, [category, subCategory, total])
 
   const defaultParams = {
     dapp: { page: 1, sort: 'desc', orderBy: 'score', tag: subCategory || '' },
@@ -289,52 +312,55 @@ const CategoryItem = () => {
   }
 
   return (
-    <div className='category-page section' ref={refabc}>
-      <div className={`category-list detail ${category === SOON ? 'format-list-soon-background' : ''}`}>
-        <Row gutter={[10, 10]}>
-          {keyword ? (
-            <Col span={24}>
-              <TabSearch
-                listProduct={listProduct}
-                keywordSearch={keywordSearch}
-                setKeyWordSearch={setKeyWordSearch}
-                handleSubmitSearch={handleSubmitSearch}
-                handleSubmitBtn={handleSubmitBtn}
-                setLoading={setLoading}
-                loading={loading}
-                activeTab={categorySearch}
-              />
-            </Col>
-          ) : (
-            <>
-              {loading ? (
-                <div style={{ width: '100%' }}>  <MySkeletonLoadinng count={50} height={70} /></div>
-              ) : (
-                <>{renderComponent()}</>
-              )}
-            </>
-          )}
-        </Row>
+    <>
+      {titleSEO ? <SEO props={{ title: titleSEO }} /> : ''}
+      <div className='category-page section' ref={refabc}>
+        <div className={`category-list detail ${category === SOON ? 'format-list-soon-background' : ''}`}>
+          <Row gutter={[10, 10]}>
+            {keyword ? (
+              <Col span={24}>
+                <TabSearch
+                  listProduct={listProduct}
+                  keywordSearch={keywordSearch}
+                  setKeyWordSearch={setKeyWordSearch}
+                  handleSubmitSearch={handleSubmitSearch}
+                  handleSubmitBtn={handleSubmitBtn}
+                  setLoading={setLoading}
+                  loading={loading}
+                  activeTab={categorySearch}
+                />
+              </Col>
+            ) : (
+              <>
+                {loading ? (
+                  <div style={{ width: '100%' }}>  <MySkeletonLoadinng count={50} height={70} /></div>
+                ) : (
+                  <>{renderComponent()}</>
+                )}
+              </>
+            )}
+          </Row>
+        </div>
+        {/* Pagination */}
+        {total > PAGE_SIZE && (
+          <>
+            {!loading && (
+              <div className='category-paginate'>
+                <Pagination
+                  total={
+                    total > MAX_PAGE * PAGE_SIZE ? MAX_PAGE * PAGE_SIZE : total
+                  }
+                  current={params?.page}
+                  pageSize={PAGE_SIZE}
+                  showSizeChanger={false}
+                  onChange={(value) => handleChangePage(value)}
+                />
+              </div>
+            )}
+          </>
+        )}
       </div>
-      {/* Pagination */}
-      {total > PAGE_SIZE && (
-        <>
-          {!loading && (
-            <div className='category-paginate'>
-              <Pagination
-                total={
-                  total > MAX_PAGE * PAGE_SIZE ? MAX_PAGE * PAGE_SIZE : total
-                }
-                current={params?.page}
-                pageSize={PAGE_SIZE}
-                showSizeChanger={false}
-                onChange={(value) => handleChangePage(value)}
-              />
-            </div>
-          )}
-        </>
-      )}
-    </div>
+    </>
   )
 }
 export default CategoryItem
