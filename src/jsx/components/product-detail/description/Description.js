@@ -11,7 +11,7 @@ const Description = ({ projectName, text }) => {
 
   return <div>
     {projectName && <div className='card-header border-0 pb-0'>
-      <h5 className='heading text-primary d-flex align-items-center'>
+      <h5 className='heading text-primary d-flex align-items-start'>
         <i className='material-icons fs-30 text-primary'>subject</i>
             About {projectName}
       </h5>
@@ -19,8 +19,7 @@ const Description = ({ projectName, text }) => {
     }
     {text && <div className={projectName ? 'card-body pt-3' : ''}>
       <div className={projectName ? 'profile-blog' : ''}>
-        <p className={projectName ? 'mb-0' : ''}>
-
+        <div className={projectName ? 'mb-0' : ''}>
           <div className='description-list'>
             <div className='card-content' style={{ fontSize: '1rem', lineHeight: '2' }}>
               {text?.length < length ? (
@@ -45,7 +44,7 @@ const Description = ({ projectName, text }) => {
               )}
             </div>
           </div>
-        </p>
+        </div>
       </div>
     </div>
     }

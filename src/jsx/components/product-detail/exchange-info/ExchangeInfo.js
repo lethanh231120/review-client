@@ -164,7 +164,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                       alt='Social Logo'
                       className='img-fluid p-1 rounded-circle cus-avatar'
                       style={{ backgroundColor: '#F0F2F5' }}
-                      preview={false}
+                      // preview={false}
                       src={
                         socials?.find(
                           (social) =>

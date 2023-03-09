@@ -313,154 +313,153 @@ const ReviewItem = (props) => {
   }
 
   return (
-    <>
-      <div className='review-item'>
-        {type === 'founder' ? (
-          <Image src={data?.acountImage} preview={false} alt='User Avatar'/>
-        ) : (
-          <Image src={data?.review?.acountImage ? data?.review?.acountImage : user} preview={false} alt='User Avatar'/>
-        )}
-        <div className='review-item-description'>
-          <div className='review-item-data'>
-            <div className='review-item-name'>
-              {type === 'founder' ? (
+    <div className='review-item'>
+      {type === 'founder' ? (
+        <Image src={data?.acountImage} preview={false} alt='User Avatar'/>
+      ) : (
+        <Image src={data?.review?.acountImage ? data?.review?.acountImage : user} preview={false} alt='User Avatar'/>
+      )}
+      <div className='review-item-description'>
+        <div className='review-item-data'>
+          <div className='review-item-name'>
+            {type === 'founder' ? (
+              <span style={{ display: 'flex', alignItems: 'center' }}>
+                {data?.accountName}
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  {data?.accountName}
-                  <span style={{ display: 'flex', alignItems: 'center' }}>
-                    <PushpinOutlined style={{ marginLeft: '0.3rem' }}/>
-                  </span>
+                  <PushpinOutlined style={{ marginLeft: '0.3rem' }}/>
                 </span>
-              ) : (
-                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              </span>
+            ) : (
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span>
+                  {data?.review?.userName ? data?.review?.userName : 'Anonymous'}
                   <span>
-                    {data?.review?.userName ? data?.review?.userName : 'Anonymous'}
-                    <span>
-                      {data?.review?.isScam && (<Image alt='Scam' src={scam} preview={false}/>)}
-                    </span>
+                    {data?.review?.isScam && (<Image alt='Scam' src={scam} preview={false}/>)}
                   </span>
-                  {userInfo?.role === 1 && (
-                    <span
-                      className='button-hide'
-                      onClick={() => handleHideReview(data?.review?.id)}
-                    >Hide</span>
-                  )}
                 </span>
-              )}
-            </div>
-            <div className='review-item-content'>
-              {type === 'normal' && (
-                <>
-                  {newData?.textStar && (
-                    <div>
-                      <strong style={{ display: 'flex', alignItems: 'flex-end', marginBottom: '0.5rem' }}>
-                        <span>{newData?.textStar}</span>
-                        {data?.review?.isScam && (
-                          <>
-                            <img src={imgshit} alt='scam' style={{ width: '1.5rem', marginLeft: '0.3rem' }}/>
-                            <img src={imgshit} alt='scam' style={{ width: '1.5rem' }}/>
-                            <img src={imgshit} alt='scam' style={{ width: '1.5rem' }}/>
-                          </>
-                        )}
-                      </strong>
-                    </div>
-                  )}
-                  {data?.review?.scamAmountUSD && (
-                    <div>
-                      <strong>
-                        {`${data?.review?.userName ? data?.review?.userName : 'I'} `}
-                        got scammed
-                        {` ${formatLargeNumberMoneyUSD(data?.review?.scamAmountUSD?.split('.')[0] !== '-' ? data?.review?.scamAmountUSD?.split('.')[0] : data?.review?.scamAmountUSD?.split('.')[1])}`}
-                      </strong>
-                    </div>
-                  )}
-                </>
-              )}
-              {type === 'founder' ? (
-                <>
-                  {data?.content}
-                </>
-              ) : (
-                <Description text={type === 'founder' ? data?.content : data?.review?.content}/>
-              )}
-              {type === 'normal' && (
-                <>
-                  {!_.isEmpty(data?.review?.sources) && data?.review?.sources !== null && (
-                    <div className='review-item-content-source'>
-                      {data?.review?.sources?.map((item, index) => (
-                        <span key={index}>
-                          {item !== '' && (
-                            <a href={item} target='_blank' rel='noreferrer'>
-                              <LinkOutlined/>
-                              {item?.split('/')[2]}
-                            </a>
-                          )}
-                        </span>
-                      ))}
-                    </div>
-                  )}</>
-              )}
-            </div>
+                {userInfo?.role === 1 && (
+                  <span
+                    className='button-hide'
+                    onClick={() => handleHideReview(data?.review?.id)}
+                  >Hide</span>
+                )}
+              </span>
+            )}
           </div>
-          {type === 'normal' && (
-            <>
-              {!_.isEmpty(data?.review?.images) && (
-                <div className='review-item-list-image'>
-                  {data?.review?.images?.map((itemImage, index) => (
-                    <div className='review-item-list-image-item' key={index}>
-                      <Image src={itemImage} preview={true} alt='Review Image'/>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <div className='review-item-action'>
-                <div className='review-item-action-list'>
-                  <ListEmoji
-                    currenReaction={newData?.currenReaction}
-                    handleClickReaction={handleClickReaction}
-                  />
-                  <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
-                  <span className='review-item-action-item-time'>
-                    {/* {moment.utc(data?.review?.updatedDate).fromNow()} */}
-                    {timeAgoConvert(data?.review?.updatedDate)}
-                  </span>
-                </div>
-                {!_.isEmpty(newData?.reactionType) && (
-                  <div className='review-item-action-reaction'>
-                    {newData?.reactionType?.map((item, index) => (
-                      <div className='review-item-action-reaction-item' key={index}>
-                        <img src={item} alt={`reaction ${index} icon`}/>
-                      </div>
-                    ))}
-                    <div className='review-item-action-reaction-item'>
-                      {data?.reactions?.length}
-                    </div>
+          <div className='review-item-content'>
+            {type === 'normal' && (
+              <>
+                {newData?.textStar && (
+                  <div>
+                    <strong style={{ display: 'flex', alignItems: 'flex-end', marginBottom: '0.5rem' }}>
+                      <span>{newData?.textStar}</span>
+                      {data?.review?.isScam && (
+                        <>
+                          <img src={imgshit} alt='scam' style={{ width: '1.5rem', marginLeft: '0.3rem' }}/>
+                          <img src={imgshit} alt='scam' style={{ width: '1.5rem' }}/>
+                          <img src={imgshit} alt='scam' style={{ width: '1.5rem' }}/>
+                        </>
+                      )}
+                    </strong>
                   </div>
                 )}
+                {data?.review?.scamAmountUSD && (
+                  <div>
+                    <strong>
+                      {`${data?.review?.userName ? data?.review?.userName : 'I'} `}
+                        got scammed
+                      {` ${formatLargeNumberMoneyUSD(data?.review?.scamAmountUSD?.split('.')[0] !== '-' ? data?.review?.scamAmountUSD?.split('.')[0] : data?.review?.scamAmountUSD?.split('.')[1])}`}
+                    </strong>
+                  </div>
+                )}
+              </>
+            )}
+            {type === 'founder' ? (
+              <>
+                {data?.content}
+              </>
+            ) : (
+              <Description text={type === 'founder' ? data?.content : data?.review?.content}/>
+            )}
+            {type === 'normal' && (
+              <>
+                {!_.isEmpty(data?.review?.sources) && data?.review?.sources !== null && (
+                  <div className='review-item-content-source'>
+                    {data?.review?.sources?.map((item, index) => (
+                      <span key={index}>
+                        {item !== '' && (
+                          <a href={item} target='_blank' rel='noreferrer'>
+                            <LinkOutlined/>
+                            {item?.split('/')[2]}
+                          </a>
+                        )}
+                      </span>
+                    ))}
+                  </div>
+                )}</>
+            )}
+          </div>
+        </div>
+        {type === 'normal' && (
+          <>
+            {!_.isEmpty(data?.review?.images) && (
+              <div className='review-item-list-image'>
+                {data?.review?.images?.map((itemImage, index) => (
+                  <div className='review-item-list-image-item' key={index}>
+                    <Image src={itemImage} preview={true} alt='Review Image'/>
+                  </div>
+                ))}
               </div>
-              {data?.replies?.length > 2 && (
-                <div
-                  className='review-item-replies'
-                  onClick={() => {
-                    setCurrentReview({
-                      isCollapse: !curentReview?.isCollapse,
-                      reviewId: data?.review?.id
-                    })
-                  }}
-                >
-                  <CaretDownOutlined/>
-                  {data?.replies?.length} reply
+            )}
+            <div className='review-item-action'>
+              <div className='review-item-action-list'>
+                <ListEmoji
+                  currenReaction={newData?.currenReaction}
+                  handleClickReaction={handleClickReaction}
+                />
+                <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
+                <span className='review-item-action-item-time'>
+                  {/* {moment.utc(data?.review?.updatedDate).fromNow()} */}
+                  {timeAgoConvert(data?.review?.updatedDate)}
+                </span>
+              </div>
+              {!_.isEmpty(newData?.reactionType) && (
+                <div className='review-item-action-reaction'>
+                  {newData?.reactionType?.map((item, index) => (
+                    <div className='review-item-action-reaction-item' key={index}>
+                      <img src={item} alt={`reaction ${index} icon`}/>
+                    </div>
+                  ))}
+                  <div className='review-item-action-reaction-item'>
+                    {data?.reactions?.length}
+                  </div>
                 </div>
               )}
-              <Form form={form}>
-                {addReply && token && (
-                  <div className='add-reply'>
-                    <div className='add-reply-form-avatar'>
-                      <Image src={userInfo?.image ? userInfo?.image : user} preview={false} style={{ width: '2.1875rem' }} alt='User Avatar'/>
-                    </div>
-                    <Form.Item
-                      name={`comment`}
-                    >
-                      {/* <Input
+            </div>
+            {data?.replies?.length > 2 && (
+              <div
+                className='review-item-replies'
+                onClick={() => {
+                  setCurrentReview({
+                    isCollapse: !curentReview?.isCollapse,
+                    reviewId: data?.review?.id
+                  })
+                }}
+              >
+                <CaretDownOutlined/>
+                {data?.replies?.length} reply
+              </div>
+            )}
+            <Form form={form}>
+              {addReply && token && (
+                <div className='add-reply'>
+                  <div className='add-reply-form-avatar'>
+                    <Image src={userInfo?.image ? userInfo?.image : user} preview={false} style={{ width: '2.1875rem' }} alt='User Avatar'/>
+                  </div>
+                  <Form.Item
+                    name={`comment`}
+                  >
+                    {/* <Input
                         name={`reply ${newData?.data?.id}`}
                         className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
                         autoFocus
@@ -474,50 +473,49 @@ const ReviewItem = (props) => {
                         onChange={handleChangeComment}
                         onPressEnter={handleSubmit}
                       /> */}
-                      <Input.TextArea
-                        className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
-                        autoFocus
-                        // value={comment}
-                        suffix={<>
-                          <SendOutlined
-                            style={{ cursor: 'pointer' }}
-                            onClick={handleSend}
-                          />
-                        </>}
-                        placeholder={`${validateTextArea ? 'Please enter reply' : 'Enter reply...'}`}
-                        onChange={handleChangeComment}
-                        onPressEnter={handleSubmit}
-                        autoSize={{ minRows: 2 }}
-                      />
-                    </Form.Item>
-                  </div>
-                )}
-              </Form>
-              <div
-                className={`${
-                  data?.replies?.length > 2 ? (
-                    curentReview?.reviewId !== undefined
-                      ? (!curentReview?.isCollapse && curentReview?.reviewId === data?.review?.id) ? 'comment-reply' : 'isCollapse'
-                      : (!newData?.isCollapse && newData?.reviewId === data?.review?.id) ? 'comment-reply' : 'isCollapse') : 'comment-reply'}`}
-              >
-                {data?.replies !== null && data?.replies?.map((item, i) => (<>
-                  <ReplyComment
-                    indexReview={index}
-                    index={i}
-                    key={i}
-                    data={item}
-                    productId={productId}
-                    reviews={reviews}
-                    setReviews={setReviews}
-                  />
-                </>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
+                    <Input.TextArea
+                      className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
+                      autoFocus
+                      // value={comment}
+                      suffix={<>
+                        <SendOutlined
+                          style={{ cursor: 'pointer' }}
+                          onClick={handleSend}
+                        />
+                      </>}
+                      placeholder={`${validateTextArea ? 'Please enter reply' : 'Enter reply...'}`}
+                      onChange={handleChangeComment}
+                      onPressEnter={handleSubmit}
+                      autoSize={{ minRows: 2 }}
+                    />
+                  </Form.Item>
+                </div>
+              )}
+            </Form>
+            <div
+              className={`${
+                data?.replies?.length > 2 ? (
+                  curentReview?.reviewId !== undefined
+                    ? (!curentReview?.isCollapse && curentReview?.reviewId === data?.review?.id) ? 'comment-reply' : 'isCollapse'
+                    : (!newData?.isCollapse && newData?.reviewId === data?.review?.id) ? 'comment-reply' : 'isCollapse') : 'comment-reply'}`}
+            >
+              {data?.replies !== null && data?.replies?.map((item, i) => (<>
+                <ReplyComment
+                  indexReview={index}
+                  index={i}
+                  key={i}
+                  data={item}
+                  productId={productId}
+                  reviews={reviews}
+                  setReviews={setReviews}
+                />
+              </>
+              ))}
+            </div>
+          </>
+        )}
       </div>
-    </>
+    </div>
   )
 }
 

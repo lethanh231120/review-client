@@ -320,7 +320,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                   ? formatImgUrlFromProductId(record?.exchangeId)
                   : imgAbsentImageCrypto
               }
-              // preview={false}
+              preview={false}
             />
           ) : (
             <span className='exchange-no-data'>

@@ -84,7 +84,6 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                       )
                                       : imgAbsentImageSoon
                                   }
-                                  preview={false}
                                   size={40}
                                 />
                               ) : (
@@ -146,17 +145,17 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                             </p>
                           </div>
                           <div className='row'>
-                            <p className='mb-0 fs-14 text-black text-etc-overflow text-center'>
+                            <div className='mb-0 fs-14 text-black text-etc-overflow text-center'>
                               {item?.startDate && item?.endDate ? (
                                 <>
                                   {<TimeRelativeQuantificationList startDate={item?.startDate} endDate={item?.endDate}/>}
-                                  <hr className='hr-custome'></hr>
                                 </>
                               ) : (
-                              // same height with ...ago/ left
+                                // same height with ...ago/ left
                                 <span>&nbsp;</span>
                               )}
-                            </p>
+                            </div>
+                            <hr className='hr-custome'></hr>
                           </div>
                           <div className='row'>
                             {

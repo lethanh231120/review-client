@@ -59,7 +59,7 @@ const LaunchpadList = ({ listProduct,
         >
           <Avatar.Group
             alt='Blockchains Logos'
-            maxCount={2}
+            maxCount={Object.keys(record?.chains)?.length >= 4 ? 2 : 3}
             size={25}
             maxStyle={{
               color: '#fff',

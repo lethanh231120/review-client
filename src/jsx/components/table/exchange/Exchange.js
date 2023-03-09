@@ -35,7 +35,7 @@ const Exchange = ({
         {record?.exchangeId && record?.smallLogo ? (
           <Image alt='Exchange Logo' src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
         )
-          : (<span className='image-list-no-data-detail'>
+          : (<span className='image-list-no-data'>
             {record?.name?.slice(0, 3)}
           </span>)
         }
