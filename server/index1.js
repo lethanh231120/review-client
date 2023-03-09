@@ -74,6 +74,7 @@ app.get(`/products/:category/:productName`, (req, res) => {
 
 // ######## Otherwise page,..
 const injectHtmlHeader = (htmlData, metaTag) => {
+  console.log(htmlData, metaTag)
   return htmlData.replaceAll(META_TITLE, metaTag.title)
     .replaceAll(META_DESCRIPTION, metaTag.description)
     .replaceAll(META_IMAGE, metaTag.image)
