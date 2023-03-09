@@ -2,8 +2,8 @@ const { getMetaTag } = require('../modal/MetaTag')
 
 const staticData = {
   title: `Cryptocurrency Insights Hub | Gear5`,
-  description: ``,
-  image: `%PUBLIC_URL%/logo.png`
+  image: `/insight.webp`,
+  description: `Gear 5 for crypto insights with chart`
 }
 
-module.exports.getMetaTagInsight = () => getMetaTag(staticData.title, staticData.description, staticData.image)
+module.exports.getMetaTagInsight = () => getMetaTag(staticData.title, staticData.image, staticData.description)

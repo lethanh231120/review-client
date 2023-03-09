@@ -11,6 +11,7 @@ const { getMetaTagListVenture } = require('./header-data/listVenture')
 const { getMetaTagListExchange } = require('./header-data/listExchange')
 const { getMetaTagListSoon } = require('./header-data/listSoon')
 const { getMetaTagListLaunchpad } = require('./header-data/listLaunchpad')
+const { getMetaTagInsight } = require('./header-data/insight')
 
 const PORT = process.env.PORT || 3000
 const indexPath = path.resolve(__dirname, '..', 'build', 'index.html')
@@ -78,6 +79,7 @@ const injectHtmlHeader = (htmlData, metaTag) => {
     .replaceAll(META_DESCRIPTION, metaTag.description)
     .replaceAll(META_IMAGE, metaTag.image)
 }
+
 const genHeader = (res, metaTag) => {
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
     if (err) {
@@ -117,6 +119,10 @@ app.get('/:category', (req, res) => {
     }
     case 'launchpad':{
       genHeader(res, getMetaTagListLaunchpad())
+      break
+    }
+    case 'insight':{
+      genHeader(res, getMetaTagInsight())
       break
     }
     default: {
