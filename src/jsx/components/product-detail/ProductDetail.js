@@ -81,7 +81,6 @@ const ProductDetail = () => {
   const [offsetTopByListComment, setOffsetTopByListComment] = useState()
   const [loadingFilter, setLoadingFilter] = useState(false)
   const [totalSortBy, setTotalSortBy] = useState()
-
   // set productId
   useEffect(() => {
     setReviews()
@@ -490,7 +489,7 @@ const ProductDetail = () => {
     }
     if (typeComment) {
       const recaptchaValue = recapcharRef.current.getValue()
-      console.log(recaptchaValue)
+      // console.log(recaptchaValue)
       if (recaptchaValue) {
         handleAddComment(params, 'anonymous', recaptchaValue)
       } else {

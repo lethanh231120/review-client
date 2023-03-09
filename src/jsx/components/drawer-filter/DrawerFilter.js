@@ -549,38 +549,26 @@ const DrawerFilter = ({ type, handleFilter }) => {
       <Col span={7}>
         <Form.Item name={[attr, 'from']}
           key={[attr, 'from']}
-          rules={[
-            ({ getFieldValue }) => ({
-              validator(rule, value) {
-                const max = getFieldValue(attr)?.to
-                if (max) {
-                  if (value > max) {
-                    return Promise.reject(`Filter range is not valid`)
-                  }
-                }
-                return Promise.resolve()
-              }
-            })
-          ]}
         >
           <Select options={options} />
         </Form.Item>
       </Col>
       <Col span={4} className='d-flex justify-content-center mt-1'>To</Col>
       <Col span={7}>
-        <Form.Item name={[attr, 'to']} key={[attr, 'to']} rules={[
-          ({ getFieldValue }) => ({
-            validator(rule, value) {
-              const min = getFieldValue(attr)?.from
-              if (min) {
-                if (value < min) {
-                  return Promise.reject(`Filter range is not valid`)
+        <Form.Item name={[attr, 'to']} key={[attr, 'to']}
+          rules={[
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                const min = getFieldValue(attr)?.from
+                if (min) {
+                  if (value < min) {
+                    return Promise.reject(`Filter range is not valid`)
+                  }
                 }
+                return Promise.resolve()
               }
-              return Promise.resolve()
-            }
-          })
-        ]}>
+            })
+          ]}>
           <Select options={options}/>
         </Form.Item></Col>
 
