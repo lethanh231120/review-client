@@ -15,12 +15,6 @@ const { getMetaTagListLaunchpad } = require('./header-data/listLaunchpad')
 const PORT = process.env.PORT || 3000
 const indexPath = path.resolve(__dirname, '..', 'build', 'index.html')
 
-// static resources should just be served as they are
-app.use(express.static(
-  path.resolve(__dirname, '..', 'build'),
-  { maxAge: '30d' }
-))
-
 const genDetailHeader = (res, productId = '') => {
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
     if (err) {
@@ -33,7 +27,7 @@ const genDetailHeader = (res, productId = '') => {
         const data = resp?.data?.data?.details
         // inject meta tags
         htmlData = htmlData.replace(
-          '<title>React App</title>',
+          `<title>Gear5 - Don't trust, verify</title>`,
           `<title>${data?.name || data?.ventureName || data?.dAppName || data?.projectName || `Gear5 - Don't trust, verify`}</title>`
         )
           .replace('__META_OG_TITLE__', data?.name || data?.ventureName || data?.dAppName || data?.projectName || `Gear5 - Don't trust, verify`)
@@ -48,12 +42,14 @@ const genDetailHeader = (res, productId = '') => {
 
 // detail: crypto(coin)
 app.get(`/products/crypto/coin/:coinName`, (req, res) => {
+  console.log('detail: crypto(coin)')
   const coinName = req?.params?.coinName
   genDetailHeader(res, coinName ? `coin_${coinName}` : '')
 })
 
 // detail: crypto(token)
 app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
+  console.log('detail: crypto(token)')
   const chainName = req?.params?.chainName
   const tokenAddress = req?.params?.tokenAddress
   genDetailHeader(res, (chainName && tokenAddress) ? `token_${chainName}_${tokenAddress}` : '')
@@ -61,6 +57,7 @@ app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
 
 // detail: dApp, venture, exchange, soon, launchpad
 app.get(`/products/:category/:productName`, (req, res) => {
+  console.log('detail: dApp, venture, exchange, soon, launchpad')
   const category = req?.params?.category
   const productName = req?.params?.productName
   genDetailHeader(res, (category && productName) ? `${category}_${productName}` : '')
@@ -68,7 +65,7 @@ app.get(`/products/:category/:productName`, (req, res) => {
 
 const injectHtmlHeader = (htmlData, metaTag) => {
   return htmlData.replace(
-    '<title>React App</title>',
+    `<title>Gear5 - Don't trust, verify</title>`,
     `<title>${metaTag.title}</title>`
   )
     .replace('__META_OG_TITLE__', metaTag.title)
@@ -90,6 +87,7 @@ const genHeader = (res, metaTag) => {
 
 // list
 app.get('/:category', (req, res) => {
+  console.log('list')
   const category = req?.params?.category
   switch (category) {
     case 'crypto':{
@@ -125,11 +123,13 @@ app.get('/:category', (req, res) => {
 
 // home
 app.get('/', (_, res) => {
+  console.log('home')
   genHeader(res, getMetaTagHome())
 })
 
-// othher
+// other
 app.get('/*', (req, res, next) => {
+  console.log('other')
   genHeader(res, getMetaTag(`Gear5 - Don't trust, verify`, `%PUBLIC_URL%/logo.png`, `Gear5 is a website that help you connect to the web3 world.`))
 })
 // listening...
