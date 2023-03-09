@@ -256,7 +256,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
 
             {detail?.socials && (
               <div className='community-list-item'>
-                {communityItem('', detail?.socials)}
+                {communityItem('Social', detail?.socials)}
               </div>
             )}
 

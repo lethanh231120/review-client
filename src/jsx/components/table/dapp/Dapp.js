@@ -38,7 +38,7 @@ const Dapp = ({
         {record?.dAppId && record?.dAppLogo ? (
           <Image alt='DApp Logo' onError={() => console.log(1)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
         )
-          : (<span className='image-list-no-data-detail'>
+          : (<span className='image-list-no-data'>
             {record?.dAppName?.slice(0, 3)}
           </span>)
         }
@@ -76,9 +76,11 @@ const Dapp = ({
             backgroundColor: '#039F7F',
             cursor: 'pointer'
           }}
-          maxCount={3}
+          maxCount={Object.keys(record?.chains)?.length >= 5 ? 3 : 4}
           size={25} >
-          {record?.chains && Object.keys(record?.chains).map((key, index) => <Tooltip key={index} title={toCammelCase(key)}><Avatar alt='Blockchain Logo' size={25} src={chainList[key]?.image} /></Tooltip>)}
+          {record?.chains && Object.keys(record?.chains).map((key, index) => <Tooltip key={index} title={toCammelCase(key)}
+          >
+            <Avatar alt='Blockchain Logo' size={25} src={chainList[key]?.image} /></Tooltip>)}
         </Avatar.Group>
       )
     },

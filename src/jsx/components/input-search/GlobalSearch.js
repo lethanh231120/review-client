@@ -88,7 +88,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
     } else {
       setDataSearch({ isActive: false, data: {}, loading: false, status: '' })
     }
-  }, 250)
+  }, 500)
 
   useEffect(() => {
     if (listDataSearch) {

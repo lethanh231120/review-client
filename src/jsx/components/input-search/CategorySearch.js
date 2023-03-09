@@ -142,7 +142,7 @@ const CategorySearch = ({ type }) => {
       setDataSearch({ isActive: false, data: null, loading: false, status: '' })
       setItemSubmit()
     }
-  }, 250)
+  }, 500)
 
   const subMitForm = () => {
     if (itemSubmit) {

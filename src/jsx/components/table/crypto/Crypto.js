@@ -292,7 +292,7 @@ const Crypto = ({
           >
             <Avatar.Group
               alt='Blockchains Logos'
-              maxCount={2}
+              maxCount={record?.multichain?.length >= 4 ? 2 : 3}
               size={25}
               maxStyle={{
                 color: '#fff',
@@ -302,12 +302,12 @@ const Crypto = ({
             >
               {record?.multichain?.map((item, index) => (
                 <React.Fragment key={item?.cryptoId}>
-                  {chainList[item?.chainName] && (
-                    <Tooltip title={toCammelCase(chainList[item?.chainName]?.chainName)}>
+                  {chainList[item?.split('_')[2]] && (
+                    <Tooltip title={toCammelCase(chainList[item?.split('_')[2]]?.chainName)}>
                       <Avatar
                         alt='Blockchain Logo'
                         size={25}
-                        src={chainList[item?.chainName]?.image}
+                        src={chainList[item?.split('_')[2]]?.image}
                         key={index}
                         className='crypto-table-chain'
                         onClick={(e) => onCancelClick(e)}

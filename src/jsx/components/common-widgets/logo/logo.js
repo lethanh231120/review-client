@@ -5,6 +5,7 @@ export const myLogo = (type, projectId, category, size) => {
   return <Image
     src={src}
     alt='No Image'
+    preview={false}
   />
 }
 

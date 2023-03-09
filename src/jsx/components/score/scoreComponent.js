@@ -5,9 +5,9 @@ import { CRYPTO, DAPP, EXCHANGE, LAUNCHPAD, VENTURE } from './../../constants/ca
 
 const MyScoreComponent = ({ score, type }) => {
   let output = 0
-  let classname = 'success'
+  let classname
   if (score) {
-    if (score < 0) {
+    if (score <= 0) {
       output = 0
     } else {
       if (type === LAUNCHPAD) {
@@ -29,9 +29,11 @@ const MyScoreComponent = ({ score, type }) => {
     } else if (parseInt(output) < 4) {
       classname = 'badge-danger'
     }
+  } else {
+    classname = 'badge-danger'
   }
 
-  return <Badge bg='badge-l' className={`progress-bar-striped progress-bar-animated ${classname}`}>{output.toFixed(1)}</Badge>
+  return <Badge bg='badge-l' className={`progress-bar-striped progress-bar-animated ${classname}`}>{output === 0 ? 0 : output.toFixed(1)}</Badge>
 }
 
 export default MyScoreComponent

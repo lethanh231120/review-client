@@ -35,7 +35,7 @@ const Venture = ({
         {record?.ventureId && record?.ventureLogo ? (
           <Image alt='Venture Logo' src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
         )
-          : (<span className='image-list-no-data-detail'>
+          : (<span className='image-list-no-data'>
             {record?.ventureName?.slice(0, 3)}
           </span>)
         }
