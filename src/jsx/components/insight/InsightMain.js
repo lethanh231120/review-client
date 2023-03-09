@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
-import { useNavigate } from 'react-router'
+// import { useNavigate } from 'react-router'
+import { Link } from 'react-router-dom'
 import { get } from '../../../api/BaseRequest'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import Barchart from './charts/BarChart'
@@ -8,7 +9,7 @@ import LineChart from './charts/LineChart'
 import PieChart from './charts/PieChart'
 
 const InsightMain = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
   useEffect(() =>{
@@ -37,13 +38,17 @@ const InsightMain = () => {
   }
 
   const chartSection = (data, chartId) => {
-    return <Col key={chartId} xl={4} lg={4} style={{ display: 'flex', cursor: 'pointer' }} onClick={() => navigate(`${chartId}`)}>
+    return <Col key={chartId} xl={4} lg={4} style={{ display: 'flex', cursor: 'pointer' }} >
       <Card style={{ width: '100%' }}>
         <Card.Header>
           <h4 className='card-title'>{data?.title}</h4>
         </Card.Header>
         <Card.Body>
-          {getChartType(data)}
+          <Link to={`${chartId}`}
+          // state={chartId}
+          >
+            {getChartType(data)}
+          </Link>
         </Card.Body>
       </Card>
     </Col>
