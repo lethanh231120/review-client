@@ -26,14 +26,14 @@ const CategorySearch = ({ type }) => {
   const [itemSubmit, setItemSubmit] = useState()
 
   const handleSearch = _.debounce(async(value) => {
-    setDataSearch({
-      ...dataSearch,
-      data: {},
-      status: '',
-      loading: true,
-      isActive: true
-    })
     if (value !== '') {
+      setDataSearch({
+        ...dataSearch,
+        data: {},
+        status: '',
+        loading: true,
+        isActive: true
+      })
       const data = await search('search/suggest', { keyword: value })
       if (data) {
         switch (type) {
@@ -42,9 +42,10 @@ const CategorySearch = ({ type }) => {
               ...dataSearch,
               status: 'done',
               isActive: true,
+              loading: false,
               data: {
                 listDapp: {
-                  dapps: (data?.data[LIST_DAPP]?.dapps !== null) ? data?.data[LIST_DAPP]?.dapps?.splice(0, 10) : null
+                  dapps: (data?.data[LIST_DAPP]?.dapps !== null) ? data?.data[LIST_DAPP]?.dapps : null
                 }
               },
               isNull: data?.data[LIST_DAPP]?.dapps === null
@@ -56,9 +57,10 @@ const CategorySearch = ({ type }) => {
               ...dataSearch,
               status: 'done',
               isActive: true,
+              loading: false,
               data: {
                 listCrypto: {
-                  cryptos: (data?.data[LIST_CRYPTO]?.cryptos !== null) ? data?.data[LIST_CRYPTO]?.cryptos?.splice(0, 10) : null
+                  cryptos: (data?.data[LIST_CRYPTO]?.cryptos !== null) ? data?.data[LIST_CRYPTO]?.cryptos : null
                 }
               },
               isNull: data?.data[LIST_CRYPTO]?.cryptos === null
@@ -70,9 +72,10 @@ const CategorySearch = ({ type }) => {
               ...dataSearch,
               status: 'done',
               isActive: true,
+              loading: false,
               data: {
                 listExchange: {
-                  exchanges: (data?.data[LIST_EXCHANGE]?.exchanges !== null) ? data?.data[LIST_EXCHANGE]?.exchanges?.splice(0, 10) : null
+                  exchanges: (data?.data[LIST_EXCHANGE]?.exchanges !== null) ? data?.data[LIST_EXCHANGE]?.exchanges : null
                 }
               },
               isNull: data?.data[LIST_EXCHANGE]?.exchanges === null
@@ -84,9 +87,10 @@ const CategorySearch = ({ type }) => {
               ...dataSearch,
               status: 'done',
               isActive: true,
+              loading: false,
               data: {
                 listVenture: {
-                  ventures: (data?.data[LIST_VENTURE]?.ventures !== null) ? data?.data[LIST_VENTURE]?.ventures?.splice(0, 10) : null
+                  ventures: (data?.data[LIST_VENTURE]?.ventures !== null) ? data?.data[LIST_VENTURE]?.ventures : null
                 }
               },
               isNull: data?.data[LIST_VENTURE]?.ventures === null
@@ -98,9 +102,10 @@ const CategorySearch = ({ type }) => {
               ...dataSearch,
               status: 'done',
               isActive: true,
+              loading: false,
               data: {
                 listSoon: {
-                  soons: (data?.data[LIST_SOON]?.soons !== null) ? data?.data[LIST_SOON]?.soons?.splice(0, 10) : null
+                  soons: (data?.data[LIST_SOON]?.soons !== null) ? data?.data[LIST_SOON]?.soons : null
                 }
               },
               isNull: data?.data[LIST_SOON]?.soons === null
@@ -112,9 +117,10 @@ const CategorySearch = ({ type }) => {
               ...dataSearch,
               status: 'done',
               isActive: true,
+              loading: false,
               data: {
                 listLaunchpad: {
-                  launchPads: (data?.data[LIST_LAUNCHPAD]?.launchPads !== null) ? data?.data[LIST_LAUNCHPAD]?.launchPads?.splice(0, 10) : null
+                  launchPads: (data?.data[LIST_LAUNCHPAD]?.launchPads !== null) ? data?.data[LIST_LAUNCHPAD]?.launchPads : null
                 }
               },
               isNull: data?.data[LIST_LAUNCHPAD]?.launchPads === null
@@ -141,7 +147,7 @@ const CategorySearch = ({ type }) => {
   const subMitForm = () => {
     if (itemSubmit) {
       const productId = itemSubmit?.cryptoId
-        ? `${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
+        ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
         : itemSubmit?.dappId
           ? `${itemSubmit?.dappId?.split('_')[2]}`
           : itemSubmit?.exchangeId
@@ -177,6 +183,12 @@ const CategorySearch = ({ type }) => {
     }
   }
 
+  const clearText = (e) =>{
+    if (e.target.value !== '') {
+      // e.target.value = ''
+      refInput.current.value = ''
+    }
+  }
   return (
     <div className='item-search cus-form'>
       <Input
@@ -186,9 +198,10 @@ const CategorySearch = ({ type }) => {
         onChange={(e) => handleSearch(e.target.value)}
         autoComplete='off'
         onBlur={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
+          // e.preventDefault()
+          // e.stopPropagation()
           handleSearch('')
+          clearText(e)
         }}
         onKeyPress={handleSubmitSearch}
       />

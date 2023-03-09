@@ -46,14 +46,14 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
   const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState(FIRST_SEARCH_PLACEHOLDER_TEXT)
 
   const handleSearch = _.debounce(async(value) => {
-    setDataSearch({
-      ...dataSearch,
-      data: {},
-      status: '',
-      loading: true,
-      isActive: true
-    })
     if (value !== '') {
+      setDataSearch({
+        ...dataSearch,
+        data: {},
+        status: '',
+        loading: true,
+        isActive: true
+      })
       setKeyWord(value)
       const data = await search('search/suggest', { keyword: value })
       if (data) {
@@ -237,7 +237,8 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
 
   const clearText = (e) =>{
     if (e.target.value !== '') {
-      e.target.value = ''
+      // e.target.value = ''
+      refInput.current.value = ''
     }
   }
 
@@ -265,7 +266,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
           <input
             ref={refInput}
             type='text'
-            className={`form-control cus-form-control`}
+            className='form-control cus-form-control'
             placeholder={`${isFormReport ? 'Search for the project you want to report with us' : txtDisplaySearchHeader}`}
             onChange={(e) => {
               handleSearch(e.target.value)
