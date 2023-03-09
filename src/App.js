@@ -1,6 +1,6 @@
 import { Suspense, createContext, useEffect, useState } from 'react'
 import Index from './jsx'
-import './vendor/bootstrap-select/dist/css/bootstrap-select.min.css'
+// import './vendor/bootstrap-select/dist/css/bootstrap-select.min.css'
 import './css/style.css'
 import { get } from './api/BaseRequest'
 import { getCookie, STORAGEKEY } from './utils/storage'
