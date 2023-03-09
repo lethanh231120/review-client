@@ -49,7 +49,6 @@ const Barchart = ({ dataSet, height, width, isDetail }) => {
       }
     ]
   }
-  console.log(backgroundColor(dataSet?.title))
   const options = {
     plugins: {
       legend: false,

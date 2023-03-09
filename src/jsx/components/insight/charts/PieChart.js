@@ -4,22 +4,30 @@ import { Chart, ArcElement } from 'chart.js'
 import _ from 'lodash'
 Chart.register(ArcElement)
 
-// export const chartColorPallet = ['#18A594', '#a6d75b', '#22a7f0', '#115f9a', '#48b5c4', '#1984c5', '#c9e52f', '#d0ee11', '#d0f400']
-export const chartColorPallet = [
-  '#18A594',
-  '#41B991',
-  '#6ACC8A',
-  '#96DD80',
-  '#C5EC77',
-  '#F9F871'
-]
+export const chartColorPallet = ['#47B39C', '#FFC154', '#EC6B56', '#47B39C', '#EC6B56', '#FFC154', '#47B39C', '#EC6B56', '#FFC154']
+// export const chartColorPallet = [
+//   'rgb(255, 205, 86)',
+//   'rgb(75, 192, 192)',
+//   'rgb(255, 99, 132)',
+//   'rgb(255, 159, 64)',
+//   'rgb(54, 162, 235)'
+
+// ]
+// export const chartColorPallet = [
+//   '#18A594',
+//   '#41B991',
+//   '#6ACC8A',
+//   '#96DD80',
+//   '#C5EC77',
+//   '#F9F871'
+// ]
 const PieChart = ({ dataSet, height, width, isDetail }) => {
   const data = {
     labels: dataSet?.results?.map(item => item[0]),
     datasets: [
       {
         data: dataSet?.results?.map(item => item[1]),
-        // borderWidth: 1,
+        borderWidth: 0,
         backgroundColor: chartColorPallet
         // hoverBackgroundColor: dataSet?.results?.map(item => randomColor())
       }
