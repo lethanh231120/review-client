@@ -69,7 +69,6 @@ export const formatImgUrlFromProductId = (productId) => {
       productImgType = CRYPTO
       break
   }
-  console.log(productImgType)
   const imgUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${productImgType}/${folderImgPath}/${productId}.png`
   return imgUrl
 }

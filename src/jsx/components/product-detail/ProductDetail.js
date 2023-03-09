@@ -31,7 +31,7 @@ import imgAbsentImageCrypto from '../../../images/absent_image_crypto.png'
 import { Helmet } from 'react-helmet-async'
 import { encodeSpecialCharacterUrl, formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
 import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
-import { SEO } from './../SEO/SEO'
+// import { SEO } from './../SEO/SEO'
 import { PathNameContext } from '../../index'
 import { getStatusFromStartDateAndEndDate } from '../../../utils/page-soon/status'
 
@@ -946,10 +946,12 @@ const ProductDetail = () => {
     meta.image = isValidProductId(detail?.launchPadId) ? formatImgUrlFromProductId(detail?.launchPadId) : imgAbsentImageCrypto
     return meta
   }
+  console.log(getMetaProductDetail(categoryName, type, productInfo?.details))
 
   return (
     <>
-      <SEO props={getMetaProductDetail(categoryName, type, productInfo?.details)} />
+
+      {/* <SEO props={getMetaProductDetail(categoryName, type, productInfo?.details)} /> */}
       <Helmet>
         <meta name='title' content='BITCOIN NE' data-react-helmet='true' />
         <meta name='description' content={productInfo?.details?.description} data-react-helmet='true' />

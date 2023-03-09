@@ -38,10 +38,22 @@ const genDetailHeader = (res, productId = '') => {
     if (productId) {
       axios.get(`https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`).then((resp) =>{
         const data = resp?.data?.data?.details
+
+        const title = data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE
+
+        let cleanDescription = data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || META_DESCRIPTION
+        cleanDescription = cleanDescription.replace(/(<([^>]+)>)/ig, '') // strip HTML tags (from BE)
+
+        const productId = data?.cryptoId || data?.dAppId || data?.ventureId || data?.exchangeId || data?.projectId || data?.launchPadId
+        let image = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo
+        image = (productId && image) ? `https://gear5.s3.ap-northeast-1.amazonaws.com/image/crypto/bigLogo/${productId}.png` : META_IMAGE
         // inject meta tags
-        htmlData = htmlData.replace(META_TITLE, data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE)
-          .replace(META_DESCRIPTION, data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || META_DESCRIPTION)
-          .replace(META_IMAGE, data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo || META_IMAGE)
+        htmlData = htmlData.split(META_TITLE).join(title)
+          .split(META_DESCRIPTION).join(cleanDescription)
+          .split(META_IMAGE).join(image)
+        return res.send(htmlData)
+      }).catch((error) => {
+        console.log(error)
         return res.send(htmlData)
       })
     }
@@ -74,9 +86,10 @@ app.get(`/products/:category/:productName`, (req, res) => {
 
 // ######## Otherwise page,..
 const injectHtmlHeader = (htmlData, metaTag) => {
-  return htmlData.replace(META_TITLE, metaTag.title)
-    .replace(META_DESCRIPTION, metaTag.description)
-    .replace(META_IMAGE, metaTag.image)
+  return htmlData
+    .split(META_TITLE).join(metaTag.title) // euqal replace all
+    .split(META_DESCRIPTION).join(metaTag.description)
+    .split(META_IMAGE).join(metaTag.image)
 }
 
 const genHeader = (res, metaTag) => {
