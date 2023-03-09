@@ -723,7 +723,7 @@ button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--r
 
 
 /* // thanh custom */
-@media only screen and (max-width: 767.99px) {
+@media only screen and (max-width: 767px) {
   .content-body {
     margin-left: 0 !important;
   }
