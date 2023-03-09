@@ -147,6 +147,7 @@ app.get('/:category/:subCategory', (req, res) => {
         genHeader(res, getMetaTag(`Gear5 - Don't trust, verify`, `%PUBLIC_URL%/logo.png`, `Gear5 is a website that help you connect to the web3 world.`))
         break
       }
+    }
   }
 })
 
