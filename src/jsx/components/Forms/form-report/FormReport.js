@@ -20,7 +20,7 @@ import { getCookie, STORAGEKEY } from '../../../../utils/storage'
 import moment from 'moment'
 import { post } from '../../../../api/BaseRequest'
 // import smile from '../../../../images/product/smile.png'
-import user from '../../../../images/product/user.png'
+import user from '../../../../images/product/user.webp'
 import FilterReview from '../../product-detail/filter-review/FilterReview'
 import '../../../../scss/base/cus-form.scss'
 import './formReport.scss'
@@ -256,7 +256,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
               <Image
                 alt='User Avatar'
                 src={userInfo?.image ? userInfo?.image : user}
-                // preview={false}
+                preview={false}
               />
             </div>
           )}

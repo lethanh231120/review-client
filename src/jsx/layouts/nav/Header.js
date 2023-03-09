@@ -3,7 +3,7 @@ import { Dropdown } from 'react-bootstrap'
 import { Modal, Tooltip } from 'antd'
 
 // / Image
-import profile from '../../../images/product/user.png'
+import profile from '../../../images/product/user.webp'
 import AccountTab, {
   logInKey,
   signUpKey
