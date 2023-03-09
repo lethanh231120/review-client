@@ -73,7 +73,7 @@ app.get(`${constantData?.slash}${constantRoute?.pathProduct}${constantData?.slas
   const category = req?.params?.category
   const isCorrectPath = [constantRoute?.pathDapp, constantRoute?.pathVenture, constantRoute?.pathExchange, constantRoute?.pathSoon, constantRoute?.pathLaunchpad].includes(category)
   const productName = req?.params?.productName
-  await genDetailHeader(res, (productName && isCorrectPath) ? `${category}${constantRoute?.splitDetailProduct}${productName}` : constantData?.emptyString)
+  genDetailHeader(res, (productName && isCorrectPath) ? `${category}${constantRoute?.splitDetailProduct}${productName}` : constantData?.emptyString)
 })
 // crypto(coin)
 app.get(`${constantData?.slash}${constantRoute?.pathProduct}${constantData?.slash}${constantRoute?.pathCrypto}${constantData?.slash}${constantRoute?.pathCryptoCoin}${constantData?.slash}:coinName`, (req, res) => {
