@@ -61,12 +61,12 @@ export const TopCoins = () => {
   }, [])
 
   const onTopCoinsClicked = (item) => {
-    const type = item?.cryptoId?.split('_')[1]
-    const name = item?.cryptoId?.split('_')[2]
+    const type = item?.cryptoid?.split('_')[1]
+    const name = item?.cryptoid?.split('_')[2]
     if (type === 'coin') {
       navigate(`products/crypto/${type}/${name}`)
     } else if (type === 'token') {
-      const address = item?.cryptoId?.split('_')[3]
+      const address = item?.cryptoid?.split('_')[3]
       navigate(`products/crypto/${type}/${name}/${address}`)
     }
   }

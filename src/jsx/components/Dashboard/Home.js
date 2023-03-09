@@ -26,7 +26,6 @@ const fillColors = {
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
   const summaryData = useContext(SummaryHomeContext)
-  console.log(summaryData)
   useEffect(() => {
     changeBackground({ value: 'light', label: 'Light' })
   }, [])

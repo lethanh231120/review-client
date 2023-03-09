@@ -9,7 +9,10 @@ import PieChart from '../charts/PieChart'
 const ChartDetail = () => {
   const { id } = useParams()
   const [chartData, setChartData] = useState()
+  // const location = useLocation()
 
+  // const data = location?.state
+  // console.log(data)
   useEffect(() => {
     const getChartById = async() => {
       const res = await get(`reviews/chart/detail?id=${id}`)
