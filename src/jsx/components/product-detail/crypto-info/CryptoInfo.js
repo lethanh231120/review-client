@@ -609,7 +609,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     </>
   )
 
-  const NO_CHART_LIST = ['DAI', 'USDT', 'USDC']
+  const NO_CHART_LIST = ['DAI', 'USDT', 'USDC', 'SNT']
   let symbol = ''
   if (!NO_CHART_LIST.includes(detail?.symbol)) {
     if (detail?.isBinance) {
