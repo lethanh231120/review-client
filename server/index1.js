@@ -3,7 +3,6 @@ const path = require('path')
 const fs = require('fs')
 const app = express()
 const axios = require('axios')
-const { getMetaTag } = require('./modal/MetaTag')
 const { getMetaTagHome } = require('./header-data/home')
 const { getMetaTagListCrypto } = require('./header-data/listCrypto')
 const { getMetaTagListDApp } = require('./header-data/listDApp')
@@ -92,13 +91,10 @@ const genHeader = (res, metaTag) => {
   })
 }
 
-// list
-app.get('/:category', (req, res) => {
-  const category = req?.params?.category
-  console.log('list', category)
+const genListHeader = (res, category, subCategory) => {
   switch (category) {
     case 'crypto':{
-      genHeader(res, getMetaTagListCrypto())
+      genHeader(res, getMetaTagListCrypto(subCategory))
       break
     }
     case 'dapp':{
@@ -126,10 +122,25 @@ app.get('/:category', (req, res) => {
       break
     }
     default: {
-      genHeader(res, getMetaTag(`Gear5 - Don't trust, verify`, `%PUBLIC_URL%/logo.png`, `Gear5 is a website that help you connect to the web3 world.`))
+      genHeader(res, getMetaTagHome())
       break
     }
   }
+}
+
+// list
+app.get('/:category', (req, res) => {
+  const category = req?.params?.category
+  console.log('list', category)
+  genListHeader(res, category)
+})
+
+// list with sub-category
+app.get('/:category/:subCategory', (req, res) =>{
+  const category = req?.params?.category
+  const subCategory = req?.params?.subCategory
+  console.log('list', category, 'subCategory', subCategory)
+  genListHeader(res, category, subCategory)
 })
 
 // home (NOT WORKING when use express.static)
