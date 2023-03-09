@@ -3,17 +3,17 @@ const path = require('path')
 const fs = require('fs')
 const app = express()
 const axios = require('axios')
-
-const PORT = process.env.PORT || 3000
-const indexPath = path.resolve(__dirname, '..', 'build', 'index.html')
-const { getMetaTagHome } = require('./header-data/home')
 const { getMetaTag } = require('./modal/MetaTag')
+const { getMetaTagHome } = require('./header-data/home')
 const { getMetaTagListCrypto } = require('./header-data/listCrypto')
 const { getMetaTagListDApp } = require('./header-data/listDApp')
 const { getMetaTagListVenture } = require('./header-data/listVenture')
 const { getMetaTagListExchange } = require('./header-data/listExchange')
 const { getMetaTagListSoon } = require('./header-data/listSoon')
 const { getMetaTagListLaunchpad } = require('./header-data/listLaunchpad')
+
+const PORT = process.env.PORT || 3000
+const indexPath = path.resolve(__dirname, '..', 'build', 'index.html')
 
 const genDetailHeader = (res, productId = '') => {
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
@@ -122,11 +122,10 @@ app.get('/', (_, res) => {
   genHeader(res, getMetaTagHome())
 })
 
-// here we serve the index.html page
+// othher
 app.get('/*', (req, res, next) => {
   genHeader(res, getMetaTag(`Gear5 - Don't trust, verify`, `%PUBLIC_URL%/logo.png`, `Gear5 is a website that help you connect to the web3 world.`))
 })
-
 // listening...
 app.listen(PORT, (error) => {
   if (error) {
