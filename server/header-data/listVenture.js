@@ -1,9 +1,12 @@
 const { getMetaTag } = require('../modal/MetaTag')
 
+const LIST_TITLE = `Top Crypto Ventures List | Rating, Review & Details | Gear5`
+const LIST_DESCRIPTION = `Discover Gear5's comprehensive list of Crypto Venture projects includes detailed ratings, reviews, and essential information on each project and helping you make informed investment decision!`
+
 const staticData = {
-  title: `Gear 5: Explore 2,3M+ Crypto Projects and [Number]+ Marked As Scam/Dead!`,
+  title: LIST_TITLE,
   image: `/list-venture.webp`,
-  description: `Stay up-to-date on the latest cryptocurrency trends, Gear5 provide in-depth reviews and comprehensive information on 2,3M+ cryptocurrencies, helping you make well-informed investment decisions.`
+  description: LIST_DESCRIPTION
 }
 
 module.exports.getMetaTagListVenture = () => getMetaTag(staticData.title, staticData.image, staticData.description)
