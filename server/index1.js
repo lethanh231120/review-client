@@ -83,70 +83,36 @@ const genHeader = (res, metaTag) => {
 }
 
 // list
-app.get('/:category/:subCategory', (req, res) => {
+app.get('/:category', (req, res) => {
   const category = req?.params?.category
-  const subCategory = req?.params?.subCategory
-  if (!subCategory) {
-    switch (category) {
-      case 'crypto':{
-        genHeader(res, getMetaTagListCrypto())
-        break
-      }
-      case 'dapp':{
-        genHeader(res, getMetaTagListDApp())
-        break
-      }
-      case 'venture':{
-        genHeader(res, getMetaTagListVenture())
-        break
-      }
-      case 'exchange':{
-        genHeader(res, getMetaTagListExchange())
-        break
-      }
-      case 'soon':{
-        genHeader(res, getMetaTagListSoon())
-        break
-      }
-      case 'launchpad':{
-        genHeader(res, getMetaTagListLaunchpad())
-        break
-      }
-      default: {
-        genHeader(res, getMetaTag(`Gear5 - Don't trust, verify`, `%PUBLIC_URL%/logo.png`, `Gear5 is a website that help you connect to the web3 world.`))
-        break
-      }
+  switch (category) {
+    case 'crypto':{
+      genHeader(res, getMetaTagListCrypto())
+      break
     }
-  } else {
-    switch (category) {
-      case 'crypto':{
-        genHeader(res, getMetaTagListCrypto())
-        break
-      }
-      case 'dapp':{
-        genHeader(res, getMetaTagListDApp())
-        break
-      }
-      case 'venture':{
-        genHeader(res, getMetaTagListVenture())
-        break
-      }
-      case 'exchange':{
-        genHeader(res, getMetaTagListExchange())
-        break
-      }
-      case 'soon':{
-        genHeader(res, getMetaTagListSoon())
-        break
-      }
-      case 'launchpad':{
-        genHeader(res, getMetaTagListLaunchpad())
-        break
-      }
-      default: {
-        genHeader(res, getMetaTag(`Gear5 - Don't trust, verify`, `%PUBLIC_URL%/logo.png`, `Gear5 is a website that help you connect to the web3 world.`))
-        break
-      }
+    case 'dapp':{
+      genHeader(res, getMetaTagListDApp())
+      break
+    }
+    case 'venture':{
+      genHeader(res, getMetaTagListVenture())
+      break
+    }
+    case 'exchange':{
+      genHeader(res, getMetaTagListExchange())
+      break
+    }
+    case 'soon':{
+      genHeader(res, getMetaTagListSoon())
+      break
+    }
+    case 'launchpad':{
+      genHeader(res, getMetaTagListLaunchpad())
+      break
+    }
+    default: {
+      genHeader(res, getMetaTag(`Gear5 - Don't trust, verify`, `%PUBLIC_URL%/logo.png`, `Gear5 is a website that help you connect to the web3 world.`))
+      break
     }
   }
 })
