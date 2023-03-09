@@ -12,11 +12,13 @@ const staticData = {
 
 module.exports.getMetaTagListCrypto = (subCategory) => getMetaTag(
   subCategory
-    ? staticData.title.replace(REPLACE_SUB_CATEGORY, `All ${subCategory}`)
-    : staticData.title.replace(REPLACE_SUB_CATEGORY, `${totalCryptoProject}`),
-  staticData.image,
+    ? staticData.title.replace(REPLACE_SUB_CATEGORY, `All ${subCategory}`) // Sub category
+    : staticData.title.replace(REPLACE_SUB_CATEGORY, `${totalCryptoProject}`) // List
+  ,
+  staticData.image
+  ,
   subCategory
-    ? DESCRIPTION_WITH_SUB_CATEGORY.replace(REPLACE_SUB_CATEGORY, ` ${subCategory} `)
-    : DESCRIPTION
+    ? DESCRIPTION_WITH_SUB_CATEGORY.replace(REPLACE_SUB_CATEGORY, subCategory)// Sub category
+    : DESCRIPTION // List
 )
 

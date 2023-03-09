@@ -22,11 +22,11 @@ const META_IMAGE = metaTagHome.image
 const META_DESCRIPTION = metaTagHome.description
 
 // static resources should just be served as they are
-const oneDay = 86400000 // in milliseconds
-app.use(express.static(
-  path.resolve(__dirname, '..', 'build'),
-  { maxage: oneDay }
-))
+// const oneDay = 86400000 // in milliseconds
+// app.use(express.static(
+//   path.resolve(__dirname, '..', 'build'),
+//   { maxage: oneDay }
+// ))
 
 const genDetailHeader = (res, productId = '') => {
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
