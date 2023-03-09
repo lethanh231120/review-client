@@ -15,6 +15,19 @@ const { getMetaTagListLaunchpad } = require('./header-data/listLaunchpad')
 const PORT = process.env.PORT || 3000
 const indexPath = path.resolve(__dirname, '..', 'build', 'index.html')
 
+// ######## Default meta tag
+const metaTagHome = getMetaTagHome()
+const META_TITLE = metaTagHome.title
+const META_IMAGE = metaTagHome.image
+const META_DESCRIPTION = metaTagHome.description
+
+// static resources should just be served as they are
+const oneDay = 86400000 // in milliseconds
+app.use(express.static(
+  path.resolve(__dirname, '..', 'build'),
+  { maxage: oneDay }
+))
+
 const genDetailHeader = (res, productId = '') => {
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
     if (err) {
@@ -26,20 +39,16 @@ const genDetailHeader = (res, productId = '') => {
       axios.get(`https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`).then((resp) =>{
         const data = resp?.data?.data?.details
         // inject meta tags
-        htmlData = htmlData.replace(
-          `<title>Gear5 - Don't trust, verify</title>`,
-          `<title>${data?.name || data?.ventureName || data?.dAppName || data?.projectName || `Gear5 - Don't trust, verify`}</title>`
-        )
-          .replace('__META_OG_TITLE__', data?.name || data?.ventureName || data?.dAppName || data?.projectName || `Gear5 - Don't trust, verify`)
-          .replace('__META_OG_DESCRIPTION__', data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || `Gear5 is a website that help you connect to the web3 world.`)
-          .replace('__META_DESCRIPTION__', data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || `Gear5 is a website that help you connect to the web3 world.`)
-          .replace('__META_OG_IMAGE__', data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo || `%PUBLIC_URL%/logo.png`)
+        htmlData = htmlData.replaceAll(META_TITLE, data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE)
+          .replaceAll(META_DESCRIPTION, data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || META_DESCRIPTION)
+          .replaceAll(META_IMAGE, data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo || META_IMAGE)
         return res.send(htmlData)
       })
     }
   })
 }
 
+// ######## detail page
 // detail: crypto(coin)
 app.get(`/products/crypto/coin/:coinName`, (req, res) => {
   console.log('detail: crypto(coin)')
@@ -63,15 +72,11 @@ app.get(`/products/:category/:productName`, (req, res) => {
   genDetailHeader(res, (category && productName) ? `${category}_${productName}` : '')
 })
 
+// ######## Otherwise page,..
 const injectHtmlHeader = (htmlData, metaTag) => {
-  return htmlData.replace(
-    `<title>Gear5 - Don't trust, verify</title>`,
-    `<title>${metaTag.title}</title>`
-  )
-    .replace('__META_OG_TITLE__', metaTag.title)
-    .replace('__META_OG_DESCRIPTION__', metaTag.description)
-    .replace('__META_DESCRIPTION__', metaTag.description)
-    .replace('__META_OG_IMAGE__', metaTag.image)
+  return htmlData.replaceAll(META_TITLE, metaTag.title)
+    .replaceAll(META_DESCRIPTION, metaTag.description)
+    .replaceAll(META_IMAGE, metaTag.image)
 }
 const genHeader = (res, metaTag) => {
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
@@ -87,8 +92,8 @@ const genHeader = (res, metaTag) => {
 
 // list
 app.get('/:category', (req, res) => {
-  console.log('list')
   const category = req?.params?.category
+  console.log('list', category)
   switch (category) {
     case 'crypto':{
       genHeader(res, getMetaTagListCrypto())
@@ -121,17 +126,18 @@ app.get('/:category', (req, res) => {
   }
 })
 
-// home
+// home (NOT WORKING when use express.static)
 app.get('/', (_, res) => {
   console.log('home')
   genHeader(res, getMetaTagHome())
 })
 
-// other
-app.get('/*', (req, res, next) => {
+// otherwise page
+app.get('/*', (_, res) => {
   console.log('other')
-  genHeader(res, getMetaTag(`Gear5 - Don't trust, verify`, `%PUBLIC_URL%/logo.png`, `Gear5 is a website that help you connect to the web3 world.`))
+  genHeader(res, getMetaTagHome())
 })
+
 // listening...
 app.listen(PORT, (error) => {
   if (error) {
