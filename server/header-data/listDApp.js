@@ -6,4 +6,8 @@ const staticData = {
   description: `Discover Gear5's comprehensive list of 12K+ Dapp Projects includes detailed ratings, reviews & essential information and watch out which projects are reported as Scam or Dead!`
 }
 
-module.exports.getMetaTagListDApp = () => getMetaTag(staticData.title, staticData.image, staticData.description)
+module.exports.getMetaTagListDApp = () => getMetaTag(
+  staticData.title,
+  staticData.image,
+  staticData.description
+)
