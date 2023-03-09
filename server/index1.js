@@ -22,11 +22,11 @@ const META_IMAGE = metaTagHome.image
 const META_DESCRIPTION = metaTagHome.description
 
 // static resources should just be served as they are
-// const oneDay = 86400000 // in milliseconds
-// app.use(express.static(
-//   path.resolve(__dirname, '..', 'build'),
-//   { maxage: oneDay }
-// ))
+const oneDay = 86400000 // in milliseconds
+app.use(express.static(
+  path.resolve(__dirname, '..', 'build'),
+  { maxage: oneDay }
+))
 
 const genDetailHeader = (res, productId = '') => {
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
@@ -74,7 +74,6 @@ app.get(`/products/:category/:productName`, (req, res) => {
 
 // ######## Otherwise page,..
 const injectHtmlHeader = (htmlData, metaTag) => {
-  console.log(htmlData, metaTag)
   return htmlData.replace(META_TITLE, metaTag.title)
     .replace(META_DESCRIPTION, metaTag.description)
     .replace(META_IMAGE, metaTag.image)
