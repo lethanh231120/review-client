@@ -7,7 +7,7 @@ import { WARNING_ICON } from '../../common-widgets/logo/logo'
 
 const ProjectHot = ({ data, setItemHot }) => {
   const shortenString = (text) => {
-    return text?.length > 10 ? `${text?.substring(0, 10)}...` : text
+    return text?.length > 20 ? `${text?.substring(0, 20)}...` : text
   }
 
   const SCAM_REPORT_ICON = WARNING_ICON('#d85b53', '14px')
@@ -29,7 +29,7 @@ const ProjectHot = ({ data, setItemHot }) => {
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
               {shortenString(data?.name)}
-              <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div>
+              {/* <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div> */}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
@@ -62,7 +62,7 @@ const ProjectHot = ({ data, setItemHot }) => {
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
               {shortenString(data?.name)}
-              <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div>
+              {/* <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div> */}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
@@ -183,7 +183,7 @@ const ProjectHot = ({ data, setItemHot }) => {
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
               {shortenString(data?.name)}
-              <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div>
+              {/* <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div> */}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
@@ -214,7 +214,7 @@ const ProjectHot = ({ data, setItemHot }) => {
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
               {shortenString(data?.name)}
-              <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div>
+              {/* <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div> */}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
