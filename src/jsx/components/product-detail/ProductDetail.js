@@ -483,7 +483,7 @@ const ProductDetail = () => {
   const handleSubmitComment = async(values) => {
     const params = {
       ...data,
-      productId: encodeSpecialCharacterUrl(productId),
+      productId: productId,
       ...values
     }
     if (typeComment) {
