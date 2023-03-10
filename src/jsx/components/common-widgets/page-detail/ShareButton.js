@@ -28,37 +28,37 @@ const ShareButton = ({ name, setOpenModalShare }) => {
         <div className='share-list-item'>
           <FacebookShareButton url={window.location.href} quote={name}>
             <FacebookIcon size={45} round />
-            <div>Facebook</div>
+            <div className='share-button-text'>Facebook</div>
           </FacebookShareButton>
         </div>
         <div className='share-list-item'>
           <TwitterShareButton url={window.location.href} quote={name}>
             <TwitterIcon size={45} round={true}/>
-            <div>Twitter</div>
+            <div className='share-button-text'>Twitter</div>
           </TwitterShareButton>
         </div>
         <div className='share-list-item'>
           <TelegramShareButton url={window.location.href} quote={name}>
             <TelegramIcon size={45} round={true}/>
-            <div>Telegram</div>
+            <div className='share-button-text'>Telegram</div>
           </TelegramShareButton>
         </div>
         <div className='share-list-item'>
           <LinkedinShareButton url={window.location.href} quote={name}>
             <LinkedinIcon size={45} round={true}/>
-            <div>Linkedin</div>
+            <div className='share-button-text'>Linkedin</div>
           </LinkedinShareButton>
         </div>
         <div className='share-list-item'>
           <PinterestShareButton url={window.location.href} quote={name}>
             <PinterestIcon size={45} round={true}/>
-            <div>Pinterest</div>
+            <div className='share-button-text'>Pinterest</div>
           </PinterestShareButton>
         </div>
         <div className='share-list-item'>
           <RedditShareButton url={window.location.href} quote={name}>
             <RedditIcon size={45} round={true}/>
-            <div>Reddit</div>
+            <div className='share-button-text'>Reddit</div>
           </RedditShareButton>
         </div>
       </div>

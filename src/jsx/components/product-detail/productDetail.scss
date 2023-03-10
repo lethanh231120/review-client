@@ -642,7 +642,16 @@
         }
     }
 }
-
+@media (max-width: 540px) {
+    .share{
+        padding: 2rem 0;
+        &-button{
+            &-text{
+                display: none;
+            }
+        }
+    }
+}
 @media (max-width: 420px) {
     .product-detail-form-avatar{
         & .ant-image{
