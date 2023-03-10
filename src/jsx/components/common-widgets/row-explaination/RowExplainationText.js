@@ -29,12 +29,13 @@ export const launchpadExplain = {
 }
 
 export const soonRoundSaleExplain = {
-  'round': '',
+  'round': 'Product Funding Rounds',
   'start': 'Round Start Date',
   'end': 'Round End Date',
-  'launchPadId': 'launchpad',
-  'raise': 'Total Raised Amount In USD',
-  'tokenForSale': 'Total Token For Sale In This Round',
-  'price': 'Token Sale Price In this Round In USD',
-  'status': 'Round Status'
+  'sold': `Round's Token Sold In USD`,
+  'price': 'Token Sale Price In This Round In USD',
+  'supply': 'Total Token For Sale In This Round',
+  'goal': 'Total Raised Amount In USD',
+  'launchpad': 'Buy Token In Launchpad',
+  'status': `Status Of Round`
 }
