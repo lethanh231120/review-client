@@ -69,35 +69,4 @@
 .metismenu .has-arrow {
   position: relative;
 }
-.metismenu .has-arrow:after {
-  /* position: absolute;
-  content: '';
-  width: 0.5em;
-  height: 0.5em;
-  border-width: 1px 0 0 1px;
-  border-style: solid;
-  border-color: initial;
-  right: 1em;
-  -webkit-transform: rotate(-45deg) translateY(-50%);
-  transform: rotate(-45deg) translateY(-50%);
-  -webkit-transform-origin: top;
-  transform-origin: top;
-  top: 50%;
-  transition: all 0.3s ease-out; */
-}
-/* [dir='rtl'] .metismenu .has-arrow:after {
-  right: auto;
-  left: 1em;
-  -webkit-transform: rotate(135deg) translateY(-50%);
-  transform: rotate(135deg) translateY(-50%);
-}
-.metismenu .has-arrow[aria-expanded='true']:after,
-.metismenu .mm-active > .has-arrow:after {
-  -webkit-transform: rotate(-135deg) translateY(-50%);
-  transform: rotate(-135deg) translateY(-50%);
-}
-[dir='rtl'] .metismenu .has-arrow[aria-expanded='true']:after,
-[dir='rtl'] .metismenu .mm-active > .has-arrow:after {
-  -webkit-transform: rotate(225deg) translateY(-50%);
-  transform: rotate(225deg) translateY(-50%);
-} */
+

@@ -1,7 +1,7 @@
 // / Menu
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 // / Scroll
-import PerfectScrollbar from 'react-perfect-scrollbar'
+// import PerfectScrollbar from 'react-perfect-scrollbar'
 import Collapse from 'react-bootstrap/Collapse'
 import { Button } from 'react-bootstrap'
 
@@ -303,7 +303,8 @@ const SideBar = () => {
     <div
       className={`deznav border-right`}
     >
-      <PerfectScrollbar className='deznav-scroll'>
+      <div className='deznav-scroll'>
+        {/* <PerfectScrollbar className='deznav-scroll'> */}
         <ul className='metismenu' id='menu'>
           {categories.map((data, index) => {
             const menuClass = data.classsChange
@@ -404,59 +405,6 @@ const SideBar = () => {
                               >
                                 {data.title}
                               </NavLink>
-                              {/* {data.content && data.content.length > 0 ? (
-                                <>
-                                  <NavLink
-                                    to={data?.to}
-                                    className={data.hasMenu ? 'has-arrow' : ''}
-                                    onClick={() => {
-                                      handleSubmenuActive(data?.title)
-                                    }}
-                                  >
-                                    {data.title}
-                                  </NavLink>
-                                  <Collapse
-                                    in={
-                                      state.activeSubmenu === data.title
-                                    }
-                                  >
-                                    <ul
-                                      className={`${
-                                        menuClass === 'mm-collapse'
-                                          ? 'mm-show'
-                                          : ''
-                                      }`}
-                                    >
-                                      {data.content &&
-                                        data.content.map((data, index) => {
-                                          return (
-                                            <>
-                                              <li key={index}>
-                                                <Link
-                                                  className={`${
-                                                    path === data?.to
-                                                      ? 'mm-active'
-                                                      : ''
-                                                  } `}
-                                                  to={data.to}
-
-                                                >
-                                                  {data.title}
-                                                </Link>
-                                              </li>
-                                            </>
-                                          )
-                                        })}
-                                    </ul>
-                                  </Collapse>
-                                </>
-                              ) : (
-                                <Link
-                                  to={data?.to}
-                                >
-                                  {data.title}
-                                </Link>
-                              )} */}
                             </li>
                           )
                         })}
@@ -467,7 +415,7 @@ const SideBar = () => {
             }
           }) }
         </ul>
-      </PerfectScrollbar>
+      </div>
       <div
         className={`${toggle?.toggle ? 'display-none-btn' : 'display-block-btn'} list-btn `}
       >
