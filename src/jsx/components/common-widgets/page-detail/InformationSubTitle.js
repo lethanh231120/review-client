@@ -9,8 +9,8 @@ export const typeContract = 'integration_instructions'
 export const typeAvailable = 'check'
 export const typeExchange = 'currency_exchange'
 export const typeExplorer = 'travel_explore'
-export const typeBlockchain = ''
-export const typeSocial = ''
+export const typeBlockchain = 'currency_bitcoin'
+export const typeSocial = 'groups'
 
 const titleShort = 'Short:'// Soon detail
 const titleWebsite = 'Website:'// Soon detail
@@ -25,6 +25,7 @@ const titleSocial = 'Social:' // Dapp detail
 
 const InformationSubTitle = ({ type }) => {
   let title
+  console.log(type)
   switch (type) {
     case typeShort:
       title = titleShort
@@ -54,6 +55,8 @@ const InformationSubTitle = ({ type }) => {
       title = titleBlockchain
       break
     case typeSocial:
+
+      console.log(1232)
       title = titleSocial
       break
     default:

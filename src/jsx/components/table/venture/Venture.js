@@ -31,7 +31,10 @@ const Venture = ({
   const columns = [
     {
       title: 'Name',
-      render: (_, record) => (<Link to={`../../products/${record?.ventureId?.split('_')[1]}/${record?.ventureId?.split('_')[2]}`} className='crypto-table-info image-list'>
+      render: (_, record) => (<Link
+        to={`../../products/${record?.ventureId?.split('_')[1]}/${record?.ventureId?.split('_')[2]}`}
+        className='crypto-table-info image-list'
+        onClick={e => e.stopPropagation()}>
         {record?.ventureId && record?.ventureLogo ? (
           <Image alt='Venture Logo' src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
         )

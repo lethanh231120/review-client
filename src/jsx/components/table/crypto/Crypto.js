@@ -168,7 +168,6 @@ const Crypto = ({
     e.stopPropagation()
     e.preventDefault()
     const url = mainExplorerMap?.get(cryptoId)
-    console.log(url)
     url && window.open(url, '_blank')
   }
 
@@ -178,6 +177,7 @@ const Crypto = ({
       fixed: 'left',
       render: (_, record) => (
         <Link
+          onClick={e => e.stopPropagation()}
           to={`../../../${PREFIX_DETAIL}/${CRYPTO}/${
             record?.cryptoId?.split('_')[1]
           }/${record?.cryptoId?.split('_')[2]}${
