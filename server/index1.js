@@ -11,6 +11,7 @@ const { getMetaTagListExchange } = require('./header-data/listExchange')
 const { getMetaTagListSoon } = require('./header-data/listSoon')
 const { getMetaTagListLaunchpad } = require('./header-data/listLaunchpad')
 const { getMetaTagInsight } = require('./header-data/insight')
+const { getMetaTag } = require('./modal/MetaTag')
 
 const PORT = process.env.PORT || 3000
 const indexPath = path.resolve(__dirname, '..', 'build', 'index.html')
@@ -38,20 +39,49 @@ const genDetailHeader = (res, productId = '') => {
     if (productId) {
       axios.get(`https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`).then((resp) =>{
         const data = resp?.data?.data?.details
-
-        const title = data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE
-
+        let title = data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE
         let cleanDescription = data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || META_DESCRIPTION
-        cleanDescription = cleanDescription.replace(/(<([^>]+)>)/ig, '') // strip HTML tags (from BE)
-
+        cleanDescription = cleanDescription?.replace(/(<([^>]+)>)/ig, '') // strip HTML tags (from BE)
+        cleanDescription = cleanDescription?.substring(0, 300) // good for SEO, <= 300
         const productId = data?.cryptoId || data?.dAppId || data?.ventureId || data?.exchangeId || data?.projectId || data?.launchPadId
+        let imgPath = ''
+        switch (productId) {
+          case data?.cryptoId :{
+            imgPath = 'crypto'
+            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''}, TOP Crypto Projects | Reviews, Rating & Details | Gear5`
+            break
+          }
+          case data?.dAppId :{
+            imgPath = 'dapp'
+            title = `${title}, Decentralized Application Rating, Reviews & Details | Gear5`
+            break
+          }
+          case data?.ventureId :{
+            imgPath = 'venture'
+            title = `${title}, Crypto Ventures Rating, Reviews & Details | Gear5`
+            break
+          }
+          case data?.exchangeId :{
+            imgPath = 'exchange'
+            title = `${title}, Crypto Exchanges Rating, Reviews & Details | Gear5`
+            break
+          }
+          // Soon Project
+          case data?.projectId :{
+            imgPath = 'soon'
+            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''}, ICO/IDO/IEO Projects | Reviews, Rating & Details | Gear5`
+            break
+          }
+          case data?.launchPadId :{
+            imgPath = 'launchpad'
+            title = `${title}, Crypto Launchpads Rating, Reviews & Details | Gear5`
+            break
+          }
+        }
         let image = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo
-        image = (productId && image) ? `https://gear5.s3.ap-northeast-1.amazonaws.com/image/crypto/bigLogo/${productId}.png` : META_IMAGE
-        // inject meta tags
-        htmlData = htmlData.split(META_TITLE).join(title)
-          .split(META_DESCRIPTION).join(cleanDescription)
-          .split(META_IMAGE).join(image)
-        return res.send(htmlData)
+        image = (productId && image) ? `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
+
+        return res.send(injectHtmlHeader(htmlData, getMetaTag(title, image, cleanDescription)))
       }).catch((error) => {
         console.log(error)
         return res.send(htmlData)
@@ -78,9 +108,9 @@ app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
 
 // detail: dApp, venture, exchange, soon, launchpad
 app.get(`/products/:category/:productName`, (req, res) => {
-  console.log('detail: dApp, venture, exchange, soon, launchpad')
   const category = req?.params?.category
   const productName = req?.params?.productName
+  console.log('detail', category, productName)
   genDetailHeader(res, (category && productName) ? `${category}_${productName}` : '')
 })
 
@@ -111,7 +141,7 @@ const genListHeader = (res, category, subCategory) => {
       break
     }
     case 'dapp':{
-      genHeader(res, getMetaTagListDApp())
+      genHeader(res, getMetaTagListDApp(subCategory))
       break
     }
     case 'venture':{
@@ -119,11 +149,11 @@ const genListHeader = (res, category, subCategory) => {
       break
     }
     case 'exchange':{
-      genHeader(res, getMetaTagListExchange())
+      genHeader(res, getMetaTagListExchange(subCategory))
       break
     }
     case 'soon':{
-      genHeader(res, getMetaTagListSoon())
+      genHeader(res, getMetaTagListSoon(subCategory))
       break
     }
     case 'launchpad':{

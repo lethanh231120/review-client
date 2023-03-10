@@ -28,10 +28,9 @@ import Swal from 'sweetalert2'
 import LaunchpadDetail from './launchpad-info/LaunchpadDetail'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import imgAbsentImageCrypto from '../../../images/absent_image_crypto.png'
-import { Helmet } from 'react-helmet-async'
 import { encodeSpecialCharacterUrl, formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
 import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
-// import { SEO } from './../SEO/SEO'
+import { SEO } from './../SEO/SEO'
 import { PathNameContext } from '../../index'
 import { getStatusFromStartDateAndEndDate } from '../../../utils/page-soon/status'
 
@@ -946,17 +945,10 @@ const ProductDetail = () => {
     meta.image = isValidProductId(detail?.launchPadId) ? formatImgUrlFromProductId(detail?.launchPadId) : imgAbsentImageCrypto
     return meta
   }
-  console.log(getMetaProductDetail(categoryName, type, productInfo?.details))
 
   return (
     <>
-
-      {/* <SEO props={getMetaProductDetail(categoryName, type, productInfo?.details)} /> */}
-      <Helmet>
-        <meta name='title' content='BITCOIN NE' data-react-helmet='true' />
-        <meta name='description' content={productInfo?.details?.description} data-react-helmet='true' />
-        {/* <meta name='image' content={`https://gear5.s3.ap-northeast-1.amazonaws.com/image/crypto/bigLogo/gear5_coin_bitcoin.png`}></meta> */}
-      </Helmet>
+      <SEO props={getMetaProductDetail(categoryName, type, productInfo?.details)} />
       <div className='section'>
         {!productInfo ? <MySkeletonLoadinng count={6} height={200}/> : ''}
         <div className='product' ref={ref} hidden={!productInfo}>
