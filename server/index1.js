@@ -214,7 +214,7 @@ app.get('/*', (_, res) => {
 // listening...
 app.listen(PORT, (error) => {
   if (error) {
-    console.error('Error during app startup', error)
+    return // console.error('Error during app startup', error)
   }
   console.log('listening on ' + PORT + '...')
 })
