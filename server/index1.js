@@ -111,7 +111,7 @@ const genListHeader = (res, category, subCategory) => {
       break
     }
     case 'dapp':{
-      genHeader(res, getMetaTagListDApp())
+      genHeader(res, getMetaTagListDApp(subCategory))
       break
     }
     case 'venture':{
@@ -119,11 +119,11 @@ const genListHeader = (res, category, subCategory) => {
       break
     }
     case 'exchange':{
-      genHeader(res, getMetaTagListExchange())
+      genHeader(res, getMetaTagListExchange(subCategory))
       break
     }
     case 'soon':{
-      genHeader(res, getMetaTagListSoon())
+      genHeader(res, getMetaTagListSoon(subCategory))
       break
     }
     case 'launchpad':{
