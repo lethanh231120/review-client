@@ -1,3 +1,5 @@
+@import '../../../scss/base/font-size.scss';
+
 .category{
     &-page{
         // padding: 3rem 2rem;
@@ -73,6 +75,9 @@
 .icon-submit{
     padding: 0.5rem;
     cursor: pointer;
+}
+.font-family{
+    @include font-family;
 }
 
 

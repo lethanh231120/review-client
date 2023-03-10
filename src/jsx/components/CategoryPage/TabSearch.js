@@ -156,136 +156,134 @@ const TabSearch = (props) => {
   return (
     <>
       {listProduct ? (
-        <div className='col-xl-12'>
-          <div>
-            <Tab.Container activeKey={tab}>
-              <div className='row'>
-                <div className='col-xl-8 col-lg-9 col-md-8'>
-                  <Nav as='ul' className='order nav-tabs' id='pills-tab' role='tablist'>
-                    <Nav.Item
-                      as='li'
-                      className=' my-1'
-                      role='presentation'
-                      onClick={() => {
-                        setListData([])
-                        setTab(CRYPTO)
-                      }}
-                    >
-                      <Nav.Link as='button' eventKey='crypto' type='button'>
+        <div className='col-xl-12 font-family'>
+          <Tab.Container activeKey={tab}>
+            <div className='row'>
+              <div className='col-xl-8 col-lg-9 col-md-8'>
+                <Nav as='ul' className='order nav-tabs' id='pills-tab' role='tablist'>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(CRYPTO)
+                    }}
+                  >
+                    <Nav.Link as='button' eventKey='crypto' type='button'>
                       Cryptos
                       ({listProduct[`${LIST_CRYPTO}`]?.cryptos?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_CRYPTO}`]?.cryptos?.length) : 0})
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item
-                      as='li'
-                      className=' my-1'
-                      role='presentation'
-                      onClick={() => {
-                        setListData([])
-                        setTab(DAPP)
-                      }}
-                    >
-                      <Nav.Link as='button' eventKey='dapp' type='button'>
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(DAPP)
+                    }}
+                  >
+                    <Nav.Link as='button' eventKey='dapp' type='button'>
                       DApps
                       ({listProduct[`${LIST_DAPP}`]?.dapps?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_DAPP}`]?.dapps?.length) : 0})
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item
-                      as='li'
-                      className=' my-1'
-                      role='presentation'
-                      onClick={() => {
-                        setListData([])
-                        setTab(EXCHANGE)
-                      }}
-                    >
-                      <Nav.Link as='button' eventKey='exchange' type='button'>
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(EXCHANGE)
+                    }}
+                  >
+                    <Nav.Link as='button' eventKey='exchange' type='button'>
                       Exchanges
                       ({listProduct[`${LIST_EXCHANGE}`]?.exchanges?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_EXCHANGE}`]?.exchanges?.length) : 0})
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item
-                      as='li'
-                      className=' my-1'
-                      role='presentation'
-                      onClick={() => {
-                        setListData([])
-                        setTab(VENTURE)
-                      }}
-                    >
-                      <Nav.Link as='button' className='me-0' eventKey='venture' type='button'>
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(VENTURE)
+                    }}
+                  >
+                    <Nav.Link as='button' className='me-0' eventKey='venture' type='button'>
                       Ventures
                       ({listProduct[`${LIST_VENTURE}`]?.ventures?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_VENTURE}`]?.ventures?.length) : 0})
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item
-                      as='li'
-                      className=' my-1'
-                      role='presentation'
-                      onClick={() => {
-                        setListData([])
-                        setTab(SOON)
-                      }}
-                    >
-                      <Nav.Link as='button' className='me-0' eventKey='soon' type='button'>
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(SOON)
+                    }}
+                  >
+                    <Nav.Link as='button' className='me-0' eventKey='soon' type='button'>
                       Soons
                       ({listProduct[`${LIST_SOON}`]?.soons?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_SOON}`]?.soons?.length) : 0})
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item
-                      as='li'
-                      className=' my-1'
-                      role='presentation'
-                      onClick={() => {
-                        setListData([])
-                        setTab(LAUNCHPAD)
-                      }}
-                    >
-                      <Nav.Link as='button' className='me-0' eventKey='launchpad' type='button'>
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item
+                    as='li'
+                    className=' my-1'
+                    role='presentation'
+                    onClick={() => {
+                      setListData([])
+                      setTab(LAUNCHPAD)
+                    }}
+                  >
+                    <Nav.Link as='button' className='me-0' eventKey='launchpad' type='button'>
                       LaunchPads
                       ({listProduct[`${LIST_LAUNCHPAD}`]?.launchPads?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_LAUNCHPAD}`]?.launchPads?.length) : 0})
-                      </Nav.Link>
-                    </Nav.Item>
-                  </Nav>
-                </div>
-                <div className='col-xl-4 col-lg-3 col-md-4'>
-                  <Input
-                    value={keywordSearch}
-                    placeholder={keywordSearch}
-                    onChange={(e) => setKeyWordSearch(e.target.value)}
-                    onKeyPress={handleSubmitSearch}
-                    suffix={<SearchOutlined onClick={handleSubmitBtn} className='icon-submit'/>}
-                  />
-                </div>
+                    </Nav.Link>
+                  </Nav.Item>
+                </Nav>
               </div>
-              <div className='mt-4'>
-                <Tab.Content className='tab-content' >
-                  <Tab.Pane eventKey='crypto'>
-                    <div className='table-responsive dataTablemarket'>
-                      <div id='market_wrapper' className='dataTables_wrapper no-footer'>
-                        <CryptoTable listData={listData?.crypto} loading={loading}/>
-                      </div>
+              <div className='col-xl-4 col-lg-3 col-md-4'>
+                <Input
+                  value={keywordSearch}
+                  placeholder={keywordSearch}
+                  onChange={(e) => setKeyWordSearch(e.target.value)}
+                  onKeyPress={handleSubmitSearch}
+                  suffix={<SearchOutlined onClick={handleSubmitBtn} className='icon-submit'/>}
+                />
+              </div>
+            </div>
+            <div className='mt-4'>
+              <Tab.Content className='tab-content' >
+                <Tab.Pane eventKey='crypto'>
+                  <div className='table-responsive dataTablemarket'>
+                    <div id='market_wrapper' className='dataTables_wrapper no-footer'>
+                      <CryptoTable listData={listData?.crypto} loading={loading}/>
                     </div>
-                  </Tab.Pane>
-                  <Tab.Pane eventKey='dapp'>
-                    <DappTable listData={listData?.dapp} loading={loading} />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey='exchange'>
-                    <ExchangeTable listData={listData?.exchange} loading={loading} />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey='venture'>
-                    <VentureTable listData={listData?.venture} loading={loading} />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey='soon'>
-                    <SoonTable listData={listData?.soon} loading={loading}/>
-                  </Tab.Pane>
-                  <Tab.Pane eventKey='launchpad'>
-                    <LaunchPadTable listData={listData?.launchpad} loading={loading}/>
-                  </Tab.Pane>
-                </Tab.Content>
-              </div>
-            </Tab.Container>
-          </div>
+                  </div>
+                </Tab.Pane>
+                <Tab.Pane eventKey='dapp'>
+                  <DappTable listData={listData?.dapp} loading={loading} />
+                </Tab.Pane>
+                <Tab.Pane eventKey='exchange'>
+                  <ExchangeTable listData={listData?.exchange} loading={loading} />
+                </Tab.Pane>
+                <Tab.Pane eventKey='venture'>
+                  <VentureTable listData={listData?.venture} loading={loading} />
+                </Tab.Pane>
+                <Tab.Pane eventKey='soon'>
+                  <SoonTable listData={listData?.soon} loading={loading}/>
+                </Tab.Pane>
+                <Tab.Pane eventKey='launchpad'>
+                  <LaunchPadTable listData={listData?.launchpad} loading={loading}/>
+                </Tab.Pane>
+              </Tab.Content>
+            </div>
+          </Tab.Container>
         </div>
       ) : <MySkeletonLoadinng count={50} height={70} />}
     </>

@@ -25,7 +25,6 @@ const titleSocial = 'Social:' // Dapp detail
 
 const InformationSubTitle = ({ type }) => {
   let title
-  console.log(type)
   switch (type) {
     case typeShort:
       title = titleShort
