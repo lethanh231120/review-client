@@ -71,6 +71,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   useEffect(() => {
     const getDataVenture = async() => {
+      setMainExplorer()
       if (!_.isEmpty(detail?.multichain)) {
         const newMultiChain = []
         detail?.multichain?.forEach((itemMulti) => {
@@ -86,7 +87,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                 ...itemMulti
               })
               // main address to display
-              if (detail?.chainName === itemMulti?.chainName) {
+              if (detail?.chainName === itemMulti?.split('_')[2]) {
                 setMainExplorer(
                   `${itemChain?.exploreWebsite}${itemChain?.path}${detail?.address}`
                 )
@@ -109,7 +110,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       }
     }
     getDataVenture()
-  }, [productInfo, chainList])
+  }, [detail, chainList])
 
   useEffect(() => {
     const newListExchange = []
@@ -348,7 +349,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   ]
 
   const projectNameSymbol = <h4 className='text-primary mb-2 cus-h4'>
-    <span className='crypto-overview-name'>
+    <span className='detail-header-overview-name'>
       {detail?.name}
     </span>
     <span className='crypto-overview-symbol'>
@@ -384,13 +385,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
             src={chainList[`${detail?.chainName}`]?.image}
             preview={false}
           />
-          {`${detail?.address?.slice(
-            0,
-            5
-          )}...${detail?.address?.slice(
-            detail?.address?.length - 5,
-            detail?.address?.length
-          )}`}
+          {`${detail?.address?.slice(0, 5)}...${detail?.address?.slice(detail?.address?.length - 5, detail?.address?.length)}`}
         </a>
         <CopyOutlined
           style={{ padding: '0, 1rem' }}
@@ -403,7 +398,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       </p>
     )}
     {detail?.type && (
-      <Badge className='badge-sm' >{toCammelCase(detail?.type) }</Badge>
+      <Badge className='badge-sm button-type' >{toCammelCase(detail?.type) }</Badge>
     )}
   </div>
 

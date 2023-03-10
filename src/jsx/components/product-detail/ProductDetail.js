@@ -948,7 +948,12 @@ const ProductDetail = () => {
 
   return (
     <>
+
       <SEO props={getMetaProductDetail(categoryName, type, productInfo?.details)} />
+      {/* <Helmet>
+        <meta name='title' content='BITCOIN NE' data-react-helmet='true' />
+        <meta name='description' content={productInfo?.details?.description} data-react-helmet='true' />
+      </Helmet> */}
       <div className='section'>
         {!productInfo ? <MySkeletonLoadinng count={6} height={200}/> : ''}
         <div className='product' ref={ref} hidden={!productInfo}>

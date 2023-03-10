@@ -58,7 +58,11 @@ const DappInfo = ({ productInfo, ...rest }) => {
           }
         </div>
         <div className='profile-name cus-profile-name'>
-          <h4 className='text-primary mb-2 cus-h4'>{detail?.dAppName}</h4>
+          <h4 className='text-primary mb-2 cus-h4'>
+            <span className='detail-header-overview-name'>
+              {detail?.dAppName}
+            </span>
+          </h4>
           <Badge className='badge-sm' >{detail?.subCategory}</Badge>
         </div>
         <div className='detail-button ms-auto'>
@@ -276,7 +280,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
           </div>}
           <p>
           If you have any good or bad experience with
-            <span className='text-primary'>
+            <span className='text-primary break-word'>
               {` ${detail?.dAppName}`}
             </span>, please share with us in informing everyone
             <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem', width: '1.1rem' }}/>

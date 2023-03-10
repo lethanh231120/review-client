@@ -33,7 +33,7 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItemSea
     >
       <div className='form-search-data-item-data'>
         {(item?.cryptoId && item?.image && item?.image !== absentImageElasticSearch) ? (
-          <Image src={isValidProductId(item?.cryptoId) ? formatImgUrlFromProductId(item?.cryptoId) : imgAbsentImageCrypto} />
+          <Image src={isValidProductId(item?.cryptoId) ? formatImgUrlFromProductId(item?.cryptoId) : imgAbsentImageCrypto} preview={false}/>
         ) : (
           (
             <NoImage

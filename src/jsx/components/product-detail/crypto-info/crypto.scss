@@ -3,7 +3,7 @@
     width: 100%;
 }
 .cus-profile-name {
-    width: calc(100% - 21rem);
+    width: calc(100% - 27rem);
 }
 
 .cus-heading {
@@ -20,12 +20,12 @@
 .crypto {
     &-overview {
         &-name {
-            width: fit-content;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            // width: fit-content;
+            // display: -webkit-box;
+            // -webkit-line-clamp: 1;
+            // -webkit-box-orient: vertical;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
         }
         &-symbol {
             padding: 0 0.3rem 0 1rem;
@@ -308,7 +308,7 @@
 }
 @media (max-width: 1600.99px) {
     .cus-profile-name {
-        width: calc(100% - 23rem);
+        width: calc(100% - 28rem);
     }
 }
 @media (max-width: 1400.99px) {
@@ -319,6 +319,7 @@
         height: 31px;
     }
 }
+
 @media (max-width: 575.99px) {
     .cus-profile-name {
         width: calc(100% - 11.5rem);
@@ -342,5 +343,11 @@
                 max-width: calc(100% - 8rem);
             }
         }
+    }
+}
+
+@media (max-width: 420px) {
+    .button-type{
+        display: none !important;
     }
 }
