@@ -13,6 +13,7 @@ import { chartColorPallet } from './PieChart'
 import moment from 'moment/moment'
 // import { Bar } from 'react-chartjs-2';
 // import faker from 'faker';
+import './chart.scss'
 
 ChartJS.register(
   CategoryScale,
@@ -52,7 +53,6 @@ const Barchart = ({ dataSet, height, width, isDetail }) => {
   const options = {
     plugins: {
       maintainAspectRatio: false,
-      responsive: true,
       legend: false,
       tooltip: {
         callbacks: {
@@ -107,7 +107,7 @@ const Barchart = ({ dataSet, height, width, isDetail }) => {
   }
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ width: '100%', height: 'auto' }}>
       <Bar data={data} height={height} style={{ width: '100%' }} options={options} />
     </div>
   )
