@@ -488,7 +488,6 @@ const ProductDetail = () => {
     }
     if (typeComment) {
       const recaptchaValue = recapcharRef.current.getValue()
-      // console.log(recaptchaValue)
       if (recaptchaValue) {
         handleAddComment(params, 'anonymous', recaptchaValue)
       } else {
@@ -922,7 +921,6 @@ const ProductDetail = () => {
   }
 
   const getMetaTagSoon = (detail) =>{
-    console.log(detail)
     const meta = {}
     meta.title = `${detail?.projectName} (${detail?.projectSymbol}) ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} ${getStatusFromStartDateAndEndDate(detail?.startDate, detail?.endDate)?.toUpperCase()}, Market Cap today and Info | Gear5`
     meta.description = detail?.fullDesc || detail?.shortDesc

@@ -183,7 +183,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
     }
   }, [showDrawer])
   const onFinish = (values) => {
-    console.log(values)
     // SAVE STATE INTO LOCAL STORAGE
     window.localStorage.setItem(type, JSON.stringify(values))
     const filterParams = {}
@@ -538,7 +537,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
         }`
       }
     }
-    console.log(filterParams)
     handleFilter(filterParams)
     setShowDrawer(false)
   }

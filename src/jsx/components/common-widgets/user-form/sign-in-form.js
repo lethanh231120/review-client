@@ -12,6 +12,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GoogleLogin } from '@react-oauth/google'
 import { parseJwt } from '../../../../utils/decode'
 import { txtEnterEmail, txtEnterPassword } from './sign-up-form'
+import { toCammelCase } from '../../../../utils/formatText'
 
 export const SignInComponent = () => {
   const authenticated = useContext(Authenticated)
@@ -43,7 +44,7 @@ export const SignInComponent = () => {
   }
 
   const handleFalure = (value) => {
-    console.log(value)
+    console.error(value)
   }
 
   const openNotification = (error) => {
@@ -72,7 +73,7 @@ export const SignInComponent = () => {
       msg += 'Your account is blocked. Please contact with the administrator'
     } else {
       // otherwise default message from BE
-      msg += error?.response?.data?.error
+      msg += toCammelCase(error?.response?.data?.message)
     }
 
     Swal.fire({

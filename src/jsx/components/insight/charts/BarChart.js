@@ -55,7 +55,6 @@ const Barchart = ({ dataSet, height, width, isDetail }) => {
       tooltip: {
         callbacks: {
           title: (xDatapoint) => {
-            // console.log(xDatapoint)
             const label = xDatapoint[0]?.label
             if (moment(label)?.isValid()) {
               return moment(label)?.format('YYYY-MM-DD')

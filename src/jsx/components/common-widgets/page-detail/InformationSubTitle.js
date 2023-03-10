@@ -25,7 +25,6 @@ const titleSocial = 'Social:' // Dapp detail
 
 const InformationSubTitle = ({ type }) => {
   let title
-  console.log(type)
   switch (type) {
     case typeShort:
       title = titleShort
@@ -55,8 +54,6 @@ const InformationSubTitle = ({ type }) => {
       title = titleBlockchain
       break
     case typeSocial:
-
-      console.log(1232)
       title = titleSocial
       break
     default:

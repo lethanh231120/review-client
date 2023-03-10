@@ -177,7 +177,6 @@ const ThemeContextProvider = (props) => {
   // }
 
   const openMenuToggle = () => {
-    // console.log('sidebar',sideBarStyle)
     sideBarStyle.value === 'overly'
       ? dispatch({ menuToggle: true })
       : dispatch({ menuToggle: false })
