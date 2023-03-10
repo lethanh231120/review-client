@@ -307,7 +307,7 @@ const Similar = ({ type, listProjectId }) => {
         {record?.dAppId && record?.dAppLogo ? (
           <Image alt='DApp Logo' onError={(error) => console.error(error)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
         )
-          : (<span className='image-list-no-data-detail'>
+          : (<span className='image-list-no-data'>
             {record?.dAppName?.slice(0, 3)}
           </span>)
         }
@@ -382,7 +382,7 @@ const Similar = ({ type, listProjectId }) => {
         {record?.exchangeId && record?.smallLogo ? (
           <Image alt='Exchange Logo' src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
         )
-          : (<span className='image-list-no-data-detail'>
+          : (<span className='image-list-no-data'>
             {record?.name?.slice(0, 3)}
           </span>)
         }
@@ -472,7 +472,7 @@ const Similar = ({ type, listProjectId }) => {
         {record?.ventureId && record?.ventureLogo ? (
           <Image alt='Venture Logo' src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
         )
-          : (<span className='image-list-no-data-detail'>
+          : (<span className='image-list-no-data'>
             {record?.ventureName?.slice(0, 3)}
           </span>)
         }

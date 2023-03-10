@@ -229,8 +229,8 @@ const ProductDetail = () => {
         page: 1,
         orderBy: 'createdDate'
       })
-      const dataReply = await get(`reviews/reply?productId=${productId}`)
-      const dataReactions = await get(`reviews/reaction?productId=${productId}`)
+      const dataReply = await get(`reviews/reply?productId=${encodeSpecialCharacterUrl(productId)}`)
+      const dataReactions = await get(`reviews/reaction?productId=${encodeSpecialCharacterUrl(productId)}`)
       let groupByType
       if (dataReactions) {
         // group data Reaction by type: 0: review, 1: reply
@@ -483,7 +483,7 @@ const ProductDetail = () => {
   const handleSubmitComment = async(values) => {
     const params = {
       ...data,
-      productId: productId,
+      productId: encodeSpecialCharacterUrl(productId),
       ...values
     }
     if (typeComment) {

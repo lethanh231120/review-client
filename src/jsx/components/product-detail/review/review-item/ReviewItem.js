@@ -267,7 +267,7 @@ const ReviewItem = (props) => {
             // update data of current reply
             newListReview[index] = {
               ...newListReview[index],
-              reactions: [dataAddReact?.data]
+              reactions: _.isEmpty(newListReview[index]?.reactions) ? [dataAddReact?.data] : [...newListReview[index].reactions, dataAddReact?.data]
             }
             setReviews(newListReview)
             setNewData({
@@ -400,7 +400,6 @@ const ReviewItem = (props) => {
             )}
           </div>
         </div>
-        {console.log(data?.review)}
         {type === 'normal' && (
           <>
             {!_.isEmpty(data?.review?.images) && (
