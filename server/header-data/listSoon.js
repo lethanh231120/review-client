@@ -17,8 +17,8 @@ const staticData = {
 
 module.exports.getMetaTagListSoon = (subCategory) => getMetaTag(
   subCategory
-    ? staticData.title // SubCategory
-    : SUB_CATEGORY_TITLE?.replace(REPLACE_SUB_CATEGORY, subCategory) // List
+    ? SUB_CATEGORY_TITLE?.replace(REPLACE_SUB_CATEGORY, subCategory) // SubCategory
+    : LIST_TITLE // List
   ,
   staticData.image
   ,
