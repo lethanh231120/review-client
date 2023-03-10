@@ -309,6 +309,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     }
   }
 
+  console.log(productInfo?.mores?.fund)
   const PortfolioTable = () => {
     return <>
       <div className='card-header border-0 pb-0'>
@@ -316,20 +317,41 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog portfolio-table table-responsive'>
-          <Table
-            rowClassName='portfolio-item portfolio-table'
+          {/* <Table
+            // rowClassName='portfolio-item portfolio-table'
             columns={portfolioColumns}
             dataSource={productInfo?.mores?.fund}
+            pagination={{
+              defaultPageSize: 10,
+              total: 100,
+              showSizeChanger: false
+            }}
+            rowKey={(record, index) => index}
             onRow={(record) => ({
               onClick: () => {
                 handleonRowClicked(record?.projectId)
               }
             })}
-            rowKey={(record, index) => index}
-            pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true, style: { display: 'flex', justifyContent: 'center' }}}
-          />
+          /> */}
         </div>
-      </div></>
+      </div>
+      <Table
+        // rowClassName='portfolio-item portfolio-table'
+        columns={portfolioColumns}
+        dataSource={productInfo?.mores?.fund}
+        pagination={{
+          total: 100,
+          defaultPageSize: 10,
+          showSizeChanger: false
+        }}
+        rowKey={(record, index) => index}
+        onRow={(record) => ({
+          onClick: () => {
+            handleonRowClicked(record?.projectId)
+          }
+        })}
+      />
+    </>
   }
 
   // scam
