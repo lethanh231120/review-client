@@ -323,7 +323,7 @@ const ReviewItem = (props) => {
         <div className='review-item-data'>
           <div className='review-item-name'>
             {type === 'founder' ? (
-              <span className='text-primary' style={{ display: 'flex', alignItems: 'center' }}>
+              <span className='button-founder' style={{ display: 'flex', alignItems: 'center' }}>
                 {data?.accountName}
                 <span style={{ display: 'flex', alignItems: 'center' }}>
                   <PushpinOutlined style={{ marginLeft: '0.3rem' }}/>

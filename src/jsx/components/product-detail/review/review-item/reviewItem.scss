@@ -160,7 +160,13 @@
     background-color: #EB5757;
     color: #fff;
 }
-
+.button-founder{
+    background-color: #039F7F;
+    color: #fff;
+    border-radius: 1rem;
+    padding: 0.2rem 0.5rem;
+    width: fit-content;
+}
 .comment{
     &-reply{
         opacity: 1;
