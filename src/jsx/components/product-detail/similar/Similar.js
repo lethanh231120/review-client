@@ -131,12 +131,12 @@ const Similar = ({ type, listProjectId }) => {
             >
               {record?.multichain?.map((item, index) => (
                 <React.Fragment key={item?.cryptoId}>
-                  {chainList[item?.chainName] && (
-                    <Tooltip title={toCammelCase(chainList[item?.chainName]?.chainName)}>
+                  {chainList[item?.split('_')[2]] && (
+                    <Tooltip title={toCammelCase(chainList[item?.split('_')[2]]?.chainName)}>
                       <Avatar
                         alt='Blockchain Logo'
                         size={25}
-                        src={chainList[item?.chainName]?.image}
+                        src={chainList[item?.split('_')[2]]?.image}
                         key={index}
                         className='crypto-table-chain'
                       />
