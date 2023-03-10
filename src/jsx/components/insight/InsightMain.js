@@ -38,13 +38,14 @@ const InsightMain = () => {
   }
 
   const chartSection = (data, chartId) => {
-    return <Col key={chartId} xl={4} lg={4} style={{ display: 'flex', cursor: 'pointer' }} >
+    return <Col key={chartId} xl={4} lg={12} style={{ display: 'flex', cursor: 'pointer' }} >
       <Card style={{ width: '100%' }}>
         <Card.Header>
           <h4 className='card-title'>{data?.title}</h4>
         </Card.Header>
         <Card.Body>
           <Link to={`${chartId}`}
+            className='d-flex align-items-center justify-content-center'
           // state={chartId}
           >
             {getChartType(data)}
