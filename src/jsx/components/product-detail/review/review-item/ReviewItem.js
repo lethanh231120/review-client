@@ -400,6 +400,7 @@ const ReviewItem = (props) => {
             )}
           </div>
         </div>
+        {console.log(data?.review)}
         {type === 'normal' && (
           <>
             {!_.isEmpty(data?.review?.images) && (
@@ -419,8 +420,7 @@ const ReviewItem = (props) => {
                 />
                 <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
                 <span className='review-item-action-item-time'>
-                  {/* {moment.utc(data?.review?.updatedDate).fromNow()} */}
-                  {timeAgoConvert(data?.review?.updatedDate)}
+                  {timeAgoConvert(data?.review?.createdDate)}
                 </span>
               </div>
               {!_.isEmpty(newData?.reactionType) && (
