@@ -32,7 +32,10 @@ const LaunchpadList = ({ listProduct,
   const columns = [
     {
       title: 'Name',
-      render: (_, record) => (<Link className='crypto-table-info image-list' to={`../../products/${record?.launchPadId?.split('_')[1]}/${record?.launchPadId?.split('_')[2]}`}>
+      render: (_, record) => (<Link
+        className='crypto-table-info image-list'
+        to={`../../products/${record?.launchPadId?.split('_')[1]}/${record?.launchPadId?.split('_')[2]}`}
+        onClick={e => e.stopPropagation()}>
         { myLogo('bigLogo', record?.launchPadId, 'launchpad') }
         <span>
           <div className='data-table-name ms-2'>

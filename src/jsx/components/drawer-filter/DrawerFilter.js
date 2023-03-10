@@ -549,7 +549,19 @@ const DrawerFilter = ({ type, handleFilter }) => {
       <Col span={7}>
         <Form.Item name={[attr, 'from']}
           key={[attr, 'from']}
-        >
+          rules={[
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                const max = getFieldValue(attr)?.to
+                if (max) {
+                  if (value > max) {
+                    return Promise.reject(`Filter range is not valid`)
+                  }
+                }
+                return Promise.resolve()
+              }
+            })
+          ]}>
           <Select options={options} />
         </Form.Item>
       </Col>

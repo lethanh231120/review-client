@@ -148,7 +148,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
 
   const communityItem = (title, content) => {
     return <div className='d-flex align-items-start'>
-      <p>{title}:</p>
+      {/* <p>{title}:</p> */}
       <div className='cus-d-flex'>
         {content && (
           Object.keys(content).map(

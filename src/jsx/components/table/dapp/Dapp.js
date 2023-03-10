@@ -34,7 +34,10 @@ const Dapp = ({
     {
       title: 'Name',
       align: 'left',
-      render: (_, record) => (<Link className='crypto-table-info image-list' to={`../../products/${record?.dAppId?.split('_')[1]}/${record?.dAppId?.split('_')[2]}`}>
+      render: (_, record) => (<Link className='crypto-table-info image-list'
+        to={`../../products/${record?.dAppId?.split('_')[1]}/${record?.dAppId?.split('_')[2]}`}
+        onClick={e => e.stopPropagation()}
+      >
         {record?.dAppId && record?.dAppLogo ? (
           <Image alt='DApp Logo' onError={() => console.log(1)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
         )
