@@ -11,7 +11,7 @@ const Description = ({ projectName, text }) => {
 
   return <div>
     {projectName && <div className='card-header border-0 pb-0'>
-      <h5 className='heading text-primary d-flex align-items-start'>
+      <h5 className='heading text-primary d-flex align-items-start break-word'>
         <i className='material-icons fs-30 text-primary'>subject</i>
             About {projectName}
       </h5>

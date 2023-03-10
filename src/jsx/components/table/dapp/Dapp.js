@@ -79,7 +79,7 @@ const Dapp = ({
             backgroundColor: '#039F7F',
             cursor: 'pointer'
           }}
-          maxCount={Object.keys(record?.chains)?.length >= 5 ? 3 : 4}
+          maxCount={record?.chains ? (Object?.keys(record?.chains)?.length >= 5 ? 3 : 4) : 0}
           size={25} >
           {record?.chains && Object.keys(record?.chains).map((key, index) => <Tooltip key={index} title={toCammelCase(key)}
           >

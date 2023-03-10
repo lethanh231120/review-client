@@ -8866,7 +8866,9 @@ svg.pulse-svg {
 .header-left {
   height: 100%;
   display: flex;
-  align-items: center; }
+  align-items: center; 
+  max-width: 40%;
+}
   .header-left .breadcrumb {
     margin-bottom: 0; }
   .header-left .agenda a {
@@ -21281,6 +21283,7 @@ div#mCSB_1 {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  /* max-width: 30%; */
 }
 .text-etc-overflow-hover:hover{
   overflow: visible; 
@@ -21558,4 +21561,15 @@ li.countdown span {
 }
 .txt-link:hover{
   text-decoration: none;
+}
+.break-word{
+  word-break: break-word;
+}
+.detail-header-overview-name{
+  width: fit-content;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

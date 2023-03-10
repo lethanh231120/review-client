@@ -48,6 +48,7 @@ const ScamWarningDetail = ({ isShow, scamWarningReason, proofType }) => {
   return (
     <div
       hidden={!isShow}
+      className='break-word'
     >
       {proofType === ProofTypes.Error ? (
         <Alert variant='danger' dismissible show={true}>
