@@ -29,6 +29,11 @@ app.use(express.static(
   { maxage: oneDay }
 ))
 
+const encodeSpecialCharacterUrl = (url) =>{
+  url = url?.split('+').join('%2B')
+  return url
+}
+
 const genDetailHeader = (res, productId = '') => {
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
     if (err) {
@@ -37,6 +42,7 @@ const genDetailHeader = (res, productId = '') => {
     }
 
     if (productId) {
+      productId = encodeSpecialCharacterUrl(productId)
       axios.get(`https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`).then((resp) =>{
         const data = resp?.data?.data?.details
         let title = data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE
@@ -123,7 +129,7 @@ app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
 app.get(`/products/:category/:productName`, (req, res) => {
   const category = req?.params?.category
   const productName = req?.params?.productName
-  // console.log('detail', category, productName)
+  console.log('detail', category, productName)
   genDetailHeader(res, (category && productName) ? `${category}_${productName}` : '')
 })
 
