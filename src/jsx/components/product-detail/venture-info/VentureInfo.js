@@ -310,6 +310,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
   }
 
   const PortfolioTable = () => {
+    console.log(productInfo?.mores?.fund?.length)
     return <>
       <div className='card-header border-0 pb-0'>
         <h5 className='heading text-primary'>{detail?.ventureName} Portfolio</h5>
@@ -325,8 +326,8 @@ const VentureInfo = ({ productInfo, ...rest }) => {
                 handleonRowClicked(record?.projectId)
               }
             })}
-            rowKey={(record, index) => index}
-            pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true, style: { display: 'flex', justifyContent: 'center' }}}
+            rowKey={(record, index) => record?.id}
+            pagination={{ pageSize: 10, total: productInfo?.mores?.fund?.length, showSizeChanger: false, style: { display: 'flex', justifyContent: 'center' }}}
           />
         </div>
       </div></>
