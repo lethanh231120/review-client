@@ -43,14 +43,16 @@ const Barchart = ({ dataSet, height, width, isDetail }) => {
         data: dataSet?.results?.map(item => item[1]),
         borderColor: 'rgba(149, 105, 255, 1)',
         borderWidth: '0',
-        backgroundColor: backgroundColor(dataSet?.title),
-        barThickness: 20
+        backgroundColor: backgroundColor(dataSet?.title)
+        // barThickness: 20
 
       }
     ]
   }
   const options = {
     plugins: {
+      maintainAspectRatio: false,
+      responsive: true,
       legend: false,
       tooltip: {
         callbacks: {
@@ -84,7 +86,8 @@ const Barchart = ({ dataSet, height, width, isDetail }) => {
           {
             display: isDetail,
             // Change here
-            barPercentage: 0.1,
+            categoryPercentage: 1.0,
+            barPercentage: 1.0,
             grid: {
               display: isDetail
             },
@@ -104,9 +107,9 @@ const Barchart = ({ dataSet, height, width, isDetail }) => {
   }
 
   return (
-    <>
+    <div style={{ position: 'relative' }}>
       <Bar data={data} height={height} style={{ width: '100%' }} options={options} />
-    </>
+    </div>
   )
 }
 

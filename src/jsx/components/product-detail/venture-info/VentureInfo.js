@@ -309,49 +309,28 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     }
   }
 
-  console.log(productInfo?.mores?.fund)
   const PortfolioTable = () => {
+    console.log(productInfo?.mores?.fund?.length)
     return <>
       <div className='card-header border-0 pb-0'>
         <h5 className='heading text-primary'>{detail?.ventureName} Portfolio</h5>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-blog portfolio-table table-responsive'>
-          {/* <Table
-            // rowClassName='portfolio-item portfolio-table'
+          <Table
+            rowClassName='portfolio-item portfolio-table'
             columns={portfolioColumns}
             dataSource={productInfo?.mores?.fund}
-            pagination={{
-              defaultPageSize: 10,
-              total: 100,
-              showSizeChanger: false
-            }}
-            rowKey={(record, index) => index}
             onRow={(record) => ({
               onClick: () => {
                 handleonRowClicked(record?.projectId)
               }
             })}
-          /> */}
+            rowKey={(record, index) => record?.id}
+            pagination={{ pageSize: 10, total: productInfo?.mores?.fund?.length, showSizeChanger: false, style: { display: 'flex', justifyContent: 'center' }}}
+          />
         </div>
-      </div>
-      <Table
-        // rowClassName='portfolio-item portfolio-table'
-        columns={portfolioColumns}
-        dataSource={productInfo?.mores?.fund}
-        pagination={{
-          total: 100,
-          defaultPageSize: 10,
-          showSizeChanger: false
-        }}
-        rowKey={(record, index) => index}
-        onRow={(record) => ({
-          onClick: () => {
-            handleonRowClicked(record?.projectId)
-          }
-        })}
-      />
-    </>
+      </div></>
   }
 
   // scam
