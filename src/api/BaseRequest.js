@@ -147,7 +147,7 @@ const _responseHandler = (response) => {
 
 const _errorHandler = (err) => {
   if (err.response && err.response.status === 401) {
-    // console.log(err)
+    console.error(err)
   }
   throw err
 }

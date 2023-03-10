@@ -6,7 +6,7 @@ import { soonRoundSaleExplain } from '../row-explaination/RowExplainationText'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { formatDateStyle } from '../../../../utils/time/time'
 import { statusPast, txtTBA } from '../../../constants/page-soon'
-// import { LaunchpadTableDetail } from './LaunchpadTableDetail'
+import { LaunchpadTableDetail } from './LaunchpadTableDetail'
 import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../../utils/formatNumber'
 import { getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../../../utils/page-soon/status'
 
@@ -190,7 +190,15 @@ const TableRoundSale = ({ projectName, roundSales }) => {
           <Table
             columns={columns}
             expandable={{
-              expandedRowRender: (record) => <p className='text-primary' style={{ margin: '0 0 0 5rem' }}><b>{record.lockUpPeriod}</b></p>,
+              expandedRowRender: (record) =><>
+                <p className='text-primary' style={{ margin: '0 0 0 5rem' }}>
+                - {record.lockUpPeriod}
+                  {record?.launchPadId ? <>
+                    <br />
+                - {record?.linkDetail ? 'Buy here' : 'Launch at' }: <b><LaunchpadTableDetail launchpadId={record?.launchPadId} linkBuy={record?.linkDetail} /></b>
+                  </> : ''}
+                </p>
+              </>,
               rowExpandable: (record) => record.lockUpPeriod, // have data
               defaultExpandAllRows: true
             }}

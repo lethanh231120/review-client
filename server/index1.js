@@ -45,36 +45,49 @@ const genDetailHeader = (res, productId = '') => {
         cleanDescription = cleanDescription?.substring(0, 300) // good for SEO, <= 300
         const productId = data?.cryptoId || data?.dAppId || data?.ventureId || data?.exchangeId || data?.projectId || data?.launchPadId
         let imgPath = ''
+        const totalScam = `${(data?.totalIsScam && data?.totalIsScam > 0) ? `${data?.totalIsScam} Scam Report` : ''}`
+        const totalReviews = `${(data?.totalReviews && data?.totalReviews > 0) ? `${data?.totalReviews} Review` : ''}`
+        let totalInteract = totalScam
+        if (totalInteract) {
+          totalInteract += `, ${totalReviews}`
+        } else {
+          totalInteract = totalReviews
+        }
+        if (totalInteract) {
+          totalInteract = ` ${totalInteract}, `
+        } else {
+          totalInteract += ' '
+        }
         switch (productId) {
           case data?.cryptoId :{
             imgPath = 'crypto'
-            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''}, TOP Crypto Projects | Reviews, Rating & Details | Gear5`
+            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}TOP Crypto Projects | Reviews, Rating & Details | Gear5`
             break
           }
           case data?.dAppId :{
             imgPath = 'dapp'
-            title = `${title}, Decentralized Application Rating, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}Decentralized Application Rating, Reviews & Details | Gear5`
             break
           }
           case data?.ventureId :{
             imgPath = 'venture'
-            title = `${title}, Crypto Ventures Rating, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}Crypto Ventures Rating, Reviews & Details | Gear5`
             break
           }
           case data?.exchangeId :{
             imgPath = 'exchange'
-            title = `${title}, Crypto Exchanges Rating, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}Crypto Exchanges Rating, Reviews & Details | Gear5`
             break
           }
           // Soon Project
           case data?.projectId :{
             imgPath = 'soon'
-            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''}, ICO/IDO/IEO Projects | Reviews, Rating & Details | Gear5`
+            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}ICO/IDO/IEO Projects | Reviews, Rating & Details | Gear5`
             break
           }
           case data?.launchPadId :{
             imgPath = 'launchpad'
-            title = `${title}, Crypto Launchpads Rating, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}Crypto Launchpads Rating, Reviews & Details | Gear5`
             break
           }
         }
@@ -93,14 +106,14 @@ const genDetailHeader = (res, productId = '') => {
 // ######## detail page
 // detail: crypto(coin)
 app.get(`/products/crypto/coin/:coinName`, (req, res) => {
-  console.log('detail: crypto(coin)')
+  // console.log('detail: crypto(coin)')
   const coinName = req?.params?.coinName
   genDetailHeader(res, coinName ? `coin_${coinName}` : '')
 })
 
 // detail: crypto(token)
 app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
-  console.log('detail: crypto(token)')
+  // console.log('detail: crypto(token)')
   const chainName = req?.params?.chainName
   const tokenAddress = req?.params?.tokenAddress
   genDetailHeader(res, (chainName && tokenAddress) ? `token_${chainName}_${tokenAddress}` : '')
@@ -110,7 +123,7 @@ app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
 app.get(`/products/:category/:productName`, (req, res) => {
   const category = req?.params?.category
   const productName = req?.params?.productName
-  console.log('detail', category, productName)
+  // console.log('detail', category, productName)
   genDetailHeader(res, (category && productName) ? `${category}_${productName}` : '')
 })
 
@@ -174,7 +187,7 @@ const genListHeader = (res, category, subCategory) => {
 // list
 app.get('/:category', (req, res) => {
   const category = req?.params?.category
-  console.log('list', category)
+  // console.log('list', category)
   genListHeader(res, category)
 })
 
@@ -182,26 +195,26 @@ app.get('/:category', (req, res) => {
 app.get('/:category/:subCategory', (req, res) =>{
   const category = req?.params?.category
   const subCategory = req?.params?.subCategory
-  console.log('list', category, 'subCategory', subCategory)
+  // console.log('list', category, 'subCategory', subCategory)
   genListHeader(res, category, subCategory)
 })
 
 // home (NOT WORKING when use express.static)
 app.get('/', (_, res) => {
-  console.log('home')
+  // console.log('home')
   genHeader(res, getMetaTagHome())
 })
 
 // otherwise page
 app.get('/*', (_, res) => {
-  console.log('other')
+  // console.log('other')
   genHeader(res, getMetaTagHome())
 })
 
 // listening...
 app.listen(PORT, (error) => {
   if (error) {
-    return console.log('Error during app startup', error)
+    console.error('Error during app startup', error)
   }
   console.log('listening on ' + PORT + '...')
 })

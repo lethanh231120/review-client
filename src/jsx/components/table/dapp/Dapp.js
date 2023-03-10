@@ -39,7 +39,7 @@ const Dapp = ({
         onClick={e => e.stopPropagation()}
       >
         {record?.dAppId && record?.dAppLogo ? (
-          <Image alt='DApp Logo' onError={() => console.log(1)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
+          <Image alt='DApp Logo' onError={(error) => console.error(error)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
         )
           : (<span className='image-list-no-data'>
             {record?.dAppName?.slice(0, 3)}
