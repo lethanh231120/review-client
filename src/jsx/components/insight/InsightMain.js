@@ -45,7 +45,7 @@ const InsightMain = () => {
         </Card.Header>
         <Card.Body>
           <Link to={`${chartId}`}
-            className='d-flex align-items-center justify-content-center'
+            style={{ width: '100%' }}
           // state={chartId}
           >
             {getChartType(data)}

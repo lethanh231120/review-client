@@ -45,7 +45,7 @@ const PieChart = ({ dataSet, height, width, isDetail }) => {
           padding: 15
         }
       },
-      responsive: true,
+      // responsive: true,
       tooltip: {
         callbacks: {
           title: (xDatapoint) => {
@@ -60,7 +60,9 @@ const PieChart = ({ dataSet, height, width, isDetail }) => {
   }
 
   return (
-    <Pie data={data} height={ height} width={width} options={options} />
+    <div style={{ position: 'relative' }}>
+      <Pie data={data} height={ height} width={width} options={options} />
+    </div>
   )
 }
 
