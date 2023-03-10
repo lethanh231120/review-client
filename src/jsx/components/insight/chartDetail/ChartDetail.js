@@ -12,7 +12,6 @@ const ChartDetail = () => {
   // const location = useLocation()
 
   // const data = location?.state
-  // console.log(data)
   useEffect(() => {
     const getChartById = async() => {
       const res = await get(`reviews/chart/detail?id=${id}`)

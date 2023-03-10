@@ -54,8 +54,6 @@ const InformationSubTitle = ({ type }) => {
       title = titleBlockchain
       break
     case typeSocial:
-
-      console.log(1232)
       title = titleSocial
       break
     default:

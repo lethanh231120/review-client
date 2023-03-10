@@ -1,4 +1,13 @@
-
+.similar-crypto,
+.similar-exchange,
+.similar-venture,
+.similar-launchpad,
+.similar-soon,
+.similar-dapp{
+    table{
+        font-family: "poppins", sans-serif, sans-serif !important;
+    }
+}
 @media (max-width: 3300px) {
     .similar{
         &-crypto {
