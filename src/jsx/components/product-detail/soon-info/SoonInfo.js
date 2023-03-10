@@ -38,7 +38,9 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const itemDetail = productInfo?.details
   const itemTags = productInfo?.mores?.tag
   const itemRoundSales = productInfo?.mores?.roundSale
-  const itemProgressGoal = (itemDetail?.fundRaisingGoals !== 0) ? itemDetail?.rasiedmoney / itemDetail?.fundRaisingGoals * 100 : 0
+  const itemProgressGoal = (itemDetail?.rasiedmoney && itemDetail?.fundRaisingGoals)
+    ? (itemDetail?.fundRaisingGoals !== 0) ? itemDetail?.rasiedmoney / itemDetail?.fundRaisingGoals * 100 : 0
+    : 0
   const [top, setTop] = useState()
   const itemStatus = getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)
   const [openModalShare, setOpenModalShare] = useState(false)

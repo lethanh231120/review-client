@@ -635,7 +635,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   return <DetailLayout
     Header={header}
-    type='crypto'
+    type={CRYPTO}
     summary={summary}
     scam={scam}
     more={more}

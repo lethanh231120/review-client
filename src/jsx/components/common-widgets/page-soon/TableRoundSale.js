@@ -5,11 +5,46 @@ import { Table, Tooltip } from 'antd'
 import { soonRoundSaleExplain } from '../row-explaination/RowExplainationText'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { formatDateStyle } from '../../../../utils/time/time'
-import { txtTBA } from '../../../constants/page-soon'
-import { LaunchpadTableDetail } from './LaunchpadTableDetail'
+import { statusPast, txtTBA } from '../../../constants/page-soon'
+// import { LaunchpadTableDetail } from './LaunchpadTableDetail'
 import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../../utils/formatNumber'
+import { getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../../../utils/page-soon/status'
 
 const TableRoundSale = ({ projectName, roundSales }) => {
+  const getStatusRoundSale = (start, end, sold, goal) => {
+    const status = getStatusFromStartDateAndEndDate(start, end)
+    // can't define
+    if (!status) {
+      return <span className='badge badge-rounded badge-light' >
+      UNKNOWN
+      </span>
+    }
+
+    if (status === statusPast) {
+      // must be number, and positive number
+      if ((typeof sold === 'number' && typeof goal === 'number') || (sold < 0 && goal < 0)) {
+        if (sold >= goal) {
+          return <span className='badge badge-rounded badge-info' >
+            SUCCESS
+          </span>
+        } else {
+          return <span className='badge badge-rounded badge-secondary' >
+          FAILED
+          </span>
+        }
+      } else {
+        // past without data define
+        return <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(status)}`}>
+          {status?.toUpperCase()}
+        </span>
+      }
+    }
+    // upcoming, ongoing
+    return <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(status)}`}>
+      {status?.toUpperCase()}
+    </span>
+  }
+
   const columns = [
     {
       title: <span className='crypto-table-tooltip text-black'>
@@ -55,46 +90,18 @@ const TableRoundSale = ({ projectName, roundSales }) => {
     render: (_, record) => (<>{record?.end ? moment(record?.end).format(formatDateStyle) : txtTBA}</>)
     },
     { title: <span className='crypto-table-tooltip text-black'>
-          Launchpad
+          Sold
       <Tooltip
         overlayClassName='crypto-table-tooltip-box'
-        title={soonRoundSaleExplain['launchPadId']}
-      >
-        <InfoCircleOutlined />
-      </Tooltip>
-    </span>,
-    align: 'left',
-    dataIndex: 'launchPadId',
-    key: 'launchPadId',
-    render: (_, record) => (<LaunchpadTableDetail launchpadId={record?.launchPadId} />)
-    },
-    { title: <span className='crypto-table-tooltip text-black'>
-          Raise
-      <Tooltip
-        overlayClassName='crypto-table-tooltip-box'
-        title={soonRoundSaleExplain['raise']}
+        title={soonRoundSaleExplain['sold']}
       >
         <InfoCircleOutlined />
       </Tooltip>
     </span>,
     align: 'right',
-    dataIndex: 'raise',
-    key: 'raise',
-    render: (_, record) => (<><b className='text-primary'>{formatLargeNumberMoneyUSD(record?.raise)}</b></>)
-    },
-    { title: <span className='crypto-table-tooltip text-black'>
-          Total
-      <Tooltip
-        overlayClassName='crypto-table-tooltip-box'
-        title={soonRoundSaleExplain['tokenForSale']}
-      >
-        <InfoCircleOutlined />
-      </Tooltip>
-    </span>,
-    align: 'right',
-    dataIndex: 'tokenForSale',
-    key: 'tokenForSale',
-    render: (_, record) => (<>{formatLargeNumber(record?.tokenForSale)}</>)
+    dataIndex: 'rasiedmoney',
+    key: 'rasiedmoney',
+    render: (_, record) => <>{record?.rasiedmoney ? <b className='text-primary'>{formatLargeNumberMoneyUSD(record?.rasiedmoney)}</b> : 'Unknown'}</>
     },
     { title: <span className='crypto-table-tooltip text-black'>
           Price
@@ -109,7 +116,63 @@ const TableRoundSale = ({ projectName, roundSales }) => {
     align: 'right',
     dataIndex: 'price',
     key: 'price',
-    render: (_, record) => (<>{formatLargeNumberMoneyUSD(record?.price)}</>)
+    render: (_, record) => <>{record?.price ? formatLargeNumberMoneyUSD(record?.price) : 'Unknown'}</>
+    },
+    { title: <span className='crypto-table-tooltip text-black'>
+    Supply
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['supply']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    align: 'right',
+    dataIndex: 'tokenForSale',
+    key: 'tokenForSale',
+    render: (_, record) => <>{record?.tokenForSale ? formatLargeNumber(record?.tokenForSale) : 'Unknown'}</>
+    },
+    { title: <span className='crypto-table-tooltip text-black'>
+      Goal
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['goal']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    align: 'right',
+    dataIndex: 'raise',
+    key: 'raise',
+    render: (_, record) => <>{record?.raise ? <b className='text-primary'>{formatLargeNumberMoneyUSD(record?.raise)}</b> : 'Unknown'}</>
+    },
+    // { title: <span className='crypto-table-tooltip text-black'>
+    // Launchpad
+    //   <Tooltip
+    //     overlayClassName='crypto-table-tooltip-box'
+    //     title={soonRoundSaleExplain['launchpad']}
+    //   >
+    //     <InfoCircleOutlined />
+    //   </Tooltip>
+    // </span>,
+    // align: 'left',
+    // dataIndex: 'launchPadId',
+    // key: 'launchPadId',
+    // render: (_, record) => (<LaunchpadTableDetail launchpadId={record?.launchPadId} />)
+    // },
+    { title: <span className='crypto-table-tooltip text-black'>
+      Status
+      <Tooltip
+        overlayClassName='crypto-table-tooltip-box'
+        title={soonRoundSaleExplain['status']}
+      >
+        <InfoCircleOutlined />
+      </Tooltip>
+    </span>,
+    align: 'left',
+    dataIndex: 'status',
+    key: 'status',
+    render: (_, record) => <>{getStatusRoundSale(record?.start, record?.end)}</>
     }
   ]
 
