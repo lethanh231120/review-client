@@ -1,100 +1,244 @@
 const express = require('express')
-const app = express()
-const path = require('path')
-const indexPath = path.resolve(__dirname, '..', 'build', 'index.html')
-const fs = require('fs')
-const axios = require('axios')
-const constantRoute = require('./constants/route')
-const constantData = require('./constants/data')
-const constantErrMsg = require('./constants/errorMsg')
-const constantRespCode = require('./constants/responseCode')
-const constantHeaderTag = require('./constants/headerTag')
 const PORT = process.env.PORT || 3000
+const app = express()
 
-// ####### START LOGIC ########
-// get dynamic data for header tag by [productId] analysed from client url
-// default [productId] is absent data, it mean no override header dynamic data
-const genDetailHeader = (res, productId = constantData?.emptyString) =>{
-  // read file index.html to override
-  fs.readFile(indexPath, 'utf8', (error, htmlData) => {
-    // read file error
-    if (error) {
-      console.error(constantErrMsg?.errorReadingFile, error)
-      return res.status(constantRespCode?.codeNotFound).end()
+const path = require('path')
+const fs = require('fs')
+const indexPath = path.resolve(__dirname, '..', 'build', 'index.html')
+const file = (function() {
+  let indexHtml
+  fs.readFile(indexPath, 'utf8', (err, htmlData) => {
+    if (err) {
+      console.error('Error during file reading index.html')
+      return
     }
-    // has data productId
-    if (productId) {
-      productId = `${constantRoute?.prefixDetailProduct}${constantRoute?.splitDetailProduct}${productId}`
-      try {
-        console.log(`===============product id`, productId)
-        axios.get(`https://api-client.gear5.io/reviews/product/detail?productId=${productId}`).then((resp) => {
-          const respData = resp?.data?.data?.details
-          // no data from [productId] found
-          if (!respData) {
-            throw new Error(constantErrMsg?.errorNoDataDynamicHeaderDetail)
-          }
-          // inject meta tags
-          const title = respData?.name || respData?.dAppName || respData?.ventureName || respData?.projectName || constantHeaderTag?.defaultTitle
-          const image = respData?.bigLogo || respData?.dAppLogo || respData?.ventureLogo || respData?.smallLogo || respData?.thumbLogo || constantHeaderTag?.defaultImage
-          const description = respData?.description || respData?.fullDescription || respData?.shortDescription || respData?.fullDesc || respData?.shortDesc || constantHeaderTag?.defaultDescription
-          console.log(`===============dynamic header `, title, image, description)
-
-          htmlData.replace(
-            '<title>React App</title>',
-            `<title>${title}</title>`
-          )
-            .replace('__META_OG_TITLE__', title)
-            .replace('__META_OG_DESCRIPTION__', description)
-            .replace('__META_DESCRIPTION__', description)
-            .replace('__META_OG_IMAGE__', image)
-          return res.send(htmlData)
-        })
-      } catch (error) {
-        console.error(`===err1`, constantErrMsg?.errorDynamicHeaderDetail, error)
-        // return res.status(constantRespCode?.codeServerError).end()
-      } finally {
-        // eslint-disable-next-line no-unsafe-finally
-        return res.send(htmlData)
-      }
-    }
-    return res.send(htmlData)
+    console.log('read file successfully')
+    indexHtml = htmlData
   })
+
+  // Read only
+  return {
+    getIndexHtml: () => indexHtml
+  }
+}())
+
+const axios = require('axios')
+function newAbortSignal(timeoutMs) {
+  const abortController = new AbortController()
+  setTimeout(() => abortController.abort(), timeoutMs || 0)
+
+  return abortController.signal
 }
-// ####### END LOGIC   ########
+
+const { getMetaTagHome } = require('./header-data/home')
+const { getMetaTagListCrypto } = require('./header-data/listCrypto')
+const { getMetaTagListDApp } = require('./header-data/listDApp')
+const { getMetaTagListVenture } = require('./header-data/listVenture')
+const { getMetaTagListExchange } = require('./header-data/listExchange')
+const { getMetaTagListSoon } = require('./header-data/listSoon')
+const { getMetaTagListLaunchpad } = require('./header-data/listLaunchpad')
+const { getMetaTagInsight } = require('./header-data/insight')
+const { getMetaTag } = require('./modal/MetaTag')
+
+// ######## Default meta tag
+const metaTagHome = getMetaTagHome()
+const META_TITLE = metaTagHome.title
+const META_IMAGE = metaTagHome.image
+const META_DESCRIPTION = metaTagHome.description
 
 // static resources should just be served as they are
+const oneDay = 86400000 // in milliseconds
 app.use(express.static(
   path.resolve(__dirname, '..', 'build'),
-  { maxAge: '30d' }
+  { maxage: oneDay }
 ))
 
-// dApp, venture, exchange, soon, launchpad
-app.get(`${constantData?.slash}${constantRoute?.pathProduct}${constantData?.slash}:category${constantData?.slash}:productName`, async(req, res) => {
-  const category = req?.params?.category
-  const isCorrectPath = [constantRoute?.pathDapp, constantRoute?.pathVenture, constantRoute?.pathExchange, constantRoute?.pathSoon, constantRoute?.pathLaunchpad].includes(category)
-  const productName = req?.params?.productName
-  genDetailHeader(res, (productName && isCorrectPath) ? `${category}${constantRoute?.splitDetailProduct}${productName}` : constantData?.emptyString)
-})
-// crypto(coin)
-app.get(`${constantData?.slash}${constantRoute?.pathProduct}${constantData?.slash}${constantRoute?.pathCrypto}${constantData?.slash}${constantRoute?.pathCryptoCoin}${constantData?.slash}:coinName`, (req, res) => {
+const encodeSpecialCharacterUrl = (url) =>{
+  url = url?.split('+').join('%2B')
+  return url
+}
+
+const genDetailHeader = (res, productId = '') => {
+  if (productId) {
+    productId = encodeSpecialCharacterUrl(productId)
+    axios.get(
+      `https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`,
+      {
+        signal: newAbortSignal(500) // Aborts request after 0.5 second
+      })
+      .then((resp) =>{
+        const data = resp?.data?.data?.details
+        let title = data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE
+        let cleanDescription = data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || META_DESCRIPTION
+        cleanDescription = cleanDescription?.replace(/(<([^>]+)>)/ig, '') // strip HTML tags (from BE)
+        cleanDescription = cleanDescription?.substring(0, 300) // good for SEO, <= 300
+        cleanDescription = cleanDescription?.split('"')?.join('&quot;') // clean double quotes in html meta tag to html entity, avoid break content
+        const productId = data?.cryptoId || data?.dAppId || data?.ventureId || data?.exchangeId || data?.projectId || data?.launchPadId
+        let imgPath = ''
+        const totalScam = `${(data?.totalIsScam && data?.totalIsScam > 0) ? `${data?.totalIsScam} Scam Reports` : ''}`
+        const totalReviews = `${(data?.totalReviews && data?.totalReviews > 0) ? `${data?.totalReviews} Reviews` : ''}`
+        let totalInteract = totalScam
+        if (totalInteract) {
+          totalInteract += `, ${totalReviews}`
+        } else {
+          totalInteract = totalReviews
+        }
+        if (totalInteract) {
+          totalInteract = ` ${totalInteract}, `
+        } else {
+          totalInteract += ' '
+        }
+        switch (productId) {
+          case data?.cryptoId :{
+            imgPath = 'crypto'
+            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}TOP Crypto Projects | Reviews, Rating & Details | Gear5`
+            break
+          }
+          case data?.dAppId :{
+            imgPath = 'dapp'
+            title = `${title},${totalInteract}Decentralized Application Rating, Reviews & Details | Gear5`
+            break
+          }
+          case data?.ventureId :{
+            imgPath = 'venture'
+            title = `${title},${totalInteract}Crypto Ventures Rating, Reviews & Details | Gear5`
+            break
+          }
+          case data?.exchangeId :{
+            imgPath = 'exchange'
+            title = `${title},${totalInteract}Crypto Exchanges Rating, Reviews & Details | Gear5`
+            break
+          }
+          // Soon Project
+          case data?.projectId :{
+            imgPath = 'soon'
+            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}ICO/IDO/IEO Projects | Reviews, Rating & Details | Gear5`
+            break
+          }
+          case data?.launchPadId :{
+            imgPath = 'launchpad'
+            title = `${title},${totalInteract}Crypto Launchpads Rating, Reviews & Details | Gear5`
+            break
+          }
+        }
+        let image = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo
+        image = (productId && image) ? `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
+
+        return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription)))
+      }).catch(() => {
+        console.error('error for call API detail')
+        return res.send(injectHtmlHeader(getMetaTagHome()))
+      })
+  } else {
+    // don't have product id
+    return res.send(injectHtmlHeader(getMetaTagHome()))
+  }
+}
+
+// ######## detail page
+// detail: crypto(coin)
+app.get(`/products/crypto/coin/:coinName`, (req, res) => {
+  // console.log('detail: crypto(coin)')
   const coinName = req?.params?.coinName
-  genDetailHeader(res, coinName ? `${constantRoute?.pathCryptoCoin}${constantRoute?.splitDetailProduct}${coinName}` : constantData?.emptyString)
+  genDetailHeader(res, coinName ? `coin_${coinName}` : '')
 })
-// crypto(token)
-app.get(`${constantData?.slash}${constantRoute?.pathProduct}${constantData?.slash}${constantRoute?.pathCrypto}${constantData?.slash}${constantRoute?.pathCryptoToken}${constantData?.slash}:chainName${constantData?.slash}:tokenAddress`, (req, res) => {
+
+// detail: crypto(token)
+app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
+  // console.log('detail: crypto(token)')
   const chainName = req?.params?.chainName
   const tokenAddress = req?.params?.tokenAddress
-  genDetailHeader(res, (chainName && tokenAddress) ? `${constantRoute?.pathCryptoToken}${constantRoute?.splitDetailProduct}${chainName}${constantRoute?.splitDetailProduct}${tokenAddress}` : constantData?.emptyString)
+  genDetailHeader(res, (chainName && tokenAddress) ? `token_${chainName}_${tokenAddress}` : '')
 })
-// Other
-app.get(`${constantData?.slash}*`, (req, res)=>{
-  genDetailHeader(res)
+
+// detail: dApp, venture, exchange, soon, launchpad
+app.get(`/products/:category/:productName`, (req, res) => {
+  const category = req?.params?.category
+  const productName = req?.params?.productName
+  // console.log('detail', category, productName)
+  genDetailHeader(res, (category && productName) ? `${category}_${productName}` : '')
+})
+
+// ######## Otherwise page,..
+const injectHtmlHeader = (metaTag) => {
+  return file.getIndexHtml()
+    .split(META_TITLE).join(metaTag.title) // euqal replace all
+    .split(META_DESCRIPTION).join(metaTag.description)
+    .split(META_IMAGE).join(metaTag.image)
+}
+
+const genHeader = (res, metaTag) => {
+  return res.send(injectHtmlHeader(metaTag))
+}
+
+const genListHeader = (res, category, subCategory) => {
+  switch (category) {
+    case 'crypto':{
+      genHeader(res, getMetaTagListCrypto(subCategory))
+      break
+    }
+    case 'dapp':{
+      genHeader(res, getMetaTagListDApp(subCategory))
+      break
+    }
+    case 'venture':{
+      genHeader(res, getMetaTagListVenture())
+      break
+    }
+    case 'exchange':{
+      genHeader(res, getMetaTagListExchange(subCategory))
+      break
+    }
+    case 'soon':{
+      genHeader(res, getMetaTagListSoon(subCategory))
+      break
+    }
+    case 'launchpad':{
+      genHeader(res, getMetaTagListLaunchpad())
+      break
+    }
+    case 'insight':{
+      genHeader(res, getMetaTagInsight())
+      break
+    }
+    default: {
+      genHeader(res, getMetaTagHome())
+      break
+    }
+  }
+}
+
+// list
+app.get('/:category', (req, res) => {
+  const category = req?.params?.category
+  // console.log('list', category)
+  genListHeader(res, category)
+})
+
+// list with sub-category
+app.get('/:category/:subCategory', (req, res) =>{
+  const category = req?.params?.category
+  const subCategory = req?.params?.subCategory
+  // console.log('list', category, 'subCategory', subCategory)
+  genListHeader(res, category, subCategory)
+})
+
+// home (NOT WORKING when use express.static)
+app.get('/', (_, res) => {
+  // console.log('home')
+  genHeader(res, getMetaTagHome())
+})
+
+// otherwise page
+app.get('/*', (_, res) => {
+  // console.log('other')
+  genHeader(res, getMetaTagHome())
 })
 
 // listening...
 app.listen(PORT, (error) => {
   if (error) {
-    return console.error(constantErrMsg?.errorRunApp, error)
+    console.error('Error during app startup', error)
   }
   console.log('listening on ' + PORT + '...')
 })

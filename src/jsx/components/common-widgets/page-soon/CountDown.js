@@ -12,6 +12,7 @@ export const CountDown = ({ progressGoal, projectStatus, startDate, endDate }) =
   const [timerSecond, setTimerSecond] = useState(loadingTimer)
   const [timerCountdownShow, setTimerCountdownShow] = useState(true)
   const [timerCountdownHideContent, setTimerCountdownHideContent] = useState(false)
+  const [timer, setTimer] = useState()
 
   // milestone in the feture
   const countDown = (milestoneUnix) => {
@@ -20,7 +21,7 @@ export const CountDown = ({ progressGoal, projectStatus, startDate, endDate }) =
     const hour = minute * 60
     const day = hour * 24
 
-    const timer = setInterval(() => {
+    setTimer(setInterval(() => {
       const now = getCurrentTimeUnix()
       let distance
 
@@ -46,6 +47,7 @@ export const CountDown = ({ progressGoal, projectStatus, startDate, endDate }) =
       }
       // seconds
     }, second)
+    )
   }
   useEffect(() => {
     setTimerHeadline(projectStatus === statusOngoing
@@ -69,6 +71,11 @@ export const CountDown = ({ progressGoal, projectStatus, startDate, endDate }) =
       countDown(milestoneUnix)
     }
   }, [startDate, endDate])
+
+  useEffect(() => {
+    console.log(123214214214)
+    clearInterval(timer)
+  }, [progressGoal])
 
   return <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
     <div className='mt-4 text-center'>
