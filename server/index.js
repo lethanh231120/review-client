@@ -23,12 +23,6 @@ const file = (function() {
 }())
 
 const axios = require('axios')
-function newAbortSignal(timeoutMs) {
-  const abortController = new AbortController()
-  setTimeout(() => abortController.abort(), timeoutMs || 0)
-
-  return abortController.signal
-}
 
 const { getMetaTagHome } = require('./header-data/home')
 const { getMetaTagListCrypto } = require('./header-data/listCrypto')
@@ -61,11 +55,14 @@ const encodeSpecialCharacterUrl = (url) =>{
 const genDetailHeader = (res, productId = '') => {
   if (productId) {
     productId = encodeSpecialCharacterUrl(productId)
-    axios.get(
-      `https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`,
-      {
-        signal: newAbortSignal(500) // Aborts request after 0.5 second
-      })
+    axios({
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      url: `https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`,
+      timeout: 500 // 500 milliseconds
+    })
       .then((resp) =>{
         const data = resp?.data?.data?.details
         let title = data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE
