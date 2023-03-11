@@ -400,7 +400,6 @@ const ReviewItem = (props) => {
             )}
           </div>
         </div>
-        {console.log(data?.review)}
         {type === 'normal' && (
           <>
             {!_.isEmpty(data?.review?.images) && (
