@@ -99,7 +99,13 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const timeAndPercentProcess = <div className='row mb-3 d-flex'>
     <TimeText icon={typeStart} date={itemDetail?.startDate}/>
     <TimeText icon={typeEnd} date={itemDetail?.endDate}/>
-    <CountDown progressGoal={itemProgressGoal} projectStatus={itemStatus} startDate={itemDetail?.startDate} endDate={itemDetail?.endDate} />
+    <CountDown
+      soonId={itemDetail?.projectId}
+      progressGoal={itemProgressGoal}
+      projectStatus={itemStatus}
+      startDate={itemDetail?.startDate}
+      endDate={itemDetail?.endDate}
+    />
   </div>
 
   const summary = (

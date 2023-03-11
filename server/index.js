@@ -4,15 +4,16 @@ const app = express()
 
 const path = require('path')
 const fs = require('fs')
-const indexPath = path.resolve(__dirname, '..', 'build', 'index.html')
+const indexFileName = 'index.html'
+const indexPath = path.resolve(__dirname, '..', 'build', indexFileName)
 const file = (function() {
-  let indexHtml
+  let indexHtml = '' // default string, avoid handle undefined with logic
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
     if (err) {
-      console.error('Error during file reading index.html')
+      console.error(`Error during reading file ${indexFileName} (file not exist, i/o problem, ...)`)
       return
     }
-    console.log('read file successfully')
+    console.log(`Reaing file ${indexFileName} successfully`)
     indexHtml = htmlData
   })
 
@@ -48,7 +49,7 @@ app.use(express.static(
 ))
 
 const encodeSpecialCharacterUrl = (url) =>{
-  url = url?.split('+').join('%2B')
+  url = url?.split('+')?.join('%2B')
   return url
 }
 
@@ -123,12 +124,12 @@ const genDetailHeader = (res, productId = '') => {
 
         return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription)))
       }).catch(() => {
-        console.error('error for call API detail')
-        return res.send(injectHtmlHeader(getMetaTagHome()))
+        console.error('Error for call API product detail(server die, API timeout, ...)')
+        return res?.send(injectHtmlHeader(getMetaTagHome()))
       })
   } else {
     // don't have product id
-    return res.send(injectHtmlHeader(getMetaTagHome()))
+    return res?.send(injectHtmlHeader(getMetaTagHome()))
   }
 }
 
@@ -158,14 +159,14 @@ app.get(`/products/:category/:productName`, (req, res) => {
 
 // ######## Otherwise page,..
 const injectHtmlHeader = (metaTag) => {
-  return file.getIndexHtml()
-    .split(META_TITLE).join(metaTag.title) // euqal replace all
-    .split(META_DESCRIPTION).join(metaTag.description)
-    .split(META_IMAGE).join(metaTag.image)
+  return file?.getIndexHtml()
+    ?.split(META_TITLE)?.join(metaTag.title) // euqal replace all
+    ?.split(META_DESCRIPTION)?.join(metaTag.description)
+    ?.split(META_IMAGE)?.join(metaTag.image)
 }
 
 const genHeader = (res, metaTag) => {
-  return res.send(injectHtmlHeader(metaTag))
+  return res?.send(injectHtmlHeader(metaTag))
 }
 
 const genListHeader = (res, category, subCategory) => {
