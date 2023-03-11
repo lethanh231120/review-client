@@ -12,6 +12,7 @@ import { isValidProductId, formatImgUrlFromProductId, toCammelCase } from '../..
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import { DappExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 import { InfoCircleOutlined } from '@ant-design/icons'
+import _ from 'lodash'
 
 const Dapp = ({
   listProduct,
@@ -30,6 +31,10 @@ const Dapp = ({
     splitedId && navigate(`../../products/${splitedId[1]}/${splitedId[2]}`)
   }
 
+  const shortenName = (string, length) => {
+    return _.truncate(string || 'Unknown', { 'length': length })
+  }
+
   const columns = [
     {
       title: 'Name',
@@ -41,13 +46,13 @@ const Dapp = ({
         {record?.dAppId && record?.dAppLogo ? (
           <Image alt='DApp Logo' onError={(error) => console.error(error)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
         )
-          : (<span className='image-list-no-data'>
+          : (<span className='image-list-no-data '>
             {record?.dAppName?.slice(0, 3)}
           </span>)
         }
         <span>
           <div className='data-table-name ms-2'>
-            <div>{record?.dAppName ? record?.dAppName : 'Unknown'}</div>
+            <div>{shortenName(record?.dAppName, 20)}</div>
           </div>
         </span>
       </Link>)
@@ -57,7 +62,7 @@ const Dapp = ({
       title: 'Subcategory',
       align: 'left',
       render: (_, record) => (<div className='mb-0 btn btn-primary light btn-xs mb-2 me-1'>
-        {record?.subCategory}
+        {record?.subCategory || 'Unknown'}
       </div>)
     },
     {

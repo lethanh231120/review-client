@@ -25,13 +25,14 @@ const InsightMain = () => {
   }, [])
 
   const getChartType = (data) => {
+    const colorPallet = data?.config?.colors?.split(',')
     switch (data?.typechart) {
       case 'pie':
-        return <PieChart dataSet={data} height={200} isDetail={false}/>
+        return <PieChart dataSet={data} height={200} isDetail={false} colorPallet={colorPallet}/>
       case 'line':
         return <LineChart dataSet={data} height={200} isDetail={false}/>
       case 'bar':
-        return <Barchart dataSet={data} height={200} isDetail={false}/>
+        return <Barchart dataSet={data} height={200} isDetail={false} colorPallet={colorPallet}/>
       default:
         return null
     }

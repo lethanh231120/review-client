@@ -6,14 +6,14 @@ Chart.register(ArcElement)
 
 export const chartColorPallet = ['#47B39C', '#FFC154', '#EC6B56', '#47B39C', '#EC6B56', '#FFC154', '#47B39C', '#EC6B56', '#FFC154']
 Chart.defaults.color = '#18A594'
-const PieChart = ({ dataSet, height, isDetail, title }) => {
+const PieChart = ({ dataSet, height, isDetail, title, colorPallet }) => {
   const data = {
     labels: dataSet?.results?.map(item => _.capitalize(item[0])),
     datasets: [
       {
         data: dataSet?.results?.map(item => item[1]),
         borderWidth: 0,
-        backgroundColor: chartColorPallet
+        backgroundColor: colorPallet || chartColorPallet
         // hoverBackgroundColor: dataSet?.results?.map(item => randomColor())
       }
     ]
