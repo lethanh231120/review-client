@@ -211,9 +211,12 @@ const ProductDetail = () => {
         })
         setTotalSortBy(res?.data?.details?.totalReviews)
       }).catch((error) => {
-        if (error?.response?.data?.error === 'product not exist') {
+        const respCode = error?.response?.data?.code
+        const statusCodeNotFoundProduct = 'B.CODE.400'
+        const stautsCodeInternalServerError = 'B.CODE.500'
+        if (respCode === statusCodeNotFoundProduct) {
           navigate('/not-found-product')
-        } else if (error?.response?.data?.error === 'Something went wrong with server') {
+        } else if (respCode === stautsCodeInternalServerError) {
           navigate('/server-error')
         }
       })
