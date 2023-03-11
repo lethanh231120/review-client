@@ -23,6 +23,13 @@ const file = (function() {
 }())
 
 const axios = require('axios')
+function newAbortSignal(timeoutMs) {
+  const abortController = new AbortController()
+  setTimeout(() => abortController.abort(), timeoutMs || 0)
+
+  return abortController.signal
+}
+
 const { getMetaTagHome } = require('./header-data/home')
 const { getMetaTagListCrypto } = require('./header-data/listCrypto')
 const { getMetaTagListDApp } = require('./header-data/listDApp')
@@ -54,72 +61,77 @@ const encodeSpecialCharacterUrl = (url) =>{
 const genDetailHeader = (res, productId = '') => {
   if (productId) {
     productId = encodeSpecialCharacterUrl(productId)
-    axios.get(`https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`).then((resp) =>{
-      const data = resp?.data?.data?.details
-      let title = data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE
-      let cleanDescription = data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || META_DESCRIPTION
-      cleanDescription = cleanDescription?.replace(/(<([^>]+)>)/ig, '') // strip HTML tags (from BE)
-      cleanDescription = cleanDescription?.substring(0, 300) // good for SEO, <= 300
-      const productId = data?.cryptoId || data?.dAppId || data?.ventureId || data?.exchangeId || data?.projectId || data?.launchPadId
-      let imgPath = ''
-      const totalScam = `${(data?.totalIsScam && data?.totalIsScam > 0) ? `${data?.totalIsScam} Scam Reports` : ''}`
-      const totalReviews = `${(data?.totalReviews && data?.totalReviews > 0) ? `${data?.totalReviews} Reviews` : ''}`
-      let totalInteract = totalScam
-      if (totalInteract) {
-        totalInteract += `, ${totalReviews}`
-      } else {
-        totalInteract = totalReviews
-      }
-      if (totalInteract) {
-        totalInteract = ` ${totalInteract}, `
-      } else {
-        totalInteract += ' '
-      }
-      switch (productId) {
-        case data?.cryptoId :{
-          imgPath = 'crypto'
-          title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}TOP Crypto Projects | Reviews, Rating & Details | Gear5`
-          break
+    axios.get(
+      `https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`,
+      {
+        signal: newAbortSignal(500) // Aborts request after 0.5 second
+      })
+      .then((resp) =>{
+        const data = resp?.data?.data?.details
+        let title = data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE
+        let cleanDescription = data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || META_DESCRIPTION
+        cleanDescription = cleanDescription?.replace(/(<([^>]+)>)/ig, '') // strip HTML tags (from BE)
+        cleanDescription = cleanDescription?.substring(0, 300) // good for SEO, <= 300
+        cleanDescription = cleanDescription?.split('"')?.join('&quot;') // clean double quotes in html meta tag to html entity, avoid break content
+        const productId = data?.cryptoId || data?.dAppId || data?.ventureId || data?.exchangeId || data?.projectId || data?.launchPadId
+        let imgPath = ''
+        const totalScam = `${(data?.totalIsScam && data?.totalIsScam > 0) ? `${data?.totalIsScam} Scam Reports` : ''}`
+        const totalReviews = `${(data?.totalReviews && data?.totalReviews > 0) ? `${data?.totalReviews} Reviews` : ''}`
+        let totalInteract = totalScam
+        if (totalInteract) {
+          totalInteract += `, ${totalReviews}`
+        } else {
+          totalInteract = totalReviews
         }
-        case data?.dAppId :{
-          imgPath = 'dapp'
-          title = `${title},${totalInteract}Decentralized Application Rating, Reviews & Details | Gear5`
-          break
+        if (totalInteract) {
+          totalInteract = ` ${totalInteract}, `
+        } else {
+          totalInteract += ' '
         }
-        case data?.ventureId :{
-          imgPath = 'venture'
-          title = `${title},${totalInteract}Crypto Ventures Rating, Reviews & Details | Gear5`
-          break
+        switch (productId) {
+          case data?.cryptoId :{
+            imgPath = 'crypto'
+            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}TOP Crypto Projects | Reviews, Rating & Details | Gear5`
+            break
+          }
+          case data?.dAppId :{
+            imgPath = 'dapp'
+            title = `${title},${totalInteract}Decentralized Application Rating, Reviews & Details | Gear5`
+            break
+          }
+          case data?.ventureId :{
+            imgPath = 'venture'
+            title = `${title},${totalInteract}Crypto Ventures Rating, Reviews & Details | Gear5`
+            break
+          }
+          case data?.exchangeId :{
+            imgPath = 'exchange'
+            title = `${title},${totalInteract}Crypto Exchanges Rating, Reviews & Details | Gear5`
+            break
+          }
+          // Soon Project
+          case data?.projectId :{
+            imgPath = 'soon'
+            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}ICO/IDO/IEO Projects | Reviews, Rating & Details | Gear5`
+            break
+          }
+          case data?.launchPadId :{
+            imgPath = 'launchpad'
+            title = `${title},${totalInteract}Crypto Launchpads Rating, Reviews & Details | Gear5`
+            break
+          }
         }
-        case data?.exchangeId :{
-          imgPath = 'exchange'
-          title = `${title},${totalInteract}Crypto Exchanges Rating, Reviews & Details | Gear5`
-          break
-        }
-        // Soon Project
-        case data?.projectId :{
-          imgPath = 'soon'
-          title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}ICO/IDO/IEO Projects | Reviews, Rating & Details | Gear5`
-          break
-        }
-        case data?.launchPadId :{
-          imgPath = 'launchpad'
-          title = `${title},${totalInteract}Crypto Launchpads Rating, Reviews & Details | Gear5`
-          break
-        }
-      }
-      let image = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo
-      image = (productId && image) ? `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
+        let image = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo
+        image = (productId && image) ? `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
 
-      console.log(title)
-      return res.send(injectHtmlHeader(file.getIndexHtml(), getMetaTag(title, image, cleanDescription)))
-    }).catch((error) => {
-      console.log(error)
-      return res.send(injectHtmlHeader(file.getIndexHtml(), getMetaTagHome()))
-    })
+        return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription)))
+      }).catch(() => {
+        console.error('error for call API detail')
+        return res.send(injectHtmlHeader(getMetaTagHome()))
+      })
   } else {
     // don't have product id
-    return res.send(injectHtmlHeader(file.getIndexHtml(), getMetaTagHome()))
+    return res.send(injectHtmlHeader(getMetaTagHome()))
   }
 }
 
