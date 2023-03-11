@@ -25,18 +25,7 @@ ChartJS.register(
 )
 
 ChartJS.defaults.color = '#18A594'
-const Barchart = ({ dataSet, height, isDetail, title }) => {
-  const backgroundColor = (title) => {
-    if (title?.includes('scam')) {
-      return '#808080'
-    }
-    if (title?.toLowerCase()?.includes('daily new token')) {
-      return '#18A594'
-    } else {
-      return chartColorPallet
-    }
-  }
-
+const Barchart = ({ dataSet, height, isDetail, title, colorPallet }) => {
   const data = {
     defaultFontFamily: 'Poppins',
     labels: dataSet?.results?.map(item => item[0]),
@@ -45,7 +34,7 @@ const Barchart = ({ dataSet, height, isDetail, title }) => {
         data: dataSet?.results?.map(item => item[1]),
         borderColor: 'rgba(149, 105, 255, 1)',
         borderWidth: '0',
-        backgroundColor: backgroundColor(dataSet?.title)
+        backgroundColor: colorPallet || chartColorPallet
         // barThickness: 20
 
       }

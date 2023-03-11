@@ -26,13 +26,14 @@ const ChartDetail = () => {
   }, [id])
 
   const getChartType = (data) => {
+    const colorPallet = data?.config?.colors?.split(',')
     switch (data?.typechart) {
       case 'pie':
-        return <PieChart dataSet={data} height={100} isDetail={true} title={data?.title}/>
+        return <PieChart dataSet={data} height={100} isDetail={true} title={data?.title} colorPallet={colorPallet}/>
       case 'line':
         return <LineChart dataSet={data} height={200} isDetail={true} title={data?.title}/>
       case 'bar':
-        return <Barchart dataSet={data} height={200} isDetail={true} title={data?.title} />
+        return <Barchart dataSet={data} height={200} isDetail={true} title={data?.title} colorPallet={colorPallet}/>
       default:
         return null
     }
