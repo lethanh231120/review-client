@@ -24,7 +24,8 @@ ChartJS.register(
   Legend
 )
 
-const Barchart = ({ dataSet, height, width, isDetail }) => {
+ChartJS.defaults.color = '#18A594'
+const Barchart = ({ dataSet, height, isDetail, title }) => {
   const backgroundColor = (title) => {
     if (title?.includes('scam')) {
       return '#808080'
@@ -54,6 +55,15 @@ const Barchart = ({ dataSet, height, width, isDetail }) => {
     plugins: {
       maintainAspectRatio: false,
       legend: false,
+      title: {
+        display: true,
+        text: title,
+        padding: isDetail ? 30 : 0,
+        font: {
+          size: 22,
+          color: '#18A594'
+        }
+      },
       tooltip: {
         callbacks: {
           title: (xDatapoint) => {

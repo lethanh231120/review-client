@@ -29,29 +29,28 @@ const InsightMain = () => {
       case 'pie':
         return <PieChart dataSet={data} height={200} isDetail={false}/>
       case 'line':
-        return <LineChart dataSet={data} height={150} isDetail={false}/>
+        return <LineChart dataSet={data} height={200} isDetail={false}/>
       case 'bar':
-        return <Barchart dataSet={data} height={150} isDetail={false}/>
+        return <Barchart dataSet={data} height={200} isDetail={false}/>
       default:
         return null
     }
   }
 
   const chartSection = (data, chartId) => {
-    return <Col key={chartId} xl={4} lg={12} style={{ display: 'flex', cursor: 'pointer' }} >
-      <Card style={{ width: '100%' }}>
-        <Card.Header>
-          <h4 className='card-title'>{data?.title}</h4>
-        </Card.Header>
-        <Card.Body>
-          <Link to={`${chartId}`}
-            style={{ width: '100%' }}
-          // state={chartId}
-          >
-            {getChartType(data)}
-          </Link>
-        </Card.Body>
-      </Card>
+    return <Col key={chartId} xl={4} lg={12} style={{ display: 'flex', cursor: 'pointer', marginBottom: '1.5rem' }} >
+      <Link to={`${chartId}`} style={{ width: '100%' }}>
+        <Card style={{ width: '100%', height: '100%' }}>
+          <Card.Header>
+            <h4 className='card-title'>{data?.title}</h4>
+          </Card.Header>
+          <Card.Body>
+            <div >
+              {getChartType(data)}
+            </div>
+          </Card.Body>
+        </Card>
+      </Link>
     </Col>
   }
 
