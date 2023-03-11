@@ -80,7 +80,7 @@ const Home = () => {
             </div>
             {/* <div className='col-xl-12 col-lg-12' style={{ padding: '0', marginTop: 'auto', height: 'max-content' }}> */}
             <div className='col-xl-12 col-lg-12' style={{ display: 'flex', alignItems: 'end', justifyContent: 'center', padding: '0', marginTop: 'auto' }}>
-              {summaryData ? <SummaryRow data={summaryData}/> : <MySkeletonLoadinng />}
+              {summaryData ? <SummaryRow data={summaryData}/> : <MySkeletonLoadinng count={1} height={50} />}
             </div>
           </div>
         </div>

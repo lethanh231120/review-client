@@ -266,7 +266,7 @@ const Crypto = ({
               ? <b className='text-primary'>{formatMoneyGreaterEqualOneDollar(record?.priceUSD)}</b>
               : record?.priceUSD > 0 // format money greater than 0
                 ? <b className='text-primary'>{formatMoneyLessOneDollar(record.priceUSD)}</b>
-                : NO_DATA // money less than or equal with 0
+                : record?.priceUSD <= 0 ? <b className='text-primary'>$0</b> : NO_DATA // money less than or equal with 0
           }
         </>
       )
