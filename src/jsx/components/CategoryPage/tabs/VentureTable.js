@@ -3,8 +3,8 @@ import { Image, Table, Tooltip } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
 // import { GlobalOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from 'react-router-dom'
-import moment from 'moment'
-import { formatMoney, renderNumber } from '../../../../utils/formatNumber'
+import { NO_DATA } from '../../../constants/data'
+import { renderNumber } from '../../../../utils/formatNumber'
 import '../../table/venture/venture.scss'
 import MyScoreComponent from '../../score/scoreComponent'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
@@ -15,7 +15,7 @@ import { VENTURE } from './../../../constants/category'
 const VentureTable = ({ loading, listData }) => {
   const navigate = useNavigate()
   const handleRowClicked = (record) => {
-    navigate(`../../../products/venture/${record?.ventureId}`)
+    navigate(`../../../products/${record?.ventureId?.split('_')[1]}/${record?.ventureId?.split('_')[2]}`)
   }
 
   const columns = [
@@ -24,8 +24,9 @@ const VentureTable = ({ loading, listData }) => {
       fixed: 'left',
       render: (_, record) => (
         <Link
-          to={`../../../products/venture/${record?.ventureId}`}
+          to={`../../../products/${record?.ventureId?.split('_')[1]}/${record?.ventureId?.split('_')[2]}`}
           className='crypto-table-info image-list'
+          onClick={(e) => e.stopPropagation()}
         >
           {record?.ventureId && record?.ventureLogo ? (
             <Image src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} alt='Venture Logo' />
@@ -50,9 +51,7 @@ const VentureTable = ({ loading, listData }) => {
       dataIndex: 'yearFounded',
       render: (_, record) => (
         <>
-          {record?.yearFounded !== null
-            ? moment(record?.yearFounded).format('YYYY')
-            : 'Unknown'}
+          <span>{record?.yearFounded ? record?.yearFounded : NO_DATA }</span>
         </>
       )
     },
@@ -60,9 +59,7 @@ const VentureTable = ({ loading, listData }) => {
       title: <span className='venture-table-tooltip'>Location</span>,
       dataIndex: 'location',
       render: (_, record) => (
-        <span className='venture-table-location'>
-          {record?.location ? record?.location : 'Unknown'}
-        </span>
+        <span>{record?.location ? `${record?.location}` : NO_DATA }</span>
       )
     },
     {
@@ -70,11 +67,7 @@ const VentureTable = ({ loading, listData }) => {
       dataIndex: 'seed',
       align: 'right',
       render: (_, record) => (
-        <span>
-          {record?.seed !== null && record?.seed > 0
-            ? formatMoney(record?.seed)
-            : '$0'}
-        </span>
+        <span>{record?.seed ? renderNumber(record?.seed) : '$0' }</span>
       )
     },
     {
@@ -83,11 +76,7 @@ const VentureTable = ({ loading, listData }) => {
       align: 'right',
       dataIndex: 'seriesA',
       render: (_, record) => (
-        <span>
-          {record?.seriesA !== null && record?.seriesA > 0
-            ? formatMoney(record?.seriesA)
-            : '$0'}
-        </span>
+        <span>{record?.seriesA ? renderNumber(record?.seriesA) : '$0' }</span>
       )
     },
     {
@@ -95,11 +84,18 @@ const VentureTable = ({ loading, listData }) => {
       dataIndex: 'seriesB',
       align: 'right',
       render: (_, record) => (
-        <span>
-          {record?.seriesB !== null && record?.seriesB > 0
-            ? formatMoney(record?.seriesB)
-            : '0$'}
-        </span>
+        <span>{record?.seriesB ? renderNumber(record?.seriesB) : '$0' }</span>
+      )
+    },
+    {
+      title: <span className='crypto-table-tooltip'>
+      Series C
+        <InfoCircleOutlined />
+      </span>,
+      align: 'right',
+      dataIndex: 'seriesC',
+      render: (_, record) => (
+        <span>{record?.seriesC ? renderNumber(record?.seriesC) : '$0' }</span>
       )
     },
     {
@@ -107,11 +103,7 @@ const VentureTable = ({ loading, listData }) => {
       dataIndex: 'strategic',
       align: 'center',
       render: (_, record) => (
-        <span>
-          {record?.strategic !== null && record?.strategic > 0
-            ? formatMoney(record?.strategic)
-            : '0$'}
-        </span>
+        <span>{record?.strategic ? renderNumber(record?.strategic) : '$0' }</span>
       )
     },
     {
@@ -119,11 +111,7 @@ const VentureTable = ({ loading, listData }) => {
       dataIndex: 'totalFund',
       align: 'right',
       render: (_, record) => (
-        <span>
-          {record?.totalFund !== null && record?.totalFund > 0
-            ? renderNumber(record?.totalFund)
-            : '__'}
-        </span>
+        <span>{record?.totalFund ? <b className='text-primary'>{renderNumber(record?.totalFund)}</b> : 'Unkowned' }</span>
       )
     },
     {
@@ -137,8 +125,6 @@ const VentureTable = ({ loading, listData }) => {
       </span>
       ),
       dataIndex: 'score',
-      // sorter: (a, b) => a.score - b.score,
-      // showSorterTooltip: false,
       render: (_, record) => <MyScoreComponent score={record?.score} type={VENTURE} />
     }
   ]

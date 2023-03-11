@@ -12,6 +12,7 @@ import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/f
 import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { ExchangeExplain } from '../../common-widgets/row-explaination/RowExplainationText'
+import { encodeUrl } from '../../../../utils/formatUrl'
 
 const Exchange = ({
   listProduct,
@@ -26,6 +27,13 @@ const Exchange = ({
   const handleOnRowClicked = (record)=> {
     const splitedId = record?.exchangeId?.split('_')
     splitedId && navigate(`../../products/${splitedId[1]}/${splitedId[2]}`)
+  }
+
+  const handleClickTag = (e, value) => {
+    e.stopPropagation()
+    if (value) {
+      navigate(`../../../${EXCHANGE}/${encodeUrl(value)}`)
+    }
   }
 
   const columns = [
@@ -52,12 +60,11 @@ const Exchange = ({
     },
     {
       title: 'Subcategory',
-      align: 'center',
-      render: (_, record) => (<div className='mb-0 btn btn-primary light btn-xs mb-2 me-1'>
+      align: 'left',
+      render: (_, record) => (<div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' onClick={(e) => handleClickTag(e, record?.subCategory)}>
         {record?.subCategory}
       </div>)
     },
-
     {
       title: <span className='crypto-table-tooltip'>
         Pairs
@@ -79,8 +86,7 @@ const Exchange = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <span>{record?.pairCount ? record?.pairCount : NO_DATA }
-        </span>
+        <span>{record?.pairCount ? record?.pairCount : NO_DATA }</span>
       )
     },
     {
@@ -96,15 +102,8 @@ const Exchange = ({
       align: 'right',
       showSorterTooltip: false,
       dataIndex: 'feeTxs',
-      // sorter: true,
-      // defaultSortOrder:
-      //   params?.orderBy === 'feeTxs'
-      //     ? params?.sort === 'desc'
-      //       ? 'descend'
-      //       : 'ascend'
-      //     : '',
       render: (_, record) => (
-        <span>{record?.feeTxs ? `${record?.feeTxs} %` : NO_DATA }</span>
+        <span>{record?.feeTxs === 0 ? 0 : (record?.feeTxs ? `${record?.feeTxs} %` : NO_DATA) }</span>
       )
     },
     {
@@ -120,7 +119,7 @@ const Exchange = ({
           : '',
       align: 'right',
       render: (_, record) => (
-        <span>{record?.volume24h ? <b className='text-primary'>{ renderNumber(record?.volume24h)}</b> : 'Unknown' }</span>
+        <span>{record?.volume24h === 0 ? 0 : (record?.volume24h ? <b className='text-primary'>{ renderNumber(record?.volume24h)}</b> : 'Unknown') }</span>
       )
     },
     {
@@ -136,7 +135,7 @@ const Exchange = ({
           : '',
       align: 'right',
       render: (_, record) => (
-        <span>{record?.volume7d ? <b className='text-primary'>{ renderNumber(record?.volume7d)}</b> : 'Unknown' }</span>
+        <span>{record?.volume7d === 0 ? 0 : (record?.volume7d ? <b className='text-primary'>{ renderNumber(record?.volume7d)}</b> : 'Unknown') }</span>
       )
     },
     {
@@ -152,7 +151,7 @@ const Exchange = ({
           : '',
       align: 'right',
       render: (_, record) => (
-        <span>{record?.volume1m ? <b className='text-primary'>{ renderNumber(record?.volume1m)}</b> : 'Unknown' }</span>
+        <span>{record?.volume1m === 0 ? 0 : (record?.volume1m ? <b className='text-primary'>{ renderNumber(record?.volume1m)}</b> : 'Unknown') }</span>
       )
     },
     {
@@ -168,7 +167,7 @@ const Exchange = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <span>{record?.visit7d ? <b className='text-primary'>{ formatLargeNumber(record?.visit7d)}</b> : 'Unknown' }</span>
+        <span>{record?.visit7d === 0 ? 0 : (record?.visit7d ? <b className='text-primary'>{ formatLargeNumber(record?.visit7d)}</b> : 'Unknown') }</span>
       )
     },
     {

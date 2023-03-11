@@ -44,6 +44,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
   })
   const [keyWord, setKeyWord] = useState()
   const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState(FIRST_SEARCH_PLACEHOLDER_TEXT)
+  const [submitSearch, setSubmitSearch] = useState(false)
 
   const handleSearch = _.debounce(async(value) => {
     if (value !== '') {
@@ -87,6 +88,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
       }
     } else {
       setDataSearch({ isActive: false, data: {}, loading: false, status: '' })
+      setIsSubmit()
     }
   }, 500)
 
@@ -126,41 +128,81 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
     }
   }, [listDataSearch])
 
+  const navigateDetailProduct = (itemSubmit) => {
+    // if (itemSubmit) {
+    const productId = itemSubmit?.cryptoId
+      ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
+      : itemSubmit?.dappId
+        ? `${itemSubmit?.dappId?.split('_')[2]}`
+        : itemSubmit?.exchangeId
+          ? `${itemSubmit?.exchangeId?.split('_')[2]}`
+          : itemSubmit?.soonId
+            ? `${itemSubmit?.soonId?.split('_')[2]}`
+            : itemSubmit?.ventureId
+              ? `${itemSubmit?.ventureId?.split('_')[2]}`
+              : `${itemSubmit?.launchPadId?.split('_')[2]}`
+    navigate(
+      `../../products/${
+        itemSubmit?.cryptoId
+          ? 'crypto'
+          : itemSubmit?.dappId
+            ? 'dapp'
+            : itemSubmit?.exchangeId
+              ? 'exchange'
+              : itemSubmit?.soonId
+                ? 'soon'
+                : itemSubmit?.ventureId
+                  ? 'venture'
+                  : 'launchpad'
+      }/${productId}`
+    )
+    setSubmitSearch(false)
+    setKeyWord()
+    setDataSearch({
+      isActive: false, data: {}, loading: false, status: ''
+    })
+    // }
+  }
+
   const subMitForm = () => {
+    console.log(33333)
     if (isFormReport) {
       setItemSearch(itemSubmit)
     } else {
       if (itemSubmit) {
-        const productId = itemSubmit?.cryptoId
-          ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
-          : itemSubmit?.dappId
-            ? `${itemSubmit?.dappId?.split('_')[2]}`
-            : itemSubmit?.exchangeId
-              ? `${itemSubmit?.exchangeId?.split('_')[2]}`
-              : itemSubmit?.soonId
-                ? `${itemSubmit?.soonId?.split('_')[2]}`
-                : itemSubmit?.ventureId
-                  ? `${itemSubmit?.ventureId?.split('_')[2]}`
-                  : `${itemSubmit?.launchPadId?.split('_')[2]}`
-        navigate(
-          `../../products/${
-            itemSubmit?.cryptoId
-              ? 'crypto'
-              : itemSubmit?.dappId
-                ? 'dapp'
-                : itemSubmit?.exchangeId
-                  ? 'exchange'
-                  : itemSubmit?.soonId
-                    ? 'soon'
-                    : itemSubmit?.ventureId
-                      ? 'venture'
-                      : 'launchpad'
-          }/${productId}`
-        )
-        setKeyWord()
-        setDataSearch({
-          isActive: false, data: {}, loading: false, status: ''
-        })
+        navigateDetailProduct(itemSubmit)
+        // const productId = itemSubmit?.cryptoId
+        //   ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
+        //   : itemSubmit?.dappId
+        //     ? `${itemSubmit?.dappId?.split('_')[2]}`
+        //     : itemSubmit?.exchangeId
+        //       ? `${itemSubmit?.exchangeId?.split('_')[2]}`
+        //       : itemSubmit?.soonId
+        //         ? `${itemSubmit?.soonId?.split('_')[2]}`
+        //         : itemSubmit?.ventureId
+        //           ? `${itemSubmit?.ventureId?.split('_')[2]}`
+        //           : `${itemSubmit?.launchPadId?.split('_')[2]}`
+        // navigate(
+        //   `../../products/${
+        //     itemSubmit?.cryptoId
+        //       ? 'crypto'
+        //       : itemSubmit?.dappId
+        //         ? 'dapp'
+        //         : itemSubmit?.exchangeId
+        //           ? 'exchange'
+        //           : itemSubmit?.soonId
+        //             ? 'soon'
+        //             : itemSubmit?.ventureId
+        //               ? 'venture'
+        //               : 'launchpad'
+        //   }/${productId}`
+        // )
+        // setKeyWord()
+        // setDataSearch({
+        //   isActive: false, data: {}, loading: false, status: ''
+        // })
+      } else {
+        console.log('no item submit')
       }
     }
     refInput.current.value = ''
@@ -169,6 +211,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
   const handleSubmitSearch = (e) => {
     if (e.key === 'Enter') {
       subMitForm()
+      setSubmitSearch(true)
     }
   }
 
@@ -184,6 +227,14 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
       }
     }
   }, [isSubmit])
+
+  useEffect(() => {
+    if (submitSearch) {
+      if (itemSubmit) {
+        navigateDetailProduct(itemSubmit)
+      }
+    }
+  }, [submitSearch, itemSubmit])
 
   if (!isFormReport) {
     // runner text

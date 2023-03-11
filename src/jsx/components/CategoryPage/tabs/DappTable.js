@@ -8,10 +8,10 @@ import { PREFIX_DETAIL, DAPP } from '../../../constants/category'
 import { ChainListContext } from '../../../../App'
 import MyScoreComponent from '../../score/scoreComponent'
 import { encodeUrl } from '../../../../utils/formatUrl'
-import { Badge } from 'react-bootstrap'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import { toCammelCase } from '../../../../utils/formatText'
 
 const DappTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -29,8 +29,9 @@ const DappTable = ({ loading, listData }) => {
       dataIndex: 'name',
       render: (_, record) => (
         <Link
-          to={`../../../${PREFIX_DETAIL}/${DAPP}/${record?.dAppId}`}
+          to={`../../../${PREFIX_DETAIL}/${DAPP}/${record?.dAppId?.split('_')[2]}`}
           className='crypto-table-info image-list'
+          onClick={(e) => e.stopPropagation()}
         >
           {record?.dAppId && record?.dAppLogo ? (
             <Image src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} alt='DApp Logo'/>
@@ -53,12 +54,13 @@ const DappTable = ({ loading, listData }) => {
       title: 'Subcategory',
       dataIndex: 'subCategory',
       key: 'subCategory',
+      align: 'left',
       render: (_, record) => (
         <>
           {record?.subCategory ? (
-            <Badge bg=' badge-l' className='badge-success' style={{ cursor: 'pointer' }} onClick={(e) => handleClickTag(e, record?.subCategory)}>
+            <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' style={{ cursor: 'pointer' }} onClick={(e) => handleClickTag(e, record?.subCategory)}>
               {record?.subCategory}
-            </Badge>
+            </div>
           ) : (
             '__'
           )}
@@ -66,34 +68,22 @@ const DappTable = ({ loading, listData }) => {
       )
     },
     {
-      title: <span>Chains</span>,
+      title: <span>Chain</span>,
       dataIndex: 'exchanges',
+      align: 'left',
       render: (_, record) => (
         <Avatar.Group
           alt='Blockchains Logos'
-          maxCount={2}
-          size={25}
           maxStyle={{
             color: '#fff',
             backgroundColor: '#039F7F',
             cursor: 'pointer'
           }}
-        >
-          {record?.chains &&
-            Object.keys(record?.chains).map((key) => (
-              <div key={key}>
-                {chainList[key] && (
-                  <Avatar
-                    alt='Blockchain Logo'
-                    size={25}
-                    src={chainList[key]?.image}
-                    // key={key}
-                    className='crypto-table-chain'
-                    // onClick={(e) => handleClickExplorer(e, item)}
-                  />
-                )}
-              </div>
-            ))}
+          maxCount={record?.chains ? (Object?.keys(record?.chains)?.length >= 4 ? 2 : 3) : 0}
+          size={25} >
+          {record?.chains && Object.keys(record?.chains).map((key, index) => <Tooltip key={index} title={toCammelCase(key)}
+          >
+            <Avatar alt='Blockchain Logo' size={25} src={chainList[key]?.image} /></Tooltip>)}
         </Avatar.Group>
       )
     },
@@ -107,11 +97,10 @@ const DappTable = ({ loading, listData }) => {
         </Tooltip>
       </span>
       ),
+      align: 'right',
       dataIndex: 'volume24h',
       render: (_, record) => (
-        <span>
-          {record?.volume24h ? renderNumber(record?.volume24h) : '___'}
-        </span>
+        <span>{record?.volume24h ? <b className='text-primary'>{renderNumber(record?.volume24h)}</b> : 'Unknown' }</span>
       )
     },
     {
@@ -124,9 +113,10 @@ const DappTable = ({ loading, listData }) => {
         </Tooltip>
       </span>
       ),
+      align: 'right',
       dataIndex: 'user24h',
       render: (_, record) => (
-        <span>{record?.user24h ? formatLargeNumber(record?.user24h) : '__'}</span>
+        <span>{record?.user24h ? <b className='text-primary'>{formatLargeNumber(record?.user24h)}</b> : 'Unknown' }</span>
       )
     },
     {
@@ -139,11 +129,10 @@ const DappTable = ({ loading, listData }) => {
         </Tooltip>
       </span>
       ),
+      align: 'right',
       dataIndex: 'balance',
       render: (_, record) => (
-        <span>
-          {record?.balance ? renderNumber(record?.balance) : '__'}
-        </span>
+        <span>{record?.balance ? renderNumber(record?.balance) : 'Unknown' }</span>
       )
     },
     {
@@ -158,14 +147,11 @@ const DappTable = ({ loading, listData }) => {
       ),
       dataIndex: 'score',
       render: (_, record) => <MyScoreComponent score={record?.score} type={DAPP} />
-      // sorter: (a, b) => a.score - b.score,
-      // showSorterTooltip: false,
-      // defaultSortOrder: 'descend'
     }
   ]
 
   const onRowClicked = (record) => {
-    navigate(`../../../products/dapp/${record?.dAppId}`)
+    navigate(`../../../products/dapp/${record?.dAppId?.split('_')[2]}`)
   }
 
   return (

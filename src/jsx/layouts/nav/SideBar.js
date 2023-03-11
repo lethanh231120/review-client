@@ -198,27 +198,22 @@ const SideBar = () => {
   useEffect(() => {
     if (path?.pathname?.split('/')[1] === '') {
       setState({ active: 'Home' })
-    }
-    if (path?.pathname?.split('/')[1] === DAPP) {
+    } else if (path?.pathname?.split('/')[1] === DAPP) {
       setState({ active: 'DApps' })
-    }
-    if (path?.pathname?.split('/')[1] === CRYPTO) {
+    } else if (path?.pathname?.split('/')[1] === CRYPTO) {
       setState({ active: 'Crypto Projects' })
-    }
-    if (path?.pathname?.split('/')[1] === VENTURE) {
+    } else if (path?.pathname?.split('/')[1] === VENTURE) {
       setState({ active: 'Ventures' })
-    }
-    if (path?.pathname?.split('/')[1] === EXCHANGE) {
+    } else if (path?.pathname?.split('/')[1] === EXCHANGE) {
       setState({ active: 'Exchanges' })
-    }
-    if (path?.pathname?.split('/')[1] === SOON) {
+    } else if (path?.pathname?.split('/')[1] === SOON) {
       setState({ active: 'ICO/IDO/IEO' })
-    }
-    if (path?.pathname?.split('/')[1] === LAUNCHPAD) {
+    } else if (path?.pathname?.split('/')[1] === LAUNCHPAD) {
       setState({ active: 'Launchpads' })
-    }
-    if (path?.pathname?.split('/')[1] === INSIGHT) {
+    } else if (path?.pathname?.split('/')[1] === INSIGHT) {
       setState({ active: 'Insights' })
+    } else {
+      setState({ active: '' })
     }
   }, [path])
 

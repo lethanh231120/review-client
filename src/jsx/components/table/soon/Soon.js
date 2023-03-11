@@ -85,6 +85,9 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                                       : imgAbsentImageSoon
                                   }
                                   size={40}
+                                  style={{
+                                    border: '1px solid rgba(0, 0, 0, 0.1)'
+                                  }}
                                 />
                               ) : (
                                 <NoImage
@@ -105,7 +108,7 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                               placement='top'
                             >
                               <div
-                                className='ms-4 text-etc-overflow'
+                                className='ms-2 text-etc-overflow'
                                 style={{ width: '100%' }}
                               >
                                 <h4 className='heading mb-0 text-etc-overflow'>

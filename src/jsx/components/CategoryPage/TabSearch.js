@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import CryptoTable from './tabs/CryptoTable'
 import SoonTable from './tabs/SoonTable'
 import LaunchPadTable from './tabs/LaunchPadTable'
@@ -7,8 +7,8 @@ import VentureTable from './tabs/VentureTable'
 import DappTable from './tabs/DappTable'
 import { DAPP, VENTURE, EXCHANGE, SOON, CRYPTO, LAUNCHPAD, LIST_LAUNCHPAD } from '../../constants/category'
 import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE } from '../../constants/category'
-import { read } from '../../../api/BaseRequest'
-import _ from 'lodash'
+// import { read } from '../../../api/BaseRequest'
+// import _ from 'lodash'
 import { Tab, Nav } from 'react-bootstrap'
 import { Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
@@ -16,142 +16,143 @@ import './categoryItem.scss'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 
 const TabSearch = (props) => {
-  const { listProduct, setKeyWordSearch, handleSubmitSearch, handleSubmitBtn, setLoading, loading, activeTab, keywordSearch } = props
-  const [tab, setTab] = useState()
-  const [listData, setListData] = useState({
-    dapp: [],
-    venture: [],
-    exchange: [],
-    soon: [],
-    launchpad: [],
-    crypto: []
-  })
+  const { listData, setKeyWordSearch, handleSubmitSearch, handleSubmitBtn, loading, tab, setTab, keywordSearch, listProduct, setListData, setStatus } = props
 
-  useEffect(() => {
-    setTab(activeTab)
-  }, [activeTab])
+  // const [tab, setTab] = useState()
+  // const [listData, setListData] = useState({
+  //   dapp: [],
+  //   venture: [],
+  //   exchange: [],
+  //   soon: [],
+  //   launchpad: [],
+  //   crypto: []
+  // })
 
-  useEffect(() => {
-    const getData = async() => {
-      if (tab) {
-        setLoading(true)
-        switch (tab) {
-          case DAPP: {
-            const listDappId = []
-            listProduct[LIST_DAPP]?.dapps?.forEach((itemDapp) => {
-              listDappId.push(itemDapp?.dappId)
-            })
-            if (!_.isEmpty(listDappId)) {
-              const dataDapp = await read('reviews/dapp/list', { dAppIds: listDappId })
-              setListData({
-                dapp: dataDapp?.data?.dApps ? dataDapp?.data?.dApps : []
-              })
-              setLoading(false)
-            } else {
-              setListData({
-                dapp: []
-              })
-            }
-            break
-          }
-          case CRYPTO: {
-            const listCryptoId = []
-            listProduct[LIST_CRYPTO]?.cryptos?.forEach((itemCrypto) => {
-              listCryptoId.push(itemCrypto?.cryptoId)
-            })
-            if (!_.isEmpty(listCryptoId)) {
-              const dataCrypto = await read('reviews/crypto/list', { cryptoIds: listCryptoId })
-              setListData({
-                crypto: dataCrypto?.data?.cryptos ? dataCrypto?.data?.cryptos : []
-              })
-              setLoading(false)
-            } else {
-              setListData({
-                crypto: []
-              })
-            }
-            break
-          }
-          case EXCHANGE: {
-            const listExchangeId = []
-            listProduct[LIST_EXCHANGE]?.exchanges?.forEach((itemExchange) => {
-              listExchangeId.push(itemExchange?.exchangeId)
-            })
-            if (!_.isEmpty(listExchangeId)) {
-              const dataExchange = await read('reviews/exchange/list', { exchangeIds: listExchangeId })
-              setListData({
-                exchange: dataExchange?.data?.exchanges ? dataExchange?.data?.exchanges : []
-              })
-              setLoading(false)
-            } else {
-              setListData({
-                exchange: []
-              })
-            }
-            break
-          }
-          case VENTURE: {
-            const listVentureId = []
-            listProduct[LIST_VENTURE]?.ventures?.forEach((itemVenture) => {
-              listVentureId.push(itemVenture?.ventureId)
-            })
-            if (!_.isEmpty(listVentureId)) {
-              const dataVenture = await read('reviews/venture/list', { ventureIds: listVentureId })
-              setListData({
-                venture: dataVenture?.data?.ventures ? dataVenture?.data?.ventures : []
-              })
-              setLoading(false)
-            } else {
-              setListData({
-                venture: []
-              })
-            }
-            break
-          }
-          case LAUNCHPAD: {
-            const listLaunchPadId = []
-            listProduct[LIST_LAUNCHPAD]?.launchPads?.forEach((itemLaunchPad) => {
-              listLaunchPadId.push(itemLaunchPad?.launchPadId)
-            })
-            if (!_.isEmpty(listLaunchPadId)) {
-              const dataLaunchPad = await read('reviews/launchpad/list', { launchpadIds: listLaunchPadId })
-              setListData({
-                launchpad: dataLaunchPad?.data?.launchPads ? dataLaunchPad?.data?.launchPads : []
-              })
-              setLoading(false)
-            } else {
-              setListData({
-                launchpad: []
-              })
-            }
-            break
-          }
-          case SOON: {
-            const listSoonId = []
-            listProduct[LIST_SOON]?.soons?.forEach((itemSoon) => {
-              listSoonId.push(itemSoon?.soonId)
-            })
-            if (!_.isEmpty(listSoonId)) {
-              const dataSoon = await read('reviews/soon/list', { projectIds: listSoonId })
-              setListData({
-                soon: dataSoon?.data?.soons ? dataSoon?.data?.soons : []
-              })
-              setLoading(false)
-            } else {
-              setListData({
-                soone: []
-              })
-            }
-            break
-          }
-          default:
-            break
-        }
-        setLoading(false)
-      }
-    }
-    listProduct && getData()
-  }, [tab, listProduct])
+  // useEffect(() => {
+  //   setTab(activeTab)
+  // }, [activeTab])
+
+  // useEffect(() => {
+  //   const getData = async() => {
+  //     if (tab) {
+  //       setLoading(true)
+  //       switch (tab) {
+  //         case DAPP: {
+  //           const listDappId = []
+  //           listProduct[LIST_DAPP]?.dapps?.forEach((itemDapp) => {
+  //             listDappId.push(itemDapp?.dappId)
+  //           })
+  //           if (!_.isEmpty(listDappId)) {
+  //             const dataDapp = await read('reviews/dapp/list', { dAppIds: listDappId })
+  //             setListData({
+  //               dapp: dataDapp?.data?.dApps ? dataDapp?.data?.dApps : []
+  //             })
+  //             setLoading(false)
+  //           } else {
+  //             setListData({
+  //               dapp: []
+  //             })
+  //           }
+  //           break
+  //         }
+  //         case CRYPTO: {
+  //           const listCryptoId = []
+  //           listProduct[LIST_CRYPTO]?.cryptos?.forEach((itemCrypto) => {
+  //             listCryptoId.push(itemCrypto?.cryptoId)
+  //           })
+  //           if (!_.isEmpty(listCryptoId)) {
+  //             const dataCrypto = await read('reviews/crypto/list', { cryptoIds: listCryptoId })
+  //             setListData({
+  //               crypto: dataCrypto?.data?.cryptos ? dataCrypto?.data?.cryptos : []
+  //             })
+  //             setLoading(false)
+  //           } else {
+  //             setListData({
+  //               crypto: []
+  //             })
+  //           }
+  //           break
+  //         }
+  //         case EXCHANGE: {
+  //           const listExchangeId = []
+  //           listProduct[LIST_EXCHANGE]?.exchanges?.forEach((itemExchange) => {
+  //             listExchangeId.push(itemExchange?.exchangeId)
+  //           })
+  //           if (!_.isEmpty(listExchangeId)) {
+  //             const dataExchange = await read('reviews/exchange/list', { exchangeIds: listExchangeId })
+  //             setListData({
+  //               exchange: dataExchange?.data?.exchanges ? dataExchange?.data?.exchanges : []
+  //             })
+  //             setLoading(false)
+  //           } else {
+  //             setListData({
+  //               exchange: []
+  //             })
+  //           }
+  //           break
+  //         }
+  //         case VENTURE: {
+  //           const listVentureId = []
+  //           listProduct[LIST_VENTURE]?.ventures?.forEach((itemVenture) => {
+  //             listVentureId.push(itemVenture?.ventureId)
+  //           })
+  //           if (!_.isEmpty(listVentureId)) {
+  //             const dataVenture = await read('reviews/venture/list', { ventureIds: listVentureId })
+  //             setListData({
+  //               venture: dataVenture?.data?.ventures ? dataVenture?.data?.ventures : []
+  //             })
+  //             setLoading(false)
+  //           } else {
+  //             setListData({
+  //               venture: []
+  //             })
+  //           }
+  //           break
+  //         }
+  //         case LAUNCHPAD: {
+  //           const listLaunchPadId = []
+  //           listProduct[LIST_LAUNCHPAD]?.launchPads?.forEach((itemLaunchPad) => {
+  //             listLaunchPadId.push(itemLaunchPad?.launchPadId)
+  //           })
+  //           if (!_.isEmpty(listLaunchPadId)) {
+  //             const dataLaunchPad = await read('reviews/launchpad/list', { launchpadIds: listLaunchPadId })
+  //             setListData({
+  //               launchpad: dataLaunchPad?.data?.launchPads ? dataLaunchPad?.data?.launchPads : []
+  //             })
+  //             setLoading(false)
+  //           } else {
+  //             setListData({
+  //               launchpad: []
+  //             })
+  //           }
+  //           break
+  //         }
+  //         case SOON: {
+  //           const listSoonId = []
+  //           listProduct[LIST_SOON]?.soons?.forEach((itemSoon) => {
+  //             listSoonId.push(itemSoon?.soonId)
+  //           })
+  //           if (!_.isEmpty(listSoonId)) {
+  //             const dataSoon = await read('reviews/soon/list', { projectIds: listSoonId })
+  //             setListData({
+  //               soon: dataSoon?.data?.soons ? dataSoon?.data?.soons : []
+  //             })
+  //             setLoading(false)
+  //           } else {
+  //             setListData({
+  //               soone: []
+  //             })
+  //           }
+  //           break
+  //         }
+  //         default:
+  //           break
+  //       }
+  //       setLoading(false)
+  //     }
+  //   }
+  //   listProduct && getData()
+  // }, [tab, listProduct])
 
   return (
     <>
@@ -251,7 +252,10 @@ const TabSearch = (props) => {
                 <Input
                   value={keywordSearch}
                   placeholder={keywordSearch}
-                  onChange={(e) => setKeyWordSearch(e.target.value)}
+                  onChange={(e) => {
+                    setStatus()
+                    setKeyWordSearch(e.target.value)
+                  }}
                   onKeyPress={handleSubmitSearch}
                   suffix={<SearchOutlined onClick={handleSubmitBtn} className='icon-submit'/>}
                 />
@@ -260,11 +264,7 @@ const TabSearch = (props) => {
             <div className='mt-4'>
               <Tab.Content className='tab-content' >
                 <Tab.Pane eventKey='crypto'>
-                  <div className='table-responsive dataTablemarket'>
-                    <div id='market_wrapper' className='dataTables_wrapper no-footer'>
-                      <CryptoTable listData={listData?.crypto} loading={loading}/>
-                    </div>
-                  </div>
+                  <CryptoTable listData={listData?.crypto} loading={loading}/>
                 </Tab.Pane>
                 <Tab.Pane eventKey='dapp'>
                   <DappTable listData={listData?.dapp} loading={loading} />
