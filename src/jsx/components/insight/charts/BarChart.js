@@ -24,18 +24,8 @@ ChartJS.register(
   Legend
 )
 
-const Barchart = ({ dataSet, height, width, isDetail }) => {
-  const backgroundColor = (title) => {
-    if (title?.includes('scam')) {
-      return '#808080'
-    }
-    if (title?.toLowerCase()?.includes('daily new token')) {
-      return '#18A594'
-    } else {
-      return chartColorPallet
-    }
-  }
-
+ChartJS.defaults.color = '#18A594'
+const Barchart = ({ dataSet, height, isDetail, title, colorPallet }) => {
   const data = {
     defaultFontFamily: 'Poppins',
     labels: dataSet?.results?.map(item => item[0]),
@@ -44,7 +34,7 @@ const Barchart = ({ dataSet, height, width, isDetail }) => {
         data: dataSet?.results?.map(item => item[1]),
         borderColor: 'rgba(149, 105, 255, 1)',
         borderWidth: '0',
-        backgroundColor: backgroundColor(dataSet?.title)
+        backgroundColor: colorPallet || chartColorPallet
         // barThickness: 20
 
       }
@@ -54,6 +44,15 @@ const Barchart = ({ dataSet, height, width, isDetail }) => {
     plugins: {
       maintainAspectRatio: false,
       legend: false,
+      title: {
+        display: true,
+        text: title,
+        padding: isDetail ? 30 : 0,
+        font: {
+          size: 22,
+          color: '#18A594'
+        }
+      },
       tooltip: {
         callbacks: {
           title: (xDatapoint) => {

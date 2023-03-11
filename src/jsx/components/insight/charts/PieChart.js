@@ -5,30 +5,15 @@ import _ from 'lodash'
 Chart.register(ArcElement)
 
 export const chartColorPallet = ['#47B39C', '#FFC154', '#EC6B56', '#47B39C', '#EC6B56', '#FFC154', '#47B39C', '#EC6B56', '#FFC154']
-// export const chartColorPallet = [
-//   'rgb(255, 205, 86)',
-//   'rgb(75, 192, 192)',
-//   'rgb(255, 99, 132)',
-//   'rgb(255, 159, 64)',
-//   'rgb(54, 162, 235)'
-
-// ]
-// export const chartColorPallet = [
-//   '#18A594',
-//   '#41B991',
-//   '#6ACC8A',
-//   '#96DD80',
-//   '#C5EC77',
-//   '#F9F871'
-// ]
-const PieChart = ({ dataSet, height, width, isDetail }) => {
+Chart.defaults.color = '#18A594'
+const PieChart = ({ dataSet, height, isDetail, title, colorPallet }) => {
   const data = {
-    labels: dataSet?.results?.map(item => item[0]),
+    labels: dataSet?.results?.map(item => _.capitalize(item[0])),
     datasets: [
       {
         data: dataSet?.results?.map(item => item[1]),
         borderWidth: 0,
-        backgroundColor: chartColorPallet
+        backgroundColor: colorPallet || chartColorPallet
         // hoverBackgroundColor: dataSet?.results?.map(item => randomColor())
       }
     ]
@@ -36,13 +21,22 @@ const PieChart = ({ dataSet, height, width, isDetail }) => {
   }
   const options = {
     plugins: {
+      title: {
+        display: true,
+        text: title,
+        font: {
+          size: 22,
+          color: '#18A594'
+        },
+        padding: isDetail ? 30 : 0
+      },
       legend: {
         display: isDetail,
         position: 'bottom',
         align: 'center',
         labels: {
           boxWidth: 20,
-          padding: 15
+          padding: 30
         }
       },
       // responsive: true,
@@ -55,13 +49,13 @@ const PieChart = ({ dataSet, height, width, isDetail }) => {
         }
       }
     },
-
-    maintainAspectRatio: false
+    maintainAspectRatio: true,
+    responsive: true
   }
 
   return (
-    <div style={{ position: 'relative' }}>
-      <Pie data={data} height={ height} width={width} options={options} />
+    <div style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
+      <Pie data={data} height={height} options={options} />
     </div>
   )
 }

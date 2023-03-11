@@ -62,7 +62,7 @@ const Venture = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <span>{record?.yearFounded ? record?.yearFounded : NO_DATA }</span>
+        <span>{record?.yearFounded ? (record?.yearFounded === '0' ? NO_DATA : record?.yearFounded) : NO_DATA }</span>
       )
     },
     {
