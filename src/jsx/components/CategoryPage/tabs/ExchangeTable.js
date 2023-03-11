@@ -10,11 +10,11 @@ import { InfoCircleOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import MyScoreComponent from '../../score/scoreComponent'
 import { encodeUrl } from '../../../../utils/formatUrl'
-import { Badge } from 'react-bootstrap'
 import { NO_DATA } from '../../../constants/data'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import { formatLargeNumber } from '../../../../utils/formatNumber'
 
 const ExchangeTable = ({ listData, loading }) => {
   const navigate = useNavigate()
@@ -30,8 +30,9 @@ const ExchangeTable = ({ listData, loading }) => {
       title: 'Name',
       render: (_, record) => (
         <Link
-          to={`../../../${PREFIX_DETAIL}/${EXCHANGE}/${record?.exchangeId}`}
+          to={`../../../${PREFIX_DETAIL}/${record?.exchangeId?.split('_')[1]}/${record?.exchangeId?.split('_')[2]}`}
           className='crypto-table-info image-list'
+          onClick={(e) => e.stopPropagation()}
         >
           {record?.exchangeId && record?.smallLogo ? (
             <Image src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} alt='Exchange Logo'/>
@@ -52,12 +53,13 @@ const ExchangeTable = ({ listData, loading }) => {
     },
     {
       title: 'Subcategory',
+      align: 'left',
       render: (_, record) => (
         <>
           {record?.subCategory ? (
-            <Badge bg=' badge-l' className='badge-success' style={{ cursor: 'pointer' }} onClick={(e) => handleClickTag(e, record?.subCategory)}>
+            <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' style={{ cursor: 'pointer' }} onClick={(e) => handleClickTag(e, record?.subCategory)}>
               {record?.subCategory}
-            </Badge>
+            </div>
           ) : (
             '__'
           )}
@@ -68,9 +70,7 @@ const ExchangeTable = ({ listData, loading }) => {
       title: 'Pair Count',
       align: 'right',
       render: (_, record) => (
-        <span>
-          {record?.pairCount ? new Intl.NumberFormat().format(record?.pairCount) : NO_DATA }
-        </span>
+        <span>{record?.pairCount ? record?.pairCount : NO_DATA }</span>
       ),
       dataIndex: 'pairCount' // override by render but still keep for pass param to server
     },
@@ -78,16 +78,14 @@ const ExchangeTable = ({ listData, loading }) => {
       title: 'Transaction Fee',
       align: 'right',
       render: (_, record) => (
-        <span>{record?.feeTxs ? renderNumber(record?.feeTxs) : '__'}</span>
+        <span>{record?.feeTxs === 0 ? 0 : (record?.feeTxs ? `${record?.feeTxs} %` : NO_DATA) }</span>
       )
     },
     {
       title: 'Volume 24h',
       align: 'right',
       render: (_, record) => (
-        <span>
-          {record?.volume24h ? renderNumber(record?.volume24h) : '__'}
-        </span>
+        <span>{record?.volume24h === 0 ? 0 : (record?.volume24h ? <b className='text-primary'>{ renderNumber(record?.volume24h)}</b> : 'Unknown') }</span>
       ),
       dataIndex: 'volume24h' // override by render but still keep for pass param to server
     },
@@ -95,7 +93,7 @@ const ExchangeTable = ({ listData, loading }) => {
       title: 'Volume 7d',
       align: 'right',
       render: (_, record) => (
-        <span>{record?.volume7d ? renderNumber(record?.volume7d) : '__'}</span>
+        <span>{record?.volume7d === 0 ? 0 : (record?.volume7d ? <b className='text-primary'>{ renderNumber(record?.volume7d)}</b> : 'Unknown') }</span>
       ),
       dataIndex: 'volume7d' // override by render but still keep for pass param to server
     },
@@ -103,7 +101,7 @@ const ExchangeTable = ({ listData, loading }) => {
       title: 'Volume 30d',
       align: 'right',
       render: (_, record) => (
-        <span>{record?.volume1m ? renderNumber(record?.volume1m) : '__'}</span>
+        <span>{record?.volume1m === 0 ? 0 : (record?.volume1m ? <b className='text-primary'>{ renderNumber(record?.volume1m)}</b> : 'Unknown') }</span>
       ),
       dataIndex: 'volume1m' // override by render but still keep for pass param to server
     },
@@ -112,11 +110,7 @@ const ExchangeTable = ({ listData, loading }) => {
       align: 'right',
       key: 'visit7d',
       render: (_, record) => (
-        <span>
-          {record?.visit7d
-            ? new Intl.NumberFormat().format(record?.visit7d)
-            : '__'}
-        </span>
+        <span>{record?.visit7d === 0 ? 0 : (record?.visit7d ? <b className='text-primary'>{ formatLargeNumber(record?.visit7d)}</b> : 'Unknown') }</span>
       ),
       dataIndex: 'visit7d' // override by render but still keep for pass param to server
     },
@@ -133,16 +127,13 @@ const ExchangeTable = ({ listData, loading }) => {
         </span>
       ),
       align: 'center',
-      // sorter: (a, b) => a.score - b.score,
-      // showSorterTooltip: false,
       render: (_, record) => <MyScoreComponent score={record?.score} type={EXCHANGE} />,
       dataIndex: 'score' // override by render but still keep for pass param to server
-      // defaultSortOrder: 'descend'
     }
   ]
 
   const onRowClicked = (record) => {
-    navigate(`../../../products/exchange/${record?.exchangeId}`)
+    navigate(`../../../products/${record?.exchangeId?.split('_')[1]}/${record?.exchangeId?.split('_')[2]}`)
   }
 
   return (

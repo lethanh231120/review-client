@@ -20,6 +20,9 @@ import SEO from '../SEO/SEO'
 import { toCammelCase } from '../../../utils/formatText'
 import { formatLargeNumber } from '../../../utils/formatNumber'
 
+import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE, LIST_LAUNCHPAD } from '../../constants/category'
+import { read } from '../../../api/BaseRequest'
+
 const CategoryItem = () => {
   const navigate = useNavigate()
   const { category, subCategory, keyword, categorySearch } = useParams()
@@ -30,6 +33,16 @@ const CategoryItem = () => {
   const [params, setParams] = useState()
   const [keywordSearch, setKeyWordSearch] = useState()
   const [titleSEO, setTitleSEO] = useState()
+  const [tab, setTab] = useState()
+  const [listData, setListData] = useState({
+    dapp: [],
+    venture: [],
+    exchange: [],
+    soon: [],
+    launchpad: [],
+    crypto: []
+  })
+  const [status, setStatus] = useState()
 
   // only main-menu changed
   useEffect(() => {
@@ -311,6 +324,133 @@ const CategoryItem = () => {
     navigate(`/search/${categorySearch}/${keywordSearch}`, { replace: true })
   }
 
+  useEffect(() => {
+    setTab(categorySearch)
+    setStatus('done')
+  }, [categorySearch, keyword])
+
+  useEffect(() => {
+    const getData = async() => {
+      if (tab) {
+        setLoading(true)
+        switch (tab) {
+          case DAPP: {
+            const listDappId = []
+            listProduct[LIST_DAPP]?.dapps?.forEach((itemDapp) => {
+              listDappId.push(itemDapp?.dappId)
+            })
+            if (!_.isEmpty(listDappId)) {
+              const dataDapp = await read('reviews/dapp/list', { dAppIds: listDappId })
+              setListData({
+                dapp: dataDapp?.data?.dApps ? dataDapp?.data?.dApps : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                dapp: []
+              })
+            }
+            break
+          }
+          case CRYPTO: {
+            const listCryptoId = []
+            listProduct[LIST_CRYPTO]?.cryptos?.forEach((itemCrypto) => {
+              listCryptoId.push(itemCrypto?.cryptoId)
+            })
+            if (!_.isEmpty(listCryptoId)) {
+              const dataCrypto = await read('reviews/crypto/list', { cryptoIds: listCryptoId })
+              setListData({
+                crypto: dataCrypto?.data?.cryptos ? dataCrypto?.data?.cryptos : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                crypto: []
+              })
+            }
+            break
+          }
+          case EXCHANGE: {
+            const listExchangeId = []
+            listProduct[LIST_EXCHANGE]?.exchanges?.forEach((itemExchange) => {
+              listExchangeId.push(itemExchange?.exchangeId)
+            })
+            if (!_.isEmpty(listExchangeId)) {
+              const dataExchange = await read('reviews/exchange/list', { exchangeIds: listExchangeId })
+              setListData({
+                exchange: dataExchange?.data?.exchanges ? dataExchange?.data?.exchanges : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                exchange: []
+              })
+            }
+            break
+          }
+          case VENTURE: {
+            const listVentureId = []
+            listProduct[LIST_VENTURE]?.ventures?.forEach((itemVenture) => {
+              listVentureId.push(itemVenture?.ventureId)
+            })
+            if (!_.isEmpty(listVentureId)) {
+              const dataVenture = await read('reviews/venture/list', { ventureIds: listVentureId })
+              setListData({
+                venture: dataVenture?.data?.ventures ? dataVenture?.data?.ventures : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                venture: []
+              })
+            }
+            break
+          }
+          case LAUNCHPAD: {
+            const listLaunchPadId = []
+            listProduct[LIST_LAUNCHPAD]?.launchPads?.forEach((itemLaunchPad) => {
+              listLaunchPadId.push(itemLaunchPad?.launchPadId)
+            })
+            if (!_.isEmpty(listLaunchPadId)) {
+              const dataLaunchPad = await read('reviews/launchpad/list', { launchpadIds: listLaunchPadId })
+              setListData({
+                launchpad: dataLaunchPad?.data?.launchPads ? dataLaunchPad?.data?.launchPads : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                launchpad: []
+              })
+            }
+            break
+          }
+          case SOON: {
+            const listSoonId = []
+            listProduct[LIST_SOON]?.soons?.forEach((itemSoon) => {
+              listSoonId.push(itemSoon?.soonId)
+            })
+            if (!_.isEmpty(listSoonId)) {
+              const dataSoon = await read('reviews/soon/list', { projectIds: listSoonId })
+              setListData({
+                soon: dataSoon?.data?.soons ? dataSoon?.data?.soons : []
+              })
+              setLoading(false)
+            } else {
+              setListData({
+                soone: []
+              })
+            }
+            break
+          }
+          default:
+            break
+        }
+        setLoading(false)
+      }
+    }
+    listProduct && status === 'done' && getData()
+  }, [tab, listProduct, status])
+
   return (
     <>
       {titleSEO ? <SEO props={{ title: titleSEO }} /> : ''}
@@ -320,14 +460,19 @@ const CategoryItem = () => {
             {keyword ? (
               <Col span={24}>
                 <TabSearch
+                  listData={listData}
+                  setListData={setListData}
                   listProduct={listProduct}
+                  setStatus={setStatus}
                   keywordSearch={keywordSearch}
                   setKeyWordSearch={setKeyWordSearch}
                   handleSubmitSearch={handleSubmitSearch}
                   handleSubmitBtn={handleSubmitBtn}
                   setLoading={setLoading}
                   loading={loading}
-                  activeTab={categorySearch}
+                  tab={tab}
+                  setTab={setTab}
+                  // activeTab={categorySearch}
                 />
               </Col>
             ) : (

@@ -13,6 +13,7 @@ import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import { DappExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import _ from 'lodash'
+import { encodeUrl } from '../../../../utils/formatUrl'
 
 const Dapp = ({
   listProduct,
@@ -33,6 +34,12 @@ const Dapp = ({
 
   const shortenName = (string, length) => {
     return _.truncate(string || 'Unknown', { 'length': length })
+  }
+  const handleClickTag = (e, value) => {
+    e.stopPropagation()
+    if (value) {
+      navigate(`../../../${DAPP}/${encodeUrl(value)}`)
+    }
   }
 
   const columns = [
@@ -61,13 +68,21 @@ const Dapp = ({
     {
       title: 'Subcategory',
       align: 'left',
-      render: (_, record) => (<div className='mb-0 btn btn-primary light btn-xs mb-2 me-1'>
-        {record?.subCategory || 'Unknown'}
-      </div>)
+      render: (_, record) => (
+        <>
+          {record?.subCategory ? (
+            <div className='mb-0 btn btn-primary light btn-xs mb-2 me-1' style={{ cursor: 'pointer' }} onClick={(e) => handleClickTag(e, record?.subCategory)}>
+              {record?.subCategory}
+            </div>
+          ) : (
+            'Unknown'
+          )}
+        </>
+      )
     },
     {
       title: <span className='crypto-table-tooltip'>
-      Chain(s)
+      Chain
         <Tooltip
           overlayClassName='crypto-table-tooltip-box'
           title={DappExplain['blockchain']}

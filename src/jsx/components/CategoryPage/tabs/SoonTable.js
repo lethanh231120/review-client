@@ -4,10 +4,10 @@ import { Image, Table, Avatar, Tooltip } from 'antd'
 import { useNavigate, Link } from 'react-router-dom'
 import { renderNumber } from '../../../../utils/formatNumber'
 import moment from 'moment'
-import { encodeUrl } from '../../../../utils/formatUrl'
+// import { encodeUrl } from '../../../../utils/formatUrl'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
 // import { mainColorHex } from '../../../constants/color'
-import { Badge } from 'react-bootstrap'
+// import { Badge } from 'react-bootstrap'
 import NoImage from './../../common-widgets/no-image/NoImage'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
@@ -16,20 +16,23 @@ import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 const SoonTable = ({ listData, loading }) => {
   const navigate = useNavigate()
 
-  const handleClickTag = (e, value) => {
-    e.stopPropagation()
-    if (value) {
-      navigate(`../../../${SOON}/${encodeUrl(value)}`)
-    }
-  }
+  // const handleClickTag = (e, value) => {
+  //   e.stopPropagation()
+  //   if (value) {
+  //     navigate(`../../../${SOON}/${encodeUrl(value)}`)
+  //   }
+  // }
 
   const columns = [
     {
       title: `Name`,
       render: (_, record) => (
         <Link
-          to={`../../../${PREFIX_DETAIL}/${SOON}/${record?.projectId}`}
+          to={`../../../${PREFIX_DETAIL}/${SOON}/${
+            record?.projectId?.split('_')[2]
+          }`}
           className='crypto-table-info image-list'
+          onClick={(e) => e.stopPropagation()}
         >
           {record?.projectId && record?.bigLogo ? (
             <Image src={isValidProductId(record?.projectId) ? formatImgUrlFromProductId(record?.projectId) : imgAbsentImageSoon} preview={false} alt='ICO/IDO/IEO Logo' />
@@ -59,24 +62,24 @@ const SoonTable = ({ listData, loading }) => {
         </Link>
       )
     },
-    {
-      title: `Subcategory`,
-      dataIndex: 'subCategory', // override by render but still keep for pass param to server
-      render: (_, record) => (
-        <>
-          {record?.subCategory ? (
-            // <Tag onClick={(e) => handleClickTag(e, record?.subCategory)} color={mainColorHex}>
-            //   {record?.subCategory}
-            // </Tag>
-            <Badge bg=' badge-l' className='badge-success' style={{ cursor: 'pointer' }} onClick={(e) => handleClickTag(e, record?.subCategory)}>
-              {record?.subCategory}
-            </Badge>
-          ) : (
-            '__'
-          )}
-        </>
-      )
-    },
+    // {
+    //   title: `Subcategory`,
+    //   dataIndex: 'subCategory', // override by render but still keep for pass param to server
+    //   render: (_, record) => (
+    //     <>
+    //       {record?.subCategory ? (
+    //         // <Tag onClick={(e) => handleClickTag(e, record?.subCategory)} color={mainColorHex}>
+    //         //   {record?.subCategory}
+    //         // </Tag>
+    //         <Badge bg=' badge-l' className='badge-success' style={{ cursor: 'pointer' }} onClick={(e) => handleClickTag(e, record?.subCategory)}>
+    //           {record?.subCategory}
+    //         </Badge>
+    //       ) : (
+    //         '__'
+    //       )}
+    //     </>
+    //   )
+    // },
     {
       title: `Chain`,
       render: (_, record) => (
@@ -204,7 +207,7 @@ const SoonTable = ({ listData, loading }) => {
   ]
 
   const onRowClicked = (record) => {
-    navigate(`../../../products/soon/${record?.projectId}`)
+    navigate(`../../../products/soon/${record?.projectId?.split('_')[2]}`)
   }
 
   return (

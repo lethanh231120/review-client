@@ -1,4 +1,12 @@
 @import '../../../../../scss/base/font-size.scss';
+.review-founder {
+    & .review-item-data{
+        background-color: #18A594 !important;
+    }
+    & .review-item-content {
+        color: #fff;
+    }
+}
 .review{
     &-item{
         display: flex;
@@ -161,10 +169,10 @@
     color: #fff;
 }
 .button-founder{
-    background-color: #039F7F;
+    // background-color: #039F7F;
     color: #fff;
     border-radius: 1rem;
-    padding: 0.2rem 0.5rem;
+    // padding: 0.2rem 0.5rem;
     width: fit-content;
 }
 .comment{

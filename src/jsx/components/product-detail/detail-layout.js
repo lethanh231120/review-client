@@ -141,11 +141,14 @@ export const DetailLayout = (props) => {
                 setTop={setTop}
                 productInfo={productInfo}
               />
+
               <div id='div2'>
-                <ReviewItem
-                  type='founder'
-                  data={dataReviewFounder}
-                />
+                <div className='review-founder'>
+                  <ReviewItem
+                    type='founder'
+                    data={dataReviewFounder}
+                  />
+                </div>
                 {rest?.reviews && rest?.reviews?.map((item, index) => (
                   <ReviewItem
                     type='normal'
@@ -231,10 +234,12 @@ export const DetailLayout = (props) => {
                 productInfo={productInfo}
               />
               <div id='div2'>
-                <ReviewItem
-                  type='founder'
-                  data={dataReviewFounder}
-                />
+                <div className='review-founder'>
+                  <ReviewItem
+                    type='founder'
+                    data={dataReviewFounder}
+                  />
+                </div>
                 {rest?.reviews && rest?.reviews?.map((item, index) => (
                   <ReviewItem
                     type='normal'

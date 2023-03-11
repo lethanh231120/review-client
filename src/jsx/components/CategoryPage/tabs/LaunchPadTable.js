@@ -23,7 +23,11 @@ const LaunchPadTable = ({ loading, listData }) => {
   const columns = [
     {
       title: 'Name',
-      render: (_, record) => (<Link className='crypto-table-info image-list' to='#'>
+      render: (_, record) => (<Link
+        className='crypto-table-info image-list'
+        to={`../../products/${record?.launchPadId?.split('_')[1]}/${record?.launchPadId?.split('_')[2]}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         { myLogo('bigLogo', record?.launchPadId, 'launchpad') }
         <span>
           <div className='data-table-name ms-2'>
@@ -44,12 +48,13 @@ const LaunchPadTable = ({ loading, listData }) => {
       </span>,
       dataIndex: 'chains',
       key: 'chains',
+      align: 'left',
       render: (_, record) => (
         <div
         >
           <Avatar.Group
             alt='Blockchains Logos'
-            maxCount={2}
+            maxCount={Object.keys(record?.chains)?.length >= 4 ? 2 : 3}
             size={25}
             maxStyle={{
               color: '#fff',
@@ -142,7 +147,7 @@ const LaunchPadTable = ({ loading, listData }) => {
       </span>,
       dataIndex: 'marketCap',
       render: (_, record) => (
-        <span>{record?.marketCap ? renderNumber(record?.marketCap) : 'Unknown' }</span>
+        <span>{record?.marketCap ? <b className='text-primary'>{renderNumber(record?.marketCap)}</b> : 'Unknown' }</span>
       )
     },
     {

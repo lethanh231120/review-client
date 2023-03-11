@@ -33,7 +33,7 @@ const MyScoreComponent = ({ score, type }) => {
     classname = 'badge-danger'
   }
 
-  return <Badge bg='badge-l' className={`progress-bar-striped progress-bar-animated ${classname}`}>{output === 0 ? 0 : output.toFixed(1)}</Badge>
+  return <Badge bg='badge-l' className={`progress-bar-striped progress-bar-animated ${classname}`}>{output === 0 ? '0.0' : output.toFixed(1)}</Badge>
 }
 
 export default MyScoreComponent

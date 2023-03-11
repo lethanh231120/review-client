@@ -58,8 +58,7 @@ const LaunchpadList = ({ listProduct,
       dataIndex: 'chains',
       key: 'chains',
       render: (_, record) => (
-        <div
-        >
+        <div>
           <Avatar.Group
             alt='Blockchains Logos'
             maxCount={Object.keys(record?.chains)?.length >= 4 ? 2 : 3}

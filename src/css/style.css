@@ -8675,7 +8675,7 @@ label {
 
   [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header {
     width: 6.5rem;
-    z-index: 999; }
+    z-index: 9; }
     [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header .brand-logo {
       padding-left: 0;
       padding-right: 0;
