@@ -129,7 +129,7 @@ app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
 app.get(`/products/:category/:productName`, (req, res) => {
   const category = req?.params?.category
   const productName = req?.params?.productName
-  console.log('detail', category, productName)
+  // console.log('detail', category, productName)
   genDetailHeader(res, (category && productName) ? `${category}_${productName}` : '')
 })
 
