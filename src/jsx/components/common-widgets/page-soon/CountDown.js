@@ -12,7 +12,12 @@ export const CountDown = ({ soonId, progressGoal, projectStatus, startDate, endD
   const [timerSecond, setTimerSecond] = useState(loadingTimer)
   const [timerCountdownShow, setTimerCountdownShow] = useState(true)
   const [timerCountdownHideContent, setTimerCountdownHideContent] = useState(false)
-  const [timer1, setTimer1] = useState()
+  const [timerCountDownThread, setTimerCountDownThread] = useState()
+
+  // clear timer when click similar soon in detail soon
+  useEffect(() => {
+    clearInterval(timerCountDownThread)
+  }, [soonId])
 
   // milestone in the feture
   const countDown = (milestoneUnix) => {
@@ -21,7 +26,7 @@ export const CountDown = ({ soonId, progressGoal, projectStatus, startDate, endD
     const hour = minute * 60
     const day = hour * 24
 
-    setTimer1(setInterval(() => {
+    setTimerCountDownThread(setInterval(() => {
       const now = getCurrentTimeUnix()
       let distance
 
@@ -43,7 +48,7 @@ export const CountDown = ({ soonId, progressGoal, projectStatus, startDate, endD
         setTimerHeadline(`It's over in ${progressGoal === 100 ? 'success' : 'failed'}`)
         setTimerCountdownShow(false)
         setTimerCountdownHideContent(true)
-        clearInterval(timer1)
+        clearInterval(timerCountDownThread)
       }
       // seconds
     }, second)
@@ -71,11 +76,6 @@ export const CountDown = ({ soonId, progressGoal, projectStatus, startDate, endD
       countDown(milestoneUnix)
     }
   }, [startDate, endDate])
-
-  useEffect(() => {
-    console.log(`update productId `, soonId)
-    clearInterval(timer1)
-  }, [soonId])
 
   return <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
     <div className='mt-4 text-center'>
