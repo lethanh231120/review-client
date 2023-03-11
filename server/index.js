@@ -4,15 +4,16 @@ const app = express()
 
 const path = require('path')
 const fs = require('fs')
-const indexPath = path.resolve(__dirname, '..', 'build', 'index1.html')
+const indexFileName = 'index.html'
+const indexPath = path.resolve(__dirname, '..', 'build', indexFileName)
 const file = (function() {
   let indexHtml = '' // default string, avoid handle undefined with logic
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
     if (err) {
-      console.error('Error during reading file index.html')
+      console.error(`Error during reading file ${indexFileName} (file not exist, i/o problem, ...)`)
       return
     }
-    console.log('Reaing file index.html successfully')
+    console.log(`Reaing file ${indexFileName} successfully`)
     indexHtml = htmlData
   })
 
