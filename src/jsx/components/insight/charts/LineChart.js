@@ -1,9 +1,12 @@
 import React from 'react'
 import { Line } from 'react-chartjs-2'
-
+import {
+  Chart as ChartJS
+} from 'chart.js'
 import 'chart.js/auto'
 
-const LineChart = ({ dataSet, height })=> {
+ChartJS.defaults.color = '#18A594'
+const LineChart = ({ dataSet, height, title })=> {
   const data = {
     defaultFontFamily: 'Poppins',
     labels: dataSet?.results?.map(item => item[0]),
@@ -21,6 +24,14 @@ const LineChart = ({ dataSet, height })=> {
 
   const options = {
     plugins: {
+      title: {
+        display: true,
+        text: title,
+        font: {
+          size: 22,
+          color: '#18A594'
+        }
+      },
       legend: {
         display: false
       }
