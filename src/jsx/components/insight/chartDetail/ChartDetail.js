@@ -17,7 +17,7 @@ const ChartDetail = () => {
   // const data = location?.state
   useEffect(() => {
     const getChartById = async() => {
-      const res = await get(`reviews/chart/detail?id=${id}`)
+      const res = await get(`reviews/chart/detail?chartId=${id}`)
       if (res?.code === 'B.CODE.200') {
         setChartData(res?.data)
       }
@@ -75,7 +75,7 @@ const ChartDetail = () => {
           <Card>
             <Card.Header style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#19A594' }}>Data Table</Card.Header>
             <Card.Body>
-              <Table pagination={{ pageSize: 6 }} className='custom-table' columns={columns} dataSource={chartData?.results}/>
+              <Table pagination={{ pageSize: 6, style: { display: 'flex', justifyContent: 'center' }}} className='custom-table' columns={columns} dataSource={chartData?.results}/>
             </Card.Body>
           </Card>
         </div>
