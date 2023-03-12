@@ -19,6 +19,12 @@ export const ShowFullSearchConext = createContext()
 export const FormLoginSignupKeyContext = createContext()
 export const ExchangeContext = createContext()
 
+export const CryptoTagContext = createContext()
+export const DappTagContext = createContext()
+export const VentureLocationContext = createContext()
+export const IdoTagContext = createContext()
+export const IdoRoundTypeContext = createContext()
+
 const App = () => {
   const [openModalSignIn, setOpenModalSignIn] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -31,6 +37,11 @@ const App = () => {
   const [isShowFullSearchSmallMode, setIsShowFullSearchSmallMode] = useState(false)
   const [loginSignupFormactiveTabKey, setLoginSignupFormactiveTabKey] = useState('')
   const [exchanges, setExchanges] = useState()
+  const [cryptoTag, setCryptoTag] = useState([])
+  const [dappTag, setdappTag] = useState([])
+  const [ventureLocation, setVentureLocation] = useState([])
+  const [idoTag, setIdoTag] = useState([])
+  const [idoRoundtype, setIdoRoundtype] = useState([])
 
   const stateOpenAddProduct = {
     isOpenModalAddProduct: isOpenModalAddProduct,
@@ -95,11 +106,61 @@ const App = () => {
     setExchanges(dataExchange?.data?.exchanges)
   }
 
+  // crypto tag
+  const getCryptoTag = async() => {
+    const temp = await get('reviews/tag?type=coin')
+    if (temp?.code === 'B.CODE.200') {
+      const list = temp?.data
+      list && setCryptoTag(['All', ...list])
+    }
+  }
+
+  // dapp tag
+  const getDappTag = async() => {
+    const temp = await get('reviews/tag?type=dapp')
+    if (temp?.code === 'B.CODE.200') {
+      const list = temp?.data
+      temp && setdappTag(dappTag => ['All', ...list])
+    }
+  }
+
+  // venture Location
+  const getVentureLocation = async() => {
+    const temp = await get('reviews/location')
+    if (temp?.code === 'B.CODE.200') {
+      const list = temp?.data
+      list && setVentureLocation(['All', ...list])
+    }
+  }
+
+  // IDO tag
+  const getIdoTag = async() => {
+    const temp = await get('reviews/tag?type=soon')
+    if (temp?.code === 'B.CODE.200') {
+      const list = temp?.data
+      list && setIdoTag(['All', ...list])
+    }
+  }
+
+  // IDO tag
+  const getIdoRoundtype = async() => {
+    const temp = await get('reviews/roundtype')
+    if (temp?.code === 'B.CODE.200') {
+      const list = temp?.data
+      list && setIdoRoundtype(['All', ...list])
+    }
+  }
+
   useEffect(() => {
     getCategoryAndSubcategories()
     getChainList()
     getHotList()
     getExchanges()
+    getCryptoTag()
+    getDappTag()
+    getVentureLocation()
+    getIdoTag()
+    getIdoRoundtype()
   }, [])
 
   const getLaunchpad = async() => {
@@ -131,41 +192,51 @@ const App = () => {
   }, [])
 
   return (
-    <ChainListContext.Provider value={chainList}>
-      <SignInContext.Provider value={stateSignIn}>
-        <LaunchpadMapContext.Provider value={launchpadMap}>
-          <Authenticated.Provider value={stateAuthenticated}>
-            <CategoryContext.Provider value={categories}>
-              <SignInFromAddProductContext.Provider value={stateOpenAddProduct}>
-                <ExchangeContext.Provider value={exchanges}>
-                  <HotTopicsContext.Provider value={hotTopics}>
-                    <SummaryHomeContext.Provider value={summaryHome}>
-                      <ShowFullSearchConext.Provider value={stateShowFullSearch}>
-                        <FormLoginSignupKeyContext.Provider value={stateLoginSignupFormactiveTabKey}>
-                          <Suspense fallback={
-                            <div id='preloader'>
-                              <div className='sk-three-bounce'>
-                                <div className='sk-child sk-bounce1'></div>
-                                <div className='sk-child sk-bounce2'></div>
-                                <div className='sk-child sk-bounce3'></div>
-                              </div>
-                            </div>
-                          }
-                          >
-                            <SEO />
-                            <Index />
-                          </Suspense>
-                        </FormLoginSignupKeyContext.Provider>
-                      </ShowFullSearchConext.Provider>
-                    </SummaryHomeContext.Provider>
-                  </HotTopicsContext.Provider>
-                </ExchangeContext.Provider>
-              </SignInFromAddProductContext.Provider>
-            </CategoryContext.Provider>
-          </Authenticated.Provider>
-        </LaunchpadMapContext.Provider>
-      </SignInContext.Provider>
-    </ChainListContext.Provider>
+    <CryptoTagContext.Provider value={cryptoTag}>
+      <DappTagContext.Provider value={dappTag}>
+        <VentureLocationContext.Provider value={ventureLocation}>
+          <IdoTagContext.Provider value={idoTag}>
+            <IdoRoundTypeContext.Provider value={idoRoundtype}>
+              <ChainListContext.Provider value={chainList}>
+                <SignInContext.Provider value={stateSignIn}>
+                  <LaunchpadMapContext.Provider value={launchpadMap}>
+                    <Authenticated.Provider value={stateAuthenticated}>
+                      <CategoryContext.Provider value={categories}>
+                        <SignInFromAddProductContext.Provider value={stateOpenAddProduct}>
+                          <ExchangeContext.Provider value={exchanges}>
+                            <HotTopicsContext.Provider value={hotTopics}>
+                              <SummaryHomeContext.Provider value={summaryHome}>
+                                <ShowFullSearchConext.Provider value={stateShowFullSearch}>
+                                  <FormLoginSignupKeyContext.Provider value={stateLoginSignupFormactiveTabKey}>
+                                    <Suspense fallback={
+                                      <div id='preloader'>
+                                        <div className='sk-three-bounce'>
+                                          <div className='sk-child sk-bounce1'></div>
+                                          <div className='sk-child sk-bounce2'></div>
+                                          <div className='sk-child sk-bounce3'></div>
+                                        </div>
+                                      </div>
+                                    }
+                                    >
+                                      <SEO />
+                                      <Index />
+                                    </Suspense>
+                                  </FormLoginSignupKeyContext.Provider>
+                                </ShowFullSearchConext.Provider>
+                              </SummaryHomeContext.Provider>
+                            </HotTopicsContext.Provider>
+                          </ExchangeContext.Provider>
+                        </SignInFromAddProductContext.Provider>
+                      </CategoryContext.Provider>
+                    </Authenticated.Provider>
+                  </LaunchpadMapContext.Provider>
+                </SignInContext.Provider>
+              </ChainListContext.Provider>
+            </IdoRoundTypeContext.Provider>
+          </IdoTagContext.Provider>
+        </VentureLocationContext.Provider>
+      </DappTagContext.Provider>
+    </CryptoTagContext.Provider>
   )
 }
 export default App
