@@ -26,13 +26,13 @@ import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import user from '../../../images/product/user.png'
 import Swal from 'sweetalert2'
 import LaunchpadDetail from './launchpad-info/LaunchpadDetail'
-import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import imgAbsentImageCrypto from '../../../images/absent_image_crypto.png'
 import { encodeSpecialCharacterUrl, formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
 import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
 import { SEO } from './../SEO/SEO'
 import { PathNameContext } from '../../index'
 import { getStatusFromStartDateAndEndDate } from '../../../utils/page-soon/status'
+import ProductDetailEmpty from '../skeleton/product-detail-skeleton/ProductDetailEmpty'
 
 const ProductDetail = () => {
   const TYPE_REVIEW = 0
@@ -80,8 +80,11 @@ const ProductDetail = () => {
   const [offsetTopByListComment, setOffsetTopByListComment] = useState()
   const [loadingFilter, setLoadingFilter] = useState(false)
   const [totalSortBy, setTotalSortBy] = useState()
+  const [loadingDetail, setLoadingDetail] = useState(true)
+
   // set productId
   useEffect(() => {
+    setLoadingDetail(true)
     setReviews()
     let id
     if (type && productName) {
@@ -210,6 +213,7 @@ const ProductDetail = () => {
           }
         })
         setTotalSortBy(res?.data?.details?.totalReviews)
+        setLoadingDetail(false)
       }).catch((error) => {
         const respCode = error?.response?.data?.code
         const statusCodeNotFoundProduct = 'B.CODE.400'
@@ -604,7 +608,7 @@ const ProductDetail = () => {
   }
 
   useEffect(() => {
-    ref.current.scrollTo(0, 0)
+    ref?.current?.scrollTo(0, 0)
   }, [pathname])
 
   const crypto = <CryptoInfo
@@ -644,6 +648,7 @@ const ProductDetail = () => {
     productId={productId}
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
+    loadingDetail={loadingDetail}
   />
 
   const soon = <SoonInfo
@@ -685,6 +690,7 @@ const ProductDetail = () => {
     productId={productId}
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
+    loadingDetail={loadingDetail}
   />
 
   const dapp = <DappInfo
@@ -726,6 +732,7 @@ const ProductDetail = () => {
     productId={productId}
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
+    loadingDetail={loadingDetail}
   />
 
   const exchange = <ExchangeInfo
@@ -765,6 +772,7 @@ const ProductDetail = () => {
     productId={productId}
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
+    loadingDetail={loadingDetail}
   />
 
   const venture = <VentureInfo
@@ -806,6 +814,7 @@ const ProductDetail = () => {
     productId={productId}
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
+    loadingDetail={loadingDetail}
   />
 
   const launchpad = <LaunchpadDetail
@@ -847,6 +856,7 @@ const ProductDetail = () => {
     productId={productId}
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
+    loadingDetail={loadingDetail}
   />
 
   const getMetaProductDetail = (categoryName, type, detail) => {
@@ -956,26 +966,27 @@ const ProductDetail = () => {
         <meta name='description' content={productInfo?.details?.description} data-react-helmet='true' />
       </Helmet> */}
       <div className='section'>
-        {!productInfo ? <MySkeletonLoadinng count={6} height={200}/> : ''}
-        <div className='product' ref={ref} hidden={!productInfo}>
-          {categoryName === DAPP ? (
-            <>{dapp}</>
-          ) : categoryName === CRYPTO ? (
-            <>{crypto}</>
-          ) : categoryName === EXCHANGE ? (
-            <>{exchange}</>
-          ) : categoryName === SOON ? (
-            <>{soon}</>
-          ) : categoryName === VENTURE ? (
-            <>{venture}</>
-          ) : type === CRYPTO_COIN || type === CRYPTO_TOKEN ? (
-            <>{crypto}</>
-          ) : categoryName === LAUNCHPAD ? (
-            <>{launchpad}</>
-          )
-            : ''}
-
-        </div>
+        {!productInfo ? <ProductDetailEmpty/>
+          : (
+            <div className='product' ref={ref} hidden={!productInfo}>
+              {categoryName === DAPP ? (
+                <>{dapp}</>
+              ) : categoryName === CRYPTO ? (
+                <>{crypto}</>
+              ) : categoryName === EXCHANGE ? (
+                <>{exchange}</>
+              ) : categoryName === SOON ? (
+                <>{soon}</>
+              ) : categoryName === VENTURE ? (
+                <>{venture}</>
+              ) : type === CRYPTO_COIN || type === CRYPTO_TOKEN ? (
+                <>{crypto}</>
+              ) : categoryName === LAUNCHPAD ? (
+                <>{launchpad}</>
+              )
+                : ''}
+            </div>
+          )}
       </div>
     </>
 

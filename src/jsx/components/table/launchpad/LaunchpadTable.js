@@ -37,10 +37,13 @@ const LaunchpadList = ({ listProduct,
         to={`../../products/${record?.launchPadId?.split('_')[1]}/${record?.launchPadId?.split('_')[2]}`}
         onClick={e => e.stopPropagation()}>
         { myLogo('bigLogo', record?.launchPadId, 'launchpad') }
-        <span>
-          <div className='data-table-name ms-2'>
-            <div>{record?.name ? record?.name : 'Unknown'}</div>
-          </div></span>
+        <Tooltip title={(<p>{`${record?.name}`}</p>)}>
+          <span>
+            <div className='data-table-name ms-2'>
+              <div>{record?.name ? record?.name : 'Unknown'}</div>
+            </div>
+          </span>
+        </Tooltip>
       </Link>)
 
     },

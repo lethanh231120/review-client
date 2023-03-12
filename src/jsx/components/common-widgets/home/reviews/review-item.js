@@ -34,7 +34,7 @@ export const ReviewItem = ({ data }) => {
     }
   }
 
-  return <div className='col-lg-6 col-xl-4 col-md-6'>
+  return <div className='col-lg-6 col-xl-4 col-md-6' onClick={ onClicked}>
     <div className='card cus-review-card'>
       <div className='card-body cus-review-card-item'>
         <div className='new-arrival-content'>
@@ -56,7 +56,7 @@ export const ReviewItem = ({ data }) => {
             {data?.productName && <span><span className={data?.isScam ? 'text-danger' : ''}>
               {data?.isScam && data?.isScam ? 'reported' : 'reviewed'}&nbsp;
             </span>
-            <span onClick={ onClicked} className='text-primary'style={{ cursor: 'pointer' }}>
+            <span className='text-primary'style={{ cursor: 'pointer' }}>
               <span className='product-name-text'>{data?.productName}</span>
             </span>
             <span>&nbsp;{data?.isScam ? 'as a scam' : ''}</span>

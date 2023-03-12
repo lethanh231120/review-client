@@ -62,7 +62,7 @@ export const TopDiscussed = () => {
       >
         <ul className='timeline'>
           {!_.isEmpty(topCoin) ? topCoin?.map((item, index) => <TopDiscussedItem key={index} item={item}/>
-          ) : <MySkeletonLoadinng count={5} height={60}/>}
+          ) : <MySkeletonLoadinng count={6} height={60}/>}
         </ul>
       </div>
     </div>

@@ -33,6 +33,9 @@ import share from '../../../../images/svg/share.svg'
 import { Modal } from 'antd'
 import { Button } from 'react-bootstrap'
 import hands from '../../../../images/svg/hands.svg'
+import ProductDetailHeader from '../../skeleton/product-detail-skeleton/ProductDetailHeader'
+import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
+import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
 
 const SoonInfo = ({ productInfo, ...rest }) => {
   const itemDetail = productInfo?.details
@@ -70,31 +73,35 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     window.scrollTo(0, top)
   }
 
-  const header = itemDetail ? (
-    <div className='profile-info'>
-      <div className='profile-details'>
-        <ProductImage productId={itemDetail?.projectId} productName={itemDetail?.projectName} altImageType={altSoon} />
-        <ProductNameSubName projectName={itemDetail?.projectName} projectSubName={itemDetail?.projectSymbol}/>
-        <SoonStatusLocation status={itemStatus} detail={itemDetail}/>
+  const header = <>
+    {rest?.loadingDetail ? (<ProductDetailHeader/>) : (<>
+      {itemDetail ? (
+        <div className='profile-info'>
+          <div className='profile-details'>
+            <ProductImage productId={itemDetail?.projectId} productName={itemDetail?.projectName} altImageType={altSoon} />
+            <ProductNameSubName projectName={itemDetail?.projectName} projectSubName={itemDetail?.projectSymbol}/>
+            <SoonStatusLocation status={itemStatus} detail={itemDetail}/>
 
-        <div className='detail-button ms-auto'>
-          <Button onClick={() => setOpenModalShare(true)}>
-            <img src={share} alt='share button'/>
-            Share
-          </Button>
-          <WebsiteButton website={itemDetail?.website} />
+            <div className='detail-button ms-auto'>
+              <Button onClick={() => setOpenModalShare(true)}>
+                <img src={share} alt='share button'/>
+                Share
+              </Button>
+              <WebsiteButton website={itemDetail?.website} />
+            </div>
+          </div>
+          <Modal
+            open={openModalShare}
+            onCancel={() => setOpenModalShare(false)}
+            onOk={() => setOpenModalShare(false)}
+            footer={null}
+          >
+            <ShareButton name={itemDetail?.name} setOpenModalShare={setOpenModalShare}/>
+          </Modal>
         </div>
-      </div>
-      <Modal
-        open={openModalShare}
-        onCancel={() => setOpenModalShare(false)}
-        onOk={() => setOpenModalShare(false)}
-        footer={null}
-      >
-        <ShareButton name={itemDetail?.name} setOpenModalShare={setOpenModalShare}/>
-      </Modal>
-    </div>
-  ) : ''
+      ) : ''}
+    </>)}
+  </>
 
   const timeAndPercentProcess = <div className='row mb-3 d-flex'>
     <TimeText icon={typeStart} date={itemDetail?.startDate}/>
@@ -109,78 +116,86 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   </div>
 
   const summary = (
-    <div className='text-center'>
-      <div className='row mb-3 mx-1'>
-        <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
-          {itemDetail?.linkDetail
-            ? <div className='fs-18 mb-2'>Buy&nbsp;<a href={itemDetail?.linkDetail} target='_blank' rel='noreferrer' className='text-primary txt-link'><b>here</b></a>&nbsp;now</div>
-            : ''
-          }
-        </div>
+    <>
+      {rest?.loadingDetail ? (<ProductDetailSummary/>) : (
+        <div className='text-center'>
+          <div className='row mb-3 mx-1'>
+            <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
+              {itemDetail?.linkDetail
+                ? <div className='fs-18 mb-2'>Buy&nbsp;<a href={itemDetail?.linkDetail} target='_blank' rel='noreferrer' className='text-primary txt-link'><b>here</b></a>&nbsp;now</div>
+                : ''
+              }
+            </div>
 
-        <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
-          <ProgressBarGoal progressGoal={itemProgressGoal}/>
-        </div>
+            <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
+              <ProgressBarGoal progressGoal={itemProgressGoal}/>
+            </div>
 
-        <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-          <hr className='hr-custome'></hr>
-          { (itemDetail?.startDate && itemDetail?.endDate) ? <TimeRelativeQuantificationDetail startDate={itemDetail?.startDate} endDate={itemDetail?.endDate}/> : txtAbsentTakeUpData}
+            <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+              <hr className='hr-custome'></hr>
+              { (itemDetail?.startDate && itemDetail?.endDate) ? <TimeRelativeQuantificationDetail startDate={itemDetail?.startDate} endDate={itemDetail?.endDate}/> : txtAbsentTakeUpData}
+            </div>
+          </div>
+          <div className='row'>
+            <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
+              <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.rasiedmoney)} icon={iconSold} text={'Sold'} backgroundColor={bgYellow} />
+            </div>
+            <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
+              <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.tokenPrice)} icon={iconPayments} text={'Price'} backgroundColor={bgYellow}/>
+            </div>
+            <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
+              <SummaryDetail number={formatLargeNumber(itemDetail?.totalSupply)} icon={iconSupply} text={'Supply'} backgroundColor={bgYellow}/>
+            </div>
+            <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
+              <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)} icon={iconGoal} text={txtGoal} backgroundColor={bgYellow}/>
+            </div>
+          </div>
+          <div className='mt-4'>
+            <ButtonReportScam handleReportScam={handleReportScam} />
+            <ButtonAddReview handleAddReview={handleAddReview}/>
+          </div>
         </div>
-      </div>
-      <div className='row'>
-        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.rasiedmoney)} icon={iconSold} text={'Sold'} backgroundColor={bgYellow} />
-        </div>
-        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.tokenPrice)} icon={iconPayments} text={'Price'} backgroundColor={bgYellow}/>
-        </div>
-        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-          <SummaryDetail number={formatLargeNumber(itemDetail?.totalSupply)} icon={iconSupply} text={'Supply'} backgroundColor={bgYellow}/>
-        </div>
-        <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-          <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)} icon={iconGoal} text={txtGoal} backgroundColor={bgYellow}/>
-        </div>
-      </div>
-      <div className='mt-4'>
-        <ButtonReportScam handleReportScam={handleReportScam} />
-        <ButtonAddReview handleAddReview={handleAddReview}/>
-      </div>
-    </div>
+      )}
+    </>
   )
 
   const more = <div>
-    <InformationHeader projectName={itemDetail?.projectName}/>
-    <div className='card-body pt-3'>
-      <InfoShortDetail itemDetail={itemDetail} />
-      <InfoLaunchpadDetail projectName={itemDetail?.projectName} launchpads={itemDetail?.launchPads}/>
-      <InfoWebsiteDetail itemDetail={itemDetail} />
-      <InfoTagDetail itemTags={itemTags} />
-      <p>
-          If you have any good or bad experience with
-        <span className='text-primary'>
-          {` ${itemDetail?.projectName}`}
-        </span>, please share with us in informing everyone
-        <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem', width: '1.1rem' }}/>
-        <img src={hands} alt='icon-hand' style={{ width: '1.1rem' }}/>
-        <img src={hands} alt='icon-hand' style={{ marginRight: '0.3rem', width: '1.1rem' }}/>
-        <span
-          onClick={() => {
-            rest?.setData({ ...rest.data, isScam: false })
-            rest?.form.setFieldsValue({
-              isScam: false,
-              star: undefined,
-              sources: []
-            })
-            window.scrollTo(0, top)
-          }}
-          className='text-primary txt-link'
-          style={{ marginLeft: '0.5rem' }}
+    {rest?.loadingDetail ? (<ProductDetailInfo/>) : (
+      <>
+        <InformationHeader projectName={itemDetail?.projectName}/>
+        <div className='card-body pt-3'>
+          <InfoShortDetail itemDetail={itemDetail} />
+          <InfoLaunchpadDetail projectName={itemDetail?.projectName} launchpads={itemDetail?.launchPads}/>
+          <InfoWebsiteDetail itemDetail={itemDetail} />
+          <InfoTagDetail itemTags={itemTags} />
+          <p>
+              If you have any good or bad experience with
+            <span className='text-primary'>
+              {` ${itemDetail?.projectName}`}
+            </span>, please share with us in informing everyone
+            <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem', width: '1.1rem' }}/>
+            <img src={hands} alt='icon-hand' style={{ width: '1.1rem' }}/>
+            <img src={hands} alt='icon-hand' style={{ marginRight: '0.3rem', width: '1.1rem' }}/>
+            <span
+              onClick={() => {
+                rest?.setData({ ...rest.data, isScam: false })
+                rest?.form.setFieldsValue({
+                  isScam: false,
+                  star: undefined,
+                  sources: []
+                })
+                window.scrollTo(0, top)
+              }}
+              className='text-primary txt-link'
+              style={{ marginLeft: '0.5rem' }}
 
-        >
-            Review Now
-        </span>
-      </p>
-    </div>
+            >
+                Review Now
+            </span>
+          </p>
+        </div>
+      </>
+    )}
   </div>
 
   return (

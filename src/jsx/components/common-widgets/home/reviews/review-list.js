@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { ReviewItem } from './review-item'
 import './reviews-item.scss'
+import SekeletonReviewItem from '../../../skeleton/skeleton-review/SekeletonReviewItem'
 
 const REVIEW_WS_URL = 'wss://api-client.gear5.io/reviews/review/latest'
 // const ANONYMOUS_ID = '00000000-0000-0000-0000-000000000000'
@@ -73,6 +74,15 @@ export const ReviewList = () => {
         key={index}
         data={item && item}
       />
-    ) : <div className='col-12 mb-5'>There are currently no reviews</div> }
+    ) : <>
+      <SekeletonReviewItem/>
+      <SekeletonReviewItem/>
+      <SekeletonReviewItem/>
+      <SekeletonReviewItem/>
+      <SekeletonReviewItem/>
+      <SekeletonReviewItem/>
+      <SekeletonReviewItem/>
+      <SekeletonReviewItem/>
+    </> }
   </div>
 }
