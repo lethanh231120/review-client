@@ -42,8 +42,11 @@ export const TopDiscussed = () => {
     if (screenWidth < 1600) {
       setTopCoin(list && list?.slice(0, 5))
     }
-    if (screenWidth < 1200) {
+    if (screenWidth < 1400) {
       setTopCoin(list && list?.slice(0, 6))
+    }
+    if (screenWidth < 1200) {
+      setTopCoin(list && list?.slice(0, 8))
     }
     if (screenWidth < 992) {
       setTopCoin(list && list?.slice(0, 5))

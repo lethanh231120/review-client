@@ -129,7 +129,7 @@
     height: 100%;
     align-items: center;
     &-left{
-      width: 62%;
+      width: 60%;
       z-index: 2;
       & button{
         margin-top: 2rem;
@@ -157,7 +157,7 @@
     height: calc(100% - 100px - 1.5rem) !important;
   }
   .scam-img{
-    width: 38%;
+    width: 40%;
     padding: 2rem;
     & img{
       width: 100%;
@@ -166,22 +166,22 @@
     }
   }
 
-@media (min-width: 1920px) {
-  .banner-left{
-    width: 62%;
-  }
-  .scam-img{
-    width: 38%;
-  }
-}
-@media (max-width: 1919px) {
-  .banner-left{
-    width: 59%;
-  }
-  .scam-img{
-    width: 41%;
-  }
-}
+// @media (min-width: 1920px) {
+//   .banner-left{
+//     width: 62%;
+//   }
+//   .scam-img{
+//     width: 38%;
+//   }
+// }
+// @media (max-width: 1919px) {
+//   .banner-left{
+//     width: 59%;
+//   }
+//   .scam-img{
+//     width: 41%;
+//   }
+// }
 @media (max-width: 1600px) {
   .cus-summary-card{
     height: 85px !important;
