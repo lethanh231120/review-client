@@ -100,31 +100,18 @@
   <meta property="og:image" content="%PUBLIC_URL%/logo.webp" />
   <meta name="twitter:image" content="%PUBLIC_URL%/logo.webp" />
 
-  <!-- Description data from getMetaTagHome, -->
-  <!-- Only Homepage, show depend on google algorithm: https://support.google.com/webmasters/thread/3500440/sitelinks-search-box-still-not-showing-on-search-result?hl=en -->
-  <!-- Sitelinks search box Schema Markup: -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "url": "https://soon1.gear5.io",
-      "potentialAction": [{
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "https://soon1.gear5.io/search/crypto/{search_term_string}"
-        },
-        "query-input": "required name=search_term_string"
-      },{
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "android-app://com.example/https/soon1.gear5.io/search/crypto/{search_term_string}"
-        },
-        "query-input": "required name=search_term_string"
-      }]
-    }
-  </script>
+  <!-- script from getScriptSchemaMarkupSiteLinkSearchBox -->
+  <!-- ************ Toggle home vs other page, replace domain don't care -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://soon1.gear5.io","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.google.com/search?q={search_term_string}"},"query-input":"required name=search_term_string"}]}</script>
+  
+  <!-- script from getScriptSchemaMarkupPerson -->
+  <script type="application/ld+json">{"@context":"http://schema.org","@type":"Person","name":"CÔNG TY CỔ PHẦN ĐẦU TƯ VÀ CÔNG NGHỆ NIKA","url":"https://soon1.gear5.io","sameAs":["https://www.topcv.vn/cong-ty/cong-ty-co-phan-dau-tu-va-cong-nghe-nika/117660.html"]}</script>
+
+  <!-- script from getScriptSchemaMarkupWebSite -->
+  <script type="application/ld+json">{"@context":"http://schema.org","@type":"WebSite","name":"Gear 5 | 99%+ Marked As Scam or Dead /2,3M+ Crypto Projects","url":"https://soon1.gear5.io"}</script>
+
+  <!-- script from getScriptSchemaMarkupOrganization -->
+  <script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"soon1.gear5.io","url":"https://soon1.gear5.io","logo":"https://soon1.gear5.io/logo.webp","email":"mailto: gear5@nika.guru","sameAs":["https://www.topcv.vn/cong-ty/cong-ty-co-phan-dau-tu-va-cong-nghe-nika/117660.html"],"contactPoint":[{"@type":"ContactPoint","telephone":"0394 308 320","contactType":"CTO"}],"address":{"@type":"PostalAddress","addressLocality":"","addressRegion":"","addressCountry":"Việt Nam","postalCode":"100000","streetAddress":""}}</script>
 
    <!-- ???-->
    <meta name="twitter:card" content="summary_large_image" />
@@ -133,48 +120,6 @@
   <link rel="canonical" href="https://soon1.gear5.io" />
   <meta name="keywords" content="Gear5, Crypto Projects, DApps, Ventures, Exchanges, Upcomings, ICO, IDO, IEO, Scam address" /> <!-- yahoo still support, good for exist https://vietnix.vn/meta-keywords-la-gi/  -->
 
-   <!--  Person Schema Markup -->
-   <script type="application/ld+json">
-    {
-      "@context": "http://schema.org",
-      "@type": "Person",
-      "name": "CÔNG TY CỔ PHẦN ĐẦU TƯ VÀ CÔNG NGHỆ NIKA",
-      "url": "https://soon1.gear5.io/",
-      "sameAs": [
-        "https://www.topcv.vn/cong-ty/cong-ty-co-phan-dau-tu-va-cong-nghe-nika/117660.html"
-      ]
-    }
-  </script>
-
-  <!-- Organization Schema Markup -->
-  <script type="application/ld+json">
-    {
-      "@context": "http://schema.org",
-      "@type": "Organization",
-      "name":"soon1.gear5.io",
-      "url": "https://soon1.gear5.io/",
-      "logo": "https://soon1.gear5.io/logo.webp",
-      "email": "mailto: gear5@nika.guru",
-      "sameAs":[
-        "https://www.topcv.vn/cong-ty/cong-ty-co-phan-dau-tu-va-cong-nghe-nika/117660.html"
-      ],
-      "contactPoint": [{
-        "@type": "ContactPoint",
-        "telephone": "0394 308 320",
-        "contactType": "CTO"
-      }],
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "",
-        "addressRegion": "",
-        "addressCountry": "Việt Nam",
-        "postalCode":"100000",
-        "streetAddress": ""
-      }
-    }
-  </script>
-
- 
 
   <!-- All page(multi layer): ref: coingecko, baothanhnien -->
   <!-- BreadlistL schema markup -->
@@ -191,10 +136,7 @@
     }
   </script>
 
-  <!-- website schema markup -->
-  <script type="application/ld+json">
-    {"@context" : "http://schema.org","@type" : "WebSite", "name" : "Thế giới", "url" : "https://nhandan.vn/thegioi/"}
-  </script>
+
 
   <!-- Article schema markup -->
   <script type="application/ld+json">
