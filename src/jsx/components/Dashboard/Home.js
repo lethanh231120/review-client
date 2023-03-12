@@ -68,7 +68,6 @@ const Home = () => {
     return sorted
   }
 
-  console.log(summaryData)
   return (
     <>
       {/* row 1 */}
