@@ -1,52 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- NOTICE, change donamin(include search box schema) by ctrl f -->
 <head>
   <!-- ######## START: STATIC DATA #########-->
   <meta charset="utf-8" />
   <meta name="theme-color" content="#000000" /> <!-- theme color of browser when using on phone -->
   <meta name='viewport' content='width=device-width, initial-scale=1.0' /> <!-- CSS responsive on phone -->
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> <!-- favicoin in tab of brower -->
-  <meta property="og:type" content="website">  <!-- Make preview on twitter available, default share on facebook auto adding -->
+  <meta property="og:type" content="website"> <!-- Make preview on twitter available, default share on facebook auto adding -->
+  <!--  FAQPage Schema Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What is Gear5 ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Gear 5 is a product of Nika company, support for crypto comuninity and socail, to share exprerience wit many aspects of crypto, blockchain, dApp, ..."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Nika company ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nika company focuses on building products in the field of Blockchain, bringing smart utilities and valuable information to users around the world."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Crypto Market Cap?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Crypto market cap is the total value of all the coins of a particular cryptocurrency that have been mined or are in circulation. Market capitalization is used to determine the ranking of cryptocurrencies. The higher the market cap of a particular crypto coin, the higher its ranking and share of the market. Crypto market cap is calculated by multiplying the total number of coins in circulation by its current price. For instance, to calculate the market cap of Ethereum, all you need to do is multiply the total number of Ethereum in circulation by the current price of one Ethereum and you will get its market cap."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How to compare Cryptocurrencies Market Cap?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Crypto market cap can be divided into three categories: Large-cap cryptocurrencies (&gt;$10 billion) Mid-cap Cryptocurrencies ($1 billion - $10 billion) Small-cap cryptocurrencies (less then $1 billion). As a financial metric, market cap allows you to compare the total circulating value of one cryptocurrency with another. Large cap cryptocurrencies such as Bitcoin and Ethereum have a market cap of over $10 billion. They typically consist of protocols that have demonstrated track records, and have a vibrant ecosystem of developers maintaining and enhancing the protocol, as well as building new projects on top of them. While market cap is a simple and intuitive comparison metric, it is not a perfect point of comparison. Some cryptocurrency projects may appear to have inflated market cap through price swings and the tokenomics of their supply. As such, it is best to use this metric as a reference alongside other metrics such as trading volume, liquidity, fully diluted valuation, and fundamentals during your research process."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Gear5 Calculate Cryptocurrency Prices?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The price is calculated using a global volume-weighted average price formula which is based on the pairings available on different exchanges of a particular crypto asset. For examples and more detailed information on how we track cryptocurrency prices and other metrics, see our methodology page here."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why are Cryptocurrency Prices Different on Exchanges?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You may notice that cryptocurrencies listed on different exchanges have different prices. The reasons for this are complex, but simply put cryptocurrencies are traded on different exchanges and across different markets with varying economic conditions, liquidity, trading pairs, and offerings (e.g. derivatives / leverage) which all influence price in their own way."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where to Check Cryptocurrency Prices?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can track over 2,3M+ crypto prices on Gear5. Popular cryptocurrency pairs include BTC to USD, ETH to USD, and SLP to PHP. You can also track metrics such as 24 hour trading volume, market capitalization, price chart, historical performance chart, the circulating supply, and more."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is 24h Volume in the Table Above?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The 24h trading volume refers to the amount a cryptocurrency has been bought and sold on all exchanges within the last 24 hours on the spot market. For instance, if the 24h volume for Ethereum is $15 billion, it means that $15 billion worth of Ether had changed hands across all exchanges in the last 24 hours."
+        }
+      }]
+    }
+  </script>
   <!-- ######## END: STATIC DATA ##########-->
 
   <!-- ######## START: DYNAMIC DATA #########-->
-  <!-- SCHEMA MARKUP -->
-  <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [{
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Dashboard",
-          "item": "https://soon1.gear5.io"
-        },{
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Cryptocurrencies",
-          "item": "https://soon1.gear5.io/crypto"
-        },{
-          "@type": "ListItem",
-          "position": 3,
-          "name": "DApps",
-          "item": "https://soon1.gear5.io/dapp"
-        }]
-      }
-      </script>
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://2c7d-2a09-bac5-d45c-e6-00-17-131.ap.ngrok.io" />
-
   <!-- Title data from getMetaTagHome -->
-  <title>Gear 5 | 99%+ Marked As Scam or Dead/2,3M+ Crypto Projects</title>
-  <meta property="og:title" content="Gear 5 | 99%+ Marked As Scam or Dead/2,3M+ Crypto Projects" />
-  <meta name="twitter:title" content="Gear 5 | 99%+ Marked As Scam or Dead/2,3M+ Crypto Projects" />
+  <title>Gear 5 | 99%+ Marked As Scam or Dead /2,3M+ Crypto Projects</title>
+  <meta property="og:title" content="Gear 5 | 99%+ Marked As Scam or Dead /2,3M+ Crypto Projects" />
+  <meta name="twitter:title" content="Gear 5 | 99%+ Marked As Scam or Dead /2,3M+ Crypto Projects" />
 
   <!-- Description data from getMetaTagHome -->
   <meta name="description"
     content="Stay up-to-date on the latest cryptocurrency trends, Gear5 provide in-depth reviews and comprehensive information on 2,3M+ cryptocurrencies, helping you make well-informed investment decisions." />
   <meta property="og:description"
     content="Stay up-to-date on the latest cryptocurrency trends, Gear5 provide in-depth reviews and comprehensive information on 2,3M+ cryptocurrencies, helping you make well-informed investment decisions." />
-  <meta name="twitter:description" 
+  <meta name="twitter:description"
     content="Stay up-to-date on the latest cryptocurrency trends, Gear5 provide in-depth reviews and comprehensive information on 2,3M+ cryptocurrencies, helping you make well-informed investment decisions." />
 
 
@@ -54,12 +100,35 @@
   <meta property="og:image" content="%PUBLIC_URL%/logo.webp" />
   <meta name="twitter:image" content="%PUBLIC_URL%/logo.webp" />
 
-
-
-  <link rel="canonical" href="https://soon1.gear5.io/" />
+  <!-- ???-->
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- ??? -->
+  <meta name="twitter:url" content="https://2c7d-2a09-bac5-d45c-e6-00-17-131.ap.ngrok.io" />
+  <link rel="canonical" href="https://soon1.gear5.io" />
   <meta name="keywords" content="Gear5, Crypto Projects, DApps, Ventures, Exchanges, Upcomings, ICO, IDO, IEO, Scam address" /> <!-- yahoo still support, good for exist https://vietnix.vn/meta-keywords-la-gi/  -->
+
+  <!-- *** script from getScriptSchemaMarkupSiteLinkSearchBoxHomePage -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://soon1.gear5.io","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.google.com/search?q={search_term_string}"},"query-input":"required name=search_term_string"}]}</script>
+  
+  <!-- script from getScriptSchemaMarkupWebSite -->
+  <script type="application/ld+json">{"@context":"http://schema.org","@type":"WebSite","name":"Gear 5 | 99%+ Marked As Scam or Dead /2,3M+ Crypto Projects","url":"https://soon1.gear5.io"}</script>
+
+  <!-- script from getScriptSchemaMarkupPerson -->
+  <script type="application/ld+json">{"@context":"http://schema.org","@type":"Person","name":"CÔNG TY CỔ PHẦN ĐẦU TƯ VÀ CÔNG NGHỆ NIKA","url":"https://soon1.gear5.io","sameAs":["https://www.topcv.vn/cong-ty/cong-ty-co-phan-dau-tu-va-cong-nghe-nika/117660.html"]}</script>
+  <!-- script from getScriptSchemaMarkupOrganization -->
+  <script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"soon1.gear5.io","url":"https://soon1.gear5.io","logo":"https://soon1.gear5.io/logo.webp","email":"mailto: gear5@nika.guru","sameAs":["https://www.topcv.vn/cong-ty/cong-ty-co-phan-dau-tu-va-cong-nghe-nika/117660.html"],"contactPoint":[{"@type":"ContactPoint","telephone":"0394 308 320","contactType":"CTO"}],"address":{"@type":"PostalAddress","addressLocality":"","addressRegion":"","addressCountry":"Việt Nam","postalCode":"100000","streetAddress":""}}</script>
+
+  <!-- script from getScriptSchemaMarkupBreadcrumbList -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://soon1.gear5.io"}]}</script>
+
+  <!-- script from getScriptSchemaMarkupArticle -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","name":"Gear 5 | 99%+ Marked As Scam or Dead /2,3M+ Crypto Projects","url":"https://soon1.gear5.io","sameAs":"https://soon1.gear5.io","mainEntity":"https://soon1.gear5.io","author":{"@type":"Organization","name":"CÔNG TY CỔ PHẦN ĐẦU TƯ VÀ CÔNG NGHỆ NIKA","url":"https://soon1.gear5.io"},"publisher":{"@type":"Organization","name":"CÔNG TY CỔ PHẦN ĐẦU TƯ VÀ CÔNG NGHỆ NIKA","logo":{"@type":"ImageObject","url":"https://soon1.gear5.io/logo.webp"}},"datePublished":"2023-01-01T00:00:00Z","dateModified":"2023-01-01T00:00:00Z","image":"https://soon1.gear5.io/logo.webp","headline":"Gear 5 | 99%+ Marked As Scam or Dead /2,3M+ Crypto Projects"}</script>
+
+  <!-- script from getScriptSchemaMarkupArticle -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://soon1.gear5.io"},"headline":"Gear 5 | 99%+ Marked As Scam or Dead /2,3M+ Crypto Projects","description":"Stay up-to-date on the latest cryptocurrency trends, Gear5 provide in-depth reviews and comprehensive information on 2,3M+ cryptocurrencies, helping you make well-informed investment decisions.","image":"https://soon1.gear5.io","author":{"@type":"Person","name":"CÔNG TY CỔ PHẦN ĐẦU TƯ VÀ CÔNG NGHỆ NIKA","url":"https://soon1.gear5.io/logo.webp"},"publisher":{"@type":"Organization","name":"CÔNG TY CỔ PHẦN ĐẦU TƯ VÀ CÔNG NGHỆ NIKA","logo":{"@type":"ImageObject","url":"https://soon1.gear5.io/logo.webp"}},"datePublished":"2023-01-01T00:00:00Z","dateModified":"2023-01-01T00:00:00Z"}</script>
   <!-- ######## END: DYNAMIC DATA #########-->
 </head>
+
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>

@@ -34,6 +34,7 @@ const { getMetaTagListSoon } = require('./header-data/listSoon')
 const { getMetaTagListLaunchpad } = require('./header-data/listLaunchpad')
 const { getMetaTagInsight } = require('./header-data/insight')
 const { getMetaTag } = require('./modal/MetaTag')
+const { getScriptSchemaMarkupSiteLinkSearchBoxHomePage } = require('./constants/schemaMarkup')
 
 // ######## Default meta tag
 const metaTagHome = getMetaTagHome()
@@ -51,6 +52,15 @@ app.use(express.static(
 const encodeSpecialCharacterUrl = (url) =>{
   url = url?.split('+')?.join('%2B')
   return url
+}
+
+const injectHtmlHeader = (metaTag) => {
+  const dynamicMetaIndexHtml = file?.getIndexHtml()
+    ?.split(META_TITLE)?.join(metaTag.title) // euqal replace all
+    ?.split(META_DESCRIPTION)?.join(metaTag.description)
+    ?.split(META_IMAGE)?.join(metaTag.image)
+  const schemaMarkupIndexHtml = dynamicMetaIndexHtml?.replace(getScriptSchemaMarkupSiteLinkSearchBoxHomePage(), '')
+  return schemaMarkupIndexHtml
 }
 
 const genDetailHeader = (res, productId = '') => {
@@ -158,49 +168,43 @@ app.get(`/products/:category/:productName`, (req, res) => {
 })
 
 // ######## Otherwise page,..
-const injectHtmlHeader = (metaTag) => {
-  return file?.getIndexHtml()
-    ?.split(META_TITLE)?.join(metaTag.title) // euqal replace all
-    ?.split(META_DESCRIPTION)?.join(metaTag.description)
-    ?.split(META_IMAGE)?.join(metaTag.image)
-}
 
-const genHeader = (res, metaTag) => {
+const genStaticHeader = (res, metaTag) => {
   return res?.send(injectHtmlHeader(metaTag))
 }
 
 const genListHeader = (res, category, subCategory) => {
   switch (category) {
     case 'crypto':{
-      genHeader(res, getMetaTagListCrypto(subCategory))
+      genStaticHeader(res, getMetaTagListCrypto(subCategory))
       break
     }
     case 'dapp':{
-      genHeader(res, getMetaTagListDApp(subCategory))
+      genStaticHeader(res, getMetaTagListDApp(subCategory))
       break
     }
     case 'venture':{
-      genHeader(res, getMetaTagListVenture())
+      genStaticHeader(res, getMetaTagListVenture())
       break
     }
     case 'exchange':{
-      genHeader(res, getMetaTagListExchange(subCategory))
+      genStaticHeader(res, getMetaTagListExchange(subCategory))
       break
     }
     case 'soon':{
-      genHeader(res, getMetaTagListSoon(subCategory))
+      genStaticHeader(res, getMetaTagListSoon(subCategory))
       break
     }
     case 'launchpad':{
-      genHeader(res, getMetaTagListLaunchpad())
+      genStaticHeader(res, getMetaTagListLaunchpad())
       break
     }
     case 'insight':{
-      genHeader(res, getMetaTagInsight())
+      genStaticHeader(res, getMetaTagInsight())
       break
     }
     default: {
-      genHeader(res, getMetaTagHome())
+      genStaticHeader(res, getMetaTagHome())
       break
     }
   }
@@ -224,13 +228,13 @@ app.get('/:category/:subCategory', (req, res) =>{
 // home (NOT WORKING when use express.static)
 app.get('/', (_, res) => {
   // console.log('home')
-  genHeader(res, getMetaTagHome())
+  genStaticHeader(res, getMetaTagHome())
 })
 
 // otherwise page
 app.get('/*', (_, res) => {
   // console.log('other')
-  genHeader(res, getMetaTagHome())
+  genStaticHeader(res, getMetaTagHome())
 })
 
 // listening...
