@@ -63,12 +63,12 @@ const jsonNewsArticle = `
    "datePublished":"2017-03-20T20:30:54+00:00"
 }
 `
-// QA, review
-const schemaMarkupNewsArticleDetailPage = scriptLdJson?.replace(REPLACE_JSON, jsonNewsArticle)
-// ##########################################
 
 const REPLACE_JSON = `REPLACE_JSON`
 const scriptLdJson = `<script type="application/ld+json">${REPLACE_JSON}</script>`
+// QA, review
+const schemaMarkupNewsArticleDetailPage = scriptLdJson?.replace(REPLACE_JSON, jsonNewsArticle)
+// ##########################################
 
 module.exports.getScriptSchemaMarkupSiteLinkSearchBoxHomePage = () =>
   scriptLdJson?.replace(REPLACE_JSON, schemaMarkupSiteLinkSearchBoxHomePage)
