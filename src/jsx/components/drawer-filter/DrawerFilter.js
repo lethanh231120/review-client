@@ -9,7 +9,6 @@ import {
 import React, { useState, useEffect, useContext } from 'react'
 import { FilterOutlined } from '@ant-design/icons'
 import './drawer.scss'
-import { get } from '../../../api/BaseRequest'
 import {
   getScoreMarks,
   CRYPTO_MARKETCAP_SELECTION,
@@ -32,7 +31,7 @@ import {
   LAUNCHPAD_MARKETCAP_SELECTION,
   LAUNCHPAD_VOLUME24H_SELECTION
 } from './marks.js'
-import { LaunchpadMapContext } from '../../../App'
+import { CryptoTagContext, DappTagContext, IdoRoundTypeContext, IdoTagContext, LaunchpadMapContext, VentureLocationContext } from '../../../App'
 import _ from 'lodash'
 
 const tradingOnList = [
@@ -43,13 +42,15 @@ const tradingOnList = [
 ]
 
 const DrawerFilter = ({ type, handleFilter }) => {
+  const cryptoTag = useContext(CryptoTagContext)
+  const dappTag = useContext(DappTagContext)
+  const ventureLocation = useContext(VentureLocationContext)
+  const idoTag = useContext(IdoTagContext)
+  const idoRoundtype = useContext(IdoRoundTypeContext)
+
   const [showDrawer, setShowDrawer] = useState(false)
   const [form] = Form.useForm()
-  const [tagList, setTagList] = useState([])
   const { Option } = Select
-  // const [cryptoType, setCryptoType] = useState('')
-  const [location, setLocation] = useState([])
-  const [roundType, setRoundType] = useState([])
   const [initialValues, setInititalValues] = useState()
   const launchpadContext = useContext(LaunchpadMapContext)
   const [launchpadList, setLaunchpadList] = useState([])
@@ -133,55 +134,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
     form.resetFields()
   }
 
-  const getTags = async() => {
-    if (showDrawer) {
-      if (type === 'dapp') {
-        const res = await get('reviews/tag?type=dapp')
-        const temp = res?.data
-        temp && setTagList(tagList => ['All', ...temp])
-      } else if (type === 'crypto') {
-        const res = await get('reviews/tag?type=coin')
-        const temp = res?.data
-        temp && setTagList(tagList => ['All', ...temp])
-      } else if (type === 'exchange') {
-        const res = await get('reviews/tag?type=exchange')
-        const temp = res?.data
-        temp && setTagList(tagList => ['All', ...temp])
-      } else if (type === 'soon') {
-        const res = await get('reviews/tag?type=soon')
-        const temp = res?.data
-        temp && setTagList(tagList => ['All', ...temp])
-      }
-    }
-  }
-
-  const getLocation = async() => {
-    if (showDrawer) {
-      const res = await get('reviews/location')
-      const temp = res?.data
-      temp && setLocation(location => ['All', ...temp])
-    }
-  }
-
-  const getRoundType = async() => {
-    if (showDrawer) {
-      const res = await get('reviews/roundtype')
-      const temp = res?.data
-      temp && setRoundType(roundType => ['All', ...temp])
-    }
-  }
-
-  useEffect(() => {
-    if (type === 'venture') {
-      getLocation()
-    }
-    if (type === 'soon') {
-      getRoundType()
-      getTags()
-    } else {
-      getTags()
-    }
-  }, [showDrawer])
   const onFinish = (values) => {
     // SAVE STATE INTO LOCAL STORAGE
     window.localStorage.setItem(type, JSON.stringify(values))
@@ -391,7 +343,8 @@ const DrawerFilter = ({ type, handleFilter }) => {
     // ---------------------------EXCHANGE
     if (type === 'exchange') {
       // --PAIR COUNT
-      if (values?.pairCount?.from >= 0 && values?.pairCoun?.to >= 0) {
+      console.log(values?.pairCount)
+      if (values?.pairCount?.from >= 0 && values?.pairCount?.to >= 0) {
         filterParams['pairCount'] = `${
           values?.pairCount?.from
         }.${values?.pairCount?.to}`
@@ -632,12 +585,11 @@ const DrawerFilter = ({ type, handleFilter }) => {
               </Form.Item>
               <Form.Item name='tag' label='Tag'>
                 <Select
-                  notFoundContent={<div style={{ color: 'green' }}>Only Type Coin has tags</div>}
                   showSearch
                   style={{ width: '100%' }}
                   options={
-                    tagList &&
-                      tagList?.map((item) => ({ label: item, value: item }))
+                    cryptoTag &&
+                    cryptoTag?.map((item) => ({ label: item, value: item }))
                   }
                 />
               </Form.Item>
@@ -672,8 +624,8 @@ const DrawerFilter = ({ type, handleFilter }) => {
                      showSearch
                      style={{ width: '100%' }}
                      options={
-                       tagList &&
-                    tagList?.map((item) => ({ label: item, value: item }))
+                       dappTag &&
+                       dappTag?.map((item) => ({ label: item, value: item }))
                      }
                    />
                  </Form.Item>
@@ -696,7 +648,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
                 <Select
                   placeholder='Location'
                   showSearch
-                  options={location?.map((item) => ({
+                  options={ventureLocation && ventureLocation?.map((item) => ({
                     label: item,
                     value: item
                   }))}
@@ -726,7 +678,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
                   showSearch
                   placeholder='Round Type'
                   width='100%'
-                  options={roundType?.map((item) => ({
+                  options={idoRoundtype && idoRoundtype?.map((item) => ({
                     label: item,
                     value: item
                   }))}
@@ -738,7 +690,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
                   showSearch
                   placeholder='Tag'
                   width='100%'
-                  options={tagList?.map((item) => ({
+                  options={idoTag && idoTag?.map((item) => ({
                     label: item,
                     value: item
                   }))}

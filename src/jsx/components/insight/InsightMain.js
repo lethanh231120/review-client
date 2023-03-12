@@ -38,9 +38,9 @@ const InsightMain = () => {
     }
   }
 
-  const chartSection = (data, chartId) => {
-    return <Col key={chartId} xl={4} lg={12} style={{ display: 'flex', cursor: 'pointer', marginBottom: '1.5rem' }} >
-      <Link to={`${chartId}`} style={{ width: '100%' }}>
+  const chartSection = (data, id) => {
+    return <Col key={id} xl={4} lg={12} style={{ display: 'flex', cursor: 'pointer', marginBottom: '1.5rem' }} >
+      <Link to={`${id}`} style={{ width: '100%' }}>
         <Card style={{ width: '100%', height: '100%' }}>
           <Card.Header>
             <h4 className='card-title'>{data?.title}</h4>
