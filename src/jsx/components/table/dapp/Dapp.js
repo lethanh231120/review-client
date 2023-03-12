@@ -57,13 +57,14 @@ const Dapp = ({
             {record?.dAppName?.slice(0, 3)}
           </span>)
         }
-        <span>
-          <div className='data-table-name ms-2'>
-            <div>{shortenName(record?.dAppName, 20)}</div>
-          </div>
-        </span>
+        <Tooltip title={(<p>{`${record?.dAppName}`}</p>)}>
+          <span>
+            <div className='data-table-name ms-2'>
+              <div>{shortenName(record?.dAppName, 20)}</div>
+            </div>
+          </span>
+        </Tooltip>
       </Link>)
-
     },
     {
       title: 'Subcategory',

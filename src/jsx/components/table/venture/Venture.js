@@ -12,6 +12,7 @@ import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { VentureExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 import { Badge } from 'react-bootstrap'
+import _ from 'lodash'
 
 const Venture = ({
   listProduct,
@@ -28,6 +29,10 @@ const Venture = ({
     splitedId && navigate(`../../products/${splitedId[1]}/${splitedId[2]}`)
   }
 
+  const shortenName = (string, length) => {
+    return _.truncate(string || 'Unknown', { 'length': length })
+  }
+
   const columns = [
     {
       title: 'Name',
@@ -42,12 +47,14 @@ const Venture = ({
             {record?.ventureName?.slice(0, 3)}
           </span>)
         }
-        <span>
-          <div className='data-table-name ms-2'>
-            <div>{record?.ventureName ? record?.ventureName : 'Unknown'}</div>
-          </div></span>
+        <Tooltip title={(<p>{`${record?.ventureName}`}</p>)}>
+          <span>
+            <div className='data-table-name ms-2'>
+              <div>{shortenName(record?.ventureName, 20)}</div>
+            </div>
+          </span>
+        </Tooltip>
       </Link>)
-
     },
     {
       title: 'Year Founded',

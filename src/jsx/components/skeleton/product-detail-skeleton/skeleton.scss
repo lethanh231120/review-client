@@ -1,0 +1,32 @@
+.ant-skeleton.ant-skeleton-element .ant-skeleton-image{
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 1.25rem !important;
+}
+.empty-skeleton {
+    & .ant-skeleton{
+        width: 100% !important;
+    }
+}
+.product-detail{
+    & .ant-skeleton{
+        height: 35px;
+        line-height: 35px;
+        width: 100% !important;
+        min-width: 100px;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        & .ant-skeleton-input{
+            width: 100%;
+        }
+        // style={{
+        //     margin: '1rem',
+        //     height: '20px',
+        //     lineHeight: '20px',
+        //     minWidth: '280px',
+        //     width: '280px',
+        //     borderRadius: '2rem',
+        //     marginBottom: '1rem'
+        //   }}
+    }
+}

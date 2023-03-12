@@ -50,11 +50,13 @@ const Exchange = ({
             {record?.name?.slice(0, 3)}
           </span>)
         }
-        <span>
-          <div className='data-table-name ms-2'>
-            <div>{record?.name ? record?.name : 'Unknown'}</div>
-          </div>
-        </span>
+        <Tooltip title={(<p>{`${record?.name}`}</p>)}>
+          <span>
+            <div className='data-table-name ms-2'>
+              <div>{record?.name ? record?.name : 'Unknown'}</div>
+            </div>
+          </span>
+        </Tooltip>
       </Link>)
 
     },

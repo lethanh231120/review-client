@@ -44,8 +44,12 @@ import { InfoExplorerDetail } from '../../common-widgets/page-crypto/InfoExplore
 import { InfoTagDetail } from './../../common-widgets/page-crypto/InfoTagDetail'
 import share from '../../../../images/svg/share.svg'
 import hands from '../../../../images/svg/hands.svg'
-
 import { Modal } from 'antd'
+import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import ProductDetailHeader from '../../skeleton/product-detail-skeleton/ProductDetailHeader'
+import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
+import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
+import ProductDetailChart from '../../skeleton/product-detail-skeleton/ProductDetailChart'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -403,101 +407,109 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   </div>
 
   const header = (
-    <div className='profile-info'>
-      <div className='profile-details'>
-        <ProductImage productId={detail?.bigLogo ? detail?.cryptoId : null} productName={detail?.name} altImageType={altCrypto} />
-        <ProductNameSubName
-          projectName={projectNameSymbol}
-          projectSubName={projectAddressType}
-        />
-
-        <div className='detail-button ms-auto'>
-          <Button onClick={() => setOpenModalShare(true)}>
-            <img src={share} alt='share button'/>
-            Share
-          </Button>
-          <WebsiteButton website={detail?.website} />
+    <>
+      {rest?.loadingDetail ? (
+        <ProductDetailHeader/>
+      ) : (
+        <div className='profile-info'>
+          <div className='profile-details'>
+            <ProductImage productId={detail?.bigLogo ? detail?.cryptoId : null} productName={detail?.name} altImageType={altCrypto} />
+            <ProductNameSubName
+              projectName={projectNameSymbol}
+              projectSubName={projectAddressType}
+            />
+            <div className='detail-button ms-auto'>
+              <Button onClick={() => setOpenModalShare(true)}>
+                <img src={share} alt='share button'/>
+              Share
+              </Button>
+              <WebsiteButton website={detail?.website} />
+            </div>
+          </div>
+          <Modal
+            open={openModalShare}
+            onCancel={() => setOpenModalShare(false)}
+            onOk={() => setOpenModalShare(false)}
+            footer={null}
+          >
+            <ShareButton name={detail?.name} setOpenModalShare={setOpenModalShare}/>
+          </Modal>
         </div>
-      </div>
-      <Modal
-        open={openModalShare}
-        onCancel={() => setOpenModalShare(false)}
-        onOk={() => setOpenModalShare(false)}
-        footer={null}
-      >
-        <ShareButton name={detail?.name} setOpenModalShare={setOpenModalShare}/>
-      </Modal>
-    </div>
+      )}
+    </>
   )
 
   // summary
   const summary = (
-    <div className='text-center'>
-      <div className='row'>
-        <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
-          <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalReviews)} text={'Reviews'} backgroundColor={bgGreen} />
+    <>
+      {rest?.loadingDetail ? (
+        <ProductDetailSummary/>
+      ) : (
+        <div className='text-center'>
+          <div className='row'>
+            <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
+              <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalReviews)} text={'Reviews'} backgroundColor={bgGreen} />
+            </div>
+            <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
+              <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalIsScam)} text={'Reported Scam'} backgroundColor={bgRed} />
+            </div>
+            <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
+              <h3 className='m-b-0'>
+                <MyScoreComponent score={detail?.score} type={CRYPTO} />
+              </h3>
+              <div>Score</div>
+            </div>
+          </div>
+          <div className='mt-4 '>
+            <Button
+              className='mb-1 me-1'
+              variant='danger'
+              onClick={handleReportScam}
+            >
+              <span className='d-flex'>
+                {WARNING_ICON('#fff', '18px')}
+                &nbsp; Report&nbsp;Scam
+              </span>
+            </Button>
+            <Button
+              className='btn btn-primary mb-1 ms-1'
+              onClick={() => {
+                rest?.setData({ ...rest.data, isScam: false })
+                rest?.form.setFieldsValue({
+                  isScam: false,
+                  star: undefined,
+                  sources: []
+                })
+                window.scrollTo(0, top)
+              }}
+            >
+              <svg
+                width='18'
+                height='18'
+                viewBox='0 0 1024 1024'
+                className='icon'
+                version='1.1'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M687.542857 965.485714H182.857143c-87.771429 0-160.914286-73.142857-160.914286-160.914285V256c0-87.771429 73.142857-160.914286 160.914286-160.914286h336.457143V146.285714H182.857143C124.342857 146.285714 73.142857 197.485714 73.142857 256v541.257143c0 58.514286 51.2 109.714286 109.714286 109.714286h504.685714c58.514286 0 109.714286-51.2 109.714286-109.714286V533.942857h58.514286v263.314286c-7.314286 95.085714-80.457143 168.228571-168.228572 168.228571z'
+                  fill='#fff'
+                />
+                <path
+                  d='M877.714286 95.085714l109.714285 138.971429c7.314286 7.314286 0 14.628571-7.314285 21.942857L629.028571 526.628571c-7.314286 7.314286-160.914286-7.314286-160.914285-7.314285s29.257143-146.285714 36.571428-153.6l351.085715-270.628572c7.314286-7.314286 14.628571-7.314286 21.942857 0z'
+                  fill='#F4B1B2'
+                />
+                <path
+                  d='M607.085714 555.885714c-21.942857 0-65.828571 0-138.971428-7.314285H438.857143V512c29.257143-160.914286 36.571429-160.914286 43.885714-168.228571L833.828571 73.142857c21.942857-14.628571 43.885714-14.628571 58.514286 7.314286L1002.057143 219.428571c14.628571 14.628571 7.314286 43.885714-7.314286 58.514286L643.657143 548.571429c-7.314286 7.314286-7.314286 7.314286-36.571429 7.314285z m-109.714285-58.514285c51.2 0 95.085714 7.314286 117.028571 7.314285L950.857143 241.371429l-87.771429-117.028572-336.457143 263.314286c-7.314286 14.628571-14.628571 58.514286-29.257142 109.714286z'
+                  fill='#fff'
+                />
+              </svg>
+              &nbsp; Add Review
+            </Button>
+          </div>
         </div>
-
-        <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
-          <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalIsScam)} text={'Reported Scam'} backgroundColor={bgRed} />
-        </div>
-
-        <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
-          <h3 className='m-b-0'>
-            <MyScoreComponent score={detail?.score} type={CRYPTO} />
-          </h3>
-          <span>Score</span>
-        </div>
-
-      </div>
-      <div className='mt-4 '>
-        <Button
-          className='mb-1 me-1'
-          variant='danger'
-          onClick={handleReportScam}
-        >
-          <span className='d-flex'>
-            {WARNING_ICON('#fff', '18px')}
-            &nbsp; Report&nbsp;Scam
-          </span>
-        </Button>
-        <Button
-          className='btn btn-primary mb-1 ms-1'
-          onClick={() => {
-            rest?.setData({ ...rest.data, isScam: false })
-            rest?.form.setFieldsValue({
-              isScam: false,
-              star: undefined,
-              sources: []
-            })
-            window.scrollTo(0, top)
-          }}
-        >
-          <svg
-            width='18'
-            height='18'
-            viewBox='0 0 1024 1024'
-            className='icon'
-            version='1.1'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <path
-              d='M687.542857 965.485714H182.857143c-87.771429 0-160.914286-73.142857-160.914286-160.914285V256c0-87.771429 73.142857-160.914286 160.914286-160.914286h336.457143V146.285714H182.857143C124.342857 146.285714 73.142857 197.485714 73.142857 256v541.257143c0 58.514286 51.2 109.714286 109.714286 109.714286h504.685714c58.514286 0 109.714286-51.2 109.714286-109.714286V533.942857h58.514286v263.314286c-7.314286 95.085714-80.457143 168.228571-168.228572 168.228571z'
-              fill='#fff'
-            />
-            <path
-              d='M877.714286 95.085714l109.714285 138.971429c7.314286 7.314286 0 14.628571-7.314285 21.942857L629.028571 526.628571c-7.314286 7.314286-160.914286-7.314286-160.914285-7.314285s29.257143-146.285714 36.571428-153.6l351.085715-270.628572c7.314286-7.314286 14.628571-7.314286 21.942857 0z'
-              fill='#F4B1B2'
-            />
-            <path
-              d='M607.085714 555.885714c-21.942857 0-65.828571 0-138.971428-7.314285H438.857143V512c29.257143-160.914286 36.571429-160.914286 43.885714-168.228571L833.828571 73.142857c21.942857-14.628571 43.885714-14.628571 58.514286 7.314286L1002.057143 219.428571c14.628571 14.628571 7.314286 43.885714-7.314286 58.514286L643.657143 548.571429c-7.314286 7.314286-7.314286 7.314286-36.571429 7.314285z m-109.714285-58.514285c51.2 0 95.085714 7.314286 117.028571 7.314285L950.857143 241.371429l-87.771429-117.028572-336.457143 263.314286c-7.314286 14.628571-14.628571 58.514286-29.257142 109.714286z'
-              fill='#fff'
-            />
-          </svg>
-          &nbsp; Add Review
-        </Button>
-      </div>
-    </div>
+      )}
+    </>
   )
 
   // scam
@@ -522,83 +534,99 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   )
 
   const more = <div>
-    <InformationHeader projectName={detail?.name}/>
-    <div className='card-body pt-3'>
-      <div className='basic-form'>
-        {(detail?.isProxy !== null ||
+    {rest?.loadingDetail ? (<ProductDetailInfo/>) : (
+      <>
+        <InformationHeader projectName={detail?.name}/>
+        <div className='card-body pt-3'>
+          <div className='basic-form'>
+            {(detail?.isProxy !== null ||
           detail?.contractVerified !== null)
-          ? <InfoContractDetail detail={detail} />
-          : ''
-        }
+              ? <InfoContractDetail detail={detail} />
+              : ''
+            }
 
-        {detail?.isCoinmarketcap !== null ||
+            {detail?.isCoinmarketcap !== null ||
           detail?.isCoingecko !== null
-          ? <InfoAvailableDetail detail={detail} />
-          : ''
-        }
+              ? <InfoAvailableDetail detail={detail} />
+              : ''
+            }
 
-        <ExchangeDetail coinName={detail?.name} exchangeList={detail?.exchanges} />
+            <ExchangeDetail coinName={detail?.name} exchangeList={detail?.exchanges} />
 
-        {!showInfo && <InfoExplorerDetail isShow={isShow} detail={detail} multichain={multichain}/>
-        }
+            {!showInfo && <InfoExplorerDetail isShow={isShow} detail={detail} multichain={multichain}/>
+            }
 
-        <InfoTagDetail itemTags={productInfo?.mores?.tag} />
-        <p>
+            <InfoTagDetail itemTags={productInfo?.mores?.tag} />
+            <p>
           If you have any good or bad experience with
-          <span className='text-primary'>
-            {` ${detail?.name}`}
-          </span>, please share with us in informing everyone
-          <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem', width: '1.1rem' }}/>
-          <img src={hands} alt='icon-hand' style={{ width: '1.1rem' }}/>
-          <img src={hands} alt='icon-hand' style={{ marginRight: '0.3rem', width: '1.1rem' }}/>
-          <span
-            onClick={() => {
-              rest?.setData({ ...rest.data, isScam: false })
-              rest?.form.setFieldsValue({
-                isScam: false,
-                star: undefined,
-                sources: []
-              })
-              window.scrollTo(0, top)
-            }}
-            className='text-primary txt-link'
-            style={{ marginLeft: '0.5rem' }}
+              <span className='text-primary'>
+                {` ${detail?.name}`}
+              </span>, please share with us in informing everyone
+              <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem', width: '1.1rem' }}/>
+              <img src={hands} alt='icon-hand' style={{ width: '1.1rem' }}/>
+              <img src={hands} alt='icon-hand' style={{ marginRight: '0.3rem', width: '1.1rem' }}/>
+              <span
+                onClick={() => {
+                  rest?.setData({ ...rest.data, isScam: false })
+                  rest?.form.setFieldsValue({
+                    isScam: false,
+                    star: undefined,
+                    sources: []
+                  })
+                  window.scrollTo(0, top)
+                }}
+                className='text-primary txt-link'
+                style={{ marginLeft: '0.5rem' }}
 
-          >
+              >
             Review Now
-          </span>
-        </p>
-      </div>
-    </div>
+              </span>
+            </p>
+          </div>
+        </div>
+      </>
+    )}
   </div>
 
-  const about = <Description
-    projectName={detail?.name}
-    text={ detail?.description }
-  />
+  const about = <>
+    {rest?.loadingDetail ? (
+      <ProductDetailInfo/>
+    ) : (
+      <Description
+        projectName={detail?.name}
+        text={ detail?.description }
+      />
+    )}
+  </>
 
   const exchange = (
     <>
-      {!_.isEmpty(dataExchange) && (
+      {rest?.loadingDetail ? (
+        <MySkeletonLoadinng count={5} height={50}/>
+      ) : (
         <>
-          <div className='card-header border-0 pb-0'>
-            <h5 className='heading text-primary'>Trading On</h5>
-          </div>
-          <div className='card-body pt-3 exchange'>
-            <Table
-              columns={columnExchanges}
-              dataSource={dataExchange}
-              pagination={
-                dataExchange?.length > 10
-                  ? {
-                    pageSize: PAGE_SIZE,
-                    defaultCurrent: 1,
-                    showSizeChanger: false
+          {!_.isEmpty(dataExchange) && (
+            <>
+              <div className='card-header border-0 pb-0'>
+                <h5 className='heading text-primary'>Trading On</h5>
+              </div>
+              <div className='card-body pt-3 exchange'>
+                <Table
+                  columns={columnExchanges}
+                  dataSource={dataExchange}
+                  pagination={
+                    dataExchange?.length > 10
+                      ? {
+                        pageSize: PAGE_SIZE,
+                        defaultCurrent: 1,
+                        showSizeChanger: false
+                      }
+                      : false
                   }
-                  : false
-              }
-            />
-          </div>
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </>
@@ -616,17 +644,19 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   }
 
-  const priceChart = (
-    <CoinChart
-      symbol={detail?.symbol}
-      price={detail?.priceUSD}
-      holders={detail?.holders}
-      marketCap={detail?.marketcapUSD}
-      totalSupply={detail?.totalSupply}
-      transfer={detail?.transfers}
-      symbolForChart={symbol}
-    />
-  )
+  const priceChart = <>
+    {rest?.loadingDetail ? (<ProductDetailChart/>) : (
+      <CoinChart
+        symbol={detail?.symbol}
+        price={detail?.priceUSD}
+        holders={detail?.holders}
+        marketCap={detail?.marketcapUSD}
+        totalSupply={detail?.totalSupply}
+        transfer={detail?.transfers}
+        symbolForChart={symbol}
+      />
+    )}
+  </>
 
   return <DetailLayout
     Header={header}
