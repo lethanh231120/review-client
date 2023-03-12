@@ -17,7 +17,7 @@ const ChartDetail = () => {
   // const data = location?.state
   useEffect(() => {
     const getChartById = async() => {
-      const res = await get(`reviews/chart/detail?id=${id}`)
+      const res = await get(`reviews/chart/detail?chartId=${id}`)
       if (res?.code === 'B.CODE.200') {
         setChartData(res?.data)
       }
