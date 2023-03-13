@@ -48,7 +48,7 @@ export const ReviewItem = ({ data }) => {
             </div>
             <div className='col-2 review-img'>
               {data?.images && !_.isEmpty(data?.images) &&
-                <Image className='img-fluid ' src={data?.images[0]} preview={true} alt='Review Image'/>
+                <Image onClick={e => e.stopPropagation()} className='img-fluid ' src={data?.images[0]} preview={true} alt='Review Image'/>
               }
             </div>
           </div>
