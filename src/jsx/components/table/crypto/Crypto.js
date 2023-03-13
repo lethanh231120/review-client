@@ -55,53 +55,57 @@ const Crypto = ({
 
   useEffect(() => {
     const getChain = async() => {
-      if (!_.isEmpty(listProduct)) {
-        const newListData = []
-        listProduct?.forEach((itemProduct) => {
-          if (!_.isEmpty(itemProduct?.multichain)) {
-            newListData.push({
-              ...itemProduct,
-              exchanges: [
-                itemProduct?.isBinance !== null && itemProduct?.isBinance
-                  ? [exchanges?.binance]
-                  : [],
-                itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
-                  ? [exchanges?.coinbase]
-                  : [],
-                itemProduct?.isPancakeSwap &&
-                itemProduct?.isPancakeSwap !== null
-                  ? [exchanges?.pancakeswap]
-                  : [],
-                itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
-                  ? [exchanges?.uniswap]
-                  : []
-              ]?.flat(1)
-            })
-          } else {
-            newListData.push({
-              ...itemProduct,
-              exchanges: [
-                itemProduct?.isBinance && itemProduct?.isBinance !== null
-                  ? [exchanges?.binance]
-                  : [],
-                itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
-                  ? [exchanges?.coinbase]
-                  : [],
-                itemProduct?.isPancakeSwap &&
-                itemProduct?.isPancakeSwap !== null
-                  ? [exchanges?.pancakeswap]
-                  : [],
-                itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
-                  ? [exchanges?.uniswap]
-                  : []
-              ]?.flat(1)
-            })
+      if (listProduct !== null) {
+        if (!_.isEmpty(listProduct)) {
+          const newListData = []
+          listProduct?.forEach((itemProduct) => {
+            if (!_.isEmpty(itemProduct?.multichain)) {
+              newListData.push({
+                ...itemProduct,
+                exchanges: [
+                  itemProduct?.isBinance !== null && itemProduct?.isBinance
+                    ? [exchanges?.binance]
+                    : [],
+                  itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
+                    ? [exchanges?.coinbase]
+                    : [],
+                  itemProduct?.isPancakeSwap &&
+                  itemProduct?.isPancakeSwap !== null
+                    ? [exchanges?.pancakeswap]
+                    : [],
+                  itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
+                    ? [exchanges?.uniswap]
+                    : []
+                ]?.flat(1)
+              })
+            } else {
+              newListData.push({
+                ...itemProduct,
+                exchanges: [
+                  itemProduct?.isBinance && itemProduct?.isBinance !== null
+                    ? [exchanges?.binance]
+                    : [],
+                  itemProduct?.isCoinbase && itemProduct?.isCoinbase !== null
+                    ? [exchanges?.coinbase]
+                    : [],
+                  itemProduct?.isPancakeSwap &&
+                  itemProduct?.isPancakeSwap !== null
+                    ? [exchanges?.pancakeswap]
+                    : [],
+                  itemProduct?.isUniSwap && itemProduct?.isUniSwap !== null
+                    ? [exchanges?.uniswap]
+                    : []
+                ]?.flat(1)
+              })
+            }
+          })
+          if (!_.isEmpty(newListData)) {
+            setListData(newListData)
+            setLoading(false)
           }
-        })
-        if (!_.isEmpty(newListData)) {
-          setListData(newListData)
-          setLoading(false)
         }
+      } else {
+        setLoading(false)
       }
     }
     getChain()

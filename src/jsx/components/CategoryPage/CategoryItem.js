@@ -19,7 +19,7 @@ import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import SEO from '../SEO/SEO'
 import { toCammelCase } from '../../../utils/formatText'
 import { formatLargeNumber } from '../../../utils/formatNumber'
-
+import Swal from 'sweetalert2'
 import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE, LIST_LAUNCHPAD } from '../../constants/category'
 import { read } from '../../../api/BaseRequest'
 
@@ -119,50 +119,69 @@ const CategoryItem = () => {
     setParram()
   }, [category, subCategory])
 
+  const notifyTopRight = (content) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true
+    })
+
+    Toast.fire({
+      icon: 'error',
+      title: `${content}, Please try again !`
+    })
+  }
+
   const getData = async(category, paramSort) => {
-    setListProduct() // reset for loading
-    paramSort['tag'] = decodeUrl(paramSort?.tag)
-    switch (category) {
-      case DAPP: {
-        const dataDapp = await get('reviews/dapp/filter', paramSort)
-        setListProduct({ dapp: dataDapp?.data?.dApps })
-        setTotal(dataDapp?.data?.dAppCount)
-        break
+    try {
+      setListProduct() // reset for loading
+      paramSort['tag'] = decodeUrl(paramSort?.tag)
+      switch (category) {
+        case DAPP: {
+          const dataDapp = await get('reviews/dapp/filter', paramSort)
+          setListProduct({ dapp: dataDapp?.data?.dApps })
+          setTotal(dataDapp?.data?.dAppCount)
+          break
+        }
+        case CRYPTO: {
+          const dataCrypto = await get('reviews/crypto/filter', paramSort)
+          setListProduct({ crypto: dataCrypto?.data?.cryptos })
+          setTotal(dataCrypto?.data?.cryptoCount)
+          break
+        }
+        case EXCHANGE: {
+          const dataExchange = await get('reviews/exchange/filter', paramSort)
+          setListProduct({ exchange: dataExchange?.data?.exchanges })
+          setTotal(dataExchange?.data?.exchangeCount)
+          break
+        }
+        case VENTURE: {
+          const dataVenture = await get('reviews/venture/filter', paramSort)
+          setListProduct({ venture: dataVenture?.data?.ventures })
+          setTotal(dataVenture?.data?.ventureCount)
+          break
+        }
+        case SOON: {
+          const dataSoon = await get('reviews/soon/filter', paramSort)
+          setListProduct({ soon: dataSoon?.data?.soons })
+          setTotal(dataSoon?.data?.soonCount)
+          break
+        }
+        case LAUNCHPAD: {
+          const dataLaunchpad = await get('reviews/launchpad/filter', paramSort)
+          setListProduct({ launchpad: dataLaunchpad?.data?.launchPads })
+          setTotal(dataLaunchpad?.data?.launchPadCount)
+          break
+        }
+        default:
+          break
       }
-      case CRYPTO: {
-        const dataCrypto = await get('reviews/crypto/filter', paramSort)
-        setListProduct({ crypto: dataCrypto?.data?.cryptos })
-        setTotal(dataCrypto?.data?.cryptoCount)
-        break
-      }
-      case EXCHANGE: {
-        const dataExchange = await get('reviews/exchange/filter', paramSort)
-        setListProduct({ exchange: dataExchange?.data?.exchanges })
-        setTotal(dataExchange?.data?.exchangeCount)
-        break
-      }
-      case VENTURE: {
-        const dataVenture = await get('reviews/venture/filter', paramSort)
-        setListProduct({ venture: dataVenture?.data?.ventures })
-        setTotal(dataVenture?.data?.ventureCount)
-        break
-      }
-      case SOON: {
-        const dataSoon = await get('reviews/soon/filter', paramSort)
-        setListProduct({ soon: dataSoon?.data?.soons })
-        setTotal(dataSoon?.data?.soonCount)
-        break
-      }
-      case LAUNCHPAD: {
-        const dataLaunchpad = await get('reviews/launchpad/filter', paramSort)
-        setListProduct({ launchpad: dataLaunchpad?.data?.launchPads })
-        setTotal(dataLaunchpad?.data?.launchPadCount)
-        break
-      }
-      default:
-        break
+      setLoading(false)
+    } catch (error) {
+      notifyTopRight(error?.response?.data?.error)
     }
-    setLoading(false)
   }
 
   const handleChangePage = async(value) => {
@@ -290,11 +309,71 @@ const CategoryItem = () => {
     if (_.isEmpty(param)) {
       setParram()
     } else {
-      setParams({
-        ...params,
-        ...param,
-        page: params?.page
-      })
+      switch (category) {
+        case DAPP:
+          setParams({
+            orderBy: params?.orderBy,
+            sort: params?.sort,
+            page: 1,
+            tag: params?.tag,
+            ...param
+          })
+          break
+        case CRYPTO:
+          setParams({
+            type: params?.type,
+            tag: params?.tag,
+            orderBy: params?.orderBy,
+            sort: params?.sort,
+            page: 1,
+            ...param
+          })
+          break
+        case EXCHANGE:
+          setParams({
+            orderBy: params?.orderBy,
+            sort: params?.sort,
+            page: 1,
+            tag: params?.tag,
+            ...param
+          })
+          break
+        case VENTURE:
+          setParams({
+            orderBy: params?.orderBy,
+            sort: params?.sort,
+            page: 1,
+            location: params?.location,
+            ...param
+          })
+          break
+        case SOON:
+          setParams({
+            orderBy: params?.orderBy,
+            sort: params?.sort,
+            page: 1,
+            tag: params?.tag,
+            roundType: params?.roundType,
+            ...param
+          })
+          break
+        case LAUNCHPAD:
+          setParams({
+            orderBy: params?.orderBy,
+            sort: params?.sort,
+            page: 1,
+            ...param
+          })
+          break
+        default:
+          navigate('/not-found')
+          break
+      }
+      // setParams({
+      //   ...params,
+      //   ...param,
+      //   page: params?.page
+      // })
     }
   }
 
