@@ -4,9 +4,11 @@ import { Card, Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { get } from '../../../api/BaseRequest'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
+import SEO from '../SEO/SEO'
 import Barchart from './charts/BarChart'
 import LineChart from './charts/LineChart'
 import PieChart from './charts/PieChart'
+import { getHeaderListInsight } from './../SEO/server/insight'
 
 const InsightMain = () => {
   // const navigate = useNavigate()
@@ -57,7 +59,7 @@ const InsightMain = () => {
 
   return loading ? <MySkeletonLoadinng count={4} height={100}/>
     : <>
-      {/* <h3 style={{ marginBottom: '20px' }}>Gear5 Data Insights</h3> */}
+      <SEO props={{ title: getHeaderListInsight() }}/>
       <Row >
         {data && Object.keys(data)?.map(key => chartSection(data[key]))}
       </Row>

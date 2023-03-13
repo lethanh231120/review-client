@@ -3,11 +3,11 @@ const { getMetaTag } = require('../modal/MetaTag')
 const totalDAppProject = `12K+`
 const REPLACE_SUB_CATEGORY = '[SUB_CATEGORY]'
 
-const LIST_TITLE = `Top Dapp Projects List | Rating, Discuss & Details | Gear5`
+const LIST_TITLE = `Top D-App Projects List | Rating, Discuss & Details | Gear5`
 const LIST_DESCRIPTION = `Discover Gear5's comprehensive list of ${totalDAppProject} Dapp Projects includes detailed ratings, discuss & essential information and watch out which projects are reported as Scam or Dead! `
 const LIST_DESCRIPTION_OTHER = `Discover our comprehensive list of Dapp projects includes detailed ratings, discuss, and essential information and watch out which projects are reported as Scam or Dead!`
 
-const SUB_CATEGORY_TITLE = `Top ${REPLACE_SUB_CATEGORY} dApp Projects List | User Discuss, Rating & Details | Gear5 `
+const SUB_CATEGORY_TITLE = `Top ${REPLACE_SUB_CATEGORY} D-App Projects List | User Discuss, Rating & Details | Gear5 `
 const SUB_CATEGORY_DESCRIPTION = `Explore the ${REPLACE_SUB_CATEGORY} and its top Dapps Projects on Gear5 with detailed ratings, discuss, and essential information and watch out which projects are reported as Scam or Dead!
 `
 

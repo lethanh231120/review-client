@@ -1,39 +1,38 @@
+import { getHeaderHome } from './home'
+import { getHeaderListInsight } from './insight'
 import { getHeaderListCrypto } from './listCrypto'
+import { getHeaderListDApp } from './listDApp'
+import { getHeaderListExchange } from './listExchange'
+import { getHeaderListLaunchpad } from './listLaunchpad'
+import { getHeaderListSoon } from './listSoon'
+import { getHeaderListVenture } from './listVenture'
 
 // <!-- Copy logic from handle route, discard [res] parameter -->
 export const genListHeader = (category, subCategory) => {
   switch (category) {
     case 'crypto':{
-      getHeaderListCrypto(subCategory)
-      break
+      return getHeaderListCrypto(subCategory)
     }
-    // case 'dapp':{
-    //   genStaticHeader(getMetaTagListDApp(subCategory))
-    //   break
-    // }
-    // case 'venture':{
-    //   genStaticHeader(getMetaTagListVenture())
-    //   break
-    // }
-    // case 'exchange':{
-    //   genStaticHeader(getMetaTagListExchange(subCategory))
-    //   break
-    // }
-    // case 'soon':{
-    //   genStaticHeader(getMetaTagListSoon(subCategory))
-    //   break
-    // }
-    // case 'launchpad':{
-    //   genStaticHeader(getMetaTagListLaunchpad())
-    //   break
-    // }
-    // case 'insight':{
-    //   genStaticHeader(getMetaTagInsight())
-    //   break
-    // }
-    // default: {
-    //   genStaticHeader(getMetaTagHome())
-    //   break
-    // }
+    case 'dapp':{
+      return getHeaderListDApp(subCategory)
+    }
+    case 'venture':{
+      return getHeaderListVenture(subCategory)
+    }
+    case 'exchange':{
+      return getHeaderListExchange(subCategory)
+    }
+    case 'soon':{
+      return getHeaderListSoon(subCategory)
+    }
+    case 'launchpad':{
+      return getHeaderListLaunchpad(subCategory)
+    }
+    case 'insight':{
+      return getHeaderListInsight(subCategory)
+    }
+    default: {
+      return getHeaderHome()
+    }
   }
 }
