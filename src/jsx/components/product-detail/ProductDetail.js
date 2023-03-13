@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from 'react'
 import { Form } from 'antd'
-// import moment from 'moment'
 import './productDetail.scss'
 import { get, post } from '../../../api/BaseRequest'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
@@ -10,7 +9,7 @@ import CryptoInfo from './crypto-info/CryptoInfo'
 import ExchangeInfo from './exchange-info/ExchangeInfo'
 import DappInfo from './dapp-info/DappInfo'
 import SoonInfo from './soon-info/SoonInfo'
-import VentureInfo, { calculateTotalFund } from './venture-info/VentureInfo'
+import VentureInfo from './venture-info/VentureInfo'
 import { exchanges } from '../../../utils/ExchangeImage'
 import {
   DAPP,
@@ -26,13 +25,11 @@ import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import user from '../../../images/product/user.png'
 import Swal from 'sweetalert2'
 import LaunchpadDetail from './launchpad-info/LaunchpadDetail'
-import imgAbsentImageCrypto from '../../../images/absent_image_crypto.png'
-import { encodeSpecialCharacterUrl, formatImgUrlFromProductId, isValidProductId } from '../../../utils/formatText'
-import { formatLargeNumber, formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
+import { encodeSpecialCharacterUrl } from '../../../utils/formatText'
 import { SEO } from './../SEO/SEO'
 import { PathNameContext } from '../../index'
-import { getStatusFromStartDateAndEndDate } from '../../../utils/page-soon/status'
 import ProductDetailEmpty from '../skeleton/product-detail-skeleton/ProductDetailEmpty'
+import { getHeaderProductDetail } from '../SEO/server/productDetail'
 
 const ProductDetail = () => {
   const TYPE_REVIEW = 0
@@ -859,111 +856,11 @@ const ProductDetail = () => {
     loadingDetail={loadingDetail}
   />
 
-  const getMetaProductDetail = (categoryName, type, detail) => {
-    let meta = {}
-
-    if (type === CRYPTO_COIN || type === CRYPTO_TOKEN) {
-      meta = detail?.cryptoId && getMetaTagCrypto(detail)
-    } else {
-      switch (categoryName) {
-        case CRYPTO:{
-          meta = detail?.cryptoId && getMetaTagCrypto(detail)
-          break
-        }
-        case DAPP:{
-          meta = detail?.dAppId && getMetaTagDApp(detail)
-          break
-        }
-        case EXCHANGE:{
-          meta = detail?.exchangeId && getMetaTagExchange(detail)
-          break
-        }
-        case SOON:{
-          meta = detail?.projectId && getMetaTagSoon(detail)
-          break
-        }
-        case VENTURE:{
-          meta = detail?.ventureId && getMetaTagVenture(detail)
-          break
-        }
-        case LAUNCHPAD:{
-          meta = detail?.launchPadId && getMetaTagLaunchpad(detail)
-          break
-        }
-      }
-    }
-
-    return meta
-  }
-
-  const getTxtTotalReviewScam = (totalScam, totalReview) =>{
-    let output = ''
-    output += totalScam ? `${totalScam} scam reports` : ''
-    if (output !== '') {
-      output += ', '
-    }
-    output += totalReview ? `${totalReview} reviews` : ''
-    if (output !== '') {
-      output += ', '
-    }
-    return output
-  }
-
-  const getMetaTagCrypto = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.name} (${detail?.symbol}) ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}Price Chart, Market Cap, Info | Gear5`
-    meta.description = detail?.description
-    meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
-    return meta
-  }
-
-  const getMetaTagDApp = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.dAppName} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} Price Chart, Market Cap today and Info | Gear5`
-    meta.description = detail?.description
-    meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
-    return meta
-  }
-
-  const getMetaTagExchange = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.name} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, ${detail?.volume24h ? formatLargeNumber(detail?.visit7d) + ' visit in last 7 days' : ''}, Volumne today and Info | Gear5`
-    meta.description = detail?.fullDescription
-    meta.image = isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageCrypto
-    return meta
-  }
-
-  const getMetaTagSoon = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.projectName} (${detail?.projectSymbol}) ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)} ${getStatusFromStartDateAndEndDate(detail?.startDate, detail?.endDate)?.toUpperCase()}, Market Cap today and Info | Gear5`
-    meta.description = detail?.fullDesc || detail?.shortDesc
-    meta.image = isValidProductId(detail?.projectId) ? formatImgUrlFromProductId(detail?.projectId) : imgAbsentImageCrypto
-    return meta
-  }
-
-  const getMetaTagVenture = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.ventureName} ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, ${`invested ` + formatLargeNumberMoneyUSD(calculateTotalFund(productInfo?.mores?.fund))}, ${detail?.location ? 'location ' + detail?.location : ''}, ${detail?.yearFounded ? 'founded ' + detail?.yearFounded : ''}, and Info | Gear5`
-    meta.description = detail?.description
-    meta.image = isValidProductId(detail?.cryptoId) ? formatImgUrlFromProductId(detail?.cryptoId) : imgAbsentImageCrypto
-    return meta
-  }
-
-  const getMetaTagLaunchpad = (detail) =>{
-    const meta = {}
-    meta.title = `${detail?.name} (${detail?.symbol}) ${getTxtTotalReviewScam(detail?.totalIsScam, detail?.totalReviews)}, Market Cap, Info | Gear5`
-    meta.description = detail?.description
-    meta.image = isValidProductId(detail?.launchPadId) ? formatImgUrlFromProductId(detail?.launchPadId) : imgAbsentImageCrypto
-    return meta
-  }
-
   return (
     <>
-      <SEO props={getMetaProductDetail(categoryName, type, productInfo?.details)} />
-      {/* <Helmet>
-        <meta name='title' content='BITCOIN NE' data-react-helmet='true' />
-        <meta name='description' content={productInfo?.details?.description} data-react-helmet='true' />
-      </Helmet> */}
+      {productInfo?.details
+        ? <SEO props={{ title: getHeaderProductDetail(productInfo?.details) }} />
+        : ''}
       <div className='section'>
         {!productInfo ? <ProductDetailEmpty/>
           : (

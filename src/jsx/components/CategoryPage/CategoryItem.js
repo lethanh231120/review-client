@@ -17,11 +17,11 @@ import _ from 'lodash'
 import LaunchpadList from '../table/launchpad/LaunchpadTable'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import SEO from '../SEO/SEO'
-import { toCammelCase } from '../../../utils/formatText'
-import { formatLargeNumber } from '../../../utils/formatNumber'
 import Swal from 'sweetalert2'
+
 import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE, LIST_LAUNCHPAD } from '../../constants/category'
 import { read } from '../../../api/BaseRequest'
+import { genListHeader } from '../SEO/server/ExpressGenerHeader'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -57,9 +57,9 @@ const CategoryItem = () => {
     if (parts.length === 2) {
       category = parts[parts.length - 1]
     }
-    // aleast click category
+    // aleast click category(include subCategory)
     if (category) {
-      setTitleSEO(`${total ? `${formatLargeNumber(total)}+` : ''} ${category && toCammelCase(category)} Projects ${subCategory ? `| ${subCategory}` : ''} | Gear5`)
+      setTitleSEO(genListHeader(category, subCategory))
     }
   }, [category, subCategory, total])
 
