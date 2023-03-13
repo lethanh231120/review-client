@@ -19,7 +19,7 @@ import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import SEO from '../SEO/SEO'
 import { toCammelCase } from '../../../utils/formatText'
 import { formatLargeNumber } from '../../../utils/formatNumber'
-
+import Swal from 'sweetalert2'
 import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE, LIST_LAUNCHPAD } from '../../constants/category'
 import { read } from '../../../api/BaseRequest'
 
@@ -119,6 +119,21 @@ const CategoryItem = () => {
     setParram()
   }, [category, subCategory])
 
+  const notifyTopRight = (content) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true
+    })
+
+    Toast.fire({
+      icon: 'error',
+      title: `${content}, Please try again !`
+    })
+  }
+
   const getData = async(category, paramSort) => {
     try {
       setListProduct() // reset for loading
@@ -165,7 +180,7 @@ const CategoryItem = () => {
       }
       setLoading(false)
     } catch (error) {
-      console.log(error)
+      notifyTopRight(error?.response?.data?.error)
     }
   }
 
