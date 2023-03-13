@@ -14,17 +14,19 @@ const dataReviewFounder = {
   accountName: 'Gear5 Founder',
   content: <p className='cus-text-justify'>
     <span>
-    We understand that the cryptocurrency market is a potential investment channel that brings great profits
+    We understand that the cryptocurrency market has the potential to be a lucrative investment channel
       <img src={rocket} alt='icon-rocket' style={{ marginLeft: '0.3rem' }}/>
       <img src={rocket} alt='icon-rocket'/>
-      <img src={rocket} alt='icon-rocket' style={{ marginRight: '0.3rem' }}/>,
-      but there are also many projects that are traps and scams, honey pot
+      <img src={rocket} alt='icon-rocket' style={{ marginRight: '0.3rem' }}/>
+      . However, ALMOST 99%+ PROJECTS  has been evaluated as SCAM / DEAD ones
       <img src={shit_review} alt='icon shit review' style={{ marginLeft: '0.3rem' }}/>
       <img src={shit_review} alt='icon shit review'/>
-      <img src={shit_review} alt='icon shit review' style={{ marginRight: '0.3rem' }}/>....  So if you have any good or bad experience, please share with us in informing everyone !
+      <img src={shit_review} alt='icon shit review' style={{ marginRight: '0.3rem' }}/>
+      {`, so BE TOTALLY AWARE whenever you're about to make any investment decision by reading other Gear5 users’ reviews beforehand. And if any of you are the VICTIMS of any scam project, RAISE YOUR VOICE with other investors about your negative experience to join hands R.I.P that project, and make a better cryptocurrency community`}
       <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem' }}/>
       <img src={hands} alt='icon-hand'/>
       <img src={hands} alt='icon-hand' style={{ marginRight: '0.3rem' }}/>
+      .
     </span>
   </p>
 }
