@@ -53,12 +53,12 @@ const ScamWarningDetail = ({ isShow, scamWarningReason, proofType }) => {
       {proofType === ProofTypes.Error ? (
         <Alert variant='danger' dismissible show={true}>
           {emojis.error}
-          <strong>Scam! </strong> {scamWarningReason}
+          <strong>Scam! </strong><br></br> {scamWarningReason}
         </Alert>
       ) : proofType === ProofTypes.Warning ? (
         <Alert variant='warning' dismissible show={true}>
           {emojis.warning}
-          <strong>Warning! </strong> {scamWarningReason}
+          <strong>Warning! </strong><br></br> {scamWarningReason}
         </Alert>
       ) : (
         ''
