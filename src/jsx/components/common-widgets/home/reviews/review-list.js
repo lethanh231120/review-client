@@ -4,7 +4,8 @@ import { ReviewItem } from './review-item'
 import './reviews-item.scss'
 import SekeletonReviewItem from '../../../skeleton/skeleton-review/SekeletonReviewItem'
 
-const REVIEW_WS_URL = 'wss://api-client.gear5.io/reviews/review/latest'
+// const REVIEW_WS_URL = 'wss://api-client.gear5.io/reviews/review/latest'
+const REVIEW_WS_URL = 'wss://api-ver1.gear5.io/reviews/review/latest'
 // const ANONYMOUS_ID = '00000000-0000-0000-0000-000000000000'
 export const ReviewList = () => {
   const [reviewList, setReviewList] = useState([])
