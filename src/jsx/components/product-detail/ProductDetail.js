@@ -858,7 +858,9 @@ const ProductDetail = () => {
 
   return (
     <>
-      <SEO props={{ title: getHeaderProductDetail(productInfo?.details) }} />
+      {productInfo?.details
+        ? <SEO props={{ title: getHeaderProductDetail(productInfo?.details) }} />
+        : ''}
       <div className='section'>
         {!productInfo ? <ProductDetailEmpty/>
           : (
