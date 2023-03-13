@@ -14,6 +14,8 @@ import SummaryRow from '../../components/common-widgets/home/summary/BalanceCard
 import './home.scss'
 import Banner from '../common-widgets/home/banner'
 import { SummaryHomeContext } from '../../../App'
+import SEO from '../SEO/SEO'
+import { getHeaderHome } from './../SEO/server/home'
 
 const fillColors = {
   'binance': '#EFB80B',
@@ -70,6 +72,7 @@ const Home = () => {
 
   return (
     <>
+      <SEO props={{ title: getHeaderHome() }}/>
       {/* row 1 */}
       <div className='row' style={{ height: 'max-content' }}>
         {/* banner, summary */}
