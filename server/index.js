@@ -43,10 +43,10 @@ const META_IMAGE = metaTagHome.image
 const META_DESCRIPTION = metaTagHome.description
 
 // static resources should just be served as they are
-const oneDay = 86400000 // in milliseconds
+const oneHundredDay = 86400000 * 100 // in milliseconds
 app.use(express.static(
   path.resolve(__dirname, '..', 'build'),
-  { maxage: oneDay }
+  { maxage: oneHundredDay }
 ))
 
 const encodeSpecialCharacterUrl = (url) =>{
