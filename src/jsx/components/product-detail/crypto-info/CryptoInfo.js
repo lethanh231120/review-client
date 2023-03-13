@@ -50,6 +50,7 @@ import ProductDetailHeader from '../../skeleton/product-detail-skeleton/ProductD
 import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
 import ProductDetailChart from '../../skeleton/product-detail-skeleton/ProductDetailChart'
+import { mapScamReason } from './scam-reason'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -511,20 +512,20 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       )}
     </>
   )
-
+  console.log(mapScamReason(detail?.proof))
   // scam
   const scam = (
     <>
       {detail?.isScam ? (
         <ScamWarningDetail
           isShow={true}
-          scamWarningReason={detail?.proof?.isScam}
+          scamWarningReason={mapScamReason(detail?.proof?.isScam)}
           proofType='error'
         />
       ) : detail?.isWarning ? (
         <ScamWarningDetail
           isShow={true}
-          scamWarningReason={detail?.proof?.isWarning}
+          scamWarningReason={mapScamReason(detail?.proof?.isWarning)}
           proofType='warning'
         />
       ) : (
