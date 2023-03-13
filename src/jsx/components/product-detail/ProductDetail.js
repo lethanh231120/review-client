@@ -959,7 +959,6 @@ const ProductDetail = () => {
 
   return (
     <>
-
       <SEO props={getMetaProductDetail(categoryName, type, productInfo?.details)} />
       {/* <Helmet>
         <meta name='title' content='BITCOIN NE' data-react-helmet='true' />

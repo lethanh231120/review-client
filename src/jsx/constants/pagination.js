@@ -1,2 +1,2 @@
-export const PAGE_SIZE = 50
-export const MAX_PAGE = 10
+export const PAGE_SIZE = 25
+export const MAX_PAGE = 20
