@@ -80,7 +80,7 @@ const reviewStarsRender = (star, isScam) => {
       ? <ul>
         {' '}
         {
-          [... new Array(3)].map((item, index) => {
+          [... new Array(3)]?.map((item, index) => {
             return <img key={index} src={imgshit} alt='Scam'/>
           })
         }
@@ -88,7 +88,7 @@ const reviewStarsRender = (star, isScam) => {
       : <ul>
         {' '}
         {
-          [... new Array(starCount)].map((item, index) => {
+          [... new Array(starCount)]?.map((item, index) => {
             return <li key={index}>
               <i className='fa fa-star' />
             </li>
