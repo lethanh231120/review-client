@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from 'react'
 import { Form } from 'antd'
-// import moment from 'moment'
 import './productDetail.scss'
 import { get, post } from '../../../api/BaseRequest'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
-// import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import { get } from '../../../api/BaseRequest'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
