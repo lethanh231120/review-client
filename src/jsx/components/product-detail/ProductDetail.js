@@ -422,64 +422,68 @@ const ProductDetail = () => {
   }
 
   const handleAddComment = async(params, type, header) => {
-    let dataAdd
-    if (type === 'anonymous') {
-      dataAdd = await post('reviews/review/anonymous', params, { ReCaptchaResponse: header })
-    } else {
-      dataAdd = await post('reviews/review', params, { ReCaptchaResponse: header })
-    }
-    if (dataAdd) {
-      if (dataAdd?.code === 'B.CODE.12') {
-        const newReview = {
-          ...dataAdd?.data,
-          accountType: type === 'auth' ? userInfo?.accountType : '',
-          email: type === 'auth' ? userInfo?.email : '',
-          acountImage: type === 'auth' ? userInfo?.image : user,
-          role: type === 'auth' ? userInfo?.role : -1,
-          userName: type === 'auth' ? userInfo?.userName : 'Anonymous'
-        }
-        // check if reviews === []
-        if (_.isEmpty(reviews)) {
-          setReviews([
-            {
-              review: newReview,
-              reactions: [],
-              replies: []
-            }
-          ])
-        } else {
-          setReviews([
-            {
-              review: newReview,
-              reactions: [],
-              replies: []
-            },
-            ...reviews
-          ])
-        }
-        notifyTopRight()
+    try {
+      let dataAdd
+      if (type === 'anonymous') {
+        dataAdd = await post('reviews/review/anonymous', params, { ReCaptchaResponse: header })
       } else {
-        Swal.fire({
-          icon: 'warning',
-          title: 'We will hide reviews with Shill, Ads, Porn.... content !',
-          text: `With your review, we will review it directly by the admin team. Enjoy Gear5.io, Thank You !`
-        })
+        dataAdd = await post('reviews/review', params, { ReCaptchaResponse: header })
       }
-      // set data for form report
-      setData({
-        isScam: false,
-        content: '',
-        sources: [],
-        images: [],
-        star: 5
-      })
-      // set list file image
-      setFileList([])
-      // set type comment (anonymous or auth)
-      setTypeComment()
+      if (dataAdd) {
+        if (dataAdd?.code === 'B.CODE.12') {
+          const newReview = {
+            ...dataAdd?.data,
+            accountType: type === 'auth' ? userInfo?.accountType : '',
+            email: type === 'auth' ? userInfo?.email : '',
+            acountImage: type === 'auth' ? userInfo?.image : user,
+            role: type === 'auth' ? userInfo?.role : -1,
+            userName: type === 'auth' ? userInfo?.userName : 'Anonymous'
+          }
+          // check if reviews === []
+          if (_.isEmpty(reviews)) {
+            setReviews([
+              {
+                review: newReview,
+                reactions: [],
+                replies: []
+              }
+            ])
+          } else {
+            setReviews([
+              {
+                review: newReview,
+                reactions: [],
+                replies: []
+              },
+              ...reviews
+            ])
+          }
+          notifyTopRight()
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'We will hide reviews with Shill, Ads, Porn.... content !',
+            text: `With your review, we will review it directly by the admin team. Enjoy Gear5.io, Thank You !`
+          })
+        }
+        // set data for form report
+        setData({
+          isScam: false,
+          content: '',
+          sources: [],
+          images: [],
+          star: 5
+        })
+        // set list file image
+        setFileList([])
+        // set type comment (anonymous or auth)
+        setTypeComment()
+        recapcharRef.current.reset()
+        form.resetFields()
+        form.setFieldsValue({ 'isScam': false })
+      }
+    } catch (error) {
       recapcharRef.current.reset()
-      form.resetFields()
-      form.setFieldsValue({ 'isScam': false })
     }
   }
 

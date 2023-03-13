@@ -7,6 +7,7 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
 import { SignInContext } from '../../../../App'
 import ReCAPTCHA from 'react-google-recaptcha'
+import { toCammelCase } from '../../../../utils/formatText'
 
 export const txtEnterEmail = 'Enter your e-mail address'
 export const txtEnterPassword = 'Enter your password'
@@ -89,11 +90,17 @@ export const SignUpComponent = () => {
           })
         }
       } catch (e) {
+        const codeUnauthorize = 'B.CODE.401'
+        const codeBE = e?.response?.data?.code
+        const errBE = toCammelCase(e?.response?.data?.error)
+        const msgBE = toCammelCase(e?.response?.data?.message)
+        recapcharRef.current.reset()
+
         Swal.fire({
           allowOutsideClick: false,
           icon: 'error',
           title: 'Resgister failed',
-          html: e?.response?.data?.error || 'Sorry for this inconvenience. Our server got problem, try again later',
+          html: (codeBE === codeUnauthorize ? errBE : msgBE) || 'Sorry for this inconvenience. Our server got problem, try again later',
           showClass: {
             popup: 'animate__animated animate__fadeInDown'
           },
@@ -212,12 +219,18 @@ export const SignUpComponent = () => {
                 </span>
 
                 <label>
-                  <Link to={'/terms-of-service'} onClick={() => {
-                    signContext?.handleSetOpenModal(false) // close form sign-in, sign-up
-                  }}>Terms of Service </Link>&amp;{' '}
-                  <Link to={'/privacy-policy'} onClick={() => {
-                    signContext?.handleSetOpenModal(false) // close form sign-in, sign-up
-                  }}>Privacy Policy</Link>
+                  <Link
+                    to={'/terms-of-service'}
+                    className = 'text-primary txt-link'
+                    onClick={() => {
+                      signContext?.handleSetOpenModal(false) // close form sign-in, sign-up
+                    }}>Terms of Service </Link>&amp;{' '}
+                  <Link
+                    to={'/privacy-policy'}
+                    className = 'text-primary txt-link'
+                    onClick={() => {
+                      signContext?.handleSetOpenModal(false) // close form sign-in, sign-up
+                    }}>Privacy Policy</Link>
                 </label>
 
                 <div

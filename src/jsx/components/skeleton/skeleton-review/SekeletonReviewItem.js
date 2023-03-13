@@ -44,7 +44,7 @@ const SekeletonReviewItem = () => {
                 style={{
                   height: '15px',
                   lineHeight: '15px',
-                  minWidth: '200px',
+                  minWidth: '180px',
                   width: '100%',
                   borderRadius: '2rem'
                 }}
@@ -54,7 +54,7 @@ const SekeletonReviewItem = () => {
                 style={{
                   height: '15px',
                   lineHeight: '15px',
-                  minWidth: '270px',
+                  minWidth: '230px',
                   width: '100%',
                   borderRadius: '2rem'
                 }}
