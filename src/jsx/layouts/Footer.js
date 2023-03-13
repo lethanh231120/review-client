@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   var d = new Date()
@@ -8,10 +8,19 @@ const Footer = () => {
       <div className='copyright'>
         <p>
           Copyright © Developed by{' '}
-          <NavLink to={'/'} target='_blank' rel='noreferrer' style={{ color: 'green' }}>
+          <Link
+            to={'/'}
+            className = 'text-primary txt-link'
+          >
             Nika Guru
-          </NavLink>{' '}
+          </Link>{' '}
           {d.getFullYear()}
+          ,{' '}
+          <Link
+            to={'/terms-of-service'}
+            className = 'text-primary txt-link'>
+            Term and Service
+          </Link>{' '}
         </p>
       </div>
     </div>
