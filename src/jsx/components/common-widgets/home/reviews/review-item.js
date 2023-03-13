@@ -59,12 +59,9 @@ export const ReviewItem = ({ data }) => {
             <span onClick={ onClicked} className='text-primary'style={{ cursor: 'pointer' }}>
               <span className='product-name-text'>{data?.productName}</span>
             </span>
-            <span>&nbsp;{data?.isScam ? 'as a scam' : ''}</span>
+            <span>&nbsp;{data?.isScam ? <span>as a <span className='text-danger'>SCAM</span></span> : ''}</span>
             </span>}
           </div>
-          {/* <h4>
-            {title || 'No Title'}
-          </h4> */}
           <p className='mt-1 text-etc-overflow'>
             {data?.content || 'No Content'}
           </p>
