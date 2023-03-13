@@ -11,7 +11,7 @@ const file = (function() {
   fs.readFile(indexPath, 'utf8', (err, htmlData) => {
     if (err) {
       console.error(`Error during reading file ${indexFileName} (file not exist, i/o problem, ...)`)
-      return
+      process.exit(1)
     }
     console.log(`Reaing file ${indexFileName} successfully`)
     indexHtml = htmlData
