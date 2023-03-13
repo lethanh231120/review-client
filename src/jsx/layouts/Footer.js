@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const Footer = () => {
   var d = new Date()
@@ -7,9 +8,9 @@ const Footer = () => {
       <div className='copyright'>
         <p>
           Copyright © Developed by{' '}
-          <a href='#' target='_blank' rel='noreferrer' style={{ color: 'green' }}>
+          <NavLink to={'/'} target='_blank' rel='noreferrer' style={{ color: 'green' }}>
             Nika Guru
-          </a>{' '}
+          </NavLink>{' '}
           {d.getFullYear()}
         </p>
       </div>
