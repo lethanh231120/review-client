@@ -343,7 +343,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
     // ---------------------------EXCHANGE
     if (type === 'exchange') {
       // --PAIR COUNT
-      console.log(values?.pairCount)
       if (values?.pairCount?.from >= 0 && values?.pairCount?.to >= 0) {
         filterParams['pairCount'] = `${
           values?.pairCount?.from
@@ -500,6 +499,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
       <Col span={7}>
         <Form.Item name={[attr, 'from']}
           key={[attr, 'from']}
+          validateTrigger='onBlur'
           rules={[
             ({ getFieldValue }) => ({
               validator(rule, value) {
@@ -511,6 +511,18 @@ const DrawerFilter = ({ type, handleFilter }) => {
                 }
                 return Promise.resolve()
               }
+            }),
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                const max = getFieldValue(attr)?.to
+                if (max === undefined && value) {
+                  return Promise.reject(`Filter range is not valid`)
+                }
+                if (max && value === undefined) {
+                  return Promise.reject(`Filter range is not valid`)
+                }
+                return Promise.resolve()
+              }
             })
           ]}>
           <Select options={options} />
@@ -518,7 +530,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
       </Col>
       <Col span={4} className='d-flex justify-content-center mt-1'>To</Col>
       <Col span={7}>
-        <Form.Item name={[attr, 'to']} key={[attr, 'to']}
+        <Form.Item name={[attr, 'to']} key={[attr, 'to']} validateTrigger='onBlur'
           rules={[
             ({ getFieldValue }) => ({
               validator(rule, value) {
@@ -527,6 +539,17 @@ const DrawerFilter = ({ type, handleFilter }) => {
                   if (value < min) {
                     return Promise.reject(`Filter range is not valid`)
                   }
+                }
+                return Promise.resolve()
+              }
+            }), ({ getFieldValue }) => ({
+              validator(rule, value) {
+                const min = getFieldValue(attr)?.from
+                if (min === undefined && value) {
+                  return Promise.reject(`Filter range is not valid`)
+                }
+                if (min && value === undefined) {
+                  return Promise.reject(`Filter range is not valid`)
                 }
                 return Promise.resolve()
               }
