@@ -57,7 +57,7 @@ const CategoryItem = () => {
     // click category
     if (parts.length === 2) {
       category = parts[parts.length - 1]
-      console.log('category', category, subCategory)
+      console.log('subcategory', category, subCategory)
     }
     // aleast click category
     if (category) {
