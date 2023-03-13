@@ -165,7 +165,6 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
   }
 
   const subMitForm = () => {
-    console.log(33333)
     if (isFormReport) {
       setItemSearch(itemSubmit)
     } else {
@@ -202,7 +201,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
         //   isActive: false, data: {}, loading: false, status: ''
         // })
       } else {
-        console.log('no item submit')
+        console.log('')
       }
     }
     refInput.current.value = ''

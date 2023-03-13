@@ -343,7 +343,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
     // ---------------------------EXCHANGE
     if (type === 'exchange') {
       // --PAIR COUNT
-      console.log(values?.pairCount)
       if (values?.pairCount?.from >= 0 && values?.pairCount?.to >= 0) {
         filterParams['pairCount'] = `${
           values?.pairCount?.from
@@ -516,7 +515,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
             ({ getFieldValue }) => ({
               validator(rule, value) {
                 const max = getFieldValue(attr)?.to
-                console.log(max)
                 if (max === undefined && value) {
                   return Promise.reject(`Filter range is not valid`)
                 }
