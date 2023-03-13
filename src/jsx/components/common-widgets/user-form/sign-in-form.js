@@ -73,7 +73,13 @@ export const SignInComponent = () => {
       msg += 'Your account is blocked. Please contact with the administrator'
     } else {
       // otherwise default message from BE
-      msg += toCammelCase(error?.response?.data?.message)
+      let msgBE = error?.response?.data?.message
+      const parts = msgBE?.split(':')
+      // Discard :Normal, :facebook if exist
+      if (parts.length >= 2) {
+        msgBE = parts[parts.length - 1]
+      }
+      msg += toCammelCase(msgBE)
     }
 
     Swal.fire({
