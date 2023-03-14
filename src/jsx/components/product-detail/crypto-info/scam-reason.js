@@ -11,7 +11,6 @@ export const mapScamReason = (input) => {
   }
 
   let msg = input
-  console.log(input)
   input && Object.keys(SCAM_REASON)?.forEach(key =>{
     if (key === input) {
       msg = SCAM_REASON[key]
