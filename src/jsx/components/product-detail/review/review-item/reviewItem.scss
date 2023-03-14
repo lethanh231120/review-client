@@ -20,6 +20,16 @@
                 border: 0.1px solid rgba(0, 0, 0, 0.1);
             }
         }
+        & .ant-avatar{
+            border: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            & img{
+                height: 25px;
+            }
+        }
+
         &-description{
             text-align: left;
             margin-left: 0.625rem;

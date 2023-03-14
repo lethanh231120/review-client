@@ -19,8 +19,12 @@ export const onItemClicked = (type, detail, navigate) => {
 }
 
 export const timeAgoConvert = (date) => {
+  const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
   if (date) {
     var actionTime = moment(date, 'YYYY-MM-DD HH:mm:ss')
+    const utcDate = moment.utc(actionTime).tz(currentTimeZone)
+    console.log(utcDate)
     return actionTime.fromNow()
   } else {
     return ''
