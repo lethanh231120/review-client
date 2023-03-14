@@ -129,7 +129,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
           formData.append('file', itemFile?.originFileObj)
           const time = moment().unix()
           const fileName = `${itemFile?.uid}_${time}`
-          const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
+          const dataImage = await post(`reviews/upload/image?storeEndpoint=review&fileName=${fileName}`, formData)
           setData({
             ...data,
             images: _.isEmpty(rest.data.images) ? [dataImage?.data] : [...rest.data.images, dataImage?.data]
@@ -447,7 +447,8 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
                 <ReCAPTCHA
                   ref={recapcharRef}
                   onChange={handleChangeRecapchar}
-                  sitekey='6Lcab8wjAAAAAEeXUCE7iFIga2fynoCIZn4W8Q-l'
+                  sitekey={process.env.REACT_APP_SITE_KEY}
+                  // sitekey='6Lcab8wjAAAAAEeXUCE7iFIga2fynoCIZn4W8Q-l'
                 />
               </div>
 
