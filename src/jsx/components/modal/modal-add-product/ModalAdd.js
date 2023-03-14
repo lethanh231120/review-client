@@ -215,25 +215,30 @@ const ModalAdd = ({ isModal }) => {
 
   // chose file in select
   const handleChangeFile = async(e) => {
-    if (!e?.event && e.file?.status === 'uploading') {
-      setFileList([
-        {
-          ...e.fileList[0],
-          status: 'done'
-        }
-      ])
-      const formData = new FormData()
-      formData.append('file', e?.fileList[0]?.originFileObj)
-      const time = moment().unix()
-      const fileName = `${userInfo.id}_${time}`
-      const dataImage = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
-      setData({
-        ...data,
-        image: dataImage?.data
-      })
-    }
-    if (e.file?.status === 'removed') {
-      setFileList([])
+    if (userInfo) {
+      if (!e?.event && e.file?.status === 'uploading') {
+        setFileList([
+          {
+            ...e.fileList[0],
+            status: 'done'
+          }
+        ])
+        console.log(userInfo)
+        const formData = new FormData()
+        formData.append('file', e?.fileList[0]?.originFileObj)
+        const time = moment().unix()
+        const fileName = `${userInfo.id}_${time}`
+        const dataImage = await post(`reviews/upload/image?storeEndpoint=project&fileName=${fileName}`, formData)
+        setData({
+          ...data,
+          image: dataImage?.data
+        })
+      }
+      if (e.file?.status === 'removed') {
+        setFileList([])
+      }
+    } else {
+      signContext?.handleSetOpenModal(true)
     }
   }
 
@@ -667,7 +672,7 @@ const ModalAdd = ({ isModal }) => {
           <ReCAPTCHA
             ref={recapcharRef}
             onChange={handleChangeRecapchar}
-            sitekey='6Lcab8wjAAAAAEeXUCE7iFIga2fynoCIZn4W8Q-l'
+            sitekey={process.env.REACT_APP_SITE_KEY}
           />
         </div>
         <div className='d-flex'>

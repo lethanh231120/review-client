@@ -244,7 +244,8 @@ export const SignUpComponent = () => {
                   <ReCAPTCHA
                     ref={recapcharRef}
                     onChange={handleChangeRecapchar}
-                    sitekey='6Lcab8wjAAAAAEeXUCE7iFIga2fynoCIZn4W8Q-l'
+                    sitekey={process.env.REACT_APP_SITE_KEY}
+                    // sitekey='6Lcab8wjAAAAAEeXUCE7iFIga2fynoCIZn4W8Q-l'
                   />
                 </div>
               </div>

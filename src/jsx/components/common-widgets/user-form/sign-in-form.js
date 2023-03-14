@@ -270,8 +270,7 @@ export const SignInComponent = () => {
                     />
                   </li>
                   <li>
-                    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_ID}
-                    >
+                    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_ID}>
                       {/* ref: https://livefiredev.com/in-depth-guide-sign-in-with-google-in-a-react-js-application/ */}
                       <GoogleLogin
                         type='icon'

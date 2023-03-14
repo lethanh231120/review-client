@@ -45,7 +45,7 @@ const FormProfile = ({ userInfo }) => {
           formData.append('file', itemFile?.originFileObj)
           const time = moment().unix()
           const fileName = `${itemFile?.uid}_${time}`
-          const resp = await post(`reviews/upload/image?storeEndpoint=test&fileName=${fileName}`, formData)
+          const resp = await post(`reviews/upload/image?storeEndpoint=account&fileName=${fileName}`, formData)
           setUserAvatar(resp?.data)
         }
       })
