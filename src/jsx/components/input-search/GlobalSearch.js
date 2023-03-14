@@ -552,6 +552,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
                   </>
                 ) : (
                   <Empty
+                    description={false}
                   />
                 )}
               </>

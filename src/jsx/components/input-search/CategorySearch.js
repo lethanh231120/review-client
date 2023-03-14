@@ -4,7 +4,6 @@ import _ from 'lodash'
 import { search } from '../../../api/BaseRequest'
 import './globalSearch.scss'
 import { useNavigate } from 'react-router-dom'
-import nodata from '../../../images/product/nodata.png'
 import ItemCrypto from './item-crypto/ItemCrypto'
 import ItemLaunch from './item-launchpad/ItemLaunpad'
 import ItemDapp from './item-dapp/ItemDapp'
@@ -310,29 +309,7 @@ const CategorySearch = ({ type }) => {
               </>
             ) : (
               <Empty
-                image={nodata}
-                description={
-                  <span style={{ padding: '1rem' }}>
-                    <span
-                      style={{
-                        fontSize: '1.125rem',
-                        color: 'red',
-                        fontWeight: 600
-                      }}
-                    >
-                            SORRY{' '}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: '1rem',
-                        color: 'rgba(0, 0, 0, 0.6)',
-                        fontWeight: '600'
-                      }}
-                    >
-                            NO DATA FOUND
-                    </span>
-                  </span>
-                }
+                description={false}
               />
             )}
           </>
