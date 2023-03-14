@@ -1,8 +1,9 @@
 import { Helmet } from 'react-helmet-async'
+import { getHeaderHome } from './server/home'
 
 export const SEO = ({ props }) => {
   // <!-- Title data from index.html -->
-  const title = props?.title || `Gear 5 | 99%+ Marked As Scam or Dead /2,3M+ Crypto Projects`
+  const title = props?.title || getHeaderHome()
 
   return (
     <Helmet>

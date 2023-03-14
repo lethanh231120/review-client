@@ -6,7 +6,6 @@ import './globalSearch.scss'
 import { search } from '../../../api/BaseRequest'
 import _ from 'lodash'
 import { useNavigate } from 'react-router-dom'
-import nodata from '../../../images/product/nodata.png'
 import ItemCrypto from './item-crypto/ItemCrypto'
 import ItemLaunch from './item-launchpad/ItemLaunpad'
 import ItemDapp from './item-dapp/ItemDapp'
@@ -553,29 +552,6 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
                   </>
                 ) : (
                   <Empty
-                    image={nodata}
-                    description={
-                      <span>
-                        <span
-                          style={{
-                            fontSize: '1.8em',
-                            color: 'red',
-                            fontWeight: 600
-                          }}
-                        >
-                          SORRY{' '}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: '1.6rem',
-                            color: 'rgba(0, 0, 0, 0.6)',
-                            fontWeight: '600'
-                          }}
-                        >
-                          NO DATA FOUND
-                        </span>
-                      </span>
-                    }
                   />
                 )}
               </>
