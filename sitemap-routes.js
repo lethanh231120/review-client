@@ -10,7 +10,7 @@ const allroutes = [
 ]
 
 const subXml = [
-  'exchanges.xml', 'ventures.xml', 'launchpads.xml', 'dapps.xml', 'idos.xml', 'coins.xml'
+  'exchanges.xml', 'ventures.xml', 'launchpads.xml', 'dapps.xml', 'idos.xml', 'coins.xml', 'new-tokens.xml'
 ]
 
 export default (
@@ -23,7 +23,7 @@ export default (
         subXml.map((item, index) => (<Route key={index} path={item}/>))
       }
       {
-        [...Array(TOTAL_TOKEN_ROUTES)].map((_, index) => <Route key={index} path={`token_${index + 1}`}/>)
+        [...Array(TOTAL_TOKEN_ROUTES)].map((_, index) => <Route key={index} path={`token_${index + 1}.xml`}/>)
       }
       <Route path='confirm-email' />
       <Route path='search/:keyword' />

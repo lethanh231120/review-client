@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Image, Input, Form } from 'antd'
+import { Image, Input, Form, Avatar } from 'antd'
 import './reviewItem.scss'
 import { CaretDownOutlined, SendOutlined, LinkOutlined, PushpinOutlined } from '@ant-design/icons'
 import user from '../../../../../images/product/user.webp'
@@ -315,9 +315,9 @@ const ReviewItem = (props) => {
   return (
     <div className='review-item'>
       {type === 'founder' ? (
-        <Image src={data?.acountImage} preview={false} alt='User Avatar'/>
+        <Avatar src={data?.acountImage} preview={false} alt='User Avatar'/>
       ) : (
-        <Image src={data?.review?.acountImage ? data?.review?.acountImage : user} preview={false} alt='User Avatar'/>
+        <Avatar src={data?.review?.acountImage ? data?.review?.acountImage : user} preview={false} alt='User Avatar'/>
       )}
       <div className='review-item-description'>
         <div className='review-item-data'>

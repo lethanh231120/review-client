@@ -4,13 +4,14 @@ import FormReport from '../Forms/form-report/FormReport'
 import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
 import { SOON, CRYPTO, VENTURE, LAUNCHPAD } from '../../constants/category'
-import logocolor from '../../../images/logo/gear5_logo_notext.png'
+// import logocolor from '../../../images/logo/gear5_logo_notext.webp'
+import logo from '../../../images/logo/logo.png'
 import hands from '../../../images/svg/hands.svg'
 import rocket from '../../../images/svg/rocket.svg'
 import shit_review from '../../../images/svg/shit-review.svg'
 
 const dataReviewFounder = {
-  acountImage: logocolor,
+  acountImage: logo,
   accountName: 'Gear5 Founder',
   content: <p className='cus-text-justify'>
     <span>
