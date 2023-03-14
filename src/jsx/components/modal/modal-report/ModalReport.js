@@ -375,7 +375,7 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
                               />
                             )}
                           </div>
-                          <div className='profile-name px-3 pt-2'>
+                          <div className='profile-name pt-2' style={{ width: '100%' }}>
                             <h4 className='text-primary mb-2 cus-h4'>
                               <span className='crypto-overview-name'>
                                 {item?.name}

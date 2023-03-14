@@ -126,11 +126,11 @@ const ReviewItem = (props) => {
           }]
         } else {
           newDataReply = [
+            ...data.replies,
             {
               reply: dataReply,
               reactions: []
-            },
-            ...data.replies
+            }
           ]
         }
         form.resetFields()

@@ -3,7 +3,7 @@ import { getStatusBackgroundFromSoonStatus } from '../../../../utils/page-soon/s
 import { txtAbsentTakeUpData } from '../../../constants/data'
 
 export const SoonStatusLocation = ({ status, detail }) => {
-  return <div className='profile-email px-2 pt-2'>
+  return <div className='profile-email px-2'>
     <p className='text-muted mb-0'>
       {
         detail?.startDate && detail?.endDate ? <span className={`badge badge-rounded ${getStatusBackgroundFromSoonStatus(status)}`}>
