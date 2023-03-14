@@ -2,6 +2,15 @@
 .cus-modal{
   background-color: rgba(24, 165, 148, 0.1) !important;
 }
+
+@media screen and (max-width: 767px) {
+  .cus-modal .modal-header{
+    padding: 1rem;
+  }
+  .cus-modal .modal-body{
+    padding: 1rem;
+  }
+}
 html{
   scroll-behavior: smooth;
   /* scroll-padding-top: 7rem; */

@@ -263,21 +263,22 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const reviews = []
-    if (listReply) {
-      // format data reviews
-      dataReview?.forEach((itemReview) => {
-        // get list reply by reviewId
-        const listReplyByReview = listReply?.filter((itemReply) => itemReply?.reply?.reviewId === itemReview?.id)
-        // get list reaction by reviewId
-        const listReactionByReview = dataReaction[`${TYPE_REVIEW}`]?.filter((itemReaction) => itemReaction?.commentId === itemReview?.id)
-        reviews.push({
-          review: itemReview,
-          replies: listReplyByReview,
-          reactions: listReactionByReview || []
-        })
+    // if (listReply) {
+    // format data reviews
+    dataReview?.forEach((itemReview) => {
+      // get list reply by reviewId
+      const listReplyByReview = listReply && listReply?.filter((itemReply) => itemReply?.reply?.reviewId === itemReview?.id)
+      console.log(listReplyByReview)
+      // get list reaction by reviewId
+      const listReactionByReview = dataReaction && dataReaction[`${TYPE_REVIEW}`]?.filter((itemReaction) => itemReaction?.commentId === itemReview?.id)
+      reviews.push({
+        review: itemReview,
+        replies: listReplyByReview?.reverse(),
+        reactions: listReactionByReview || []
       })
-      setListReview(reviews)
-    }
+    })
+    setListReview(reviews)
+    // }
   }, [listReply, dataReview])
 
   useEffect(() => {
