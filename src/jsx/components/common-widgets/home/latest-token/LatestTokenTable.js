@@ -12,9 +12,9 @@ import { MySkeletonLoadinng } from '../../my-spinner'
 export const LatestTokenTable = () => {
   const chainList = useContext(ChainListContext)
   const navigate = useNavigate()
-  const [screenWidth, setScreenWidth] = useState()
+  // const [screenWidth, setScreenWidth] = useState()
   const [latestTokens, setLatestTokens] = useState()
-  const [newList, setNewList] = useState()
+  // const [newList, setNewList] = useState()
 
   const getChainImage = (chainname) => {
     const item = Object.keys(chainList)?.find(element => element === chainname)
@@ -33,30 +33,35 @@ export const LatestTokenTable = () => {
       }
     }
     getLatestTokens()
+    const interval = setInterval(() => {
+      getLatestTokens()
+    }, 30000)
+
+    return () => clearInterval(interval)
   }, [])
 
-  useEffect(() => {
-    if (screenWidth > 1600) {
-      setNewList(latestTokens && latestTokens?.slice(0, 7))
-    }
-    if (screenWidth < 1600 && screenWidth > 1100) {
-      setNewList(latestTokens && latestTokens?.slice(0, 7))
-    }
-    if (screenWidth < 1020) {
-      setNewList(latestTokens && latestTokens?.slice(0, 7))
-    }
-  }, [screenWidth, latestTokens])
+  // useEffect(() => {
+  //   if (screenWidth > 1600) {
+  //     setNewList(latestTokens && latestTokens?.slice(0, 7))
+  //   }
+  //   if (screenWidth < 1600 && screenWidth > 1100) {
+  //     setNewList(latestTokens && latestTokens?.slice(0, 7))
+  //   }
+  //   if (screenWidth < 1020) {
+  //     setNewList(latestTokens && latestTokens?.slice(0, 7))
+  //   }
+  // }, [screenWidth, latestTokens])
 
-  useEffect(() => {
-    function handleResize() {
-      const { innerWidth: width } = window
-      setScreenWidth(width)
-    }
+  // useEffect(() => {
+  //   function handleResize() {
+  //     const { innerWidth: width } = window
+  //     setScreenWidth(width)
+  //   }
 
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  //   handleResize()
+  //   window.addEventListener('resize', handleResize)
+  //   return () => window.removeEventListener('resize', handleResize)
+  // }, [])
 
   const onTopCoinsClicked = (item) => {
     const type = item?.cryptoId?.split('_')[1]
@@ -82,11 +87,11 @@ export const LatestTokenTable = () => {
       <div className='card' style={{ height: '100%' }}>
         <div className='card-header border-0 pb-0'>
           <div >
-            <h2 className='heading'>Gear5 Live New&nbsp;Tokens</h2>
+            <h2 className='heading'>Live New&nbsp;Tokens</h2>
           </div>
         </div>
         <div className='card-body pt-0' style={{ padding: '0px 0.7rem' }}>
-          {newList ? (!_.isEmpty(newList) ? newList?.map((item, index) => (
+          {latestTokens ? (!_.isEmpty(latestTokens) ? latestTokens?.map((item, index) => (
             <div className='previews-info-list' key={index} style={{ cursor: 'pointer' }} onClick={() => onTopCoinsClicked(item)}>
               <div className='pre-icon top-coin-info'>
                 <span
@@ -100,7 +105,10 @@ export const LatestTokenTable = () => {
                   </h6>
                   <div className='d-flex'>
                     <Avatar className='me-1' size={20} src={getChainImage(item?.chainName)}/>
-                    <span className='top-coin-name'>{item?.address && _.truncate(item?.address, { length: 15 })}</span>
+                    <span className='top-coin-name'>{item?.address &&
+                    _.truncate(item?.address, { length: 15 })
+                    }
+                    </span>
                   </div>
                 </div>
               </div>
