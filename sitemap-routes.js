@@ -10,12 +10,12 @@ const allroutes = [
 ]
 
 const subXml = [
-  'exchanges.xml', 'ventures.xml', 'launchpads.xml', 'dapps.xml', 'idos.xml', 'coins.xml', 'new-tokens.xml'
+  'exchanges.xml', 'ventures.xml', 'launchpads.xml', 'dapps.xml', 'idos.xml', 'coins.xml'
 ]
 
 export default (
   <Routes>
-    <Route >
+    <Route>
       {allroutes.map((data, i) => (
         <Route key={i} path={`${data.url}`} element={data.component}/>
       ))}
