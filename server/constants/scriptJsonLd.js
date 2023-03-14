@@ -37,7 +37,7 @@ const scriptSchemaMarkupNewsArticleForDetail = `
     "@id": "https://soon1.gear5.io"
   },
   "headline": "Gear 5 | 99%+ Marked As Scam or Dead/2,3M+ Crypto Projects",
-  "description": "Stay up-to-date on the latest cryptocurrency trends, Gear5 provide in-depth reviews and comprehensive information on 2,3M+ cryptocurrencies, helping you make well-informed investment decisions.",
+  "description": "Stay up-to-date on the latest cryptocurrency trends, Gear5 provide in-depth reviews and comprehensive information on 2,3M+ cryptocurrencies, helping you make well-informed investment decisions. ",
   "image": {
     "@type": "ImageObject",
     "url": "https://soon1.gear5.io/logo.webp",

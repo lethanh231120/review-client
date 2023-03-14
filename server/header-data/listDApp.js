@@ -1,19 +1,20 @@
 const { getMetaTag } = require('../modal/MetaTag')
+const { toCammelCase } = require('../utils/formatText')
 
 const totalDAppProject = `12K+`
 const REPLACE_SUB_CATEGORY = '[SUB_CATEGORY]'
 
-const LIST_TITLE = `Top D-App Projects List | Rating, Discuss & Details | Gear5`
-const LIST_DESCRIPTION = `Discover Gear5's comprehensive list of ${totalDAppProject} Dapp Projects includes detailed ratings, discuss & essential information and watch out which projects are reported as Scam or Dead! `
-const LIST_DESCRIPTION_OTHER = `Discover our comprehensive list of Dapp projects includes detailed ratings, discuss, and essential information and watch out which projects are reported as Scam or Dead!`
+const LIST_TITLE = `${totalDAppProject} Dapp Projects List | Review, Discuss & Details | Gear5`
+const LIST_DESCRIPTION = `Discover our comprehensive list of Dapp projects includes detailed ratings, reviews, and essential information and watch out which projects are reported as Scam or Dead!`
 
-const SUB_CATEGORY_TITLE = `Top ${REPLACE_SUB_CATEGORY} D-App Projects List | User Discuss, Rating & Details | Gear5 `
-const SUB_CATEGORY_DESCRIPTION = `Explore the ${REPLACE_SUB_CATEGORY} and its top Dapps Projects on Gear5 with detailed ratings, discuss, and essential information and watch out which projects are reported as Scam or Dead!
-`
+const IMAGE = `/list-dApp.webp`
+
+const SUB_CATEGORY_TITLE = `Top ${toCammelCase(REPLACE_SUB_CATEGORY)} Dapps Projects List | Review, Discuss & Details | Gear5`
+const SUB_CATEGORY_DESCRIPTION = `Explore the ${toCammelCase(REPLACE_SUB_CATEGORY)} and its top Dapps Projects on Gear5 with detailed ratings, reviews, and essential information and watch out which projects are reported as Scam or Dead!`
 
 const staticData = {
   title: LIST_TITLE,
-  image: `/list-dApp.webp`,
+  image: IMAGE,
   description: LIST_DESCRIPTION
 }
 
@@ -25,6 +26,6 @@ module.exports.getMetaTagListDApp = (subCategory) => getMetaTag(
   staticData.image
   ,
   subCategory
-    ? (subCategory?.toLowerCase() === 'other') ? LIST_DESCRIPTION_OTHER : SUB_CATEGORY_DESCRIPTION?.replace(REPLACE_SUB_CATEGORY, subCategory) // SubCategory
+    ? SUB_CATEGORY_DESCRIPTION?.replace(REPLACE_SUB_CATEGORY, subCategory) // SubCategory
     : LIST_DESCRIPTION // List
 )
