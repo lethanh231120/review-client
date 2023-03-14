@@ -28,7 +28,7 @@ export const mapScamReason = (input) => {
   let msg = input
   input && Object.keys(SCAM_REASON)?.forEach(key =>{
     if (input?.includes(key)) {
-      msg = `${key}` + ' : ' + `${SCAM_REASON[key]}`
+      msg = `${key?.toUpperCase()}` + ' : ' + `${SCAM_REASON[key]}`
     }
   })
   return msg
