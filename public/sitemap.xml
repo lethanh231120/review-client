@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
 <url> <loc>https://gear5.io/</loc> </url>
-<url> <loc>https://gear5.io/</loc> </url>
-<url> <loc>https://gear5.io/</loc> </url>
 <url> <loc>https://gear5.io/dashboard</loc> </url>
 <url> <loc>https://gear5.io/add-project</loc> </url>
 <url> <loc>https://gear5.io/report-scam</loc> </url>
@@ -78,4 +76,8 @@
 <url> <loc>https://gear5.io/not-found-product</loc> </url>
 <url> <loc>https://gear5.io/server-error</loc> </url>
 <url> <loc>https://gear5.io/not-found</loc> </url>
+
+<url> <loc>https://new-update-info-crypto.gear5.io/new_token.xml</loc></url>
+<!-- <url> <loc>https://new-update-info-crypto.gear5.io/new_exchange.xml</loc></url> -->
+
 </urlset>
