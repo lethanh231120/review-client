@@ -104,7 +104,7 @@ export const LatestTokenTable = () => {
                     {/* {item?.symbol && `(${item?.symbol})` */}
                   </h6>
                   <div className='d-flex'>
-                    <Avatar className='me-1' size={20} src={getChainImage(item?.chainName)}/>
+                    <Avatar className='me-1' size={20} src={getChainImage(item?.chainName)} alt='Chain'/>
                     <span className='top-coin-name'>{item?.address &&
                     _.truncate(item?.address, { length: 15 })
                     }
