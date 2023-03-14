@@ -519,12 +519,12 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         <ScamWarningDetail
           isShow={true}
           scamWarningReason={mapScamReason(detail?.proof?.isScam)}
-          proofType='error'
+          proofType='warning'
         />
       ) : detail?.isWarning ? (
         <ScamWarningDetail
           isShow={true}
-          scamWarningReason={mapScamReason(detail?.proof?.isWarning)}
+          scamWarningReason={mapScamReason(detail?.proof?.isScam || detail?.proof?.isWarning)}
           proofType='warning'
         />
       ) : (
