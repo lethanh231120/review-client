@@ -1,92 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url>
-<loc>https://gear5.io/</loc>
-</url>
-<url>
-<loc>https://gear5.io/dashboard</loc>
-</url>
-<url>
-<loc>https://gear5.io/add-project</loc>
-</url>
-<url>
-<loc>https://gear5.io/report-scam</loc>
-</url>
-<url>
-<loc>https://gear5.io/confirm-email</loc>
-</url>
-<url>
-<loc>https://gear5.io/search/:keyword</loc>
-</url>
-<url>
-<loc>https://gear5.io/insight</loc>
-</url>
-<url>
-<loc>https://gear5.io/products</loc>
-</url>
-<url>
-<loc>https://gear5.io/products/crypto</loc>
-</url>
-<url>
-<loc>https://gear5.io/products/dapp</loc>
-</url>
-<url>
-<loc>https://gear5.io/products/launchpad</loc>
-</url>
-<url>
-<loc>https://gear5.io/products/ICO/IDO/IEO</loc>
-</url>
-<url>
-<loc>https://gear5.io/products/venture</loc>
-</url>
-<url>
-<loc>https://gear5.io/products/exchange</loc>
-</url>
-<url>
-<loc>https://gear5.io/not-found-product</loc>
-</url>
-<url>
-<loc>https://gear5.io/server-error</loc>
-</url>
-<url>
-<loc>https://gear5.io/not-found</loc>
-</url>
-<url>
-<loc>https://gear5.io/*</loc>
-</url>
-<url>
-<loc>https://gear5.io/terms-of-service</loc>
-</url>
-<url>
-<loc>https://gear5.io/privacy-policy</loc>
-</url>
-<url>
-<loc>https://gear5.io/not-found-product</loc>
-</url>
-<url>
-<loc>https://gear5.io/server-error</loc>
-</url>
-<url>
-<loc>https://gear5.io/not-found</loc>
-</url>
-<url>
-<loc>https://gear5.io/*</loc>
-</url>
-<url>
-<loc>https://gear5.io/exchanges.xml</loc>
-</url>
-<url>
-<loc>https://gear5.io/cryptocurrencies.xml</loc>
-</url>
-<url>
-<loc>https://gear5.io/dapps.xml</loc>
-</url>
-<url>
-<loc>https://gear5.io/ventures.xml</loc>
-</url>
-<url>
-<loc>https://gear5.io/idos.xml</loc>
-</url>
-<url>
-<loc>https://gear5.io/insights.xml</loc>
-</url>
+<url> <loc>https://soon1.gear5.io/</loc> </url>
+<url> <loc>https://soon1.gear5.io/</loc> </url>
+<url> <loc>https://soon1.gear5.io/</loc> </url>
+<url> <loc>https://soon1.gear5.io/dashboard</loc> </url>
+<url> <loc>https://soon1.gear5.io/add-project</loc> </url>
+<url> <loc>https://soon1.gear5.io/report-scam</loc> </url>
+<url> <loc>https://soon1.gear5.io/exchanges.xml</loc> </url>
+<url> <loc>https://soon1.gear5.io/ventures.xml</loc> </url>
+<url> <loc>https://soon1.gear5.io/launchpads.xml</loc> </url>
+<url> <loc>https://soon1.gear5.io/dapps.xml</loc> </url>
+<url> <loc>https://soon1.gear5.io/idos.xml</loc> </url>
+<url> <loc>https://soon1.gear5.io/coins.xml</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_1</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_2</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_3</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_4</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_5</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_6</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_7</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_8</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_9</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_10</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_11</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_12</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_13</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_14</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_15</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_16</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_17</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_18</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_19</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_20</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_21</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_22</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_23</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_24</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_25</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_26</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_27</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_28</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_29</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_30</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_31</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_32</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_33</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_34</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_35</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_36</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_37</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_38</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_39</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_40</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_41</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_42</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_43</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_44</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_45</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_46</loc> </url>
+<url> <loc>https://soon1.gear5.io/token_47</loc> </url>
+<url> <loc>https://soon1.gear5.io/confirm-email</loc> </url>
+<url> <loc>https://soon1.gear5.io/search/:keyword</loc> </url>
+<url> <loc>https://soon1.gear5.io/insight</loc> </url>
+<url> <loc>https://soon1.gear5.io/products</loc> </url>
+<url> <loc>https://soon1.gear5.io/products/crypto</loc> </url>
+<url> <loc>https://soon1.gear5.io/products/dapp</loc> </url>
+<url> <loc>https://soon1.gear5.io/products/launchpad</loc> </url>
+<url> <loc>https://soon1.gear5.io/products/soon</loc> </url>
+<url> <loc>https://soon1.gear5.io/products/venture</loc> </url>
+<url> <loc>https://soon1.gear5.io/products/exchange</loc> </url>
+<url> <loc>https://soon1.gear5.io/not-found-product</loc> </url>
+<url> <loc>https://soon1.gear5.io/server-error</loc> </url>
+<url> <loc>https://soon1.gear5.io/not-found</loc> </url>
+<url> <loc>https://soon1.gear5.io/*</loc> </url>
+<url> <loc>https://soon1.gear5.io/terms-of-service</loc> </url>
+<url> <loc>https://soon1.gear5.io/privacy-policy</loc> </url>
+<url> <loc>https://soon1.gear5.io/not-found-product</loc> </url>
+<url> <loc>https://soon1.gear5.io/server-error</loc> </url>
+<url> <loc>https://soon1.gear5.io/not-found</loc> </url>
 </urlset>

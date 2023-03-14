@@ -512,7 +512,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       )}
     </>
   )
-  console.log(mapScamReason(detail?.proof))
   // scam
   const scam = (
     <>
