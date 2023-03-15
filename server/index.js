@@ -60,6 +60,10 @@ const encodeSpecialCharacterUrl = (url) =>{
   return url
 }
 
+const isInteger = (number) => {
+  return (typeof number === 'number') && Math.floor(number) === number
+}
+
 const injectHtmlHeader = (metaTag) => {
   const dynamicMetaIndexHtml = file?.getIndexHtml()
     ?.split(META_TITLE)?.join(metaTag.title) // euqal replace all
@@ -90,20 +94,28 @@ const genDetailHeader = (res, productId = '') => {
         cleanDescription = cleanDescription?.split('"')?.join('&quot;') // clean double quotes in html meta tag to html entity, avoid break content
         const productId = data?.cryptoId || data?.dAppId || data?.ventureId || data?.exchangeId || data?.projectId || data?.launchPadId
         let imgPath = ''
-        const totalScam = `${(data?.totalIsScam && data?.totalIsScam > 0) ? `${data?.totalIsScam} Scam Reports` : ''}`
-        const totalReviews = `${(data?.totalReviews && data?.totalReviews > 0) ? `${data?.totalReviews} Reviews` : ''}`
-        let totalInteract = totalScam
-        if (totalInteract) {
-          totalInteract += `, ${totalReviews}`
-        } else {
-          totalInteract = totalReviews
-        }
-        if (totalInteract) {
-          totalInteract = ` ${totalInteract}, `
+
+        let totalInteract = ''
+        let hasInteract = false
+        // have data, and at least one in two has data is number greater than 0
+        const totalScam = data?.totalIsScam
+        const totalReview = data?.totalReviews
+        if ((isInteger(totalScam) && isInteger(totalReview)) && (totalScam > 0 || totalReview > 0)) {
+          const txtTotalScam = `${data?.totalIsScam} Scam Reports`
+          const txtTotalReviews = `${data?.totalReviews} Reviews`
+
+          // prefer display total review first
+          if (totalReview > totalScam) {
+            totalInteract += ` ${txtTotalReviews}, ${txtTotalScam} | `
+          } else {
+            totalInteract += ` ${txtTotalScam}, ${txtTotalReviews} | `
+          }
+          hasInteract = true
         } else {
           totalInteract += ' '
         }
-        const extraData = '| Reviews, Discuss & Details '
+
+        const extraData = hasInteract ? '' : '| Reviews, Discuss & Details '
         const brandDate = '| Gear5'
         const txtTop = 'TOP '
         switch (productId) {
