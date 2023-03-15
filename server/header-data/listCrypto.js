@@ -3,7 +3,7 @@ const { toCammelCase } = require('../utils/formatText')
 const totalCryptoProject = `2,3M+`
 const REPLACE_SUB_CATEGORY = '[SUB_CATEGORY]'
 
-const LIST_TITLE = `All ${totalCryptoProject} Crypto Projects| Discuss, Review & Details | Gear5`
+const LIST_TITLE = `All ${totalCryptoProject} Crypto Projects| Review, Discuss & Details | Gear5`
 const LIST_DESCRIPTION = `Discover Gear5's comprehensive list of ${totalCryptoProject} Crypto Projects includes detailed ratings, reviews & essential information and watch out which projects are reported as Scam or Dead! `
 
 const IMAGE = `/list-crypto.webp`
