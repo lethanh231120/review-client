@@ -149,7 +149,7 @@ const ReplyComment = (props) => {
             />
             <span className='review-item-action-item-time'>
               {/* {moment.utc(data?.reply?.updatedDate).fromNow()} */}
-              {timeAgoConvert(data?.reply?.updatedDate)}
+              {timeAgoConvert(data?.reply?.createdDate)}
             </span>
           </div>
           {!_.isEmpty(newData?.reactionType) && (
