@@ -29,12 +29,7 @@ export const ReviewList = () => {
 
     socket?.addEventListener('message', (data) => {
       const temp = JSON.parse(data?.data)
-      // console.log(temp)
-      // if (temp !== 'ping') {
-      //   setReviewList(reviewList => [temp, ...reviewList])
-      // } else {
-      //   socket?.send('pong')
-      // }
+
       if (temp?.type === 'add') {
         const data = temp?.data
         setReviewList(reviewList => [data, ...reviewList])
