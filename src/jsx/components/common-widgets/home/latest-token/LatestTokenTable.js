@@ -93,16 +93,18 @@ export const LatestTokenTable = () => {
         <div className='card-body pt-0' style={{ padding: '0px 0.7rem' }}>
           {latestTokens ? (!_.isEmpty(latestTokens) ? latestTokens?.map((item, index) => (
             <div className='previews-info-list' key={index} style={{ cursor: 'pointer' }} onClick={() => onTopCoinsClicked(item)}>
-              <div className='pre-icon top-coin-info'>
+              <div className='pre-icon'>
                 <span
                   className='top-coin-icon'
                 >
                   <Avatar alt='Cryptocurrency Logo' style={{ backgroundColor: '#fff', color: '#18A594', fontWeight: 'bold' }}>{item?.name && item?.name?.slice(0, 2)?.toUpperCase()}</Avatar>
                 </span>
                 <div className='ms-2'>
-                  <h6 className='top-coin-name'>{item?.name && _.truncate(item?.name, { length: 15 })}
-                    {/* {item?.symbol && `(${item?.symbol})` */}
-                  </h6>
+                  <div className='d-flex'>
+                    <h6 className='top-coin-name'>{item?.name && _.truncate(item?.name, { length: 10 })}
+                    </h6>
+                    <h6> {item?.symbol && `(${item?.symbol})`}</h6>
+                  </div>
                   <div className='d-flex'>
                     <Avatar className='me-1' size={20} src={getChainImage(item?.chainName)} alt='Chain'/>
                     <span className='top-coin-name'>{item?.address &&
