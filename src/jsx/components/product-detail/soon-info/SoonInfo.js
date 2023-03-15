@@ -115,6 +115,10 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     />
   </div>
 
+  const onBuyClicked = (website) => {
+    website && window.open(website, '_blank')
+  }
+
   const summary = (
     <>
       {rest?.loadingDetail ? (<ProductDetailSummary/>) : (
@@ -122,7 +126,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
           <div className='row mb-3 mx-1'>
             <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
               {itemDetail?.linkDetail
-                ? <div className='fs-18 mb-2'>Buy&nbsp;<a href={itemDetail?.linkDetail} target='_blank' rel='noreferrer' className='text-primary txt-link'><b>here</b></a>&nbsp;now</div>
+                ? <div className='fs-18 mb-2'>Buy&nbsp;<span onClick={() => onBuyClicked(itemDetail?.linkDetail)} className='text-primary txt-link'><b>here</b></span>&nbsp;now</div>
                 : ''
               }
             </div>

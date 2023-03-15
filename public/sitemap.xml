@@ -78,6 +78,6 @@
 <url> <loc>https://gear5.io/not-found</loc> </url>
 
 <url> <loc>https://new-update-info-crypto.gear5.io/new_token.xml</loc></url>
-<!-- <url> <loc>https://new-update-info-crypto.gear5.io/new_exchange.xml</loc></url> -->
+<url> <loc>https://crawl-exchange1.gear5.guru/new_exchange.xml</loc></url>
 
 </urlset>
