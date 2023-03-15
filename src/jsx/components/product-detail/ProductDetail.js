@@ -268,7 +268,6 @@ const ProductDetail = () => {
     dataReview?.forEach((itemReview) => {
       // get list reply by reviewId
       const listReplyByReview = listReply && listReply?.filter((itemReply) => itemReply?.reply?.reviewId === itemReview?.id)
-      console.log(listReplyByReview)
       // get list reaction by reviewId
       const listReactionByReview = dataReaction && dataReaction[`${TYPE_REVIEW}`]?.filter((itemReaction) => itemReaction?.commentId === itemReview?.id)
       reviews.push({
