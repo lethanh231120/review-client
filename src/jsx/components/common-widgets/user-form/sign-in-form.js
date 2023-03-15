@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { post } from '../../../../api/BaseRequest'
-import { setCookie, STORAGEKEY } from '../../../../utils/storage'
+import { removeCookie, setCookie, STORAGEKEY } from '../../../../utils/storage'
 import { SignInContext, Authenticated, SignInFromAddProductContext, ShowFullSearchConext } from '../../../../App'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
@@ -12,7 +12,9 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GoogleLogin } from '@react-oauth/google'
 import { parseJwt } from '../../../../utils/decode'
 import { txtEnterEmail, txtEnterPassword } from './sign-up-form'
-import { toCammelCase } from '../../../../utils/formatText'
+
+export const codeBlockAccount = 'B.CODE.8'
+export const msgBlockAccount = 'Your email is blocked. Please contact with the administrator'
 
 export const SignInComponent = () => {
   const authenticated = useContext(Authenticated)
@@ -52,10 +54,9 @@ export const SignInComponent = () => {
     msg += `<br />`
 
     const statusCode = error?.response?.data?.code
-    const codeWrongEmailOrPassword = 'B.AUTH.2'
-    const codeNotActivated = 'B.AUTH.6'
-    const codeNotExistedEmail = 'B.AUTH.5'
-    const codeBlockAccount = 'B.AUTH.8'
+    const codeWrongEmailOrPassword = 'B.CODE.2'
+    const codeNotActivated = 'B.CODE.6'
+    const codeNotExistedEmail = 'B.CODE.5'
     // not activated account
     if (statusCode === codeNotActivated) {
       msg += 'Your account is not activated. Please check your mail'
@@ -70,16 +71,9 @@ export const SignInComponent = () => {
     } else
     // registed email, but blocked
     if (statusCode === codeBlockAccount) {
-      msg += 'Your account is blocked. Please contact with the administrator'
+      msg += msgBlockAccount
     } else {
-      // otherwise default message from BE
-      let msgBE = error?.response?.data?.message
-      const parts = msgBE?.split(':')
-      // Discard :Normal, :facebook if exist
-      if (parts.length >= 2) {
-        msgBE = parts[parts.length - 1]
-      }
-      msg += toCammelCase(msgBE)
+      msg += 'Something when wrong'
     }
 
     Swal.fire({
@@ -146,6 +140,8 @@ export const SignInComponent = () => {
   }
 
   const setStateLoginSuccess = (token, userInfo) => {
+    removeCookie(STORAGEKEY.ACCESS_TOKEN)
+    removeCookie(STORAGEKEY.USER_INFO)
     setCookie(STORAGEKEY.ACCESS_TOKEN, token)
     setCookie(STORAGEKEY.USER_INFO, userInfo)
     signContext?.handleSetOpenModal(false)

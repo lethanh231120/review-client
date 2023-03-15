@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { txtTermsOfService } from '../components/term-of-service/TermOfService'
+import { txtPrivacyPolicy } from './../components/privacy-policy/PrivacyPolicy'
 
 const Footer = () => {
   var d = new Date()
@@ -15,12 +17,18 @@ const Footer = () => {
             Nika Guru
           </Link>{' '}
           {d.getFullYear()}
-          ,{' '}
+          ,{' '}Our{' '}
           <Link
             to={'/terms-of-service'}
             className = 'text-primary txt-link'>
-            Term and Service
-          </Link>{' '}
+            {txtTermsOfService}
+          </Link>
+          {' '}and{' '}
+          <Link
+            to={'/privacy-policy'}
+            className = 'text-primary txt-link'>
+            {txtPrivacyPolicy}
+          </Link>
         </p>
       </div>
     </div>

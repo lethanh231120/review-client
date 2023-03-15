@@ -3,8 +3,8 @@ import { Cookies } from 'react-cookie'
 const cookies = new Cookies()
 
 export const STORAGEKEY = {
-  ACCESS_TOKEN: 'Gear5_access_token',
-  USER_INFO: 'Gear5_user_info'
+  ACCESS_TOKEN: `Gear5_${window?.location?.hostname}_access_token`,
+  USER_INFO: `Gear5_${window?.location?.hostname}_user_info`
 }
 
 export const setCookie = (key, value) => {

@@ -9,7 +9,7 @@ import { WARNING_ICON } from '../../logo/logo'
 import _ from 'lodash'
 
 const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) => {
-  const imageUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${type}/bigLogo/${detail?.productId}.png`
+  const imageUrl = `${process.env.REACT_APP_API_IMAGE}/image/${type}/bigLogo/${detail?.productId}.png`
 
   return <>
     <div className='previews-info-list hot-coin-item' onClick={() => onItemClicked(type, detail, navigate)}>

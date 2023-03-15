@@ -32,6 +32,7 @@ import InsightMain from './components/insight/InsightMain'
 import { TermOfService } from './components/term-of-service/TermOfService'
 import { CRYPTO, DAPP, EXCHANGE, VENTURE, SOON, LAUNCHPAD, INSIGHT } from './constants/category'
 import ChartDetail from './components/insight/chartDetail/ChartDetail'
+import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -204,7 +205,7 @@ const Markup = () => {
                       />
                     </Route>
                     <Route path='terms-of-service' element={<TermOfService />}/>
-                    <Route path='privacy-policy' element={<TermOfService />}/>
+                    <Route path='privacy-policy' element={<PrivacyPolicy />}/>
                     <Route path='not-found-product' element={<NotFoundProduct />} />
                     <Route path='server-error' element={<ServerError />} />
                     <Route path='not-found' element={<NotFound />} />
