@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { post } from '../../../../api/BaseRequest'
-import { setCookie, STORAGEKEY } from '../../../../utils/storage'
+import { removeCookie, setCookie, STORAGEKEY } from '../../../../utils/storage'
 import { SignInContext, Authenticated, SignInFromAddProductContext, ShowFullSearchConext } from '../../../../App'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
@@ -146,6 +146,8 @@ export const SignInComponent = () => {
   }
 
   const setStateLoginSuccess = (token, userInfo) => {
+    removeCookie(STORAGEKEY.ACCESS_TOKEN)
+    removeCookie(STORAGEKEY.USER_INFO)
     setCookie(STORAGEKEY.ACCESS_TOKEN, token)
     setCookie(STORAGEKEY.USER_INFO, userInfo)
     signContext?.handleSetOpenModal(false)

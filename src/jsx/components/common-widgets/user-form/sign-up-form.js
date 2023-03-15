@@ -8,6 +8,7 @@ import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
 import { SignInContext } from '../../../../App'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { toCammelCase } from '../../../../utils/formatText'
+import { txtTermsOfService } from '../../term-of-service/TermOfService'
 
 export const txtEnterEmail = 'Enter your e-mail address'
 export const txtEnterPassword = 'Enter your password'
@@ -224,7 +225,7 @@ export const SignUpComponent = () => {
                     className = 'text-primary txt-link'
                     onClick={() => {
                       signContext?.handleSetOpenModal(false) // close form sign-in, sign-up
-                    }}>Terms of Service </Link>&amp;{' '}
+                    }}>{txtTermsOfService}</Link>&nbsp;&amp;&nbsp;
                   <Link
                     to={'/privacy-policy'}
                     className = 'text-primary txt-link'
