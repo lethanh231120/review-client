@@ -1,10 +1,10 @@
 const express = require('express')
 require('dotenv').config()
-// const DOMAIN_READ = process.env.REACT_APP_API_READ
-const DOMAIN_READ = 'https://api-ver1.gear5.io'
+const DOMAIN_READ = process.env.REACT_APP_API_READ
+// const DOMAIN_READ = 'https://api-ver1.gear5.io'
 const PATH_DETAIL = '/reviews/product/detail?productId='
-// const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
-const DOMAIN_IMAGE = 'https://gear5.s3.ap-northeast-1.amazonaws.com'
+const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
+// const DOMAIN_IMAGE = 'https://gear5.s3.ap-northeast-1.amazonaws.com'
 const PORT = process.env.PORT || 3000
 const app = express()
 
@@ -60,6 +60,10 @@ const encodeSpecialCharacterUrl = (url) =>{
   return url
 }
 
+const isInteger = (number) => {
+  return (typeof number === 'number') && Math.floor(number) === number
+}
+
 const injectHtmlHeader = (metaTag) => {
   const dynamicMetaIndexHtml = file?.getIndexHtml()
     ?.split(META_TITLE)?.join(metaTag.title) // euqal replace all
@@ -90,49 +94,60 @@ const genDetailHeader = (res, productId = '') => {
         cleanDescription = cleanDescription?.split('"')?.join('&quot;') // clean double quotes in html meta tag to html entity, avoid break content
         const productId = data?.cryptoId || data?.dAppId || data?.ventureId || data?.exchangeId || data?.projectId || data?.launchPadId
         let imgPath = ''
-        const totalScam = `${(data?.totalIsScam && data?.totalIsScam > 0) ? `${data?.totalIsScam} Scam Reports` : ''}`
-        const totalReviews = `${(data?.totalReviews && data?.totalReviews > 0) ? `${data?.totalReviews} Reviews` : ''}`
-        let totalInteract = totalScam
-        if (totalInteract) {
-          totalInteract += `, ${totalReviews}`
-        } else {
-          totalInteract = totalReviews
-        }
-        if (totalInteract) {
-          totalInteract = ` ${totalInteract}, `
+
+        let totalInteract = ''
+        let hasInteract = false
+        // have data, and at least one in two has data is number greater than 0
+        const totalScam = data?.totalIsScam
+        const totalReview = data?.totalReviews
+        if ((isInteger(totalScam) && isInteger(totalReview)) && (totalScam > 0 || totalReview > 0)) {
+          const txtTotalScam = `${data?.totalIsScam} Scam Reports`
+          const txtTotalReviews = `${data?.totalReviews} Reviews`
+
+          // prefer display total review first
+          if (totalReview > totalScam) {
+            totalInteract += ` ${txtTotalReviews}, ${txtTotalScam} | `
+          } else {
+            totalInteract += ` ${txtTotalScam}, ${txtTotalReviews} | `
+          }
+          hasInteract = true
         } else {
           totalInteract += ' '
         }
+
+        const extraData = hasInteract ? '' : '| Reviews, Discuss & Details '
+        const brandDate = '| Gear5'
+        const txtTop = 'TOP '
         switch (productId) {
           case data?.cryptoId :{
             imgPath = 'crypto'
-            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}TOP Crypto Projects | Reviews, Discuss & Details | Gear5`
+            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}${txtTop}Crypto Projects ${extraData}${brandDate}`
             break
           }
           case data?.dAppId :{
             imgPath = 'dapp'
-            title = `${title},${totalInteract}Decentralized Application Discuss, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}${txtTop}Decentralized Application ${extraData}${brandDate}`
             break
           }
           case data?.ventureId :{
             imgPath = 'venture'
-            title = `${title},${totalInteract}Crypto Ventures Discuss, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}${txtTop}Crypto Ventures ${extraData}${brandDate}`
             break
           }
           case data?.exchangeId :{
             imgPath = 'exchange'
-            title = `${title},${totalInteract}Crypto Exchanges Discuss, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}${txtTop}Crypto Exchanges ${extraData}${brandDate}`
             break
           }
           // Soon Project
           case data?.projectId :{
             imgPath = 'soon'
-            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}ICO/IDO/IEO Projects | Reviews, Discuss & Details | Gear5`
+            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}${txtTop}ICO/IDO/IEO Projects ${extraData}${brandDate}`
             break
           }
           case data?.launchPadId :{
             imgPath = 'launchpad'
-            title = `${title},${totalInteract}Crypto Launchpads Discuss, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}${txtTop}Crypto Launchpads ${extraData}${brandDate}`
             break
           }
         }
