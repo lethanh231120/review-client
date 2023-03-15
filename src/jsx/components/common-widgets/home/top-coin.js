@@ -17,7 +17,7 @@ export const TopCoins = () => {
   const [listData, setListData] = useState()
   const [screenWidth, setScreenWidth] = useState()
 
-  const PRICE_WS_URL = 'wss://crypto-price.gear5.guru/prices/crypto/top'
+  const PRICE_WS_URL = 'wss://crypto-price.gear5.io/prices/crypto/top'
   // GET TOP COINS DATA
   useEffect(() => {
     const socket = new WebSocket(PRICE_WS_URL)
