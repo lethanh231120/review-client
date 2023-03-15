@@ -11,7 +11,8 @@ import TradingViewWidget from './trading-view-chart'
 //   pMinDelay(import('../../../Dashboard/Dashboard/DashboardComboChart'), 1000)
 // )
 
-const imageLink = (name) => `${process.env.REACT_APP_API_IMAGE}/image/crypto/bigLogo/gear5_coin_${name}.png`
+// const imageLink = (name) => `${process.env.REACT_APP_API_IMAGE}/image/crypto/bigLogo/gear5_coin_${name}.png`
+const imageLink = (name) => `./img/${name}.webp`
 
 const coinList = [
   { symbol: 'BTC', name: 'Bitcoin' },
@@ -26,7 +27,9 @@ export const TopCoinChart = () => {
   coinList.forEach(item => {
     options.push({ value: `${item?.symbol}USDT`, label:
         <>
-          <Avatar alt='Cryptocurrency Logo' size={30} className='me-2' src={imageLink(item?.name.toLowerCase())}/>
+          <Avatar alt='Cryptocurrency Logo' size={30} className='me-2'
+            src={imageLink(item?.symbol?.toLowerCase())}
+          />
           {item?.name}
         </> })
   })
