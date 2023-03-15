@@ -355,20 +355,19 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
     },
     {
       title: 'Status',
-      render: (_, record) => (<Badge className='bg-success badge-sm badge' style={{ textTransform: 'uppercase' }}>{record?.status}</Badge>)
+      render: (_, record) => (<Badge className='bg-success badge-sm badge' style={{ textTransform: 'uppercase' }}>{record?.status && record?.status}</Badge>)
     },
     {
       title: 'Supply',
-      render: (_, record) => <span>{formatLargeNumber(record?.totalSupply)}</span>
+      render: (_, record) => <span>{record?.totalSupply && formatLargeNumber(record?.totalSupply)}</span>
     },
     {
       title: 'Market Cap',
-      render: (_, record) => <span>{formatMoney(record?.fullyDilutedMarketcap)}</span>,
-      responsive: ['sm', 'lg']
+      render: (_, record) => <span>{record?.fullyDilutedMarketcap && formatMoney(record?.fullyDilutedMarketcap)}</span>
     },
     {
       title: 'Goal',
-      render: (_, record) => <span>{formatMoney(record?.fundRaisingGoals)}</span>
+      render: (_, record) => <span>{record?.fundRaisingGoals && formatMoney(record?.fundRaisingGoals)}</span>
     }
 
   ]

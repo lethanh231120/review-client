@@ -756,7 +756,7 @@ const Similar = ({ type, listProjectId }) => {
                     <Avatar
                       alt='Blockchain Logo'
                       size={25}
-                      src={`${process.env.REACT_APP_API_IMAGE}/image/chain/smallLogo/${chainName
+                      src={`https://gear5.s3.ap-northeast-1.amazonaws.com/image/chain/smallLogo/${chainName
                         ?.trim()
                         .toLowerCase()}.png`}
                       className='soon-table-blockchain'
