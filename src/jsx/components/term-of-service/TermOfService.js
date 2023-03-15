@@ -85,11 +85,11 @@ export const TermOfService = () => {
       <div>
         <p className='term-content-sub'>
           <b className='text-primary'>3.1.</b>&nbsp;
-          Unless otherwise indicated, the Site is our proprietary property and all source code, databases, functionality, software, website designs, audio, video, text, photographs, and graphics on the Site (collectively, the “Content”) and the trademarks, service marks, and logos contained therein (collectively, the “Marks”) are owned or controlled by us or licensed to us, and are protected by copyright and trademark laws and various other intellectual property rights and unfair competition laws of Vietnam, foreign jurisdictions, and international conventions.
+          Unless otherwise indicated, the Site is our proprietary property and all source code, databases, functionality, software, website designs, audio, video, text, photographs, and graphics on the Site (collectively, the &quot;Content&quot;) and the trademarks, service marks, and logos contained therein (collectively, the &quot;Marks&quot;) are owned or controlled by us or licensed to us, and are protected by copyright and trademark laws and various other intellectual property rights and unfair competition laws of Vietnam, foreign jurisdictions, and international conventions.
         </p>
         <p className='term-content-sub'>
           <b className='text-primary'>3.2.</b>&nbsp;
-          The Content and the Marks are provided on the Site “AS IS” for your information and personal use only. Except as expressly provided in these Terms and Conditions, no part of the Site and no Content or Marks may be copied, reproduced, aggregated, republished, uploaded, posted, publicly displayed, encoded, translated, transmitted, distributed, sold, licensed, or otherwise exploited for any commercial purpose whatsoever, without our express prior written permission.
+          The Content and the Marks are provided on the Site &quot;AS IS&quot; for your information and personal use only. Except as expressly provided in these Terms and Conditions, no part of the Site and no Content or Marks may be copied, reproduced, aggregated, republished, uploaded, posted, publicly displayed, encoded, translated, transmitted, distributed, sold, licensed, or otherwise exploited for any commercial purpose whatsoever, without our express prior written permission.
         </p>
         <p className='term-content-sub'>
           <b className='text-primary'>3.3.</b>&nbsp;
@@ -185,10 +185,10 @@ export const TermOfService = () => {
       <div>
         <p className='term-content-sub'>
         The site is provided on an as-is and as-available basis. You agree that your use of the site and our services will be at your sole risk. We disclaim all warranties, express or implied, in connection with the site and your use thereof, including the implied warranties of merchantability, fitness for a particular purpose, and non-infringement.
-        We make no warranties or representations about the accuracy or completeness of the site’s content or the content of any websites linked to the site. We assume no liability or responsibility for any errors, mistakes, or inaccuracies of content and materials, personal injury or property damage resulting from your access to and use of the site, any unauthorized access to or use of our secure servers and/or any and all personal information and/or financial information stored therein, any interruption or cessation of transmission to or from the site, or any bugs, viruses, trojan horses, or the like which may be transmitted to or through the site by any third party.
+        We make no warranties or representations about the accuracy or completeness of the site&apos;s content or the content of any websites linked to the site. We assume no liability or responsibility for any errors, mistakes, or inaccuracies of content and materials, personal injury or property damage resulting from your access to and use of the site, any unauthorized access to or use of our secure servers and/or any and all personal information and/or financial information stored therein, any interruption or cessation of transmission to or from the site, or any bugs, viruses, trojan horses, or the like which may be transmitted to or through the site by any third party.
         We also disclaim any responsibility for any errors or omissions in any content and materials or for any loss or damage of any kind incurred as a result of the use of any content posted, transmitted, or otherwise made available via the site. Furthermore, we do not warrant, endorse, guarantee, or assume responsibility for any product or service advertised or offered by a third party through the site, any hyperlinked website, or any website or mobile application featured in any banner or other advertising. We will not be a party to or in any way be responsible for monitoring any transaction between you and any third-party providers of products or services.
         Be responsible for monitoring any transaction between you and any third-party providers of products or services
-        The site is provided on an as-is and as-available basis. You agree that your use of the site and our services will be at your sole risk. To the fullest extent permitted by law, we disclaim all warranties, express or implied, in connection with the site and your use thereof, including, without limitation, the implied warranties of merchantability, fitness for a particular purpose, and non-infringement. We make no warranties or representations about the accuracy or completeness of the site’s content or the content of any websites linked to the site and we will assume no liability or responsibility for any:
+        The site is provided on an as-is and as-available basis. You agree that your use of the site and our services will be at your sole risk. To the fullest extent permitted by law, we disclaim all warranties, express or implied, in connection with the site and your use thereof, including, without limitation, the implied warranties of merchantability, fitness for a particular purpose, and non-infringement. We make no warranties or representations about the accuracy or completeness of the site&apos;s content or the content of any websites linked to the site and we will assume no liability or responsibility for any:
         </p>
 
         <p className='term-content-sub'>
@@ -221,7 +221,7 @@ export const TermOfService = () => {
       <div>
         <p className='term-content-sub'>
           <b className='text-primary'>10.1.</b>&nbsp;
-          You agree to defend, indemnify, and hold us harmless, including our subsidiaries, affiliates, and all of our respective officers, agents, partners, and employees, from and against any loss, damage, liability, claim, or demand, including, without limitation, attorneys’ fees or the costs of any claim or suit, made by any third party due to or arising out of:
+          You agree to defend, indemnify, and hold us harmless, including our subsidiaries, affiliates, and all of our respective officers, agents, partners, and employees, from and against any loss, damage, liability, claim, or demand, including, without limitation, attorneys&apos; fees or the costs of any claim or suit, made by any third party due to or arising out of:
         </p>
         <p className='term-content-sub'>
           <b className='text-primary'>-</b>&nbsp;
@@ -245,7 +245,7 @@ export const TermOfService = () => {
         </p>
         <p className='term-content-sub'>
           <b className='text-primary'>-</b>&nbsp;
-          Any inaccurate, misleading, or incomplete statement by the Company or on the Site regarding your wallets, whether caused by the Company’s negligence or otherwise;
+          Any inaccurate, misleading, or incomplete statement by the Company or on the Site regarding your wallets, whether caused by the Company&apos;s negligence or otherwise;
         </p>
         <p className='term-content-sub'>
           <b className='text-primary'>-</b>&nbsp;
