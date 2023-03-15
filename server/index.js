@@ -1,8 +1,10 @@
 const express = require('express')
 require('dotenv').config()
-const DOMAIN_READ = process.env.REACT_APP_API_READ
+// const DOMAIN_READ = process.env.REACT_APP_API_READ
+const DOMAIN_READ = 'https://api-ver1.gear5.io'
 const PATH_DETAIL = '/reviews/product/detail?productId='
-const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
+// const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
+const DOMAIN_IMAGE = 'https://gear5.s3.ap-northeast-1.amazonaws.com'
 const PORT = process.env.PORT || 3000
 const app = express()
 
@@ -104,33 +106,33 @@ const genDetailHeader = (res, productId = '') => {
         switch (productId) {
           case data?.cryptoId :{
             imgPath = 'crypto'
-            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}TOP Crypto Projects | Reviews, Rating & Details | Gear5`
+            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}TOP Crypto Projects | Reviews, Discuss & Details | Gear5`
             break
           }
           case data?.dAppId :{
             imgPath = 'dapp'
-            title = `${title},${totalInteract}Decentralized Application Rating, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}Decentralized Application Discuss, Reviews & Details | Gear5`
             break
           }
           case data?.ventureId :{
             imgPath = 'venture'
-            title = `${title},${totalInteract}Crypto Ventures Rating, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}Crypto Ventures Discuss, Reviews & Details | Gear5`
             break
           }
           case data?.exchangeId :{
             imgPath = 'exchange'
-            title = `${title},${totalInteract}Crypto Exchanges Rating, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}Crypto Exchanges Discuss, Reviews & Details | Gear5`
             break
           }
           // Soon Project
           case data?.projectId :{
             imgPath = 'soon'
-            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}ICO/IDO/IEO Projects | Reviews, Rating & Details | Gear5`
+            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}ICO/IDO/IEO Projects | Reviews, Discuss & Details | Gear5`
             break
           }
           case data?.launchPadId :{
             imgPath = 'launchpad'
-            title = `${title},${totalInteract}Crypto Launchpads Rating, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}Crypto Launchpads Discuss, Reviews & Details | Gear5`
             break
           }
         }
