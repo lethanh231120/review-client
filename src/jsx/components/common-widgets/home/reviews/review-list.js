@@ -16,11 +16,11 @@ export const ReviewList = () => {
     const socket = new WebSocket(REVIEW_WS_URL)
 
     socket?.addEventListener('open', () => {
-      console.log('WS opened')
+      // console.log('WS opened')
     })
 
     socket?.addEventListener('close', () => {
-      console.log('WS closed')
+      // console.log('WS closed')
     })
 
     socket?.addEventListener('error', (error) => {

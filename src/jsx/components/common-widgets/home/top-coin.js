@@ -23,11 +23,11 @@ export const TopCoins = () => {
     const socket = new WebSocket(PRICE_WS_URL)
 
     socket?.addEventListener('open', () => {
-      console.log('WS Opened')
+      // console.log('WS Opened')
     })
 
     socket?.addEventListener('close', () => {
-      console.log('WS Closed')
+      // console.log('WS Closed')
     })
 
     socket?.addEventListener('error', (error) => {
