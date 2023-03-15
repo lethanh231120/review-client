@@ -271,7 +271,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
                     message: 'Please enter content'
                   },
                   {
-                    min: 100,
+                    min: 50,
                     message: 'Content must be minimum 100 characters'
                   },
                   {
