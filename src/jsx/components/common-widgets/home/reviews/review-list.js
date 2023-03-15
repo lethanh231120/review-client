@@ -29,10 +29,20 @@ export const ReviewList = () => {
 
     socket?.addEventListener('message', (data) => {
       const temp = JSON.parse(data?.data)
-      if (temp !== 'ping') {
-        setReviewList(reviewList => [temp, ...reviewList])
-      } else {
+      // console.log(temp)
+      // if (temp !== 'ping') {
+      //   setReviewList(reviewList => [temp, ...reviewList])
+      // } else {
+      //   socket?.send('pong')
+      // }
+      if (temp?.type === 'add') {
+        const data = temp?.data
+        setReviewList(reviewList => [data, ...reviewList])
+      } else if (temp?.type === 'ping') {
         socket?.send('pong')
+      } else if (temp?.type === 'remove') {
+        const reviewId = temp?.data
+        setReviewList(reviewList => reviewList?.filter(item => item?.id !== reviewId))
       }
     })
   }, [])
