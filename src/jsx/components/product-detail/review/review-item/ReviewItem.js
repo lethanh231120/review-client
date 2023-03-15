@@ -13,10 +13,12 @@ import scam from '../../../../../images/product/scam.png'
 import ListEmoji from '../emoji/ListEmoji'
 import Description from '../../description/Description'
 import { reactions, reactionImg } from '../../../../constants/reaction'
-import { timeAgoConvert } from '../../../common-widgets/home/click-function'
+// import { timeAgoConvert } from '../../../common-widgets/home/click-function'
 import { formatLargeNumberMoneyUSD } from '../../../../../utils/formatNumber'
 import imgshit from '../../../common-widgets/home/reviews/shit-icon.svg'
 import Swal from 'sweetalert2'
+import moment from 'moment'
+import { capitalizeFirstLetter } from '../../../../../utils/formatText'
 
 const ReviewItem = (props) => {
   const { data, productId, index, reviews, setReviews, setCurrentReview, curentReview, type } = props
@@ -32,6 +34,9 @@ const ReviewItem = (props) => {
   const [token, setToken] = useState()
   const [newData, setNewData] = useState()
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
+
+  const actionTime = moment(data?.review?.createdDate, 'YYYY-MM-DD HH:mm:ss')
+  const timeAgo = capitalizeFirstLetter(actionTime.fromNow())
 
   useEffect(() => {
     let currenReaction
@@ -148,15 +153,17 @@ const ReviewItem = (props) => {
         setComment('')
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Review does not exist, has been hidden by Gear5 Admin!'
-      })
-
-      const newReviews = [...reviews]
-      const indexReviewHide = newReviews?.findIndex((itemReview) => itemReview?.review?.id === params?.reviewId)
-      newReviews?.splice(indexReviewHide, 1)
-      setReviews(newReviews)
+      if (error?.response?.data?.code === 'B.CODE.11') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Review does not exist, has been hidden by Gear5 Admin!'
+        })
+        const newReviews = [...reviews]
+        const indexReviewHide = newReviews?.findIndex((itemReview) => itemReview?.review?.id === params?.reviewId)
+        newReviews?.splice(indexReviewHide, 1)
+        setReviews(newReviews)
+        setComment('')
+      }
     }
   }
 
@@ -419,7 +426,8 @@ const ReviewItem = (props) => {
                 />
                 <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
                 <span className='review-item-action-item-time'>
-                  {timeAgoConvert(data?.review?.createdDate)}
+                  {/* {timeAgoConvert(data?.review?.createdDate)} */}
+                  {timeAgo}
                 </span>
               </div>
               {!_.isEmpty(newData?.reactionType) && (
