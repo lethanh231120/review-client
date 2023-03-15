@@ -69,7 +69,7 @@ export const formatImgUrlFromProductId = (productId) => {
       productImgType = CRYPTO
       break
   }
-  const imgUrl = `${process.env.REACT_APP_API_IMAGE}/image/${productImgType}/${folderImgPath}/${productId}.png`
+  const imgUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${productImgType}/${folderImgPath}/${productId}.png`
   return imgUrl
 }
 
