@@ -7,9 +7,9 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
 import { SignInContext } from '../../../../App'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { toCammelCase } from '../../../../utils/formatText'
 import { txtTermsOfService } from '../../term-of-service/TermOfService'
 import { txtPrivacyPolicy } from './../../privacy-policy/PrivacyPolicy'
+import { codeBlockAccount, msgBlockAccount } from './sign-in-form'
 
 export const txtEnterEmail = 'Enter your e-mail address'
 export const txtEnterPassword = 'Enter your password'
@@ -92,17 +92,27 @@ export const SignUpComponent = () => {
           })
         }
       } catch (e) {
-        const codeUnauthorize = 'B.CODE.401'
-        const codeBE = e?.response?.data?.code
-        const errBE = toCammelCase(e?.response?.data?.error)
-        const msgBE = toCammelCase(e?.response?.data?.message)
         recapcharRef.current.reset()
+
+        const codeBE = e?.response?.data?.code
+        const codeEmailExisted = 'B.CODE.4'
+        let errMsg = 'Sorry for this inconvenience. Our server got problem. Try again later'
+        switch (codeBE) {
+          case codeEmailExisted:{
+            errMsg = 'This Email is existed in our system. Please try another email'
+            break
+          }
+          case codeBlockAccount:{
+            errMsg = msgBlockAccount
+            break
+          }
+        }
 
         Swal.fire({
           allowOutsideClick: false,
           icon: 'error',
           title: 'Resgister failed',
-          html: (codeBE === codeUnauthorize ? errBE : msgBE) || 'Sorry for this inconvenience. Our server got problem, try again later',
+          html: errMsg,
           showClass: {
             popup: 'animate__animated animate__fadeInDown'
           },
@@ -131,12 +141,6 @@ export const SignUpComponent = () => {
           id='nav-tabContent'
         >
           <div className='tab-pane active show fade'>
-            {/* {props.errorMessage && (
-                      <div className=''>{props.errorMessage}</div>
-                    )}
-                    {props.successMessage && (
-                      <div className=''>{props.successMessage}</div>
-                    )} */}
             <form
               className='dz-form pb-3'
               onSubmit={onSignUp}
