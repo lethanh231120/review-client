@@ -15,6 +15,8 @@ export const onItemClicked = (type, detail, navigate) => {
     navigate(`../../../../../products/venture/${detail?.productId?.split('_')[2]}`)
   } else if (type === 'soon') {
     navigate(`../../../../../products/soon/${detail?.productId?.split('_')[2]}`)
+  } else if (type === 'launchpad') {
+    navigate(`../../../../../products/launchpad/${detail?.productId?.split('_')[2]}`)
   }
 }
 
