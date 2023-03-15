@@ -103,36 +103,39 @@ const genDetailHeader = (res, productId = '') => {
         } else {
           totalInteract += ' '
         }
+        const extraData = '| Reviews, Discuss & Details '
+        const brandDate = '| Gear5'
+        const txtTop = 'TOP '
         switch (productId) {
           case data?.cryptoId :{
             imgPath = 'crypto'
-            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}TOP Crypto Projects | Reviews, Discuss & Details | Gear5`
+            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}${txtTop}Crypto Projects ${extraData}${brandDate}`
             break
           }
           case data?.dAppId :{
             imgPath = 'dapp'
-            title = `${title},${totalInteract}Decentralized Application Discuss, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}${txtTop}Decentralized Application ${extraData}${brandDate}`
             break
           }
           case data?.ventureId :{
             imgPath = 'venture'
-            title = `${title},${totalInteract}Crypto Ventures Discuss, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}${txtTop}Crypto Ventures ${extraData}${brandDate}`
             break
           }
           case data?.exchangeId :{
             imgPath = 'exchange'
-            title = `${title},${totalInteract}Crypto Exchanges Discuss, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}${txtTop}Crypto Exchanges ${extraData}${brandDate}`
             break
           }
           // Soon Project
           case data?.projectId :{
             imgPath = 'soon'
-            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}ICO/IDO/IEO Projects | Reviews, Discuss & Details | Gear5`
+            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}${txtTop}ICO/IDO/IEO Projects ${extraData}${brandDate}`
             break
           }
           case data?.launchPadId :{
             imgPath = 'launchpad'
-            title = `${title},${totalInteract}Crypto Launchpads Discuss, Reviews & Details | Gear5`
+            title = `${title},${totalInteract}${txtTop}Crypto Launchpads ${extraData}${brandDate}`
             break
           }
         }
