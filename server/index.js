@@ -151,12 +151,13 @@ const genDetailHeader = (res, productId = '') => {
             break
           }
         }
-        let image = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo
-        image = (productId && image) ? `${DOMAIN_IMAGE}/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
+        // small logo: s3 (SOON) meaning has data
+        const hasImage = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo
+        const image = (productId && hasImage) ? `${DOMAIN_IMAGE}/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
 
         return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription)))
-      }).catch(() => {
-        console.error('Error for call API product detail(product not exist, server die, API timeout, ...)')
+      }).catch((error) => {
+        console.error(`Error call API detail | ${error.name}: ${error.message}`)
         return res?.send(injectHtmlHeader(getMetaTagHome()))
       })
   } else {

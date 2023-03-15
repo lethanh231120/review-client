@@ -34,7 +34,8 @@ const SoonTable = ({ listData, loading }) => {
           className='crypto-table-info image-list'
           onClick={(e) => e.stopPropagation()}
         >
-          {record?.projectId ? (
+          {/* small logo: s3 meaning has data */}
+          {record?.projectId && record?.smallLogo ? (
             <Image src={isValidProductId(record?.projectId) ? formatImgUrlFromProductId(record?.projectId) : imgAbsentImageSoon} preview={false} alt='ICO/IDO/IEO Logo' />
           )
             : (
