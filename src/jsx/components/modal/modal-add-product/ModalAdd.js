@@ -223,7 +223,7 @@ const ModalAdd = ({ isModal }) => {
             status: 'done'
           }
         ])
-        console.log(userInfo)
+        // console.log(userInfo)
         const formData = new FormData()
         formData.append('file', e?.fileList[0]?.originFileObj)
         const time = moment().unix()
