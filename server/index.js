@@ -1,10 +1,10 @@
 const express = require('express')
 require('dotenv').config()
-// const DOMAIN_READ = process.env.REACT_APP_API_READ
-const DOMAIN_READ = 'https://api-ver1.gear5.io'
+const DOMAIN_READ = process.env.REACT_APP_API_READ
+// const DOMAIN_READ = 'https://api-ver1.gear5.io'
 const PATH_DETAIL = '/reviews/product/detail?productId='
-// const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
-const DOMAIN_IMAGE = 'https://gear5.s3.ap-northeast-1.amazonaws.com'
+const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
+// const DOMAIN_IMAGE = 'https://gear5.s3.ap-northeast-1.amazonaws.com'
 const PORT = process.env.PORT || 3000
 const app = express()
 

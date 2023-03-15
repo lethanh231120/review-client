@@ -1,45 +1,61 @@
 import { getHeaderHome } from './home'
 
+const isInteger = (number) => {
+  return (typeof number === 'number') && Math.floor(number) === number
+}
+
 export const getHeaderProductDetail = (productDetail) => {
-  let title = productDetail?.name || productDetail?.ventureName || productDetail?.dAppName || productDetail?.projectName || getHeaderHome()
-  const productId = productDetail?.cryptoId || productDetail?.dAppId || productDetail?.ventureId || productDetail?.exchangeId || productDetail?.projectId || productDetail?.launchPadId
-  const totalScam = `${(productDetail?.totalIsScam && productDetail?.totalIsScam > 0) ? `${productDetail?.totalIsScam} Scam Reports` : ''}`
-  const totalReviews = `${(productDetail?.totalReviews && productDetail?.totalReviews > 0) ? `${productDetail?.totalReviews} Reviews` : ''}`
-  let totalInteract = totalScam
-  if (totalInteract) {
-    totalInteract += `, ${totalReviews}`
-  } else {
-    totalInteract = totalReviews
-  }
-  if (totalInteract) {
-    totalInteract = ` ${totalInteract}, `
+  const data = productDetail
+  let title = data?.name || data?.ventureName || data?.dAppName || data?.projectName || getHeaderHome()
+  const productId = data?.cryptoId || data?.dAppId || data?.ventureId || data?.exchangeId || data?.projectId || data?.launchPadId
+
+  let totalInteract = ''
+  let hasInteract = false
+  // have data, and at least one in two has data is number greater than 0
+  const totalScam = data?.totalIsScam
+  const totalReview = data?.totalReviews
+  if ((isInteger(totalScam) && isInteger(totalReview)) && (totalScam > 0 || totalReview > 0)) {
+    const txtTotalScam = `${data?.totalIsScam} Scam Reports`
+    const txtTotalReviews = `${data?.totalReviews} Reviews`
+
+    // prefer display total review first
+    if (totalReview > totalScam) {
+      totalInteract += ` ${txtTotalReviews}, ${txtTotalScam} | `
+    } else {
+      totalInteract += ` ${txtTotalScam}, ${txtTotalReviews} | `
+    }
+    hasInteract = true
   } else {
     totalInteract += ' '
   }
+
+  const extraData = hasInteract ? '' : '| Reviews, Discuss & Details '
+  const brandDate = '| Gear5'
+  const txtTop = 'TOP '
   switch (productId) {
-    case productDetail?.cryptoId :{
-      title = `${title}${productDetail?.symbol ? ` (${productDetail?.symbol})` : ''},${totalInteract}TOP Crypto Projects | Reviews, Rating & Details | Gear5`
+    case data?.cryptoId :{
+      title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}${txtTop}Crypto Projects ${extraData}${brandDate}`
       break
     }
-    case productDetail?.dAppId :{
-      title = `${title},${totalInteract}Decentralized Application Rating, Reviews & Details | Gear5`
+    case data?.dAppId :{
+      title = `${title},${totalInteract}${txtTop}Decentralized Application ${extraData}${brandDate}`
       break
     }
-    case productDetail?.ventureId :{
-      title = `${title},${totalInteract}Crypto Ventures Rating, Reviews & Details | Gear5`
+    case data?.ventureId :{
+      title = `${title},${totalInteract}${txtTop}Crypto Ventures ${extraData}${brandDate}`
       break
     }
-    case productDetail?.exchangeId :{
-      title = `${title},${totalInteract}Crypto Exchanges Rating, Reviews & Details | Gear5`
+    case data?.exchangeId :{
+      title = `${title},${totalInteract}${txtTop}Crypto Exchanges ${extraData}${brandDate}`
       break
     }
     // Soon Project
-    case productDetail?.projectId :{
-      title = `${title}${productDetail?.projectSymbol ? ` (${productDetail?.projectSymbol})` : ''},${totalInteract}ICO/IDO/IEO Projects | Reviews, Rating & Details | Gear5`
+    case data?.projectId :{
+      title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}${txtTop}ICO/IDO/IEO Projects ${extraData}${brandDate}`
       break
     }
-    case productDetail?.launchPadId :{
-      title = `${title},${totalInteract}Crypto Launchpads Rating, Reviews & Details | Gear5`
+    case data?.launchPadId :{
+      title = `${title},${totalInteract}${txtTop}Crypto Launchpads ${extraData}${brandDate}`
       break
     }
   }
