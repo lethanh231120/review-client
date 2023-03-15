@@ -15,25 +15,25 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
     <div className='previews-info-list hot-coin-item' onClick={() => onItemClicked(type, detail, navigate)}>
       <div className='pre-icon'>
         <span className={`icon-box icon-box-sm`}>
-          {imageUrl !== '' ? <Avatar alt='Project Logo' size={35} src={imageUrl}/> : <NoImage width={35} height={35} alt={name?.substring(0, 2)}/>}
+          {imageUrl !== '' ? <Avatar alt='Project Logo' size={35} src={imageUrl}/> : <NoImage width={35} height={35} alt={name && name?.substring(0, 2)}/>}
         </span>
         <div className='ms-2'>
           <h6 className='text-etc-overflow cus-hot-coin-name'>{name}
-            {type === 'crypto' ? ` (${symbol})` : null}
+            {type === 'crypto' ? ` (${symbol && symbol})` : null}
           </h6>
-          <span><Badge className='badge-sm'>{_.capitalize(type)}</Badge></span>
+          <span><Badge className='badge-sm'>{_.capitalize(type && type)}</Badge></span>
         </div>
       </div>
       <div>
         <div className='post-comment' style={{ color: 'red' }}>
           <span className='d-flex align-items-center'>
             <span className='me-1'> {WARNING_ICON('#d85b53', '14px')}</span>
-            {new Intl.NumberFormat().format(reports)}</span>
+            {reports && new Intl.NumberFormat().format(reports)}</span>
         </div>
         <div className='post-comment' style={{ color: '#18A594' }}>
           <span className='d-flex align-items-center'>
             <i className='far fa-comment me-1' />
-            {new Intl.NumberFormat().format(reviews)}
+            {reviews && new Intl.NumberFormat().format(reviews)}
           </span>
         </div>
       </div>
@@ -56,6 +56,8 @@ export const TopDiscussedItem = ({ item }) => {
     case 'venture':
       return singleTopItem(item?.name, '', type, item?.totalReviews, item?.totalIsScam, item, navigate)
     case 'soon':
+      return singleTopItem(item?.name, '', type, item?.totalReviews, item?.totalIsScam, item, navigate)
+    case 'launchpad':
       return singleTopItem(item?.name, '', type, item?.totalReviews, item?.totalIsScam, item, navigate)
     default:
       return <></>
