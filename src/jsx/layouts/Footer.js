@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { txtTermsOfService } from '../components/term-of-service/TermOfService'
 
 const Footer = () => {
   var d = new Date()
@@ -19,7 +20,7 @@ const Footer = () => {
           <Link
             to={'/terms-of-service'}
             className = 'text-primary txt-link'>
-            Term and Service
+            {txtTermsOfService}
           </Link>{' '}
         </p>
       </div>

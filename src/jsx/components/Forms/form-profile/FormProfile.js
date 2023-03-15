@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import { LoadingOutlined } from '@ant-design/icons'
 import { beforeUpload, getBase64 } from '../form-report/FormReport'
 import { patch, post } from '../../../../api/BaseRequest'
-import { setCookie, STORAGEKEY } from '../../../../utils/storage'
+import { removeCookie, setCookie, STORAGEKEY } from '../../../../utils/storage'
 import { NormalUserProfileContext } from '../../..'
 import { Spin, Upload, Modal } from 'antd'
 import profile from '../../../../images/product/user.png'
@@ -109,6 +109,7 @@ const FormProfile = ({ userInfo }) => {
             if (username) {
               userInfo.userName = username
             }
+            removeCookie(STORAGEKEY.USER_INFO)
             setCookie(STORAGEKEY.USER_INFO, userInfo)
             // update then continue update will get blank
             setFileList([])

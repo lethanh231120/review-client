@@ -6,8 +6,6 @@ const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
 const PORT = process.env.PORT || 3000
 const app = express()
 
-console.log(DOMAIN_IMAGE)
-
 const path = require('path')
 const fs = require('fs')
 const indexFileName = 'index.html'
