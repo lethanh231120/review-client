@@ -31,6 +31,8 @@ export const ReviewItem = ({ data }) => {
       navigate(`../../../../../products/venture/${splitted[2]}`)
     } else if (type === 'soon') {
       navigate(`../../../../../products/soon/${splitted[2]}`)
+    } else if (type === 'launchpad') {
+      navigate(`../../../../../products/launchpad/${splitted[2]}`)
     }
   }
 
