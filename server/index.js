@@ -1,6 +1,12 @@
 const express = require('express')
+require('dotenv').config()
+const DOMAIN_READ = process.env.REACT_APP_API_READ
+const PATH_DETAIL = '/reviews/product/detail?productId='
+const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
 const PORT = process.env.PORT || 3000
 const app = express()
+
+console.log(DOMAIN_IMAGE)
 
 const path = require('path')
 const fs = require('fs')
@@ -66,20 +72,21 @@ const injectHtmlHeader = (metaTag) => {
 const genDetailHeader = (res, productId = '') => {
   if (productId) {
     productId = encodeSpecialCharacterUrl(productId)
+    productId = `gear5_${productId}`
     axios({
       method: 'get',
       headers: {
         'Content-Type': 'application/json'
       },
-      url: `https://api-client.gear5.io/reviews/product/detail?productId=gear5_${productId}`,
-      timeout: 500 // 500 milliseconds
+      url: `${DOMAIN_READ}${PATH_DETAIL}${productId}`,
+      timeout: 1000 // 1 second
     })
       .then((resp) =>{
         const data = resp?.data?.data?.details
         let title = data?.name || data?.ventureName || data?.dAppName || data?.projectName || META_TITLE
         let cleanDescription = data?.description || data?.fullDescription || data?.fullDesc || data?.shortDescription || data?.shortDesc || META_DESCRIPTION
         cleanDescription = cleanDescription?.replace(/(<([^>]+)>)/ig, '') // strip HTML tags (from BE)
-        cleanDescription = cleanDescription?.substring(0, 300) // good for SEO, <= 300
+        cleanDescription = cleanDescription?.substring(0, 200) // good for SEO(twitter prefer) <= 200
         cleanDescription = cleanDescription?.split('"')?.join('&quot;') // clean double quotes in html meta tag to html entity, avoid break content
         const productId = data?.cryptoId || data?.dAppId || data?.ventureId || data?.exchangeId || data?.projectId || data?.launchPadId
         let imgPath = ''
@@ -130,11 +137,11 @@ const genDetailHeader = (res, productId = '') => {
           }
         }
         let image = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo
-        image = (productId && image) ? `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
+        image = (productId && image) ? `${DOMAIN_IMAGE}/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
 
         return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription)))
       }).catch(() => {
-        console.error('Error for call API product detail(server die, API timeout, ...)')
+        console.error('Error for call API product detail(product not exist, server die, API timeout, ...)')
         return res?.send(injectHtmlHeader(getMetaTagHome()))
       })
   } else {

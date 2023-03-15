@@ -34,7 +34,7 @@ const SoonTable = ({ listData, loading }) => {
           className='crypto-table-info image-list'
           onClick={(e) => e.stopPropagation()}
         >
-          {record?.projectId && record?.bigLogo ? (
+          {record?.projectId ? (
             <Image src={isValidProductId(record?.projectId) ? formatImgUrlFromProductId(record?.projectId) : imgAbsentImageSoon} preview={false} alt='ICO/IDO/IEO Logo' />
           )
             : (
@@ -101,7 +101,7 @@ const SoonTable = ({ listData, loading }) => {
                     <Avatar
                       alt='Blockchain Logo'
                       size={25}
-                      src={`https://gear5.s3.ap-northeast-1.amazonaws.com/image/chain/smallLogo/${chainName
+                      src={`${process.env.REACT_APP_API_IMAGE}/image/chain/smallLogo/${chainName
                         ?.trim()
                         .toLowerCase()}.png`}
                       className='soon-table-blockchain'

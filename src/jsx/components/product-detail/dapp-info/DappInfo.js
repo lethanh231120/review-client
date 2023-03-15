@@ -73,7 +73,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
                 <img src={share} alt='share button'/>
-            Share
+              Share
               </Button>
               <WebsiteButton website={detail?.website} />
             </div>
@@ -153,61 +153,6 @@ const DappInfo = ({ productInfo, ...rest }) => {
     )}
   </>
 
-  // DAPP MORE
-  // const dataItem = (title, content) =>{
-  //   return <div className='d-flex text-align-center mb-1'>
-  //     <p className='mb-0'>{title}:</p>
-  //     <h5 className='ms-1 ' >{content} </h5>
-  //   </div>
-  // }
-
-  const communityItem = (title, content) => {
-    return <div className='d-flex align-items-start'>
-      {/* <p>{title}:</p> */}
-      <div className='cus-d-flex'>
-        {content && (
-          Object.keys(content).map(
-            (socialName) => {
-              return content[socialName] !== '' ? (
-                <Tooltip className='ms-1'
-                  title={toCammelCase(socialName)}
-                  key={socialName}
-                >
-                  <a
-                    href={content[socialName]}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    <Avatar
-                      alt='Social Logo'
-                      className='img-fluid p-1 rounded-circle cus-avatar'
-                      style={{ backgroundColor: '#F0F2F5' }}
-                      // preview={false}
-                      src={
-                        socials?.find(
-                          (social) =>
-                            social?.key?.toLowerCase() ===
-                            socialName?.toLowerCase()
-                        )?.icon
-                          ? socials?.find(
-                            (social) =>
-                              social?.key?.toLowerCase() ===
-                                socialName?.toLowerCase()
-                          ).icon
-                          : defaultSocial
-                      }
-                    />
-                  </a>
-                </Tooltip>
-              ) : null
-            }
-          )
-
-        )}
-      </div>
-    </div>
-  }
-
   const more = <div>
     {rest?.loadingDetail ? (ProductDetailInfo) : (
       <>
@@ -270,12 +215,55 @@ const DappInfo = ({ productInfo, ...rest }) => {
               />
               }
 
-              <InformationSubTitle type={typeSocial}/>
-              {detail?.socials && (
-                <div className='community-list-item'>
-                  {communityItem('Social', detail?.socials)}
-                </div>
-              )}
+              {
+                detail?.socials
+                  ? <>
+                    <InformationSubTitle type={typeSocial}/>
+                    <ShortItem
+                      title={<>
+                        {
+                          Object.keys(detail?.socials).map(
+                            (socialName) => {
+                              return detail?.socials[socialName] !== '' ? (
+                                <Tooltip className='ms-1'
+                                  title={toCammelCase(socialName)}
+                                  key={socialName}
+                                >
+                                  <a
+                                    href={detail?.socials[socialName]}
+                                    target='_blank'
+                                    rel='noreferrer'
+                                  >
+                                    <Avatar
+                                      alt='Social Logo'
+                                      className='img-fluid p-1 rounded-circle cus-avatar'
+                                      style={{ backgroundColor: '#F0F2F5' }}
+                                      // preview={false}
+                                      src={
+                                        socials?.find(
+                                          (social) =>
+                                            social?.key?.toLowerCase() ===
+                  socialName?.toLowerCase()
+                                        )?.icon
+                                          ? socials?.find(
+                                            (social) =>
+                                              social?.key?.toLowerCase() ===
+                      socialName?.toLowerCase()
+                                          ).icon
+                                          : defaultSocial
+                                      }
+                                    />
+                                  </a>
+                                </Tooltip>
+                              ) : null
+                            }
+                          )
+                        }
+                      </>}
+                    />
+                  </>
+                  : ''
+              }
 
               {!_.isEmpty(detail?.sourceCode) && <div className='col-12'>
                 <Dropdown className='mt-1'>
