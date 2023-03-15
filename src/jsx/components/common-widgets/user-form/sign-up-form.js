@@ -9,6 +9,7 @@ import { SignInContext } from '../../../../App'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { toCammelCase } from '../../../../utils/formatText'
 import { txtTermsOfService } from '../../term-of-service/TermOfService'
+import { txtPrivacyPolicy } from './../../privacy-policy/PrivacyPolicy'
 
 export const txtEnterEmail = 'Enter your e-mail address'
 export const txtEnterPassword = 'Enter your password'
@@ -231,7 +232,7 @@ export const SignUpComponent = () => {
                     className = 'text-primary txt-link'
                     onClick={() => {
                       signContext?.handleSetOpenModal(false) // close form sign-in, sign-up
-                    }}>Privacy Policy</Link>
+                    }}>{txtPrivacyPolicy}</Link>
                 </label>
 
                 <div
