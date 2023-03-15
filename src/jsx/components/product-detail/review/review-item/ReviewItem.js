@@ -317,7 +317,7 @@ const ReviewItem = (props) => {
       {type === 'founder' ? (
         <Avatar src={data?.acountImage} preview={false} alt='User Avatar'/>
       ) : (
-        <Avatar src={data?.review?.acountImage ? data?.review?.acountImage : user} preview={false} alt='User Avatar'/>
+        <Image src={data?.review?.acountImage ? data?.review?.acountImage : user} preview={false} alt='User Avatar'/>
       )}
       <div className='review-item-description'>
         <div className='review-item-data'>
