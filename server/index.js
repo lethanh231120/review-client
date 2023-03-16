@@ -41,6 +41,8 @@ const { getMetaTagListLaunchpad } = require('./header-data/listLaunchpad')
 const { getMetaTagInsight } = require('./header-data/insight')
 const { getMetaTag } = require('./modal/MetaTag')
 const { getScriptSchemaMarkupSiteLinkSearchBoxHomePage } = require('./constants/schemaMarkup')
+const { getMetaTagAddProject } = require('./header-data/add-project')
+const { getMetaTagReportScam } = require('./header-data/report-scam')
 
 // ######## Default meta tag
 const metaTagHome = getMetaTagHome()
@@ -55,11 +57,6 @@ app.use(express.static(
   { maxage: oneDay }
 ))
 
-const encodeSpecialCharacterUrl = (url) =>{
-  url = url?.split('+')?.join('%2B')
-  return url
-}
-
 const isInteger = (number) => {
   return (typeof number === 'number') && Math.floor(number) === number
 }
@@ -71,6 +68,11 @@ const injectHtmlHeader = (metaTag) => {
     ?.split(META_IMAGE)?.join(metaTag.image)
   const schemaMarkupIndexHtml = dynamicMetaIndexHtml?.replace(getScriptSchemaMarkupSiteLinkSearchBoxHomePage(), '')
   return schemaMarkupIndexHtml
+}
+
+const encodeSpecialCharacterUrl = (url) =>{
+  url = url?.split('+')?.join('%2B')
+  return url
 }
 
 const genDetailHeader = (res, productId = '') => {
@@ -165,6 +167,18 @@ const genDetailHeader = (res, productId = '') => {
     return res?.send(injectHtmlHeader(getMetaTagHome()))
   }
 }
+
+// Report Scam page
+app.get(`/report-scam`, (req, res) => {
+  // console.log(`/report-scam`)
+  genStaticHeader(res, getMetaTagReportScam())
+})
+
+// Add Project page
+app.get(`/add-project`, (req, res) => {
+  // console.log(`/add-project`)
+  genStaticHeader(res, getMetaTagAddProject())
+})
 
 // ######## detail page
 // detail: crypto(coin)

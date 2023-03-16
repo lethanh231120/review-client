@@ -3,6 +3,8 @@ import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import { SignInContext, FormLoginSignupKeyContext, SignInFromAddProductContext } from '../../../App'
 import ModalAdd from '../modal/modal-add-product/ModalAdd'
 import { logInKey } from '../common-widgets/user-form/account-tab'
+import SEO from '../SEO/SEO'
+import { getHeaderAddProject } from '../SEO/server/add-project'
 
 const AddProject = ({ isModal }) => {
   const signContext = useContext(SignInContext)
@@ -21,7 +23,8 @@ const AddProject = ({ isModal }) => {
     }
   }, [userInfo])
 
-  return (
+  return <>
+    <SEO props={{ title: getHeaderAddProject() }}/>
     <div className='card'>
       <div className='card-header'>
         <h2 className='heading'>Add Project</h2>
@@ -30,7 +33,7 @@ const AddProject = ({ isModal }) => {
         <ModalAdd isModal={false}/>
       </div>
     </div>
-  )
+  </>
 }
 
 export default AddProject
