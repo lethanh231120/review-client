@@ -23,12 +23,7 @@ export const ScamEachChainsList = ({ data }) => {
   const onRowClicked = (chainName) => {
     if (chainName) {
       const chainnameUpper = _.capitalize(chainName)
-      if (chainnameUpper === 'Others') {
-        if (window.localStorage.getItem('crypto') !== '') {
-          window.localStorage.removeItem('crypto')
-        }
-        navigate(`crypto`)
-      } else {
+      if (chainnameUpper !== 'Others') {
         if (window.localStorage.getItem('crypto') !== '') {
           // window.localStorage.removeItem('crypto')
           window.localStorage.setItem('crypto', JSON.stringify({ tag: `${chainnameUpper}-Ecosystem` }))
