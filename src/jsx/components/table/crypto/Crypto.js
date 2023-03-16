@@ -10,7 +10,6 @@ import {
   ApartmentOutlined
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
-// import { ChainListContext } from '../../layout/Main'
 import { ChainListContext } from '../../../../App'
 import _ from 'lodash'
 import {
