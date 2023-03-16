@@ -3,26 +3,11 @@ require('babel-register')({
 })
 const sitemapName = 'Nikadinhdanquanthanhvinhhieploclongtrieu2cbf59c08fe46d17670ea6aed38ec895b5bbb95bd89134dacbcbca82243ade31'
 
-// function generateSitemap() {
-//   var sitemap = new Sitemap(router).build('https://gear5.io')
-//   const date = new Date().toISOString().slice(0, 10)
-//   console.log(sitemap.sitemaps)
-//   for (const entry of sitemap.sitemaps[0].urls) {
-//     entry.lastmod = date
-//   }
-//   var sitemap2 = new Sitemap(router).build('https://gear5ssssssss.io')
-//   // return (
-//   //   new Sitemap(router)
-//   //     .build('https://gear5.io')
-//   //     .save(`./public/${sitemapName}.xml`)
-//   // )
-//   sitemap.save(`./public/${sitemapName}.xml`)
-//   sitemap2.save(`./public/${sitemapName}.xml`)
-// }
 const pages = [
   '', 'add-project', 'report-scam', 'exchanges.xml', 'venture.xml', 'launchpads.xml', 'dapps.xml', 'idos.xml', 'coins.xml', 'confirm-email', 'search', 'insight',
-  'products', 'products/crypto', 'products/dapp', 'products/launchpad', 'products/soon', 'products/venture', 'products/exchange', 'products/not-found-product', 'server-error',
-  'not-found', 'terms-of-service', 'privacy-policy', 'not-found-product', 'server-error', 'not-found'
+  'products', 'products/crypto', 'products/dapp', 'products/launchpad', 'products/soon', 'products/venture', 'products/exchange', 'terms-of-service', 'privacy-policy'
+  //  'products/not-found-product', 'server-error',
+  // 'not-found',  'not-found-product', 'server-error', 'not-found'
 ]
 
 const tokenPages = 47
