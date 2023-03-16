@@ -4,8 +4,8 @@ import { FacebookShareButton, TwitterShareButton, TelegramShareButton, LinkedinS
 import Swal from 'sweetalert2'
 
 const ShareButton = ({ name, setOpenModalShare }) => {
-  const notifyTopRight = () => {
-    alert('tét toát')
+  const notifyTopRight = (value) => {
+    alert(`tét toát ${value}`)
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -21,9 +21,8 @@ const ShareButton = ({ name, setOpenModalShare }) => {
   }
 
   const coppyLink = (value) => {
-    alert('log link ủl', value)
     navigator.clipboard.writeText(value)
-    // window.prompt(value)
+    alert(`log link ủl ${value}`)
 
     // const Toast = Swal.mixin({
     //   toast: true,
@@ -38,7 +37,7 @@ const ShareButton = ({ name, setOpenModalShare }) => {
     //   title: 'Copy link successfully !'
     // })
 
-    notifyTopRight()
+    notifyTopRight(value)
     setOpenModalShare(false)
   }
 
