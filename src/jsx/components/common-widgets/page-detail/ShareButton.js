@@ -5,7 +5,9 @@ import Swal from 'sweetalert2'
 
 const ShareButton = ({ name, setOpenModalShare }) => {
   const coppyLink = (value) => {
+    console.log(value)
     navigator.clipboard.writeText(value)
+    window.prompt(value)
 
     const Toast = Swal.mixin({
       toast: true,
@@ -50,7 +52,7 @@ const ShareButton = ({ name, setOpenModalShare }) => {
           </LinkedinShareButton>
         </div>
         <div className='share-list-item'>
-          <PinterestShareButton url={window.location.href} quote={name}>
+          <PinterestShareButton url={window.location.href} media={window.location.href} quote={name}>
             <PinterestIcon size={45} round={true}/>
             <div className='share-button-text'>Pinterest</div>
           </PinterestShareButton>

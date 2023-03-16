@@ -208,9 +208,9 @@ const Crypto = ({
                 <div className='data-table-symbol'>{record?.symbol}</div>
                 <div className='image-list-icon-scam-warning'>
                   {record?.isScam ? (
-                    <Image alt='Scam' src={scam} />
+                    <Image alt='Scam' src={scam} preview={false}/>
                   ) : record?.isWarning ? (
-                    <Image alt='Warning' src={warning} />
+                    <Image alt='Warning' src={warning} preview={false}/>
                   ) : (
                     ''
                   )}
