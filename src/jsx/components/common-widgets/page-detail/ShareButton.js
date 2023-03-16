@@ -1,44 +1,13 @@
 import React from 'react'
 import { FacebookIcon, LinkedinIcon, PinterestIcon, RedditIcon, TelegramIcon, TwitterIcon } from 'react-share'
 import { FacebookShareButton, TwitterShareButton, TelegramShareButton, LinkedinShareButton, PinterestShareButton, RedditShareButton } from 'react-share'
-import Swal from 'sweetalert2'
+// import Swal from 'sweetalert2'
+import { copyAddress } from '../../../../utils/effect'
 
 const ShareButton = ({ name, setOpenModalShare }) => {
-  const notifyTopRight = (value) => {
-    alert(`tét toát ${value}`)
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true
-    })
-
-    Toast.fire({
-      icon: 'success',
-      title: 'Copy link successfully!'
-    })
-  }
-
-  const coppyLink = (value) => {
-    navigator.clipboard.writeText(value)
-    alert(`log link ủl ${value}`)
-
-    // const Toast = Swal.mixin({
-    //   toast: true,
-    //   position: 'top-end',
-    //   showConfirmButton: false,
-    //   timer: 2000,
-    //   timerProgressBar: true
-    // })
-
-    // Toast.fire({
-    //   icon: 'success',
-    //   title: 'Copy link successfully !'
-    // })
-
-    notifyTopRight(value)
-    setOpenModalShare(false)
+  const coppyLink = async(e, value) => {
+    await setOpenModalShare(false)
+    copyAddress(e, value, 'Copy link successfully!')
   }
 
   return <>
@@ -51,31 +20,31 @@ const ShareButton = ({ name, setOpenModalShare }) => {
           </FacebookShareButton>
         </div>
         <div className='share-list-item'>
-          <TwitterShareButton url={window.location.href} quote={name}>
+          <TwitterShareButton url={document.location.href} quote={name}>
             <TwitterIcon size={45} round={true}/>
             <div className='share-button-text'>Twitter</div>
           </TwitterShareButton>
         </div>
         <div className='share-list-item'>
-          <TelegramShareButton url={window.location.href} quote={name}>
+          <TelegramShareButton url={document.location.href} quote={name}>
             <TelegramIcon size={45} round={true}/>
             <div className='share-button-text'>Telegram</div>
           </TelegramShareButton>
         </div>
         <div className='share-list-item'>
-          <LinkedinShareButton url={window.location.href} quote={name}>
+          <LinkedinShareButton url={document.location.href} quote={name}>
             <LinkedinIcon size={45} round={true}/>
             <div className='share-button-text'>Linkedin</div>
           </LinkedinShareButton>
         </div>
         <div className='share-list-item'>
-          <PinterestShareButton url={window.location.href} media={window.location.href} quote={name}>
+          <PinterestShareButton url={document.location.href} media={document.location.href} quote={name}>
             <PinterestIcon size={45} round={true}/>
             <div className='share-button-text'>Pinterest</div>
           </PinterestShareButton>
         </div>
         <div className='share-list-item'>
-          <RedditShareButton url={window.location.href} quote={name}>
+          <RedditShareButton url={document.location.href} quote={name}>
             <RedditIcon size={45} round={true}/>
             <div className='share-button-text'>Reddit</div>
           </RedditShareButton>
@@ -83,9 +52,15 @@ const ShareButton = ({ name, setOpenModalShare }) => {
       </div>
       <div className='share-input'>
         <div className='share-input-text'>
-          {window.location.href}
+          {document.location.href}
         </div>
-        <div className='share-input-button' onClick={() => coppyLink(window.location.href)}>Copy</div>
+        <div
+          className='share-input-button'
+          onClick={(e) => coppyLink(e, document.location.href)}
+          onPointerDown={(e) => coppyLink(e, document.location.href)}
+        >
+          Copy
+        </div>
       </div>
     </div>
   </>

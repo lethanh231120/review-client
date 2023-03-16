@@ -257,12 +257,12 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
   }
   // function handle more scam report
   // input: params: data to method , type: type of comment: auth or anonymous
-  const submitComment = async(params, type) => {
+  const submitComment = async(params, type, header) => {
     let dataAdd
     if (type === 'anonymous') {
-      dataAdd = await post('reviews/review/anonymous', params)
+      dataAdd = await post('reviews/review/anonymous', params, { ReCaptchaResponse: header })
     } else {
-      dataAdd = await post('reviews/review', params)
+      dataAdd = await post('reviews/review', params, { ReCaptchaResponse: header })
     }
     if (dataAdd) {
       Swal.fire({
@@ -317,7 +317,7 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
     if (typeComment) {
       const recaptchaValue = recapcharRef.current.getValue()
       if (recaptchaValue) {
-        submitComment(params, 'anonymous')
+        submitComment(params, 'anonymous', recaptchaValue)
       } else {
         setIsRecaptcha(true)
       }
@@ -325,7 +325,7 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
       if (auth?.isAuthenticated) {
         const recaptchaValue = recapcharRef.current.getValue()
         if (recaptchaValue) {
-          submitComment(params, 'auth')
+          submitComment(params, 'auth', recaptchaValue)
         } else {
           setIsRecaptcha(true)
         }

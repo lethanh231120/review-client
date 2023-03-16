@@ -161,6 +161,16 @@
     margin: 0.2rem !important;
     font-weight: 400 !important;
 }
+.cus-btn-primary{
+    padding: 0.1rem 0.4rem !important;
+    margin: 0.2rem !important;
+    font-weight: 500 !important;
+    border: 1px solid #18A594 !important;
+    background-color: #fff !important;
+    &:hover{
+        color: #18A594 !important;
+    }
+}
 .cus-tag{
     margin-right: 0.4rem;
 }

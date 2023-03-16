@@ -7,6 +7,7 @@ import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/f
 import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
+import { formatLargeNumber } from '../../../../utils/formatNumber'
 
 const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearch, isFormReport, refInput }) => {
   const navigate = useNavigate()
@@ -59,13 +60,13 @@ const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItemS
           </div>
           <div className='form-search-data-item-data-list'>
             {item?.volume7d > 0 && (
-              <div className='btn btn-primary light cus-btn cus-tag'>
-                {item?.volume7d
-                  ?.toFixed(2)
-                  .replace(
-                    /\d(?=(\d{3})+\.)/g,
-                    '$&,'
-                  )}{' '}
+              <div className='btn btn-primary light cus-btn-primary cus-tag'>
+                {formatLargeNumber(item?.volume7d)
+                  // ?.toFixed(2)
+                  // .replace(
+                  //   /\d(?=(\d{3})+\.)/g,
+                  //   '$&,'
+                }{' '}
                     Volume 7D
               </div>
             )}

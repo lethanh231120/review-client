@@ -18,7 +18,7 @@ import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatTex
 import { MAX_PAGE } from '../../../constants/pagination'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
-import { copyContractAddress } from '../../../../utils/effect'
+import { copyAddress } from '../../../../utils/effect'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { CRYPTO } from './../../../constants/category'
 import { NO_DATA } from '../../../constants/data'
@@ -158,7 +158,7 @@ const CryptoTable = ({ loading, listData }) => {
                   )}`}
                 <CopyOutlined
                   onClick={(e) =>
-                    copyContractAddress(e, record?.cryptoId?.split('_')[3])
+                    copyAddress(e, record?.cryptoId?.split('_')[3], 'Copy address successfully')
                   }
                 />
               </div>

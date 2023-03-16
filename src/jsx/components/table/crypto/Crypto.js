@@ -35,7 +35,7 @@ import { NO_DATA } from '../../../constants/data'
 import CategorySearch from '../../input-search/CategorySearch'
 import '../../../../scss/base/table.scss'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
-import { copyContractAddress } from '../../../../utils/effect'
+import { copyAddress } from '../../../../utils/effect'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { Badge } from 'react-bootstrap'
 
@@ -231,7 +231,7 @@ const Crypto = ({
                 </span>
                 <CopyOutlined
                   onClick={(e) =>
-                    copyContractAddress(e, record?.cryptoId?.split('_')[3])
+                    copyAddress(e, record?.cryptoId?.split('_')[3], 'Copy address successfully!')
                   }
                 />
               </div>

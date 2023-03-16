@@ -34,6 +34,26 @@ const ReplyComment = (props) => {
       }
     })
 
+    let colorTextReaction
+    switch (currenReaction) {
+      case 'Haha':
+        colorTextReaction = { color: 'rgb(247, 177, 37)' }
+        break
+      case 'Heart':
+        colorTextReaction = { color: 'rgb(243, 62, 88)' }
+        break
+      case 'Like':
+        colorTextReaction = { color: 'rgb(32, 120, 244)' }
+        break
+      case 'Sad':
+        colorTextReaction = { color: 'rgb(247, 177, 37)' }
+        break
+      case 'Wow':
+        colorTextReaction = { color: 'rgb(247, 177, 37)' }
+        break
+      default:
+        break
+    }
     // get list reaction for curren reply
     const listReactionType = []
     data?.reactions?.forEach((item) => {
@@ -51,7 +71,8 @@ const ReplyComment = (props) => {
     setNewData({
       reactionType: unique,
       isReaction: data?.reactions?.some((item) => item?.accountId === userInfo?.id),
-      currenReaction: currenReaction || ''
+      currenReaction: currenReaction || '',
+      colorTextReaction: colorTextReaction
     })
   }, [data])
 
@@ -146,6 +167,7 @@ const ReplyComment = (props) => {
             <ListEmoji
               currenReaction={newData?.currenReaction}
               handleClickReaction={handleClickReaction}
+              colorTextReaction={newData?.colorTextReaction}
             />
             <span className='review-item-action-item-time'>
               {/* {moment.utc(data?.reply?.updatedDate).fromNow()} */}

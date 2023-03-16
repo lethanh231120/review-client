@@ -640,7 +640,7 @@ const ModalAdd = ({ isModal }) => {
             <Col span={24}>
               <Form.Item
                 name='sources'
-                label='Proof scam'
+                label='Proof'
               >
                 <Input.TextArea rows={3} placeholder='Enter proof scam'/>
               </Form.Item>

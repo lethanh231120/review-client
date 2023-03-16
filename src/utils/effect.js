@@ -10,11 +10,7 @@ export const openWebsite = (link, setLoading, waitTime) => {
   }, waitTime)
 }
 
-export const copyContractAddress = (e, address) => {
-  e.stopPropagation()
-  e.preventDefault()
-  navigator.clipboard.writeText(address)
-
+const toastMesage = async(message) => {
   const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -25,6 +21,18 @@ export const copyContractAddress = (e, address) => {
 
   Toast.fire({
     icon: 'success',
-    title: 'Copy address successfully !'
+    title: message
   })
 }
+
+export const copyAddress = async(e, value, message) => {
+  e.stopPropagation()
+  e.preventDefault()
+  const text = new Blob([`${value}`], { type: 'text/plain' })
+  const item = new ClipboardItem({
+    'text/plain': text
+  })
+  await navigator.clipboard.write([item])
+  toastMesage(message)
+}
+

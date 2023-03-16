@@ -65,7 +65,13 @@ const Markup = () => {
 
   const statePathName = {
     pathName: pathName,
-    handleChangePathName: (path) => setPathName(path)
+    handleChangePathName: (path) => {
+      if (path === 'Home') {
+        setPathName('')
+      } else {
+        setPathName(path)
+      }
+    }
   }
 
   const stateAdd = {

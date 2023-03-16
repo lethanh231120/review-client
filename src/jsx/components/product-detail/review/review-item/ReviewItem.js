@@ -45,6 +45,26 @@ const ReviewItem = (props) => {
         currenReaction = reactions[`${item?.reactionType}`]
       }
     })
+    let colorTextReaction
+    switch (currenReaction) {
+      case 'Haha':
+        colorTextReaction = { color: 'rgb(247, 177, 37)' }
+        break
+      case 'Heart':
+        colorTextReaction = { color: 'rgb(243, 62, 88)' }
+        break
+      case 'Like':
+        colorTextReaction = { color: 'rgb(32, 120, 244)' }
+        break
+      case 'Sad':
+        colorTextReaction = { color: 'rgb(247, 177, 37)' }
+        break
+      case 'Wow':
+        colorTextReaction = { color: 'rgb(247, 177, 37)' }
+        break
+      default:
+        break
+    }
 
     const listReactionType = []
     data?.reactions?.forEach((item) => {
@@ -58,11 +78,6 @@ const ReviewItem = (props) => {
     }
 
     const unique = listReactionType?.filter(onlyUnique)
-    // 1: Scam, Fucking Run Away
-    // 2:  Warning, Be Careful
-    // 3: Okay, Not Bad
-    // 4:  Good, Should Try
-    // 5: Great, To The Moon
     let textStar
     switch (data?.review?.star) {
       case 1:
@@ -89,7 +104,8 @@ const ReviewItem = (props) => {
       currenReaction: currenReaction || '',
       isCollapse: data?.replies?.length > 2,
       reviewId: data?.replies?.length > 2 ? '' : data?.review?.id,
-      textStar: textStar
+      textStar: textStar,
+      colorTextReaction: colorTextReaction
     })
   }, [data])
 
@@ -423,6 +439,7 @@ const ReviewItem = (props) => {
                 <ListEmoji
                   currenReaction={newData?.currenReaction}
                   handleClickReaction={handleClickReaction}
+                  colorTextReaction={newData?.colorTextReaction}
                 />
                 <div className='review-item-action-item' onClick={() => handleAddReply()}>Reply</div>
                 <span className='review-item-action-item-time'>

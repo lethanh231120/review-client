@@ -19,7 +19,7 @@ import {
 import { DetailLayout } from '../detail-layout'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import MyScoreComponent from '../../score/scoreComponent'
-import { copyContractAddress } from '../../../../utils/effect'
+import { copyAddress } from '../../../../utils/effect'
 import CoinChart from '../../charts/coinchart/CoinChart'
 import { Link } from 'react-router-dom'
 import {
@@ -361,6 +361,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       {detail?.symbol ? detail?.symbol : ''}
     </span>
   </h4>
+
   const projectAddressType = <div className='d-flex align-items-center'>
     {(detail?.type === CRYPTO_COIN && detail?.explorer) && (
       <p className='crypto-info-item-address'>
@@ -395,9 +396,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         <CopyOutlined
           style={{ padding: '0, 1rem' }}
           onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            copyContractAddress(e, detail?.address)
+            copyAddress(e, detail?.address, 'Copy address successfully!')
           }}
         />
       </p>
