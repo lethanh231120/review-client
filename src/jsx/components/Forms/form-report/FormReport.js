@@ -225,7 +225,8 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
     })
   }
 
-  const maxCharacter = 50
+  const minCharacter = 50
+  const maxCharacter = 5000
 
   return (
     <>
@@ -273,12 +274,12 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
                     message: 'Please enter content'
                   },
                   {
-                    min: maxCharacter,
-                    message: `Content must be minimum ${maxCharacter} characters`
+                    min: minCharacter,
+                    message: `Content must be minimum ${minCharacter} characters`
                   },
                   {
-                    max: 5000,
-                    message: 'You can enter 5000 characters only'
+                    max: maxCharacter,
+                    message: `You can enter ${maxCharacter} characters only`
                   },
                   {
                     pattern: new RegExp(/^(?!.*<[^>]+>).*/g),
@@ -289,7 +290,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
                 <Input.TextArea
                   ref={ref}
                   autoFocus
-                  placeholder='Content must be greater than 100 characters and less than 500 characters'
+                  placeholder={`Content must be greater than ${minCharacter} characters and less than ${maxCharacter} characters`}
                   autoSize={{ minRows: 5 }}
                 />
               </Form.Item>
