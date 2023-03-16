@@ -103,7 +103,7 @@ export const LatestTokenTable = () => {
                   <div className='d-flex'>
                     <h6 className='top-coin-name'>{item?.name && _.truncate(item?.name, { length: 10 })}
                     </h6>
-                    <h6> {item?.symbol && `(${_.truncate(item?.symbol, { length: 5 })})`}</h6>
+                    <h6> {item?.symbol && `(${_.truncate(item?.symbol, { length: 7 })})`}</h6>
                   </div>
                   <div className='d-flex'>
                     <Avatar className='me-1' size={20} src={getChainImage(item?.chainName)} alt='Chain'/>
