@@ -424,20 +424,22 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               </div>}
             </div>
           </div>
-          <div className='mt-5 table-responsive'>
-            <Table
-              className='invest-table'
-              columns={portfolioColumns}
-              dataSource={productInfo?.mores?.soon}
-              onRow={(record) => ({
-                onClick: () => {
-                  handleInvestItemClicked(record?.projectId)
-                }
-              })}
-              rowKey={(record) => record?.projectId}
-              pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
-            />
-          </div>
+          {
+            productInfo?.mores?.soon ? <div className='mt-5 table-responsive'>
+              <Table
+                className='invest-table'
+                columns={portfolioColumns}
+                dataSource={productInfo?.mores?.soon}
+                onRow={(record) => ({
+                  onClick: () => {
+                    handleInvestItemClicked(record?.projectId)
+                  }
+                })}
+                rowKey={(record) => record?.projectId}
+                pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
+              />
+            </div> : null
+          }
         </div>
       </div>
     </>
@@ -450,7 +452,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       summary={summary}
       more={<More />}
       about={about}
-      portfolioOrChartOrDesc={productInfo?.mores?.soon ? <IDOList /> : null}
+      portfolioOrChartOrDesc={<IDOList />}
       rest={rest}
       setTop={setTop}
       topDiscus={<TopDiscussed />}
