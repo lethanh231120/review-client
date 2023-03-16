@@ -1,7 +1,7 @@
 const { getMetaTag } = require('../modal/MetaTag')
 
 const LIST_TITLE = `Gear5 Data Insights in Cryptocurrency | Gear5`
-const LIST_DESCRIPTION = `A collection of charts and statistics showing market data, on-chain data, network data, top statistics, and contract data of the Ethereum, BSC, ... Blockchain.`
+const LIST_DESCRIPTION = `Get powerful insights into the world of cryptocurrency with Gear5's data analytics tools. Stay ahead of the game and make informed investment decisions today!`
 
 const staticData = {
   title: LIST_TITLE,
