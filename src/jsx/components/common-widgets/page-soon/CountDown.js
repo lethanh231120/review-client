@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { convertStringDDMMYYYYToUnix, getCurrentTimeUnix } from '../../../../utils/time/time'
 import { statusOngoing, statusPast, statusUpcoming } from '../../../constants/page-soon'
-import { MySkeletonLoadinng } from '../my-spinner'
 
 export const CountDown = ({ soonId, progressGoal, projectStatus, startDate, endDate }) => {
   const [timerHeadline, setTimerHeadline] = useState()
-  const loadingTimer = <MySkeletonLoadinng count={1} height={10} />
-  const [timerDay, setTimerDay] = useState(loadingTimer)
-  const [timerHour, setTimerHour] = useState(loadingTimer)
-  const [timerMinute, setTimerMinute] = useState(loadingTimer)
-  const [timerSecond, setTimerSecond] = useState(loadingTimer)
-  const [timerCountdownShow, setTimerCountdownShow] = useState(true)
-  const [timerCountdownHideContent, setTimerCountdownHideContent] = useState(false)
+  const [timerDay, setTimerDay] = useState()
+  const [timerHour, setTimerHour] = useState()
+  const [timerMinute, setTimerMinute] = useState()
+  const [timerSecond, setTimerSecond] = useState()
+  const [timerCountdownShow, setTimerCountdownShow] = useState(false)
   const [timerCountDownThread, setTimerCountDownThread] = useState()
 
   // clear timer when click similar soon in detail soon
@@ -32,6 +29,7 @@ export const CountDown = ({ soonId, progressGoal, projectStatus, startDate, endD
 
       // in the feture
       if (milestoneUnix) {
+        setTimerCountdownShow(true)
         distance = milestoneUnix - now
 
         setTimerDay(String(Math.floor(distance / (day))).padStart(2, '0'))
@@ -45,9 +43,17 @@ export const CountDown = ({ soonId, progressGoal, projectStatus, startDate, endD
 
       // do something later when date is reached
       if (distance < 0) {
-        setTimerHeadline(`It's over in ${progressGoal === 100 ? 'success' : 'failed'}`)
+        let msg = ``
+        if (progressGoal) {
+          msg += `It's over `
+          if (progressGoal === 100) {
+            msg += 'success'
+          } else {
+            msg += 'failed'
+          }
+        }
+        setTimerHeadline(msg)
         setTimerCountdownShow(false)
-        setTimerCountdownHideContent(true)
         clearInterval(timerCountDownThread)
       }
       // seconds
@@ -56,7 +62,7 @@ export const CountDown = ({ soonId, progressGoal, projectStatus, startDate, endD
   }
   useEffect(() => {
     setTimerHeadline(projectStatus === statusOngoing
-      ? 'Countdown to end time' : projectStatus === statusUpcoming ? 'Countdown to start time' : `It's over`)
+      ? 'Countdown to end time' : projectStatus === statusUpcoming ? 'Countdown to start time' : ``)
     if (startDate && endDate) {
       const soonProjectStatus = projectStatus
       let milestoneUnix = null
@@ -77,24 +83,19 @@ export const CountDown = ({ soonId, progressGoal, projectStatus, startDate, endD
     }
   }, [startDate, endDate])
 
-  return <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-    <div className='mt-4 text-center'>
-      <h2 className='countdown'>{timerHeadline}</h2>
-      {timerCountdownShow ? <div>
-        <ul>
-          <li className='countdown'><span>{timerDay}</span>days</li>
-          <li className='countdown'><span>{timerHour}</span>Hours</li>
-          <li className='countdown'><span>{timerMinute}</span>Minutes</li>
-          <li className='countdown'><span>{timerSecond}</span>Seconds</li>
-        </ul>
-      </div> : ''}
-      {
-        timerCountdownHideContent ? <div className='emoji'>
-          <span>{progressGoal === 100 ? '🥳' : '🙉'}</span>
-          <span>{progressGoal === 100 ? '🎉' : '💔'}</span>
-          <span>{progressGoal === 100 ? '🎂' : '🙈'}</span>
-        </div> : ''
-      }
+  return timerCountdownShow
+    ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+      <div className='mt-4 text-center'>
+        <h2 className='countdown'>{timerHeadline}</h2>
+        <div>
+          <ul>
+            <li className='countdown'><span>{timerDay}</span>days</li>
+            <li className='countdown'><span>{timerHour}</span>Hours</li>
+            <li className='countdown'><span>{timerMinute}</span>Minutes</li>
+            <li className='countdown'><span>{timerSecond}</span>Seconds</li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
+    : ''
 }

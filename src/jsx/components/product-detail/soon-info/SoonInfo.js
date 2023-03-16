@@ -8,7 +8,6 @@ import { SOON } from '../../../constants/category'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
 import { txtGoal } from '../../../constants/page-soon'
-import { txtAbsentTakeUpData } from '../../../constants/data'
 import { getStatusFromStartDateAndEndDate } from '../../../../utils/page-soon/status'
 import TimeRelativeQuantificationDetail from '../../common-widgets/page-soon/TimeRelativeQuantificationDetail'
 import TableRoundSale from '../../common-widgets/page-soon/TableRoundSale'
@@ -41,12 +40,31 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const itemDetail = productInfo?.details
   const itemTags = productInfo?.mores?.tag
   const itemRoundSales = productInfo?.mores?.roundSale
-  const itemProgressGoal = (itemDetail?.rasiedmoney && itemDetail?.fundRaisingGoals)
-    ? (itemDetail?.fundRaisingGoals !== 0) ? itemDetail?.rasiedmoney / itemDetail?.fundRaisingGoals * 100 : 0
-    : 0
+  const itemProgressGoal = (
+    (itemDetail?.rasiedmoney || itemDetail?.rasiedmoney === 0) &&
+    (itemDetail?.fundRaisingGoals || itemDetail?.fundRaisingGoals === 0))
+    ? (itemDetail?.rasiedmoney >= itemDetail?.fundRaisingGoals)
+      ? 100
+      : (itemDetail?.rasiedmoney / itemDetail?.fundRaisingGoals * 100)
+    : null
   const [top, setTop] = useState()
   const itemStatus = getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)
   const [openModalShare, setOpenModalShare] = useState(false)
+  let countSummaryDataExist = 0
+  if (itemDetail?.rasiedmoney) {
+    countSummaryDataExist += 1
+  }
+  if (itemDetail?.tokenPrice) {
+    countSummaryDataExist += 1
+  }
+  if (itemDetail?.totalSupply) {
+    countSummaryDataExist += 1
+  }
+  if (itemDetail?.fundRaisingGoals) {
+    countSummaryDataExist += 1
+  }
+  // estimate display data in 12 col of bostrap
+  countSummaryDataExist = (countSummaryDataExist === 0) ? 12 : (12 / countSummaryDataExist)
 
   // Click button report scam
   const handleReportScam = () => {
@@ -103,17 +121,19 @@ const SoonInfo = ({ productInfo, ...rest }) => {
     </>)}
   </>
 
-  const timeAndPercentProcess = <div className='row mb-3 d-flex'>
-    <TimeText icon={typeStart} date={itemDetail?.startDate}/>
-    <TimeText icon={typeEnd} date={itemDetail?.endDate}/>
-    <CountDown
-      soonId={itemDetail?.projectId}
-      progressGoal={itemProgressGoal}
-      projectStatus={itemStatus}
-      startDate={itemDetail?.startDate}
-      endDate={itemDetail?.endDate}
-    />
-  </div>
+  const timeAndPercentProcess = (itemDetail?.startDate && itemDetail?.endDate)
+    ? <div className='row mb-3 d-flex'>
+      <TimeText icon={typeStart} date={itemDetail?.startDate}/>
+      <TimeText icon={typeEnd} date={itemDetail?.endDate}/>
+      <CountDown
+        soonId={itemDetail?.projectId}
+        progressGoal={itemProgressGoal}
+        projectStatus={itemStatus}
+        startDate={itemDetail?.startDate}
+        endDate={itemDetail?.endDate}
+      />
+    </div>
+    : ''
 
   const onBuyClicked = (website) => {
     website && window.open(website, '_blank')
@@ -131,28 +151,55 @@ const SoonInfo = ({ productInfo, ...rest }) => {
               }
             </div>
 
-            <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
-              <ProgressBarGoal progressGoal={itemProgressGoal}/>
-            </div>
+            {itemProgressGoal
+              ? <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
+                <ProgressBarGoal progressGoal={itemProgressGoal}/>
+                <hr className='hr-custome'></hr>
+              </div>
+              : ''
+            }
 
-            <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
-              <hr className='hr-custome'></hr>
-              { (itemDetail?.startDate && itemDetail?.endDate) ? <TimeRelativeQuantificationDetail startDate={itemDetail?.startDate} endDate={itemDetail?.endDate}/> : txtAbsentTakeUpData}
-            </div>
+            { (itemDetail?.startDate && itemDetail?.endDate)
+              ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
+                <TimeRelativeQuantificationDetail startDate={itemDetail?.startDate} endDate={itemDetail?.endDate}/>
+              </div>
+              : ''
+            }
+
           </div>
           <div className='row'>
-            <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-              <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.rasiedmoney)} icon={iconSold} text={'Sold'} backgroundColor={bgYellow} />
-            </div>
-            <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-              <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.tokenPrice)} icon={iconPayments} text={'Price'} backgroundColor={bgYellow}/>
-            </div>
-            <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-              <SummaryDetail number={formatLargeNumber(itemDetail?.totalSupply)} icon={iconSupply} text={'Supply'} backgroundColor={bgYellow}/>
-            </div>
-            <div className='col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3'>
-              <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)} icon={iconGoal} text={txtGoal} backgroundColor={bgYellow}/>
-            </div>
+            {
+              itemDetail?.rasiedmoney || itemDetail?.rasiedmoney === 0
+                ? <div className={`col-${countSummaryDataExist} col-sm-${countSummaryDataExist} col-md-${countSummaryDataExist} col-lg-${countSummaryDataExist} col-xl-${countSummaryDataExist}`}>
+                  <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.rasiedmoney)} icon={iconSold} text={'Sold'} backgroundColor={bgYellow} />
+                </div>
+                : ''
+            }
+
+            {
+              itemDetail?.tokenPrice || itemDetail?.tokenPrice === 0
+                ? <div className={`col-${countSummaryDataExist} col-sm-${countSummaryDataExist} col-md-${countSummaryDataExist} col-lg-${countSummaryDataExist} col-xl-${countSummaryDataExist}`}>
+                  <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.tokenPrice)} icon={iconPayments} text={'Price'} backgroundColor={bgYellow}/>
+                </div>
+                : ''
+            }
+
+            {
+              itemDetail?.totalSupply || itemDetail?.totalSupply === 0
+                ? <div className={`col-${countSummaryDataExist} col-sm-${countSummaryDataExist} col-md-${countSummaryDataExist} col-lg-${countSummaryDataExist} col-xl-${countSummaryDataExist}`}>
+                  <SummaryDetail number={formatLargeNumber(itemDetail?.totalSupply)} icon={iconSupply} text={'Supply'} backgroundColor={bgYellow}/>
+                </div>
+                : ''
+            }
+
+            {
+              itemDetail?.fundRaisingGoals || itemDetail?.fundRaisingGoals === 0
+                ? <div className={`col-${countSummaryDataExist} col-sm-${countSummaryDataExist} col-md-${countSummaryDataExist} col-lg-${countSummaryDataExist} col-xl-${countSummaryDataExist}`}>
+                  <SummaryDetail number={formatLargeNumberMoneyUSD(itemDetail?.fundRaisingGoals)} icon={iconGoal} text={txtGoal} backgroundColor={bgYellow}/>
+                </div>
+                : ''
+            }
+
           </div>
           <div className='mt-4'>
             <ButtonReportScam handleReportScam={handleReportScam} />

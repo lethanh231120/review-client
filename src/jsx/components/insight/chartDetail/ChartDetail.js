@@ -60,6 +60,8 @@ const ChartDetail = () => {
     }
   ]
 
+  console.log(chartData)
+
   return <Card className='cus-card'>
     {/* <Card.Header style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#19A594' }}>{chartData?.title}</Card.Header> */}
     <Card.Body>
