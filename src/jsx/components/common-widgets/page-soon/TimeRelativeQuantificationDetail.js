@@ -16,7 +16,7 @@ const TimeRelativeQuantificationDetail = ({ startDate, endDate }) => {
       <div className='col-6'>
         <div className='d-flex align-items-center justify-content-center'>
           <i className={`${classTxtOngoing} material-icons fs-18`}>rocket_launch</i>
-        Started in&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
+        Started for&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
         </div>
       </div>
       <div className='col-6'>
@@ -33,7 +33,7 @@ const TimeRelativeQuantificationDetail = ({ startDate, endDate }) => {
       <div className='col-12'>
         <div className='d-flex align-items-center justify-content-center'>
           <i className={`${classTxtPast} material-icons fs-18`}>rocket_launch</i>
-        Ended in&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago</b>
+        Ended for&nbsp;<b className={`${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago</b>
         </div>
       </div>
     </div>
