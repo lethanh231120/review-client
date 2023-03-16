@@ -4,7 +4,7 @@ import { Dropdown } from 'react-bootstrap'
 import { LinkOutlined, CopyOutlined } from '@ant-design/icons'
 import { Image, Tooltip } from 'antd'
 import { toCammelCase } from '../../../../utils/formatText'
-import { copyContractAddress } from '../../../../utils/effect'
+import { copyAddress } from '../../../../utils/effect'
 
 export const InfoExplorerDetail = ({ isShow, detail, multichain }) => {
   return <div className='crypto-info'>
@@ -146,7 +146,7 @@ export const InfoExplorerDetail = ({ isShow, detail, multichain }) => {
                       onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
-                        copyContractAddress(e, item?.address)
+                        copyAddress(e, item?.address, 'Copy address successfully!')
                       }}
                     />
                   </Dropdown.Item>

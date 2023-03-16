@@ -5,7 +5,6 @@ import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
-import { formatLargeNumber } from '../../../../utils/formatNumber'
 import NoImage from '../../common-widgets/no-image/NoImage'
 import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
 
@@ -63,12 +62,6 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearc
                 {item?.chainName}
               </div>
             )}
-            {item?.user24h > 0 && (
-              <div className='btn btn-primary light cus-btn'>
-                {formatLargeNumber(item?.user24h)}{' '}
-                            User 24H
-              </div>
-            )}
           </div>
           {item?.chains && (
             <span className='form-search-data-item-data-content-list'>
@@ -87,7 +80,7 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearc
         </div>
       </div>
       {item?.category && (
-        <div className='btn btn-primary light cus-btn'>
+        <div className='btn btn-primary light cus-btn-primary'>
           {item?.category}
         </div>
       )}

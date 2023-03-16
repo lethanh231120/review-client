@@ -33,7 +33,7 @@ const dataReviewFounder = {
 }
 export const DetailLayout = (props) => {
   const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, similar, rest, setTop, productInfo } = props
-  const PAGE_SIZE = 50
+  const PAGE_SIZE = 25
 
   const getPosition = () => {
     const top = document.getElementById('div2')?.offsetTop

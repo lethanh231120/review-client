@@ -6,10 +6,10 @@ import haha from '../../../../../images/emoji/haha.png'
 import wow from '../../../../../images/emoji/wow.png'
 import sad from '../../../../../images/emoji/sad.png'
 
-const ListEmoji = ({ currenReaction, handleClickReaction }) => {
+const ListEmoji = ({ currenReaction, handleClickReaction, colorTextReaction }) => {
   return (
     <div className='review-item-action-item'>
-      {currenReaction ? (<span>{currenReaction}</span>) : 'Like'}
+      {currenReaction ? (<span style={colorTextReaction}>{currenReaction}</span>) : 'Like'}
       <div className='review-item-action-list-emoji'>
         <div onClick={() => handleClickReaction('heart')}>
           <img src={heart} alt='icon heart'/>

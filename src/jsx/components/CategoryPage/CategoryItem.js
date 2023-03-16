@@ -22,6 +22,7 @@ import Swal from 'sweetalert2'
 import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE, LIST_LAUNCHPAD } from '../../constants/category'
 import { read } from '../../../api/BaseRequest'
 import { genListHeader } from '../SEO/server/ExpressGenerHeader'
+// import ScrollToTop from '../../layouts/ScrollToTop'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -530,6 +531,10 @@ const CategoryItem = () => {
     listProduct && status === 'done' && getData()
   }, [tab, listProduct, status])
 
+  // useEffect(() => {
+  //   refabc.current.scrollTo(0, 0)
+  // }, [])
+
   return (
     <>
       {titleSEO ? <SEO props={{ title: titleSEO }} /> : ''}
@@ -583,6 +588,7 @@ const CategoryItem = () => {
             )}
           </>
         )}
+        {/* <ScrollToTop/> */}
       </div>
     </>
   )
