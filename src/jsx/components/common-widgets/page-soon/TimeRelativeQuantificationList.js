@@ -15,7 +15,7 @@ export const TimeRelativeQuantificationList = ({ startDate, endDate }) => {
       <div className='d-flex align-items-center justify-content-center'>
         <i className={`${classTxtOngoing} material-icons fs-18`}>rocket_launch</i>
         &nbsp;
-      Started in&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
+      Started for&nbsp;<b className={`${classTxtOngoing}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - startDateUnix)}</b>
       </div>
       <div className='d-flex align-items-center justify-content-center'>
         <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
@@ -30,7 +30,7 @@ export const TimeRelativeQuantificationList = ({ startDate, endDate }) => {
       <div className='d-flex align-items-center justify-content-center'>
         <i className={`${classTxtPast} material-icons fs-18`}>flag</i>
         &nbsp;
-        Ended in
+        Ended for
       </div>
       <div className='d-flex align-items-center justify-content-center'>
         <b className={`${classTxtPast}`}>{getRelativeHumanTime(myCurrentDateTimeUnix - endDateUnix)} ago</b>

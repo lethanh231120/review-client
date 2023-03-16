@@ -6,7 +6,7 @@ export const statusPast = 'past'
 // display in FE
 export const displayUpcoming = 'START IN'
 export const displayOngoing = 'END IN'
-export const displayPast = 'ENDED IN'
+export const displayPast = 'ENDED FOR'
 
 export const txtTBA = 'TBA'
 

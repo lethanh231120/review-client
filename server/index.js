@@ -151,7 +151,7 @@ const genDetailHeader = (res, productId = '') => {
             break
           }
         }
-        // small logo: s3 (SOON) meaning has data
+        // small logo: s3 (SOON) meaning has data, exchange: smallLogo
         const hasImage = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo
         const image = (productId && hasImage) ? `${DOMAIN_IMAGE}/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
 

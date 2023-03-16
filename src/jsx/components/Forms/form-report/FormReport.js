@@ -225,6 +225,8 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
     })
   }
 
+  const maxCharacter = 50
+
   return (
     <>
       {(isFormReport === true) && (
@@ -271,8 +273,8 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
                     message: 'Please enter content'
                   },
                   {
-                    min: 50,
-                    message: 'Content must be minimum 100 characters'
+                    min: maxCharacter,
+                    message: `Content must be minimum ${maxCharacter} characters`
                   },
                   {
                     max: 5000,

@@ -110,7 +110,6 @@ const Header = () => {
   const logedInHtml = <Dropdown
     as='li'
     className='nav-item dropdown header-profile'
-
   >
     <Dropdown.Toggle
       variant=''

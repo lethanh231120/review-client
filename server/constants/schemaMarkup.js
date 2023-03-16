@@ -1,6 +1,6 @@
 const { getMetaTagHome } = require('../header-data/home')
 
-const DOMAIN_FE = 'https://soon1.gear5.io'
+const DOMAIN_FE = 'https://gear5.io'
 const ORGANIZATION_NAME = 'CÔNG TY CỔ PHẦN ĐẦU TƯ VÀ CÔNG NGHỆ NIKA'
 const DEFAULT_LOGO = 'logo.webp'
 const GEAR5_EMAIL = 'gear5@nika.guru'
