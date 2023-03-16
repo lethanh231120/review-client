@@ -2,7 +2,8 @@ const express = require('express')
 require('dotenv').config()
 // const DOMAIN_READ = process.env.REACT_APP_API_READ
 const DOMAIN_READ = 'https://api-ver1.gear5.io'
-const PATH_DETAIL = '/reviews/product/detail?productId='
+const PATH_DETAIL_PRODUCT = '/reviews/product/detail?productId='
+const PATH_DETAIL_INSIGHT = '/reviews/chart/detail?chartId='
 // const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
 const DOMAIN_IMAGE = 'https://gear5.s3.ap-northeast-1.amazonaws.com'
 const PORT = process.env.PORT || 3000
@@ -49,6 +50,9 @@ const metaTagHome = getMetaTagHome()
 const META_TITLE = metaTagHome.title
 const META_IMAGE = metaTagHome.image
 const META_DESCRIPTION = metaTagHome.description
+const metaTagInsight = getMetaTagInsight()
+const META_TITLE_INSIGHT = metaTagInsight.title
+const META_IMAGE_INSIGHT = metaTagInsight.image
 
 // static resources should just be served as they are
 const oneDay = 86400000 // in milliseconds
@@ -75,6 +79,50 @@ const encodeSpecialCharacterUrl = (url) =>{
   return url
 }
 
+const LAUNCHPAD = 'launchpad'
+const VENTURE = 'venture'
+const EXCHANGE = 'exchange'
+const CRYPTO = 'crypto'
+const DAPP = 'dapp'
+const SOON = 'soon'
+const calculateScore = (rawScore, type) =>{
+  let score = 0
+  if (rawScore <= 0) {
+    score = 0
+  } else {
+    if (type === LAUNCHPAD) {
+      score = rawScore / 3.5
+    }
+    if (type === VENTURE || type === EXCHANGE) {
+      score = rawScore / 20
+    }
+    if (type === CRYPTO || type === DAPP) {
+      score = rawScore / 10
+    }
+  }
+  return score
+}
+const getTxtAdditional = (isScam, isWarning, score, type) =>{
+  let txtAdditional = ''
+  // Scam project
+  if (isScam) {
+    txtAdditional = 'SCAMMED!'
+  } else
+  // Warning project
+  if
+  (isWarning) {
+    txtAdditional = 'WARNING!'
+  }
+  const rawScore = score
+  const txtTop = 'TOP'
+  const minScoreTop = 8
+  if (txtAdditional === '' && (calculateScore(rawScore, type) >= minScoreTop)) {
+    txtAdditional = txtTop
+  }
+  txtAdditional += ' '
+  return txtAdditional
+}
+
 const genDetailHeader = (res, productId = '') => {
   if (productId) {
     productId = encodeSpecialCharacterUrl(productId)
@@ -84,7 +132,7 @@ const genDetailHeader = (res, productId = '') => {
       headers: {
         'Content-Type': 'application/json'
       },
-      url: `${DOMAIN_READ}${PATH_DETAIL}${productId}`,
+      url: `${DOMAIN_READ}${PATH_DETAIL_PRODUCT}${productId}`,
       timeout: 1000 // 1 second
     })
       .then((resp) =>{
@@ -119,37 +167,39 @@ const genDetailHeader = (res, productId = '') => {
 
         const extraData = hasInteract ? '' : '| Reviews, Discuss & Details '
         const brandDate = '| Gear5'
-        const txtTop = 'TOP '
+        const isScam = data?.isScam
+        const isWarning = data?.isWarning
+        const rawScore = data?.score
         switch (productId) {
           case data?.cryptoId :{
-            imgPath = 'crypto'
-            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}${txtTop}Crypto Projects ${extraData}${brandDate}`
+            imgPath = CRYPTO
+            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, CRYPTO)}Crypto Projects ${extraData}${brandDate}`
             break
           }
           case data?.dAppId :{
-            imgPath = 'dapp'
-            title = `${title},${totalInteract}${txtTop}Decentralized Application ${extraData}${brandDate}`
+            imgPath = DAPP
+            title = `${title},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, DAPP)}Decentralized Application ${extraData}${brandDate}`
             break
           }
           case data?.ventureId :{
-            imgPath = 'venture'
-            title = `${title},${totalInteract}${txtTop}Crypto Ventures ${extraData}${brandDate}`
+            imgPath = VENTURE
+            title = `${title},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, VENTURE)}Crypto Ventures ${extraData}${brandDate}`
             break
           }
           case data?.exchangeId :{
-            imgPath = 'exchange'
-            title = `${title},${totalInteract}${txtTop}Crypto Exchanges ${extraData}${brandDate}`
+            imgPath = EXCHANGE
+            title = `${title},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, EXCHANGE)}Crypto Exchanges ${extraData}${brandDate}`
             break
           }
           // Soon Project
           case data?.projectId :{
-            imgPath = 'soon'
-            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}${txtTop}ICO/IDO/IEO Projects ${extraData}${brandDate}`
+            imgPath = SOON
+            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, SOON)}ICO/IDO/IEO Projects ${extraData}${brandDate}`
             break
           }
           case data?.launchPadId :{
-            imgPath = 'launchpad'
-            title = `${title},${totalInteract}${txtTop}Crypto Launchpads ${extraData}${brandDate}`
+            imgPath = LAUNCHPAD
+            title = `${title},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, LAUNCHPAD)}Crypto Launchpads ${extraData}${brandDate}`
             break
           }
         }
@@ -159,12 +209,39 @@ const genDetailHeader = (res, productId = '') => {
 
         return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription)))
       }).catch((error) => {
-        console.error(`Error call API detail | ${error.name}: ${error.message}`)
+        console.error(`Error call API detail product | ${error.name}: ${error.message}`)
         return res?.send(injectHtmlHeader(getMetaTagHome()))
       })
   } else {
     // don't have product id
     return res?.send(injectHtmlHeader(getMetaTagHome()))
+  }
+}
+
+const getDetailInsightHeader = (res, chartName = '') =>{
+  if (chartName) {
+    chartName = encodeSpecialCharacterUrl(chartName)
+    axios({
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      url: `${DOMAIN_READ}${PATH_DETAIL_INSIGHT}${chartName}`,
+      timeout: 1000 // 1 second
+    })
+      .then((resp) =>{
+        const data = resp?.data?.data
+        const title = data?.description ? `${data?.description} | Insights by Gear5` : META_TITLE_INSIGHT
+        const image = META_IMAGE_INSIGHT
+        const description = `Take a look at ${data?.title ? (data?.title + ' ') : ''}by Gear5 and make well-informed investment decisions.`
+        return res.send(injectHtmlHeader(getMetaTag(title, image, description)))
+      }).catch((error) => {
+        console.error(`Error call API detail insight | ${error.name}: ${error.message}`)
+        return res?.send(injectHtmlHeader(getMetaTagHome()))
+      })
+  } else {
+    // don't have product id
+    return res?.send(injectHtmlHeader(getMetaTagInsight()))
   }
 }
 
@@ -204,6 +281,12 @@ app.get(`/products/:category/:productName`, (req, res) => {
   genDetailHeader(res, (category && productName) ? `${category}_${productName}` : '')
 })
 
+// detail: insight
+app.get(`/insight/:chartName`, (req, res) => {
+  const chartName = req?.params?.chartName
+  getDetailInsightHeader(res, chartName)
+})
+
 // ######## Otherwise page,..
 
 const genStaticHeader = (res, metaTag) => {
@@ -212,27 +295,27 @@ const genStaticHeader = (res, metaTag) => {
 
 const genListHeader = (res, category, subCategory) => {
   switch (category) {
-    case 'crypto':{
+    case CRYPTO:{
       genStaticHeader(res, getMetaTagListCrypto(subCategory))
       break
     }
-    case 'dapp':{
+    case DAPP:{
       genStaticHeader(res, getMetaTagListDApp(subCategory))
       break
     }
-    case 'venture':{
+    case VENTURE:{
       genStaticHeader(res, getMetaTagListVenture())
       break
     }
-    case 'exchange':{
+    case EXCHANGE:{
       genStaticHeader(res, getMetaTagListExchange(subCategory))
       break
     }
-    case 'soon':{
+    case SOON:{
       genStaticHeader(res, getMetaTagListSoon(subCategory))
       break
     }
-    case 'launchpad':{
+    case LAUNCHPAD:{
       genStaticHeader(res, getMetaTagListLaunchpad())
       break
     }
