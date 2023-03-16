@@ -64,10 +64,10 @@ const ChartDetail = () => {
     {/* <Card.Header style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#19A594' }}>{chartData?.title}</Card.Header> */}
     <Card.Body>
       <div className='row'>
-        <div className='col-8'>
+        <div className='col-xl-8 col-sm-12 '>
           {getChartType(chartData)}
         </div>
-        <div className='col-4'>
+        <div className='col-xl-4 col-sm-12'>
           <Card>
             <Card.Header style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#19A594' }}>About</Card.Header>
             <Card.Body style={{ fontSize: '1.1rem', fontWeight: 'w600' }}>{chartData?.description}</Card.Body>
