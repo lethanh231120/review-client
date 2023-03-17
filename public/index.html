@@ -7,7 +7,9 @@
   <meta name="theme-color" content="#000000" /> <!-- theme color of browser when using on phone -->
   <meta name='viewport' content='width=device-width, initial-scale=1.0' /> <!-- CSS responsive on phone. Setting the viewport to make your website look good on all devices -->
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> <!-- favicoin in tab of brower -->
-  <meta property="og:type" content="website"> <!-- Make preview on twitter available, default share on facebook auto adding -->
+  <meta property="og:type" content="website" /> <!-- Make preview on twitter without image available, default share on facebook auto adding -->
+  <meta property="twitter:domain" content="gear5.io" /> <!-- To display the text on the button "View on web" to "View on (value of twitter:domain)". -->
+  <meta name="twitter:card" content="summary_large_image" /> <!-- https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image; https://stackoverflow.com/questions/47578130/twitter-card-summary-vs-summary-large-image -->
   <!--  FAQPage Schema Markup -->
   <script type="application/ld+json">
     {
@@ -91,7 +93,7 @@
   </script>
   <!-- ######## END: STATIC DATA ##########-->
 
-  <!-- ######## START: DYNAMIC DATA #########-->
+  <!-- ######## START: DYNAMIC META DATA #########-->
   <!-- Title data from getMetaTagHome -->
   <title>Gear 5: 99%+ Scam/Dead Crypto Projects Among Total Of 2,3M+ | Discuss, Review & Details</title>
   <meta property="og:title" content="Gear 5: 99%+ Scam/Dead Crypto Projects Among Total Of 2,3M+ | Discuss, Review & Details" />
@@ -108,8 +110,16 @@
   <!-- %PUBLIC_URL% + Image data from getMetaTagHome -->
   <meta property="og:image" content="%PUBLIC_URL%/logo.webp" />
   <meta name="twitter:image" content="%PUBLIC_URL%/logo.webp" />
+
+  <!-- UniqueLink data from getMetaTagHome -->
+  <meta property="twitter:url" content="https://gear5.io" />
+  <meta property="og:url" content="https://gear5.io" />
+  <link rel="canonical" href="https://gear5.io"/>
  
-  <!-- ######## END: DYNAMIC DATA #########-->
+  <!-- ######## END: DYNAMIC META DATA #########-->
+
+  <!-- ######## START: DYNAMIC SCHEMA DATA #########-->
+   <!-- ######## END: DYNAMIC SCHEMA DATA #########-->
 </head>
 
 <body>

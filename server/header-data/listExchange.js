@@ -22,7 +22,7 @@ const staticData = {
   description: LIST_DESCRTIPION
 }
 
-module.exports.getMetaTagListExchange = (subCategory) => getMetaTag(
+module.exports.getMetaTagListExchange = (subCategory, uniqueLink) => getMetaTag(
   subCategory
     ? (subCategory === typeCEX)
       ? SUB_CATEGORY_CEX_TITLE
@@ -36,4 +36,6 @@ module.exports.getMetaTagListExchange = (subCategory) => getMetaTag(
   subCategory
     ? SUB_CATEGORY_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, subCategory) // SubCategory
     : LIST_DESCRTIPION // List
+  ,
+  uniqueLink
 )

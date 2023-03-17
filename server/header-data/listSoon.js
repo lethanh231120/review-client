@@ -17,7 +17,7 @@ const staticData = {
   description: LIST_DESCRIPTION
 }
 
-module.exports.getMetaTagListSoon = (subCategory) => getMetaTag(
+module.exports.getMetaTagListSoon = (subCategory, uniqueLink) => getMetaTag(
   subCategory
     ? SUB_CATEGORY_TITLE?.replace(REPLACE_SUB_CATEGORY, subCategory) // SubCategory
     : LIST_TITLE // List
@@ -27,4 +27,6 @@ module.exports.getMetaTagListSoon = (subCategory) => getMetaTag(
   subCategory
     ? SUB_CATEGORY_DESCRIPTION?.replace(REPLACE_SUB_CATEGORY, subCategory) // SubCategory
     : LIST_DESCRIPTION // List
+  ,
+  uniqueLink
 )

@@ -6,4 +6,4 @@ const staticData = {
   description: `Found any Crypto Project Suspicious, Scammed or Honeypot? Raise your voice HERE to warn other Investors to make a better Cryptocurrency Community `
 }
 
-module.exports.getMetaTagReportScam = () => getMetaTag(staticData.title, staticData.image, staticData.description)
+module.exports.getMetaTagReportScam = (uniqueLink) => getMetaTag(staticData.title, staticData.image, staticData.description, uniqueLink)

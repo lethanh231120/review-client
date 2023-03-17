@@ -10,4 +10,4 @@ const staticData = {
   description: LIST_DESCRIPTION
 }
 
-module.exports.getMetaTagListVenture = () => getMetaTag(staticData.title, staticData.image, staticData.description)
+module.exports.getMetaTagListVenture = (uniqueLink) => getMetaTag(staticData.title, staticData.image, staticData.description, uniqueLink)
