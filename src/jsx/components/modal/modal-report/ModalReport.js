@@ -258,34 +258,38 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
   // function handle more scam report
   // input: params: data to method , type: type of comment: auth or anonymous
   const submitComment = async(params, type, header) => {
-    let dataAdd
-    if (type === 'anonymous') {
-      dataAdd = await post('reviews/review/anonymous', params, { ReCaptchaResponse: header })
-    } else {
-      dataAdd = await post('reviews/review', params, { ReCaptchaResponse: header })
-    }
-    if (dataAdd) {
-      Swal.fire({
-        icon: dataAdd?.code === 'B.CODE.12' ? 'success' : 'warning',
-        title: dataAdd?.code === 'B.CODE.12' ? 'Add report successfully!' : 'We will hide reviews with Shill, Ads, Porn.... content !',
-        text: dataAdd?.code === 'B.REVIEW.13' ? `With your review, we will review it directly by the admin team. Enjoy Gear5.io, Thank You !` : '',
-        showDenyButton: true,
-        confirmButtonText: 'Add New Report',
-        denyButtonText: `View Detail`
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          handleReset()
-        } else if (result.isDenied) {
-          handleReset()
-          if (isModal) {
-            reportModal?.handleSetOpenModal(false)
-            navigate(`../../../${productId}`)
-          } else {
-            navigate(`../../../${productId}`)
+    try {
+      let dataAdd
+      if (type === 'anonymous') {
+        dataAdd = await post('reviews/review/anonymous', params, { ReCaptchaResponse: header })
+      } else {
+        dataAdd = await post('reviews/review', params, { ReCaptchaResponse: header })
+      }
+      if (dataAdd) {
+        Swal.fire({
+          icon: dataAdd?.code === 'B.CODE.12' ? 'success' : 'warning',
+          title: dataAdd?.code === 'B.CODE.12' ? 'Add report successfully!' : 'We will hide reviews with Shill, Ads, Porn.... content !',
+          text: dataAdd?.code === 'B.REVIEW.13' ? `With your review, we will review it directly by the admin team. Enjoy Gear5.io, Thank You !` : '',
+          showDenyButton: true,
+          confirmButtonText: 'Add New Report',
+          denyButtonText: `View Detail`
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            handleReset()
+          } else if (result.isDenied) {
+            handleReset()
+            if (isModal) {
+              reportModal?.handleSetOpenModal(false)
+              navigate(`../../../${productId}`)
+            } else {
+              navigate(`../../../${productId}`)
+            }
           }
-        }
-      })
+        })
+      }
+    } catch {
+      recapcharRef.current.reset()
     }
   }
 
@@ -304,39 +308,35 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
   }
 
   const functionAddComment = (values, content) => {
-    try {
-      const params = {
-        ...data,
-        productId: item?.cryptoId ? item?.cryptoId
-          : (item?.dappId ? item?.dappId
-            : (item?.ventureId ? item?.ventureId
-              : (item?.soonId ? item?.soonId
-                : item?.exchangeId ? item?.exchangeId
-                  : item?.launchPadId))),
-        ...values
+    const params = {
+      ...data,
+      productId: item?.cryptoId ? item?.cryptoId
+        : (item?.dappId ? item?.dappId
+          : (item?.ventureId ? item?.ventureId
+            : (item?.soonId ? item?.soonId
+              : item?.exchangeId ? item?.exchangeId
+                : item?.launchPadId))),
+      ...values
+    }
+    if (typeComment) {
+      const recaptchaValue = recapcharRef.current.getValue()
+      if (recaptchaValue) {
+        submitComment(params, 'anonymous', recaptchaValue)
+      } else {
+        setIsRecaptcha(true)
       }
-      if (typeComment) {
+    } else {
+      if (auth?.isAuthenticated) {
         const recaptchaValue = recapcharRef.current.getValue()
         if (recaptchaValue) {
-          submitComment(params, 'anonymous', recaptchaValue)
+          submitComment(params, 'auth', recaptchaValue)
         } else {
           setIsRecaptcha(true)
         }
       } else {
-        if (auth?.isAuthenticated) {
-          const recaptchaValue = recapcharRef.current.getValue()
-          if (recaptchaValue) {
-            submitComment(params, 'auth', recaptchaValue)
-          } else {
-            setIsRecaptcha(true)
-          }
-        } else {
-          signInContext?.handleSetOpenModal(true)
-          recapcharRef.current.reset()
-        }
+        signInContext?.handleSetOpenModal(true)
+        recapcharRef.current.reset()
       }
-    } catch {
-      recapcharRef.current.reset()
     }
   }
 
