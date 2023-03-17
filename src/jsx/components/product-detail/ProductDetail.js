@@ -32,7 +32,6 @@ import ProductDetailEmpty from '../skeleton/product-detail-skeleton/ProductDetai
 import { getHeaderProductDetail } from '../SEO/server/productDetail'
 
 const ProductDetail = () => {
-  alert(123)
   const TYPE_REVIEW = 0
   const TYPE_REPLY = 1
   const { pathname } = useLocation()
@@ -860,6 +859,12 @@ const ProductDetail = () => {
     setLoadingFilter={setLoadingFilter}
     loadingDetail={loadingDetail}
   />
+
+  useEffect(() => {
+    // scroll to the top page
+    const [xCoord, yCoord] = [0, 0]
+    window.scrollTo(xCoord, yCoord)
+  }, [pathNameHeader])
 
   return (
     <>
