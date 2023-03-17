@@ -29,7 +29,8 @@ import {
   LAUNCHPAD_ATHROI_SELECTION,
   LAUNCHPAD_ROICURRENT_SELECTION,
   LAUNCHPAD_MARKETCAP_SELECTION,
-  LAUNCHPAD_VOLUME24H_SELECTION
+  LAUNCHPAD_VOLUME24H_SELECTION,
+  CRYPTO_TOTALLP_SELECTION
 } from './marks.js'
 import { CryptoTagContext, DappTagContext, IdoRoundTypeContext, IdoTagContext, LaunchpadMapContext, VentureLocationContext } from '../../../App'
 import _ from 'lodash'
@@ -135,6 +136,39 @@ const DrawerFilter = ({ type, handleFilter }) => {
     form.resetFields()
   }
 
+  const checkingValues = (from, to, param, name, options) => {
+    if (from >= 0 && to >= 0) {
+      param[name] = `${from}.${to}`
+    }
+    if (!from && to >= 0) {
+      param[name] = `0.${to}`
+    }
+    if (!to && from >= 0) {
+      param[name] = `${from}.${options[options?.length - 1]?.value}`
+    }
+  }
+
+  const checkingStatus = (status, filterParams) => {
+    if (status) {
+      if (status === 'isWarning') {
+        filterParams['isWarning'] = true
+        filterParams['isScam'] = ''
+      }
+      if (status === 'isScam') {
+        filterParams['isScam'] = true
+        filterParams['isWarning'] = ''
+      }
+      if (status === 'safe') {
+        filterParams['isWarning'] = false
+        filterParams['isScam'] = false
+      }
+      if (status === 'none') {
+        filterParams['isWarning'] = ''
+        filterParams['isScam'] = ''
+      }
+    }
+  }
+
   const onFinish = (values) => {
     // SAVE STATE INTO LOCAL STORAGE
     window.localStorage.setItem(type, JSON.stringify(values))
@@ -143,32 +177,14 @@ const DrawerFilter = ({ type, handleFilter }) => {
     // ---------------------------CRYPTO
     if (type === 'crypto') {
       // PRICE
-      if (values?.priceUSD?.from >= 0 && values?.priceUSD?.to >= 0) {
-        filterParams['priceUSD'] = `${
-          values?.priceUSD?.from
-        }.${values?.priceUSD?.to}`
-      }
+      checkingValues(values?.priceUSD?.from, values?.priceUSD?.to, filterParams, 'priceUSD', CRYPTO_PRICE_SELECTION)
+      checkingValues(values?.marketcapUSD?.from, values?.marketcapUSD?.to, filterParams, 'marketcapUSD', CRYPTO_MARKETCAP_SELECTION)
+      checkingValues(values?.totalLpUSD?.from, values?.totalLpUSD?.to, filterParams, 'totalLpUSD', CRYPTO_TOTALLP_SELECTION)
+      checkingValues(values?.score?.from, values?.score?.to, filterParams, 'score', getScoreMarks('crypto'))
 
-      // --MARKET CAP
-      if (values?.marketcapUSD?.from >= 0 && values?.marketcapUSD?.to >= 0) {
-        filterParams['marketcapUSD'] = `${
-          values?.marketcapUSD?.from
-        }.${values?.marketcapUSD?.to}`
-      }
-
-      // TOTAL LP USD
-      if (values?.totalLpUSD?.from >= 0 && values?.totalLpUSD?.from >= 0) {
-        filterParams['totalLpUSD'] = `${
-          values?.totalLpUSD?.from
-        }.${values?.totalLpUSD?.to}`
-      }
-
-      // TRADING ON
       if (values?.tradingOn) {
         filterParams['tradingOn'] = values?.tradingOn?.join('.')
       }
-
-      // --TYPE
 
       if (values?.type) {
         if (values?.type === 'All') {
@@ -186,54 +202,13 @@ const DrawerFilter = ({ type, handleFilter }) => {
         }
       }
 
-      if (values?.score?.from >= 0 && values?.score?.from >= 0) {
-        filterParams['score'] = `${values?.score?.from}.${
-          values?.score?.to
-        }`
-      }
-
-      if (values?.status) {
-        const status = values?.status
-        if (status === 'isWarning') {
-          filterParams['isWarning'] = true
-          filterParams['isScam'] = ''
-        }
-        if (status === 'isScam') {
-          filterParams['isScam'] = true
-          filterParams['isWarning'] = ''
-        }
-        if (status === 'safe') {
-          filterParams['isWarning'] = false
-          filterParams['isScam'] = false
-        }
-        if (status === 'none') {
-          filterParams['isWarning'] = ''
-          filterParams['isScam'] = ''
-        }
-      }
+      checkingStatus(values?.status, filterParams)
     }
     // ---------------------------DAPP
     if (type === 'dapp') {
-      // --VOLUME 24H
-      if (values?.volume24h?.from >= 0 && values?.volume24h?.to >= 0) {
-        filterParams['volume24h'] = `${
-          values?.volume24h?.from
-        }.${values?.volume24h?.to}`
-      }
-
-      // --USER 24H
-      if (values?.user24h?.from >= 0 && values?.user24h?.to >= 0) {
-        filterParams['user24h'] = `${values?.user24h?.from}.${
-          values?.user24h?.to
-        }`
-      }
-
-      // --TVL
-      if (values?.balance?.from >= 0 && values?.balance?.to >= 0) {
-        filterParams['balance'] = `${values?.balance?.from}.${
-          values?.balance?.to
-        }`
-      }
+      checkingValues(values?.volume24h?.from, values?.volume24h?.to, filterParams, 'volume24h', CRYPTO_MARKETCAP_SELECTION)
+      checkingValues(values?.user24h?.from, values?.user24h?.to, filterParams, 'user24h', DAPP_USER24H_SELECTION)
+      checkingValues(values?.balance?.from, values?.balance?.to, filterParams, 'balance', CRYPTO_MARKETCAP_SELECTION)
 
       // ------=---------TAG
       if (values?.tag) {
@@ -243,56 +218,17 @@ const DrawerFilter = ({ type, handleFilter }) => {
           filterParams['tag'] = values?.tag
         }
       }
-
-      if (values?.status) {
-        const status = values?.status
-        if (status === 'isWarning') {
-          filterParams['isWarning'] = true
-          filterParams['isScam'] = ''
-        }
-        if (status === 'isScam') {
-          filterParams['isScam'] = true
-          filterParams['isWarning'] = ''
-        }
-        if (status === 'safe') {
-          filterParams['isWarning'] = false
-          filterParams['isScam'] = false
-        }
-        if (status === 'none') {
-          filterParams['isWarning'] = ''
-          filterParams['isScam'] = ''
-        }
-      }
+      checkingStatus(values?.status, filterParams)
     }
     // ---------------------------VENTURE
     if (type === 'venture') {
-      // --VOLUME TOTAL FUND
-      if (values?.volumeTotalFunds?.from >= 0 && values?.volumeTotalFunds?.to >= 0) {
-        filterParams['volumeTotalFunds'] = `${
-          values?.volumeTotalFunds?.from
-        }.${values?.volumeTotalFunds?.to}`
-      }
-
-      // Series A
-      if (values?.seriesA?.from >= 0 && values?.seriesA?.to >= 0) {
-        filterParams['seriesA'] = `${values?.seriesA?.from}.${
-          values?.seriesA?.to
-        }`
-      }
-
-      // Series B
-      if (values?.seriesB?.from >= 0 && values?.seriesB?.to >= 0) {
-        filterParams['seriesB'] = `${values?.seriesB?.from}.${
-          values?.seriesB?.to
-        }`
-      }
-
-      // Series C
-      if (values?.seriesC?.from >= 0 && values?.seriesC?.to >= 0) {
-        filterParams['seriesC'] = `${values?.seriesC?.from}.${
-          values?.seriesC?.to
-        }`
-      }
+      checkingValues(values?.volumeTotalFunds?.from, values?.volumeTotalFunds?.to, filterParams, 'volumeTotalFunds', CRYPTO_MARKETCAP_SELECTION)
+      checkingValues(values?.seriesA?.from, values?.seriesA?.to, filterParams, 'seriesA', VENTURE_SERIES_SELECTION)
+      checkingValues(values?.seriesB?.from, values?.seriesB?.to, filterParams, 'seriesB', VENTURE_SERIES_SELECTION)
+      checkingValues(values?.seriesC?.from, values?.seriesC?.to, filterParams, 'seriesC', VENTURE_SERIES_SELECTION)
+      checkingValues(values?.ico?.from, values?.ico?.to, filterParams, 'ico', VENTURE_SERIES_SELECTION)
+      checkingValues(values?.strategic?.from, values?.strategic?.to, filterParams, 'strategic', VENTURE_STRATEGIC_SELECTION)
+      checkingValues(values?.totalFund?.from, values?.totalFund?.to, filterParams, 'totalFund', VENTURE_TOTALFUNDS_SELECTION)
 
       if (values?.location) {
         if (values?.location === 'All') {
@@ -302,101 +238,17 @@ const DrawerFilter = ({ type, handleFilter }) => {
         }
       }
 
-      // Ico
-      if (values?.ico?.from >= 0 && values?.ico?.to >= 0) {
-        filterParams['ico'] = `${values?.ico?.from}.${
-          values?.ico?.to
-        }`
-      }
-
-      if (values?.strategic?.from >= 0 && values?.strategic?.to >= 0) {
-        filterParams['strategic'] = `${
-          values?.strategic?.from
-        }.${values?.strategic?.to}`
-      }
-
-      if (values?.totalFund?.from >= 0 && values?.totalFund?.to >= 0) {
-        filterParams['totalFund'] = `${
-          values?.totalFund?.from
-        }.${values?.totalFund?.to}`
-      }
-
-      if (values?.status) {
-        const status = values?.status
-        if (status === 'isWarning') {
-          filterParams['isWarning'] = true
-          filterParams['isScam'] = ''
-        }
-        if (status === 'isScam') {
-          filterParams['isScam'] = true
-          filterParams['isWarning'] = ''
-        }
-        if (status === 'safe') {
-          filterParams['isWarning'] = false
-          filterParams['isScam'] = false
-        }
-        if (status === 'none') {
-          filterParams['isWarning'] = ''
-          filterParams['isScam'] = ''
-        }
-      }
+      checkingStatus(values?.status, filterParams)
     }
     // ---------------------------EXCHANGE
     if (type === 'exchange') {
-      // --PAIR COUNT
-      if (values?.pairCount?.from >= 0 && values?.pairCount?.to >= 0) {
-        filterParams['pairCount'] = `${
-          values?.pairCount?.from
-        }.${values?.pairCount?.to}`
-      }
+      checkingValues(values?.pairCount?.from, values?.pairCount?.to, filterParams, 'pairCount', EXCHANGE_PAIRCOUNT_SELECTION)
+      checkingValues(values?.visit7d?.from, values?.visit7d?.to, filterParams, 'visit7d', EXCHANGE_VISIT7D_SELECTION)
+      checkingValues(values?.volume24h?.from, values?.volume24h?.to, filterParams, 'volume24h', CRYPTO_MARKETCAP_SELECTION)
+      checkingValues(values?.volume7d?.from, values?.volume7d?.to, filterParams, 'volume7d', EXCHANGE_VOLUME7D_SELECTION)
+      checkingValues(values?.volume1m?.from, values?.volume1m?.to, filterParams, 'volume1m', EXCHANGE_VOLUME1M_SELECTION)
 
-      // --VISIT 7D
-      if (values?.visit7d?.from >= 0 && values?.visit7d?.to >= 0) {
-        filterParams['visit7d'] = `${values?.visit7d?.from}.${
-          values?.visit7d?.to
-        }`
-      }
-
-      // --VOLUME 24H
-      if (values?.volume24h?.from >= 0 && values?.volume24h?.to >= 0) {
-        filterParams['volume24h'] = `${
-          values?.volume24h?.from
-        }.${values?.volume24h?.to}`
-      }
-
-      // --VOLUME 7D
-      if (values?.volume7d?.from >= 0 && values?.volume7d?.to >= 0) {
-        filterParams['volume7d'] = `${
-          values?.volume7d?.from
-        }.${values?.volume7d?.to}`
-      }
-
-      // --VOLUME 1M
-      if (values?.volume1m?.from >= 0 && values?.volume1m?.to >= 0) {
-        filterParams['volume1m'] = `${
-          values?.volume1m?.from
-        }.${values?.volume1m?.to}`
-      }
-
-      if (values?.status) {
-        const status = values?.status
-        if (status === 'isWarning') {
-          filterParams['isWarning'] = true
-          filterParams['isScam'] = ''
-        }
-        if (status === 'isScam') {
-          filterParams['isScam'] = true
-          filterParams['isWarning'] = ''
-        }
-        if (status === 'safe') {
-          filterParams['isWarning'] = false
-          filterParams['isScam'] = false
-        }
-        if (status === 'none') {
-          filterParams['isWarning'] = ''
-          filterParams['isScam'] = ''
-        }
-      }
+      checkingStatus(values?.status, filterParams)
     }
     // -------------------SOON
     if (type === 'soon') {
@@ -407,24 +259,9 @@ const DrawerFilter = ({ type, handleFilter }) => {
           filterParams['roundType'] = values?.roundType
         }
       }
-
-      if (values?.fullyDilutedMarketCap?.from >= 0 && values?.fullyDilutedMarketCap?.to >= 0) {
-        filterParams['fullyDilutedMarketCap'] = `${
-          values?.fullyDilutedMarketCap?.from
-        }.${values?.fullyDilutedMarketCap?.to}`
-      }
-
-      if (values?.fundRaisingGoals?.from >= 0 && values?.fundRaisingGoals?.to >= 0) {
-        filterParams['fundRaisingGoals'] = `${
-          values?.fundRaisingGoals?.from
-        }.${values?.fundRaisingGoals?.to}`
-      }
-
-      if (values?.tokenPrice?.from >= 0 && values?.tokenPrice?.to >= 0) {
-        filterParams['tokenPrice'] = `${
-          values?.tokenPrice?.from
-        }.${values?.tokenPrice?.to}`
-      }
+      checkingValues(values?.fullyDilutedMarketCap?.from, values?.fullyDilutedMarketCap?.to, filterParams, 'fullyDilutedMarketCap', SOON_FDMC_SELECTION)
+      checkingValues(values?.fundRaisingGoals?.from, values?.fundRaisingGoals?.to, filterParams, 'fundRaisingGoals', SOON_GOAL_SELECTION)
+      checkingValues(values?.tokenPrice?.from, values?.tokenPrice?.to, filterParams, 'tokenPrice', SOON_TOKENPRICE_SELECTION)
 
       if (values?.launchpad) {
         filterParams['launchpad'] = values?.launchpad
@@ -439,56 +276,13 @@ const DrawerFilter = ({ type, handleFilter }) => {
       }
     }
     if (type === 'launchpad') {
-      // Market cap
-      if (values?.marketCap?.from >= 0 && values?.marketCap?.to >= 0) {
-        filterParams['marketCap'] = `${
-          values?.marketCap?.from
-        }.${
-          values?.marketCap?.to
-        }`
-      }
-
-      // total fund raise
-      if (values?.totalFundsRaised?.from >= 0 && values?.totalFundsRaised?.to >= 0) {
-        filterParams['totalFundsRaised'] = `${
-          values?.totalFundsRaised?.from
-        }.${values?.totalFundsRaised?.to}`
-      }
-
-      // year founded
-      if (values?.yearFounded?.from >= 0 && values?.yearFounded?.to >= 0) {
-        filterParams['yearFounded'] = `${
-          values?.yearFounded?.from
-        }.${values?.yearFounded?.to}`
-      }
-
-      // avgRoiCurrent
-      if (values?.avgRoiCurrent?.from >= 0 && values?.avgRoiCurrent?.to >= 0) {
-        filterParams['avgRoiCurrent'] = `${
-          values?.avgRoiCurrent?.from
-        }.${values?.avgRoiCurrent?.to}`
-      }
-
-      // avgRoiATH
-      if (values?.avgRoiATH?.from >= 0 && values?.avgRoiATH?.to >= 0) {
-        filterParams['avgRoiATH'] = `${
-          values?.avgRoiATH?.from
-        }.${values?.avgRoiATH?.to}`
-      }
-
-      // colume 24h
-      if (values?.volume24h?.from >= 0 && values?.volume24h?.to >= 0) {
-        filterParams['volume24h'] = `${
-          values?.volume24h?.from
-        }.${values?.volume24h?.to}`
-      }
-
-      // Score
-      if (values?.score?.from >= 0 && values?.score?.to >= 0) {
-        filterParams['score'] = `${values?.score?.from}.${
-          values?.score?.to
-        }`
-      }
+      checkingValues(values?.marketCap?.from, values?.marketCap?.to, filterParams, 'marketCap', LAUNCHPAD_MARKETCAP_SELECTION)
+      checkingValues(values?.totalFundsRaised?.from, values?.totalFundsRaised?.to, filterParams, 'totalFundsRaised', LAUNCHPAD_FUNDRAISED_SELECTION)
+      checkingValues(values?.yearFounded?.from, values?.yearFounded?.to, filterParams, 'yearFounded', LAUNCHPAD_YEAR_SELECTION)
+      checkingValues(values?.avgRoiCurrent?.from, values?.avgRoiCurrent?.to, filterParams, 'avgRoiCurrent', LAUNCHPAD_ROICURRENT_SELECTION)
+      checkingValues(values?.avgRoiATH?.from, values?.avgRoiATH?.to, filterParams, 'avgRoiATH', LAUNCHPAD_ATHROI_SELECTION)
+      checkingValues(values?.volume24h?.from, values?.volume24h?.to, filterParams, 'volume24h', LAUNCHPAD_VOLUME24H_SELECTION)
+      checkingValues(values?.score?.from, values?.score?.to, filterParams, 'score', getScoreMarks('launchpad'))
     }
     handleFilter(filterParams)
     setShowDrawer(false)
