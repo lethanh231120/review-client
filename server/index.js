@@ -50,6 +50,7 @@ const metaTagHome = getMetaTagHome()
 const META_TITLE = metaTagHome.title
 const META_IMAGE = metaTagHome.image
 const META_DESCRIPTION = metaTagHome.description
+const META_UNIQUE_LINK = metaTagHome.uniqueLink
 const metaTagInsight = getMetaTagInsight()
 const META_TITLE_INSIGHT = metaTagInsight.title
 const META_IMAGE_INSIGHT = metaTagInsight.image
@@ -67,9 +68,10 @@ const isInteger = (number) => {
 
 const injectHtmlHeader = (metaTag) => {
   const dynamicMetaIndexHtml = file?.getIndexHtml()
-    ?.split(META_TITLE)?.join(metaTag.title) // euqal replace all
-    ?.split(META_DESCRIPTION)?.join(metaTag.description)
-    ?.split(META_IMAGE)?.join(metaTag.image)
+    ?.split(META_TITLE)?.join(metaTag?.title) // euqal replace all
+    ?.split(META_DESCRIPTION)?.join(metaTag?.description)
+    ?.split(META_IMAGE)?.join(metaTag?.image)
+    ?.split(META_UNIQUE_LINK)?.join(metaTag?.uniqueLink)
   const schemaMarkupIndexHtml = dynamicMetaIndexHtml?.replace(getScriptSchemaMarkupSiteLinkSearchBoxHomePage(), '')
   return schemaMarkupIndexHtml
 }
@@ -123,7 +125,7 @@ const getTxtAdditional = (isScam, isWarning, score, type) =>{
   return txtAdditional
 }
 
-const genDetailHeader = (res, productId = '') => {
+const genDetailHeader = (req, res, productId = '') => {
   if (productId) {
     productId = encodeSpecialCharacterUrl(productId)
     productId = `gear5_${productId}`
@@ -207,7 +209,7 @@ const genDetailHeader = (res, productId = '') => {
         const hasImage = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo
         const image = (productId && hasImage) ? `${DOMAIN_IMAGE}/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
 
-        return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription)))
+        return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription, getURLFromRequest(req))))
       }).catch((error) => {
         console.error(`Error call API detail product | ${error.name}: ${error.message}`)
         return res?.send(injectHtmlHeader(getMetaTagHome()))
@@ -218,7 +220,7 @@ const genDetailHeader = (res, productId = '') => {
   }
 }
 
-const getDetailInsightHeader = (res, chartName = '') =>{
+const getDetailInsightHeader = (req, res, chartName = '') =>{
   if (chartName) {
     chartName = encodeSpecialCharacterUrl(chartName)
     axios({
@@ -234,35 +236,25 @@ const getDetailInsightHeader = (res, chartName = '') =>{
         const title = data?.description ? `${data?.description} | Insights by Gear5` : META_TITLE_INSIGHT
         const image = META_IMAGE_INSIGHT
         const description = `Take a look at ${data?.title ? (data?.title + ' ') : ''}by Gear5 and make well-informed investment decisions.`
-        return res.send(injectHtmlHeader(getMetaTag(title, image, description)))
+        return res.send(injectHtmlHeader(getMetaTag(title, image, description, getURLFromRequest(req))))
       }).catch((error) => {
         console.error(`Error call API detail insight | ${error.name}: ${error.message}`)
         return res?.send(injectHtmlHeader(getMetaTagHome()))
       })
   } else {
     // don't have product id
-    return res?.send(injectHtmlHeader(getMetaTagInsight()))
+    return res?.send(injectHtmlHeader(getMetaTagInsight(META_UNIQUE_LINK)))
   }
 }
 
-// Report Scam page
-app.get(`/report-scam`, (req, res) => {
-  // console.log(`/report-scam`)
-  genStaticHeader(res, getMetaTagReportScam())
-})
-
-// Add Project page
-app.get(`/add-project`, (req, res) => {
-  // console.log(`/add-project`)
-  genStaticHeader(res, getMetaTagAddProject())
-})
+const getURLFromRequest = (req) => req?.protocol + '://' + req?.get('host') + req?.originalUrl
 
 // ######## detail page
 // detail: crypto(coin)
 app.get(`/products/crypto/coin/:coinName`, (req, res) => {
   // console.log('detail: crypto(coin)')
   const coinName = req?.params?.coinName
-  genDetailHeader(res, coinName ? `coin_${coinName}` : '')
+  genDetailHeader(req, res, coinName ? `coin_${coinName}` : '')
 })
 
 // detail: crypto(token)
@@ -270,7 +262,7 @@ app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
   // console.log('detail: crypto(token)')
   const chainName = req?.params?.chainName
   const tokenAddress = req?.params?.tokenAddress
-  genDetailHeader(res, (chainName && tokenAddress) ? `token_${chainName}_${tokenAddress}` : '')
+  genDetailHeader(req, res, (chainName && tokenAddress) ? `token_${chainName}_${tokenAddress}` : '')
 })
 
 // detail: dApp, venture, exchange, soon, launchpad
@@ -278,49 +270,48 @@ app.get(`/products/:category/:productName`, (req, res) => {
   const category = req?.params?.category
   const productName = req?.params?.productName
   // console.log('detail', category, productName)
-  genDetailHeader(res, (category && productName) ? `${category}_${productName}` : '')
+  genDetailHeader(req, res, (category && productName) ? `${category}_${productName}` : '')
 })
 
 // detail: insight
 app.get(`/insight/:chartName`, (req, res) => {
   const chartName = req?.params?.chartName
-  getDetailInsightHeader(res, chartName)
+  getDetailInsightHeader(req, res, chartName)
 })
 
 // ######## Otherwise page,..
-
 const genStaticHeader = (res, metaTag) => {
   return res?.send(injectHtmlHeader(metaTag))
 }
 
-const genListHeader = (res, category, subCategory) => {
+const genListHeader = (req, res, category, subCategory) => {
   switch (category) {
     case CRYPTO:{
-      genStaticHeader(res, getMetaTagListCrypto(subCategory))
+      genStaticHeader(res, getMetaTagListCrypto(subCategory, getURLFromRequest(req)))
       break
     }
     case DAPP:{
-      genStaticHeader(res, getMetaTagListDApp(subCategory))
+      genStaticHeader(res, getMetaTagListDApp(subCategory, getURLFromRequest(req)))
       break
     }
     case VENTURE:{
-      genStaticHeader(res, getMetaTagListVenture())
+      genStaticHeader(res, getMetaTagListVenture(getURLFromRequest(req)))
       break
     }
     case EXCHANGE:{
-      genStaticHeader(res, getMetaTagListExchange(subCategory))
+      genStaticHeader(res, getMetaTagListExchange(subCategory, getURLFromRequest(req)))
       break
     }
     case SOON:{
-      genStaticHeader(res, getMetaTagListSoon(subCategory))
+      genStaticHeader(res, getMetaTagListSoon(subCategory, getURLFromRequest(req)))
       break
     }
     case LAUNCHPAD:{
-      genStaticHeader(res, getMetaTagListLaunchpad())
+      genStaticHeader(res, getMetaTagListLaunchpad(getURLFromRequest(req)))
       break
     }
     case 'insight':{
-      genStaticHeader(res, getMetaTagInsight())
+      genStaticHeader(res, getMetaTagInsight(getURLFromRequest(req)))
       break
     }
     default: {
@@ -330,11 +321,23 @@ const genListHeader = (res, category, subCategory) => {
   }
 }
 
+// Report Scam page
+app.get(`/report-scam`, (req, res) => {
+  // console.log(`/report-scam`)
+  genStaticHeader(res, getMetaTagReportScam(getURLFromRequest(req)))
+})
+
+// Add Project page
+app.get(`/add-project`, (req, res) => {
+  // console.log(`/add-project`)
+  genStaticHeader(res, getMetaTagAddProject(getURLFromRequest(req)))
+})
+
 // list
 app.get('/:category', (req, res) => {
   const category = req?.params?.category
   // console.log('list', category)
-  genListHeader(res, category)
+  genListHeader(req, res, category)
 })
 
 // list with sub-category
@@ -342,19 +345,19 @@ app.get('/:category/:subCategory', (req, res) =>{
   const category = req?.params?.category
   const subCategory = req?.params?.subCategory
   // console.log('list', category, 'subCategory', subCategory)
-  genListHeader(res, category, subCategory)
+  genListHeader(req, res, category, subCategory)
 })
 
 // home (NOT WORKING when use express.static)
 app.get('/', (_, res) => {
   // console.log('home')
-  genStaticHeader(res, getMetaTagHome())
+  genStaticHeader(_, res, getMetaTagHome())
 })
 
 // otherwise page
 app.get('/*', (_, res) => {
   // console.log('other')
-  genStaticHeader(res, getMetaTagHome())
+  genStaticHeader(_, res, getMetaTagHome())
 })
 
 // listening...

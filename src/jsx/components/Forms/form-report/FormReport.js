@@ -401,7 +401,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
                   <Select
                     style={{ width: '100%' }}
                   >
-                    <Option value=''></Option>
+                    <Option value=''>Choose amount</Option>
                     <Option value='-.1000'>Less than $1k</Option>
                     <Option value='1000.10000'>From $1K to $10K</Option>
                     <Option value='10000.100000'>From $10K to $100K</Option>

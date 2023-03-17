@@ -6,4 +6,4 @@ const staticData = {
   description: `Is there any Project you're looking for not listed in our Database? If YES, please COME HERE to implement yours. We are so thankful if you give a hand helping us as well as the Crypto Community`
 }
 
-module.exports.getMetaTagAddProject = () => getMetaTag(staticData.title, staticData.image, staticData.description)
+module.exports.getMetaTagAddProject = (uniqueLink) => getMetaTag(staticData.title, staticData.image, staticData.description, uniqueLink)

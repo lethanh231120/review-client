@@ -43,6 +43,7 @@ const CategoryItem = () => {
     crypto: []
   })
   const [status, setStatus] = useState()
+  const [xCoord, yCoord] = [0, 0]
 
   // only main-menu changed
   useEffect(() => {
@@ -188,7 +189,6 @@ const CategoryItem = () => {
       page: value
     })
     // scroll to the top page
-    const [xCoord, yCoord] = [0, 0]
     window.scrollTo(xCoord, yCoord)
   }
 
@@ -529,6 +529,9 @@ const CategoryItem = () => {
     }
     listProduct && status === 'done' && getData()
   }, [tab, listProduct, status])
+
+  // scroll to the top page when back from detail
+  window.scrollTo(xCoord, yCoord)
 
   return (
     <>
