@@ -118,16 +118,18 @@ export const DetailLayout = (props) => {
                 </div>
               </div>}
 
-              <div className='col-lg-12'>
-                {topDiscus}
-              </div>
-
-              {/* similar*/}
-              {similar && <div className='col-lg-12 mt-4'>
-                <div className='card'>
-                  {similar}
+              <div className='display-desktop'>
+                <div className='col-lg-12'>
+                  {topDiscus}
                 </div>
-              </div>}
+
+                {/* similar*/}
+                {similar && <div className='col-lg-12 mt-4'>
+                  <div className='card'>
+                    {similar}
+                  </div>
+                </div>}
+              </div>
             </div>
           </div>
           <div className='col-xl-7'>
@@ -184,6 +186,19 @@ export const DetailLayout = (props) => {
                 )}
               </div>
             </div>
+
+            <div className='display-mobile'>
+              <div className='col-lg-12'>
+                {topDiscus}
+              </div>
+
+              {/* similar*/}
+              {similar && <div className='col-lg-12 mt-4'>
+                <div className='card'>
+                  {similar}
+                </div>
+              </div>}
+            </div>
           </div>
         </div></>
       : <>
@@ -213,16 +228,18 @@ export const DetailLayout = (props) => {
               {about}
             </div>
 
-            <div className='col-lg-12'>
-              {topDiscus}
-            </div>
-
-            {/* similar*/}
-            {similar && <div className='col-lg-12 mt-4'>
-              <div className='card'>
-                {similar}
+            <div className='display-desktop'>
+              <div className='col-lg-12'>
+                {topDiscus}
               </div>
-            </div>}
+
+              {/* similar*/}
+              {similar && <div className='col-lg-12 mt-4'>
+                <div className='card'>
+                  {similar}
+                </div>
+              </div>}
+            </div>
           </div>
 
           {/* Comments */}
@@ -274,6 +291,19 @@ export const DetailLayout = (props) => {
                   />
                 )}
               </div>
+            </div>
+
+            <div className='display-mobile'>
+              <div className='col-lg-12'>
+                {topDiscus}
+              </div>
+
+              {/* similar*/}
+              {similar && <div className='col-lg-12 mt-4'>
+                <div className='card'>
+                  {similar}
+                </div>
+              </div>}
             </div>
           </div>
         </div>
