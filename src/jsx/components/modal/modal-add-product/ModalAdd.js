@@ -133,7 +133,9 @@ const ModalAdd = ({ isModal }) => {
         })
       }
     } catch (error) {
-      toartError('Add project failed. Please try again')
+      if (error?.response?.data?.code === 'B.CODE.9') {
+        toartError('This project already exists in gear5')
+      }
       recapcharRef.current.reset()
     }
   }
