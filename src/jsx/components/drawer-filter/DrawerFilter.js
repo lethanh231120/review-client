@@ -303,39 +303,47 @@ const DrawerFilter = ({ type, handleFilter }) => {
       <Col span={7}>
         <Form.Item name={[attr, 'from']}
           key={[attr, 'from']}
-          rules={[
-            ({ getFieldValue }) => ({
-              validator(rule, value) {
-                const max = getFieldValue(attr)?.to
-                if (max) {
-                  if (value > max) {
-                    return Promise.reject(`Filter range is not valid`)
-                  }
-                }
-                return Promise.resolve()
-              }
-            })
-          ]}>
-          <Select options={fromList} onChange={e => setToList(toList => toList?.filter(item => item?.value >= e))}/>
+          // rules={[
+          //   ({ getFieldValue }) => ({
+          //     validator(rule, value) {
+          //       const max = getFieldValue(attr)?.to
+          //       if (max) {
+          //         if (value > max) {
+          //           return Promise.reject(`Filter range is not valid`)
+          //         }
+          //       }
+          //       return Promise.resolve()
+          //     }
+          //   })
+          // ]}
+        >
+          <Select showAction={['focus', 'click']} options={fromList} onChange={e => {
+            setToList(options)
+            setToList(toList => toList?.filter(item => item?.value >= e))
+          }}/>
         </Form.Item>
       </Col>
       <Col span={4} className='d-flex justify-content-center mt-1'>To</Col>
       <Col span={7}>
         <Form.Item name={[attr, 'to']} key={[attr, 'to']}
-          rules={[
-            ({ getFieldValue }) => ({
-              validator(rule, value) {
-                const min = getFieldValue(attr)?.from
-                if (min) {
-                  if (value < min) {
-                    return Promise.reject(`Filter range is not valid`)
-                  }
-                }
-                return Promise.resolve()
-              }
-            })
-          ]}>
-          <Select options={toList} onChange={e => setFromList(fromList => fromList?.filter(item => item?.value <= e))}/>
+          // rules={[
+          //   ({ getFieldValue }) => ({
+          //     validator(rule, value) {
+          //       const min = getFieldValue(attr)?.from
+          //       if (min) {
+          //         if (value < min) {
+          //           return Promise.reject(`Filter range is not valid`)
+          //         }
+          //       }
+          //       return Promise.resolve()
+          //     }
+          //   })
+          // ]}
+        >
+          <Select showAction={['focus', 'click']} options={toList} onChange={e => {
+            setFromList(options)
+            setFromList(fromList => fromList?.filter(item => item?.value <= e))
+          }}/>
         </Form.Item></Col>
 
     </Row>
@@ -408,7 +416,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
                 ></Select>
               </Form.Item>
 
-              {customDropDown(getScoreMarks('crypto'), getScoreMarks('crypto'), 'score', 'Score')}
+              {customDropDown(getScoreMarks('crypto'), 'score', 'Score')}
               {projectStatusDropdown()}
             </>
 
