@@ -9,7 +9,8 @@ import ListEmoji from '../emoji/ListEmoji'
 import { getCookie, STORAGEKEY } from '../../../../../utils/storage'
 import { SignInContext, Authenticated } from '../../../../../App'
 import { reactionImg, reactions } from '../../../../constants/reaction'
-import { timeAgoConvert } from '../../../common-widgets/home/click-function'
+import moment from 'moment'
+import { capitalizeFirstLetter } from '../../../../../utils/formatText'
 
 const ReplyComment = (props) => {
   const { data, productId, index, reviews, setReviews, indexReview } = props
@@ -20,6 +21,9 @@ const ReplyComment = (props) => {
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
   const [token, setToken] = useState()
   const [newData, setNewData] = useState()
+
+  const actionTime = moment(data?.reply?.createdDate, 'YYYY-MM-DD HH:mm:ss')
+  const timeAgo = capitalizeFirstLetter(actionTime.fromNow())
 
   useEffect(() => {
     setToken(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
@@ -170,8 +174,7 @@ const ReplyComment = (props) => {
               colorTextReaction={newData?.colorTextReaction}
             />
             <span className='review-item-action-item-time'>
-              {/* {moment.utc(data?.reply?.updatedDate).fromNow()} */}
-              {timeAgoConvert(data?.reply?.createdDate)}
+              {timeAgo}
             </span>
           </div>
           {!_.isEmpty(newData?.reactionType) && (
