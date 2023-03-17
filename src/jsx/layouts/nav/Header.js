@@ -58,6 +58,9 @@ const Header = () => {
     })
     window.addEventListener('resize', () => {
       setIsSmallMode(window.innerWidth <= minimumWidthBigScreenMode)
+      if (window.innerWidth >= 768) {
+        showFullSearchConext?.setIsShowFullSearchSmallMode(false)
+      }
     })
   }, [])
 
@@ -319,20 +322,18 @@ const Header = () => {
                 style={{ width: isSmallMode ? '100%' : '60%' }}
               >
                 <div
-                  className='nav-item d-flex align-items-center cus-header-search'
+                  className='nav-item d-flex align-items-center'
                   style={{ width: '100%' }}
                 >
-                  {showFullSearchConext?.isShowFullSearchSmallMode && <InputSearch />}
-                  {/* {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode ? <InputSearch /> : '') : (summaryData && <InputSearch />) } */}
-                  <div className='cus-global-search'>
+                  {/* {showFullSearchConext?.isShowFullSearchSmallMode && <InputSearch />} */}
+                  {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode ? <InputSearch /> : '') : (summaryData && <InputSearch />) }
+                  {/* <div className='cus-global-search'>
                     {(summaryData && <InputSearch />) }
-                  </div>
+                  </div> */}
                 </div>
                 {/* side-bar right */}
                 <div className='dz-side-menu'>
                   { miniSearchHtml }
-                  {/* <div className='search-coundry d-flex align-items-center'>
-                  </div> */}
                   <div className='sidebar-social-link '>
                     <div className={`${toggle?.toggle ? 'display-block-btn' : 'display-none-btn'} list-action`}>
                       {reportScamHtml}
