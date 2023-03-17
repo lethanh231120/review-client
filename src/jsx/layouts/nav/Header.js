@@ -322,11 +322,11 @@ const Header = () => {
                   className='nav-item d-flex align-items-center cus-header-search'
                   style={{ width: '100%' }}
                 >
-                  {/* {showFullSearchConext?.isShowFullSearchSmallMode && <InputSearch />} */}
-                  {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode ? <InputSearch /> : '') : (summaryData && <InputSearch />) }
-                  {/* <div className='cus-global-search'>
+                  {showFullSearchConext?.isShowFullSearchSmallMode && <InputSearch />}
+                  {/* {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode ? <InputSearch /> : '') : (summaryData && <InputSearch />) } */}
+                  <div className='cus-global-search'>
                     {(summaryData && <InputSearch />) }
-                  </div> */}
+                  </div>
                 </div>
                 {/* side-bar right */}
                 <div className='dz-side-menu'>

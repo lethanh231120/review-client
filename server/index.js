@@ -247,7 +247,10 @@ const getDetailInsightHeader = (req, res, chartName = '') =>{
   }
 }
 
-const getURLFromRequest = (req) => req?.protocol + '://' + req?.get('host') + req?.originalUrl
+const getURLFromRequest = (req) => {
+  // META_UNIQUE_LINK is home page
+  return META_UNIQUE_LINK + req?.originalUrl
+}
 
 // ######## detail page
 // detail: crypto(coin)
