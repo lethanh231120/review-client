@@ -289,13 +289,13 @@ const DrawerFilter = ({ type, handleFilter }) => {
     setShowDrawer(false)
   }
   const [reset, setReset] = useState(false)
-  const customDropDown = (optionsFrom, optionsTo, attr, header) => {
-    const [fromList, setFromList] = useState(optionsFrom)
-    const [toList, setToList] = useState(optionsTo)
+  const customDropDown = (options, attr, header) => {
+    const [fromList, setFromList] = useState(options)
+    const [toList, setToList] = useState(options)
 
     useEffect(() => {
-      setFromList(optionsFrom)
-      setToList(optionsTo)
+      setFromList(options)
+      setToList(options)
     }, [reset])
 
     return <Row >
@@ -396,9 +396,9 @@ const DrawerFilter = ({ type, handleFilter }) => {
                   }
                 />
               </Form.Item>
-              {customDropDown(CRYPTO_PRICE_SELECTION, CRYPTO_PRICE_SELECTION, 'priceUSD', 'Price USD')}
-              {customDropDown(CRYPTO_MARKETCAP_SELECTION, CRYPTO_MARKETCAP_SELECTION, 'marketcapUSD', 'Market Cap USD')}
-              {customDropDown(CRYPTO_MARKETCAP_SELECTION, CRYPTO_MARKETCAP_SELECTION, 'totalLpUSD', 'Total LP USD')}
+              {customDropDown(CRYPTO_PRICE_SELECTION, 'priceUSD', 'Price USD')}
+              {customDropDown(CRYPTO_MARKETCAP_SELECTION, 'marketcapUSD', 'Market Cap USD')}
+              {customDropDown(CRYPTO_MARKETCAP_SELECTION, 'totalLpUSD', 'Total LP USD')}
 
               <Form.Item name='tradingOn' label='Trading On'>
                 <Select
