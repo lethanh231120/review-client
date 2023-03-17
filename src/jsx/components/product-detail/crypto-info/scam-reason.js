@@ -22,7 +22,8 @@ export const mapScamReason = (input) => {
     'WMCOIN_DividendTracker: method not implemented': 'The "WMCOIN_DividendTracker: method not implemented" error typically occurs when a method or function in the WMCOIN_DividendTracker smart contract is called, but the method has not been implemented or is missing from the contract code.',
     'approve caller is not owner nor approved for all': 'This error message typically occurs when a smart contract function is attempting to perform an action that requires the caller to have approval from the owner or be approved for all.',
     'EnumerableMap: nonexistent key': 'The "EnumerableMap: nonexistent key" error typically occurs when a smart contract function tries to access a key that does not exist in an EnumerableMap.',
-    'scam or dead project': 'This means total LP of this token on DEX is smaller than 300$. High slippage trading warning!'
+    'scam or dead project': 'This means total LP of this token on DEX is smaller than 300$. High slippage trading warning!',
+    'execution reverted': 'This usually means there is an issue with the token contract that prevents the transaction from being sent.'
   }
 
   let msg = input
