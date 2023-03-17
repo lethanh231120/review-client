@@ -25,7 +25,7 @@ const toastMesage = (message) => {
   })
 }
 
-export const copyAddress = (e, value, message) => {
+export const copyAddress = async(e, value, message) => {
   e.stopPropagation()
   e.preventDefault()
   const text = new Blob([`${value}`], { type: 'text/plain' })

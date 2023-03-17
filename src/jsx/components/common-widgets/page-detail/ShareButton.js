@@ -1,12 +1,34 @@
 import React from 'react'
 import { FacebookIcon, LinkedinIcon, PinterestIcon, RedditIcon, TelegramIcon, TwitterIcon } from 'react-share'
 import { FacebookShareButton, TwitterShareButton, TelegramShareButton, LinkedinShareButton, PinterestShareButton, RedditShareButton } from 'react-share'
-import { copyAddress } from '../../../../utils/effect'
+// import { copyAddress } from '../../../../utils/effect'
+import Swal from 'sweetalert2'
 
 const ShareButton = ({ name, setOpenModalShare }) => {
-  const coppyLink = (e, value) => {
-    copyAddress(e, value, 'Copy link successfully!')
-    setOpenModalShare(false)
+  const toastMesage = (message) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true
+    })
+
+    Toast.fire({
+      icon: 'success',
+      title: message
+    })
+  }
+
+  const coppyLink = async(e, value) => {
+    // copyAddress(e, value, 'Copy link successfully!')
+    const text = new Blob([`${value}`], { type: 'text/plain' })
+    const item = new ClipboardItem({
+      'text/plain': text
+    })
+    await navigator.clipboard.write([item])
+    await toastMesage('Copy link successfully!')
+    await setOpenModalShare(false)
   }
 
   return <>
