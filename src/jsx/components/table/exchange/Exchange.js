@@ -137,7 +137,7 @@ const Exchange = ({
           : '',
       align: 'right',
       render: (_, record) => (
-        <span>{record?.volume7d === 0 ? 0 : (record?.volume7d ? <b className='text-primary'>{ renderNumber(record?.volume7d)}</b> : 'Unknown') }</span>
+        <span>{record?.volume7d === 0 ? 0 : (record?.volume7d ? renderNumber(record?.volume7d) : 'Unknown') }</span>
       )
     },
     {
@@ -153,7 +153,7 @@ const Exchange = ({
           : '',
       align: 'right',
       render: (_, record) => (
-        <span>{record?.volume1m === 0 ? 0 : (record?.volume1m ? <b className='text-primary'>{ renderNumber(record?.volume1m)}</b> : 'Unknown') }</span>
+        <span>{record?.volume1m === 0 ? 0 : (record?.volume1m ? renderNumber(record?.volume1m) : 'Unknown') }</span>
       )
     },
     {
@@ -169,7 +169,7 @@ const Exchange = ({
             : 'ascend'
           : '',
       render: (_, record) => (
-        <span>{record?.visit7d === 0 ? 0 : (record?.visit7d ? <b className='text-primary'>{ formatLargeNumber(record?.visit7d)}</b> : 'Unknown') }</span>
+        <span>{record?.visit7d === 0 ? 0 : (record?.visit7d ? formatLargeNumber(record?.visit7d) : 'Unknown') }</span>
       )
     },
     {
