@@ -133,6 +133,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
 
   const onResetClicked = () => {
     window.localStorage.removeItem(type)
+    setReset(!reset)
     form.resetFields()
   }
 
@@ -287,8 +288,16 @@ const DrawerFilter = ({ type, handleFilter }) => {
     handleFilter(filterParams)
     setShowDrawer(false)
   }
+  const [reset, setReset] = useState(false)
+  const customDropDown = (optionsFrom, optionsTo, attr, header) => {
+    const [fromList, setFromList] = useState(optionsFrom)
+    const [toList, setToList] = useState(optionsTo)
 
-  const customDropDown = (options, attr, header) => {
+    useEffect(() => {
+      setFromList(optionsFrom)
+      setToList(optionsTo)
+    }, [reset])
+
     return <Row >
       <Col span={6}>{header}:</Col>
       <Col span={7}>
@@ -307,7 +316,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
               }
             })
           ]}>
-          <Select options={options} />
+          <Select options={fromList} onChange={e => setToList(toList => toList?.filter(item => item?.value >= e))}/>
         </Form.Item>
       </Col>
       <Col span={4} className='d-flex justify-content-center mt-1'>To</Col>
@@ -326,7 +335,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
               }
             })
           ]}>
-          <Select options={options}/>
+          <Select options={toList} onChange={e => setFromList(fromList => fromList?.filter(item => item?.value <= e))}/>
         </Form.Item></Col>
 
     </Row>
@@ -387,9 +396,9 @@ const DrawerFilter = ({ type, handleFilter }) => {
                   }
                 />
               </Form.Item>
-              {customDropDown(CRYPTO_PRICE_SELECTION, 'priceUSD', 'Price USD')}
-              {customDropDown(CRYPTO_MARKETCAP_SELECTION, 'marketcapUSD', 'Market Cap USD')}
-              {customDropDown(CRYPTO_MARKETCAP_SELECTION, 'totalLpUSD', 'Total LP USD')}
+              {customDropDown(CRYPTO_PRICE_SELECTION, CRYPTO_PRICE_SELECTION, 'priceUSD', 'Price USD')}
+              {customDropDown(CRYPTO_MARKETCAP_SELECTION, CRYPTO_MARKETCAP_SELECTION, 'marketcapUSD', 'Market Cap USD')}
+              {customDropDown(CRYPTO_MARKETCAP_SELECTION, CRYPTO_MARKETCAP_SELECTION, 'totalLpUSD', 'Total LP USD')}
 
               <Form.Item name='tradingOn' label='Trading On'>
                 <Select
@@ -399,7 +408,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
                 ></Select>
               </Form.Item>
 
-              {customDropDown(getScoreMarks('crypto'), 'score', 'Score')}
+              {customDropDown(getScoreMarks('crypto'), getScoreMarks('crypto'), 'score', 'Score')}
               {projectStatusDropdown()}
             </>
 
