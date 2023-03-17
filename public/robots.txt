@@ -2,5 +2,3 @@ User-agent: *
 Disallow: /not-found
 Disallow: /server-error
 Disallow: /not-found-product
-
-Sitemap: https://gear5.io/Nikadinhdanquanthanhvinhhieploclongtrieu2cbf59c08fe46d17670ea6aed38ec895b5bbb95bd89134dacbcbca82243ade31.xml
