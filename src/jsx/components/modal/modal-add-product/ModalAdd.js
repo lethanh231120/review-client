@@ -139,77 +139,82 @@ const ModalAdd = ({ isModal }) => {
   }
 
   const onFinish = async(values) => {
-    if (userInfo) {
-      const recaptchaValue = recapcharRef.current.getValue()
-      if (recaptchaValue) {
-        let body = {}
-        if (category === CRYPTO) {
-          body = {
-            name: values?.name,
-            type: values?.type,
-            symbol: values?.symbol,
-            address: values?.address,
-            chainName: values?.chainName,
-            thumbLogo: data?.image,
-            bigLogo: data?.image,
-            smallLogo: data?.image,
-            description: values?.description,
-            website: values?.website,
-            explorer: values?.explorer,
-            socials: values?.socials,
-            isScam: data?.isScam,
-            isWarning: data?.isWarning,
-            proof: (!data?.isScam && !data?.isWarning) ? null : {
-              'isScam': data?.isScam ? values?.sources : null,
-              'isWarning': data?.isWarning ? values?.sources : null
-            },
-            chainId: values?.chainId,
-            decimal: null
-          }
-        }
-        if (category === EXCHANGE) {
-          body = {
-            name: values?.name,
-            subCategory: values?.subCategory,
-            thumbLogo: data?.image,
-            smallLogo: data?.image,
-            bigLogo: data?.image,
-            description: values?.description,
-            website: values?.website,
-            socials: values?.socials,
-            isScam: data?.isScam,
-            isWarning: data?.isWarning,
-            proof: (!data?.isScam && !data?.isWarning) ? null : {
-              'isScam': data?.isScam ? values?.sources : null,
-              'isWarning': data?.isWarning ? values?.sources : null
+    try {
+      if (userInfo) {
+        const recaptchaValue = recapcharRef.current.getValue()
+        if (recaptchaValue) {
+          let body = {}
+          if (category === CRYPTO) {
+            body = {
+              name: values?.name,
+              type: values?.type,
+              symbol: values?.symbol,
+              address: values?.address,
+              chainName: values?.chainName,
+              thumbLogo: data?.image,
+              bigLogo: data?.image,
+              smallLogo: data?.image,
+              description: values?.description,
+              website: values?.website,
+              explorer: values?.explorer,
+              socials: values?.socials,
+              isScam: data?.isScam,
+              isWarning: data?.isWarning,
+              proof: (!data?.isScam && !data?.isWarning) ? null : {
+                'isScam': data?.isScam ? values?.sources : null,
+                'isWarning': data?.isWarning ? values?.sources : null
+              },
+              chainId: values?.chainId,
+              decimal: null
             }
           }
-        }
-        if (category === DAPP) {
-          const chains = {}
-          chains[values?.chainName] = values?.chainId
-          body = {
-            name: values?.name,
-            logo: data?.image,
-            description: values?.description,
-            website: values?.website,
-            subCategory: values?.subCategory,
-            socials: values?.socials,
-            isScam: data?.isScam,
-            isWarning: data?.isWarning,
-            chains: chains,
-            proof: (!data?.isScam && !data?.isWarning) ? null : {
-              'isScam': data?.isScam ? values?.sources : null,
-              'isWarning': data?.isWarning ? values?.sources : null
+          if (category === EXCHANGE) {
+            body = {
+              name: values?.name,
+              subCategory: values?.subCategory,
+              thumbLogo: data?.image,
+              smallLogo: data?.image,
+              bigLogo: data?.image,
+              description: values?.description,
+              website: values?.website,
+              socials: values?.socials,
+              isScam: data?.isScam,
+              isWarning: data?.isWarning,
+              proof: (!data?.isScam && !data?.isWarning) ? null : {
+                'isScam': data?.isScam ? values?.sources : null,
+                'isWarning': data?.isWarning ? values?.sources : null
+              }
             }
           }
+          if (category === DAPP) {
+            const chains = {}
+            chains[values?.chainName] = values?.chainId
+            body = {
+              name: values?.name,
+              logo: data?.image,
+              description: values?.description,
+              website: values?.website,
+              subCategory: values?.subCategory,
+              socials: values?.socials,
+              isScam: data?.isScam,
+              isWarning: data?.isWarning,
+              chains: chains,
+              proof: (!data?.isScam && !data?.isWarning) ? null : {
+                'isScam': data?.isScam ? values?.sources : null,
+                'isWarning': data?.isWarning ? values?.sources : null
+              }
+            }
+          }
+          sendData(body, recaptchaValue)
+        } else {
+          setIsRecaptcha(true)
         }
-        sendData(body, recaptchaValue)
       } else {
-        setIsRecaptcha(true)
+        signContext?.handleSetOpenModal(true)
+        recapcharRef.current.reset()
       }
-    } else {
-      signContext?.handleSetOpenModal(true)
+    } catch {
+      recapcharRef.current.reset()
     }
   }
 

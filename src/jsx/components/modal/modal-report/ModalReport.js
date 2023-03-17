@@ -304,34 +304,39 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
   }
 
   const functionAddComment = (values, content) => {
-    const params = {
-      ...data,
-      productId: item?.cryptoId ? item?.cryptoId
-        : (item?.dappId ? item?.dappId
-          : (item?.ventureId ? item?.ventureId
-            : (item?.soonId ? item?.soonId
-              : item?.exchangeId ? item?.exchangeId
-                : item?.launchPadId))),
-      ...values
-    }
-    if (typeComment) {
-      const recaptchaValue = recapcharRef.current.getValue()
-      if (recaptchaValue) {
-        submitComment(params, 'anonymous', recaptchaValue)
-      } else {
-        setIsRecaptcha(true)
+    try {
+      const params = {
+        ...data,
+        productId: item?.cryptoId ? item?.cryptoId
+          : (item?.dappId ? item?.dappId
+            : (item?.ventureId ? item?.ventureId
+              : (item?.soonId ? item?.soonId
+                : item?.exchangeId ? item?.exchangeId
+                  : item?.launchPadId))),
+        ...values
       }
-    } else {
-      if (auth?.isAuthenticated) {
+      if (typeComment) {
         const recaptchaValue = recapcharRef.current.getValue()
         if (recaptchaValue) {
-          submitComment(params, 'auth', recaptchaValue)
+          submitComment(params, 'anonymous', recaptchaValue)
         } else {
           setIsRecaptcha(true)
         }
       } else {
-        signInContext?.handleSetOpenModal(true)
+        if (auth?.isAuthenticated) {
+          const recaptchaValue = recapcharRef.current.getValue()
+          if (recaptchaValue) {
+            submitComment(params, 'auth', recaptchaValue)
+          } else {
+            setIsRecaptcha(true)
+          }
+        } else {
+          signInContext?.handleSetOpenModal(true)
+          recapcharRef.current.reset()
+        }
       }
+    } catch {
+      recapcharRef.current.reset()
     }
   }
 
