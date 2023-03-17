@@ -151,9 +151,7 @@ const ModalAdd = ({ isModal }) => {
               symbol: values?.symbol,
               address: values?.address,
               chainName: values?.chainName,
-              thumbLogo: data?.image,
               bigLogo: data?.image,
-              smallLogo: data?.image,
               description: values?.description,
               website: values?.website,
               explorer: values?.explorer,
@@ -172,8 +170,6 @@ const ModalAdd = ({ isModal }) => {
             body = {
               name: values?.name,
               subCategory: values?.subCategory,
-              thumbLogo: data?.image,
-              smallLogo: data?.image,
               bigLogo: data?.image,
               description: values?.description,
               website: values?.website,

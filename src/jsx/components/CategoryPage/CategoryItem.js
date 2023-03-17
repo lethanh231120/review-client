@@ -22,7 +22,6 @@ import Swal from 'sweetalert2'
 import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE, LIST_LAUNCHPAD } from '../../constants/category'
 import { read } from '../../../api/BaseRequest'
 import { genListHeader } from '../SEO/server/ExpressGenerHeader'
-// import ScrollToTop from '../../layouts/ScrollToTop'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -44,6 +43,7 @@ const CategoryItem = () => {
     crypto: []
   })
   const [status, setStatus] = useState()
+  const [xCoord, yCoord] = [0, 0]
 
   // only main-menu changed
   useEffect(() => {
@@ -189,7 +189,6 @@ const CategoryItem = () => {
       page: value
     })
     // scroll to the top page
-    const [xCoord, yCoord] = [0, 0]
     window.scrollTo(xCoord, yCoord)
   }
 
@@ -531,9 +530,8 @@ const CategoryItem = () => {
     listProduct && status === 'done' && getData()
   }, [tab, listProduct, status])
 
-  // useEffect(() => {
-  //   refabc.current.scrollTo(0, 0)
-  // }, [])
+  // scroll to the top page when back from detail
+  window.scrollTo(xCoord, yCoord)
 
   return (
     <>
@@ -588,7 +586,6 @@ const CategoryItem = () => {
             )}
           </>
         )}
-        {/* <ScrollToTop/> */}
       </div>
     </>
   )

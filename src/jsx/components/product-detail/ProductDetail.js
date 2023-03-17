@@ -860,6 +860,12 @@ const ProductDetail = () => {
     loadingDetail={loadingDetail}
   />
 
+  useEffect(() => {
+    // scroll to the top page
+    const [xCoord, yCoord] = [0, 0]
+    window.scrollTo(xCoord, yCoord)
+  }, [pathNameHeader])
+
   return (
     <>
       {productInfo?.details
