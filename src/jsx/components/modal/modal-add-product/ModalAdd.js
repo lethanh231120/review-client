@@ -527,16 +527,10 @@ const ModalAdd = ({ isModal }) => {
             <Col sm={{ span: 12 }} xs={{ span: 24 }}>
               <Form.Item
                 name='chainId'
-                label='Blockchain ID'
+                label='Chain ID'
                 value={form.getFieldsValue('chainId')}
-                rules={[
-                  {
-                    required: category === DAPP,
-                    message: 'Please input chain name!'
-                  }
-                ]}
               >
-                <Input placeholder='Chain ID'/>
+                <Input placeholder='Chain ID (Optional)'/>
               </Form.Item>
             </Col>
           )}
