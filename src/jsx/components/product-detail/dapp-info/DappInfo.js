@@ -160,7 +160,11 @@ const DappInfo = ({ productInfo, ...rest }) => {
         <div className='card-body pt-3'>
           <div className='profile-blog'>
             <div className='community-list'>
-              <InformationSubTitle type={typeShort}/>
+              {
+                (detail?.balance && detail?.balance !== 0) || (detail?.totalUser && detail?.totalUser !== 0) || (detail?.user24h && detail?.user24h !== 0) || (detail?.volume24h && detail?.volume24h !== 0)
+                  ? <InformationSubTitle type={typeShort}/>
+                  : ''
+              }
               { (detail?.balance && detail?.balance !== 0)
                 ? <ShortItem
                   title={'Balance:'}
@@ -183,7 +187,11 @@ const DappInfo = ({ productInfo, ...rest }) => {
                 title={'Volume 24h:'}
                 content={formatMoney(detail?.volume24h)} /> : ''}
 
-              <InformationSubTitle type={typeBlockchain}/>
+              {
+                !_.isEmpty(detail?.chains)
+                  ? <InformationSubTitle type={typeBlockchain}/>
+                  : ''
+              }
               {!_.isEmpty(detail?.chains) && <ShortItem
                 title={<>
                   <Avatar.Group className='ms-1'
@@ -274,10 +282,6 @@ const DappInfo = ({ productInfo, ...rest }) => {
                     {Object.keys(detail?.sourceCode)?.map((key, index) => key && <Dropdown.Item key={index} ><a href={detail?.sourceCode[key]}>{detail?.sourceCode[key]}</a></Dropdown.Item>)}
                   </Dropdown.Menu>
                 </Dropdown>
-                {/* <div className='d-flex text-align-center mb-1'>
-                  <p className='mb-0'>Source Code:</p>
-                  <h4 className='ms-1 mb-1'>{detail?.sourceCode} </h4>
-                          </div> */}
               </div>}
               <p>
               If you have any good or bad experience with
