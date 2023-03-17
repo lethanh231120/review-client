@@ -309,6 +309,7 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
                 <Select
                   style={{ width: '100%' }}
                   onChange={(value) => handleChangeRating(value)}
+                  placeholder='Select rating'
                 >
                   <Option value={1}>
                     <div className='d-flex align-items-center'>
