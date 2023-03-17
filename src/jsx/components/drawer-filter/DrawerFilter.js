@@ -316,7 +316,10 @@ const DrawerFilter = ({ type, handleFilter }) => {
               }
             })
           ]}>
-          <Select options={fromList} onChange={e => setToList(toList => toList?.filter(item => item?.value >= e))}/>
+          <Select options={fromList} onChange={e => {
+            setToList(options)
+            setToList(toList => toList?.filter(item => item?.value >= e))
+          }}/>
         </Form.Item>
       </Col>
       <Col span={4} className='d-flex justify-content-center mt-1'>To</Col>
@@ -335,7 +338,10 @@ const DrawerFilter = ({ type, handleFilter }) => {
               }
             })
           ]}>
-          <Select options={toList} onChange={e => setFromList(fromList => fromList?.filter(item => item?.value <= e))}/>
+          <Select options={toList} onChange={e => {
+            setFromList(options)
+            setFromList(fromList => fromList?.filter(item => item?.value <= e))
+          }}/>
         </Form.Item></Col>
 
     </Row>
