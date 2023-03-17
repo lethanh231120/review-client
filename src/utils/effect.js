@@ -10,7 +10,7 @@ export const openWebsite = (link, setLoading, waitTime) => {
   }, waitTime)
 }
 
-const toastMesage = async(message) => {
+const toastMesage = (message) => {
   const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -25,14 +25,14 @@ const toastMesage = async(message) => {
   })
 }
 
-export const copyAddress = async(e, value, message) => {
+export const copyAddress = (e, value, message) => {
   e.stopPropagation()
   e.preventDefault()
   const text = new Blob([`${value}`], { type: 'text/plain' })
   const item = new ClipboardItem({
     'text/plain': text
   })
-  await navigator.clipboard.write([item])
+  navigator.clipboard.write([item])
   toastMesage(message)
 }
 

@@ -1,13 +1,12 @@
 import React from 'react'
 import { FacebookIcon, LinkedinIcon, PinterestIcon, RedditIcon, TelegramIcon, TwitterIcon } from 'react-share'
 import { FacebookShareButton, TwitterShareButton, TelegramShareButton, LinkedinShareButton, PinterestShareButton, RedditShareButton } from 'react-share'
-// import Swal from 'sweetalert2'
 import { copyAddress } from '../../../../utils/effect'
 
 const ShareButton = ({ name, setOpenModalShare }) => {
-  const coppyLink = async(e, value) => {
-    await setOpenModalShare(false)
+  const coppyLink = (e, value) => {
     copyAddress(e, value, 'Copy link successfully!')
+    setOpenModalShare(false)
   }
 
   return <>
