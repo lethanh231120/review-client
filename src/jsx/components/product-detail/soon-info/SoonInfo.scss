@@ -1,23 +1,29 @@
 .soon-table-round-sale{
-    span{
-      font-family: 'poppins', sans-serif;
-      color: #A098AE;
-      white-space: nowrap;
-    }
-    .badge{
-      color: #fff
-    }
-  
-    thead{
-      font-family: 'poppins', sans-serif;
-    }
-  
-    tr:hover{
-      cursor: pointer;
-    }
+  span{
+    font-family: 'poppins', sans-serif;
+    color: #A098AE;
+    white-space: nowrap;
+  }
+  .badge{
+    color: #fff
   }
 
-  .cus-soon-name{
-    width: fit-content;
-    max-width: calc(100% - 16rem);
+  thead{
+    font-family: 'poppins', sans-serif;
   }
+
+  tr:hover{
+    cursor: pointer;
+  }
+}
+
+.cus-soon-name{
+  width: fit-content;
+  max-width: calc(100% - 16rem);
+  padding: 0 0.7rem;
+}
+@media screen and (max-width: 575.99px) {
+  .cus-soon-name{
+    padding: 0 0.3rem ;
+  }
+}

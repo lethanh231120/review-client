@@ -50,9 +50,9 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItemSea
               <h6 className='cus-h6'>({item?.symbol})</h6>
             </div>
             {item?.isScam ? (
-              <Image src={scam} alt='Scam'/>
+              <Image src={scam} alt='Scam' preview={false}/>
             ) : item?.isWarning ? (
-              <Image src={warning} alt='Warning' />
+              <Image src={warning} alt='Warning' preview={false}/>
             ) : (
               ''
             )}
