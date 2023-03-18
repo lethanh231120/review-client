@@ -4,7 +4,7 @@ import Description from '../description/Description'
 import { CopyOutlined } from '@ant-design/icons'
 import './crypto.scss'
 import _ from 'lodash'
-import { CRYPTO, CRYPTO_COIN } from '../../../constants/category'
+import { CRYPTO, CRYPTO_COIN, CRYPTO_TOKEN } from '../../../constants/category'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { ChainListContext, ExchangeContext } from '../../../../App'
 import { Badge, Button } from 'react-bootstrap'
@@ -353,14 +353,18 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   ]
 
-  const projectNameSymbol = <h1 className='text-primary mb-2 cus-h4' style={{ fontSize: '1.125rem' }}>
+  const nameSymbol = <>
     <span className='detail-header-overview-name'>
       {detail?.name}
     </span>
     <span className='crypto-overview-symbol'>
       {detail?.symbol ? detail?.symbol : ''}
     </span>
-  </h1>
+  </>
+
+  const projectNameSymbol = detail?.type === CRYPTO_COIN
+    ? <h1 className='text-primary mb-2 cus-h4' style={{ fontSize: '1.125rem' }}>{nameSymbol}</h1>
+    : <h4 className='text-primary mb-2 cus-h4' style={{ fontSize: '1.125rem' }}>{nameSymbol}</h4>
 
   const projectAddressType = <div className='d-flex align-items-center'>
     {(detail?.type === CRYPTO_COIN && detail?.explorer) && (
@@ -378,31 +382,28 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       </p>
     )}
     {detail?.address && (
-      <>
-        <h1 hidden={true}>{detail?.address}</h1>
-        <p className='crypto-info-item-address'>
-          <a
-            href={mainExplorer}
-            target='_blank'
-            rel='noreferrer'
-            className='product-name-text text-primary'
-            style={{ cursor: 'pointer' }}
-          >
-            <Image
-              alt='Blockchain Logo'
-              src={chainList[`${detail?.chainName}`]?.image}
-              preview={false}
-            />
-            {`${detail?.address?.slice(0, 5)}...${detail?.address?.slice(detail?.address?.length - 5, detail?.address?.length)}`}
-          </a>
-          <CopyOutlined
-            style={{ padding: '0, 1rem' }}
-            onClick={(e) => {
-              copyAddress(e, detail?.address, 'Copy address successfully!')
-            }}
+      <p className='crypto-info-item-address'>
+        <a
+          href={mainExplorer}
+          target='_blank'
+          rel='noreferrer'
+          className='product-name-text text-primary'
+          style={{ cursor: 'pointer' }}
+        >
+          <Image
+            alt='Blockchain Logo'
+            src={chainList[`${detail?.chainName}`]?.image}
+            preview={false}
           />
-        </p>
-      </>
+          {`${detail?.address?.slice(0, 5)}...${detail?.address?.slice(detail?.address?.length - 5, detail?.address?.length)}`}
+        </a>
+        <CopyOutlined
+          style={{ padding: '0, 1rem' }}
+          onClick={(e) => {
+            copyAddress(e, detail?.address, 'Copy address successfully!')
+          }}
+        />
+      </p>
     )}
     {detail?.type && (
       <Badge className='badge-sm button-type' >{toCammelCase(detail?.type) }</Badge>
@@ -590,6 +591,9 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     )}
   </div>
 
+  const additionalDescription = detail?.type === CRYPTO_TOKEN
+    ? detail?.name + ' - ' + detail?.symbol + ' - ' + detail?.address
+    : ''
   const about = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
@@ -597,6 +601,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       <Description
         projectName={detail?.name}
         text={ detail?.description }
+        descriptionToken= {additionalDescription}
+        chainName={detail?.chainName}
       />
     )}
   </>

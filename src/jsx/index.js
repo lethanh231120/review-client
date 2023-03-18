@@ -45,6 +45,7 @@ const Markup = () => {
   const [openModalUserProfile, setOpenModalUserProfile] = useState(false)
   const [toggle, setToggle] = useState(false)
   const [pathName, setPathName] = useState('')
+  const [pathDetail, setPathDetail] = useState(false)
 
   const allroutes = [
     { url: '', pathName: 'Home', component: <Home /> },
@@ -71,6 +72,10 @@ const Markup = () => {
       } else {
         setPathName(path)
       }
+    },
+    pathDetail: pathDetail,
+    setPathDetail: (isDetailPath) => {
+      setPathDetail(isDetailPath)
     }
   }
 
