@@ -50,7 +50,7 @@ const metaTagHome = getMetaTagHome()
 const META_TITLE = metaTagHome.title
 const META_IMAGE = metaTagHome.image
 const META_DESCRIPTION = metaTagHome.description
-const META_UNIQUE_LINK = metaTagHome.uniqueLink
+const META_UNIQUE_LINK = metaTagHome.uniqueLink // DOMAIN
 const metaTagInsight = getMetaTagInsight()
 const META_TITLE_INSIGHT = metaTagInsight.title
 const META_IMAGE_INSIGHT = metaTagInsight.image
@@ -67,11 +67,20 @@ const isInteger = (number) => {
 }
 
 const injectHtmlHeader = (metaTag) => {
-  const dynamicMetaIndexHtml = file?.getIndexHtml()
+  let dynamicMetaIndexHtml = file?.getIndexHtml()
     ?.split(META_TITLE)?.join(metaTag?.title) // euqal replace all
     ?.split(META_DESCRIPTION)?.join(metaTag?.description)
-    ?.split(META_IMAGE)?.join(metaTag?.image)
     ?.split(META_UNIQUE_LINK)?.join(metaTag?.uniqueLink)
+  const isInternalImage = metaTag?.image && metaTag?.image?.length >= 1 && metaTag?.image[0] === '/'
+  if (isInternalImage) {
+    dynamicMetaIndexHtml = dynamicMetaIndexHtml
+      ?.split(META_IMAGE)?.join(META_UNIQUE_LINK + metaTag?.image)
+  } else {
+    // External image
+    dynamicMetaIndexHtml = dynamicMetaIndexHtml
+      ?.split(META_IMAGE)?.join(metaTag?.image)
+  }
+
   const schemaMarkupIndexHtml = dynamicMetaIndexHtml?.replace(getScriptSchemaMarkupSiteLinkSearchBoxHomePage(), '')
   return schemaMarkupIndexHtml
 }
