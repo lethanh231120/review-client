@@ -353,14 +353,14 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   ]
 
-  const projectNameSymbol = <h4 className='text-primary mb-2 cus-h4'>
+  const projectNameSymbol = <h1 className='text-primary mb-2 cus-h4' style={{ fontSize: '1.125rem' }}>
     <span className='detail-header-overview-name'>
       {detail?.name}
     </span>
     <span className='crypto-overview-symbol'>
       {detail?.symbol ? detail?.symbol : ''}
     </span>
-  </h4>
+  </h1>
 
   const projectAddressType = <div className='d-flex align-items-center'>
     {(detail?.type === CRYPTO_COIN && detail?.explorer) && (
@@ -378,28 +378,31 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       </p>
     )}
     {detail?.address && (
-      <p className='crypto-info-item-address'>
-        <a
-          href={mainExplorer}
-          target='_blank'
-          rel='noreferrer'
-          className='product-name-text text-primary'
-          style={{ cursor: 'pointer' }}
-        >
-          <Image
-            alt='Blockchain Logo'
-            src={chainList[`${detail?.chainName}`]?.image}
-            preview={false}
+      <>
+        <h1 hidden={true}>{detail?.address}</h1>
+        <p className='crypto-info-item-address'>
+          <a
+            href={mainExplorer}
+            target='_blank'
+            rel='noreferrer'
+            className='product-name-text text-primary'
+            style={{ cursor: 'pointer' }}
+          >
+            <Image
+              alt='Blockchain Logo'
+              src={chainList[`${detail?.chainName}`]?.image}
+              preview={false}
+            />
+            {`${detail?.address?.slice(0, 5)}...${detail?.address?.slice(detail?.address?.length - 5, detail?.address?.length)}`}
+          </a>
+          <CopyOutlined
+            style={{ padding: '0, 1rem' }}
+            onClick={(e) => {
+              copyAddress(e, detail?.address, 'Copy address successfully!')
+            }}
           />
-          {`${detail?.address?.slice(0, 5)}...${detail?.address?.slice(detail?.address?.length - 5, detail?.address?.length)}`}
-        </a>
-        <CopyOutlined
-          style={{ padding: '0, 1rem' }}
-          onClick={(e) => {
-            copyAddress(e, detail?.address, 'Copy address successfully!')
-          }}
-        />
-      </p>
+        </p>
+      </>
     )}
     {detail?.type && (
       <Badge className='badge-sm button-type' >{toCammelCase(detail?.type) }</Badge>
