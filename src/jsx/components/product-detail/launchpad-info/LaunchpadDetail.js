@@ -24,6 +24,8 @@ import hands from '../../../../images/svg/hands.svg'
 import ProductDetailHeader from '../../skeleton/product-detail-skeleton/ProductDetailHeader'
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
 import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
+import InformationSubTitle, { typeBlockchain, typeExplorer, typeShort } from '../../common-widgets/page-detail/InformationSubTitle'
+import ShortItem from '../../common-widgets/page-detail/ShortItem'
 
 const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -151,62 +153,6 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
     )}
   </>
 
-  // VENTURE MORE
-  const dataItem = (title, content) =>{
-    return <div className='d-flex text-align-center mb-1'>
-      <p className='mb-0 mt-1'>{title}:</p>
-      <h5 className='ms-1 mt-1' >{content} </h5>
-    </div>
-  }
-
-  const communityItem = (title, content) => {
-    return <div className='d-flex align-items-start'>
-      <p className='me-2'>{title}:</p>
-      <div className='cus-d-flex'>
-        {content && (
-          Object.keys(content).map(
-            (socialName) => {
-              return content[socialName] !== '' ? (
-                <Tooltip
-
-                  placementTooltip='topLeft'
-                  title={toCammelCase(socialName)}
-                  key={socialName}
-                >
-                  <a
-                    href={content[socialName]}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    <Avatar
-                      alt='Social Logo'
-                      className='img-fluid p-1 rounded-circle cus-avatar'
-                      style={{ backgroundColor: '#F0F2F5' }}
-                      preview={false}
-                      src={
-                        socials?.find(
-                          (social) =>
-                            social?.key?.toLowerCase() ===
-                          socialName?.toLowerCase()
-                        )?.icon
-                          ? socials?.find(
-                            (social) =>
-                              social?.key?.toLowerCase() ===
-                              socialName?.toLowerCase()
-                          ).icon
-                          : defaultSocial
-                      }
-                    />
-                  </a>
-                </Tooltip>
-              ) : null
-            }
-          )
-        )}
-      </div>
-    </div>
-  }
-
   const More = () => {
     return <div>
       {rest?.loadingDetail ? (<ProductDetailInfo/>) : (
@@ -215,23 +161,50 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
           <div className='card-body pt-3'>
             <div className='profile-blog'>
               <div className='community-list'>
-                {detail?.minTokenToParticipate > 0 && (
-                  <div className='community-list-item'>
-                    {dataItem('Entry Threshold', `${detail?.minTokenToParticipate} ${detail?.symbol}`)}
-                  </div>
-                )}
+                {
+                  detail?.minTokenToParticipate || detail?.yearFounded
+                    ? <InformationSubTitle type={typeShort}/>
+                    : ''
+                }
 
-                {detail?.yearFounded && (
-                  <div className='community-list-item'>
-                    {dataItem('Year Founded', detail?.yearFounded)}
+                { (detail?.minTokenToParticipate)
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s entry threshold:&nbsp;
+                        <span className='text-primary'>
+                          <b>{`${detail?.minTokenToParticipate} ${detail?.symbol}`}</b>
+                        </span>
+                      </h3>}
+                    />
                   </div>
-                )}
+                  : ''
+                }
 
-                {!_.isEmpty(detail?.chains) && (
-                  <div className='community-list-item'>
-                    {
-                      <div className='d-flex text-align-center mb-2'>
-                        <p className='mb-0'> Chains:</p>
+                { (detail?.yearFounded)
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s year founded:&nbsp;
+                        <span className='text-primary'>
+                          <b>{detail?.yearFounded}</b>
+                        </span>
+                      </h3>}
+                    />
+                  </div>
+                  : ''
+                }
+
+                {
+                  !_.isEmpty(detail?.chains)
+                    ? <InformationSubTitle type={typeBlockchain}/>
+                    : ''
+                }
+
+                {!_.isEmpty(detail?.chains)
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<>
                         <Avatar.Group className='ms-1'
                           alt='Blockchains Logos'
                           maxCount={4}
@@ -242,35 +215,73 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
                             cursor: 'pointer'
                           }}
                         >
-                          {detail?.chains && Object.keys(detail?.chains).map((key, index) => (
-                            <>
-                              {key && (
-                                <Tooltip key={index} title={chainList[key]?.chainName}>
+                          {detail?.chains && Object.keys(detail?.chains).map((keyChainName, index) => (
+                            <div key={index}>
+                              {keyChainName && (
+                                <Tooltip title={toCammelCase(keyChainName)} >
                                   <Avatar
-                                    alt='Blockchain Logo'
-                                    onClick={() => onItemClicked(chainList[key]?.exploreWebsite)}
+                                    alt='Gear5'
                                     size={20}
-                                    src={chainList[key]?.image}
-                                    key={index}
+                                    src={chainList[keyChainName]?.image}
                                     className='crypto-info-exchange'
                                   />
-
                                 </Tooltip>
-
                               )}
-                            </>
+                            </div>
                           ))}
                         </Avatar.Group>
-                      </div>
-                    }
-                  </div>
-                )}
+                      </>}
+                    />
+                  </div> : ''
+                }
 
-                {detail?.socials && (
-                  <div className='community-list-item'>
-                    {communityItem('Social', detail?.socials)}
-                  </div>
-                )}
+                {
+                  detail?.socials
+                    ? <InformationSubTitle type={typeExplorer}/>
+                    : ''
+                }
+                {detail?.socials ? <div className='mb-3 col-12'>
+                  <ShortItem
+                    title={Object.keys(detail?.socials).map(
+                      (socialName) => {
+                        return detail?.socials[socialName] !== '' ? (
+                          <Tooltip
+                            className='me-1 mt-2'
+                            placementTooltip='topLeft'
+                            title={toCammelCase(socialName)}
+                            key={socialName}
+                          >
+                            <a
+                              href={detail?.socials[socialName]}
+                              target='_blank'
+                              rel='noreferrer'
+                            >
+                              <Avatar
+                                alt='Social Logo'
+                                className='img-fluid p-1 rounded-circle cus-avatar'
+                                style={{ backgroundColor: '#F0F2F5' }}
+                                preview={false}
+                                src={
+                                  socials?.find(
+                                    (social) =>
+                                      social?.key?.toLowerCase() ===
+                                          socialName?.toLowerCase()
+                                  )?.icon
+                                    ? socials?.find(
+                                      (social) =>
+                                        social?.key?.toLowerCase() ===
+                                              socialName?.toLowerCase()
+                                    ).icon
+                                    : defaultSocial
+                                }
+                              />
+                            </a>
+                          </Tooltip>
+                        ) : null
+                      }
+                    )}
+                  />
+                </div> : ''}
 
                 <p>
               If you have any good or bad experience with

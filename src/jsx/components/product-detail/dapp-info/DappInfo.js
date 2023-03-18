@@ -168,61 +168,95 @@ const DappInfo = ({ productInfo, ...rest }) => {
                   : ''
               }
               { (detail?.balance && detail?.balance !== 0)
-                ? <ShortItem
-                  title={'Balance:'}
-                  content={formatMoney(detail?.balance)} />
+                ? <div className='mb-3 col-12' >
+                  <ShortItem
+                    title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                      {detail?.dAppName}&apos;s balance:&nbsp;
+                      <span className='text-primary'>
+                        <b>{formatMoney(detail?.balance)}</b>
+                      </span>
+                    </h3>}
+                  />
+                </div>
                 : ''
               }
               {(detail?.totalUser && detail?.totalUser !== 0)
-                ? <ShortItem
-                  title={'Total Users:'}
-                  content={detail?.totalUser} />
+                ? <div className='mb-3 col-12' >
+                  <ShortItem
+                    title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                      {detail?.dAppName}&apos;s total users:&nbsp;
+                      <span className='text-primary'>
+                        <b>{detail?.totalUser}</b>
+                      </span>
+                    </h3>}
+                  />
+                </div>
                 : ''
               }
-              {(detail?.user24h && detail?.user24h !== 0) ? <ShortItem
-                title={'User 24h:'}
-                content={formatLargeNumber(detail?.user24h)?.replace('$', '')} />
+              {(detail?.user24h && detail?.user24h !== 0)
+                ? <div className='mb-3 col-12' >
+                  <ShortItem
+                    title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                      {detail?.dAppName}&apos;s user 24h:&nbsp;
+                      <span className='text-primary'>
+                        <b>{formatLargeNumber(detail?.user24h)?.replace('$', '')}</b>
+                      </span>
+                    </h3>}
+                  />
+                </div>
                 : ''
               }
 
-              {(detail?.volume24h && detail?.volume24h !== 0) ? <ShortItem
-                title={'Volume 24h:'}
-                content={formatMoney(detail?.volume24h)} /> : ''}
+              {(detail?.volume24h && detail?.volume24h !== 0)
+                ? <div className='mb-3 col-12' >
+                  <ShortItem
+                    title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                      {detail?.dAppName}&apos;s volume 24h:&nbsp;
+                      <span className='text-primary'>
+                        <b>{formatMoney(detail?.volume24h)}</b>
+                      </span>
+                    </h3>}
+                  />
+                </div>
+                : ''}
 
               {
                 !_.isEmpty(detail?.chains)
                   ? <InformationSubTitle type={typeBlockchain}/>
                   : ''
               }
-              {!_.isEmpty(detail?.chains) && <ShortItem
-                title={<>
-                  <Avatar.Group className='ms-1'
-                    alt='Blockchains Logos'
-                    maxCount={4}
-                    size={20}
-                    maxStyle={{
-                      color: '#fff',
-                      backgroundColor: '#039F7F',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {detail?.chains && Object.keys(detail?.chains).map((keyChainName, index) => (
-                      <div key={index}>
-                        {keyChainName && (
-                          <Tooltip title={toCammelCase(keyChainName)} >
-                            <Avatar
-                              alt='Gear5'
-                              size={20}
-                              src={chainList[keyChainName]?.image}
-                              className='crypto-info-exchange'
-                            />
-                          </Tooltip>
-                        )}
-                      </div>
-                    ))}
-                  </Avatar.Group>
-                </>}
-              />
+              {!_.isEmpty(detail?.chains)
+                ? <div className='mb-3 col-12' >
+                  <ShortItem
+                    title={<>
+                      <Avatar.Group className='ms-1'
+                        alt='Blockchains Logos'
+                        maxCount={4}
+                        size={20}
+                        maxStyle={{
+                          color: '#fff',
+                          backgroundColor: '#039F7F',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {detail?.chains && Object.keys(detail?.chains).map((keyChainName, index) => (
+                          <div key={index}>
+                            {keyChainName && (
+                              <Tooltip title={toCammelCase(keyChainName)} >
+                                <Avatar
+                                  alt='Gear5'
+                                  size={20}
+                                  src={chainList[keyChainName]?.image}
+                                  className='crypto-info-exchange'
+                                />
+                              </Tooltip>
+                            )}
+                          </div>
+                        ))}
+                      </Avatar.Group>
+                    </>}
+                  />
+                </div> : ''
               }
 
               {
