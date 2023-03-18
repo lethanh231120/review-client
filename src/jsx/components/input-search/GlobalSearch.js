@@ -15,6 +15,7 @@ import ItemVenture from './item-venture/ItemVenture'
 import { SummaryHomeContext } from '../../../App'
 import { formatLargeNumber } from '../../../utils/formatNumber'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
+import Swal from 'sweetalert2'
 
 const InputSearch = ({ isFormReport, setItemSearch }) => {
   const summaryData = useContext(SummaryHomeContext)
@@ -44,50 +45,75 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
   const [keyWord, setKeyWord] = useState()
   const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState(FIRST_SEARCH_PLACEHOLDER_TEXT)
   const [submitSearch, setSubmitSearch] = useState(false)
+  // const [isBackSpace, setIsBackSpace] = useState(false)
 
-  const handleSearch = _.debounce(async(value) => {
-    if (value !== '') {
-      setDataSearch({
-        ...dataSearch,
-        data: {},
-        status: '',
-        loading: true,
-        isActive: true
-      })
-      setKeyWord(value)
-      const data = await search('search/suggest', { keyword: value })
-      if (data) {
-        setListDataSearch({
-          listCrypto: {
-            cryptos: (data?.data['listCrypto']?.cryptos !== null) ? data?.data['listCrypto']?.cryptos?.splice(0, 10) : null
-          },
-          listDapp: {
-            dapps: (data?.data['listDapp']?.dapps !== null) ? data?.data['listDapp']?.dapps?.splice(0, 10) : null
-          },
-          listExchange: {
-            exchanges: (data?.data['listExchange']?.exchanges !== null) ? data?.data['listExchange']?.exchanges?.splice(0, 10) : null
-          },
-          listSoon: {
-            soons: (data?.data['listSoon']?.soons !== null) ? data?.data['listSoon']?.soons?.splice(0, 10) : null
-          },
-          listVenture: {
-            ventures: (data?.data['listVenture']?.ventures !== null) ? data?.data['listVenture']?.ventures?.splice(0, 10) : null
-          },
-          listLaunchpad: {
-            launchPads: (data?.data['listLaunchpad']?.launchPads !== null) ? data?.data['listLaunchpad']?.launchPads?.splice(0, 10) : null
-          }
-        })
-      } else {
+  const toartError = (content) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true
+    })
+
+    Toast.fire({
+      icon: 'error',
+      title: content
+    })
+  }
+
+  const handleSearch = _.debounce(async(e, value) => {
+    console.log(e)
+    try {
+      if (value !== '') {
         setDataSearch({
-          loading: false,
+          ...dataSearch,
           data: {},
-          status: 'done',
+          status: '',
+          loading: true,
           isActive: true
         })
+        setKeyWord(value)
+        const data = await search('search/suggest', { keyword: value })
+        if (data) {
+          setListDataSearch({
+            listCrypto: {
+              cryptos: (data?.data['listCrypto']?.cryptos !== null) ? data?.data['listCrypto']?.cryptos?.splice(0, 10) : null
+            },
+            listDapp: {
+              dapps: (data?.data['listDapp']?.dapps !== null) ? data?.data['listDapp']?.dapps?.splice(0, 10) : null
+            },
+            listExchange: {
+              exchanges: (data?.data['listExchange']?.exchanges !== null) ? data?.data['listExchange']?.exchanges?.splice(0, 10) : null
+            },
+            listSoon: {
+              soons: (data?.data['listSoon']?.soons !== null) ? data?.data['listSoon']?.soons?.splice(0, 10) : null
+            },
+            listVenture: {
+              ventures: (data?.data['listVenture']?.ventures !== null) ? data?.data['listVenture']?.ventures?.splice(0, 10) : null
+            },
+            listLaunchpad: {
+              launchPads: (data?.data['listLaunchpad']?.launchPads !== null) ? data?.data['listLaunchpad']?.launchPads?.splice(0, 10) : null
+            }
+          })
+        } else {
+          setDataSearch({
+            loading: false,
+            data: {},
+            status: 'done',
+            isActive: true
+          })
+        }
+      } else {
+        setDataSearch({ isActive: false, data: {}, loading: false, status: '' })
+        setIsSubmit()
       }
-    } else {
-      setDataSearch({ isActive: false, data: {}, loading: false, status: '' })
-      setIsSubmit()
+    } catch (error) {
+      if (error?.response?.data?.code === 'B.ALL.429.C6') {
+        toartError('You act too fast. Please try again!')
+        setDataSearch({ isActive: false, data: {}, loading: false, status: '' })
+        setIsSubmit()
+      }
     }
   }, 500)
 
@@ -169,36 +195,6 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
     } else {
       if (itemSubmit) {
         navigateDetailProduct(itemSubmit)
-        // const productId = itemSubmit?.cryptoId
-        //   ? `${itemSubmit?.cryptoId?.split('_')[1]}/${itemSubmit?.cryptoId?.split('_')[2]}/${itemSubmit?.cryptoId?.split('_')[1] === 'token' ? itemSubmit?.cryptoId?.split('_')[3] : ''}`
-        //   : itemSubmit?.dappId
-        //     ? `${itemSubmit?.dappId?.split('_')[2]}`
-        //     : itemSubmit?.exchangeId
-        //       ? `${itemSubmit?.exchangeId?.split('_')[2]}`
-        //       : itemSubmit?.soonId
-        //         ? `${itemSubmit?.soonId?.split('_')[2]}`
-        //         : itemSubmit?.ventureId
-        //           ? `${itemSubmit?.ventureId?.split('_')[2]}`
-        //           : `${itemSubmit?.launchPadId?.split('_')[2]}`
-        // navigate(
-        //   `../../products/${
-        //     itemSubmit?.cryptoId
-        //       ? 'crypto'
-        //       : itemSubmit?.dappId
-        //         ? 'dapp'
-        //         : itemSubmit?.exchangeId
-        //           ? 'exchange'
-        //           : itemSubmit?.soonId
-        //             ? 'soon'
-        //             : itemSubmit?.ventureId
-        //               ? 'venture'
-        //               : 'launchpad'
-        //   }/${productId}`
-        // )
-        // setKeyWord()
-        // setDataSearch({
-        //   isActive: false, data: {}, loading: false, status: ''
-        // })
       } else {
         console.log('')
       }
@@ -318,7 +314,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
             className='form-control cus-form-control'
             placeholder={`${isFormReport ? 'Search for the project you want to report with us' : txtDisplaySearchHeader}`}
             onChange={(e) => {
-              handleSearch(e.target.value)
+              handleSearch(e, e.target.value)
               if (isFormReport) {
                 setItemSearch()
               }
@@ -326,7 +322,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
             onKeyPress={handleSubmitSearch}
             autoComplete='off'
             onBlur={(e) => {
-              handleSearch('')
+              handleSearch(e, '')
               clearText(e)
             }}
             id='globalSearch'
