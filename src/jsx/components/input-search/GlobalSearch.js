@@ -63,7 +63,6 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
   }
 
   const handleSearch = _.debounce(async(e, value) => {
-    console.log(e)
     try {
       if (value !== '') {
         setDataSearch({
