@@ -354,13 +354,13 @@ app.get('/:category/:subCategory', (req, res) =>{
 // home (NOT WORKING when use express.static)
 app.get('/', (_, res) => {
   // console.log('home')
-  genStaticHeader(_, res, getMetaTagHome())
+  genStaticHeader(res, getMetaTagHome())
 })
 
 // otherwise page
 app.get('/*', (_, res) => {
-  // console.log('other')
-  genStaticHeader(_, res, getMetaTagHome())
+  console.log('other')
+  genStaticHeader(res, getMetaTagHome())
 })
 
 // listening...
