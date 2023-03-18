@@ -12,10 +12,12 @@ export const InfoShortDetail = ({ itemDetail }) => {
         itemDetail?.type &&
         <div className='mb-3 col-12' >
           <ShortItem
-            title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName}&apos;s token type:&nbsp;
+            title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName}&apos;s token type</h3>:&nbsp;
               <span className='text-primary'>
                 <b>{itemDetail?.type}</b>
-              </span></h3>}
+              </span>
+            </>
+            }
           />
         </div>
       }
@@ -23,10 +25,11 @@ export const InfoShortDetail = ({ itemDetail }) => {
         itemDetail?.roundType &&
         <div className='mb-3 col-12' >
           <ShortItem
-            title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName}&apos;s current round:&nbsp;
+            title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName}&apos;s current round</h3>:&nbsp;
               <span className='text-primary'>
                 <b>{itemDetail?.roundType}</b>
-              </span></h3>
+              </span>
+            </>
             }
           />
         </div>
@@ -35,7 +38,7 @@ export const InfoShortDetail = ({ itemDetail }) => {
         itemDetail?.acceptCurrency &&
         <div className='mb-3 col-12' >
           <ShortItem
-            title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName} is exchanged in currencies:&nbsp;
+            title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName} is exchanged in currencies</h3>:&nbsp;
               <span className='text-primary'>
                 <b>{itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
                   <span className='text-primary fs-16 text-uppercase' key={index}>
@@ -44,7 +47,8 @@ export const InfoShortDetail = ({ itemDetail }) => {
                     {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : <>,&nbsp;</>}
                   </span>
                 ))}</b>
-              </span></h3>
+              </span>
+            </>
             }
           />
         </div>
@@ -54,7 +58,7 @@ export const InfoShortDetail = ({ itemDetail }) => {
         !_.isEmpty(itemDetail?.blockchain) &&
         <div className='mb-3 col-12' >
           <ShortItem
-            title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName} lives on blockchains:&nbsp;
+            title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName} lives on blockchains</h3>:&nbsp;
               <span className='text-primary'>
                 <b>{Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
                   <span className='text-primary fs-16 text-capitalize' key={index}>
@@ -63,7 +67,8 @@ export const InfoShortDetail = ({ itemDetail }) => {
                     {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : <>,&nbsp;</>}
                   </span>
                 ))}</b>
-              </span></h3>
+              </span>
+            </>
             }
           />
         </div>

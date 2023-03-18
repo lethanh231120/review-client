@@ -170,12 +170,13 @@ const DappInfo = ({ productInfo, ...rest }) => {
               { (detail?.balance && detail?.balance !== 0)
                 ? <div className='mb-3 col-12' >
                   <ShortItem
-                    title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                      {detail?.dAppName}&apos;s balance:&nbsp;
+                    title={<>
+                      <h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.dAppName}&apos;s balance</h3>:&nbsp;
                       <span className='text-primary'>
                         <b>{formatMoney(detail?.balance)}</b>
                       </span>
-                    </h3>}
+                    </>}
                   />
                 </div>
                 : ''
@@ -183,12 +184,13 @@ const DappInfo = ({ productInfo, ...rest }) => {
               {(detail?.totalUser && detail?.totalUser !== 0)
                 ? <div className='mb-3 col-12' >
                   <ShortItem
-                    title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                      {detail?.dAppName}&apos;s total users:&nbsp;
+                    title={<>
+                      <h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.dAppName}&apos;s total users</h3>:&nbsp;
                       <span className='text-primary'>
                         <b>{detail?.totalUser}</b>
                       </span>
-                    </h3>}
+                    </>}
                   />
                 </div>
                 : ''
@@ -196,12 +198,13 @@ const DappInfo = ({ productInfo, ...rest }) => {
               {(detail?.user24h && detail?.user24h !== 0)
                 ? <div className='mb-3 col-12' >
                   <ShortItem
-                    title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                      {detail?.dAppName}&apos;s user 24h:&nbsp;
+                    title={<>
+                      <h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.dAppName}&apos;s user 24h</h3>:&nbsp;
                       <span className='text-primary'>
                         <b>{formatLargeNumber(detail?.user24h)?.replace('$', '')}</b>
                       </span>
-                    </h3>}
+                    </>}
                   />
                 </div>
                 : ''
@@ -210,12 +213,13 @@ const DappInfo = ({ productInfo, ...rest }) => {
               {(detail?.volume24h && detail?.volume24h !== 0)
                 ? <div className='mb-3 col-12' >
                   <ShortItem
-                    title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                      {detail?.dAppName}&apos;s volume 24h:&nbsp;
+                    title={<>
+                      <h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.dAppName}&apos;s volume 24h </h3>:&nbsp;
                       <span className='text-primary'>
                         <b>{formatMoney(detail?.volume24h)}</b>
                       </span>
-                    </h3>}
+                    </>}
                   />
                 </div>
                 : ''}

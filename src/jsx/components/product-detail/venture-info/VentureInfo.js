@@ -188,12 +188,13 @@ const VentureInfo = ({ productInfo, ...rest }) => {
                   detail?.location
                     ? <div className='mb-3 col-12' >
                       <ShortItem
-                        title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                          {detail?.ventureName}&apos;s location:&nbsp;
+                        title={<>
+                          <h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                            {detail?.ventureName}&apos;s location</h3>:&nbsp;
                           <span className='text-primary'>
                             <b>{detail?.location}</b>
                           </span>
-                        </h3>}
+                        </>}
                       />
                     </div>
                     : ''
@@ -203,12 +204,12 @@ const VentureInfo = ({ productInfo, ...rest }) => {
                   !_.isEmpty(productInfo?.mores?.fund)
                     ? <div className='mb-3 col-12' >
                       <ShortItem
-                        title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                          {detail?.ventureName}&apos;s total funds:&nbsp;
-                          <span className='text-primary'>
-                            <b>{renderNumber(calculateTotalFund(productInfo?.mores?.fund))}</b>
-                          </span>
-                        </h3>}
+                        title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                          {detail?.ventureName}&apos;s total funds</h3>:&nbsp;
+                        <span className='text-primary'>
+                          <b>{renderNumber(calculateTotalFund(productInfo?.mores?.fund))}</b>
+                        </span>
+                        </>}
                       />
                     </div>
                     : ''
@@ -218,12 +219,12 @@ const VentureInfo = ({ productInfo, ...rest }) => {
                   detail?.yearFounded
                     ? <div className='mb-3 col-12' >
                       <ShortItem
-                        title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                          {detail?.ventureName}&apos;s year founded:&nbsp;
-                          <span className='text-primary'>
-                            <b>{detail?.yearFounded}</b>
-                          </span>
-                        </h3>}
+                        title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                          {detail?.ventureName}&apos;s year founded</h3>:&nbsp;
+                        <span className='text-primary'>
+                          <b>{detail?.yearFounded}</b>
+                        </span>
+                        </>}
                       />
                     </div>
                     : ''
