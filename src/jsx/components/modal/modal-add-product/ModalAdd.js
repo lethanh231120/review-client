@@ -47,7 +47,7 @@ const ModalAdd = ({ isModal }) => {
   const categories = [
     {
       value: CRYPTO,
-      label: <span className='cus-form-placeholder'>Crypto Projects</span>
+      label: <span className='cus-form-placeholder'>Cryptos</span>
     },
     {
       value: EXCHANGE,
@@ -286,7 +286,7 @@ const ModalAdd = ({ isModal }) => {
         case 'DApps':
           categoryName = DAPP
           break
-        case 'Crypto Projects':
+        case 'Cryptos':
           categoryName = CRYPTO
           break
         case 'Exchanges':

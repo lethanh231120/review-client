@@ -458,9 +458,9 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalIsScam)} text={'Reported Scam'} backgroundColor={bgRed} />
             </div>
             <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
-              <h3 className='m-b-0'>
+              <div className='mb-0 mt-3'>
                 <MyScoreComponent score={detail?.score} type={CRYPTO} />
-              </h3>
+              </div>
               <div>Score</div>
             </div>
           </div>
@@ -616,7 +616,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           {!_.isEmpty(dataExchange) && (
             <>
               <div className='card-header border-0 pb-0'>
-                <h5 className='heading text-primary'>Trading On</h5>
+                <h2 className='heading text-primary'>{detail?.name} Trading On</h2>
               </div>
               <div className='card-body pt-3 exchange'>
                 <Table
@@ -655,6 +655,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const priceChart = <>
     {rest?.loadingDetail ? (<ProductDetailChart/>) : (
       <CoinChart
+        name={detail?.name}
         symbol={detail?.symbol}
         price={detail?.priceUSD}
         holders={detail?.holders}

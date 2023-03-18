@@ -23,6 +23,8 @@ import hands from '../../../../images/svg/hands.svg'
 import ProductDetailHeader from '../../skeleton/product-detail-skeleton/ProductDetailHeader'
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
 import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
+import InformationSubTitle, { typeExplorer, typeShort } from '../../common-widgets/page-detail/InformationSubTitle'
+import ShortItem from '../../common-widgets/page-detail/ShortItem'
 
 const ExchangeInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -58,8 +60,10 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
               }
             </div>
             <div className='profile-name cus-profile-name'>
-              <h4 className='text-primary mb-2 cus-h4'>{detail?.name}</h4>
-              <Badge className='badge-sm' >{detail?.subCategory}</Badge>
+              <h1 className='text-primary mb-2 cus-h4 fs-22'>{detail?.name}</h1>
+              <h2 className='mb-0' style={{ lineHeight: '0' }}>
+                <Badge className='badge-sm' >{detail?.subCategory}</Badge>
+              </h2>
             </div>
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
@@ -88,23 +92,23 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
       <div className='text-center'>
         <div className='row'>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <Badge bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalReviews}</Badge>
-            </h3>
+            </div>
             <span>Reviews</span>
           </div>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <Badge bg='badge-l' className='badge-warning progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalIsScam}</Badge>
-            </h3>
+            </div>
             <span>
             Reported Scam
             </span>
           </div>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <MyScoreComponent score={productInfo?.details?.score} type={EXCHANGE} />
-            </h3>
+            </div>
             <span>
             Score
             </span>
@@ -143,64 +147,6 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
     )}
   </>
 
-  // EXCHANGE MORE
-  const dataItem = (title, content) =>{
-    return <div className='d-flex text-align-center mb-1'>
-      <p className='mb-0 mt-1'>{title}:</p>
-      <h5 className='ms-1 mt-1' >{content} </h5>
-    </div>
-  }
-
-  const communityItem = (title, content) => {
-    return <div className='d-flex align-items-start'>
-      <p className='mt-2 '>{title}:</p>
-      <div className='cus-d-flex'>
-        {content && (
-          Object.keys(content).map(
-            (socialName) => {
-              return content[socialName] !== '' ? (
-                <Tooltip
-                  className='ms-1 mt-2'
-                  placementTooltip='topLeft'
-                  title={toCammelCase(socialName)}
-                  key={socialName}
-                >
-                  <a
-                    href={content[socialName]}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    <Avatar
-                      alt='Social Logo'
-                      className='img-fluid p-1 rounded-circle cus-avatar'
-                      style={{ backgroundColor: '#F0F2F5' }}
-                      // preview={false}
-                      src={
-                        socials?.find(
-                          (social) =>
-                            social?.key?.toLowerCase() ===
-                            socialName?.toLowerCase()
-                        )?.icon
-                          ? socials?.find(
-                            (social) =>
-                              social?.key?.toLowerCase() ===
-                                socialName?.toLowerCase()
-                          ).icon
-                          : defaultSocial
-                      }
-                    />
-                  </a>
-                </Tooltip>
-              ) : null
-            }
-          )
-          // }
-          // </Avatar.Group>
-        )}
-      </div>
-    </div>
-  }
-
   const More = () => {
     return <div>
       {rest?.loadingDetail ? (<ProductDetailInfo/>) : (
@@ -209,66 +155,183 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
           <div className='card-body'>
             <div className='profile-blog '>
               <div className='community-list'>
+                { (detail?.detail && detail?.detail['Country']) || (detail?.pairCount) || (detail?.volume24h) || (detail?.volume1m) || (detail?.feeTxs) || (detail?.visit7d) || (detail?.volume7d) || (detail?.volume1y) || detail?.founderYear
+                  ? <InformationSubTitle type={typeShort}/>
+                  : ''}
 
-                {detail?.detail && detail?.detail['Country'] && (
-                  <div className='community-list-item'>
-                    {dataItem('Country', shortenString(detail?.detail['Country'])) }
+                { (detail?.detail && detail?.detail['Country'])
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s country:&nbsp;
+                        <span className='text-primary'>
+                          <b>{shortenString(detail?.detail['Country'])}</b>
+                        </span>
+                      </h3>}
+                    />
                   </div>
-                )}
+                  : ''
+                }
 
-                {detail?.pairCount > 0 && (
-                  <div className='community-list-item'>
-                    {dataItem('Pairs Count', detail?.pairCount)}
+                { (detail?.founderYear)
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s year founded:&nbsp;
+                        <span className='text-primary'>
+                          <b>{ moment(detail?.founderYear)?.year()}</b>
+                        </span>
+                      </h3>}
+                    />
                   </div>
-                )}
+                  : ''
+                }
 
-                {detail?.volume24h > 0 && (
-                  <div className='community-list-item'>
-                    {dataItem('Volume 24h', renderNumber(detail?.volume24h))}
+                { (detail?.pairCount)
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s pairs count:&nbsp;
+                        <span className='text-primary'>
+                          <b>{detail?.pairCount}</b>
+                        </span>
+                      </h3>}
+                    />
                   </div>
-                )}
+                  : ''
+                }
 
-                {detail?.volume1m > 0 && (
-                  <div className='community-list-item'>
-                    {dataItem('Volume 1m', renderNumber(detail?.volume1m))}
+                { (detail?.feeTxs)
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s transaction fee:&nbsp;
+                        <span className='text-primary'>
+                          <b>{detail?.feeTxs} %</b>
+                        </span>
+                      </h3>}
+                    />
                   </div>
-                )}
+                  : ''
+                }
 
-                {detail?.feeTxs > 0 && (
-                  <div className='community-list-item'>
-                    {dataItem('Transaction Fee', `${detail?.feeTxs}%`)}
+                { (detail?.feeTxs)
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s vist in 7 days:&nbsp;
+                        <span className='text-primary'>
+                          <b>{formatLargeNumber(detail?.visit7d)}</b>
+                        </span>
+                      </h3>}
+                    />
                   </div>
-                )}
+                  : ''
+                }
 
-                {detail?.visit7d > 0 && (
-                  <div className='community-list-item'>
-                    {dataItem('Visit 7d', formatLargeNumber(detail?.visit7d))}
+                { (detail?.volume24h)
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s volume in 24 hours:&nbsp;
+                        <span className='text-primary'>
+                          <b>{renderNumber(detail?.volume24h)}</b>
+                        </span>
+                      </h3>}
+                    />
                   </div>
-                )}
+                  : ''
+                }
 
-                {detail?.volume7d > 0 && (
-                  <div className='community-list-item'>
-                    {dataItem('Volume 7d', renderNumber(detail?.volume7d))}
+                { (detail?.volume7d)
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s volume in 7 days:&nbsp;
+                        <span className='text-primary'>
+                          <b>{renderNumber(detail?.volume7d)}</b>
+                        </span>
+                      </h3>}
+                    />
                   </div>
-                )}
+                  : ''
+                }
 
-                {detail?.volume1y > 0 && (
-                  <div className='community-list-item'>
-                    {dataItem('Volume 1y', renderNumber(detail?.volume1y))}
+                { (detail?.volume1m)
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s volume in 1 month:&nbsp;
+                        <span className='text-primary'>
+                          <b>{renderNumber(detail?.volume1m)}</b>
+                        </span>
+                      </h3>}
+                    />
                   </div>
-                )}
+                  : ''
+                }
 
-                {detail?.founderYear && (
-                  <div className='community-list-item'>
-                    {detail?.founderYear && dataItem('Year Founded', moment(detail?.founderYear)?.year())}
+                { (detail?.volume1y)
+                  ? <div className='mb-3 col-12' >
+                    <ShortItem
+                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s volume in 1 year:&nbsp;
+                        <span className='text-primary'>
+                          <b>{renderNumber(detail?.volume1y)}</b>
+                        </span>
+                      </h3>}
+                    />
                   </div>
-                )}
+                  : ''
+                }
 
-                {detail?.socials && (
-                  <div className='community-list-item'>
-                    {communityItem('Social', detail?.socials)}
-                  </div>
-                )}
+                {
+                  detail?.socials
+                    ? <InformationSubTitle type={typeExplorer}/>
+                    : ''
+                }
+                {detail?.socials ? <div className='mb-3 col-12'>
+                  <ShortItem
+                    title={Object.keys(detail?.socials).map(
+                      (socialName) => {
+                        return detail?.socials[socialName] !== '' ? (
+                          <Tooltip
+                            className='me-1 mt-2'
+                            placementTooltip='topLeft'
+                            title={toCammelCase(socialName)}
+                            key={socialName}
+                          >
+                            <a
+                              href={detail?.socials[socialName]}
+                              target='_blank'
+                              rel='noreferrer'
+                            >
+                              <Avatar
+                                alt='Social Logo'
+                                className='img-fluid p-1 rounded-circle cus-avatar'
+                                style={{ backgroundColor: '#F0F2F5' }}
+                                preview={false}
+                                src={
+                                  socials?.find(
+                                    (social) =>
+                                      social?.key?.toLowerCase() ===
+                                          socialName?.toLowerCase()
+                                  )?.icon
+                                    ? socials?.find(
+                                      (social) =>
+                                        social?.key?.toLowerCase() ===
+                                              socialName?.toLowerCase()
+                                    ).icon
+                                    : defaultSocial
+                                }
+                              />
+                            </a>
+                          </Tooltip>
+                        ) : null
+                      }
+                    )}
+                  />
+                </div> : ''}
 
                 {!_.isEmpty(detail?.sourceCode) && <div className='col-12'>
                   <Dropdown className='mt-1'>

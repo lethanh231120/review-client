@@ -8,7 +8,7 @@ const ReportScam = () => {
     <SEO props={{ title: getHeaderReportScam() }}/>
     <div className='card'>
       <div className='card-header'>
-        <h2 className='heading'>Report Scam</h2>
+        <div className='heading'>Report Scam</div>
       </div>
       <div className='card-body'>
         { open && <ModalReport isModal={false}/>}

@@ -86,7 +86,7 @@ export const CountDown = ({ soonId, progressGoal, projectStatus, startDate, endD
   return timerCountdownShow
     ? <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
       <div className='mt-4 text-center'>
-        <h2 className='countdown'>{timerHeadline}</h2>
+        <div className='countdown fs-18' style={{ textTransform: 'uppercase', color: 'grey' }}>{timerHeadline}</div>
         <div>
           <ul>
             <li className='countdown'><span>{timerDay}</span>days</li>

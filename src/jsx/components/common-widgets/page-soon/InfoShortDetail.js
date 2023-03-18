@@ -10,65 +10,88 @@ export const InfoShortDetail = ({ itemDetail }) => {
       <InformationSubTitle type={typeShort}/>
       {
         itemDetail?.type &&
+        <div className='mb-3 col-12' >
           <ShortItem
-            title={`${itemDetail?.projectName}'s token type:`}
-            content={itemDetail?.type}
+            title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName}&apos;s token type:&nbsp;
+              <span className='text-primary'>
+                <b>{itemDetail?.type}</b>
+              </span></h3>}
           />
+        </div>
       }
       {
         itemDetail?.roundType &&
+        <div className='mb-3 col-12' >
           <ShortItem
-            title={`${itemDetail?.projectName}'s current round:`}
-            content={itemDetail?.roundType}
+            title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName}&apos;s current round:&nbsp;
+              <span className='text-primary'>
+                <b>{itemDetail?.roundType}</b>
+              </span></h3>
+            }
           />
+        </div>
       }
       {
         itemDetail?.acceptCurrency &&
+        <div className='mb-3 col-12' >
           <ShortItem
-            title={`${itemDetail?.projectName} is exchanged in currencies:`}
-            content={itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
-              <span className='text-primary fs-16 text-uppercase' key={index}>
-                <b>{keyName}</b>
-                {/* last element in array */}
-                {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : <>,&nbsp;</>}
-              </span>
-            ))}
+            title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName} is exchanged in currencies:&nbsp;
+              <span className='text-primary'>
+                <b>{itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
+                  <span className='text-primary fs-16 text-uppercase' key={index}>
+                    <b>{keyName}</b>
+                    {/* last element in array */}
+                    {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : <>,&nbsp;</>}
+                  </span>
+                ))}</b>
+              </span></h3>
+            }
           />
+        </div>
       }
 
       {
         !_.isEmpty(itemDetail?.blockchain) &&
+        <div className='mb-3 col-12' >
           <ShortItem
-            title={`${itemDetail?.projectName} lives on blockchains:`}
-            content={Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
-              <span className='text-primary fs-16 text-capitalize' key={index}>
-                <b>{keyName}</b>
-                {/* last element in array */}
-                {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : <>,&nbsp;</>}
-              </span>
-            ))}
+            title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName} lives on blockchains:&nbsp;
+              <span className='text-primary'>
+                <b>{Object.keys(itemDetail?.blockchain)?.map((keyName, index) => (
+                  <span className='text-primary fs-16 text-capitalize' key={index}>
+                    <b>{keyName}</b>
+                    {/* last element in array */}
+                    {index >= (Object.keys(itemDetail?.blockchain)?.length - 1) ? '' : <>,&nbsp;</>}
+                  </span>
+                ))}</b>
+              </span></h3>
+            }
           />
+        </div>
       }
 
       {
       // check like this cus && don't pass zero
         (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0)
-          ? <ShortItemScamWarning
-            type={typeScamReport}
-            projectName={itemDetail?.projectName}
-            total={itemDetail?.totalIsScam}
-          />
+          ? <div className='mb-3 col-12' >
+            <ShortItemScamWarning
+              type={typeScamReport}
+              projectName={itemDetail?.projectName}
+              total={itemDetail?.totalIsScam}
+            />
+          </div>
           : ''
       }
 
       {
       // check like this cus && don't pass zero
         (itemDetail?.totalReviews || itemDetail?.totalReviews === 0)
-          ? <ShortItemScamWarning
-            type={typeReview}
-            projectName={itemDetail?.projectName}
-            total={itemDetail?.totalReviews}
-          />
+          ? <div className='mb-3 col-12' >
+            <ShortItemScamWarning
+              type={typeReview}
+              projectName={itemDetail?.projectName}
+              total={itemDetail?.totalReviews}
+            />
+          </div>
           : ''
       }
 

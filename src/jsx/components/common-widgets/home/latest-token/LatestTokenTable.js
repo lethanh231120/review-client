@@ -101,9 +101,9 @@ export const LatestTokenTable = () => {
                 </span>
                 <div className='ms-2'>
                   <div className='d-flex'>
-                    <h6 className='top-coin-name'>{item?.name && _.truncate(item?.name, { length: 10 })}
-                    </h6>
-                    <h6> {item?.symbol && `(${_.truncate(item?.symbol, { length: 7 })})`}</h6>
+                    <div className='top-coin-name fs-16' style={{ color: 'black', fontWeight: '500' }}>{item?.name && _.truncate(item?.name, { length: 10 })}
+                    </div>
+                    <div className='fs-14' style={{ color: 'black', fontWeight: '500' }}> {item?.symbol && `(${_.truncate(item?.symbol, { length: 7 })})`}</div>
                   </div>
                   <div className='d-flex'>
                     <Avatar className='me-1' size={20} src={getChainImage(item?.chainName)} alt='Chain'/>

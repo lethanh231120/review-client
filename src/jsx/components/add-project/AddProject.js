@@ -27,7 +27,7 @@ const AddProject = ({ isModal }) => {
     <SEO props={{ title: getHeaderAddProject() }}/>
     <div className='card'>
       <div className='card-header'>
-        <h2 className='heading'>Add Project</h2>
+        <div className='heading'>Add Project</div>
       </div>
       <div className='card-body'>
         <ModalAdd isModal={false}/>

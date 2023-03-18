@@ -1,8 +1,10 @@
 const { getMetaTag } = require('../modal/MetaTag')
+const { getSubTitle } = require('./listCrypto')
+const totalLunchpad = '100+'
 
-const LIST_TITLE = `Crypto Launchpads Projects List | Review, Discuss & Details | Gear 5`
+const LIST_TITLE = `${totalLunchpad} Launchpads Projects List${getSubTitle()}`
 const IMAGE = `/list-launchpad.webp`
-const LIST_DESCRIPTION = `Discover Gear5's comprehensive list of Crypto Launchpads includes detailed ratings, reviews, and essential information on each project and helping you make informed investment decision.`
+const LIST_DESCRIPTION = `Total ${totalLunchpad} existing in the Market with Current / ATH ROI, Total Raised and Gear5's Score, helping you make well-informed investment decisions`
 
 const staticData = {
   title: LIST_TITLE,

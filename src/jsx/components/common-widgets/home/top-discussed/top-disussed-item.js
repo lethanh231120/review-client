@@ -18,10 +18,11 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
           {imageUrl !== '' ? <Avatar alt='Project Logo' size={35} src={imageUrl}/> : <NoImage width={35} height={35} alt={name && name?.substring(0, 2)}/>}
         </span>
         <div className='ms-2'>
-          <h6 className='text-etc-overflow cus-hot-coin-name'>{name}
+          <div className='text-etc-overflow cus-hot-coin-name fs-16' style={{ color: 'black', fontWeight: '500' }}>
+            {name}
             {type === 'crypto' ? ` (${symbol && symbol})` : null}
-          </h6>
-          <span><Badge className='badge-sm'>{type && type === 'soon' ? 'IDO/ICO' : _.capitalize(type)}</Badge></span>
+          </div>
+          <span><Badge className='badge-sm'>{_.capitalize(type && type)}</Badge></span>
         </div>
       </div>
       <div>
