@@ -44,8 +44,9 @@ export const ReviewList = () => {
 
   useEffect(() => {
     if (reviewList?.length > 12) {
-      const copyArr = [...reviewList]
-      copyArr.pop()
+      // const copyArr = [...reviewList]
+      // copyArr.pop()
+      const copyArr = reviewList?.slice(0, 12)
       setReviewList(copyArr)
     }
   }, [reviewList?.length])
