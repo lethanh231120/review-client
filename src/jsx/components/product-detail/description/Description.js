@@ -12,10 +12,12 @@ const Description = ({ projectName, text, descriptionToken, chainName }) => {
 
   return <div>
     {projectName && <div className='card-header border-0 pb-0'>
-      <h5 className='heading text-primary d-flex align-items-center break-word'>
+      <div className='heading text-primary d-flex align-items-center break-word'>
         <i className='material-icons fs-30 text-primary'>subject</i>
-            About {projectName}
-      </h5>
+        <h2 style={{ fontSize: '1.5rem' }} className='m-0'>
+        About {projectName}
+        </h2>
+      </div>
     </div>
     }
     {text && <div className={projectName ? 'card-body pt-3' : ''}>
