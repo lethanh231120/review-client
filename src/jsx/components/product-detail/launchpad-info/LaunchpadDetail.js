@@ -98,23 +98,23 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       <div className='text-center'>
         <div className='row'>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <Badge bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalReviews}</Badge>
-            </h3>
+            </div>
             <span>Reviews</span>
           </div>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <Badge bg='badge-l' className='badge-warning progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalIsScam}</Badge>
-            </h3>
+            </div>
             <span>
             Reported Scam
             </span>
           </div>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <MyScoreComponent score={productInfo?.details?.score} type={LAUNCHPAD} />
-            </h3>
+            </div>
             <span>
             Score
             </span>
@@ -397,7 +397,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
       <div className=' coin-content '>
         <div className='card-header border-0 flex-wrap cus-card-header'>
           <div className='mb-2'>
-            <h5 className='heading text-primary'>{detail?.name} Invest Data</h5>
+            <h2 className='heading text-primary'>{detail?.name} Invest Data</h2>
           </div>
         </div>
         <div className='card-body'>
@@ -406,32 +406,32 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               {detail?.avgRoiCurrent && <div className='price-content'>
                 <span className='fs-18 d-block mb-2'>Current AVG ROI
                 </span>
-                <h4 className='fs-20 font-w600'>
+                <div className='fs-20 font-w600' style={{ color: 'black' }}>
                   {detail?.avgRoiCurrent?.toFixed(2)}x
                   {detail?.avgRoiCurrentPercent !== 0 && <span className={detail?.avgRoiCurrentPercent > 0 ? ' text-success' : ' text-danger'} style={{ fontSize: '14px', marginLeft: '5px' }}>{detail?.avgRoiCurrentPercent?.toFixed(2)}%</span>}
-                </h4>
+                </div>
               </div>}
               {detail?.avgRoiATH && <div className='price-content'>
                 <span className='fs-18 d-block mb-2'>ATH AVG ROI
                 </span>
-                <h4 className='fs-20 font-w600'>
+                <div className='fs-20 font-w600' style={{ color: 'black' }}>
                   {detail?.avgRoiATH?.toFixed(2)}x
                   {detail?.avgRoiATHPercent !== 0 && <span className={detail?.avgRoiATHPercent > 0 ? ' text-success' : ' text-danger'} style={{ fontSize: '14px', marginLeft: '5px' }}>{detail?.avgRoiATHPercent?.toFixed(2)}%</span>}
-                </h4>
+                </div>
               </div>}
               {detail?.marketCap && <div className='price-content'>
                 <span className='fs-18 d-block mb-2'>Market Cap
                 </span>
-                <h4 className='fs-20 font-w600'>
+                <div className='fs-20 font-w600' style={{ color: 'black' }}>
                   {formatMoney(detail?.marketCap)}
-                </h4>
+                </div>
               </div>}
               {detail?.volume24h && <div className='price-content'>
                 <span className='fs-18 d-block mb-2'>Volume 24H
                 </span>
-                <h4 className='fs-20 font-w600'>
+                <div className='fs-20 font-w600' style={{ color: 'black' }}>
                   {formatMoney(detail?.volume24h)}
-                </h4>
+                </div>
               </div>}
             </div>
           </div>

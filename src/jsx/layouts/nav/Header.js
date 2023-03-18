@@ -309,7 +309,7 @@ const Header = () => {
             <div className='collapse navbar-collapse justify-content-between'>
               <div className='header-left'>
                 {pathname?.pathDetail
-                  ? <h4
+                  ? <div
                     className='dashboard_bar text-etc-overflow cus-h1'
                     style={{
                       textTransform: 'capitalize',
@@ -317,7 +317,7 @@ const Header = () => {
                     }}
                   >
                     {header}
-                  </h4>
+                  </div>
                   : <h1
                     className='dashboard_bar text-etc-overflow cus-h1'
                     style={{

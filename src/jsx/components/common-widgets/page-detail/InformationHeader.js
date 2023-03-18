@@ -5,7 +5,7 @@ const InformationHeader = ({ projectName }) => {
     <div className='heading text-primary d-flex align-items-center break-word'>
       <i className='material-icons fs-30 text-primary'>info</i>
     &nbsp;
-      <h2 style={{ fontSize: '1.5rem' }} className='m-0'>
+      <h2 style={{ fontSize: '1.5rem' }} className='m-0 text-primary'>
         {projectName} Information
       </h2>
     </div>
