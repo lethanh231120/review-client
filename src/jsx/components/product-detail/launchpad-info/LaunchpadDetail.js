@@ -170,12 +170,13 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
                 { (detail?.minTokenToParticipate)
                   ? <div className='mb-3 col-12' >
                     <ShortItem
-                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                        {detail?.name}&apos;s entry threshold:&nbsp;
+                      title={<>
+                        <h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                          {detail?.name}&apos;s entry threshold</h3>:&nbsp;
                         <span className='text-primary'>
                           <b>{`${detail?.minTokenToParticipate} ${detail?.symbol}`}</b>
                         </span>
-                      </h3>}
+                      </>}
                     />
                   </div>
                   : ''
@@ -184,12 +185,12 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
                 { (detail?.yearFounded)
                   ? <div className='mb-3 col-12' >
                     <ShortItem
-                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                        {detail?.name}&apos;s year founded:&nbsp;
-                        <span className='text-primary'>
-                          <b>{detail?.yearFounded}</b>
-                        </span>
-                      </h3>}
+                      title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s year founded</h3>:&nbsp;
+                      <span className='text-primary'>
+                        <b>{detail?.yearFounded}</b>
+                      </span>
+                      </>}
                     />
                   </div>
                   : ''
