@@ -269,6 +269,8 @@ const Header = () => {
     profileModal?.setOpenModalUserProfile(false)
   }
 
+  const header = pathname?.pathName !== '' ? pathname?.pathName : `Don't trust, verify`
+
   return (
     <>
       {/* only when login exist, for only normal User*/}
@@ -306,15 +308,27 @@ const Header = () => {
           <nav className='navbar navbar-expand'>
             <div className='collapse navbar-collapse justify-content-between'>
               <div className='header-left'>
-                <h1
-                  className='dashboard_bar text-etc-overflow cus-h1'
-                  style={{
-                    textTransform: 'capitalize',
-                    fontSize: '1.5rem'
-                  }}
-                >
-                  {pathname?.pathName !== '' ? pathname?.pathName : `Don't trust, verify`}
-                </h1>
+                {pathname?.pathDetail
+                  ? <h4
+                    className='dashboard_bar text-etc-overflow cus-h1'
+                    style={{
+                      textTransform: 'capitalize',
+                      fontSize: '1.5rem'
+                    }}
+                  >
+                    {header}
+                  </h4>
+                  : <h1
+                    className='dashboard_bar text-etc-overflow cus-h1'
+                    style={{
+                      textTransform: 'capitalize',
+                      fontSize: '1.5rem'
+                    }}
+                  >
+                    {header}
+                  </h1>
+                }
+
               </div>
               {/* header: search elk input */}
               <div

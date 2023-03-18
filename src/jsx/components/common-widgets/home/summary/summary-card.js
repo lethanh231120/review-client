@@ -23,7 +23,7 @@ export const SummaryCard = ({ title, number, bg, badgeStyle, icon, type }) => {
             <div className='media-body custom-media-body text-etc-overflow' >
               <h4 className='mb-1 text-etc-overflow summary-title '
               // Alias p tag
-                style={{ display: 'block', textTransform: 'uppercase', fontWeight: '500', color: '#828690' }}>
+                style={{ display: 'block', textTransform: 'uppercase', fontWeight: '500', color: '#828690', fontSize: '0.8rem' }}>
                 {title}
               </h4>
               {/* <br /> */}
