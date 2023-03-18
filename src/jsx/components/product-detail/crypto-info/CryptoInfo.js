@@ -4,7 +4,7 @@ import Description from '../description/Description'
 import { CopyOutlined } from '@ant-design/icons'
 import './crypto.scss'
 import _ from 'lodash'
-import { CRYPTO, CRYPTO_COIN } from '../../../constants/category'
+import { CRYPTO, CRYPTO_COIN, CRYPTO_TOKEN } from '../../../constants/category'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { ChainListContext, ExchangeContext } from '../../../../App'
 import { Badge, Button } from 'react-bootstrap'
@@ -353,14 +353,18 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   ]
 
-  const projectNameSymbol = <h4 className='text-primary mb-2 cus-h4'>
+  const nameSymbol = <>
     <span className='detail-header-overview-name'>
       {detail?.name}
     </span>
     <span className='crypto-overview-symbol'>
       {detail?.symbol ? detail?.symbol : ''}
     </span>
-  </h4>
+  </>
+
+  const projectNameSymbol = detail?.type === CRYPTO_COIN
+    ? <h1 className='text-primary mb-2 cus-h4' style={{ fontSize: '1.125rem' }}>{nameSymbol}</h1>
+    : <h4 className='text-primary mb-2 cus-h4' style={{ fontSize: '1.125rem' }}>{nameSymbol}</h4>
 
   const projectAddressType = <div className='d-flex align-items-center'>
     {(detail?.type === CRYPTO_COIN && detail?.explorer) && (
@@ -587,6 +591,9 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     )}
   </div>
 
+  const additionalDescription = detail?.type === CRYPTO_TOKEN
+    ? detail?.name + ' - ' + detail?.symbol + ' - ' + detail?.address
+    : ''
   const about = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
@@ -594,6 +601,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       <Description
         projectName={detail?.name}
         text={ detail?.description }
+        descriptionToken= {additionalDescription}
+        chainName={detail?.chainName}
       />
     )}
   </>
