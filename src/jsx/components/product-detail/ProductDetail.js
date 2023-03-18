@@ -103,6 +103,19 @@ const ProductDetail = () => {
       page: 1,
       orderBy: 'createdDate'
     })
+    // set default value form when change params
+    form.resetFields()
+    setFileList([])
+    setTypeComment(false)
+    recapcharRef?.current?.reset()
+    setData({
+      isScam: false,
+      content: '',
+      sources: [],
+      images: [],
+      star: 5,
+      scamAmountUSD: null
+    })
   }, [type, productName, path, categoryName])
 
   useEffect(() => {
