@@ -6,15 +6,15 @@ const totalCountDEX = `359+`
 const typeCEX = `CEX`
 const typeDEX = `DEX`
 
-const LIST_TITLE = `Top Crypto Exchange List | Review, Discuss & Details | Gear5`
-const SUB_CATEGORY_CEX_TITLE = `${totalCountCEX} ${typeCEX} Project | Review, Discuss & Details | Gear5`
-const SUB_CATEGORY_DEX_TITLE = `${totalCountDEX} ${typeDEX} Project | Review, Discuss & Details | Gear5`
-const SUB_CATEGORY_TITLE = `Top ${REPLACE_SUB_CATEGORY} Crypto Exchanges List | Rating, Discuss & Details | Gear 5`
+const LIST_TITLE = `All Crypto Exchange List | Review, Discuss & Details | Gear5`
+const SUB_CATEGORY_CEX_TITLE = `${totalCountCEX} ${typeCEX} Crypto Exchanges | Review, Discuss & Details | Gear5`
+const SUB_CATEGORY_DEX_TITLE = `${totalCountDEX} ${typeDEX} Crypto Exchanges | Review, Discuss & Details | Gear5`
+const SUB_CATEGORY_TITLE = `Top ${REPLACE_SUB_CATEGORY} Crypto Exchanges List | Review, Discuss & Details | Gear5`
 
 const IMAGE = `/list-exchange.webp`
 
 const LIST_DESCRTIPION = `Discover Gear5's comprehensive list of Crypto Exchanges projects includes detailed ratings, reviews, and essential information on each project and helping you make informed investment decision!`
-const SUB_CATEGORY_DESCRTIPION = `Explore the ${toCammelCase(REPLACE_SUB_CATEGORY)} and its top Crypto Exchanges projects on Gear5. Our detailed ratings, reviews, and essential information on each project help you make informed investment decisions. Gain valuable insights to take your investment strategy to the next level!`
+const SUB_CATEGORY_DESCRTIPION = `All ${toCammelCase(REPLACE_SUB_CATEGORY)} with Latest Transaction Fee, 24H Volume and Gear5's Score. Leave your Review if any of those is considered as Scam or Dead !`
 
 const staticData = {
   title: LIST_TITLE,
