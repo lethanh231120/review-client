@@ -17,8 +17,7 @@ const Banner = () => {
           {/* <img src='/scam-alert.webp' className='img-fluid' alt='Scam Alert' /> */}
         </div>
         <div className='banner-left'>
-          {/* alias h1 */}
-          <h2 className='report-title' style={{ fontSize: '2.25rem' }}>You got scammed, lost money?</h2>
+          <h2 className='report-title' >You got scammed, lost money?</h2>
           <h3 className='cus-p'>Please join us in warning everyone in the community!</h3>
           <Button className='btn-danger d-flex align-items-center' onClick={() => reportModal?.handleSetOpenModal(true)}
             style={{ backgroundColor: '#EB5757', borderColor: '#EB5757' }}
