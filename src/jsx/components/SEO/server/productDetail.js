@@ -68,7 +68,7 @@ export const getHeaderProductDetail = (productDetail) => {
       const txtTotalScam = `${data?.totalIsScam} User${data?.totalIsScam === 1 ? '' : 's'} Report${data?.totalIsScam === 1 ? 's' : ''} As Scam`
       totalInteract += ` ${txtTotalScam} | `
     } else if (totalReview !== 0) {
-      const txtTotalReviews = `${data?.totalReviews} User${data?.totalIsScam === 1 ? '' : 's'} Contribute${data?.totalIsScam === 1 ? 's' : ''} Review`
+      const txtTotalReviews = `${data?.totalReviews} User${data?.totalReviews === 1 ? '' : 's'} Contribute${data?.totalReviews === 1 ? 's' : ''} Review`
       totalInteract += ` ${txtTotalReviews} | `
     }
   } else {
