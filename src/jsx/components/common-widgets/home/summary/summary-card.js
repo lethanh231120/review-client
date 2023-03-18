@@ -21,8 +21,13 @@ export const SummaryCard = ({ title, number, bg, badgeStyle, icon, type }) => {
               {icon}
             </span>
             <div className='media-body custom-media-body text-etc-overflow' >
-              <p className='mb-1 text-etc-overflow summary-title '>{title}</p>
-              <h4 className='mb-0'><span className='text-etc-overflow summary-statistic'>{number > 0 && `${formatMoney(number)}`.replace('$', '')}+</span></h4>
+              <h4 className='mb-1 text-etc-overflow summary-title '
+              // Alias p tag
+                style={{ display: 'block', textTransform: 'uppercase', fontWeight: '500', color: '#828690', fontSize: '0.8rem' }}>
+                {title}
+              </h4>
+              {/* <br /> */}
+              <h5 className='mb-0'><span className='text-etc-overflow summary-statistic'>{number > 0 && `${formatMoney(number)}`.replace('$', '')}+</span></h5>
             </div>
           </div>
         </div>

@@ -87,7 +87,7 @@ export const LatestTokenTable = () => {
       <div className='card' style={{ height: '100%' }}>
         <div className='card-header border-0 pb-0'>
           <div >
-            <h2 className='heading'>Live New&nbsp;Tokens</h2>
+            <h2 className='heading'>Live New Tokens</h2>
           </div>
         </div>
         <div className='card-body pt-0' style={{ padding: '0px 0.7rem' }}>

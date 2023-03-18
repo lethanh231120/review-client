@@ -402,6 +402,7 @@ const ProductDetail = () => {
   useEffect(() => {
     if (productInfo?.details) {
       pathNameHeader?.handleChangePathName(`${productInfo?.details?.name || productInfo?.details?.dAppName || productInfo?.details?.ventureName || productInfo?.details?.projectName || ''}`)
+      pathNameHeader?.setPathDetail(true)
     }
   }, [productInfo])
 

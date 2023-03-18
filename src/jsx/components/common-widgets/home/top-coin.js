@@ -76,7 +76,7 @@ export const TopCoins = () => {
       <div className='card' style={{ height: '100%' }}>
         <div className='card-header border-0 pb-0'>
           <div >
-            <h2 className='heading'>Top&nbsp;Coins</h2>
+            <h3 className='heading'>Top&nbsp;Coins</h3>
           </div>
         </div>
 

@@ -43,7 +43,10 @@ const NavHader = () => {
   const showFullSearchConext = useContext(ShowFullSearchConext)
 
   const viewHtml = <div className='nav-header'>
-    <Link aria-label='Gear5 Logo' to='/' className='brand-logo' onClick={() => pathname?.handleChangePathName('')}>
+    <Link aria-label='Gear5 Logo' to='/' className='brand-logo' onClick={() => {
+      pathname?.handleChangePathName('')
+      pathname?.setPathDetail(false)
+    }}>
       {/* no meunu left: screen width <  767px */}
       <img src={logoColor} className='logo-color' alt='logo' />
 
