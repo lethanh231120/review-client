@@ -2,7 +2,7 @@ import React from 'react'
 import { formatMoneyLessOneDollar, formatMoneyGreaterEqualOneDollar, formatLargeNumberMoneyUSD, formatLargeNumber } from '../../../../utils/formatNumber'
 import TradingViewWidget from '../../common-widgets/home/home-chart/trading-view-chart'
 
-const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, symbolForChart }) => {
+const CoinChart = ({ name, symbol, price, marketCap, totalSupply, holders, transfer, symbolForChart }) => {
   const STABLE_COINS = ['USDT', 'USDC', 'DAI', 'BUSD']
   const STABLE_SYMBOlS = []
   STABLE_COINS.forEach(symbol => {
@@ -14,7 +14,7 @@ const CoinChart = ({ symbol, price, marketCap, totalSupply, holders, transfer, s
       <div className='coin-content'>
         <div className='card-header border-0 flex-wrap cus-card-header'>
           <div className='mb-2'>
-            <h5 className='heading text-primary m-0'>{symbol} Market Info</h5>
+            <h2 className='heading text-primary m-0'>{name} Market Info</h2>
             {/* <span className='fs-16'>
               Lorem ipsum dolor sit amet, consectetur
             </span> */}

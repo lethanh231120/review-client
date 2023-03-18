@@ -29,10 +29,10 @@ const InfoAvailableDetail = ({ detail }) => {
                     </>
                   }
                   title={
-                    <span>
-                      {detail?.name} are existing on{' '}
+                    <h3 className='fs-16 mb-0' style={{ display: 'inline', color: '#A098AE' }}>
+                      {detail?.name} are existing on&nbsp;
                       <span className='text-primary'>Coinmarketcap</span>
-                    </span>
+                    </h3>
                   }
                 />
               ) : (<ShortItem
@@ -49,10 +49,10 @@ const InfoAvailableDetail = ({ detail }) => {
                   </>
                 }
                 title={
-                  <span>
-                    {detail?.name} are not existing on{' '}
+                  <h3 className='fs-16 mb-0' style={{ display: 'inline', color: '#A098AE' }}>
+                    {detail?.name} are not existing on&nbsp;
                     <span className='text-danger'>Coinmarketcap</span>
-                  </span>
+                  </h3>
                 }
               />
               ))}
@@ -79,10 +79,10 @@ const InfoAvailableDetail = ({ detail }) => {
                   </>
                 }
                 title={
-                  <span>
-                    {detail?.name} are existing on{' '}
+                  <h3 className='fs-16 mb-0' style={{ display: 'inline', color: '#A098AE' }}>
+                    {detail?.name} are existing on&nbsp;
                     <span className='text-primary'>Coingecko</span>
-                  </span>
+                  </h3>
                 }
               />
               ) : (<ShortItem
@@ -99,10 +99,10 @@ const InfoAvailableDetail = ({ detail }) => {
                   </>
                 }
                 title={
-                  <span>
-                    {detail?.name} are not existing on{' '}
+                  <h3 className='fs-16 mb-0' style={{ display: 'inline', color: '#A098AE' }}>
+                    {detail?.name} are not existing on&nbsp;
                     <span className='text-danger'>Coingecko</span>
-                  </span>
+                  </h3>
                 }
               />
               ))}

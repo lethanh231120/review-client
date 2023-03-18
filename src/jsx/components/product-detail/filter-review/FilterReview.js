@@ -27,11 +27,12 @@ const FilterReview = (props) => {
     }
   }, [defaultFilter])
 
+  console.log(productInfo)
   return (
     <div className='list-review'>
       <div className='list-review-header'>
         <div className='text-primary list-review-header-title'>
-          {defaultText === 'All Review' ? 'Reviews' : <span style={{ color: defaultText === 'Report Scam' ? 'red' : '' }}>{defaultText}</span>}
+          {defaultText === 'All Review' ? <h2 className='mb-0 text-primary fs-20' style={{ display: 'inline' }}>{productInfo?.details?.name} Reviews</h2> : <span style={{ color: defaultText === 'Report Scam' ? 'red' : '' }}>{defaultText}</span>}
           <span style={{ color: defaultText === 'Report Scam' ? 'red' : '' }}>({new Intl.NumberFormat().format(numberReviews || 0)})</span>
         </div>
         <div className='list-review-header-right'>

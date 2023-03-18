@@ -134,12 +134,12 @@ export const InfoExplorerDetail = ({ isShow, detail, multichain }) => {
                       // preview={false}
                       alt='Website Logo'/>
                     <Tooltip title={toCammelCase(item?.chainName)}>
-                      <span
+                      <h3
                         className='crypto-tag-item-list-children-contract-address product-name-text text-primary'
                         style={{ cursor: 'pointer' }}
                       >
                         {item?.address}
-                      </span>
+                      </h3>
                     </Tooltip>
                     <CopyOutlined
                       style={{ padding: '0, 1rem' }}

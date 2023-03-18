@@ -30,7 +30,7 @@ export const ExchangeDetail = ({ coinName, exchangeList }) => {
                 className='mb-3'
               >
                 <ShortItem
-                  title={<>
+                  title={ <h3 className='fs-16 mb-0' style={{ display: 'inline', color: '#A098AE' }}>
                     {coinName} are existing on
                     &nbsp;
                     <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
@@ -40,7 +40,7 @@ export const ExchangeDetail = ({ coinName, exchangeList }) => {
                     >
                       {getExchangeNameFromUrlImageExchage(itemImageUrl)}
                     </span>
-                  </>}
+                  </h3>}
                 />
               </div>
               ))}
