@@ -162,12 +162,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                 { (detail?.detail && detail?.detail['Country'])
                   ? <div className='mb-3 col-12' >
                     <ShortItem
-                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                        {detail?.name}&apos;s country:&nbsp;
-                        <span className='text-primary'>
-                          <b>{shortenString(detail?.detail['Country'])}</b>
-                        </span>
-                      </h3>}
+                      title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s country</h3>:&nbsp;
+                      <span className='text-primary'>
+                        <b>{shortenString(detail?.detail['Country'])}</b>
+                      </span>
+                      </>}
                     />
                   </div>
                   : ''
@@ -176,12 +176,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                 { (detail?.founderYear)
                   ? <div className='mb-3 col-12' >
                     <ShortItem
-                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                        {detail?.name}&apos;s year founded:&nbsp;
-                        <span className='text-primary'>
-                          <b>{ moment(detail?.founderYear)?.year()}</b>
-                        </span>
-                      </h3>}
+                      title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s year founded</h3>:&nbsp;
+                      <span className='text-primary'>
+                        <b>{ moment(detail?.founderYear)?.year()}</b>
+                      </span>
+                      </>}
                     />
                   </div>
                   : ''
@@ -190,12 +190,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                 { (detail?.pairCount)
                   ? <div className='mb-3 col-12' >
                     <ShortItem
-                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                        {detail?.name}&apos;s pairs count:&nbsp;
-                        <span className='text-primary'>
-                          <b>{detail?.pairCount}</b>
-                        </span>
-                      </h3>}
+                      title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s pairs count</h3>:&nbsp;
+                      <span className='text-primary'>
+                        <b>{detail?.pairCount}</b>
+                      </span>
+                      </>}
                     />
                   </div>
                   : ''
@@ -204,12 +204,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                 { (detail?.feeTxs)
                   ? <div className='mb-3 col-12' >
                     <ShortItem
-                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                        {detail?.name}&apos;s transaction fee:&nbsp;
-                        <span className='text-primary'>
-                          <b>{detail?.feeTxs} %</b>
-                        </span>
-                      </h3>}
+                      title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s transaction fee</h3>:&nbsp;
+                      <span className='text-primary'>
+                        <b>{detail?.feeTxs} %</b>
+                      </span>
+                      </>}
                     />
                   </div>
                   : ''
@@ -218,12 +218,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                 { (detail?.feeTxs)
                   ? <div className='mb-3 col-12' >
                     <ShortItem
-                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                        {detail?.name}&apos;s vist in 7 days:&nbsp;
-                        <span className='text-primary'>
-                          <b>{formatLargeNumber(detail?.visit7d)}</b>
-                        </span>
-                      </h3>}
+                      title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s vist in 7 days</h3>:&nbsp;
+                      <span className='text-primary'>
+                        <b>{formatLargeNumber(detail?.visit7d)}</b>
+                      </span>
+                      </>}
                     />
                   </div>
                   : ''
@@ -232,12 +232,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                 { (detail?.volume24h)
                   ? <div className='mb-3 col-12' >
                     <ShortItem
-                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                        {detail?.name}&apos;s volume in 24 hours:&nbsp;
-                        <span className='text-primary'>
-                          <b>{renderNumber(detail?.volume24h)}</b>
-                        </span>
-                      </h3>}
+                      title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s volume in 24 hours</h3>:&nbsp;
+                      <span className='text-primary'>
+                        <b>{renderNumber(detail?.volume24h)}</b>
+                      </span>
+                      </>}
                     />
                   </div>
                   : ''
@@ -246,12 +246,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                 { (detail?.volume7d)
                   ? <div className='mb-3 col-12' >
                     <ShortItem
-                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                        {detail?.name}&apos;s volume in 7 days:&nbsp;
-                        <span className='text-primary'>
-                          <b>{renderNumber(detail?.volume7d)}</b>
-                        </span>
-                      </h3>}
+                      title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s volume in 7 days</h3>:&nbsp;
+                      <span className='text-primary'>
+                        <b>{renderNumber(detail?.volume7d)}</b>
+                      </span>
+                      </>}
                     />
                   </div>
                   : ''
@@ -260,12 +260,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                 { (detail?.volume1m)
                   ? <div className='mb-3 col-12' >
                     <ShortItem
-                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                        {detail?.name}&apos;s volume in 1 month:&nbsp;
-                        <span className='text-primary'>
-                          <b>{renderNumber(detail?.volume1m)}</b>
-                        </span>
-                      </h3>}
+                      title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s volume in 1 month</h3>:&nbsp;
+                      <span className='text-primary'>
+                        <b>{renderNumber(detail?.volume1m)}</b>
+                      </span>
+                      </>}
                     />
                   </div>
                   : ''
@@ -274,12 +274,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
                 { (detail?.volume1y)
                   ? <div className='mb-3 col-12' >
                     <ShortItem
-                      title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
-                        {detail?.name}&apos;s volume in 1 year:&nbsp;
-                        <span className='text-primary'>
-                          <b>{renderNumber(detail?.volume1y)}</b>
-                        </span>
-                      </h3>}
+                      title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                        {detail?.name}&apos;s volume in 1 year</h3>:&nbsp;
+                      <span className='text-primary'>
+                        <b>{renderNumber(detail?.volume1y)}</b>
+                      </span>
+                      </>}
                     />
                   </div>
                   : ''
