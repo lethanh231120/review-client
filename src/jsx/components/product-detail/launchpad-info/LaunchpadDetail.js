@@ -66,7 +66,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
               }
             </div>
             <div className='profile-name cus-profile-name'>
-              <h4 className='text-primary mb-2 cus-h4'>{detail?.name} {detail?.symbol ? `(${detail?.symbol})` : null}</h4>
+              <h1 className='text-primary mb-2 cus-h4 fs-20'>{detail?.name} {detail?.symbol ? `(${detail?.symbol})` : null}</h1>
               <Badge className='badge-sm' >{detail?.type}</Badge>
             </div>
             <div className='detail-button ms-auto'>

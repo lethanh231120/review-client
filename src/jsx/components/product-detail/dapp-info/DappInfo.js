@@ -100,15 +100,15 @@ const DappInfo = ({ productInfo, ...rest }) => {
       <div className='text-center'>
         <div className='row'>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <Badge bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalReviews}</Badge>
-            </h3>
+            </div>
             <span>Reviews</span>
           </div>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <Badge bg='badge-l' className='badge-warning progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalIsScam}</Badge>
-            </h3>
+            </div>
             <span>
             Reported Scam
             </span>
