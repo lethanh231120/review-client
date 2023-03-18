@@ -382,31 +382,28 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       </p>
     )}
     {detail?.address && (
-      <>
-        <h1 hidden={true}>{detail?.address}</h1>
-        <p className='crypto-info-item-address'>
-          <a
-            href={mainExplorer}
-            target='_blank'
-            rel='noreferrer'
-            className='product-name-text text-primary'
-            style={{ cursor: 'pointer' }}
-          >
-            <Image
-              alt='Blockchain Logo'
-              src={chainList[`${detail?.chainName}`]?.image}
-              preview={false}
-            />
-            {`${detail?.address?.slice(0, 5)}...${detail?.address?.slice(detail?.address?.length - 5, detail?.address?.length)}`}
-          </a>
-          <CopyOutlined
-            style={{ padding: '0, 1rem' }}
-            onClick={(e) => {
-              copyAddress(e, detail?.address, 'Copy address successfully!')
-            }}
+      <p className='crypto-info-item-address'>
+        <a
+          href={mainExplorer}
+          target='_blank'
+          rel='noreferrer'
+          className='product-name-text text-primary'
+          style={{ cursor: 'pointer' }}
+        >
+          <Image
+            alt='Blockchain Logo'
+            src={chainList[`${detail?.chainName}`]?.image}
+            preview={false}
           />
-        </p>
-      </>
+          {`${detail?.address?.slice(0, 5)}...${detail?.address?.slice(detail?.address?.length - 5, detail?.address?.length)}`}
+        </a>
+        <CopyOutlined
+          style={{ padding: '0, 1rem' }}
+          onClick={(e) => {
+            copyAddress(e, detail?.address, 'Copy address successfully!')
+          }}
+        />
+      </p>
     )}
     {detail?.type && (
       <Badge className='badge-sm button-type' >{toCammelCase(detail?.type) }</Badge>
