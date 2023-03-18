@@ -68,13 +68,13 @@ const ChartDetail = () => {
       {/* <Card.Header style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#19A594' }}>{chartData?.title}</Card.Header> */}
       <Card.Body>
         <div className='row'>
-          <div className='col-xl-8 col-sm-12 '>
+          <div className='col-xl-8 col-sm-12 mt-5 mb-0'>
             {getChartType(chartData)}
           </div>
           <div className='col-xl-4 col-sm-12'>
             <Card>
               <Card.Header style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#19A594' }}>About</Card.Header>
-              <Card.Body style={{ fontSize: '1.1rem', fontWeight: 'w600' }}>{chartData?.description}</Card.Body>
+              <Card.Body style={{ fontSize: '1.1rem', fontWeight: 'w600' }}><h2 className='fs-18' style={{ color: '#A098AE', fontWeight: '400' }}>{chartData?.description}</h2></Card.Body>
             </Card>
             <Card>
               <Card.Header style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#19A594' }}>Data Table</Card.Header>
