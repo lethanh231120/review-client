@@ -45,7 +45,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
   const [keyWord, setKeyWord] = useState()
   const [txtDisplaySearchHeader, setTxtDisplaySearchHeader] = useState(FIRST_SEARCH_PLACEHOLDER_TEXT)
   const [submitSearch, setSubmitSearch] = useState(false)
-  // const [isBackSpace, setIsBackSpace] = useState(false)
+  const [disableInput, setDisableInput] = useState(false)
 
   const toartError = (content) => {
     const Toast = Swal.mixin({
@@ -62,7 +62,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
     })
   }
 
-  const handleSearch = _.debounce(async(e, value) => {
+  const handleSearch = _.debounce(async(value) => {
     try {
       if (value !== '') {
         setDataSearch({
@@ -73,6 +73,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
           isActive: true
         })
         setKeyWord(value)
+        setDisableInput(true)
         const data = await search('search/suggest', { keyword: value })
         if (data) {
           setListDataSearch({
@@ -103,6 +104,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
             isActive: true
           })
         }
+        setDisableInput(false)
       } else {
         setDataSearch({ isActive: false, data: {}, loading: false, status: '' })
         setIsSubmit()
@@ -286,6 +288,13 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
     }
   }
 
+  const handleKeyDown = (e) => {
+    if (e.keycode === 'Backspace') {
+      e.preventDefault()
+      handleSearch(e.target.value)
+    }
+  }
+
   return (
     <div className='input-group search-area cus-input-group search-box-global' style={{ width: '100%' }}>
       <div className='nav-item d-flex align-items-center' style={{ width: '100%' }}>
@@ -313,15 +322,18 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
             className='form-control cus-form-control'
             placeholder={`${isFormReport ? 'Search for the project you want to report with us' : txtDisplaySearchHeader}`}
             onChange={(e) => {
-              handleSearch(e, e.target.value)
+              if (!disableInput) {
+                handleSearch(e.target.value)
+              }
               if (isFormReport) {
                 setItemSearch()
               }
             }}
+            onKeyDown={handleKeyDown}
             onKeyPress={handleSubmitSearch}
             autoComplete='off'
             onBlur={(e) => {
-              handleSearch(e, '')
+              handleSearch('')
               clearText(e)
             }}
             id='globalSearch'

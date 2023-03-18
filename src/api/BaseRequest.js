@@ -41,7 +41,9 @@ const setHeaderWrite = async(header) => {
 const search = async(url, params = {}) => {
   try {
     await setHeaderSearch()
+    // const source = axios.CancelToken.source()
     const config = { params: params }
+    // const config = { params: params, cancelToken: source.token }
     const response = await instanceSearch.get(getUrlPrefix() + url, config)
     return _responseHandler(response)
   } catch (error) {
