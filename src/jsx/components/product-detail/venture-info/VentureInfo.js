@@ -64,7 +64,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
           <div className='profile-details'>
             <div className='profile-photo'>
               {detail?.ventureId && detail?.ventureLogo ? (
-                <Image alt='Venture Logo' src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false}/>
+                <Image alt='Venture Logo' src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false.toString()}/>
               )
                 : (<span className='image-list-no-data-detail'>
                   {detail?.ventureName?.slice(0, 3)}
@@ -293,20 +293,25 @@ const VentureInfo = ({ productInfo, ...rest }) => {
   const portfolioColumns = [
     {
       title: 'Name',
+      dataIndex: 'name',
       render: (_, record) => (<span><Avatar src={record?.projectLogo}/> {record?.projectName}</span>)
     },
     {
-      title: 'Funding Round',
+      title: 'Round',
+      dataIndex: 'fundingRound',
       render: (_, record) => (<span>{record?.fundStageName}</span>)
     }, {
-      title: 'Fund Amount',
+      title: 'Amount',
+      dataIndex: 'fundAmount',
       render: (_, record) => <span>{renderNumber(record?.fundAmount)}</span>
     }, {
-      title: 'Fund Date',
+      title: 'Date',
+      dataIndex: 'fundDate',
       render: (_, record) => <span>{moment(record?.fundDate)?.format('DD-MM-YYYY')}</span>
     },
     {
       title: 'Announcement',
+      dataIndex: 'announcement',
       render: (_, record) => <a className='announcement-link' onClick={(e) =>{
         e.stopPropagation()
         window.open(record?.announcementUrl)
@@ -327,33 +332,44 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       }
     }
   }
-
   const PortfolioTable = () => {
+    const temp = []
+    const list = productInfo?.mores?.fund
+    list && list?.forEach((item, index) => {
+      const tempItem = item
+      tempItem['key'] = index
+      temp.push(tempItem)
+    })
     return <>
       {rest?.loadingDetail ? (
         <MySkeletonLoadinng count={5} height={50}/>
       ) : (
-        <>
+        <div>
           <div className='card-header border-0 pb-0'>
             <h5 className='heading text-primary'>{detail?.ventureName} Portfolio</h5>
           </div>
           <div className='card-body pt-3'>
             <div className='profile-blog portfolio-table table-responsive'>
               <Table
-                rowClassName='portfolio-item portfolio-table'
+                pagination={{ pageSize: 10,
+                  showSizeChanger: false,
+                  style: { display: 'flex', justifyContent: 'center' }
+
+                }}
+                rowKey={(record) =>
+                  record?.key
+                }
                 columns={portfolioColumns}
-                dataSource={productInfo?.mores?.fund}
+                dataSource={temp}
                 onRow={(record) => ({
                   onClick: () => {
                     handleonRowClicked(record?.projectId)
                   }
                 })}
-                rowKey={(record, index) => record?.id}
-                pagination={{ pageSize: 10, total: productInfo?.mores?.fund?.length, showSizeChanger: false, style: { display: 'flex', justifyContent: 'center' }}}
               />
             </div>
           </div>
-        </>
+        </div>
       )}
     </>
   }
