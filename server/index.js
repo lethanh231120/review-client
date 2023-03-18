@@ -33,7 +33,7 @@ const file = (function() {
 const axios = require('axios')
 
 const { getMetaTagHome } = require('./header-data/home')
-const { getMetaTagListCrypto } = require('./header-data/listCrypto')
+const { getMetaTagListCrypto, getSubTitle } = require('./header-data/listCrypto')
 const { getMetaTagListDApp } = require('./header-data/listDApp')
 const { getMetaTagListVenture } = require('./header-data/listVenture')
 const { getMetaTagListExchange } = require('./header-data/listExchange')
@@ -108,20 +108,21 @@ const getTxtAdditional = (isScam, isWarning, score, type) =>{
   let txtAdditional = ''
   // Scam project
   if (isScam) {
-    txtAdditional = 'SCAMMED!'
+    txtAdditional = '[SCAMMED!]'
   } else
   // Warning project
-  if
-  (isWarning) {
-    txtAdditional = 'WARNING!'
+  if (isWarning) {
+    txtAdditional = '[WARNING!]'
   }
   const rawScore = score
-  const txtTop = 'TOP'
+  const txtTop = '[TOP]'
   const minScoreTop = 8
   if (txtAdditional === '' && (calculateScore(rawScore, type) >= minScoreTop)) {
     txtAdditional = txtTop
   }
-  txtAdditional += ' '
+  if (txtAdditional !== '') {
+    txtAdditional += ' '
+  }
   return txtAdditional
 }
 
@@ -148,60 +149,64 @@ const genDetailHeader = (req, res, productId = '') => {
         let imgPath = ''
 
         let totalInteract = ''
-        let hasInteract = false
         // have data, and at least one in two has data is number greater than 0
         const totalScam = data?.totalIsScam
         const totalReview = data?.totalReviews
-        if ((isInteger(totalScam) && isInteger(totalReview)) && (totalScam > 0 || totalReview > 0)) {
-          const txtTotalScam = `${data?.totalIsScam} Scam Reports`
-          const txtTotalReviews = `${data?.totalReviews} Reviews`
-
-          // prefer display total review first
-          if (totalReview > totalScam) {
-            totalInteract += ` ${txtTotalReviews}, ${txtTotalScam} | `
-          } else {
-            totalInteract += ` ${txtTotalScam}, ${txtTotalReviews} | `
+        if ((isInteger(totalScam) && isInteger(totalReview))) {
+          if (totalScam !== 0 && totalReview !== 0) {
+            const txtTotalScam = `${data?.totalIsScam} Scam Report${data?.totalIsScam === 1 ? '' : 's'}`
+            const txtTotalReviews = `${data?.totalReviews} Review${data?.totalReviews === 1 ? '' : 's'}`
+            // prefer display total review first
+            if (totalReview > totalScam) {
+              totalInteract += ` ${txtTotalReviews}, ${txtTotalScam} | `
+            } else {
+              totalInteract += ` ${txtTotalScam}, ${txtTotalReviews} | `
+            }
+          } else if (totalScam !== 0) {
+            const txtTotalScam = `${data?.totalIsScam} User${data?.totalIsScam === 1 ? '' : 's'} Report${data?.totalIsScam === 1 ? 's' : ''} As Scam`
+            totalInteract += ` ${txtTotalScam} | `
+          } else if (totalReview !== 0) {
+            const txtTotalReviews = `${data?.totalReviews} User${data?.totalIsScam === 1 ? '' : 's'} Contribute${data?.totalIsScam === 1 ? 's' : ''} Review`
+            totalInteract += ` ${txtTotalReviews} | `
           }
-          hasInteract = true
         } else {
           totalInteract += ' '
         }
 
-        const extraData = hasInteract ? '' : '| Reviews, Discuss & Details '
-        const brandDate = '| Gear5'
+        const extraData = getSubTitle()
         const isScam = data?.isScam
         const isWarning = data?.isWarning
         const rawScore = data?.score
         switch (productId) {
           case data?.cryptoId :{
             imgPath = CRYPTO
-            title = `${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, CRYPTO)}Crypto Projects ${extraData}${brandDate}`
+            title = `${getTxtAdditional(isScam, isWarning, rawScore, CRYPTO)}${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract} Crypto Projects${extraData}`
             break
           }
           case data?.dAppId :{
             imgPath = DAPP
-            title = `${title},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, DAPP)}Decentralized Application ${extraData}${brandDate}`
+            title = `${getTxtAdditional(isScam, isWarning, rawScore, DAPP)}${title},${totalInteract} Decentralized Application${extraData}`
             break
           }
           case data?.ventureId :{
             imgPath = VENTURE
-            title = `${title},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, VENTURE)}Crypto Ventures ${extraData}${brandDate}`
+            title = `${getTxtAdditional(isScam, isWarning, rawScore, VENTURE)}${title},${totalInteract} Crypto Ventures${extraData}`
             break
           }
           case data?.exchangeId :{
             imgPath = EXCHANGE
-            title = `${title},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, EXCHANGE)}Crypto Exchanges ${extraData}${brandDate}`
+            title = `${getTxtAdditional(isScam, isWarning, rawScore, EXCHANGE)}${title},${totalInteract} Crypto Exchanges${extraData}`
             break
           }
           // Soon Project
           case data?.projectId :{
             imgPath = SOON
-            title = `${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, SOON)}ICO/IDO/IEO Projects ${extraData}${brandDate}`
+            title = `${getTxtAdditional(isScam, isWarning, rawScore, SOON)}${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract} ICO/IDO/IEO Projects${extraData}`
             break
           }
           case data?.launchPadId :{
             imgPath = LAUNCHPAD
-            title = `${title},${totalInteract}${getTxtAdditional(isScam, isWarning, rawScore, LAUNCHPAD)}Crypto Launchpads ${extraData}${brandDate}`
+            title = `${getTxtAdditional(isScam, isWarning, rawScore, LAUNCHPAD)}${title},${totalInteract} Crypto Launchpads${extraData}`
             break
           }
         }
