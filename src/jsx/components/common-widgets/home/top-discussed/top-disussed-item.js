@@ -21,7 +21,7 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
           <h6 className='text-etc-overflow cus-hot-coin-name'>{name}
             {type === 'crypto' ? ` (${symbol && symbol})` : null}
           </h6>
-          <span><Badge className='badge-sm'>{_.capitalize(type && type)}</Badge></span>
+          <span><Badge className='badge-sm'>{type && type === 'soon' ? 'IDO/ICO' : _.capitalize(type)}</Badge></span>
         </div>
       </div>
       <div>
