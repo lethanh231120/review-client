@@ -1,3 +1,6 @@
-const LIST_TITLE = `Top Crypto Ventures List | Rating, Discuss & Details | Gear5`
+import { SUB_TITLE } from './listCrypto'
+const totalVenture = '8000+'
+
+const LIST_TITLE = `List ${totalVenture} Ventures Crypto Projects${SUB_TITLE}`
 
 export const getHeaderListVenture = () => LIST_TITLE
