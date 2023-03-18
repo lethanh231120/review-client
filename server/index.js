@@ -359,7 +359,7 @@ app.get('/', (_, res) => {
 
 // otherwise page
 app.get('/*', (_, res) => {
-  console.log('other')
+  // console.log('other')
   genStaticHeader(res, getMetaTagHome())
 })
 
