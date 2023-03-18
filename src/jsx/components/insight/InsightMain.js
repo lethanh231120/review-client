@@ -44,7 +44,7 @@ const InsightMain = () => {
       <Link to={`${data?.chartId}`} style={{ width: '100%' }}>
         <Card style={{ width: '100%', height: '100%' }}>
           <Card.Header>
-            <h4 className='card-title'>{data?.title}</h4>
+            <h2 className='card-title'>{data?.title}</h2>
           </Card.Header>
           <Card.Body>
             <div >

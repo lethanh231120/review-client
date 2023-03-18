@@ -1,20 +1,23 @@
 import React from 'react'
 import './description.scss'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
+import { toCammelCase } from '../../../../utils/formatText'
 
 // projectName has data will description detail
 // projectName has no data --> review
-const Description = ({ projectName, text }) => {
+const Description = ({ projectName, text, descriptionToken, chainName }) => {
   // max length displayed first time(more length withh display show more, less length withh display all)
   const length = 250
   const [showLess, setShowLess] = React.useState(true)
 
   return <div>
     {projectName && <div className='card-header border-0 pb-0'>
-      <h5 className='heading text-primary d-flex align-items-start break-word'>
+      <div className='heading text-primary d-flex align-items-center break-word'>
         <i className='material-icons fs-30 text-primary'>subject</i>
-            About {projectName}
-      </h5>
+        <h2 style={{ fontSize: '1.5rem' }} className='m-0 text-primary'>
+        About {projectName}
+        </h2>
+      </div>
     </div>
     }
     {text && <div className={projectName ? 'card-body pt-3' : ''}>
@@ -26,7 +29,14 @@ const Description = ({ projectName, text }) => {
                 <p className='cus-text-justify' dangerouslySetInnerHTML={{ __html: `${text}` }}></p>
               ) : (
                 <>
+                  {descriptionToken
+                    ? <>
+                      <h1 style={{ fontSize: '14px', color: '#A098AE', fontWeight: '400', display: 'inline' }}>{descriptionToken}</h1>
+                      on chain {toCammelCase(chainName)}.&nbsp;
+                    </>
+                    : ''}
                   <p
+                    style={{ display: 'inline' }}
                     className='cus-text-justify'
                     dangerouslySetInnerHTML={{
                       __html: showLess ? `${text?.slice(0, length)}...` : `${text}`

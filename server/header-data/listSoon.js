@@ -9,7 +9,7 @@ const LIST_DESCRIPTION = `Discover Gear5's comprehensive list of ${totalSoonProj
 const IMAGE = `/list-soon.webp`
 
 const SUB_CATEGORY_TITLE = `${toCammelCase(REPLACE_SUB_CATEGORY)} ICO/IDO/IEO Projects | Review, Discuss & Details | Gear5`
-const SUB_CATEGORY_DESCRIPTION = `Explore the ${toCammelCase(REPLACE_SUB_CATEGORY)} and its top ICO/IDO/IEO Projects on Gear5 with detailed ratings, reviews, and essential information and watch out which projects are reported as Scam or Dead!`
+const SUB_CATEGORY_DESCRIPTION = `Real-time ${toCammelCase(REPLACE_SUB_CATEGORY)} List with Current Stage, Target Raising and Gear5's Score and Leave your Review if you have invested in any of those !`
 
 const staticData = {
   title: LIST_TITLE,

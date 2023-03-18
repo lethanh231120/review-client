@@ -45,6 +45,7 @@ const Markup = () => {
   const [openModalUserProfile, setOpenModalUserProfile] = useState(false)
   const [toggle, setToggle] = useState(false)
   const [pathName, setPathName] = useState('')
+  const [pathDetail, setPathDetail] = useState(false)
 
   const allroutes = [
     { url: '', pathName: 'Home', component: <Home /> },
@@ -71,6 +72,10 @@ const Markup = () => {
       } else {
         setPathName(path)
       }
+    },
+    pathDetail: pathDetail,
+    setPathDetail: (isDetailPath) => {
+      setPathDetail(isDetailPath)
     }
   }
 
@@ -99,7 +104,7 @@ const Markup = () => {
           if (path[2]) {
             setPathName(path[2]?.split('-')?.join(' '))
           } else {
-            setPathName('Crypto Projects')
+            setPathName('Cryptos')
           }
           break
         case DAPP:
@@ -127,14 +132,18 @@ const Markup = () => {
           if (path[2]) {
             setPathName(path[2]?.split('-')?.join(' '))
           } else {
-            setPathName('Upcomings')
+            setPathName('ICOs /IDOs /IEOs')
           }
           break
         case LAUNCHPAD:
-          setPathName('LaunchPads')
+          setPathName('Launchpads')
           break
         case INSIGHT:
-          setPathName('Insights')
+          if (path[2]) {
+            setPathName(path[2]?.split('_')?.join(' '))
+          } else {
+            setPathName('Insights')
+          }
           break
         case 'report-scam':
           setPathName('Report Scam')

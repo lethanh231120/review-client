@@ -6,7 +6,7 @@ export const ProductSimilar = ({ productType, similarList }) => {
   return !_.isEmpty(similarList) && (
     <>
       <div className='card-header border-0 pb-0 cus-card-header'>
-        <h5 className='heading text-primary cus-heading'>Similar</h5>
+        <div className='heading text-primary cus-heading'>Similar</div>
       </div>
       <div className='card-body pt-3'>
         <div className='profile-interest '>

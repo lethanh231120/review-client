@@ -90,12 +90,12 @@ export const TopCoins = () => {
                   <Avatar alt='Cryptocurrency Logo' src={`/img/${item?.symbol?.toLowerCase()}.webp`}></Avatar>
                 </span>
                 <div className='ms-2'>
-                  <h6 className='top-coin-name'>{item?.name}</h6>
+                  <div className='top-coin-name fs-16' style={{ color: 'black', fontWeight: '500' }}>{item?.name}</div>
                   {item?.symbol}
                 </div>
               </div>
               <div className='count top-coin-price'>
-                <h6>${new Intl.NumberFormat().format(item?.priceUSD)}</h6>
+                <div className='fs-14' style={{ color: 'black', fontWeight: '500' }}>${new Intl.NumberFormat().format(item?.priceUSD)}</div>
                 <span className={item?.pricePercentChange24h > 0 ? 'text-success' : 'text-danger'}>
                   {item?.pricePercentChange24h?.toFixed(2)}%
                 </span>
