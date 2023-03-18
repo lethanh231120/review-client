@@ -435,7 +435,7 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
           )}
         </>
       )}
-      <h4 className='project-hot-title'>Project Hot <Image src={hot} preview={false} alt='Hot Project'/></h4>
+      <h2 className='project-hot-title'>Project Hot <Image src={hot} preview={false} alt='Hot Project'/></h2>
       <div className='mt-3 row'>
         {listHot && listHot?.slice(0, 8)?.map((item, index) => (
           <ProjectHot

@@ -72,9 +72,15 @@ const VentureInfo = ({ productInfo, ...rest }) => {
               }
             </div>
             <div className='profile-name cus-profile-name'>
-              <h4 className='text-primary mb-2 cus-h4'>{detail?.ventureName}
-              </h4>
-              <Badge className='badge-sm' >{detail?.subCategory}</Badge>
+              <h1 className='text-primary mb-2 cus-h4 fs-22'>{detail?.ventureName}
+              </h1>
+              {
+                detail?.subCategory
+                  ? <h2 className='mb-0' style={{ lineHeight: '0' }}>
+                    <Badge className='badge-sm' >{detail?.subCategory}</Badge>
+                  </h2>
+                  : ''
+              }
             </div>
             {/* <div className='detail-button'>
               <ShareButton name={detail?.name} />
@@ -107,23 +113,23 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       <div className='text-center'>
         <div className='row'>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <Badge bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalReviews}</Badge>
-            </h3>
+            </div>
             <span>Reviews</span>
           </div>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <Badge bg='badge-l' className='badge-warning progress-bar-striped progress-bar-animated'>{productInfo?.details?.totalIsScam}</Badge>
-            </h3>
+            </div>
             <span>
             Reported Scam
             </span>
           </div>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <MyScoreComponent score={productInfo?.details?.score} type={VENTURE} />
-            </h3>
+            </div>
             <span>
             Score
             </span>
@@ -335,7 +341,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       ) : (
         <>
           <div className='card-header border-0 pb-0'>
-            <h5 className='heading text-primary'>{detail?.ventureName} Portfolio</h5>
+            <h2 className='heading text-primary'>{detail?.ventureName} Portfolio</h2>
           </div>
           <div className='card-body pt-3'>
             <div className='profile-blog portfolio-table table-responsive'>

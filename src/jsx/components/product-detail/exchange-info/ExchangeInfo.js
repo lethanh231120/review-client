@@ -58,8 +58,10 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
               }
             </div>
             <div className='profile-name cus-profile-name'>
-              <h4 className='text-primary mb-2 cus-h4'>{detail?.name}</h4>
-              <Badge className='badge-sm' >{detail?.subCategory}</Badge>
+              <h1 className='text-primary mb-2 cus-h4'>{detail?.name}</h1>
+              <h2 className='mb-0' style={{ lineHeight: '0' }}>
+                <Badge className='badge-sm' >{detail?.subCategory}</Badge>
+              </h2>
             </div>
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>

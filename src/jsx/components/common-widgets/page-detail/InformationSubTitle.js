@@ -12,16 +12,16 @@ export const typeExplorer = 'travel_explore'
 export const typeBlockchain = 'currency_bitcoin'
 export const typeSocial = 'groups'
 
-const titleShort = 'Overall:'// Soon detail
-const titleWebsite = 'Website:'// Soon detail
-const titleTag = 'Tag:'// Soon, Crypto detail
-const titleLaunchpad = 'Launchpad:' // Soon detail
-const titleContract = 'Contract detail:'// Crypto detail
-const titleAvailable = 'Available on:'// Crypto detail
-const titleExchange = 'Exchange:'// Crypto detail
-const titleExplorer = 'Explorer:' // Crypto detail
-const titleBlockchain = 'Chains:' // Dapp detail
-const titleSocial = 'Socials:' // Dapp detail
+const titleShort = 'Overall'// Soon detail
+const titleWebsite = 'Website'// Soon detail
+const titleTag = 'Tag'// Soon, Crypto detail
+const titleLaunchpad = 'Launchpad' // Soon detail
+const titleContract = 'Contract detail'// Crypto detail
+const titleAvailable = 'Available on'// Crypto detail
+const titleExchange = 'Exchange'// Crypto detail
+const titleExplorer = 'Explorer' // Crypto detail
+const titleBlockchain = 'Chains' // Dapp detail
+const titleSocial = 'Socials' // Dapp detail
 
 const InformationSubTitle = ({ type }) => {
   let title
@@ -65,7 +65,7 @@ const InformationSubTitle = ({ type }) => {
       <i className='material-icons fs-20 text-primary'>{type}</i>
       &nbsp;
       <h3 className='fs-18 mb-0'>
-        { title }
+        { title }:
       </h3>
     </div>
   </Link>
