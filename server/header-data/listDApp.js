@@ -4,8 +4,8 @@ const { toCammelCase } = require('../utils/formatText')
 const totalDAppProject = `12K+`
 const REPLACE_SUB_CATEGORY = '[SUB_CATEGORY]'
 
-const LIST_TITLE = `${totalDAppProject} Dapp Projects List | Review, Discuss & Details | Gear5`
-const LIST_DESCRIPTION = `Discover our comprehensive list of Dapp projects includes detailed ratings, reviews, and essential information and watch out which projects are reported as Scam or Dead!`
+const LIST_TITLE = `Discuss & Details All ${totalDAppProject} Dapps in the market Crypto | Gear5`
+const LIST_DESCRIPTION = `Discover the dApps World of ${totalDAppProject} Projects included DeFi platforms, NFT marketplaces,... Check out for Gear5's Score and Leave your Review if any of those is considered as Scam or Dead !`
 
 const IMAGE = `/list-dApp.webp`
 
