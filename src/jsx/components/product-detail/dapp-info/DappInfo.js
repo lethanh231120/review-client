@@ -63,12 +63,14 @@ const DappInfo = ({ productInfo, ...rest }) => {
               }
             </div>
             <div className='profile-name cus-profile-name'>
-              <h4 className='text-primary mb-2 cus-h4'>
+              <h1 className='text-primary mb-2 cus-h4 fs-22'>
                 <span className='detail-header-overview-name'>
                   {detail?.dAppName}
                 </span>
-              </h4>
-              <Badge className='badge-sm' >{detail?.subCategory}</Badge>
+              </h1>
+              <h2 className='mb-0' style={{ lineHeight: '0' }}>
+                <Badge className='badge-sm' >{detail?.subCategory}</Badge>
+              </h2>
             </div>
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
@@ -112,9 +114,9 @@ const DappInfo = ({ productInfo, ...rest }) => {
             </span>
           </div>
           <div className='col'>
-            <h3 className='m-b-0'>
+            <div className='mb-0 mt-3'>
               <MyScoreComponent score={productInfo?.details?.score} type={DAPP}/>
-            </h3>
+            </div>
             <span>
             Score
             </span>

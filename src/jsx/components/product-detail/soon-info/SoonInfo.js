@@ -51,16 +51,16 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   const itemStatus = getStatusFromStartDateAndEndDate(itemDetail?.startDate, itemDetail?.endDate)
   const [openModalShare, setOpenModalShare] = useState(false)
   let countSummaryDataExist = 0
-  if (itemDetail?.rasiedmoney) {
+  if (itemDetail?.rasiedmoney || itemDetail?.rasiedmoney === 0) {
     countSummaryDataExist += 1
   }
-  if (itemDetail?.tokenPrice) {
+  if (itemDetail?.tokenPrice || itemDetail?.tokenPrice === 0) {
     countSummaryDataExist += 1
   }
-  if (itemDetail?.totalSupply) {
+  if (itemDetail?.totalSupply || itemDetail?.totalSupply === 0) {
     countSummaryDataExist += 1
   }
-  if (itemDetail?.fundRaisingGoals) {
+  if (itemDetail?.fundRaisingGoals || itemDetail?.fundRaisingGoals === 0) {
     countSummaryDataExist += 1
   }
   // estimate display data in 12 col of bostrap
