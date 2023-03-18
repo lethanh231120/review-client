@@ -41,7 +41,7 @@ export const TopCoinChart = () => {
   return <div className='card' style={{ height: '100%', marginBottom: '0' }}>
     <div className='card-header border-0 align-items-start flex-wrap pb-0'>
       <div>
-        <h2 className='heading'>Top Coin Chart</h2>
+        <h3 className='heading'>Top Coin Chart</h3>
       </div>
       <div className='dropdown bootstrap-select'>
         <Select
