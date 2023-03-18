@@ -64,9 +64,9 @@ const InformationSubTitle = ({ type }) => {
     <div className='d-flex align-items-center' style={{ cursor: 'auto' }}>
       <i className='material-icons fs-20 text-primary'>{type}</i>
       &nbsp;
-      <h3 className='fs-18 mb-0'>
+      <p className='fs-18 mb-0 text-primary'>
         { title }:
-      </h3>
+      </p>
     </div>
   </Link>
 }

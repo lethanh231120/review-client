@@ -104,7 +104,7 @@ const Markup = () => {
           if (path[2]) {
             setPathName(path[2]?.split('-')?.join(' '))
           } else {
-            setPathName('Crypto Projects')
+            setPathName('Cryptos')
           }
           break
         case DAPP:

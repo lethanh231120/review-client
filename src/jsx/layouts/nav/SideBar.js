@@ -33,7 +33,7 @@ const initialState = {
   openDropdown: false
 }
 
-const headerItem1 = `Crypto Projects`
+const headerItem1 = `Cryptos`
 const headerItem2 = `DApps`
 const headerItem3 = `Ventures`
 const headerItem4 = `Exchanges`
@@ -201,7 +201,7 @@ const SideBar = () => {
     } else if (path?.pathname?.split('/')[1] === DAPP) {
       setState({ active: 'DApps' })
     } else if (path?.pathname?.split('/')[1] === CRYPTO) {
-      setState({ active: 'Crypto Projects' })
+      setState({ active: 'Cryptos' })
     } else if (path?.pathname?.split('/')[1] === VENTURE) {
       setState({ active: 'Ventures' })
     } else if (path?.pathname?.split('/')[1] === EXCHANGE) {

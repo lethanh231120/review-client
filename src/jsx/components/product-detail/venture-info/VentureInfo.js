@@ -27,6 +27,8 @@ import ProductDetailHeader from '../../skeleton/product-detail-skeleton/ProductD
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
 import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import InformationSubTitle, { typeExplorer, typeShort } from '../../common-widgets/page-detail/InformationSubTitle'
+import ShortItem from '../../common-widgets/page-detail/ShortItem'
 
 export const calculateTotalFund = (fund) =>{
   let total = 0
@@ -168,62 +170,6 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     )}
   </>
 
-  // VENTURE MORE
-  const dataItem = (title, content) =>{
-    return <div className='d-flex text-align-center mb-1'>
-      <p className='mb-0 mt-1'>{title}:</p>
-      <h5 className='ms-1 mt-1' >{content} </h5>
-    </div>
-  }
-
-  const communityItem = (title, content) => {
-    return <div className='d-flex align-items-start'>
-      <p className='mt-2 me-2'>{title}:</p>
-      <div className='cus-d-flex'>
-        {content && (
-          Object.keys(content).map(
-            (socialName) => {
-              return content[socialName] !== '' ? (
-                <Tooltip
-                  className='me-1 mt-2'
-                  placementTooltip='topLeft'
-                  title={toCammelCase(socialName)}
-                  key={socialName}
-                >
-                  <a
-                    href={content[socialName]}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    <Avatar
-                      alt='Social Logo'
-                      className='img-fluid p-1 rounded-circle cus-avatar'
-                      style={{ backgroundColor: '#F0F2F5' }}
-                      preview={false}
-                      src={
-                        socials?.find(
-                          (social) =>
-                            social?.key?.toLowerCase() ===
-                          socialName?.toLowerCase()
-                        )?.icon
-                          ? socials?.find(
-                            (social) =>
-                              social?.key?.toLowerCase() ===
-                              socialName?.toLowerCase()
-                          ).icon
-                          : defaultSocial
-                      }
-                    />
-                  </a>
-                </Tooltip>
-              ) : null
-            }
-          )
-        )}
-      </div>
-    </div>
-  }
-
   const More = () => {
     return <div>
       {rest?.loadingDetail ? (<ProductDetailInfo/>) : (
@@ -232,27 +178,104 @@ const VentureInfo = ({ productInfo, ...rest }) => {
           <div className='card-body pt-3'>
             <div className='profile-blog '>
               <div className='community-list'>
-                {detail?.location && (
-                  <div className='community-list-item'>
-                    {detail?.location && dataItem('Location', detail?.location)}
-                  </div>
-                )}
-                {!_.isEmpty(productInfo?.mores?.fund) && (
-                  <div className='community-list-item'>
-                    {dataItem('Total funds', renderNumber(calculateTotalFund(productInfo?.mores?.fund)))}
-                  </div>
-                )}
-                {detail?.yearFounded && (
-                  <div className='community-list-item'>
-                    {dataItem('Year Founded', detail?.yearFounded)}
-                  </div>
-                )}
+                {
+                  detail?.location || !_.isEmpty(productInfo?.mores?.fund) || detail?.yearFounded
+                    ? <InformationSubTitle type={typeShort}/>
+                    : ''
+                }
 
-                {detail?.socials && (
-                  <div className='community-list-item'>
-                    {communityItem('Social', detail?.socials)}
-                  </div>
-                )}
+                {
+                  detail?.location
+                    ? <div className='mb-3 col-12' >
+                      <ShortItem
+                        title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                          {detail?.ventureName}&apos;s location:&nbsp;
+                          <span className='text-primary'>
+                            <b>{detail?.location}</b>
+                          </span>
+                        </h3>}
+                      />
+                    </div>
+                    : ''
+                }
+
+                {
+                  !_.isEmpty(productInfo?.mores?.fund)
+                    ? <div className='mb-3 col-12' >
+                      <ShortItem
+                        title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                          {detail?.ventureName}&apos;s total funds:&nbsp;
+                          <span className='text-primary'>
+                            <b>{renderNumber(calculateTotalFund(productInfo?.mores?.fund))}</b>
+                          </span>
+                        </h3>}
+                      />
+                    </div>
+                    : ''
+                }
+
+                {
+                  detail?.yearFounded
+                    ? <div className='mb-3 col-12' >
+                      <ShortItem
+                        title={<h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>
+                          {detail?.ventureName}&apos;s year founded:&nbsp;
+                          <span className='text-primary'>
+                            <b>{detail?.yearFounded}</b>
+                          </span>
+                        </h3>}
+                      />
+                    </div>
+                    : ''
+                }
+
+                {
+                  detail?.socials
+                    ? <InformationSubTitle type={typeExplorer}/>
+                    : ''
+                }
+                {detail?.socials ? <div className='mb-3 col-12'>
+                  <ShortItem
+                    title={Object.keys(detail?.socials).map(
+                      (socialName) => {
+                        return detail?.socials[socialName] !== '' ? (
+                          <Tooltip
+                            className='me-1 mt-2'
+                            placementTooltip='topLeft'
+                            title={toCammelCase(socialName)}
+                            key={socialName}
+                          >
+                            <a
+                              href={detail?.socials[socialName]}
+                              target='_blank'
+                              rel='noreferrer'
+                            >
+                              <Avatar
+                                alt='Social Logo'
+                                className='img-fluid p-1 rounded-circle cus-avatar'
+                                style={{ backgroundColor: '#F0F2F5' }}
+                                preview={false}
+                                src={
+                                  socials?.find(
+                                    (social) =>
+                                      social?.key?.toLowerCase() ===
+                                          socialName?.toLowerCase()
+                                  )?.icon
+                                    ? socials?.find(
+                                      (social) =>
+                                        social?.key?.toLowerCase() ===
+                                              socialName?.toLowerCase()
+                                    ).icon
+                                    : defaultSocial
+                                }
+                              />
+                            </a>
+                          </Tooltip>
+                        ) : null
+                      }
+                    )}
+                  />
+                </div> : ''}
 
                 <p>
               If you have any good or bad experience with
@@ -282,6 +305,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
               </div>
             </div>
           </div>
+
         </>
       )}
     </div>
