@@ -1,9 +1,11 @@
-const totalSoonProject = `45+`
-const REPLACE_SUB_CATEGORY = '[SUB_CATEGORY]'
+import { toCammelCase } from '../../../../utils/formatText'
+import { REPLACE_SUB_CATEGORY, SUB_TITLE } from './listCrypto'
 
-const LIST_TITLE = `All ${totalSoonProject} ICO/IDO/IEO Projects | Rating, Discuss & Details | Gear5`
-const SUB_CATEGORY_TITLE = `All ${REPLACE_SUB_CATEGORY} Projects | Rating, Discuss & Details | Gear5`
+const totalSoonProject = `40+`
+
+const LIST_TITLE = `All ${totalSoonProject} ICO/IDO/IEO Projects${SUB_TITLE}`
+const SUB_CATEGORY_TITLE = `${REPLACE_SUB_CATEGORY} ICO/IDO/IEO Projects${SUB_TITLE}`
 
 export const getHeaderListSoon = (subCategory) => subCategory
-  ? SUB_CATEGORY_TITLE?.replace(REPLACE_SUB_CATEGORY, subCategory) // SubCategory
+  ? SUB_CATEGORY_TITLE?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory)) // SubCategory
   : LIST_TITLE // List

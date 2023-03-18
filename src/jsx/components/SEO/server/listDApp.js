@@ -1,8 +1,11 @@
-const REPLACE_SUB_CATEGORY = '[SUB_CATEGORY]'
+import { toCammelCase } from '../../../../utils/formatText'
+import { REPLACE_SUB_CATEGORY, SUB_TITLE } from './listCrypto'
 
-const LIST_TITLE = `Top D-App Projects List | Rating, Discuss & Details | Gear5`
-const SUB_CATEGORY_TITLE = `Top ${REPLACE_SUB_CATEGORY} D-App Projects List | User Discuss, Rating & Details | Gear5 `
+const totalDAppProject = `12K+`
+
+const LIST_TITLE = `Discuss & Details All ${totalDAppProject} DApps in the market Crypto${SUB_TITLE}`
+const SUB_CATEGORY_TITLE = `${REPLACE_SUB_CATEGORY} Dapps Projects List${SUB_TITLE}`
 
 export const getHeaderListDApp = (subCategory) => subCategory
-  ? SUB_CATEGORY_TITLE?.replace(REPLACE_SUB_CATEGORY, subCategory) // SubCategory
+  ? SUB_CATEGORY_TITLE?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory)) // SubCategory
   : LIST_TITLE // List
