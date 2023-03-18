@@ -11,8 +11,8 @@ const LIST_DESCRIPTION = `Discover the DApps World of ${totalDAppProject} Projec
 
 const IMAGE = `/list-dApp.webp`
 
-const SUB_CATEGORY_TITLE = `${REPLACE_SUB_CATEGORY} Dapps Projects List${SUB_TITLE}`
-const SUB_CATEGORY_DESCRIPTION = `Explore the ${REPLACE_SUB_CATEGORY} and its top Dapps Projects on Gear5 with detailed ratings, reviews, and essential information and watch out which projects are reported as Scam or Dead!`
+const SUB_CATEGORY_TITLE = `${REPLACE_SUB_CATEGORY} DApps Projects List${SUB_TITLE}`
+const SUB_CATEGORY_DESCRIPTION = `Explore the ${REPLACE_SUB_CATEGORY} and its top DApps Projects on Gear5 with detailed ratings, reviews, and essential information and watch out which projects are reported as Scam or Dead!`
 
 const staticData = {
   title: LIST_TITLE,
