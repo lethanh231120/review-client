@@ -74,7 +74,7 @@ export const ReviewList = () => {
   }, [screenWidth, reviewList])
 
   return <div className='row'>
-    <div className='col-12 mb-2'> <h2 className='heading' >Recent Reviews</h2></div>
+    <div className='col-12 mb-2'> <h3 className='heading' >Recent Reviews</h3></div>
     { !_.isEmpty(newListReview) ? newListReview?.map((item, index) =>
       <ReviewItem
         key={index}
