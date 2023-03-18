@@ -14,7 +14,7 @@ const Banner = () => {
     <div className='card-body cus-card-body'>
       <div className='buy-coin banner'>
         <div className='scam-img banner-phone'>
-          {/* <img src='/scam-alert.webp' className='img-fluid' alt='Scam Alert' /> */}
+          <img src='/scam-alert.webp' className='img-fluid' alt='Scam Alert' />
         </div>
         <div className='banner-left'>
           <h1 className='report-title'>You got scammed, lost money?</h1>
