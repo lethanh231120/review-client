@@ -14,7 +14,7 @@ const Description = ({ projectName, text, descriptionToken, chainName }) => {
     {projectName && <div className='card-header border-0 pb-0'>
       <div className='heading text-primary d-flex align-items-center break-word'>
         <i className='material-icons fs-30 text-primary'>subject</i>
-        <h2 style={{ fontSize: '1.5rem' }} className='m-0'>
+        <h2 style={{ fontSize: '1.5rem' }} className='m-0 text-primary'>
         About {projectName}
         </h2>
       </div>

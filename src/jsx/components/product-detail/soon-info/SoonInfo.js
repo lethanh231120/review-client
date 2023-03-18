@@ -97,7 +97,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
         <div className='profile-info'>
           <div className='profile-details'>
             <ProductImage productId={itemDetail?.projectId} productName={itemDetail?.projectName} altImageType={altSoon} />
-            <ProductNameSubName projectName={itemDetail?.projectName} projectSubName={itemDetail?.projectSymbol}/>
+            <ProductNameSubName projectName={itemDetail?.projectName} projectSubName={itemDetail?.projectSymbol} isSoonProject={true}/>
             <SoonStatusLocation status={itemStatus} detail={itemDetail}/>
 
             <div className='detail-button ms-auto'>

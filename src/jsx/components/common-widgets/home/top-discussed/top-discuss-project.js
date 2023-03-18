@@ -52,7 +52,7 @@ export const TopDiscussed = () => {
 
   return <div className='card pb-0' style={{ height: '100%' }}>
     <div className='card-header border-0 pb-0'>
-      <h3 className='heading text-primary' style={{ marginBottom: '1rem' }}>Hot Topics</h3>
+      <div className='heading text-primary' style={{ marginBottom: '1rem' }}>Hot Topics</div>
     </div>
     <div className='card-body' style={{ padding: '0 0.7rem' }}>
       <div
