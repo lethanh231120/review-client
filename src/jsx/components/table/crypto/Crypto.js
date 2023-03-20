@@ -21,7 +21,10 @@ import {
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { crypto_score_explain_text } from '../../../constants/data'
 import MyScoreComponent from '../../score/scoreComponent'
-import { isValidProductId, formatImgUrlFromProductId, formatUrlDetailFromUrlImageExchange, getExchangeNameFromUrlImageExchage, toCammelCase } from '../../../../utils/formatText'
+import {
+  // isValidProductId,
+  // formatImgUrlFromProductId,
+  formatUrlDetailFromUrlImageExchange, getExchangeNameFromUrlImageExchage, toCammelCase } from '../../../../utils/formatText'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 import {
@@ -34,7 +37,7 @@ import { NO_DATA } from '../../../constants/data'
 // import CategorySearch from '../../layout/input-search/CategorySearch'
 import CategorySearch from '../../input-search/CategorySearch'
 import '../../../../scss/base/table.scss'
-import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
+// import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import { copyAddress } from '../../../../utils/effect'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { Badge } from 'react-bootstrap'
@@ -190,8 +193,8 @@ const Crypto = ({
           }`}
           className='crypto-table-info image-list'
         >
-          {record?.cryptoId && record?.bigLogo
-            ? <Image alt='Cryptocurrency Logo' src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false}/>
+          {record?.cryptoId && record?.smallLogo
+            ? <Image alt='Cryptocurrency Logo' src={record?.smallLogo} preview={false}/>
             : (
               <span className='image-list-no-data'>
                 {record?.name?.slice(0, 3)}
@@ -321,34 +324,16 @@ const Crypto = ({
               ))}
             </Avatar.Group>
           </div>
-          : chainList[record?.chainName]
-            ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
-              <Avatar
-                alt='Blockchain Logo'
-                size={25}
-                src={chainList[record?.chainName]?.image}
-                key={record}
-                className='crypto-table-chain'
-                onClick={(e) => onCancelClick(e)}
-              />
-            </Tooltip>
-            : record?.bigLogo ? (
-              <Tooltip title={record?.name}>
-                <Avatar
-                  alt='Blockchain Logo'
-                  src={formatImgUrlFromProductId(record?.cryptoId)}
-                  // preview={false}
-                  size={25}
-                  key={record}
-                  onClick={(e) => onCancelClick(e)}
-                />
-              </Tooltip>
-            ) : (
-              <span className='crypto-table-info-logo image-list-no-data'>
-                {record?.name?.slice(0, 3)}
-              </span>
-            )
-      )
+          : <Tooltip title={record?.chainName && toCammelCase(record?.chainName)}>
+            <Avatar
+              alt='Blockchain Logo'
+              size={25}
+              src={record?.smallLogo}
+              key={record}
+              className='crypto-table-chain'
+              onClick={(e) => onCancelClick(e)}
+            />
+          </Tooltip>)
     },
     {
       title: (

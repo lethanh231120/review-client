@@ -96,7 +96,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       {itemDetail ? (
         <div className='profile-info'>
           <div className='profile-details'>
-            <ProductImage productId={itemDetail?.projectId} productName={itemDetail?.projectName} altImageType={altSoon} />
+            <ProductImage imageUrl={itemDetail?.bigLogo} productName={itemDetail?.projectName} altImageType={altSoon} />
             <ProductNameSubName projectName={itemDetail?.projectName} projectSubName={itemDetail?.projectSymbol} isSoonProject={true}/>
             <SoonStatusLocation status={itemStatus} detail={itemDetail}/>
 

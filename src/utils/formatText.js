@@ -24,7 +24,7 @@ export const getExchangeNameFromUrlImageExchage = (urlImage) =>{
 }
 
 export const toCammelCase = (string) =>{
-  return string.replace(/(\w)(\w*)/g,
+  return string && string.replace(/(\w)(\w*)/g,
     function(g0, g1, g2) { return g1.toUpperCase() + g2.toLowerCase() })
 }
 
@@ -61,7 +61,7 @@ export const formatImgUrlFromProductId = (productId) => {
     return null
   }
   let productImgType = productIdParts[1]
-  const folderImgPath = 'bigLogo'
+  const folderImgPath = 'smallLogo'
   // special case
   switch (productImgType) {
     case CRYPTO_COIN :

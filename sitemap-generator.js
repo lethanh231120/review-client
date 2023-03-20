@@ -1,7 +1,8 @@
 require('babel-register')({
   presets: ['es2015', 'react']
 })
-const sitemapName = 'Nikadinhdanquanthanhvinhhieploclongtrieu2cbf59c08fe46d17670ea6aed38ec895b5bbb95bd89134dacbcbca82243ade31'
+// const sitemapName = 'Nikadinhdanquanthanhvinhhieploclongtrieu2cbf59c08fe46d17670ea6aed38ec895b5bbb95bd89134dacbcbca82243ade31'
+const sitemapName = 'NikaSitemap'
 
 const pages = [
   '', 'add-project', 'report-scam', 'exchanges.xml', 'venture.xml', 'launchpads.xml', 'dapps.xml', 'idos.xml', 'coins.xml', 'confirm-email', 'search', 'insight',
@@ -19,10 +20,9 @@ const newVentureUrl = 'https://crawl-venture.gear5.io/new_venture.xml'
 const fs = require('fs')
 
 const generateUrl = (content) => {
-  const date = new Date().toISOString()
+  // const date = new Date().toISOString()
   return `<url>
   <loc>${content}</loc>
-  <lastmod>${date}</lastmod>
   </url>`
 }
 

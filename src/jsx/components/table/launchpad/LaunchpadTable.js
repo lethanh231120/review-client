@@ -36,7 +36,7 @@ const LaunchpadList = ({ listProduct,
         className='crypto-table-info image-list'
         to={`../../products/${record?.launchPadId?.split('_')[1]}/${record?.launchPadId?.split('_')[2]}`}
         onClick={e => e.stopPropagation()}>
-        { myLogo('bigLogo', record?.launchPadId, 'launchpad') }
+        { myLogo('smallLogo', record?.launchPadId, 'launchpad') }
         <Tooltip title={(<p>{`${record?.name}`}</p>)}>
           <span>
             <div className='data-table-name ms-2'>
