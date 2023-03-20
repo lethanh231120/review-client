@@ -1,17 +1,16 @@
 const { getMetaTag } = require('../modal/MetaTag')
 const { toCammelCase } = require('../utils/formatText')
-const { getSubTitle, getReplaceSubCategory } = require('./listCrypto')
+const { getReplaceSubCategory } = require('./listCrypto')
 const REPLACE_SUB_CATEGORY = getReplaceSubCategory()
-const SUB_TITLE = getSubTitle()
-const totalSoonProject = `40+`
+const totalSoonProject = `45+`
 
-const LIST_TITLE = `All ${totalSoonProject} ICO/IDO/IEO Projects${SUB_TITLE}`
-const LIST_DESCRIPTION = `All Ongoing/Soon ICO/IDO/IEO Projects with Live Discussions, Reviews & Details, providing Investors with overall perspectives in the Market !`
+const LIST_TITLE = `Review & Discuss ${totalSoonProject} ICO/IDO/IEO Projects Ongoing | Gear5`
+const LIST_DESCRIPTION = `The list of ${totalSoonProject} ongoing ICO/IDO projects, including detailed ratings and information. Please leave your review if you have invested in any of these projects.`
 
 const IMAGE = `/list-soon.webp`
 
-const SUB_CATEGORY_TITLE = `${REPLACE_SUB_CATEGORY} ICO/IDO/IEO Projects${SUB_TITLE}`
-const SUB_CATEGORY_DESCRIPTION = `Real-time ${REPLACE_SUB_CATEGORY} List with Current Stage, Target Raising and Gear5's Score and Leave your Review if you have invested in any of those !`
+const SUB_CATEGORY_TITLE = `${REPLACE_SUB_CATEGORY} ICO/IDO/IEO Project List Ongoing | Gear5`
+const SUB_CATEGORY_DESCRIPTION = `ICO/IDO/IEO details about all ongoing ${REPLACE_SUB_CATEGORY} projects in Crypto market. Please leave your review if you have invested in any of these projects.`
 
 const staticData = {
   title: LIST_TITLE,

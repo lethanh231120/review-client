@@ -1,9 +1,10 @@
 const { getMetaTag } = require('../modal/MetaTag')
 const { getTotalCrypto } = require('./listCrypto')
 const totalCrypto = getTotalCrypto()
-const TITLE = `Gear 5: 99%+ Scam/Dead Crypto Projects Among Total Of ${totalCrypto} | Review, Discuss & Details`
+const TITLE = `Gear 5: Review & Discuss 99%+ Scam/Dead Crypto Projects Among Total Of ${totalCrypto}`
 const IMAGE = `/logo.webp`
-const DESCRIPTION = `Stay up-to-date on the latest Cryptocurrency trends, Gear5 provide in-depth reviews and comprehensive information on Real-time ${totalCrypto} Crypto Database, helping you make well-informed investment decisions. `
+const DESCRIPTION = `You got scammed, lost money?
+Please join us in warning everyone in the community!`
 const UNIQUE_LINK = `https://gear5.io`
 
 const staticData = {
