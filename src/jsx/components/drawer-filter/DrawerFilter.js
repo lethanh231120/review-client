@@ -106,8 +106,9 @@ const DrawerFilter = ({ type, handleFilter }) => {
 
   useEffect(() => {
     let count = 0
-    if (window.localStorage.getItem(type)) {
-      const savedData = JSON.parse(window.localStorage.getItem(type))
+    const temp = window.localStorage.getItem(type)
+    if (temp) {
+      const savedData = JSON.parse(temp)
       savedData && Object.keys(savedData)?.forEach(key => {
         if (!_.isEmpty(savedData[key]) || key === 'isWarning' || key === 'isScam') {
           count++
