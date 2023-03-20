@@ -1,3 +1,4 @@
+import { toCammelCase } from '../../../../utils/formatText'
 import { getStatusFromStartDateAndEndDate } from '../../../../utils/page-soon/status'
 import { CRYPTO, DAPP, EXCHANGE, LAUNCHPAD, VENTURE } from '../../../constants/category'
 import { getHeaderHome } from './home'
@@ -84,12 +85,12 @@ export const getHeaderProductDetail = (productDetail) => {
   switch (productId) {
     case data?.cryptoId :{
       if (data?.type === 'token') {
-        title = `${data?.name} ${data?.symbol} ${data?.address} review on Gear5`
+        title = `${data?.name} (${data?.symbol}) ${data?.address} review on Gear5`
       } else if (data?.type === 'coin') {
         if ((isInteger(totalScam) && totalScam > 0) || (isInteger(totalReview) && totalReview > 0)) {
-          title = `Review & Discuss ${data?.name} ${data?.symbol} -${totalScam ? ` ${totalScam} reported as a scam` : ''}${totalReview ? ` ${totalReview} comment` : ''} | Gear5`
+          title = `Review & Discuss ${data?.name} (${data?.symbol}) -${totalScam ? ` ${totalScam} reported as a scam` : ''}${totalReview ? ` ${totalReview} comment` : ''} | Gear5`
         } else {
-          title = `${data?.name} ${data?.symbol} - Review & Discuss Cryptocurrency projects | Gear5`
+          title = `${data?.name} (${data?.symbol}) - Review & Discuss Cryptocurrency projects | Gear5`
         }
       } else {
         title = `${getTxtAdditional(isScam, isWarning, rawScore, CRYPTO)}${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract} Crypto Projects${extraData}`
@@ -121,9 +122,9 @@ export const getHeaderProductDetail = (productDetail) => {
       let soonStatus = getStatusFromStartDateAndEndDate(data?.startDate, data?.endDate)
       if (isInteger(totalReview) && totalReview > 0) {
         soonStatus = soonStatus ? `${soonStatus} |` : soonStatus
-        title = `${data?.projectName} ${data?.projectSymbol} - ${data?.roundType} - ${totalReview} Reviews |${soonStatus} Gear5`
+        title = `${data?.projectName} (${data?.projectSymbol}) - ${data?.roundType} - ${totalReview} Reviews |${soonStatus ? ` ${toCammelCase(soonStatus)}` : ''} Gear5`
       } else {
-        title = `${data?.projectName} ${data?.projectSymbol} - ${data?.roundType}${soonStatus} | Project details | Gear5`
+        title = `${data?.projectName} (${data?.projectSymbol}) - ${data?.roundType}${soonStatus ? ` ${toCammelCase(soonStatus)}` : ''} | Project details | Gear5`
       }
       break
     }
