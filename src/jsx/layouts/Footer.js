@@ -17,7 +17,7 @@ const Footer = () => {
             Nika Guru
           </Link>{' '}
           {d.getFullYear()}
-          ,{' '}Our{' '}
+          .{' '}Our{' '}
           <Link
             to={'/terms-of-service'}
             className = 'text-primary txt-link'>
@@ -29,6 +29,7 @@ const Footer = () => {
             className = 'text-primary txt-link'>
             {txtPrivacyPolicy}
           </Link>
+          . Contact us on <span className = 'text-primary txt-link' href='#'>zoro@gear5.guru</span>.
         </p>
       </div>
     </div>
