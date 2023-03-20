@@ -26,7 +26,7 @@ import hands from '../../../../images/svg/hands.svg'
 import ProductDetailHeader from '../../skeleton/product-detail-skeleton/ProductDetailHeader'
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
 import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
-import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+// import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import InformationSubTitle, { typeExplorer, typeShort } from '../../common-widgets/page-detail/InformationSubTitle'
 import ShortItem from '../../common-widgets/page-detail/ShortItem'
 
@@ -321,35 +321,6 @@ const VentureInfo = ({ productInfo, ...rest }) => {
     )}
   </>
 
-  const portfolioColumns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      render: (_, record) => (<span><Avatar src={record?.projectLogo}/> {record?.projectName}</span>)
-    },
-    {
-      title: 'Round',
-      dataIndex: 'fundingRound',
-      render: (_, record) => (<span>{record?.fundStageName}</span>)
-    }, {
-      title: 'Amount',
-      dataIndex: 'fundAmount',
-      render: (_, record) => <span>{renderNumber(record?.fundAmount)}</span>
-    }, {
-      title: 'Date',
-      dataIndex: 'fundDate',
-      render: (_, record) => <span>{moment(record?.fundDate)?.format('DD-MM-YYYY')}</span>
-    },
-    {
-      title: 'Announcement',
-      dataIndex: 'announcement',
-      render: (_, record) => <a className='announcement-link' onClick={(e) =>{
-        e.stopPropagation()
-        window.open(record?.announcementUrl)
-      }}><i className='fas fa-link me-1'></i>Link</a>
-    }
-  ]
-
   const handleonRowClicked = (projectId) => {
     if (projectId) {
       const type = projectId.split('_')[1]
@@ -363,45 +334,72 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       }
     }
   }
-  const PortfolioTable = () => {
-    const temp = []
-    const list = productInfo?.mores?.fund
-    list && list?.forEach((item, index) => {
-      const tempItem = item
-      tempItem['key'] = index
-      temp.push(tempItem)
-    })
-    return <>
-      {rest?.loadingDetail ? (
-        <MySkeletonLoadinng count={5} height={50}/>
-      ) : (
-        <div>
-          <div className='card-header border-0 pb-0'>
-            <h2 className='heading text-primary'>{detail?.ventureName} Portfolio</h2>
-          </div>
-          <div className='card-body pt-3'>
-            <div className='profile-blog portfolio-table table-responsive'>
-              <Table
-                pagination={{ pageSize: 10,
-                  showSizeChanger: false,
-                  style: { display: 'flex', justifyContent: 'center' }
 
-                }}
-                rowKey={(record) =>
-                  record?.key
+  const PortfolioTable = () => {
+    const portfolioColumns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        render: (_, record) => (<span><Avatar src={record?.projectLogo}/> {record?.projectName}</span>)
+      },
+      {
+        title: 'Round',
+        dataIndex: 'fundingRound',
+        render: (_, record) => (<span>{record?.fundStageName}</span>)
+      }, {
+        title: 'Amount',
+        dataIndex: 'fundAmount',
+        render: (_, record) => <span>{renderNumber(record?.fundAmount)}</span>
+      }, {
+        title: 'Date',
+        dataIndex: 'fundDate',
+        render: (_, record) => <span>{moment(record?.fundDate)?.format('DD-MM-YYYY')}</span>
+      },
+      {
+        title: 'Announcement',
+        dataIndex: 'announcement',
+        render: (_, record) => <a className='announcement-link' onClick={(e) =>{
+          e.stopPropagation()
+          window.open(record?.announcementUrl)
+        }}><i className='fas fa-link me-1'></i>Link</a>
+      }
+    ]
+
+    const list = productInfo?.mores?.fund
+    // const [currentPage, setCurrentPage] = useState(2)
+
+    // console.log(currentPage)
+
+    return <>
+      <div>
+        <div className='card-header border-0 pb-0'>
+          <h2 className='heading text-primary'>{detail?.ventureName} Portfolio</h2>
+        </div>
+        <div className='card-body pt-3'>
+          <div className='profile-blog portfolio-table table-responsive'>
+            <Table
+              pagination={{ pageSize: 10,
+                showSizeChanger: false,
+                current: rest?.currentPage,
+                onChange: (page) => rest?.setPage(page),
+                style: { display: 'flex', justifyContent: 'center' }
+
+              }}
+              rowKey={(record) => {
+                return `${record?.projectId || record?.projectCode}_${record?.fundStageCode}`
+              }
+              }
+              columns={portfolioColumns}
+              dataSource={list}
+              onRow={(record) => ({
+                onClick: () => {
+                  handleonRowClicked(record?.projectId)
                 }
-                columns={portfolioColumns}
-                dataSource={temp}
-                onRow={(record) => ({
-                  onClick: () => {
-                    handleonRowClicked(record?.projectId)
-                  }
-                })}
-              />
-            </div>
+              })}
+            />
           </div>
         </div>
-      )}
+      </div>
     </>
   }
 

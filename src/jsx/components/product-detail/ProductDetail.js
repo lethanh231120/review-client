@@ -790,10 +790,17 @@ const ProductDetail = () => {
     loadingDetail={loadingDetail}
   />
 
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const setPage = (page) => {
+    setCurrentPage(page)
+  }
+
   const venture = <VentureInfo
   // use in crypto info
     isShow={isShow}
-
+    currentPage={currentPage}
+    setPage={setPage}
     // use in filter review component
     productInfo={productInfo}
     defaultFilter={defaultFilter}
@@ -816,7 +823,7 @@ const ProductDetail = () => {
     typeComment={typeComment}
     setErrorType={setErrorType}
     errorType={errorType}
-    id={productInfo?.details?.id}
+    // id={productInfo?.details?.id}
     form={form}
 
     totalReviews={totalSortBy || 0}
