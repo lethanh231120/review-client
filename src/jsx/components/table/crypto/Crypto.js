@@ -22,6 +22,7 @@ import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { crypto_score_explain_text } from '../../../constants/data'
 import MyScoreComponent from '../../score/scoreComponent'
 import {
+  formatImgUrlFromProductId,
   // isValidProductId,
   // formatImgUrlFromProductId,
   formatUrlDetailFromUrlImageExchange, getExchangeNameFromUrlImageExchage, toCammelCase } from '../../../../utils/formatText'
@@ -324,16 +325,34 @@ const Crypto = ({
               ))}
             </Avatar.Group>
           </div>
-          : <Tooltip title={record?.chainName && toCammelCase(record?.chainName)}>
-            <Avatar
-              alt='Blockchain Logo'
-              size={25}
-              src={record?.smallLogo}
-              key={record}
-              className='crypto-table-chain'
-              onClick={(e) => onCancelClick(e)}
-            />
-          </Tooltip>)
+          : chainList[record?.chainName]
+            ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
+              <Avatar
+                alt='Blockchain Logo'
+                size={25}
+                src={chainList[record?.chainName]?.image}
+                key={record}
+                className='crypto-table-chain'
+                onClick={(e) => onCancelClick(e)}
+              />
+            </Tooltip>
+            : record?.smallLogo ? (
+              <Tooltip title={record?.name}>
+                <Avatar
+                  alt='Blockchain Logo'
+                  src={formatImgUrlFromProductId(record?.cryptoId)}
+                  // preview={false}
+                  size={25}
+                  key={record}
+                  onClick={(e) => onCancelClick(e)}
+                />
+              </Tooltip>
+            ) : (
+              <span className='crypto-table-info-logo image-list-no-data'>
+                {record?.name?.slice(0, 3)}
+              </span>
+            )
+      )
     },
     {
       title: (
