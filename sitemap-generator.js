@@ -5,7 +5,7 @@ require('babel-register')({
 const sitemapName = 'NikaSitemap'
 
 const pages = [
-  '', 'add-project', 'report-scam', 'exchanges.xml', 'venture.xml', 'launchpads.xml', 'dapps.xml', 'idos.xml', 'coins.xml', 'confirm-email', 'search', 'insight',
+  '', 'add-project', 'report-scam', 'exchanges.xml', 'ventures.xml', 'launchpads.xml', 'dapps.xml', 'idos.xml', 'coins.xml', 'confirm-email', 'search', 'insight',
   'products', 'products/crypto', 'products/dapp', 'products/launchpad', 'products/soon', 'products/venture', 'products/exchange', 'terms-of-service', 'privacy-policy'
   //  'products/not-found-product', 'server-error',
   // 'not-found',  'not-found-product', 'server-error', 'not-found'
