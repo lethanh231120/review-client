@@ -220,7 +220,7 @@ const SideBar = () => {
   const saveFilterTag = (type, tag) => {
     let tempType = ''
     switch (type) {
-      case 'Crypto Projects':
+      case 'Cryptos':
         tempType = 'crypto'
         break
       case 'DApps':
@@ -229,31 +229,31 @@ const SideBar = () => {
       case 'Exchanges':
         tempType = 'exchange'
         break
-      case 'Upcomings':
+      case 'ICO/IDO/IEO':
         tempType = 'soon'
         break
     }
-
+    const savedDataString = window.localStorage.getItem(tempType)
     if (tempType === 'soon') {
-      if (window.localStorage.getItem(tempType) !== '') {
-        window.localStorage.removeItem(tempType)
-        window.localStorage.setItem(tempType, JSON.stringify({ launchpad: tag }))
+      if (savedDataString) {
+        const temp = JSON.parse(savedDataString)
+        window.localStorage.setItem(tempType, JSON.stringify({ ...temp, 'launchpad': tag }))
       } else {
-        window.localStorage.setItem(tempType, JSON.stringify({ launchpad: tag }))
+        window.localStorage.setItem(tempType, JSON.stringify({ 'launchpad': tag }))
       }
     } else {
-      if (window.localStorage.getItem(tempType) !== '') {
-        window.localStorage.removeItem(tempType)
-        window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
+      if (savedDataString) {
+        const temp = JSON.parse(savedDataString)
+        window.localStorage.setItem(tempType, JSON.stringify({ ...temp, 'tag': tag }))
       } else {
-        window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
+        window.localStorage.setItem(tempType, JSON.stringify({ 'tag': tag }))
       }
     }
   }
   const removeFilterTag = (type, tag) => {
     let tempType = ''
     switch (type) {
-      case 'Crypto Projects':
+      case 'Cryptos':
         tempType = 'crypto'
         break
       case 'DApps':
@@ -262,18 +262,25 @@ const SideBar = () => {
       case 'Exchanges':
         tempType = 'exchange'
         break
-      case 'Upcomings':
+      case 'ICO/IDO/IEO':
         tempType = 'soon'
         break
     }
-
+    const savedDataString = window.localStorage.getItem(tempType)
     if (tempType === 'soon') {
-      if (window.localStorage.getItem(tempType) !== '') {
+      if (savedDataString !== '') {
+        const temp = JSON.parse(savedDataString)
+        console.log(temp)
+        delete temp?.launchpad
         window.localStorage.removeItem(tempType)
+        window.localStorage.setItem(tempType, JSON.stringify(temp))
       }
     } else {
-      if (window.localStorage.getItem(tempType) !== '') {
+      if (savedDataString !== '') {
+        const temp = JSON.parse(savedDataString)
+        delete temp?.tag
         window.localStorage.removeItem(tempType)
+        window.localStorage.setItem(tempType, JSON.stringify(temp))
       }
     }
   }
@@ -331,6 +338,7 @@ const SideBar = () => {
                         onClick={() => {
                           handleMenuActive(data?.title)
                           pathName?.handleChangePathName(data?.title)
+                          removeFilterTag(data?.title, 'tag')
                           pathName?.setPathDetail(false)
                           if (sizeScreen < 767.98) {
                             mainwrapper.classList.remove('menu-toggle')
@@ -346,7 +354,6 @@ const SideBar = () => {
                             openDropdown: !state?.openDropdown,
                             active: state.active === data?.title ? '' : data?.title
                           })
-                          removeFilterTag(data?.title, '')
                           pathName?.handleChangePathName(data?.title)
                           pathName?.setPathDetail(false)
                         }}
