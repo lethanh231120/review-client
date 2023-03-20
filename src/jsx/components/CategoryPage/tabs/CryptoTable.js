@@ -16,8 +16,7 @@ import MyScoreComponent from '../../score/scoreComponent'
 import { exchanges } from '../../../../utils/ExchangeImage'
 import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
 import { MAX_PAGE } from '../../../constants/pagination'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
+import { formatImgUrlFromProductId } from '../../../../utils/formatText'
 import { copyAddress } from '../../../../utils/effect'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { CRYPTO } from './../../../constants/category'
@@ -129,8 +128,8 @@ const CryptoTable = ({ loading, listData }) => {
           onClick={(e) => e.stopPropagation()}
           className='crypto-table-info image-list'
         >
-          {record?.cryptoId && record?.bigLogo ? (
-            <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} alt='Cryptocurrency Logo'/>
+          {record?.cryptoId && record?.smallLogo ? (
+            <Image src={record?.smallLogo} alt='Cryptocurrency Logo'/>
           ) : (
             <span className='image-list-no-data'>
               {record?.name?.slice(0, 3)}
@@ -249,7 +248,7 @@ const CryptoTable = ({ loading, listData }) => {
                 onClick={(e) => onCancelClick(e)}
               />
             </Tooltip>
-            : record?.bigLogo ? (
+            : record?.smallLogo ? (
               <Tooltip title={record?.name}>
                 <Avatar
                   alt='Blockchain Logo'
