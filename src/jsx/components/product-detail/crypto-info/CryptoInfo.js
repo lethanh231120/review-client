@@ -391,7 +391,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           style={{ cursor: 'pointer' }}
         >
           <Image
-            alt='Blockchain Logo'
+            alt={`${detail?.chainName} blockchain Logo`}
             src={chainList[`${detail?.chainName}`]?.image}
             preview={false}
           />

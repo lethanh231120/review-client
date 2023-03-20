@@ -1,13 +1,12 @@
 import React from 'react'
 import './description.scss'
-import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import { toCammelCase } from '../../../../utils/formatText'
 
 // projectName has data will description detail
 // projectName has no data --> review
 const Description = ({ projectName, text, descriptionToken, chainName }) => {
   // max length displayed first time(more length withh display show more, less length withh display all)
-  const length = 250
+  const length = 500
   const [showLess, setShowLess] = React.useState(true)
 
   return <div>
@@ -39,7 +38,7 @@ const Description = ({ projectName, text, descriptionToken, chainName }) => {
                     style={{ display: 'inline' }}
                     className='cus-text-justify'
                     dangerouslySetInnerHTML={{
-                      __html: showLess ? `${text?.slice(0, length)}...` : `${text}`
+                      __html: showLess ? `${text?.slice(0, 350)}...` : `${text}`
                     }}
                   ></p>
                   <span
@@ -48,7 +47,6 @@ const Description = ({ projectName, text, descriptionToken, chainName }) => {
                     onClick={() => setShowLess(!showLess)}
                   >
                 &nbsp;View {showLess ? 'More' : 'Less'}
-                    {showLess ? <DownOutlined /> : <UpOutlined />}
                   </span>
                 </>
               )}
