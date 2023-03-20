@@ -44,6 +44,7 @@ const { getMetaTag } = require('./modal/MetaTag')
 const { getScriptSchemaMarkupSiteLinkSearchBoxHomePage } = require('./constants/schemaMarkup')
 const { getMetaTagAddProject } = require('./header-data/add-project')
 const { getMetaTagReportScam } = require('./header-data/report-scam')
+const { toCammelCase } = require('./utils/formatText')
 
 // ######## Default meta tag
 const metaTagHome = getMetaTagHome()
@@ -170,15 +171,15 @@ const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
 
     // Ongoing
     if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
-      return ' ' + statusOngoing
+      return statusOngoing
     } else
     // Past
     if (myCurrentDateTimeUnix > endDateUnix) {
-      return ' ' + statusPast
+      return statusPast
     } else
     // Upcoming
     if (myCurrentDateTimeUnix < startDateUnix) {
-      return ' ' + statusUpcoming
+      return statusUpcoming
     }
     return ''
   } else {
@@ -241,22 +242,22 @@ const genDetailHeader = (req, res, productId = '') => {
           case data?.cryptoId :{
             imgPath = CRYPTO
             if (data?.type === 'token') {
-              title = `${data?.name} ${data?.symbol} ${data?.address} review on Gear5`
+              title = `${data?.name} (${data?.symbol}) ${data?.address} review on Gear5`
               // overide description
               if (isScam) {
-                cleanDescription = `Token ${data?.name} ${data?.symbol} ${data?.address} is marked as a scam/dead project by our system and our community`
+                cleanDescription = `Token ${data?.name} (${data?.symbol}) ${data?.address} is marked as a scam/dead project by our system and our community`
               } else if (isInteger(totalScam) && isInteger(totalReview) && totalScam > 0 && totalReview > 0) {
-                cleanDescription = `Token ${data?.name} ${data?.symbol} ${data?.address} has ${totalReview} comment and ${totalScam} reported as a scam`
+                cleanDescription = `Token ${data?.name} (${data?.symbol}) ${data?.address} has ${totalReview} comment and ${totalScam} reported as a scam`
               } else if (isInteger(totalScam) && totalScam > 0) {
-                cleanDescription = `Token ${data?.name} ${data?.symbol} ${data?.address} is reported as a scam project by ${totalScam} invester.`
+                cleanDescription = `Token ${data?.name} (${data?.symbol}) ${data?.address} is reported as a scam project by ${totalScam} invester.`
               } else {
-                cleanDescription = `Token ${data?.name} ${data?.symbol} ${data?.address} please join us to discuss and review project`
+                cleanDescription = `Token ${data?.name} (${data?.symbol}) ${data?.address} please join us to discuss and review project`
               }
             } else if (data?.type === 'coin') {
               if ((isInteger(totalScam) && totalScam > 0) || (isInteger(totalReview) && totalReview > 0)) {
-                title = `Review & Discuss ${data?.name} ${data?.symbol} -${totalScam ? ` ${totalScam} reported as a scam` : ''}${totalReview ? ` ${totalReview} comment` : ''} | Gear5`
+                title = `Review & Discuss ${data?.name} (${data?.symbol}) -${totalScam ? ` ${totalScam} reported as a scam` : ''}${totalReview ? ` ${totalReview} comment` : ''} | Gear5`
               } else {
-                title = `${data?.name} ${data?.symbol} - Review & Discuss Cryptocurrency projects | Gear5`
+                title = `${data?.name} (${data?.symbol}) - Review & Discuss Cryptocurrency projects | Gear5`
               }
             } else {
               title = `${getTxtAdditional(isScam, isWarning, rawScore, CRYPTO)}${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract} Crypto Projects${extraData}`
@@ -292,9 +293,9 @@ const genDetailHeader = (req, res, productId = '') => {
             let soonStatus = getStatusFromStartDateAndEndDate(data?.startDate, data?.endDate)
             if (isInteger(totalReview) && totalReview > 0) {
               soonStatus = soonStatus ? `${soonStatus} |` : soonStatus
-              title = `${data?.projectName} ${data?.projectSymbol} - ${data?.roundType} - ${totalReview} Reviews |${soonStatus} Gear5`
+              title = `${data?.projectName} (${data?.projectSymbol}) - ${data?.roundType} - ${totalReview} Reviews |${soonStatus ? ` ${toCammelCase(soonStatus)}` : ''} Gear5`
             } else {
-              title = `${data?.projectName} ${data?.projectSymbol} - ${data?.roundType}${soonStatus} | Project details | Gear5`
+              title = `${data?.projectName} (${data?.projectSymbol}) - ${data?.roundType}${soonStatus ? ` ${toCammelCase(soonStatus)}` : ''} | Project details | Gear5`
             }
             break
           }

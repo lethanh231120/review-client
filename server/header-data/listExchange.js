@@ -5,8 +5,8 @@ const REPLACE_SUB_CATEGORY = getReplaceSubCategory()
 const SUB_TITLE = getSubTitle()
 
 const totalExchange = `570+`
-const totalCountCEX = `209+`
-const totalCountDEX = `359+`
+const totalCountCEX = `350+`
+const totalCountDEX = `210+`
 const typeCEX = `CEX`
 const typeDEX = `DEX`
 
@@ -41,9 +41,9 @@ module.exports.getMetaTagListExchange = (subCategory, uniqueLink) => getMetaTag(
   ,
   subCategory
     ? (subCategory === typeCEX)
-      ? SUB_CATEGORY_CEX_DESCRTIPION
+      ? SUB_CATEGORY_CEX_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory))
       : (subCategory === typeDEX)
-        ? SUB_CATEGORY_DEX_DESCRTIPION
+        ? SUB_CATEGORY_DEX_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory))
         : SUB_CATEGORY_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory)) // SubCategory
     : LIST_DESCRTIPION // List
   ,

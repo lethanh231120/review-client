@@ -2,8 +2,8 @@ import { toCammelCase } from '../../../../utils/formatText'
 import { REPLACE_SUB_CATEGORY, SUB_TITLE } from './listCrypto'
 
 const totalExchange = `570+`
-const totalCountCEX = `209+`
-const totalCountDEX = `359+`
+const totalCountCEX = `350+`
+const totalCountDEX = `210+`
 const typeCEX = `CEX`
 const typeDEX = `DEX`
 
