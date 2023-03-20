@@ -7,7 +7,6 @@ import _ from 'lodash'
 import { isValidProductId } from '../../../../utils/formatText'
 import { formatImgUrlFromProductId } from '../../../../utils/formatText'
 import { PREFIX_DETAIL, CRYPTO_TOKEN } from '../../../constants/category'
-import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 import { ChainListContext } from '../../../../App'
@@ -21,7 +20,7 @@ import { exchanges } from '../../../../utils/ExchangeImage'
 import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
-import { myLogo } from '../../common-widgets/logo/logo'
+// import { myLogo } from '../../common-widgets/logo/logo'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import NoImage from './../../common-widgets/no-image/NoImage'
 import moment from 'moment'
@@ -43,8 +42,8 @@ const Similar = ({ type, listProjectId }) => {
         <span
           className='crypto-table-info image-list'
         >
-          {record?.cryptoId && record?.bigLogo
-            ? <Image alt='Cryptocurrency Logo' src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} preview={false} />
+          {record?.cryptoId && record?.smallLogo
+            ? <Avatar style={{ marginRight: '10px' }} size={34} alt='Cryptocurrency Logo' src={record?.smallLogo} preview={false} />
             : (
               <span className='image-list-no-data'>
                 {record?.name?.slice(0, 3)}
@@ -146,31 +145,15 @@ const Similar = ({ type, listProjectId }) => {
               ))}
             </Avatar.Group>
           </div>
-          : chainList[record?.chainName]
-            ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
-              <Avatar
-                alt='Blockchain Logo'
-                size={25}
-                src={chainList[record?.chainName]?.image}
-                key={record}
-                className='crypto-table-chain'
-              />
-            </Tooltip>
-            : record?.bigLogo ? (
-              <Tooltip title={record?.name}>
-                <Avatar
-                  alt='Blockchain Logo'
-                  src={formatImgUrlFromProductId(record?.cryptoId)}
-                  preview={false}
-                  size={25}
-                  key={record}
-                />
-              </Tooltip>
-            ) : (
-              <span className='crypto-table-info-logo image-list-no-data'>
-                {record?.name?.slice(0, 3)}
-              </span>
-            )
+          : <Tooltip title={record?.chainName && toCammelCase(record?.chainName)}>
+            <Avatar
+              alt='Blockchain Logo'
+              size={25}
+              src={record?.smallLogo}
+              key={record}
+              className='crypto-table-chain'
+            />
+          </Tooltip>
       )
     },
     {
@@ -305,7 +288,7 @@ const Similar = ({ type, listProjectId }) => {
       title: 'Name',
       render: (_, record) => (<span className='crypto-table-info image-list'>
         {record?.dAppId && record?.dAppLogo ? (
-          <Image alt='DApp Logo' onError={(error) => console.error(error)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
+          <Avatar size={34} alt='DApp Logo' onError={(error) => console.error(error)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
         )
           : (<span className='image-list-no-data'>
             {record?.dAppName?.slice(0, 3)}
@@ -380,7 +363,7 @@ const Similar = ({ type, listProjectId }) => {
       title: 'Name',
       render: (_, record) => (<span className='crypto-table-info image-list'>
         {record?.exchangeId && record?.smallLogo ? (
-          <Image alt='Exchange Logo' src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
+          <Avatar size={34} alt='Exchange Logo' src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
         )
           : (<span className='image-list-no-data'>
             {record?.name?.slice(0, 3)}
@@ -470,7 +453,7 @@ const Similar = ({ type, listProjectId }) => {
       title: 'Name',
       render: (_, record) => (<span className='crypto-table-info image-list'>
         {record?.ventureId && record?.ventureLogo ? (
-          <Image alt='Venture Logo' src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
+          <Avatar size={34} alt='Venture Logo' src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
         )
           : (<span className='image-list-no-data'>
             {record?.ventureName?.slice(0, 3)}
@@ -563,7 +546,11 @@ const Similar = ({ type, listProjectId }) => {
     {
       title: 'Name',
       render: (_, record) => (<span className='crypto-table-info image-list'>
-        { myLogo('bigLogo', record?.launchPadId, 'launchpad') }
+        {record?.smallLogo ? <Avatar size={34} src={record?.smallLogo} alt='IDO'/> : <NoImage
+          alt={record?.name?.slice(0, 3)}
+          height={36}
+          width={36}
+        />}
         <span>
           <div className='data-table-name ms-2'>
             <div>{record?.name ? record?.name : 'Unknown'}</div>
@@ -683,7 +670,8 @@ const Similar = ({ type, listProjectId }) => {
           className='crypto-table-info image-list'
         >
           {record?.projectId ? (
-            <Image
+            <Avatar
+              size={34}
               alt={`${record?.projectName} Logo`}
               src={
                 isValidProductId(record?.projectId)
@@ -693,7 +681,6 @@ const Similar = ({ type, listProjectId }) => {
                   : imgAbsentImageSoon
               }
               preview={false}
-              size={40}
             />
           ) : (
             <NoImage
