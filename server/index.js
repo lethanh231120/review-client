@@ -445,8 +445,9 @@ app.get('/:category', (req, res) => {
 // list with sub-category
 app.get('/:category/:subCategory', (req, res) =>{
   const category = req?.params?.category
-  const subCategory = req?.params?.subCategory
-  console.log('list', category, 'subCategory', subCategory)
+  let subCategory = req?.params?.subCategory
+  subCategory = subCategory?.split('-')?.join(' ') // split between word category from '-' to ' '
+  // console.log('list', category, 'subCategory', subCategory)
   genListHeader(req, res, category, subCategory)
 })
 
