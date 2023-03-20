@@ -1,5 +1,4 @@
 const { getMetaTag } = require('../modal/MetaTag')
-const { toCammelCase } = require('../utils/formatText')
 const { getSubTitle, getReplaceSubCategory } = require('./listCrypto')
 const REPLACE_SUB_CATEGORY = getReplaceSubCategory()
 const SUB_TITLE = getSubTitle()
@@ -34,17 +33,17 @@ module.exports.getMetaTagListExchange = (subCategory, uniqueLink) => getMetaTag(
       ? SUB_CATEGORY_CEX_TITLE
       : (subCategory === typeDEX)
         ? SUB_CATEGORY_DEX_TITLE
-        : SUB_CATEGORY_TITLE?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory)) // SubCategory
+        : SUB_CATEGORY_TITLE?.replace(REPLACE_SUB_CATEGORY, subCategory) // SubCategory
     : LIST_TITLE // List
   ,
   staticData.image
   ,
   subCategory
     ? (subCategory === typeCEX)
-      ? SUB_CATEGORY_CEX_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory))
+      ? SUB_CATEGORY_CEX_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, subCategory)
       : (subCategory === typeDEX)
-        ? SUB_CATEGORY_DEX_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory))
-        : SUB_CATEGORY_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory)) // SubCategory
+        ? SUB_CATEGORY_DEX_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, subCategory)
+        : SUB_CATEGORY_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, subCategory) // SubCategory
     : LIST_DESCRTIPION // List
   ,
   uniqueLink
