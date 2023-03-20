@@ -8,8 +8,10 @@ import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 import Description from '../description/Description'
-import { isValidProductId, formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
-import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
+import {
+  // isValidProductId, formatImgUrlFromProductId,
+  toCammelCase } from '../../../../utils/formatText'
+// import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import MyScoreComponent from '../../score/scoreComponent'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import './dapp.scss'
@@ -55,7 +57,8 @@ const DappInfo = ({ productInfo, ...rest }) => {
           <div className='profile-details'>
             <div className='profile-photo'>
               {productInfo?.details?.dAppId && productInfo?.details?.dAppLogo ? (
-                <Image src={isValidProductId(productInfo?.details?.dAppId) ? formatImgUrlFromProductId(productInfo?.details?.dAppId) : imgAbsentImageDapp} preview={false} alt='DApp Logo'/>
+
+                <Image src={productInfo?.details?.dAppLogo} preview={false} alt='DApp Logo'/>
               )
                 : (<h2 className='image-list-no-data-detail'>
                   {productInfo?.details?.dAppName?.slice(0, 3)}

@@ -1,6 +1,6 @@
-import { Image } from 'antd'
+import { Avatar, Image } from 'antd'
 import React from 'react'
-import { formatImgUrlFromProductId, isValidProductId } from '../../../../utils/formatText'
+// import { formatImgUrlFromProductId, isValidProductId } from '../../../../utils/formatText'
 
 export const altSoon = 'soon'
 export const altCrypto = 'crypto'
@@ -8,12 +8,12 @@ export const altCrypto = 'crypto'
 const altImgSoon = 'IDO/ICO/IEO Logo'
 const altImgCrypto = 'Cryptocurrency Logo'
 const ProductNoImage = ({ projectName }) =>{
-  return <span className='image-list-no-data-detail'>
+  return <Avatar size={72} className='image-list-no-data-detail'>
     {projectName?.slice(0, 3)}
-  </span>
+  </Avatar>
 }
 
-const ProductImage = ({ productId, productName, altImageType }) => {
+const ProductImage = ({ imageUrl, productName, altImageType }) => {
   let txtAlt
   switch (altImageType) {
     case altSoon:{
@@ -26,8 +26,8 @@ const ProductImage = ({ productId, productName, altImageType }) => {
     }
   }
   return <div className='profile-photo'>
-    {productId ? (
-      <Image alt={txtAlt} src={isValidProductId(productId) ? formatImgUrlFromProductId(productId) : <ProductNoImage projectName={productName} />} preview={false}/>
+    {imageUrl ? (
+      <Image alt={txtAlt} src={imageUrl} preview={false}/>
     )
       : (
         <ProductNoImage projectName={productName} />

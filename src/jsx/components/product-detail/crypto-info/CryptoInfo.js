@@ -417,7 +417,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       ) : (
         <div className='profile-info'>
           <div className='profile-details'>
-            <ProductImage productId={detail?.bigLogo ? detail?.cryptoId : null} productName={detail?.name} altImageType={altCrypto} />
+            <ProductImage imageUrl={detail?.bigLogo} productName={detail?.name} altImageType={altCrypto} />
             <ProductNameSubName
               projectName={projectNameSymbol}
               projectSubName={projectAddressType}

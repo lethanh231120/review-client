@@ -1,6 +1,5 @@
 import { Button } from 'react-bootstrap'
 // images
-// import scam from '../../../../../public/scam-alert.webp'
 import { ReportModalContext } from '../../..'
 import { useContext } from 'react'
 import { WARNING_ICON } from '../logo/logo'
@@ -14,7 +13,7 @@ const Banner = () => {
     <div className='card-body cus-card-body'>
       <div className='buy-coin banner'>
         <div className='scam-img banner-phone'>
-          <img src='/scam-alert.webp' className='img-fluid' alt='Scam Alert' />
+          <img src='/scam-alert_resize.webp' className='img-fluid' alt='Scam Alert' />
         </div>
         <div className='banner-left'>
           <h2 className='report-title' >You got scammed, lost money?</h2>
@@ -27,7 +26,7 @@ const Banner = () => {
           </Button>
         </div>
         <div className='scam-img'>
-          <img src='/scam-alert.webp' className='img-fluid' alt='Scam Alert' />
+          <img src='/scam-alert_resize.webp' className='img-fluid' alt='Scam Alert' />
         </div>
       </div>
     </div>
