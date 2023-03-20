@@ -1,22 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { Modal, Tooltip } from 'antd'
-
 // / Image
 import profile from '../../../images/product/user.webp'
-import AccountTab, {
-  logInKey,
-  signUpKey
-} from '../../components/common-widgets/user-form/account-tab'
-import {
-  SignInContext,
-  Authenticated,
-  SignInFromAddProductContext,
-  ShowFullSearchConext,
-  FormLoginSignupKeyContext,
-  SummaryHomeContext
-} from '../../../App'
-
+import AccountTab, { logInKey, signUpKey } from '../../components/common-widgets/user-form/account-tab'
+import { SignInContext, Authenticated, SignInFromAddProductContext, ShowFullSearchConext, FormLoginSignupKeyContext, SummaryHomeContext } from '../../../App'
 import InputSearch from '../../components/input-search/GlobalSearch'
 import { getCookie, removeCookie, STORAGEKEY } from '../../../utils/storage'
 import ExpiredJWTChecker from '../../components/auth/ExpiredJWTChecker'
@@ -73,7 +61,6 @@ const Header = () => {
   const reportModal = useContext(ReportModalContext)
   const addModal = useContext(AddModalContext)
   const signInFromAddProductContext = useContext(SignInFromAddProductContext)
-  // const [pathName, setPathName] = useState()
 
   const handleAddProject = () => {
     // already log in
@@ -309,26 +296,9 @@ const Header = () => {
             <div className='collapse navbar-collapse justify-content-between'>
               <div className='header-left'>
                 {pathname?.pathDetail
-                  ? <div
-                    className='dashboard_bar text-etc-overflow cus-h1'
-                    style={{
-                      textTransform: 'capitalize',
-                      fontSize: '1.5rem'
-                    }}
-                  >
-                    {header}
-                  </div>
-                  : <h1
-                    className='dashboard_bar text-etc-overflow cus-h1'
-                    style={{
-                      textTransform: 'capitalize',
-                      fontSize: '1.5rem'
-                    }}
-                  >
-                    {header}
-                  </h1>
+                  ? <div className='dashboard_bar text-etc-overflow cus-h1'>{header}</div>
+                  : <h1 className='dashboard_bar text-etc-overflow cus-h1'>{header}</h1>
                 }
-
               </div>
               {/* header: search elk input */}
               <div
@@ -339,11 +309,7 @@ const Header = () => {
                   className='nav-item d-flex align-items-center'
                   style={{ width: '100%' }}
                 >
-                  {/* {showFullSearchConext?.isShowFullSearchSmallMode && <InputSearch />} */}
                   {isSmallMode ? (showFullSearchConext?.isShowFullSearchSmallMode ? <InputSearch /> : '') : (summaryData && <InputSearch />) }
-                  {/* <div className='cus-global-search'>
-                    {(summaryData && <InputSearch />) }
-                  </div> */}
                 </div>
                 {/* side-bar right */}
                 <div className='dz-side-menu'>
