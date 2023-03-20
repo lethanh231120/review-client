@@ -16,5 +16,5 @@ export const getHeaderListExchange = (subCategory) =>subCategory
     ? SUB_CATEGORY_CEX_TITLE
     : (subCategory === typeDEX)
       ? SUB_CATEGORY_DEX_TITLE
-      : SUB_CATEGORY_TITLE?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory)) // SubCategory
+      : SUB_CATEGORY_TITLE?.replace(REPLACE_SUB_CATEGORY, subCategory) // SubCategory
   : LIST_TITLE // List
