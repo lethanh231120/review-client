@@ -592,7 +592,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   </div>
 
   const additionalDescription = detail?.type === CRYPTO_TOKEN
-    ? detail?.name + ' - ' + detail?.symbol + ' - ' + detail?.address
+    ? detail?.name + ' - ' + detail?.symbol
     : ''
   const about = <>
     {rest?.loadingDetail ? (
@@ -601,8 +601,10 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       <Description
         projectName={detail?.name}
         text={ detail?.description }
-        descriptionToken= {additionalDescription}
+        descriptionToken={ additionalDescription }
+        descriptionTokenAddress={ detail?.address }
         chainName={detail?.chainName}
+        descriptionTokenMultichain = { detail?.multichain}
       />
     )}
   </>
