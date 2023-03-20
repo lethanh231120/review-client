@@ -7,9 +7,9 @@ const totalCountDEX = `359+`
 const typeCEX = `CEX`
 const typeDEX = `DEX`
 
-const LIST_TITLE = `All ${totalExchange} Crypto Exchanges${SUB_TITLE}`
-const SUB_CATEGORY_CEX_TITLE = `${totalCountCEX} Centralized Crypto Exchanges${SUB_TITLE}`
-const SUB_CATEGORY_DEX_TITLE = `${totalCountDEX} Decentralized Crypto Exchanges${SUB_TITLE}`
+const LIST_TITLE = `Review & Discuss ${totalExchange} Crypto Exchanges | Gear5`
+const SUB_CATEGORY_CEX_TITLE = `Discuss & Review ${totalCountCEX} Exchanges ${typeCEX} in the market Crypto | Gear5`
+const SUB_CATEGORY_DEX_TITLE = `Discuss & Review ${totalCountDEX} Exchanges ${typeDEX} in the market Crypto | Gear5`
 const SUB_CATEGORY_TITLE = `${REPLACE_SUB_CATEGORY} Crypto Exchanges${SUB_TITLE}`
 export const getHeaderListExchange = (subCategory) =>subCategory
   ? (subCategory === typeCEX)
