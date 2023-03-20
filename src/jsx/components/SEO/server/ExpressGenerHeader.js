@@ -9,6 +9,10 @@ import { getHeaderListVenture } from './listVenture'
 
 // <!-- Copy logic from handle route, discard [res] parameter -->
 export const genListHeader = (category, subCategory) => {
+  if (subCategory) {
+    // split between word category from '-' to ' '
+    subCategory = subCategory?.split('-')?.join(' ')
+  }
   switch (category) {
     case 'crypto':{
       return getHeaderListCrypto(subCategory)

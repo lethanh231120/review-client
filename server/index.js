@@ -388,6 +388,10 @@ const genStaticHeader = (res, metaTag) => {
 }
 
 const genListHeader = (req, res, category, subCategory) => {
+  if (subCategory) {
+    // split between word category from '-' to ' '
+    subCategory = subCategory?.split('-')?.join(' ')
+  }
   switch (category) {
     case CRYPTO:{
       genStaticHeader(res, getMetaTagListCrypto(subCategory, getURLFromRequest(req)))
@@ -446,8 +450,7 @@ app.get('/:category', (req, res) => {
 // list with sub-category
 app.get('/:category/:subCategory', (req, res) =>{
   const category = req?.params?.category
-  let subCategory = req?.params?.subCategory
-  subCategory = subCategory?.split('-')?.join(' ') // split between word category from '-' to ' '
+  const subCategory = req?.params?.subCategory
   // console.log('list', category, 'subCategory', subCategory)
   genListHeader(req, res, category, subCategory)
 })
