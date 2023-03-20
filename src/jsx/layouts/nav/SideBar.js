@@ -229,24 +229,24 @@ const SideBar = () => {
         tempType = SOON
         break
     }
-
+    const saveDataString = window.localStorage.getItem(tempType)
     if (tempType === SOON) {
-      if (window.localStorage.getItem(tempType) !== '') {
-        window.localStorage.removeItem(tempType)
-        window.localStorage.setItem(tempType, JSON.stringify({ launchpad: tag }))
+      if (saveDataString) {
+        const temp = JSON.parse(saveDataString)
+        window.localStorage.setItem(tempType, JSON.stringify({ ...temp, launchpad: tag }))
       } else {
         window.localStorage.setItem(tempType, JSON.stringify({ launchpad: tag }))
       }
     } else {
-      if (window.localStorage.getItem(tempType) !== '') {
-        window.localStorage.removeItem(tempType)
-        window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
+      if (saveDataString) {
+        const temp = JSON.parse(saveDataString)
+        window.localStorage.setItem(tempType, JSON.stringify({ ...temp, tag: tag }))
       } else {
         window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
       }
     }
   }
-  const removeFilterTag = (type, tag) => {
+  const removeFilterTag = (type) => {
     let tempType = ''
     switch (type) {
       case CATEGORY_CRYPTO:
@@ -262,14 +262,19 @@ const SideBar = () => {
         tempType = SOON
         break
     }
-
+    console.log(12312321312321)
+    const savedDataString = window.localStorage.getItem(tempType)
     if (tempType === SOON) {
-      if (window.localStorage.getItem(tempType) !== '') {
-        window.localStorage.removeItem(tempType)
+      if (savedDataString) {
+        const temp = JSON.parse(savedDataString)
+        delete temp?.launchpad
+        window.localStorage.setItem(tempType, JSON.stringify(temp))
       }
     } else {
-      if (window.localStorage.getItem(tempType) !== '') {
-        window.localStorage.removeItem(tempType)
+      if (savedDataString) {
+        const temp = JSON.parse(savedDataString)
+        delete temp?.tag
+        window.localStorage.setItem(tempType, JSON.stringify(temp))
       }
     }
   }
@@ -313,6 +318,8 @@ const SideBar = () => {
                         style={{ width: '12rem' }}
                         onClick={() => {
                           handleMenuActive(data?.title)
+                          removeFilterTag(data?.title)
+                          console.log(1231231)
                           pathName?.handleChangePathName(data?.title)
                           pathName?.setPathDetail(false)
                           if (sizeScreen < 767.98) {
@@ -329,7 +336,6 @@ const SideBar = () => {
                             openDropdown: !state?.openDropdown,
                             active: state.active === data?.title ? '' : data?.title
                           })
-                          removeFilterTag(data?.title, '')
                           pathName?.handleChangePathName(data?.title)
                           pathName?.setPathDetail(false)
                         }}
