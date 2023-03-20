@@ -128,7 +128,7 @@ const CryptoTable = ({ loading, listData }) => {
           onClick={(e) => e.stopPropagation()}
           className='crypto-table-info image-list'
         >
-          {record?.cryptoId && record?.bigLogo ? (
+          {record?.cryptoId && record?.smallLogo ? (
             <Image src={record?.smallLogo} alt='Cryptocurrency Logo'/>
           ) : (
             <span className='image-list-no-data'>
