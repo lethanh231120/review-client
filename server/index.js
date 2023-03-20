@@ -74,11 +74,11 @@ const injectHtmlHeader = (metaTag) => {
   const isInternalImage = metaTag?.image && metaTag?.image?.length >= 1 && metaTag?.image[0] === '/'
   if (isInternalImage) {
     dynamicMetaIndexHtml = dynamicMetaIndexHtml
-      ?.split(META_UNIQUE_LINK + META_IMAGE)?.join(META_UNIQUE_LINK + metaTag?.image)
+      ?.split(META_IMAGE)?.join(META_UNIQUE_LINK + metaTag?.image)
   } else {
     // External image
     dynamicMetaIndexHtml = dynamicMetaIndexHtml
-      ?.split(META_UNIQUE_LINK + META_IMAGE)?.join(metaTag?.image)
+      ?.split(META_IMAGE)?.join(metaTag?.image)
   }
 
   const schemaMarkupIndexHtml = dynamicMetaIndexHtml?.replace(getScriptSchemaMarkupSiteLinkSearchBoxHomePage(), '')
