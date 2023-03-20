@@ -295,7 +295,7 @@ const genDetailHeader = (req, res, productId = '') => {
               soonStatus = soonStatus ? `${soonStatus} |` : soonStatus
               title = `${data?.projectName} (${data?.projectSymbol}) - ${data?.roundType} - ${totalReview} Reviews |${soonStatus ? ` ${toCammelCase(soonStatus)}` : ''} Gear5`
             } else {
-              title = `${data?.projectName} (${data?.projectSymbol}) - ${data?.roundType}${soonStatus ? ` ${toCammelCase(soonStatus)}` : ''} | Project details | Gear5`
+              title = `${data?.projectName} (${data?.projectSymbol}) - ${data?.roundType} |${soonStatus ? ` ${toCammelCase(soonStatus)}` : ''} | Project details | Gear5`
             }
             break
           }
