@@ -262,7 +262,6 @@ const SideBar = () => {
         tempType = SOON
         break
     }
-    console.log(12312321312321)
     const savedDataString = window.localStorage.getItem(tempType)
     if (tempType === SOON) {
       if (savedDataString) {
