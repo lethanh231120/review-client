@@ -63,7 +63,7 @@ const Description = ({ projectName, text, descriptionToken, descriptionTokenAddr
                       {
                         chain?.split('_')?.length >= 4
                           ? <div>
-                            {toCammelCase(chain?.split('_')[2])}: <h3 style={{ fontSize: '14px', color: '#A098AE', fontWeight: '400', display: 'inline' }} className='text-primary'>{chain?.split('_')[3]}</h3>
+                            {toCammelCase(chain?.split('_')[2])}: <h4 style={{ fontSize: '14px', color: '#A098AE', fontWeight: '400', display: 'inline' }} className='text-primary'>{chain?.split('_')[3]}</h4>
                           </div>
                           : ''
                       }
