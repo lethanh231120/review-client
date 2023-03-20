@@ -72,10 +72,6 @@ const NavHader = () => {
         <svg width='26' height='26' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg' version='1.1' fill='none' stroke='#039F7F' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5' style={{ marginTop: '0.12rem' }}>
           <path d='m2.75 12.25h10.5m-10.5-4h10.5m-10.5-4h10.5'/>
         </svg>
-        {/* <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24' fill='none' stroke='#039F7F' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
-          <path d='M4 12L20 12'/>
-          <path d='M10 6L4.0625 11.9375V11.9375C4.02798 11.972 4.02798 12.028 4.0625 12.0625V12.0625L10 18'/>
-        </svg> */}
       </div>
     </div>
   </div>

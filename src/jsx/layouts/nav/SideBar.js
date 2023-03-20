@@ -1,7 +1,6 @@
 // / Menu
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 // / Scroll
-// import PerfectScrollbar from 'react-perfect-scrollbar'
 import Collapse from 'react-bootstrap/Collapse'
 import { Button } from 'react-bootstrap'
 
@@ -9,8 +8,6 @@ import { Button } from 'react-bootstrap'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
-// import { ThemeContext } from '../../../context/ThemeContext'
-// import { CategoryContext } from '../../index'
 import { CategoryContext } from '../../../App'
 import _ from 'lodash'
 import { pair1 } from '../../../utils/formatUrl'
@@ -21,6 +18,7 @@ import './sidebar.scss'
 
 import { PathNameContext } from '../../index'
 import { CRYPTO, DAPP, EXCHANGE, INSIGHT, LAUNCHPAD, SOON, VENTURE } from '../../constants/category'
+import { CATEGORY_CRYPTO, CATEGORY_DAPP, CATEGORY_EXCHANGE, CATEGORY_INSIGHT, CATEGORY_LAUNCHPAD, CATEGORY_SOON, CATEGORY_VENTURE } from '../../constants/category'
 
 const reducer = (previousState, updatedState) => ({
   ...previousState,
@@ -33,12 +31,12 @@ const initialState = {
   openDropdown: false
 }
 
-const headerItem1 = `Cryptos`
-const headerItem2 = `DApps`
-const headerItem3 = `Ventures`
-const headerItem4 = `Exchanges`
-const headerItem5 = `ICO/IDO/IEO`
-const headerItem6 = `Launchpads`
+const headerItem1 = CATEGORY_CRYPTO
+const headerItem2 = CATEGORY_DAPP
+const headerItem3 = CATEGORY_VENTURE
+const headerItem4 = CATEGORY_EXCHANGE
+const headerItem5 = CATEGORY_SOON
+const headerItem6 = CATEGORY_LAUNCHPAD
 
 const SideBar = () => {
   const path = useLocation()
@@ -73,8 +71,6 @@ const SideBar = () => {
   mapCategoriesMenuIcon.set(headerItem4, 'currency_exchange')
   mapCategoriesMenuIcon.set(headerItem5, 'auto_graph')
   mapCategoriesMenuIcon.set(headerItem6, 'rocket_launch')
-
-  // const { iconHover, sidebarposition, headerposition, sidebarLayout } = useContext(ThemeContext)
 
   const [state, setState] = useReducer(reducer, initialState)
 
@@ -187,7 +183,7 @@ const SideBar = () => {
     }
 
     objCategories?.push({
-      title: 'Insights',
+      title: CATEGORY_INSIGHT,
       classsChange: '',
       iconStyle: <i className='material-icons'>insert_chart</i>,
       to: 'insight'
@@ -199,19 +195,19 @@ const SideBar = () => {
     if (path?.pathname?.split('/')[1] === '') {
       setState({ active: 'Home' })
     } else if (path?.pathname?.split('/')[1] === DAPP) {
-      setState({ active: 'DApps' })
+      setState({ active: CATEGORY_DAPP })
     } else if (path?.pathname?.split('/')[1] === CRYPTO) {
-      setState({ active: 'Cryptos' })
+      setState({ active: CATEGORY_CRYPTO })
     } else if (path?.pathname?.split('/')[1] === VENTURE) {
-      setState({ active: 'Ventures' })
+      setState({ active: CATEGORY_VENTURE })
     } else if (path?.pathname?.split('/')[1] === EXCHANGE) {
-      setState({ active: 'Exchanges' })
+      setState({ active: CATEGORY_EXCHANGE })
     } else if (path?.pathname?.split('/')[1] === SOON) {
-      setState({ active: 'ICO/IDO/IEO' })
+      setState({ active: CATEGORY_SOON })
     } else if (path?.pathname?.split('/')[1] === LAUNCHPAD) {
-      setState({ active: 'Launchpads' })
+      setState({ active: CATEGORY_LAUNCHPAD })
     } else if (path?.pathname?.split('/')[1] === INSIGHT) {
-      setState({ active: 'Insights' })
+      setState({ active: CATEGORY_INSIGHT })
     } else {
       setState({ active: '' })
     }
@@ -220,67 +216,60 @@ const SideBar = () => {
   const saveFilterTag = (type, tag) => {
     let tempType = ''
     switch (type) {
-      case 'Cryptos':
-        tempType = 'crypto'
+      case CATEGORY_CRYPTO:
+        tempType = CRYPTO
         break
-      case 'DApps':
-        tempType = 'dapp'
+      case CATEGORY_DAPP:
+        tempType = DAPP
         break
-      case 'Exchanges':
-        tempType = 'exchange'
+      case CATEGORY_EXCHANGE:
+        tempType = EXCHANGE
         break
-      case 'ICO/IDO/IEO':
-        tempType = 'soon'
+      case CATEGORY_SOON:
+        tempType = SOON
         break
     }
-    const savedDataString = window.localStorage.getItem(tempType)
-    if (tempType === 'soon') {
-      if (savedDataString) {
-        const temp = JSON.parse(savedDataString)
-        window.localStorage.setItem(tempType, JSON.stringify({ ...temp, 'launchpad': tag }))
+
+    if (tempType === SOON) {
+      if (window.localStorage.getItem(tempType) !== '') {
+        window.localStorage.removeItem(tempType)
+        window.localStorage.setItem(tempType, JSON.stringify({ launchpad: tag }))
       } else {
-        window.localStorage.setItem(tempType, JSON.stringify({ 'launchpad': tag }))
+        window.localStorage.setItem(tempType, JSON.stringify({ launchpad: tag }))
       }
     } else {
-      if (savedDataString) {
-        const temp = JSON.parse(savedDataString)
-        window.localStorage.setItem(tempType, JSON.stringify({ ...temp, 'tag': tag }))
+      if (window.localStorage.getItem(tempType) !== '') {
+        window.localStorage.removeItem(tempType)
+        window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
       } else {
-        window.localStorage.setItem(tempType, JSON.stringify({ 'tag': tag }))
+        window.localStorage.setItem(tempType, JSON.stringify({ tag: tag }))
       }
     }
   }
   const removeFilterTag = (type, tag) => {
     let tempType = ''
     switch (type) {
-      case 'Cryptos':
-        tempType = 'crypto'
+      case CATEGORY_CRYPTO:
+        tempType = CRYPTO
         break
-      case 'DApps':
-        tempType = 'dapp'
+      case CATEGORY_DAPP:
+        tempType = DAPP
         break
-      case 'Exchanges':
-        tempType = 'exchange'
+      case CATEGORY_EXCHANGE:
+        tempType = EXCHANGE
         break
-      case 'ICO/IDO/IEO':
-        tempType = 'soon'
+      case CATEGORY_SOON:
+        tempType = SOON
         break
     }
-    const savedDataString = window.localStorage.getItem(tempType)
-    if (tempType === 'soon') {
-      if (savedDataString !== '') {
-        const temp = JSON.parse(savedDataString)
-        console.log(temp)
-        delete temp?.launchpad
+
+    if (tempType === SOON) {
+      if (window.localStorage.getItem(tempType) !== '') {
         window.localStorage.removeItem(tempType)
-        window.localStorage.setItem(tempType, JSON.stringify(temp))
       }
     } else {
-      if (savedDataString !== '') {
-        const temp = JSON.parse(savedDataString)
-        delete temp?.tag
+      if (window.localStorage.getItem(tempType) !== '') {
         window.localStorage.removeItem(tempType)
-        window.localStorage.setItem(tempType, JSON.stringify(temp))
       }
     }
   }
@@ -302,23 +291,13 @@ const SideBar = () => {
   }, [])
 
   return (
-    <div
-      className={`deznav border-right`}
-    >
+    <div className={`deznav border-right`}>
       <div className='deznav-scroll'>
-        {/* <PerfectScrollbar className='deznav-scroll'> */}
         <ul className='metismenu' id='menu'>
           {categories.map((data, index) => {
             const menuClass = data.classsChange
             if (menuClass === 'menu-title') {
-              return (
-                <li
-                  className={menuClass}
-                  key={index}
-                >
-                  {data.title}
-                </li>
-              )
+              return (<li className={menuClass} key={index}>{data.title}</li>)
             } else {
               return (
                 <li
@@ -326,11 +305,8 @@ const SideBar = () => {
                   key={index}
                 >
                   {data?.content && data?.content?.length > 0 ? (
-                    // category has content vd: crypto projects, dapps
-                    <Link
-                      to={data?.to}
-                      className='has-arrow'
-                    >
+                    // category has content vd: cryptos, dapps
+                    <Link to={data?.to} className='has-arrow'>
                       {data.iconStyle}
                       <div
                         className='nav-text'
@@ -338,7 +314,6 @@ const SideBar = () => {
                         onClick={() => {
                           handleMenuActive(data?.title)
                           pathName?.handleChangePathName(data?.title)
-                          removeFilterTag(data?.title, 'tag')
                           pathName?.setPathDetail(false)
                           if (sizeScreen < 767.98) {
                             mainwrapper.classList.remove('menu-toggle')
@@ -354,6 +329,7 @@ const SideBar = () => {
                             openDropdown: !state?.openDropdown,
                             active: state.active === data?.title ? '' : data?.title
                           })
+                          removeFilterTag(data?.title, '')
                           pathName?.handleChangePathName(data?.title)
                           pathName?.setPathDetail(false)
                         }}
@@ -378,11 +354,7 @@ const SideBar = () => {
                     </NavLink>
                   )}
                   <Collapse in={state.active === data.title && state?.openDropdown === true}>
-                    <ul
-                      className={`${!data?.content ? 'display-none' : ''} 
-                      ${menuClass === 'mm-collapse' ? 'mm-show' : ''}
-                      `}
-                    >
+                    <ul className={`${!data?.content ? 'display-none' : ''} ${menuClass === 'mm-collapse' ? 'mm-show' : ''}`}>
                       {data.content &&
                         data.content.map((data, index) => {
                           return (
@@ -398,17 +370,9 @@ const SideBar = () => {
                                 }
                               }}
                               key={index}
-
-                              className={`${
-                                state.activeSubmenu === data.title
-                                  ? 'mm-active'
-                                  : ''
-                              } sub-title`}
+                              className={`${state.activeSubmenu === data.title ? 'mm-active' : ''} sub-title`}
                             >
-                              <NavLink
-                                to={data?.to}
-                                className={data.hasMenu ? 'has-arrow' : ''}
-                              >
+                              <NavLink to={data?.to} className={data.hasMenu ? 'has-arrow' : ''}>
                                 {data.title}
                               </NavLink>
                             </li>
@@ -422,9 +386,7 @@ const SideBar = () => {
           }) }
         </ul>
       </div>
-      <div
-        className={`${toggle?.toggle ? 'display-none-btn' : 'display-block-btn'} list-btn `}
-      >
+      <div className={`${toggle?.toggle ? 'display-none-btn' : 'display-block-btn'} list-btn `}>
         <Button
           className='btn-danger '
           onClick={() => {
