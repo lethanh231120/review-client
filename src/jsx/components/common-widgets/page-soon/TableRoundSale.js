@@ -179,11 +179,13 @@ const TableRoundSale = ({ projectName, roundSales }) => {
   if (roundSales && !_.isEmpty(roundSales)) {
     return <div>
       <div className='card-header'>
-        <h4 className='card-title text-primary d-flex align-items-center'>
+        <div className='card-title text-primary d-flex align-items-center'>
           <i className='material-icons fs-30'>auto_awesome</i>
       &nbsp;
-          {projectName ? <>{projectName}&nbsp;</> : ''}IDO
-        </h4>
+          <h3 className='mb-0 text-primary'>
+            {projectName ? <>{projectName}&nbsp;</> : ''}IDO
+          </h3>
+        </div>
       </div>
       <div className='card-body' style={{ padding: '0' }}>
         <div className='table-responsive recentOrderTable'>
