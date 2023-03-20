@@ -27,7 +27,7 @@ export const InfoShortDetail = ({ itemDetail }) => {
           <ShortItem
             title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName}&apos;s current round</h3>:&nbsp;
               <span className='text-primary'>
-                <b>{itemDetail?.roundType}</b>
+                <h3 className='mb-0 text-primary fs-16'><b>{itemDetail?.roundType}</b></h3>
               </span>
             </>
             }
