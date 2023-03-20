@@ -10,14 +10,16 @@ const totalCountDEX = `359+`
 const typeCEX = `CEX`
 const typeDEX = `DEX`
 
-const LIST_TITLE = `All ${totalExchange} Crypto Exchanges${SUB_TITLE}`
-const SUB_CATEGORY_CEX_TITLE = `${totalCountCEX} Centralized Crypto Exchanges${SUB_TITLE}`
-const SUB_CATEGORY_DEX_TITLE = `${totalCountDEX} Decentralized Crypto Exchanges${SUB_TITLE}`
+const LIST_TITLE = `Review & Discuss ${totalExchange} Crypto Exchanges | Gear5`
+const SUB_CATEGORY_CEX_TITLE = `Discuss & Review ${totalCountCEX} Exchanges ${typeCEX} in the market Crypto | Gear5`
+const SUB_CATEGORY_DEX_TITLE = `Discuss & Review ${totalCountDEX} Exchanges ${typeDEX} in the market Crypto | Gear5`
 const SUB_CATEGORY_TITLE = `${REPLACE_SUB_CATEGORY} Crypto Exchanges${SUB_TITLE}`
 
 const IMAGE = `/list-exchange.webp`
 
-const LIST_DESCRTIPION = `Discover Gear5's comprehensive list of Crypto Exchanges projects includes detailed ratings, reviews, and essential information on each project and helping you make informed investment decision!`
+const LIST_DESCRTIPION = `Review all ${totalExchange} Exchanges in the market Crypto. 24H Volume and Gear5's Score. Leave your Review if any of those is considered as Scam!`
+const SUB_CATEGORY_CEX_DESCRTIPION = `Discover ${totalCountCEX} Crypto Exchanges ${REPLACE_SUB_CATEGORY} includes detailed ratings, reviews, and essential information on each project and helping you make informed investment decision!`
+const SUB_CATEGORY_DEX_DESCRTIPION = `Discover ${totalCountDEX} Crypto Exchanges ${REPLACE_SUB_CATEGORY} includes detailed ratings, reviews, and essential information on each project and helping you make informed investment decision!`
 const SUB_CATEGORY_DESCRTIPION = `All ${REPLACE_SUB_CATEGORY} with Latest Transaction Fee, 24H Volume and Gear5's Score. Leave your Review if any of those is considered as Scam or Dead !`
 
 const staticData = {
@@ -38,7 +40,11 @@ module.exports.getMetaTagListExchange = (subCategory, uniqueLink) => getMetaTag(
   staticData.image
   ,
   subCategory
-    ? SUB_CATEGORY_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory)) // SubCategory
+    ? (subCategory === typeCEX)
+      ? SUB_CATEGORY_CEX_DESCRTIPION
+      : (subCategory === typeDEX)
+        ? SUB_CATEGORY_DEX_DESCRTIPION
+        : SUB_CATEGORY_DESCRTIPION?.replace(REPLACE_SUB_CATEGORY, toCammelCase(subCategory)) // SubCategory
     : LIST_DESCRTIPION // List
   ,
   uniqueLink

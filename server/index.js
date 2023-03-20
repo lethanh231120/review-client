@@ -135,6 +135,57 @@ const getTxtAdditional = (isScam, isWarning, score, type) =>{
   return txtAdditional
 }
 
+const getCurrentTimeUnix = () => {
+  let myCurrentDateTimeUnix = (new Date())
+  myCurrentDateTimeUnix = myCurrentDateTimeUnix?.getTime()
+  return myCurrentDateTimeUnix
+}
+
+// getEndDate = true (plus one day to get next day)
+const convertStringDDMMYYYYToUnix = (ddmmyyyy, getEndDate = false) =>{
+  let dateUnix = new Date(ddmmyyyy?.replace(/(\d{2})-(\d{2})-(\d{4})/, '$2/$1/$3'))
+  dateUnix.setTime(dateUnix?.getTime()) // Local user to GMT + 0
+  if (getEndDate) {
+    const millSecInOneDay = 1000 * 60 * 60 * 24 // 86400000 milliseconds.
+    // convert start day to end day --> (>=start && <end of endDate) still in status ongoing project IDO/ ICO/ IEO
+    dateUnix.setTime(dateUnix?.getTime() + millSecInOneDay)
+  }
+  dateUnix = dateUnix?.getTime()
+  return (dateUnix)
+}
+
+// match with BE
+const statusUpcoming = 'upcoming'
+const statusOngoing = 'ongoing'
+const statusPast = 'past'
+
+const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
+  const myCurrentDateTimeUnix = getCurrentTimeUnix()
+
+  if (startDate !== null && endDate !== null) {
+    // string "15-05-2018" to date unix time
+    const startDateUnix = convertStringDDMMYYYYToUnix(startDate)
+
+    const endDateUnix = convertStringDDMMYYYYToUnix(endDate, true)
+
+    // Ongoing
+    if (myCurrentDateTimeUnix >= startDateUnix && myCurrentDateTimeUnix <= endDateUnix) {
+      return ' ' + statusOngoing
+    } else
+    // Past
+    if (myCurrentDateTimeUnix > endDateUnix) {
+      return ' ' + statusPast
+    } else
+    // Upcoming
+    if (myCurrentDateTimeUnix < startDateUnix) {
+      return ' ' + statusUpcoming
+    }
+    return ''
+  } else {
+    return ''
+  }
+}
+
 const genDetailHeader = (req, res, productId = '') => {
   if (productId) {
     productId = encodeSpecialCharacterUrl(productId)
@@ -189,33 +240,67 @@ const genDetailHeader = (req, res, productId = '') => {
         switch (productId) {
           case data?.cryptoId :{
             imgPath = CRYPTO
-            title = `${getTxtAdditional(isScam, isWarning, rawScore, CRYPTO)}${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract} Crypto Projects${extraData}`
+            if (data?.type === 'token') {
+              title = `${data?.name} ${data?.symbol} ${data?.address} review on Gear5`
+              // overide description
+              if (isScam) {
+                cleanDescription = `Token ${data?.name} ${data?.symbol} ${data?.address} is marked as a scam/dead project by our system and our community`
+              } else if (isInteger(totalScam) && isInteger(totalReview) && totalScam > 0 && totalReview > 0) {
+                cleanDescription = `Token ${data?.name} ${data?.symbol} ${data?.address} has ${totalReview} comment and ${totalScam} reported as a scam`
+              } else if (isInteger(totalScam) && totalScam > 0) {
+                cleanDescription = `Token ${data?.name} ${data?.symbol} ${data?.address} is reported as a scam project by ${totalScam} invester.`
+              } else {
+                cleanDescription = `Token ${data?.name} ${data?.symbol} ${data?.address} please join us to discuss and review project`
+              }
+            } else if (data?.type === 'coin') {
+              if ((isInteger(totalScam) && totalScam > 0) || (isInteger(totalReview) && totalReview > 0)) {
+                title = `Review & Discuss ${data?.name} ${data?.symbol} -${totalScam ? ` ${totalScam} reported as a scam` : ''}${totalReview ? ` ${totalReview} comment` : ''} | Gear5`
+              } else {
+                title = `${data?.name} ${data?.symbol} - Review & Discuss Cryptocurrency projects | Gear5`
+              }
+            } else {
+              title = `${getTxtAdditional(isScam, isWarning, rawScore, CRYPTO)}${title}${data?.symbol ? ` (${data?.symbol})` : ''},${totalInteract} Crypto Projects${extraData}`
+            }
             break
           }
           case data?.dAppId :{
             imgPath = DAPP
-            title = `${getTxtAdditional(isScam, isWarning, rawScore, DAPP)}${title},${totalInteract} Decentralized Application${extraData}`
+            if ((isInteger(totalScam) && totalScam > 0) || (isInteger(totalReview) && totalReview > 0)) {
+              title = `Review ${data?.dAppName} project -${totalScam ? ` ${totalScam} reported as a scam` : ''}${totalReview ? ` ${totalReview} comment` : ''} | Gear5`
+            } else {
+              title = `Reviews & Discuss ${data?.dAppName} - project Dapps | Gear5`
+            }
             break
           }
           case data?.ventureId :{
             imgPath = VENTURE
-            title = `${getTxtAdditional(isScam, isWarning, rawScore, VENTURE)}${title},${totalInteract} Crypto Ventures${extraData}`
+            title = `${data?.ventureName} Crypto Ventures | Portfolio & Details | Gear5`
             break
           }
           case data?.exchangeId :{
             imgPath = EXCHANGE
-            title = `${getTxtAdditional(isScam, isWarning, rawScore, EXCHANGE)}${title},${totalInteract} Crypto Exchanges${extraData}`
+            if ((isInteger(totalScam) && totalScam > 0) || (isInteger(totalReview) && totalReview > 0)) {
+              title = `${data?.name} ${data?.subCategory} -${totalScam ? ` ${totalScam} reported as a scam` : ''}${totalReview ? ` ${totalReview} comment` : ''} | Crypto Exchanges | Gear5`
+            } else {
+              title = `${data?.name} ${data?.subCategory} | Reviews & Discuss Crypto Exchanges | Gear5`
+            }
             break
           }
           // Soon Project
           case data?.projectId :{
             imgPath = SOON
-            title = `${getTxtAdditional(isScam, isWarning, rawScore, SOON)}${title}${data?.projectSymbol ? ` (${data?.projectSymbol})` : ''},${totalInteract} ICO/IDO/IEO Projects${extraData}`
+            let soonStatus = getStatusFromStartDateAndEndDate(data?.startDate, data?.endDate)
+            if (isInteger(totalReview) && totalReview > 0) {
+              soonStatus = soonStatus ? `${soonStatus} |` : soonStatus
+              title = `${data?.projectName} ${data?.projectSymbol} - ${data?.roundType} - ${totalReview} Reviews |${soonStatus} Gear5`
+            } else {
+              title = `${data?.projectName} ${data?.projectSymbol} - ${data?.roundType}${soonStatus} | Project details | Gear5`
+            }
             break
           }
           case data?.launchPadId :{
             imgPath = LAUNCHPAD
-            title = `${getTxtAdditional(isScam, isWarning, rawScore, LAUNCHPAD)}${title},${totalInteract} Crypto Launchpads${extraData}`
+            title = `${data?.name} Crypto Launchpads | Invest Data & Details | Gear5`
             break
           }
         }
@@ -361,7 +446,7 @@ app.get('/:category', (req, res) => {
 app.get('/:category/:subCategory', (req, res) =>{
   const category = req?.params?.category
   const subCategory = req?.params?.subCategory
-  // console.log('list', category, 'subCategory', subCategory)
+  console.log('list', category, 'subCategory', subCategory)
   genListHeader(req, res, category, subCategory)
 })
 
