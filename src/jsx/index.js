@@ -31,6 +31,7 @@ import { ServerError } from './components/server-error/ServerError'
 import InsightMain from './components/insight/InsightMain'
 import { TermOfService } from './components/term-of-service/TermOfService'
 import { CRYPTO, DAPP, EXCHANGE, VENTURE, SOON, LAUNCHPAD, INSIGHT } from './constants/category'
+import { CATEGORY_CRYPTO, CATEGORY_DAPP, CATEGORY_EXCHANGE, CATEGORY_INSIGHT, CATEGORY_LAUNCHPAD, CATEGORY_SOON, CATEGORY_VENTURE } from './constants/category'
 import ChartDetail from './components/insight/chartDetail/ChartDetail'
 import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 
@@ -104,45 +105,45 @@ const Markup = () => {
           if (path[2]) {
             setPathName(path[2]?.split('-')?.join(' '))
           } else {
-            setPathName('Cryptos')
+            setPathName(CATEGORY_CRYPTO)
           }
           break
         case DAPP:
           if (path[2]) {
             setPathName(path[2]?.split('-')?.join(' '))
           } else {
-            setPathName('DApps')
+            setPathName(CATEGORY_DAPP)
           }
           break
         case EXCHANGE:
           if (path[2]) {
             setPathName(path[2]?.split('-')?.join(' '))
           } else {
-            setPathName('Exchanges')
+            setPathName(CATEGORY_EXCHANGE)
           }
           break
         case VENTURE:
           if (path[2]) {
             setPathName(path[2]?.split('-')?.join(' '))
           } else {
-            setPathName('Ventures')
+            setPathName(CATEGORY_VENTURE)
           }
           break
         case SOON:
           if (path[2]) {
             setPathName(path[2]?.split('-')?.join(' '))
           } else {
-            setPathName('ICOs /IDOs /IEOs')
+            setPathName(CATEGORY_SOON)
           }
           break
         case LAUNCHPAD:
-          setPathName('Launchpads')
+          setPathName(CATEGORY_LAUNCHPAD)
           break
         case INSIGHT:
           if (path[2]) {
             setPathName(path[2]?.split('_')?.join(' '))
           } else {
-            setPathName('Insights')
+            setPathName(CATEGORY_INSIGHT)
           }
           break
         case 'report-scam':
