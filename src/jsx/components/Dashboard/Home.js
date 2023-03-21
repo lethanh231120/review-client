@@ -18,43 +18,12 @@ import SEO from '../SEO/SEO'
 import { getHeaderHome } from './../SEO/server/home'
 import { LatestTokenTable } from '../common-widgets/home/latest-token/LatestTokenTable'
 
-// const fillColors = {
-//   'binance': '#EFB80B',
-//   'ethereum': '#58BAD7',
-//   'avalanche': '#DA4344',
-//   'polygon': '#8147E7',
-//   'others': '#18A594'
-// }
-
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
   const summaryData = useContext(SummaryHomeContext)
   useEffect(() => {
     changeBackground({ value: 'light', label: 'Light' })
   }, [])
-
-  // GET TOP COINS DATA
-
-  // const setTotalCrytosData = (data) => {
-  //   const dataArr = []
-  //   let sorted = []
-  //   const others = { fillcolor: fillColors['others'], datatitle: 'Others', amount: data?.chainTokens?.others?.total }
-  //   const dataList = data?.chainTokens
-  //   // sort token data
-  //   if (!_.isEmpty(dataList)) {
-  //     // get first 5 tokens
-  //     Object.keys(dataList)?.map((key, index) => {
-  //       if (key !== 'others') {
-  //         dataArr.push({ fillcolor: fillColors[key], datatitle: key, amount: dataList[key]?.total })
-  //       }
-  //     })
-  //     sorted = dataArr?.sort((a, b) => b?.amount - a?.amount)
-
-  //     sorted.push(others)
-  //     // calulate other
-  //   }
-  //   return sorted
-  // }
 
   const setScamDataEachChains = (data) => {
     const list = []
