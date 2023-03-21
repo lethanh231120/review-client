@@ -10,7 +10,7 @@ import hands from '../../../images/svg/hands.svg'
 import rocket from '../../../images/svg/rocket.svg'
 import shit_review from '../../../images/svg/shit-review.svg'
 
-const dataReviewFounder = {
+export const dataReviewFounder = {
   acountImage: logo,
   accountName: 'Gear5 Founder',
   content: <p className='cus-text-justify'>

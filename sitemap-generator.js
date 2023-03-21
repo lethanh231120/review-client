@@ -12,8 +12,8 @@ const pages = [
 const gear5Url = 'https://gear5.io/'
 const newTokenPages = 10
 const newUpdateTokenUrl = 'https://new-update-info-crypto.gear5.io/'
-const newExchangeUrl = 'https://crawl-exchange.gear5.io/new_exchange.xml'
-const newVentureUrl = 'https://crawl-venture.gear5.io/new_venture.xml'
+const newExchangeUrl = 'https://crawl-exchange.gear5.io/new_exchange'
+const newVentureUrl = 'https://crawl-venture.gear5.io/new_venture'
 const fs = require('fs')
 
 const generateUrl = (content) => {

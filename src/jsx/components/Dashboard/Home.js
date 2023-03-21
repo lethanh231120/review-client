@@ -67,7 +67,7 @@ const Home = () => {
       <div className='row'>
         {/* Recent Reviews */}
         <div className='col-12 ' >
-          <ReviewList />
+          <ReviewList isHome={true}/>
         </div>
       </div>
 
