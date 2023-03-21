@@ -70,8 +70,8 @@ const isInteger = (number) => {
 const injectHtmlHeader = (metaTag) => {
   let dynamicMetaIndexHtml = file?.getIndexHtml()
   // home image twitter
-  // dynamicMetaIndexHtml = dynamicMetaIndexHtml
-  // ?.split(`<meta name="twitter:image" content="https://gear5.io/logo.webp"/>`)?.join(``)
+  dynamicMetaIndexHtml = dynamicMetaIndexHtml
+    ?.split(`<meta name="twitter:image" content="https://gear5.io/logo.webp"/>`)?.join(``)
 
   // replace image first(contain main url)
   const isInternalImage = metaTag?.image && metaTag?.image?.length >= 1 && metaTag?.image[0] === '/'
