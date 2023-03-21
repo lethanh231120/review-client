@@ -68,25 +68,25 @@ const isInteger = (number) => {
 
 const injectHtmlHeader = (metaTag) => {
   let dynamicMetaIndexHtml = file?.getIndexHtml()
-
-  // replace image twitter first(contain main url)
+  // replace image first(contain main url)
   const isInternalImage = metaTag?.image && metaTag?.image?.length >= 1 && metaTag?.image[0] === '/'
-  let twitterUrl = ''
   if (isInternalImage) {
-    twitterUrl = META_UNIQUE_LINK + metaTag?.image
+    dynamicMetaIndexHtml = dynamicMetaIndexHtml
+      ?.split(META_UNIQUE_LINK + META_IMAGE)?.join(META_UNIQUE_LINK + metaTag?.image)
   } else {
     // External image
-    twitterUrl = metaTag?.image
+    dynamicMetaIndexHtml = dynamicMetaIndexHtml
+      ?.split(META_UNIQUE_LINK + META_IMAGE)?.join(metaTag?.image)
   }
   dynamicMetaIndexHtml = dynamicMetaIndexHtml
-    ?.split(`<meta name="twitter:image" content="https://gear5.io/logo.webp"/>`)?.join(`<meta name="twitter:image" content="${twitterUrl}"/>`)
+    ?.split(META_UNIQUE_LINK)?.join(metaTag?.uniqueLink)
 
   dynamicMetaIndexHtml = dynamicMetaIndexHtml
     ?.split(META_TITLE)?.join(metaTag?.title) // euqal replace all
     ?.split(META_DESCRIPTION)?.join(metaTag?.description)
-    ?.split(META_IMAGE)?.join(metaTag?.image)
-    ?.split(META_UNIQUE_LINK)?.join(metaTag?.uniqueLink)
 
+  // const schemaMarkupIndexHtml = dynamicMetaIndexHtml?.replace(getScriptSchemaMarkupSiteLinkSearchBoxHomePage(), '')
+  // return schemaMarkupIndexHtml
   return dynamicMetaIndexHtml
 }
 
