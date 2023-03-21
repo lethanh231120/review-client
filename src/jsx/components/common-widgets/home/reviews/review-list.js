@@ -7,11 +7,11 @@ import SekeletonReviewItem from '../../../skeleton/skeleton-review/SekeletonRevi
 // const REVIEW_WS_URL = 'wss://api-client.gear5.io/reviews/review/latest'
 const REVIEW_WS_URL = 'wss://api-ver1.gear5.io/reviews/review/latest'
 // const ANONYMOUS_ID = '00000000-0000-0000-0000-000000000000'
-export const ReviewList = () => {
+export const ReviewList = ({ isHome }) => {
   const [reviewList, setReviewList] = useState([])
   const [screenWidth, setScreenWidth] = useState()
   const [newListReview, setNewListReview] = useState([])
-
+  const length = isHome ? 12 : 6
   useEffect(() => {
     const socket = new WebSocket(REVIEW_WS_URL)
 
@@ -43,10 +43,10 @@ export const ReviewList = () => {
   }, [])
 
   useEffect(() => {
-    if (reviewList?.length > 12) {
+    if (reviewList?.length > length) {
       // const copyArr = [...reviewList]
       // copyArr.pop()
-      const copyArr = reviewList?.slice(0, 12)
+      const copyArr = reviewList?.slice(0, length)
       setReviewList(copyArr)
     }
   }, [reviewList?.length])

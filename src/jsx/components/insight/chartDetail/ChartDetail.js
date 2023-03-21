@@ -1,7 +1,7 @@
 import { Table } from 'antd'
 import _ from 'lodash'
 import moment from 'moment/moment'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Card } from 'react-bootstrap'
 import { useParams } from 'react-router'
 import { get } from '../../../../api/BaseRequest'
@@ -11,12 +11,17 @@ import LineChart from '../charts/LineChart'
 import PieChart from '../charts/PieChart'
 import './ChartDetail.scss'
 import { getHeaderProductDetail } from './../../SEO/server/insight-detail'
+import { SummaryHomeContext } from '../../../../App'
+import { LatestTokenTable } from '../../common-widgets/home/latest-token/LatestTokenTable'
+import { ScamEachChainsList } from '../../common-widgets/home/blockchain-data-table/scam-each-chain-chart'
+import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import { ReviewList } from '../../common-widgets/home/reviews/review-list'
+import { dataReviewFounder } from '../../product-detail/detail-layout'
+import { PushpinOutlined } from '@ant-design/icons'
 const ChartDetail = () => {
   const { id } = useParams()
   const [chartData, setChartData] = useState()
-  // const location = useLocation()
 
-  // const data = location?.state
   useEffect(() => {
     const getChartById = async() => {
       const res = await get(`reviews/chart/detail?chartId=${id}`)
@@ -51,6 +56,23 @@ const ChartDetail = () => {
     } else { return '' }
   }
 
+  const summaryData = useContext(SummaryHomeContext)
+
+  const setScamDataEachChains = (data) => {
+    const list = []
+    const temp = data?.chainTokens
+    const others = { scam: data?.chainTokens?.others?.scam, total: data?.chainTokens?.others?.total, datatitle: 'Others' }
+
+    Object.keys(temp)?.map(key => {
+      if (key !== 'others') {
+        list.push({ scam: temp[key]?.scam, total: temp[key]?.total, datatitle: key })
+      }
+    })
+    const sorted = list?.sort((a, b) => b?.total - a?.total)
+    sorted.push(others)
+    return sorted
+  }
+
   const columns = [
     {
       title: 'Label',
@@ -79,13 +101,37 @@ const ChartDetail = () => {
             <Card>
               <Card.Header style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#19A594' }}>Data Table</Card.Header>
               <Card.Body>
-                <Table pagination={{ pageSize: 6, style: { display: 'flex', justifyContent: 'center' }}} className='custom-table' columns={columns} dataSource={chartData?.results}/>
+                <Table pagination={{ pageSize: 5, style: { display: 'flex', justifyContent: 'center' }}} className='custom-table' columns={columns} dataSource={chartData?.results}/>
               </Card.Body>
             </Card>
           </div>
         </div>
       </Card.Body>
     </Card>
+
+    <div className='row'>
+      {/* Recent Reviews */}
+      <div className='col-12 mt-4' >
+        <ReviewList isHome={false}/>
+      </div>
+    </div>
+    <Card className='cus-card mb-4' style={{ padding: '8px', backgroundColor: '#18A594', color: '#fff' }}>
+      <Card.Title className='mt-1 me-2 ms-4' style={{ color: '#fff', fontSize: '18px', display: 'flex', alignItems: 'center' }} >
+        {dataReviewFounder.accountName}
+        <PushpinOutlined style={{ marginLeft: '0.3rem' }}/>
+      </Card.Title>
+      <Card.Body style={{ marginTop: '-20px' }}>  {dataReviewFounder?.content}</Card.Body>
+    </Card>
+    <div className='row'>
+      {/* Scam percentage each chains chart */}
+      <div className='col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 mb-4'>
+        {summaryData ? <ScamEachChainsList data={setScamDataEachChains(summaryData)}/> : <MySkeletonLoadinng/>}
+      </div>
+      {/* blockchain data allocation */}
+      <div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4' style={{ textTransform: 'none' }}>
+        <LatestTokenTable />
+      </div>
+    </div>
   </>
 }
 
