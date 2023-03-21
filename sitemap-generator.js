@@ -41,16 +41,21 @@ const generateIndexSitemap = () =>{
   const fileName = 'NikaSitemap'
   const tokenPages = 57
   const listIndex = ['general', 'coins', 'dapps', 'idos', 'exchanges', 'ventures', 'launchpads']
+  const prefix = 'NikaNika-'
   // const listAdmin = ['idos', 'ventures', 'cryptos', 'exchanges', 'dapps', 'launchpads']
 
   let data = '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
 
   listIndex.forEach(name => {
-    data = data + `<sitemap><loc>${gear5Url}${name}.xml</loc></sitemap>`
+    if (name === 'general') {
+      data = data + `<sitemap><loc>${gear5Url}${name}.xml</loc></sitemap>`
+    } else {
+      data = data + `<sitemap><loc>${gear5Url}${prefix}${name}.xml</loc></sitemap>`
+    }
   })
 
   Array(tokenPages).fill().forEach((item, index) => {
-    data = data + `<sitemap><loc>${gear5Url}token_${index + 1}.xml</loc></sitemap>`
+    data = data + `<sitemap><loc>${gear5Url}${prefix}token_${index + 1}.xml</loc></sitemap>`
   })
 
   Array(newTokenPages).fill().forEach((item, index) => {
