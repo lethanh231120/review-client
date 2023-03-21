@@ -3,9 +3,9 @@ import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 // images
-import logo1 from './../../../images/logo/gear5_logo_notext1_resize.webp'
-import logotext1 from './../../../images/logo/logo-text-resize.webp'
-import logoColor from './../../../images/logo/gear5_logo_notext_resize.webp'
+import logo1 from './../../../images/logo/gear5_logo_notext1.webp'
+import logotext1 from './../../../images/logo/logo-text.webp'
+import logoColor from './../../../images/logo/gear5_logo_notext.webp'
 import { ShowFullSearchConext } from '../../../App'
 import { ToggleContext } from '../../index'
 import { PathNameContext } from '../../index'

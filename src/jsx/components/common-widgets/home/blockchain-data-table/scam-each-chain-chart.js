@@ -11,7 +11,7 @@ import './blockchain-data.scss'
 
 const color = ['#EFB80B', '#58BAD7', '#DA4344', '#8147E7', '#18A594']
 
-export const ScamEachChainsList = ({ data }) => {
+export const ScamEachChainsList = ({ data, isHome }) => {
   const chainList = useContext(ChainListContext)
   const navigate = useNavigate()
 
@@ -29,7 +29,7 @@ export const ScamEachChainsList = ({ data }) => {
           window.localStorage.setItem('crypto', JSON.stringify({ tag: `${chainnameUpper}-Ecosystem` }))
         }
 
-        navigate(`crypto/${chainnameUpper}-Ecosystem`)
+        navigate(isHome ? `crypto/${chainnameUpper}-Ecosystem` : `../../../crypto/${chainnameUpper}-Ecosystem`)
       }
     }
   }
@@ -39,7 +39,7 @@ export const ScamEachChainsList = ({ data }) => {
       <td >{index}</td>
       <td >
         <div className='d-flex justify-content-start align-items-center'>
-          {chainName !== 'Others' ? <Avatar alt='Blockchain Logo' size={25} src={img}/> : <Avatar size={25} src={'./logo.png'} alt='Logo'/>}
+          {chainName !== 'Others' ? <Avatar alt='Blockchain Logo' size={25} src={img}/> : <Avatar size={25} src={'../logo.png'} alt='Logo'/>}
           <span className='ms-2'>{capitalizeFirstLetter(chainName)}</span>
         </div>
       </td>
