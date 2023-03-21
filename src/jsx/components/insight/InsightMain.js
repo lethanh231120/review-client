@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { get } from '../../../api/BaseRequest'
@@ -8,6 +8,9 @@ import Barchart from './charts/BarChart'
 import LineChart from './charts/LineChart'
 import PieChart from './charts/PieChart'
 import { getHeaderListInsight } from './../SEO/server/insight'
+import { ScamEachChainsList } from '../common-widgets/home/blockchain-data-table/scam-each-chain-chart'
+import { LatestTokenTable } from '../common-widgets/home/latest-token/LatestTokenTable'
+import { SummaryHomeContext } from '../../../App'
 
 const InsightMain = () => {
   // const navigate = useNavigate()
@@ -24,6 +27,22 @@ const InsightMain = () => {
 
     getInsightChart()
   }, [])
+
+  const summaryData = useContext(SummaryHomeContext)
+  const setScamDataEachChains = (data) => {
+    const list = []
+    const temp = data?.chainTokens
+    const others = { scam: data?.chainTokens?.others?.scam, total: data?.chainTokens?.others?.total, datatitle: 'Others' }
+
+    Object.keys(temp)?.map(key => {
+      if (key !== 'others') {
+        list.push({ scam: temp[key]?.scam, total: temp[key]?.total, datatitle: key })
+      }
+    })
+    const sorted = list?.sort((a, b) => b?.total - a?.total)
+    sorted.push(others)
+    return sorted
+  }
 
   const getChartType = (data) => {
     const colorPallet = data?.config?.colors?.split(',')
@@ -62,6 +81,16 @@ const InsightMain = () => {
       <Row >
         {data && Object.keys(data)?.map(key => chartSection(data[key]))}
       </Row>
+      <div className='row'>
+        {/* Scam percentage each chains chart */}
+        <div className='col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 mb-4'>
+          {summaryData ? <ScamEachChainsList data={setScamDataEachChains(summaryData)}/> : <MySkeletonLoadinng/>}
+        </div>
+        {/* blockchain data allocation */}
+        <div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4' style={{ textTransform: 'none' }}>
+          <LatestTokenTable />
+        </div>
+      </div>
     </>
 }
 
