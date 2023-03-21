@@ -9,6 +9,25 @@ const InfoContractDetail = ({ detail }) => {
       <InformationSubTitle type={typeContract}/>
       <div>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ paddingLeft: '0' }}>
+          { detail?.address
+            ? <div className='col-xxl-12 col-12'>
+              <div
+                className='form-check custom-checkbox mb-3 checkbox-success'
+                style={{ padding: '0', display: 'flex' }}
+              > <ShortItem title={
+                  <span>
+                Address is:{' '}
+                    <a className='text-primary txt-link text-break'
+                      href={detail?.explorer}
+                      target='_blank'
+                      rel='noreferrer'>{detail?.address}</a>
+                  </span>
+                } />
+              </div>
+            </div>
+            : ''
+          }
+
           {
             detail?.contractVerified !== null ? <div className='col-xxl-12 col-12'>
               <div

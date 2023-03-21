@@ -19,7 +19,7 @@ export const ExchangeDetail = ({ coinName, exchangeList }) => {
   return coinName && !_.isEmpty(exchangeList) ? <div className='crypto-info'>
     <div>
       <InformationSubTitle type={typeExchange}/>
-      <div className=''>
+      <div >
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ paddingLeft: '0' }}>
           <div
             className='form-check custom-checkbox mb-3 checkbox-success'

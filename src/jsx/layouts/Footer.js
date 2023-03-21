@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { txtTermsOfService } from '../components/term-of-service/TermOfService'
-import { txtPrivacyPolicy } from './../components/privacy-policy/PrivacyPolicy'
+import { emailNika, txtPrivacyPolicy } from './../components/privacy-policy/PrivacyPolicy'
 
 const Footer = () => {
   var d = new Date()
@@ -29,7 +29,7 @@ const Footer = () => {
             className = 'text-primary txt-link'>
             {txtPrivacyPolicy}
           </Link>
-          . Contact us on <span className = 'text-primary txt-link' href='#'>zoro@gear5.guru</span>.
+          . Contact us on <span className = 'text-primary txt-link' href='#'>{emailNika}</span>.
         </p>
       </div>
     </div>
