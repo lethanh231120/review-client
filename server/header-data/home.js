@@ -5,7 +5,7 @@ const TITLE = `Gear 5: Review & Discuss 99%+ Scam/Dead Crypto Projects Among Tot
 const IMAGE = `/logo.webp`
 const DESCRIPTION = `You got scammed, lost money?
 Please join us in warning everyone in the community!`
-const UNIQUE_LINK = `https://dev.gear5.io`
+const UNIQUE_LINK = `https://gear5.io`
 
 const staticData = {
   title: TITLE,
