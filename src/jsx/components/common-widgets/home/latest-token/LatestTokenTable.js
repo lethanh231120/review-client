@@ -40,29 +40,6 @@ export const LatestTokenTable = () => {
     return () => clearInterval(interval)
   }, [])
 
-  // useEffect(() => {
-  //   if (screenWidth > 1600) {
-  //     setNewList(latestTokens && latestTokens?.slice(0, 7))
-  //   }
-  //   if (screenWidth < 1600 && screenWidth > 1100) {
-  //     setNewList(latestTokens && latestTokens?.slice(0, 7))
-  //   }
-  //   if (screenWidth < 1020) {
-  //     setNewList(latestTokens && latestTokens?.slice(0, 7))
-  //   }
-  // }, [screenWidth, latestTokens])
-
-  // useEffect(() => {
-  //   function handleResize() {
-  //     const { innerWidth: width } = window
-  //     setScreenWidth(width)
-  //   }
-
-  //   handleResize()
-  //   window.addEventListener('resize', handleResize)
-  //   return () => window.removeEventListener('resize', handleResize)
-  // }, [])
-
   const onTopCoinsClicked = (item) => {
     const type = item?.cryptoId?.split('_')[1]
     const name = item?.cryptoId?.split('_')[2]
@@ -103,7 +80,7 @@ export const LatestTokenTable = () => {
                   <div className='d-flex'>
                     <div className='top-coin-name fs-16' style={{ color: 'black', fontWeight: '500' }}>{item?.name && _.truncate(item?.name, { length: 10 })}
                     </div>
-                    <div className='fs-14' style={{ color: 'black', fontWeight: '500' }}> {item?.symbol && `(${_.truncate(item?.symbol, { length: 7 })})`}</div>
+                    <div className='fs-14 d-flex align-items-center' style={{ color: 'black', fontWeight: '500' }}> {item?.symbol && `(${_.truncate(item?.symbol, { length: 7 })})`}</div>
                   </div>
                   <div className='d-flex'>
                     <Avatar className='me-1' size={20} src={getChainImage(item?.chainName)} alt='Chain'/>
