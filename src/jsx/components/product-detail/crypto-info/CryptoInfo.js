@@ -400,6 +400,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         src={chainList[`${detail?.chainName}`]?.image}
         height={18}
         width={18}
+        style={{ borderRadius: '1rem' }}
         // className='d-flex align-items-center'
       />
       &nbsp;

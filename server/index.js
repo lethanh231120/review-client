@@ -44,6 +44,7 @@ const { getMetaTag } = require('./modal/MetaTag')
 const { getMetaTagAddProject } = require('./header-data/add-project')
 const { getMetaTagReportScam } = require('./header-data/report-scam')
 const { toCammelCase } = require('./utils/formatText')
+const { getScriptSchemaMarkupSiteLinkSearchBoxHomePage } = require('./constants/schemaMarkup')
 
 // ######## Default meta tag
 const metaTagHome = getMetaTagHome()
@@ -68,26 +69,29 @@ const isInteger = (number) => {
 
 const injectHtmlHeader = (metaTag) => {
   let dynamicMetaIndexHtml = file?.getIndexHtml()
+  // home image twitter
+  // dynamicMetaIndexHtml = dynamicMetaIndexHtml
+  // ?.split(`<meta name="twitter:image" content="https://gear5.io/logo.webp"/>`)?.join(``)
+
   // replace image first(contain main url)
   const isInternalImage = metaTag?.image && metaTag?.image?.length >= 1 && metaTag?.image[0] === '/'
+  // console.log(isInternalImage, META_IMAGE, META_UNIQUE_LINK, metaTag?.image)
   if (isInternalImage) {
+    const internalUrl = `${metaTag?.image}`
     dynamicMetaIndexHtml = dynamicMetaIndexHtml
-      ?.split(META_UNIQUE_LINK + META_IMAGE)?.join(META_UNIQUE_LINK + metaTag?.image)
+      ?.split(META_IMAGE)?.join(internalUrl)
   } else {
     // External image
     dynamicMetaIndexHtml = dynamicMetaIndexHtml
-      ?.split(META_UNIQUE_LINK + META_IMAGE)?.join(metaTag?.image)
+      ?.split(META_IMAGE)?.join(metaTag?.image)
   }
-  dynamicMetaIndexHtml = dynamicMetaIndexHtml
-    ?.split(META_UNIQUE_LINK)?.join(metaTag?.uniqueLink)
-
   dynamicMetaIndexHtml = dynamicMetaIndexHtml
     ?.split(META_TITLE)?.join(metaTag?.title) // euqal replace all
     ?.split(META_DESCRIPTION)?.join(metaTag?.description)
+    ?.split(META_UNIQUE_LINK)?.join(metaTag?.uniqueLink)
 
-  // const schemaMarkupIndexHtml = dynamicMetaIndexHtml?.replace(getScriptSchemaMarkupSiteLinkSearchBoxHomePage(), '')
-  // return schemaMarkupIndexHtml
-  return dynamicMetaIndexHtml
+  const schemaMarkupIndexHtml = dynamicMetaIndexHtml?.replace(getScriptSchemaMarkupSiteLinkSearchBoxHomePage(), '')
+  return schemaMarkupIndexHtml
 }
 
 const encodeSpecialCharacterUrl = (url) =>{
