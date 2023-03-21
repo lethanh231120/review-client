@@ -14,7 +14,7 @@ import { ChainListContext } from '../../../../App'
 import _ from 'lodash'
 import MyScoreComponent from '../../score/scoreComponent'
 import { exchanges } from '../../../../utils/ExchangeImage'
-import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
+import { formatUrlDetailFromUrlImageExchange, isValidProductId } from '../../../../utils/formatText'
 import { MAX_PAGE } from '../../../constants/pagination'
 import { formatImgUrlFromProductId } from '../../../../utils/formatText'
 import { copyAddress } from '../../../../utils/effect'
@@ -25,7 +25,7 @@ import { formatMoneyGreaterEqualOneDollar } from '../../../../utils/formatNumber
 import { formatMoneyLessOneDollar } from '../../../../utils/formatNumber'
 import { toCammelCase, getExchangeNameFromUrlImageExchage } from '../../../../utils/formatText'
 import { formatLargeNumber } from '../../../../utils/formatNumber'
-
+import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 const CryptoTable = ({ loading, listData }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
@@ -129,7 +129,7 @@ const CryptoTable = ({ loading, listData }) => {
           className='crypto-table-info image-list'
         >
           {record?.cryptoId && record?.smallLogo ? (
-            <Image src={record?.smallLogo} alt='Cryptocurrency Logo'/>
+            <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} alt='Cryptocurrency Logo'/>
           ) : (
             <span className='image-list-no-data'>
               {record?.name?.slice(0, 3)}

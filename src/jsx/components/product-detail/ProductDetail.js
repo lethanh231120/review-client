@@ -893,7 +893,7 @@ const ProductDetail = () => {
         ? <SEO props={{ title: getHeaderProductDetail(productInfo?.details) }} />
         : ''}
       <div className='section'>
-        {!productInfo ? <ProductDetailEmpty/>
+        {loadingDetail ? <ProductDetailEmpty/>
           : (
             <div className='product' ref={ref} hidden={!productInfo}>
               {categoryName === DAPP ? (
