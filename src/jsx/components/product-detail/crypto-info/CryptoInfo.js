@@ -394,17 +394,16 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         <LinkOutlined/>
       </p>
     )}
-    {detail?.address && (<>        <Image
-      alt={`${detail?.chainName} blockchain Logo`}
-      src={chainList[`${detail?.chainName}`]?.image}
-      preview={false}
-      height={18}
-      width={18}
-      className='d-flex align-items-center'
-    />
-    <span className='crypto-info-item-address'>
-
-      <h1 className='mb-0  fs-16'>
+    {detail?.address && (<div className='d-flex align-items-center text-break'>
+      <img
+        alt={`${detail?.chainName} blockchain Logo`}
+        src={chainList[`${detail?.chainName}`]?.image}
+        height={18}
+        width={18}
+        // className='d-flex align-items-center'
+      />
+      &nbsp;
+      <h1 className='mb-0 fs-16 d-inline'>
         <a
           href={mainExplorer}
           target='_blank'
@@ -414,14 +413,15 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           {detail?.address}
         </a>
       </h1>
+      &nbsp;
       <CopyOutlined
         style={{ padding: '0, 1rem' }}
+        className='d-inline'
         onClick={(e) => {
           copyAddress(e, detail?.address, 'Copy address successfully!')
         }}
       />
-    </span>
-    </>)}
+    </div>)}
 
   </>
 
