@@ -5,6 +5,7 @@ import { getHeaderHome } from './home'
 import { SUB_TITLE } from './listCrypto'
 
 const META_TITLE = getHeaderHome()
+const getSubTitle = () => SUB_TITLE
 const isInteger = (number) => {
   return (typeof number === 'number') && Math.floor(number) === number
 }
@@ -78,7 +79,7 @@ export const getHeaderProductDetail = (productDetail) => {
     totalInteract += ' '
   }
 
-  const extraData = SUB_TITLE
+  const extraData = getSubTitle()
   const isScam = data?.isScam
   const isWarning = data?.isWarning
   const rawScore = data?.score

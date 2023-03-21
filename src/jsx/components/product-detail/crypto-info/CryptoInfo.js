@@ -4,7 +4,7 @@ import Description from '../description/Description'
 import { CopyOutlined } from '@ant-design/icons'
 import './crypto.scss'
 import _ from 'lodash'
-import { CRYPTO, CRYPTO_COIN, CRYPTO_TOKEN } from '../../../constants/category'
+import { CRYPTO, CRYPTO_COIN } from '../../../constants/category'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { ChainListContext, ExchangeContext } from '../../../../App'
 import { Badge, Button } from 'react-bootstrap'
@@ -353,22 +353,35 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   ]
 
+  const projectType = <>
+    {detail?.type && (
+      <Badge className='badge-sm ' >{toCammelCase(detail?.type) }</Badge>
+    )}
+  </>
   const nameSymbol = <>
-    <span className='detail-header-overview-name'>
+    <span className=''>
       {detail?.name}
     </span>
-    <span className='crypto-overview-symbol'>
-      {detail?.symbol ? detail?.symbol : ''}
+    <span className=''>
+      {detail?.symbol ? ` - ${detail?.symbol}` : ''}
+    </span>
+    <br/>
+    <span>
+      {projectType}
     </span>
   </>
 
-  const projectNameSymbol = detail?.type === CRYPTO_COIN
-    ? <h1 className='text-primary mb-2 cus-h4' style={{ fontSize: '1.125rem' }}>{nameSymbol}</h1>
-    : <h4 className='text-primary mb-2 cus-h4' style={{ fontSize: '1.125rem' }}>{nameSymbol}</h4>
+  const projectNameSymbol = <>
+    {
+      detail?.type === CRYPTO_COIN
+        ? <h1 className='text-primary mb-2' style={{ fontSize: '1.125rem' }}>{nameSymbol}</h1>
+        : <h2 className='text-primary mb-2' style={{ fontSize: '1.125rem' }}>{nameSymbol}</h2>
+    }
+  </>
 
-  const projectAddressType = <div className='d-flex align-items-center'>
+  const projectAddressExplorer = <div className='mt-3'>
     {(detail?.type === CRYPTO_COIN && detail?.explorer) && (
-      <p className='crypto-info-item-address'>
+      <p className='crypto-info-item-address text-break'>
         <a
           href={detail?.explorer}
           target='_blank'
@@ -382,32 +395,38 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       </p>
     )}
     {detail?.address && (
-      <p className='crypto-info-item-address'>
-        <a
-          href={mainExplorer}
-          target='_blank'
-          rel='noreferrer'
-          className='product-name-text text-primary'
-          style={{ cursor: 'pointer' }}
-        >
-          <Image
-            alt={`${detail?.chainName} blockchain Logo`}
-            src={chainList[`${detail?.chainName}`]?.image}
-            preview={false}
-          />
-          {`${detail?.address?.slice(0, 5)}...${detail?.address?.slice(detail?.address?.length - 5, detail?.address?.length)}`}
-        </a>
-        <CopyOutlined
-          style={{ padding: '0, 1rem' }}
-          onClick={(e) => {
-            copyAddress(e, detail?.address, 'Copy address successfully!')
-          }}
+      <div className='d-flex'>
+        <Image
+          alt={`${detail?.chainName} blockchain Logo`}
+          src={chainList[`${detail?.chainName}`]?.image}
+          preview={false}
+          height={18}
+          width={18}
+          className='d-flex align-items-center'
         />
-      </p>
+        &nbsp;
+        <p className='crypto-info-item-address'>
+          <a
+            href={mainExplorer}
+            target='_blank'
+            rel='noreferrer'
+            className='product-name-text'
+          >
+            <h1 className='mb-0 text-primary txt-link fs-16'>
+              {detail?.address}
+            </h1>
+            {/* {`${detail?.address?.slice(0, 5)}...${detail?.address?.slice(detail?.address?.length - 5, detail?.address?.length)}`} */}
+          </a>
+          <CopyOutlined
+            style={{ padding: '0, 1rem' }}
+            onClick={(e) => {
+              copyAddress(e, detail?.address, 'Copy address successfully!')
+            }}
+          />
+        </p>
+      </div>
     )}
-    {detail?.type && (
-      <Badge className='badge-sm button-type' >{toCammelCase(detail?.type) }</Badge>
-    )}
+
   </div>
 
   const header = (
@@ -415,29 +434,33 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       {rest?.loadingDetail ? (
         <ProductDetailHeader/>
       ) : (
-        <div className='profile-info'>
-          <div className='profile-details'>
-            <ProductImage imageUrl={detail?.bigLogo} productName={detail?.name} altImageType={altCrypto} />
-            <ProductNameSubName
-              projectName={projectNameSymbol}
-              projectSubName={projectAddressType}
-            />
-            <div className='detail-button ms-auto'>
-              <Button onClick={() => setOpenModalShare(true)}>
-                <img src={share} alt='share button'/>
+        <div className='profile-info row'>
+          <div className='col-12'>
+            <div className='profile-details'>
+              <ProductImage imageUrl={detail?.bigLogo} productName={detail?.name} altImageType={altCrypto} />
+              <ProductNameSubName
+                projectName={projectNameSymbol}
+              />
+              <div className='detail-button ms-auto'>
+                <Button onClick={() => setOpenModalShare(true)}>
+                  <img src={share} alt='share button'/>
               Share
-              </Button>
-              <WebsiteButton website={detail?.website} />
+                </Button>
+                <WebsiteButton website={detail?.website} />
+              </div>
             </div>
+            <Modal
+              open={openModalShare}
+              onCancel={() => setOpenModalShare(false)}
+              onOk={() => setOpenModalShare(false)}
+              footer={null}
+            >
+              <ShareButton name={detail?.name} setOpenModalShare={setOpenModalShare}/>
+            </Modal>
           </div>
-          <Modal
-            open={openModalShare}
-            onCancel={() => setOpenModalShare(false)}
-            onOk={() => setOpenModalShare(false)}
-            footer={null}
-          >
-            <ShareButton name={detail?.name} setOpenModalShare={setOpenModalShare}/>
-          </Modal>
+          <div className='col-12'>
+            {projectAddressExplorer}
+          </div>
         </div>
       )}
     </>
@@ -591,9 +614,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     )}
   </div>
 
-  const additionalDescription = detail?.type === CRYPTO_TOKEN
-    ? detail?.name + ' - ' + detail?.symbol
-    : ''
   const about = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
@@ -601,9 +621,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       <Description
         projectName={detail?.name}
         text={ detail?.description }
-        descriptionToken={ additionalDescription }
-        descriptionTokenAddress={ detail?.address }
-        chainName={detail?.chainName}
         descriptionTokenMultichain = { detail?.multichain}
       />
     )}
