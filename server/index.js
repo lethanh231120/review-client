@@ -247,7 +247,7 @@ const genDetailHeader = (req, res, productId = '') => {
               if (isScam) {
                 cleanDescription = `Token ${data?.name} (${data?.symbol}) ${data?.address} is marked as a scam/dead project by our system and our community`
               } else if (isInteger(totalScam) && isInteger(totalReview) && totalScam > 0 && totalReview > 0) {
-                cleanDescription = `Token ${data?.name} (${data?.symbol}) ${data?.address} has ${totalReview} comment and ${totalScam} reported as a scam`
+                cleanDescription = `Token ${data?.name} (${data?.symbol}) ${data?.address} has ${totalReview} comment and ${totalScam} reported as a scam. Please join us to discuss and review this project.`
               } else if (isInteger(totalScam) && totalScam > 0) {
                 cleanDescription = `Token ${data?.name} (${data?.symbol}) ${data?.address} is reported as a scam project by ${totalScam} invester.`
               } else {

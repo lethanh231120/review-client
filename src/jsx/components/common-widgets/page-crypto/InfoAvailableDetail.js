@@ -30,8 +30,7 @@ const InfoAvailableDetail = ({ detail }) => {
                   }
                   title={
                     <h3 className='fs-16 mb-0' style={{ display: 'inline', color: '#A098AE' }}>
-                      {detail?.name} are existing on&nbsp;
-                      <span className='text-primary'>Coinmarketcap</span>
+                      {detail?.name} are existing on <span className='text-primary'>Coinmarketcap</span>
                     </h3>
                   }
                 />
@@ -50,8 +49,7 @@ const InfoAvailableDetail = ({ detail }) => {
                 }
                 title={
                   <h3 className='fs-16 mb-0' style={{ display: 'inline', color: '#A098AE' }}>
-                    {detail?.name} are not existing on&nbsp;
-                    <span className='text-danger'>Coinmarketcap</span>
+                    {detail?.name} are not existing on <span className='text-danger'>Coinmarketcap</span>
                   </h3>
                 }
               />
@@ -80,8 +78,7 @@ const InfoAvailableDetail = ({ detail }) => {
                 }
                 title={
                   <h3 className='fs-16 mb-0' style={{ display: 'inline', color: '#A098AE' }}>
-                    {detail?.name} are existing on&nbsp;
-                    <span className='text-primary'>Coingecko</span>
+                    {detail?.name} are existing on <span className='text-primary'>Coingecko</span>
                   </h3>
                 }
               />
@@ -100,8 +97,7 @@ const InfoAvailableDetail = ({ detail }) => {
                 }
                 title={
                   <h3 className='fs-16 mb-0' style={{ display: 'inline', color: '#A098AE' }}>
-                    {detail?.name} are not existing on&nbsp;
-                    <span className='text-danger'>Coingecko</span>
+                    {detail?.name} are not existing on <span className='text-danger'>Coingecko</span>
                   </h3>
                 }
               />

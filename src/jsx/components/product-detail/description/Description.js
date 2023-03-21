@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 // projectName has data will description detail
 // projectName has no data --> review
-const Description = ({ projectName, text, descriptionToken, descriptionTokenAddress, chainName, descriptionTokenMultichain }) => {
+const Description = ({ projectName, text, descriptionTokenMultichain }) => {
   // max length displayed first time(more length withh display show more, less length withh display all)
   const length = 500
   const [showLess, setShowLess] = React.useState(true)
@@ -45,25 +45,22 @@ const Description = ({ projectName, text, descriptionToken, descriptionTokenAddr
                   </span>
                 </>
               )}
-              {descriptionToken && descriptionTokenAddress
-                ? <>
-                  <h2 style={{ fontSize: '14px', color: '#A098AE', fontWeight: '400', display: 'inline' }}>{descriptionToken}</h2> {`(`}
-                  <h1 style={{ fontSize: '14px', color: '#A098AE', fontWeight: '400', display: 'inline' }} className='text-primary'>{descriptionTokenAddress}</h1>{`)`}
-                  &nbsp;on chain {toCammelCase(chainName)}.&nbsp;
-                </>
-                : ''}
               { !_.isEmpty(descriptionTokenMultichain)
                 ? <>
                   <br />
-                  <b className='fs-22'>Chain(s):</b>
+                  <br />
+                  <b className='fs-16 text-primary'>{projectName}&apos;s Contract Address:</b>
                   <br />
 
                   <div>
                     {descriptionTokenMultichain.map((chain) => (<>
                       {
                         chain?.split('_')?.length >= 4
-                          ? <div>
-                            {toCammelCase(chain?.split('_')[2])}: <h4 style={{ fontSize: '14px', color: '#A098AE', fontWeight: '400', display: 'inline' }} className='text-primary'>{chain?.split('_')[3]}</h4>
+                          ? <div className='mb-3'>
+                            <h3 style={{ fontSize: '14px', color: '#A098AE', fontWeight: '400', display: 'inline' }}>
+                              <span className='text-primary text-break'>{chain?.split('_')[3]}</span>&nbsp;
+                            on chain {toCammelCase(chain?.split('_')[2])}
+                            </h3>
                           </div>
                           : ''
                       }
