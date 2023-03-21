@@ -45,9 +45,9 @@ const Similar = ({ type, listProjectId }) => {
           {record?.cryptoId && record?.smallLogo
             ? <Avatar style={{ marginRight: '10px' }} size={34} alt='Cryptocurrency Logo' src={record?.smallLogo} preview={false} />
             : (
-              <span className='image-list-no-data'>
+              <Avatar className='image-list-no-data' size={32}>
                 {record?.name?.slice(0, 3)}
-              </span>
+              </Avatar>
             )}
           <span>
             <Tooltip
@@ -113,14 +113,13 @@ const Similar = ({ type, listProjectId }) => {
         </span>
       ),
       dataIndex: 'chains',
-      key: 'chains',
       render: (_, record) => (
         record?.multichain
           ? <div
           >
             <Avatar.Group
               alt='Blockchains Logos'
-              maxCount={2}
+              maxCount={record?.multichain?.length >= 4 ? 2 : 3}
               size={25}
               maxStyle={{
                 color: '#fff',
@@ -145,15 +144,31 @@ const Similar = ({ type, listProjectId }) => {
               ))}
             </Avatar.Group>
           </div>
-          : <Tooltip title={record?.chainName && toCammelCase(record?.chainName)}>
-            <Avatar
-              alt='Blockchain Logo'
-              size={25}
-              src={record?.smallLogo}
-              key={record}
-              className='crypto-table-chain'
-            />
-          </Tooltip>
+          : chainList[record?.chainName]
+            ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
+              <Avatar
+                alt='Blockchain Logo'
+                size={25}
+                src={chainList[record?.chainName]?.image}
+                key={record}
+                className='crypto-table-chain'
+              />
+            </Tooltip>
+            : record?.smallLogo ? (
+              <Tooltip title={record?.name}>
+                <Avatar
+                  alt='Blockchain Logo'
+                  src={formatImgUrlFromProductId(record?.cryptoId)}
+                  // preview={false}
+                  size={25}
+                  key={record}
+                />
+              </Tooltip>
+            ) : (
+              <span className='crypto-table-info-logo image-list-no-data'>
+                {record?.name?.slice(0, 3)}
+              </span>
+            )
       )
     },
     {

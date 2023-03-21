@@ -61,7 +61,7 @@ export const formatImgUrlFromProductId = (productId) => {
     return null
   }
   let productImgType = productIdParts[1]
-  const folderImgPath = 'smallLogo'
+  const folderImgPath = 'bigLogo'
   // special case
   switch (productImgType) {
     case CRYPTO_COIN :
