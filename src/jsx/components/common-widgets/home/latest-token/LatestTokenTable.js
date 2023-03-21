@@ -9,7 +9,7 @@ import { ChainListContext } from '../../../../../App'
 // import { ChainListContext } from '../../../../../App'
 import { MySkeletonLoadinng } from '../../my-spinner'
 
-export const LatestTokenTable = () => {
+export const LatestTokenTable = ({ isHome }) => {
   const chainList = useContext(ChainListContext)
   const navigate = useNavigate()
   // const [screenWidth, setScreenWidth] = useState()
@@ -44,10 +44,10 @@ export const LatestTokenTable = () => {
     const type = item?.cryptoId?.split('_')[1]
     const name = item?.cryptoId?.split('_')[2]
     if (type === 'coin') {
-      navigate(`products/crypto/${type}/${name}`)
+      navigate(isHome ? `products/crypto/${type}/${name}` : `../../products/crypto/${type}/${name}`)
     } else if (type === 'token') {
       const address = item?.cryptoId?.split('_')[3]
-      navigate(`products/crypto/${type}/${name}/${address}`)
+      navigate(isHome ? `products/crypto/${type}/${name}/${address}` : `../../products/crypto/${type}/${name}/${address}`)
     }
   }
 
