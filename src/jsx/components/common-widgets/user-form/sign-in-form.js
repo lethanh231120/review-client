@@ -15,7 +15,7 @@ import { txtEnterEmail, txtEnterPassword } from './sign-up-form'
 
 export const codeBlockAccount = 'B.CODE.8'
 export const msgBlockAccount = 'Your email is blocked. Please contact with the administrator'
-
+const appIDFacebook = '6488605091156536'
 export const SignInComponent = () => {
   const authenticated = useContext(Authenticated)
   const signContext = useContext(SignInContext)
@@ -248,7 +248,7 @@ export const SignInComponent = () => {
                   <li>
                     <FacebookLogin
                       icon='fa-facebook'
-                      appId='6488605091156536'
+                      appId={appIDFacebook}
                       autoLoad={false}
                       fields='name,email,picture'
                       callback={responseFacebook}
