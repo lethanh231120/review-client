@@ -379,7 +379,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   </>
 
-  const projectAddressExplorer = <div className='mt-3'>
+  const projectAddressExplorer = <>
     {(detail?.type === CRYPTO_COIN && detail?.explorer) && (
       <p className='crypto-info-item-address text-break'>
         <a
@@ -394,40 +394,36 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         <LinkOutlined/>
       </p>
     )}
-    {detail?.address && (
-      <div className='d-flex'>
-        <Image
-          alt={`${detail?.chainName} blockchain Logo`}
-          src={chainList[`${detail?.chainName}`]?.image}
-          preview={false}
-          height={18}
-          width={18}
-          className='d-flex align-items-center'
-        />
-        &nbsp;
-        <p className='crypto-info-item-address'>
-          <a
-            href={mainExplorer}
-            target='_blank'
-            rel='noreferrer'
-            className='product-name-text'
-          >
-            <h1 className='mb-0 text-primary txt-link fs-16'>
-              {detail?.address}
-            </h1>
-            {/* {`${detail?.address?.slice(0, 5)}...${detail?.address?.slice(detail?.address?.length - 5, detail?.address?.length)}`} */}
-          </a>
-          <CopyOutlined
-            style={{ padding: '0, 1rem' }}
-            onClick={(e) => {
-              copyAddress(e, detail?.address, 'Copy address successfully!')
-            }}
-          />
-        </p>
-      </div>
-    )}
+    {detail?.address && (<>        <Image
+      alt={`${detail?.chainName} blockchain Logo`}
+      src={chainList[`${detail?.chainName}`]?.image}
+      preview={false}
+      height={18}
+      width={18}
+      className='d-flex align-items-center'
+    />
+    <span className='crypto-info-item-address'>
 
-  </div>
+      <h1 className='mb-0  fs-16'>
+        <a
+          href={mainExplorer}
+          target='_blank'
+          rel='noreferrer'
+          className='product-name-text text-primary txt-link'
+        >
+          {detail?.address}
+        </a>
+      </h1>
+      <CopyOutlined
+        style={{ padding: '0, 1rem' }}
+        onClick={(e) => {
+          copyAddress(e, detail?.address, 'Copy address successfully!')
+        }}
+      />
+    </span>
+    </>)}
+
+  </>
 
   const header = (
     <>
@@ -458,7 +454,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               <ShareButton name={detail?.name} setOpenModalShare={setOpenModalShare}/>
             </Modal>
           </div>
-          <div className='col-12'>
+          <div className='col-12 mt-3'>
             {projectAddressExplorer}
           </div>
         </div>
