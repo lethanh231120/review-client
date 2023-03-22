@@ -55,7 +55,6 @@ const Crypto = ({
   const [listData, setListData] = useState([])
   const [mainExplorerMap, setMainExplorerMap] = useState()
   const [loading, setLoading] = useState(true)
-
   useEffect(() => {
     const getChain = async() => {
       if (listProduct !== null) {

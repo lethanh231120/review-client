@@ -17,6 +17,7 @@ export const CATEGORY_EXCHANGE = 'Exchanges'
 export const CATEGORY_SOON = 'ICO/IDO/IEO'
 export const CATEGORY_LAUNCHPAD = 'Launchpads'
 export const CATEGORY_INSIGHT = 'Insights'
+export const CATEGORY_NEW_TOKENS = 'New Tokens'
 
 export const LIST_CRYPTO = 'listCrypto'
 export const LIST_VENTURE = 'listVenture'

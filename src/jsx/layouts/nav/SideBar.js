@@ -17,7 +17,7 @@ import { WARNING_ICON } from '../../components/common-widgets/logo/logo'
 import './sidebar.scss'
 
 import { PathNameContext } from '../../index'
-import { CRYPTO, DAPP, EXCHANGE, INSIGHT, LAUNCHPAD, SOON, VENTURE } from '../../constants/category'
+import { CATEGORY_NEW_TOKENS, CRYPTO, DAPP, EXCHANGE, INSIGHT, LAUNCHPAD, SOON, VENTURE } from '../../constants/category'
 import { CATEGORY_CRYPTO, CATEGORY_DAPP, CATEGORY_EXCHANGE, CATEGORY_INSIGHT, CATEGORY_LAUNCHPAD, CATEGORY_SOON, CATEGORY_VENTURE } from '../../constants/category'
 
 const reducer = (previousState, updatedState) => ({
@@ -183,11 +183,19 @@ const SideBar = () => {
     }
 
     objCategories?.push({
+      title: CATEGORY_NEW_TOKENS,
+      classsChange: '',
+      iconStyle: <i className='material-icons'>new_releases</i>,
+      to: 'new-tokens'
+    })
+
+    objCategories?.push({
       title: CATEGORY_INSIGHT,
       classsChange: '',
       iconStyle: <i className='material-icons'>insert_chart</i>,
       to: 'insight'
     })
+
     setCategories(objCategories)
   }, [categoryContext])
 

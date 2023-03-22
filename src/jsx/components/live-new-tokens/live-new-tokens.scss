@@ -1,0 +1,14 @@
+.token-address{
+    color: #18A594;
+    cursor: pointer;
+
+}
+
+.token-address:hover{
+  font-weight: bold;
+  text-decoration: underline;
+
+}
+.ant-pagination-item, .ant-pagination-prev, .ant-pagination-next {
+    display: none!important;
+}
