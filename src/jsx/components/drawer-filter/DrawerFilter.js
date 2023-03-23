@@ -370,7 +370,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
       </Button>
 
       <Drawer
-        width='40%'
         title={`Filter ${
           type.toString()[0].toUpperCase() + type.toString().substring(1)
         }`}

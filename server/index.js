@@ -69,26 +69,33 @@ const isInteger = (number) => {
 
 const injectHtmlHeader = (metaTag) => {
   let dynamicMetaIndexHtml = file?.getIndexHtml()
-  // home image twitter
+  // ##### replace all unique link first #####
   dynamicMetaIndexHtml = dynamicMetaIndexHtml
-    ?.split(`<meta name="twitter:image" content="https://gear5.io/logo.webp"/>`)?.join(``)
+    ?.split(META_UNIQUE_LINK)?.join(metaTag?.uniqueLink) // equal replace all
 
-  // replace image first(contain main url)
+  // ##### replace next image (contain link) #####
   const isInternalImage = metaTag?.image && metaTag?.image?.length >= 1 && metaTag?.image[0] === '/'
-  // console.log(isInternalImage, META_IMAGE, META_UNIQUE_LINK, metaTag?.image)
+  let linkImgTwitter = ''
+  let linkImgOg = ''
   if (isInternalImage) {
-    const internalUrl = `${metaTag?.image}`
-    dynamicMetaIndexHtml = dynamicMetaIndexHtml
-      ?.split(META_IMAGE)?.join(internalUrl)
+    linkImgTwitter = `${META_UNIQUE_LINK}${metaTag?.image}`
+    linkImgOg = metaTag?.image
   } else {
     // External image
-    dynamicMetaIndexHtml = dynamicMetaIndexHtml
-      ?.split(META_IMAGE)?.join(metaTag?.image)
+    linkImgTwitter = metaTag?.image
+    linkImgOg = metaTag?.image
   }
+  // twitter:image (contain link replace above + image file name og:image below)
   dynamicMetaIndexHtml = dynamicMetaIndexHtml
-    ?.split(META_TITLE)?.join(metaTag?.title) // euqal replace all
+    ?.replace(`${metaTag?.uniqueLink}${META_IMAGE}`, linkImgTwitter)
+  // og:image
+  dynamicMetaIndexHtml = dynamicMetaIndexHtml
+    ?.replace(META_IMAGE, linkImgOg)
+
+  // ##### replace all others #####
+  dynamicMetaIndexHtml = dynamicMetaIndexHtml
+    ?.split(META_TITLE)?.join(metaTag?.title)
     ?.split(META_DESCRIPTION)?.join(metaTag?.description)
-    ?.split(META_UNIQUE_LINK)?.join(metaTag?.uniqueLink)
 
   const schemaMarkupIndexHtml = dynamicMetaIndexHtml?.replace(getScriptSchemaMarkupSiteLinkSearchBoxHomePage(), '')
   return schemaMarkupIndexHtml
