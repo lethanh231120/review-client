@@ -45,9 +45,11 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
   }
 
   // exchange header
-  const Header = () => {
-    return <>
-      {rest?.loadingDetail ? (<ProductDetailHeader/>) : (
+  const header = (
+    <>
+      {rest?.loadingDetail ? (
+        <ProductDetailHeader/>
+      ) : (
         <div className='profile-info'>
           <div className='profile-details'>
             <div className='profile-photo'>
@@ -67,7 +69,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
                 <img src={share} alt='share button'/>
-                Share
+              Share
               </Button>
               <WebsiteButton website={detail?.website} />
             </div>
@@ -83,7 +85,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
         </div>
       )}
     </>
-  }
+  )
 
   // exchange summary
   const summary = <>
@@ -406,7 +408,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
 
   return (
     <DetailLayout
-      Header={<Header />}
+      Header={header}
       summary={summary}
       more={<More />}
       about={about}

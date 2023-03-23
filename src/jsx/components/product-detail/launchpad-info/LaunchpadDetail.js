@@ -52,10 +52,12 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
     url && window.open(url)
   }
 
-  // VENTURE HEADER
-  const Header = () => {
-    return <>
-      {rest?.loadingDetail ? (<ProductDetailHeader/>) : (
+  // launchpad HEADER
+  const header = (
+    <>
+      {rest?.loadingDetail ? (
+        <ProductDetailHeader/>
+      ) : (
         <div className='profile-info mb-1'>
           <div className='profile-details'>
             <div className='profile-photo'>
@@ -73,7 +75,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
                 <img src={share} alt='share button'/>
-              Share
+            Share
               </Button>
               <WebsiteButton website={detail?.website} />
             </div>
@@ -89,7 +91,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
         </div>
       )}
     </>
-  }
+  )
 
   // LAUNCHPAD SUMMARY
   const summary = <>
@@ -459,7 +461,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
   return (
     <DetailLayout
       type='launchpad'
-      Header={<Header />}
+      Header={header}
       summary={summary}
       more={<More />}
       about={about}

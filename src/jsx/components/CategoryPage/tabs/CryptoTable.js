@@ -84,6 +84,37 @@ export const chainsColumn = (record, chainList) => (
       )
 )
 
+export const exchangesColumn = (record, handleClickExchange) => (
+  <Avatar.Group
+    alt='Exchanges Logos'
+    maxCount={4}
+    size={25}
+    maxStyle={{
+      color: '#fff',
+      backgroundColor: '#039F7F',
+      cursor: 'pointer'
+    }}
+  >
+    {record?.exchanges?.map((item, index) => (
+      <React.Fragment key={index}>
+        {item && (
+          <Tooltip title={getExchangeNameFromUrlImageExchage(item)} >
+            <Avatar
+              alt='Exchange Logo'
+              size={25}
+              src={item}
+              key={index}
+              className='crypto-table-exchange'
+              onClick={(e) => handleClickExchange(e, item)}
+            />
+          </Tooltip>
+
+        )}
+      </React.Fragment>
+    ))}
+  </Avatar.Group>
+)
+
 const CryptoTable = ({ loading, listData }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
@@ -147,7 +178,7 @@ const CryptoTable = ({ loading, listData }) => {
     e.stopPropagation()
     e.preventDefault()
     const urlDetail = formatUrlDetailFromUrlImageExchange(item)
-    navigate(`../../products/${urlDetail}`)
+    navigate(`/${urlDetail}`)
   }
 
   const handleRowClicked = (record) => {
@@ -273,36 +304,7 @@ const CryptoTable = ({ loading, listData }) => {
         </span>
       ),
       dataIndex: 'exchanges',
-      render: (_, record) => (
-        <Avatar.Group
-          alt='Exchanges Logos'
-          maxCount={4}
-          size={25}
-          maxStyle={{
-            color: '#fff',
-            backgroundColor: '#039F7F',
-            cursor: 'pointer'
-          }}
-        >
-          {record?.exchanges?.map((item, index) => (
-            <React.Fragment key={index}>
-              {item && (
-                <Tooltip title={getExchangeNameFromUrlImageExchage(item)} >
-                  <Avatar
-                    alt='Exchange Logo'
-                    size={25}
-                    src={item}
-                    key={index}
-                    className='crypto-table-exchange'
-                    onClick={(e) => handleClickExchange(e, item)}
-                  />
-                </Tooltip>
-
-              )}
-            </React.Fragment>
-          ))}
-        </Avatar.Group>
-      )
+      render: (_, record) => exchangesColumn(record, handleClickExchange)
     },
     {
       title: (
