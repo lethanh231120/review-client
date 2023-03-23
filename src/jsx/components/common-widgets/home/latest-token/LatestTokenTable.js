@@ -22,7 +22,7 @@ export const LatestTokenTable = ({ isHome }) => {
   }
   useEffect(() =>{
     const getLatestTokens = async() => {
-      const res = await get('reviews/crypto/latest')
+      const res = await get('reviews/crypto/latest?limit=10')
       if (res?.code === 'B.CODE.200') {
         const temp = res?.data
         if (temp?.length > 7) {

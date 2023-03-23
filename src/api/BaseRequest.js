@@ -154,4 +154,5 @@ const _errorHandler = (err) => {
   throw err
 }
 
+export const PRICE_WS_URL = 'wss://ct6a-backend.nika.guru'
 export { search, get, read, post, del, put, patch, getPrice }

@@ -34,6 +34,7 @@ import { CRYPTO, DAPP, EXCHANGE, VENTURE, SOON, LAUNCHPAD, INSIGHT } from './con
 import { CATEGORY_CRYPTO, CATEGORY_DAPP, CATEGORY_EXCHANGE, CATEGORY_INSIGHT, CATEGORY_LAUNCHPAD, CATEGORY_SOON, CATEGORY_VENTURE } from './constants/category'
 import ChartDetail from './components/insight/chartDetail/ChartDetail'
 import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
+import LiveNewTokensList from './components/live-new-tokens/LiveNewTokensList'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -194,6 +195,9 @@ const Markup = () => {
                     <Route path='insight' >
                       <Route path='' element={<InsightMain />}/>
                       <Route path=':id' element={<ChartDetail />}/>
+                    </Route>
+                    <Route path='new-tokens' >
+                      <Route path='' element={<LiveNewTokensList />}/>
                     </Route>
                     <Route path='products'>
                       <Route path='crypto'>
