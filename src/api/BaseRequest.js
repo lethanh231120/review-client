@@ -155,4 +155,5 @@ const _errorHandler = (err) => {
 }
 
 export const PRICE_WS_URL = 'wss://ct6a-backend.nika.guru'
+// export const PRICE_WS_URL = 'wss://api-ver1.gear5.io'
 export { search, get, read, post, del, put, patch, getPrice }
