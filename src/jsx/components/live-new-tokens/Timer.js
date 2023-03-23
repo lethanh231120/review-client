@@ -13,7 +13,7 @@ const Timer = ({ inputDate }) => {
     duration = moment.duration(duration.asSeconds() + 1, 'seconds')
 
     return (
-      duration.days() + 'd ' + duration.hours() + ' h ' +
+      // duration.days() + 'd ' + duration.hours() + ' h ' +
       duration.minutes() + ' m ' + duration.seconds() + ' s')
   }
 
@@ -27,7 +27,7 @@ const Timer = ({ inputDate }) => {
     }
   })
 
-  return <div style={{ fontWeight: 'bold', color: '#18A594' }}>{timeCount}</div>
+  return <div>{timeCount}</div>
 }
 
 export default Timer
