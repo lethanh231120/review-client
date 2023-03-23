@@ -1,4 +1,4 @@
-import { Avatar, Tooltip, Image, Modal } from 'antd'
+import { Avatar, Tooltip, Modal } from 'antd'
 import _ from 'lodash'
 import React, { useContext, useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
@@ -29,6 +29,7 @@ import hands from '../../../../images/svg/hands.svg'
 import ProductDetailHeader from '../../skeleton/product-detail-skeleton/ProductDetailHeader'
 import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
+import ProductImage, { altDApp, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -56,14 +57,12 @@ const DappInfo = ({ productInfo, ...rest }) => {
         <div className='profile-info mb-1'>
           <div className='profile-details'>
             <div className='profile-photo'>
-              {productInfo?.details?.dAppId && productInfo?.details?.dAppLogo ? (
-
-                <Image src={productInfo?.details?.dAppLogo} preview={false} alt='DApp Logo'/>
-              )
-                : (<h2 className='image-list-no-data-detail'>
-                  {productInfo?.details?.dAppName?.slice(0, 3)}
-                </h2>)
-              }
+              <ProductImage
+                imageUrl={detail?.dAppLogo}
+                productName={detail?.dAppName}
+                altImageType={altDApp}
+                size={sizeImg48}
+              />
             </div>
             <div className='profile-name cus-profile-name'>
               <h1 className='text-primary mb-2 cus-h4 fs-22'>

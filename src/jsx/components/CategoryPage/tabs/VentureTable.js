@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Table, Tooltip } from 'antd'
+import { Table, Tooltip } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
 // import { GlobalOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from 'react-router-dom'
@@ -7,10 +7,9 @@ import { NO_DATA } from '../../../constants/data'
 import { renderNumber } from '../../../../utils/formatNumber'
 import '../../table/venture/venture.scss'
 import MyScoreComponent from '../../score/scoreComponent'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { VENTURE } from './../../../constants/category'
+import ProductImage, { altVenture, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const VentureTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -28,13 +27,12 @@ const VentureTable = ({ loading, listData }) => {
           className='crypto-table-info image-list'
           onClick={(e) => e.stopPropagation()}
         >
-          {record?.ventureId && record?.ventureLogo ? (
-            <Image src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} alt='Venture Logo' />
-          )
-            : (<span className='image-list-no-data'>
-              {record?.ventureName?.slice(0, 3)}
-            </span>)
-          }
+          <ProductImage
+            imageUrl={record?.ventureLogo}
+            productName={record?.ventureName}
+            altImageType={altVenture}
+            size={sizeImg48}
+          />
           <span>
             <div className='data-table-name ms-2'>
               <div className='data-table-name-title'>

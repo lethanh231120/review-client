@@ -2,7 +2,6 @@ import { Avatar } from 'antd'
 import { Badge } from 'react-bootstrap'
 import { onItemClicked } from '../click-function'
 import { useNavigate } from 'react-router-dom'
-import NoImage from '../../no-image/NoImage'
 
 import './top-discussed.scss'
 import { WARNING_ICON } from '../../logo/logo'
@@ -15,7 +14,7 @@ const singleTopItem = (name, symbol, type, reviews, reports, detail, navigate) =
     <div className='previews-info-list hot-coin-item' onClick={() => onItemClicked(type, detail, navigate)}>
       <div className='pre-icon'>
         <span className={`icon-box icon-box-sm`}>
-          {detail?.logo ? <Avatar alt='Project Logo' size={35} src={detail?.logo}/> : <NoImage width={35} height={35} alt={name && name?.substring(0, 2)}/>}
+          {detail?.logo ? <Avatar alt='Project Logo' size={35} src={detail?.logo}/> : ''}
         </span>
         <div className='ms-2'>
           <div className='text-etc-overflow cus-hot-coin-name fs-16' style={{ color: 'black', fontWeight: '500' }}>

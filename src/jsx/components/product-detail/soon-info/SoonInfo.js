@@ -24,7 +24,7 @@ import TimeText, { typeEnd, typeStart } from './../../common-widgets/page-soon/T
 import { ScreenShot } from './../../common-widgets/page-soon/ScreenShot'
 import ShareButton from '../../common-widgets/page-detail/ShareButton'
 import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
-import ProductImage, { altSoon } from '../../common-widgets/page-detail/ProductImage'
+import ProductImage, { altSoon, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 import { ProductNameSubName } from '../../common-widgets/page-detail/ProductNameSubName'
 import { SoonStatusLocation } from './../../common-widgets/page-soon/SoonStatusLocation'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
@@ -96,7 +96,12 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       {itemDetail ? (
         <div className='profile-info'>
           <div className='profile-details'>
-            <ProductImage imageUrl={itemDetail?.bigLogo} productName={itemDetail?.projectName} altImageType={altSoon} />
+            <ProductImage
+              imageUrl={itemDetail?.bigLogo || itemDetail?.nativeLogo || itemDetail?.smallLogo || itemDetail?.thumbLogo }
+              productName={itemDetail?.projectSymbol || itemDetail?.projectName}
+              altImageType={altSoon}
+              size={sizeImg48}
+            />
             <ProductNameSubName projectName={itemDetail?.projectName} projectSubName={itemDetail?.projectSymbol} isSoonProject={true}/>
             <SoonStatusLocation status={itemStatus} detail={itemDetail}/>
 

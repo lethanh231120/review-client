@@ -22,7 +22,6 @@ import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png
 import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 // import { myLogo } from '../../common-widgets/logo/logo'
 import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
-import NoImage from './../../common-widgets/no-image/NoImage'
 import moment from 'moment'
 
 import { Badge } from 'react-bootstrap'
@@ -561,11 +560,7 @@ const Similar = ({ type, listProjectId }) => {
     {
       title: 'Name',
       render: (_, record) => (<span className='crypto-table-info image-list'>
-        {record?.smallLogo ? <Avatar size={34} src={record?.smallLogo} alt='IDO'/> : <NoImage
-          alt={record?.name?.slice(0, 3)}
-          height={36}
-          width={36}
-        />}
+        {record?.smallLogo ? <Avatar size={34} src={record?.smallLogo} alt='IDO'/> : ''}
         <span>
           <div className='data-table-name ms-2'>
             <div>{record?.name ? record?.name : 'Unknown'}</div>
@@ -697,13 +692,7 @@ const Similar = ({ type, listProjectId }) => {
               }
               preview={false}
             />
-          ) : (
-            <NoImage
-              alt={record?.projectName?.slice(0, 3)}
-              height={36}
-              width={36}
-            />
-          )}
+          ) : ('')}
           <span>
             <Tooltip
               title={(

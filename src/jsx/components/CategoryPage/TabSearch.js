@@ -242,7 +242,7 @@ const TabSearch = (props) => {
                     }}
                   >
                     <Nav.Link as='button' className='me-0' eventKey='launchpad' type='button'>
-                      LaunchPads
+                      Launchpads
                       ({listProduct[`${LIST_LAUNCHPAD}`]?.launchPads?.length > 0 ? new Intl.NumberFormat().format(listProduct[`${LIST_LAUNCHPAD}`]?.launchPads?.length) : 0})
                     </Nav.Link>
                   </Nav.Item>

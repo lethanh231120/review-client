@@ -33,7 +33,7 @@ import { ExchangeDetail } from '../../common-widgets/page-crypto/ExchangeDetail'
 import ShareButton from '../../common-widgets/page-detail/ShareButton'
 import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
-import ProductImage, { altCrypto } from '../../common-widgets/page-detail/ProductImage'
+import ProductImage, { altCrypto, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 import { ProductNameSubName } from '../../common-widgets/page-detail/ProductNameSubName'
 import { bgRed, SummaryDetail } from '../../common-widgets/page-detail/SummaryDetail'
 import { bgGreen } from './../../common-widgets/page-detail/SummaryDetail'
@@ -434,7 +434,12 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         <div className='profile-info row'>
           <div className='col-12'>
             <div className='profile-details'>
-              <ProductImage imageUrl={detail?.bigLogo} productName={detail?.name} altImageType={altCrypto} />
+              <ProductImage
+                imageUrl={detail?.bigLogo || detail?.smallLogo || detail?.thumbLogo}
+                productName={detail?.symbol || detail?.name}
+                altImageType={altCrypto}
+                size={sizeImg48}
+              />
               <ProductNameSubName
                 projectName={projectNameSymbol}
               />

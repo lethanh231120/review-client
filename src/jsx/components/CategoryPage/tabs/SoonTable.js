@@ -1,27 +1,15 @@
 import React from 'react'
 import '../../table/soon/soon.scss'
-import { Image, Table, Avatar, Tooltip } from 'antd'
+import { Table, Avatar, Tooltip } from 'antd'
 import { useNavigate, Link } from 'react-router-dom'
 import { renderNumber } from '../../../../utils/formatNumber'
 import moment from 'moment'
-// import { encodeUrl } from '../../../../utils/formatUrl'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
-// import { mainColorHex } from '../../../constants/color'
-// import { Badge } from 'react-bootstrap'
-import NoImage from './../../common-widgets/no-image/NoImage'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import ProductImage, { altSoon, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const SoonTable = ({ listData, loading }) => {
   const navigate = useNavigate()
-
-  // const handleClickTag = (e, value) => {
-  //   e.stopPropagation()
-  //   if (value) {
-  //     navigate(`../../../${SOON}/${encodeUrl(value)}`)
-  //   }
-  // }
 
   const columns = [
     {
@@ -34,17 +22,12 @@ const SoonTable = ({ listData, loading }) => {
           className='crypto-table-info image-list'
           onClick={(e) => e.stopPropagation()}
         >
-          {/* small logo: s3 meaning has data */}
-          {record?.projectId && record?.smallLogo ? (
-            <Image src={isValidProductId(record?.projectId) ? formatImgUrlFromProductId(record?.projectId) : imgAbsentImageSoon} preview={false} alt='ICO/IDO/IEO Logo' />
-          )
-            : (
-              <NoImage
-                alt={record?.projectName?.slice(0, 3)}
-                height={52}
-                width={52}
-              />
-            )}
+          <ProductImage
+            imageUrl={record?.smallLogo}
+            productName={record?.projectSymbol || record?.projectName}
+            altImageType={altSoon}
+            size={sizeImg48}
+          />
           <span>
             <Tooltip
               title={(
@@ -63,24 +46,6 @@ const SoonTable = ({ listData, loading }) => {
         </Link>
       )
     },
-    // {
-    //   title: `Subcategory`,
-    //   dataIndex: 'subCategory', // override by render but still keep for pass param to server
-    //   render: (_, record) => (
-    //     <>
-    //       {record?.subCategory ? (
-    //         // <Tag onClick={(e) => handleClickTag(e, record?.subCategory)} color={mainColorHex}>
-    //         //   {record?.subCategory}
-    //         // </Tag>
-    //         <Badge bg=' badge-l' className='badge-success' style={{ cursor: 'pointer' }} onClick={(e) => handleClickTag(e, record?.subCategory)}>
-    //           {record?.subCategory}
-    //         </Badge>
-    //       ) : (
-    //         '__'
-    //       )}
-    //     </>
-    //   )
-    // },
     {
       title: `Chain`,
       render: (_, record) => (
@@ -138,29 +103,22 @@ const SoonTable = ({ listData, loading }) => {
     },
     {
       title: `Start Date`,
-      // sorter: (a, b) => moment(a?.startDate)?.unix() - moment(b?.startDate)?.unix(),
-      // showSorterTooltip: false,
       render: (_, record) => (
         <span>
           {record?.startDate
             ? moment(record?.startDate).format('ddd, DD MMM YYYY')
             : 'TBA'}
-          {/* { record?.startDate} */}
         </span>
       ),
       dataIndex: 'startDate' // override by render but still keep for pass param to server
-      // defaultSortOrder: 'descend'
     },
     {
       title: `End Date`,
-      // sorter: true,
-      // showSorterTooltip: false,
       render: (_, record) => (
         <span>
           {record?.endDate
             ? moment(record?.endDate).format('ddd, DD MMM YYYY')
             : 'TBA'}
-          {/* { record?.endDate} */}
         </span>
       ),
       dataIndex: 'endDate' // override by render but still keep for pass param to server

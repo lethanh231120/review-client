@@ -11,7 +11,6 @@ import InputSearch from '../../input-search/GlobalSearch'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
 import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
 import imgAbsentImage from '../../../../images/absent_image.png'
-import NoImage from '../../common-widgets/no-image/NoImage'
 import Swal from 'sweetalert2'
 // import image from '../../../../images/product/gear5_coin_bitcoin.png'
 import { Button } from 'react-bootstrap'
@@ -373,11 +372,12 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
                             {item?.image && (item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? (
                               <Image src={isValidProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? formatImgUrlFromProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) : imgAbsentImage} preview={false} className='image-list' alt='Project Logo'/>
                             ) : (
-                              <NoImage
-                                alt={item?.name?.slice(0, 3)}
-                                height={64}
-                                width={64}
-                              />
+                              // <NoImage
+                              //   alt={item?.name?.slice(0, 3)}
+                              //   height={64}
+                              //   width={64}
+                              // />
+                              ''
                             )}
                           </div>
                           <div className='profile-name pt-2' style={{ width: '100%' }}>

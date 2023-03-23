@@ -527,7 +527,7 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
                       dataSearch?.data?.listLaunchpad?.launchPads !== null && (
                       <div className='form-search-data-box'>
                         <h4 className='card-title card-intro-title form-search-data-title d-flex align-items-center justify-content-between'>
-                          LaunchPads
+                          Launchpads
                           <span
                             className='text-primary'
                             style={{ cursor: 'pointer' }}

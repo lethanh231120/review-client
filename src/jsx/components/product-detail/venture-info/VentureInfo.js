@@ -1,4 +1,4 @@
-import { Avatar, Table, Tooltip, Image, Modal } from 'antd'
+import { Avatar, Table, Tooltip, Modal } from 'antd'
 import React, { useState } from 'react'
 import { Badge, Button } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
@@ -7,10 +7,8 @@ import { renderNumber } from '../../../../utils/formatNumber'
 import _ from 'lodash'
 import Description from '../description/Description'
 import moment from 'moment'
-// import FormReport from '../../Forms/form-report/FormReport'
 import { useNavigate } from 'react-router-dom'
-import { isValidProductId, formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
-import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
+import { toCammelCase } from '../../../../utils/formatText'
 import MyScoreComponent from '../../score/scoreComponent'
 import './ventureInfo.scss'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
@@ -26,9 +24,9 @@ import hands from '../../../../images/svg/hands.svg'
 import ProductDetailHeader from '../../skeleton/product-detail-skeleton/ProductDetailHeader'
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
 import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
-// import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import InformationSubTitle, { typeExplorer, typeShort } from '../../common-widgets/page-detail/InformationSubTitle'
 import ShortItem from '../../common-widgets/page-detail/ShortItem'
+import ProductImage, { altVenture, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 export const calculateTotalFund = (fund) =>{
   let total = 0
@@ -65,13 +63,12 @@ const VentureInfo = ({ productInfo, ...rest }) => {
         <div className='profile-info'>
           <div className='profile-details'>
             <div className='profile-photo'>
-              {detail?.ventureId && detail?.ventureLogo ? (
-                <Image alt='Venture Logo' src={isValidProductId(detail?.ventureId) ? formatImgUrlFromProductId(detail?.ventureId) : imgAbsentImageVenture} preview={false}/>
-              )
-                : (<span className='image-list-no-data-detail'>
-                  {detail?.ventureName?.slice(0, 3)}
-                </span>)
-              }
+              <ProductImage
+                imageUrl={detail?.ventureLogo}
+                productName={detail?.ventureName}
+                altImageType={altVenture}
+                size={sizeImg48}
+              />
             </div>
             <div className='profile-name cus-profile-name'>
               <h1 className='text-primary mb-2 cus-h4 fs-22'>{detail?.ventureName}
