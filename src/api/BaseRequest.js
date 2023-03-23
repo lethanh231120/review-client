@@ -22,10 +22,6 @@ const instancePrice = axios.create({
   baseURL: process.env.REACT_APP_API_PRICE
 })
 
-const instanceDev = axios.create({
-  baseURL: process.env.REACT_APP_API_DEV
-})
-
 const setHeaderSearch = async() => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
   instanceSearch.defaults.headers.common[authorizationText] = `${bearerText} ${token}`
@@ -70,16 +66,6 @@ const getPrice = async(url, params = {}) => {
   try {
     const config = { params: params }
     const response = await instancePrice.get(getUrlPrefix() + url, config)
-    return _responseHandler(response)
-  } catch (error) {
-    return _errorHandler(error)
-  }
-}
-
-const getDev = async(url, params = {}) => {
-  try {
-    const config = { params: params }
-    const response = await instanceDev.get(getUrlPrefix() + url, config)
     return _responseHandler(response)
   } catch (error) {
     return _errorHandler(error)
@@ -168,4 +154,5 @@ const _errorHandler = (err) => {
   throw err
 }
 
-export { search, get, read, post, del, put, patch, getPrice, getDev }
+export const PRICE_WS_URL = 'wss://ct6a-backend.nika.guru'
+export { search, get, read, post, del, put, patch, getPrice }

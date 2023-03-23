@@ -1,6 +1,6 @@
 import { Avatar, Card, Table, Tooltip } from 'antd'
 import React, { useContext, useEffect, useState } from 'react'
-import { getDev } from '../../../api/BaseRequest'
+import { get } from '../../../api/BaseRequest'
 import { ChainListContext } from '../../../App'
 import {
 //   CopyOutlined,
@@ -22,7 +22,7 @@ const LiveNewTokensList = () => {
 
   useEffect(() => {
     const getAllTokens = async() => {
-      const res = await getDev('reviews/crypto/latest?limit=100')
+      const res = await get('reviews/crypto/latest?limit=100')
       if (res?.code === 'B.CODE.200') {
         setTokenList(res?.data)
         setLoading(false)

@@ -13,7 +13,7 @@ const Timer = ({ inputDate }) => {
     duration = moment.duration(duration.asSeconds() + 1, 'seconds')
 
     return (
-    //   duration.days() + 'Days' + duration.hours() + 'Hours' +
+      duration.days() + 'd ' + duration.hours() + ' h ' +
       duration.minutes() + ' m ' + duration.seconds() + ' s')
   }
 
