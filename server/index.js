@@ -321,7 +321,7 @@ const genDetailHeader = (req, res, productId = '') => {
           }
         }
         // small logo: s3 (SOON) meaning has data, exchange: smallLogo
-        const hasImage = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo
+        const hasImage = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo || data?.nativeLogo
         const image = (productId && hasImage) ? `${DOMAIN_IMAGE}/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
 
         return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription, getURLFromRequest(req))))

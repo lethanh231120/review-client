@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import './crypto.scss'
-import { Image, Table, Avatar, Tooltip, Row, Col } from 'antd'
+import { Image, Table, Tooltip, Row, Col } from 'antd'
 import { Link } from 'react-router-dom'
 import {
   CopyOutlined,
@@ -21,7 +21,7 @@ import {
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { crypto_score_explain_text } from '../../../constants/data'
 import MyScoreComponent from '../../score/scoreComponent'
-import { formatUrlDetailFromUrlImageExchange, getExchangeNameFromUrlImageExchage } from '../../../../utils/formatText'
+import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 import {
@@ -39,7 +39,7 @@ import { copyAddress } from '../../../../utils/effect'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { Badge } from 'react-bootstrap'
 import ProductImage, { altCrypto, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
-import { chainsColumn } from '../../CategoryPage/tabs/CryptoTable'
+import { chainsColumn, exchangesColumn } from '../../CategoryPage/tabs/CryptoTable'
 
 const Crypto = ({
   listProduct,
@@ -306,36 +306,7 @@ const Crypto = ({
       align: 'left',
       dataIndex: 'exchanges',
       // width: '10rem',
-      render: (_, record) => (
-        <Avatar.Group
-          alt='Exchanges Logos'
-          maxCount={4}
-          size={25}
-          maxStyle={{
-            color: '#fff',
-            backgroundColor: '#039F7F',
-            cursor: 'pointer'
-          }}
-        >
-          {record?.exchanges?.map((item, index) => (
-            <React.Fragment key={index}>
-              {item && (
-                <Tooltip title={getExchangeNameFromUrlImageExchage(item)} >
-                  <Avatar
-                    alt='Exchange Logo'
-                    size={25}
-                    src={item}
-                    key={index}
-                    className='crypto-table-exchange'
-                    onClick={(e) => handleClickExchange(e, item)}
-                  />
-                </Tooltip>
-
-              )}
-            </React.Fragment>
-          ))}
-        </Avatar.Group>
-      )
+      render: (_, record) => exchangesColumn(record, handleClickExchange)
     },
     {
       title: (

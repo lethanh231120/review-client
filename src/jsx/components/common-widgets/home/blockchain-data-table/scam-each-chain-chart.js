@@ -7,6 +7,7 @@ import {
 } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { ChainListContext } from '../../../../../App'
+import ProductImage, { sizeImg25 } from '../../page-detail/ProductImage'
 import './blockchain-data.scss'
 
 const color = ['#EFB80B', '#58BAD7', '#DA4344', '#8147E7', '#18A594']
@@ -39,7 +40,14 @@ export const ScamEachChainsList = ({ data, isHome }) => {
       <td >{index}</td>
       <td >
         <div className='d-flex justify-content-start align-items-center'>
-          {chainName !== 'Others' ? <Avatar alt='Blockchain Logo' size={25} src={img}/> : <Avatar size={25} src={'../logo.png'} alt='Logo'/>}
+          {chainName !== 'Others'
+            ? <ProductImage
+              imageUrl={img}
+              productName={chainName}
+              altImageType={'Blockchain Logo'}
+              size={sizeImg25}
+            />
+            : <Avatar size={sizeImg25} src={'../logo.png'} alt='Logo'/>}
           <span className='ms-2'>{capitalizeFirstLetter(chainName)}</span>
         </div>
       </td>

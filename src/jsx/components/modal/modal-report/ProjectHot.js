@@ -1,9 +1,8 @@
 import React from 'react'
-import { Image } from 'antd'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
-import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP, LAUNCHPAD } from '../../../constants/category'
+import { CRYPTO, EXCHANGE, VENTURE, SOON, DAPP, LAUNCHPAD, CRYPTO_COIN } from '../../../constants/category'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
+import ProductImage, { sizeImg35 } from '../../common-widgets/page-detail/ProductImage'
+import { CRYPTO_TOKEN } from './../../../constants/category'
 
 const ProjectHot = ({ data, setItemHot }) => {
   const shortenString = (text) => {
@@ -14,22 +13,20 @@ const ProjectHot = ({ data, setItemHot }) => {
 
   const type = data?.productId?.split('_')[1]
   switch (type) {
-    case 'token':
+    case CRYPTO_TOKEN:
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot'
           onClick={() => setItemHot({ type: CRYPTO, data: data })}
         >
-          {data?.productId && data?.logo ? (
-            <Image src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false} alt='Project Logo'/>
-          ) : (
-            <span className='project-hot-no-data'>
-              {data?.name?.slice(0, 3)}
-            </span>
-          )}
+          <ProductImage
+            imageUrl={data?.logo}
+            productName={data?.symbol || data?.name}
+            altImageType={'Project Logo'}
+            size={sizeImg35}
+          />
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
               {shortenString(data?.name)}
-              {/* <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div> */}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
@@ -47,22 +44,20 @@ const ProjectHot = ({ data, setItemHot }) => {
           </div>
         </div>
       </div>
-    case 'coin':
+    case CRYPTO_COIN:
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot'
           onClick={() => setItemHot({ type: CRYPTO, data: data })}
         >
-          {data?.productId && data?.logo ? (
-            <Image src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false} alt='Project Logo'/>
-          ) : (
-            <span className='project-hot-no-data'>
-              {data?.name?.slice(0, 3)}
-            </span>
-          )}
+          <ProductImage
+            imageUrl={data?.logo}
+            productName={data?.symbol || data?.name}
+            altImageType={'Project Logo'}
+            size={sizeImg35}
+          />
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
               {shortenString(data?.name)}
-              {/* <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div> */}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
@@ -80,16 +75,15 @@ const ProjectHot = ({ data, setItemHot }) => {
           </div>
         </div>
       </div>
-    case 'exchange':
+    case EXCHANGE:
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot' onClick={() => setItemHot({ type: EXCHANGE, data: data })}>
-          {data?.productId && data?.logo ? (
-            <Image alt='Exchange Logo' src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false}/>
-          ) : (
-            <span className='project-hot-no-data'>
-              {data?.name?.slice(0, 3)}
-            </span>
-          )}
+          <ProductImage
+            imageUrl={data?.logo}
+            productName={data?.symbol || data?.name}
+            altImageType={'Project Logo'}
+            size={sizeImg35}
+          />
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
               {shortenString(data?.name)}
@@ -110,19 +104,19 @@ const ProjectHot = ({ data, setItemHot }) => {
           </div>
         </div>
       </div>
-    case 'dapp':
+    case DAPP:
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot' onClick={() => setItemHot({ type: DAPP, data: data })}>
-          {data?.productId && data?.logo ? (
-            <Image alt='DApp Logo' src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false}/>
-          ) : (
-            <span className='project-hot-no-data'>
-              {data?.dAppName?.slice(0, 3)}
-            </span>
-          )}
+          <ProductImage
+            imageUrl={data?.logo}
+            productName={data?.symbol || data?.name}
+            altImageType={'Project Logo'}
+            size={sizeImg35}
+            noMarginRight={true}
+          />
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
-              {shortenString(data?.dAppName)}
+              {shortenString(data?.name)}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
@@ -143,13 +137,12 @@ const ProjectHot = ({ data, setItemHot }) => {
     case 'venture':
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot' onClick={() => setItemHot({ type: VENTURE, data: data })}>
-          {data?.productId && data?.logo ? (
-            <Image alt='Venture Logo' src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false}/>
-          ) : (
-            <span className='project-hot-no-data'>
-              {data?.name?.slice(0, 3)}
-            </span>
-          )}
+          <ProductImage
+            imageUrl={data?.logo}
+            productName={data?.symbol || data?.name}
+            altImageType={'Project Logo'}
+            size={sizeImg35}
+          />
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
               {shortenString(data?.name)}
@@ -173,17 +166,15 @@ const ProjectHot = ({ data, setItemHot }) => {
     case 'soon':
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot' onClick={() => setItemHot({ type: SOON, data: data })}>
-          {data?.productId && data?.logo ? (
-            <Image alt='Crypto Logo' src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false}/>
-          ) : (
-            <span className='project-hot-no-data'>
-              {data?.name?.slice(0, 3)}
-            </span>
-          )}
+          <ProductImage
+            imageUrl={data?.logo}
+            productName={data?.symbol || data?.name}
+            altImageType={'Project Logo'}
+            size={sizeImg35}
+          />
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
               {shortenString(data?.name)}
-              {/* <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div> */}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>
@@ -204,17 +195,15 @@ const ProjectHot = ({ data, setItemHot }) => {
     case 'launchpad':
       return <div className='col-xl-3 col-lg-4 col-md-6 cus-col'>
         <div className='project-hot' onClick={() => setItemHot({ type: LAUNCHPAD, data: data })}>
-          {data?.productId && data?.logo ? (
-            <Image alt='Crypto Logo' src={isValidProductId(data?.productId) ? formatImgUrlFromProductId(data?.productId) : imgAbsentImageCrypto} preview={false}/>
-          ) : (
-            <span className='project-hot-no-data'>
-              {data?.name?.slice(0, 3)}
-            </span>
-          )}
+          <ProductImage
+            imageUrl={data?.logo}
+            productName={data?.symbol || data?.name}
+            altImageType={'Project Logo'}
+            size={sizeImg35}
+          />
           <div className='project-hot-content'>
             <div className='project-hot-content-name'>
               {shortenString(data?.name)}
-              {/* <div className='project-hot-content-symbol'>{data?.symbol ? data?.symbol : '' }</div> */}
             </div>
             <div className='d-flex '>
               <span className='post-comment' style={{ color: '#18A594' }}>

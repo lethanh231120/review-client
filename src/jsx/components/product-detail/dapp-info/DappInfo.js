@@ -4,14 +4,11 @@ import React, { useContext, useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { ChainListContext } from '../../../../App'
 import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
-// import FormReport from '../../Forms/form-report/FormReport'
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 import Description from '../description/Description'
 import {
-  // isValidProductId, formatImgUrlFromProductId,
   toCammelCase } from '../../../../utils/formatText'
-// import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import MyScoreComponent from '../../score/scoreComponent'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import './dapp.scss'
@@ -51,9 +48,11 @@ const DappInfo = ({ productInfo, ...rest }) => {
   }
 
   // DAPP HEADER
-  const Header = () => {
-    return <>
-      {rest?.loadingDetail ? (<ProductDetailHeader/>) : (
+  const header = (
+    <>
+      {rest?.loadingDetail ? (
+        <ProductDetailHeader/>
+      ) : (
         <div className='profile-info mb-1'>
           <div className='profile-details'>
             <div className='profile-photo'>
@@ -77,7 +76,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
                 <img src={share} alt='share button'/>
-              Share
+            Share
               </Button>
               <WebsiteButton website={detail?.website} />
             </div>
@@ -93,7 +92,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
         </div>
       )}
     </>
-  }
+  )
 
   // DAPP SUMMARY
   const summary =
@@ -389,7 +388,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
     </>
   )
 
-  return <DetailLayout Header={<Header />}
+  return <DetailLayout Header={header}
     summary={summary}
     more={more}
     about={about}

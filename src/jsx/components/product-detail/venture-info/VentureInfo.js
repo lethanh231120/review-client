@@ -57,9 +57,11 @@ const VentureInfo = ({ productInfo, ...rest }) => {
   }
 
   // VENTURE HEADER
-  const Header = () => {
-    return <>
-      {rest?.loadingDetail ? (<ProductDetailHeader/>) : (
+  const header = (
+    <>
+      {rest?.loadingDetail ? (
+        <ProductDetailHeader/>
+      ) : (
         <div className='profile-info'>
           <div className='profile-details'>
             <div className='profile-photo'>
@@ -82,13 +84,13 @@ const VentureInfo = ({ productInfo, ...rest }) => {
               }
             </div>
             {/* <div className='detail-button'>
-              <ShareButton name={detail?.name} />
-              <WebsiteButton website={detail?.website} />
-            </div> */}
+            <ShareButton name={detail?.name} />
+            <WebsiteButton website={detail?.website} />
+          </div> */}
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
                 <img src={share} alt='share button'/>
-                Share
+              Share
               </Button>
               <WebsiteButton website={detail?.website} />
             </div>
@@ -104,7 +106,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
         </div>
       )}
     </>
-  }
+  )
 
   // VENTURE SUMMARY
   const summary = <>
@@ -424,7 +426,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
   return (
     <DetailLayout
       type={'venture'}
-      Header={<Header />}
+      Header={header}
       summary={summary}
       more={<More />}
       about={about}
