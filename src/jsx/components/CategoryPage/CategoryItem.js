@@ -22,6 +22,8 @@ import Swal from 'sweetalert2'
 import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE, LIST_LAUNCHPAD } from '../../constants/category'
 import { read } from '../../../api/BaseRequest'
 import { genListHeader } from '../SEO/server/ExpressGenerHeader'
+import { formatData } from '../drawer-filter/FilterHelperFunctions'
+// import { formatData } from '../drawer-filter/FilterHelperFunctions'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -86,25 +88,26 @@ const CategoryItem = () => {
   }
   // check category and set params
   const setParram = async() => {
+    const parsedData = formatData(category)
     if (category) {
       switch (category) {
         case DAPP:
-          setParams(defaultParams?.dapp)
+          setParams(parsedData ? { ...defaultParams?.dapp, ...parsedData } : defaultParams?.dapp)
           break
         case CRYPTO:
-          setParams(defaultParams?.crypto)
+          setParams(parsedData ? { ...defaultParams?.crypto, ...parsedData } : defaultParams?.crypto)
           break
         case EXCHANGE:
-          setParams(defaultParams?.exchange)
+          setParams(parsedData ? { ...defaultParams?.exchange, ...parsedData } : defaultParams?.exchange)
           break
         case VENTURE:
-          setParams(defaultParams?.venture)
+          setParams(parsedData ? { ...defaultParams?.venture, ...parsedData } : defaultParams?.venture)
           break
         case SOON:
-          setParams(defaultParams?.soon)
+          setParams(parsedData ? { ...defaultParams?.soon, ...parsedData } : defaultParams?.soon)
           break
         case LAUNCHPAD:
-          setParams(defaultParams?.launchpad)
+          setParams(parsedData ? { ...defaultParams?.launchpad, ...parsedData } : defaultParams?.launchpad)
           break
         default:
           navigate('/not-found')
