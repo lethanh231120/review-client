@@ -406,7 +406,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       &nbsp;
       <h1 className='mb-0 fs-16 d-inline'>
         <a
-          href={mainExplorer}
+          href={detail?.explorer || mainExplorer}
           target='_blank'
           rel='noreferrer'
           className='product-name-text text-primary txt-link'
@@ -569,7 +569,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           <div className='basic-form'>
             {(detail?.isProxy !== null ||
           detail?.contractVerified !== null)
-              ? <InfoContractDetail detail={detail} />
+              ? <InfoContractDetail detail={detail} mainExplorer={mainExplorer} />
               : ''
             }
 
