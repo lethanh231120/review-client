@@ -12,6 +12,7 @@ import Timer from './Timer'
 import { useNavigate } from 'react-router-dom'
 import './live-new-tokens.scss'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
+import _ from 'lodash'
 
 const LiveNewTokensList = () => {
   const navigate = useNavigate()
@@ -70,6 +71,15 @@ const LiveNewTokensList = () => {
     return formatted || null
   }
 
+  const shortenString = (txt) => {
+    const MAX_LENGTH = 20
+    if (txt && txt.length > MAX_LENGTH) {
+      return _.truncate(txt, { length: MAX_LENGTH })
+    } else {
+      return txt
+    }
+  }
+
   const columns = [
     {
       title: 'Name/Symbol',
@@ -79,9 +89,9 @@ const LiveNewTokensList = () => {
         </span>
         <div className='ms-2'>
           <div className='d-flex align-items-center'>
-            <div className=' fs-16' style={{ color: 'black', fontWeight: '500' }}>{record?.name && record?.name}
+            <div className=' fs-16' style={{ color: 'black', fontWeight: '500' }}>{record?.name && shortenString(record?.name)}
             </div>
-            <div className='fs-14 d-flex align-items-center' style={{ color: 'black', fontWeight: '500' }}> {record?.symbol && `(${record?.symbol})`}</div>
+            <div className='fs-14 d-flex align-items-center' style={{ color: 'black', fontWeight: '500' }}> {record?.symbol && `(${shortenString(record?.symbol)})`}</div>
           </div>
           <div className='d-flex align-items-center'>
             <Avatar size={20} src={record?.chainName && getChainImage(record?.chainName)}/>
@@ -90,25 +100,21 @@ const LiveNewTokensList = () => {
             </span>
           </div>
         </div>
-      </div>),
-      width: '25%'
+      </div>)
     },
     {
       title: 'Price',
-      render: (_, record) => (<div className='highlight-text'>{record?.priceUSD && `$${formatPrice(record?.priceUSD)}`}</div>),
-      width: '25%'
+      render: (_, record) => (<div className='highlight-text'>{record?.priceUSD && `$${formatPrice(record?.priceUSD)}`}</div>)
     },
     {
       title: 'Listed Since',
       render: (_, record) => (<div className='highlight-text'>
         {record?.createdDate && <Timer inputDate={record?.createdDate}/>}
-      </div>),
-      width: '25%'
+      </div>)
     },
     {
       title: 'Holders',
-      render: (_, record) => (<div className='highlight-text'>{record?.holders && record?.holders}</div>),
-      width: '15%'
+      render: (_, record) => (<div className='highlight-text'>{record?.holders && record?.holders}</div>)
     },
     {
       title: 'Contract',
@@ -120,8 +126,7 @@ const LiveNewTokensList = () => {
         <Tooltip title={record?.isProxy ? 'This contract is a PROXY CONTRACT' : 'This contract is NOT a PROXY CONTRACT'}>
           <div className='ms-2'><ApartmentOutlined style={{ color: record?.isProxy ? 'red' : 'green' }}/></div>
         </Tooltip>
-      </div>),
-      width: '15%'
+      </div>)
     }
   ]
 
