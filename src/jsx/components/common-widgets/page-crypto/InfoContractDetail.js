@@ -3,7 +3,7 @@ import InformationSubTitle, { typeContract } from '../page-detail/InformationSub
 import { CloseCircleOutlined, CheckCircleOutlined, ApartmentOutlined } from '@ant-design/icons'
 import ShortItem from './../page-detail/ShortItem'
 
-const InfoContractDetail = ({ detail }) => {
+const InfoContractDetail = ({ detail, mainExplorer }) => {
   return <div className='crypto-info'>
     <div className=''>
       <InformationSubTitle type={typeContract}/>
@@ -18,7 +18,7 @@ const InfoContractDetail = ({ detail }) => {
                   <span>
                 Address is:{' '}
                     <a className='text-primary txt-link text-break'
-                      href={detail?.explorer}
+                      href={detail?.explorer || mainExplorer}
                       target='_blank'
                       rel='noreferrer'>{detail?.address}</a>
                   </span>
