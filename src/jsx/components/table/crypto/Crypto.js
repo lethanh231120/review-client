@@ -42,6 +42,7 @@ import '../../../../scss/base/table.scss'
 import { copyAddress } from '../../../../utils/effect'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { Badge } from 'react-bootstrap'
+import ProductImage, { altCrypto, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const Crypto = ({
   listProduct,
@@ -193,13 +194,12 @@ const Crypto = ({
           }`}
           className='crypto-table-info image-list'
         >
-          {record?.cryptoId && record?.smallLogo
-            ? <Image alt='Cryptocurrency Logo' src={record?.smallLogo} preview={false}/>
-            : (
-              <span className='image-list-no-data'>
-                {record?.name?.slice(0, 3)}
-              </span>
-            )}
+          <ProductImage
+            imageUrl={record?.smallLogo}
+            productName={record?.symbol || record?.name}
+            altImageType={altCrypto}
+            size={sizeImg48}
+          />
           <span>
             <Tooltip
               title={(

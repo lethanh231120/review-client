@@ -1,9 +1,7 @@
 import React from 'react'
 import '../../table/exchange/exchange.scss'
-
 import { Link } from 'react-router-dom'
-// display table
-import { Image, Table, Tooltip } from 'antd'
+import { Table, Tooltip } from 'antd'
 import { PREFIX_DETAIL, EXCHANGE } from '../../../constants/category'
 import { renderNumber } from '../../../../utils/formatNumber'
 import { InfoCircleOutlined } from '@ant-design/icons'
@@ -11,10 +9,9 @@ import { useNavigate } from 'react-router-dom'
 import MyScoreComponent from '../../score/scoreComponent'
 import { encodeUrl } from '../../../../utils/formatUrl'
 import { NO_DATA } from '../../../constants/data'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { formatLargeNumber } from '../../../../utils/formatNumber'
+import ProductImage, { altExchange, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const ExchangeTable = ({ listData, loading }) => {
   const navigate = useNavigate()
@@ -34,13 +31,12 @@ const ExchangeTable = ({ listData, loading }) => {
           className='crypto-table-info image-list'
           onClick={(e) => e.stopPropagation()}
         >
-          {record?.exchangeId && record?.smallLogo ? (
-            <Image src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} alt='Exchange Logo'/>
-          )
-            : (<span className='image-list-no-data'>
-              {record?.name?.slice(0, 3)}
-            </span>)
-          }
+          <ProductImage
+            imageUrl={record?.smallLogo}
+            productName={record?.name}
+            altImageType={altExchange}
+            size={sizeImg48}
+          />
           <span>
             <div className='data-table-name'>
               <div className='data-table-name-title'>

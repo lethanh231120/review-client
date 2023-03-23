@@ -1,4 +1,4 @@
-import { Row, Col, Table, Avatar, Tooltip, Image } from 'antd'
+import { Row, Col, Table, Avatar, Tooltip } from 'antd'
 import React, { useContext } from 'react'
 import { Badge } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
@@ -8,12 +8,12 @@ import { DAPP } from '../../../constants/category'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import CategorySearch from '../../input-search/CategorySearch'
 import MyScoreComponent from '../../score/scoreComponent'
-import { isValidProductId, formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
-import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
+import { toCammelCase } from '../../../../utils/formatText'
 import { DappExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import _ from 'lodash'
 import { encodeUrl } from '../../../../utils/formatUrl'
+import ProductImage, { altDApp, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const Dapp = ({
   listProduct,
@@ -50,13 +50,12 @@ const Dapp = ({
         to={`../../products/${record?.dAppId?.split('_')[1]}/${record?.dAppId?.split('_')[2]}`}
         onClick={e => e.stopPropagation()}
       >
-        {record?.dAppId && record?.dAppLogo ? (
-          <Image alt='DApp Logo' onError={(error) => console.error(error)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
-        )
-          : (<span className='image-list-no-data '>
-            {record?.dAppName?.slice(0, 3)}
-          </span>)
-        }
+        <ProductImage
+          imageUrl={record?.dAppLogo}
+          productName={record?.dAppName}
+          altImageType={altDApp}
+          size={sizeImg48}
+        />
         <Tooltip title={(<p>{`${record?.dAppName}`}</p>)}>
           <span>
             <div className='data-table-name ms-2'>

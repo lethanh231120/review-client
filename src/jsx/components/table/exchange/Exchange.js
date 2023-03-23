@@ -1,4 +1,4 @@
-import { Row, Col, Table, Image, Tooltip } from 'antd'
+import { Row, Col, Table, Tooltip } from 'antd'
 import React from 'react'
 import { Badge } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
@@ -8,11 +8,10 @@ import { NO_DATA } from '../../../constants/data'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import CategorySearch from '../../input-search/CategorySearch'
 import MyScoreComponent from '../../score/scoreComponent'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { ExchangeExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 import { encodeUrl } from '../../../../utils/formatUrl'
+import ProductImage, { altExchange, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const Exchange = ({
   listProduct,
@@ -43,13 +42,12 @@ const Exchange = ({
         to={`../../products/${record?.exchangeId?.split('_')[1]}/${record?.exchangeId?.split('_')[2]}`}
         className='crypto-table-info image-list'
         onClick={e => e.stopPropagation()}>
-        {record?.exchangeId && record?.smallLogo ? (
-          <Image alt='Exchange Logo' src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
-        )
-          : (<span className='image-list-no-data'>
-            {record?.name?.slice(0, 3)}
-          </span>)
-        }
+        <ProductImage
+          imageUrl={record?.smallLogo}
+          productName={record?.name}
+          altImageType={altExchange}
+          size={sizeImg48}
+        />
         <Tooltip title={(<p>{`${record?.name}`}</p>)}>
           <span>
             <div className='data-table-name ms-2'>

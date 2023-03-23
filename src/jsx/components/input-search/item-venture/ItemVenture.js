@@ -1,10 +1,6 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Image } from 'antd'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
-import NoImage from '../../common-widgets/no-image/NoImage'
-import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
+import ProductImage, { altVenture, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearch, isFormReport, refInput }) => {
   const navigate = useNavigate()
@@ -30,17 +26,12 @@ const ItemVenture = ({ item, index, itemSubmit, setItemSubmit, global, setItemSe
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {(item?.ventureId && item?.image && item?.image !== absentImageElasticSearch) ? (
-          <Image src={isValidProductId(item?.ventureId) ? formatImgUrlFromProductId(item?.ventureId) : imgAbsentImageVenture} preview={false} alt='Venture Logo'/>
-        )
-          : (
-            <NoImage
-              alt={item?.name?.slice(0, 3)}
-              height={48}
-              width={48}
-            />
-          )
-        }
+        <ProductImage
+          imageUrl={item?.image}
+          productName={item?.name}
+          altImageType={altVenture}
+          size={sizeImg48}
+        />
         <div>
           <div className='form-search-data-item-data-content'>
             <h6 className='cus-h6'>
