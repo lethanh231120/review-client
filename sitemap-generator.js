@@ -14,6 +14,7 @@ const newTokenPages = 10
 const newUpdateTokenUrl = 'https://new-update-info-crypto.gear5.io/'
 const newExchangeUrl = 'https://crawl-exchange.gear5.io/new_exchange'
 const newVentureUrl = 'https://crawl-venture.gear5.io/new_venture'
+// const newAdminUpdateUrl = 'https://api-admin.gear5.io/reviews/sitemap/'
 const fs = require('fs')
 
 const generateUrl = (content) => {
@@ -40,15 +41,21 @@ const generateIndexSitemap = () =>{
   const fileName = 'NikaSitemap'
   const tokenPages = 57
   const listIndex = ['general', 'coins', 'dapps', 'idos', 'exchanges', 'ventures', 'launchpads']
+  const prefix = 'NikaNika-'
+  // const listAdmin = ['idos', 'ventures', 'cryptos', 'exchanges', 'dapps', 'launchpads']
 
   let data = '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
 
   listIndex.forEach(name => {
-    data = data + `<sitemap><loc>${gear5Url}${name}.xml</loc></sitemap>`
+    if (name === 'general') {
+      data = data + `<sitemap><loc>${gear5Url}${name}.xml</loc></sitemap>`
+    } else {
+      data = data + `<sitemap><loc>${gear5Url}${prefix}${name}.xml</loc></sitemap>`
+    }
   })
 
   Array(tokenPages).fill().forEach((item, index) => {
-    data = data + `<sitemap><loc>${gear5Url}token_${index + 1}.xml</loc></sitemap>`
+    data = data + `<sitemap><loc>${gear5Url}${prefix}token_${index + 1}.xml</loc></sitemap>`
   })
 
   Array(newTokenPages).fill().forEach((item, index) => {
@@ -57,6 +64,10 @@ const generateIndexSitemap = () =>{
 
   data = data + `<sitemap><loc>${newExchangeUrl}.xml</loc></sitemap>`
   data = data + `<sitemap><loc>${newVentureUrl}.xml</loc></sitemap>`
+
+  // listAdmin.forEach(name =>{
+  //   data = data + `<sitemap><loc>${newAdminUpdateUrl}${name}.xml</loc></sitemap>`
+  // })
 
   data = data + '</sitemapindex>'
   fs.writeFile(`./public/${fileName}.xml`, data, (err) => {

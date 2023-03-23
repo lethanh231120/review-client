@@ -91,7 +91,7 @@ const FormProfile = ({ userInfo }) => {
           allowOutsideClick: false,
           icon: 'success',
           title: 'Update profile successfully',
-          html: 'Your information has changed',
+          html: 'Your information will update soon. It could take a day or two to see the change on Gear5.io',
           showClass: {
             popup: 'animate__animated animate__fadeInDown'
           },

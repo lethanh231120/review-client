@@ -44,6 +44,7 @@ const { getMetaTag } = require('./modal/MetaTag')
 const { getMetaTagAddProject } = require('./header-data/add-project')
 const { getMetaTagReportScam } = require('./header-data/report-scam')
 const { toCammelCase } = require('./utils/formatText')
+const { getScriptSchemaMarkupSiteLinkSearchBoxHomePage } = require('./constants/schemaMarkup')
 
 // ######## Default meta tag
 const metaTagHome = getMetaTagHome()
@@ -68,26 +69,36 @@ const isInteger = (number) => {
 
 const injectHtmlHeader = (metaTag) => {
   let dynamicMetaIndexHtml = file?.getIndexHtml()
-  // replace image first(contain main url)
+  // ##### replace all unique link first #####
+  dynamicMetaIndexHtml = dynamicMetaIndexHtml
+    ?.split(META_UNIQUE_LINK)?.join(metaTag?.uniqueLink) // equal replace all
+
+  // ##### replace next image (contain link) #####
   const isInternalImage = metaTag?.image && metaTag?.image?.length >= 1 && metaTag?.image[0] === '/'
+  let linkImgTwitter = ''
+  let linkImgOg = ''
   if (isInternalImage) {
-    dynamicMetaIndexHtml = dynamicMetaIndexHtml
-      ?.split(META_UNIQUE_LINK + META_IMAGE)?.join(META_UNIQUE_LINK + metaTag?.image)
+    linkImgTwitter = `${META_UNIQUE_LINK}${metaTag?.image}`
+    linkImgOg = metaTag?.image
   } else {
     // External image
-    dynamicMetaIndexHtml = dynamicMetaIndexHtml
-      ?.split(META_UNIQUE_LINK + META_IMAGE)?.join(metaTag?.image)
+    linkImgTwitter = metaTag?.image
+    linkImgOg = metaTag?.image
   }
+  // twitter:image (contain link replace above + image file name og:image below)
   dynamicMetaIndexHtml = dynamicMetaIndexHtml
-    ?.split(META_UNIQUE_LINK)?.join(metaTag?.uniqueLink)
+    ?.replace(`${metaTag?.uniqueLink}${META_IMAGE}`, linkImgTwitter)
+  // og:image
+  dynamicMetaIndexHtml = dynamicMetaIndexHtml
+    ?.replace(META_IMAGE, linkImgOg)
 
+  // ##### replace all others #####
   dynamicMetaIndexHtml = dynamicMetaIndexHtml
-    ?.split(META_TITLE)?.join(metaTag?.title) // euqal replace all
+    ?.split(META_TITLE)?.join(metaTag?.title)
     ?.split(META_DESCRIPTION)?.join(metaTag?.description)
 
-  // const schemaMarkupIndexHtml = dynamicMetaIndexHtml?.replace(getScriptSchemaMarkupSiteLinkSearchBoxHomePage(), '')
-  // return schemaMarkupIndexHtml
-  return dynamicMetaIndexHtml
+  const schemaMarkupIndexHtml = dynamicMetaIndexHtml?.replace(getScriptSchemaMarkupSiteLinkSearchBoxHomePage(), '')
+  return schemaMarkupIndexHtml
 }
 
 const encodeSpecialCharacterUrl = (url) =>{

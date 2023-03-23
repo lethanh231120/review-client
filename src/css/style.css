@@ -21564,3 +21564,9 @@ li.countdown span {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+
+/* discard tooltip open at screen phone */
+@media all and (max-width: 767px) {
+  .ant-menu-inline-collapsed-tooltip { display: none; }
+}
