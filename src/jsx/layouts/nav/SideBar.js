@@ -326,7 +326,6 @@ const SideBar = () => {
                         onClick={() => {
                           handleMenuActive(data?.title)
                           removeFilterTag(data?.title)
-                          console.log(1231231)
                           pathName?.handleChangePathName(data?.title)
                           pathName?.setPathDetail(false)
                           if (sizeScreen < 767.98) {

@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react'
 import { ReviewItem } from './review-item'
 import './reviews-item.scss'
 import SekeletonReviewItem from '../../../skeleton/skeleton-review/SekeletonReviewItem'
-const REVIEW_WS_URL = 'wss://api-ver1.gear5.io/reviews/review/latest'
+import { PRICE_WS_URL } from '../../../../../api/BaseRequest'
+// const REVIEW_WS_URL = 'wss://api-ver1.gear5.io/reviews/review/latest'
 export const ReviewList = ({ isHome }) => {
   const [reviewList, setReviewList] = useState([])
 
   const length = isHome ? 12 : 6
   useEffect(() => {
-    const socket = new WebSocket(REVIEW_WS_URL)
+    const socket = new WebSocket(`${PRICE_WS_URL}/reviews/review/latest`)
 
     socket?.addEventListener('open', () => {
       console.log('WS opened')

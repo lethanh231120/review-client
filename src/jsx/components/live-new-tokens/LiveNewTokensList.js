@@ -55,6 +55,7 @@ const LiveNewTokensList = () => {
       navigate(`../../products/crypto/${splitted[1]}/${splitted[2]}/${splitted[3]}`)
     }
   }
+
   const onAddressClicked = (e, address, chainName) => {
     e.stopPropagation()
     const website = getChainWebsite(chainName)
@@ -63,10 +64,16 @@ const LiveNewTokensList = () => {
     website && window.open(`${website}/token/${address}`)
   }
 
+  const formatPrice = (price) => {
+    const FIXED_ZEROS = 10
+    const formatted = Number(price).toFixed(FIXED_ZEROS).replace(/\.?0+$/, '')
+    return formatted || null
+  }
+
   const columns = [
     {
       title: 'Name/Symbol',
-      render: (_, record) => (<div className='pre-icon d-flex'>
+      render: (_, record) => (<div className=' d-flex'>
         <span className='top-coin-icon' >
           <Avatar alt='Logo' style={{ backgroundColor: '#fff', color: '#18A594', fontWeight: 'bold' }}>{record?.name && record?.name?.slice(0, 2)?.toUpperCase()}</Avatar>
         </span>
@@ -74,31 +81,34 @@ const LiveNewTokensList = () => {
           <div className='d-flex align-items-center'>
             <div className=' fs-16' style={{ color: 'black', fontWeight: '500' }}>{record?.name && record?.name}
             </div>
-            <div className='fs-14 d-flex align-records-center' style={{ color: 'black', fontWeight: '500' }}> {record?.symbol && `(${record?.symbol})`}</div>
+            <div className='fs-14 d-flex align-items-center' style={{ color: 'black', fontWeight: '500' }}> {record?.symbol && `(${record?.symbol})`}</div>
           </div>
-          <div className='text-etc-overflow'>
-            <span className='token-address text-etc-overflow'
+          <div className='d-flex align-items-center'>
+            <Avatar size={20} src={record?.chainName && getChainImage(record?.chainName)}/>
+            <span className='token-address text-etc-overflow ms-1'
               onClick={e => onAddressClicked(e, record?.address, record?.chainName)}>{record?.address && record?.address }
             </span>
           </div>
         </div>
-      </div>)
+      </div>),
+      width: '25%'
+    },
+    {
+      title: 'Price',
+      render: (_, record) => (<div className='highlight-text'>{record?.priceUSD && `$${formatPrice(record?.priceUSD)}`}</div>),
+      width: '25%'
     },
     {
       title: 'Listed Since',
-      render: (_, record) => (<div>
+      render: (_, record) => (<div className='highlight-text'>
         {record?.createdDate && <Timer inputDate={record?.createdDate}/>}
-      </div>)
-    },
-    {
-      title: 'Blockchain',
-      render: (_, record) => (<div>
-        <Avatar size={25 } src={record?.chainName && getChainImage(record?.chainName)}/>
-      </div>)
+      </div>),
+      width: '25%'
     },
     {
       title: 'Holders',
-      render: (_, record) => (<div style={{ fontWeight: 'bold', color: '#18A594' }}>{record?.holders && record?.holders}</div>)
+      render: (_, record) => (<div className='highlight-text'>{record?.holders && record?.holders}</div>),
+      width: '15%'
     },
     {
       title: 'Contract',
@@ -110,13 +120,15 @@ const LiveNewTokensList = () => {
         <Tooltip title={record?.isProxy ? 'This contract is a PROXY CONTRACT' : 'This contract is NOT a PROXY CONTRACT'}>
           <div className='ms-2'><ApartmentOutlined style={{ color: record?.isProxy ? 'red' : 'green' }}/></div>
         </Tooltip>
-      </div>)
+      </div>),
+      width: '15%'
     }
-
   ]
 
   return <div className='font-family crypto-table'>
-    <Card title={<div>Live New Tokens</div>}>
+    <Card
+    // title={<div>Live New Tokens</div>}s
+    >
       {loading ? <MySkeletonLoadinng count={30} height={80} />
         : <Table
           loading={loading}
@@ -129,6 +141,8 @@ const LiveNewTokensList = () => {
               onRowClicked(record?.cryptoId)
             }
           })}
+          className='new-token-table'
+          scroll={{ x: 'max-content' }}
         />}
     </Card>
   </div>
