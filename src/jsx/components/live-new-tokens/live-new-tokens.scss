@@ -1,18 +1,24 @@
 .token-address{
-    color: #18A594;
     cursor: pointer;
     text-overflow: ellipsis;
     display: inline-block; /* for inline elements e.g. span, strong, em etc */
     text-overflow: ellipsis;
-    width: calc(80%);
+    width: calc(60%);
 
 }
 
 .token-address:hover{
+   color: #18A594;
   font-weight: bold;
   text-decoration: underline;
 
 }
-.ant-pagination-item, .ant-pagination-prev, .ant-pagination-next {
+
+.highlight-text{
+  font-weight: bold;
+  color: #18A594;
+}
+
+.new-token-table .ant-pagination-item, .ant-pagination-prev, .ant-pagination-next {
     display: none!important;
 }
