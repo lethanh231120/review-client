@@ -76,8 +76,9 @@ const LiveNewTokensList = () => {
             </div>
             <div className='fs-14 d-flex align-records-center' style={{ color: 'black', fontWeight: '500' }}> {record?.symbol && `(${record?.symbol})`}</div>
           </div>
-          <div className='d-flex'>
-            <span className='token-address' onClick={e => onAddressClicked(e, record?.address, record?.chainName)}>{record?.address && record?.address }
+          <div className='text-etc-overflow'>
+            <span className='token-address text-etc-overflow'
+              onClick={e => onAddressClicked(e, record?.address, record?.chainName)}>{record?.address && record?.address }
             </span>
           </div>
         </div>
