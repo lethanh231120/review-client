@@ -6,14 +6,13 @@ import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
 import MyScoreComponent from '../../score/scoreComponent'
 import { ChainListContext } from '../../../../App'
 import { toCammelCase } from '../../../../utils/formatText'
-import { myLogo } from '../../common-widgets/logo/logo'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { launchpadExplain } from '../../common-widgets/row-explaination/RowExplainationText'
-// import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import CategorySearch from '../../input-search/CategorySearch'
 import { LAUNCHPAD } from '../../../constants/category'
 import { Badge } from 'react-bootstrap'
+import ProductImage, { altLaunchpad, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const LaunchpadList = ({ listProduct,
   handleChangeTable,
@@ -36,7 +35,12 @@ const LaunchpadList = ({ listProduct,
         className='crypto-table-info image-list'
         to={`../../products/${record?.launchPadId?.split('_')[1]}/${record?.launchPadId?.split('_')[2]}`}
         onClick={e => e.stopPropagation()}>
-        { myLogo('smallLogo', record?.launchPadId, 'launchpad') }
+        <ProductImage
+          imageUrl={record?.smallLogo}
+          productName={record?.name}
+          altImageType={altLaunchpad}
+          size={sizeImg48}
+        />
         <Tooltip title={(<p>{`${record?.name}`}</p>)}>
           <span>
             <div className='data-table-name ms-2'>

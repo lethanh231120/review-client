@@ -9,18 +9,16 @@ import FormReport from '../../Forms/form-report/FormReport'
 import { ReportModalContext, AddModalContext } from '../../../index'
 import InputSearch from '../../input-search/GlobalSearch'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImage from '../../../../images/absent_image.png'
-import NoImage from '../../common-widgets/no-image/NoImage'
 import Swal from 'sweetalert2'
-// import image from '../../../../images/product/gear5_coin_bitcoin.png'
 import { Button } from 'react-bootstrap'
 import hot from '../../../../images/product/hot.png'
 import ProjectHot from './ProjectHot'
-import { CRYPTO, EXCHANGE, SOON, VENTURE, DAPP, LAUNCHPAD } from '../../../constants/category'
+import { CRYPTO, EXCHANGE, SOON, VENTURE, DAPP, LAUNCHPAD, CRYPTO_COIN } from '../../../constants/category'
 import { get } from '../../../../api/BaseRequest'
 import { encodeSpecialCharacterUrl } from '../../../../utils/formatText'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import ProductImage, { sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
+import { CRYPTO_TOKEN } from './../../../constants/category'
 
 const ModalReport = ({ isModal, setOpenModalReport }) => {
   const signInContext = useContext(SignInContext)
@@ -87,7 +85,7 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
     if (data?.data?.details) {
       let newDataItem
       switch (type) {
-        case 'token':
+        case CRYPTO_TOKEN:
           newDataItem = {
             image: data?.data?.details?.thumbLogo ? data?.data?.details?.thumbLogo : (data?.data?.details?.bigLogo ? data?.data?.details?.bigLogo : data?.data?.details?.smallLogo),
             description: data?.data?.details?.description,
@@ -100,7 +98,7 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
             cryptoId: data?.data?.details?.cryptoId
           }
           break
-        case 'coin':
+        case CRYPTO_COIN:
           newDataItem = {
             image: data?.data?.details?.thumbLogo ? data?.data?.details?.thumbLogo : (data?.data?.details?.bigLogo ? data?.data?.details?.bigLogo : data?.data?.details?.smallLogo),
             description: data?.data?.details?.description,
@@ -370,15 +368,13 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
                       <div className='profile-info cus-profile-info'>
                         <div className='profile-details'>
                           <div className='profile-photo'>
-                            {item?.image && (item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? (
-                              <Image src={isValidProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) ? formatImgUrlFromProductId(item?.cryptoId || item?.dappId || item?.ventureId || item?.exchangeId || item?.soonId) : imgAbsentImage} preview={false} className='image-list' alt='Project Logo'/>
-                            ) : (
-                              <NoImage
-                                alt={item?.name?.slice(0, 3)}
-                                height={64}
-                                width={64}
-                              />
-                            )}
+                            <ProductImage
+                              imageUrl={item?.image}
+                              productName={item?.symbol || item?.name}
+                              altImageType={'Project Logo'}
+                              size={sizeImg48}
+                              noMarginRight={true}
+                            />
                           </div>
                           <div className='profile-name pt-2' style={{ width: '100%' }}>
                             <h4 className='text-primary mb-2 cus-h4'>

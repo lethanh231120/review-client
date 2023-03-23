@@ -1,4 +1,4 @@
-import { Avatar, Tooltip, Image, Modal } from 'antd'
+import { Avatar, Tooltip, Modal } from 'antd'
 import React, { useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
@@ -7,8 +7,7 @@ import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
 import _ from 'lodash'
 import moment from 'moment'
 import Description from '../description/Description'
-import { isValidProductId, formatImgUrlFromProductId, toCammelCase } from '../../../../utils/formatText'
-import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
+import { toCammelCase } from '../../../../utils/formatText'
 import MyScoreComponent from '../../score/scoreComponent'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { WARNING_ICON } from '../../common-widgets/logo/logo'
@@ -25,6 +24,7 @@ import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDet
 import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
 import InformationSubTitle, { typeExplorer, typeShort } from '../../common-widgets/page-detail/InformationSubTitle'
 import ShortItem from '../../common-widgets/page-detail/ShortItem'
+import ProductImage, { altExchange, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const ExchangeInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -45,19 +45,20 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
   }
 
   // exchange header
-  const Header = () => {
-    return <>
-      {rest?.loadingDetail ? (<ProductDetailHeader/>) : (
+  const header = (
+    <>
+      {rest?.loadingDetail ? (
+        <ProductDetailHeader/>
+      ) : (
         <div className='profile-info'>
           <div className='profile-details'>
             <div className='profile-photo'>
-              {detail?.exchangeId && detail?.smallLogo ? (
-                <Image src={isValidProductId(detail?.exchangeId) ? formatImgUrlFromProductId(detail?.exchangeId) : imgAbsentImageExchange} preview={false} alt='Exchange Logo'/>
-              )
-                : (<span className='image-list-no-data-detail'>
-                  {detail?.name?.slice(0, 3)}
-                </span>)
-              }
+              <ProductImage
+                imageUrl={detail?.bigLogo || detail?.smallLogo || detail?.thumbLogo}
+                productName={detail?.name}
+                altImageType={altExchange}
+                size={sizeImg48}
+              />
             </div>
             <div className='profile-name cus-profile-name'>
               <h1 className='text-primary mb-2 cus-h4 fs-22'>{detail?.name}</h1>
@@ -68,7 +69,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
                 <img src={share} alt='share button'/>
-                Share
+              Share
               </Button>
               <WebsiteButton website={detail?.website} />
             </div>
@@ -84,7 +85,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
         </div>
       )}
     </>
-  }
+  )
 
   // exchange summary
   const summary = <>
@@ -407,7 +408,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
 
   return (
     <DetailLayout
-      Header={<Header />}
+      Header={header}
       summary={summary}
       more={<More />}
       about={about}

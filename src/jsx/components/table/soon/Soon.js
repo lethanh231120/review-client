@@ -3,15 +3,9 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { formatLargeNumberMoneyUSD } from '../../../../utils/formatNumber'
 import { Link } from 'react-router-dom'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
-import NoImage from '../../common-widgets/no-image/NoImage'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
-import { Avatar, Col, Row, Tooltip } from 'antd'
+import { Col, Row, Tooltip } from 'antd'
 import LaunchpadIconList from '../../common-widgets/page-soon/LaunchpadIconList'
-import {
-  isValidProductId,
-  formatImgUrlFromProductId
-} from '../../../../utils/formatText'
-import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
 import moment from 'moment'
 import CategorySearch from './../../input-search/CategorySearch'
 import { Badge } from 'react-bootstrap'
@@ -21,6 +15,7 @@ import { convertStringDDMMYYYYToUnix, formatDateStyle } from '../../../../utils/
 import { getStatusBackgroundFromSoonStatus, getStatusFromStartDateAndEndDate } from '../../../../utils/page-soon/status'
 import { TimeRelativeQuantificationList } from '../../common-widgets/page-soon/TimeRelativeQuantificationList'
 import { iconGoal } from './../../common-widgets/page-detail/SummaryDetail'
+import ProductImage, { altSoon, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const absentData = '__'
 const Soon = ({ listProduct, handleFilter, total }) => {
@@ -74,28 +69,12 @@ const Soon = ({ listProduct, handleFilter, total }) => {
                         <div className='card-body align-items-center flex-wrap'>
                           <div className='d-flex align-items-center mb-4'>
                             <div>
-                              {item?.projectId ? (
-                                <Avatar
-                                  alt='IDO/ICO/IEO Logo'
-                                  src={
-                                    isValidProductId(item?.projectId)
-                                      ? formatImgUrlFromProductId(
-                                        item?.projectId
-                                      )
-                                      : imgAbsentImageSoon
-                                  }
-                                  size={40}
-                                  style={{
-                                    border: '1px solid rgba(0, 0, 0, 0.1)'
-                                  }}
-                                />
-                              ) : (
-                                <NoImage
-                                  alt={item?.projectName?.slice(0, 3)}
-                                  height={36}
-                                  width={36}
-                                />
-                              )}
+                              <ProductImage
+                                imageUrl={item?.smallLogo}
+                                productName={item?.projectSymbol || item?.projectName}
+                                altImageType={altSoon}
+                                size={sizeImg48}
+                              />
                             </div>
                             <Tooltip
                               title={

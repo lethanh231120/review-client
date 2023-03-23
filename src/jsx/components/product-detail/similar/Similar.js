@@ -4,7 +4,6 @@ import { Image, Tooltip, Avatar, Table } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { CRYPTO, DAPP, EXCHANGE, LAUNCHPAD, SOON, VENTURE } from '../../../constants/category'
 import _ from 'lodash'
-import { isValidProductId } from '../../../../utils/formatText'
 import { formatImgUrlFromProductId } from '../../../../utils/formatText'
 import { PREFIX_DETAIL, CRYPTO_TOKEN } from '../../../constants/category'
 import scam from '../../../../images/product/scam.png'
@@ -17,15 +16,10 @@ import { renderNumber, formatMoneyLessOneDollar, formatMoneyGreaterEqualOneDolla
 import MyScoreComponent from '../../score/scoreComponent'
 import './similar.scss'
 import { exchanges } from '../../../../utils/ExchangeImage'
-import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
-import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
-import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
-// import { myLogo } from '../../common-widgets/logo/logo'
-import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
-import NoImage from './../../common-widgets/no-image/NoImage'
 import moment from 'moment'
 
 import { Badge } from 'react-bootstrap'
+import ProductImage, { altCrypto, altDApp, altExchange, altLaunchpad, altSoon, altVenture, sizeImg32_4 } from '../../common-widgets/page-detail/ProductImage'
 
 const Similar = ({ type, listProjectId }) => {
   const navigate = useNavigate()
@@ -42,13 +36,12 @@ const Similar = ({ type, listProjectId }) => {
         <span
           className='crypto-table-info image-list'
         >
-          {record?.cryptoId && record?.smallLogo
-            ? <Avatar style={{ marginRight: '10px' }} size={34} alt='Cryptocurrency Logo' src={record?.smallLogo} preview={false} />
-            : (
-              <Avatar className='image-list-no-data' size={32}>
-                {record?.name?.slice(0, 3)}
-              </Avatar>
-            )}
+          <ProductImage
+            imageUrl={record?.smallLogo}
+            productName={record?.symbol || record?.name}
+            altImageType={altCrypto}
+            size={sizeImg32_4}
+          />
           <span>
             <Tooltip
               title={(
@@ -302,13 +295,12 @@ const Similar = ({ type, listProjectId }) => {
     {
       title: 'Name',
       render: (_, record) => (<span className='crypto-table-info image-list'>
-        {record?.dAppId && record?.dAppLogo ? (
-          <Avatar size={34} alt='DApp Logo' onError={(error) => console.error(error)} src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} />
-        )
-          : (<span className='image-list-no-data'>
-            {record?.dAppName?.slice(0, 3)}
-          </span>)
-        }
+        <ProductImage
+          imageUrl={record?.dAppLogo}
+          productName={record?.dAppName}
+          altImageType={altDApp}
+          size={sizeImg32_4}
+        />
         <span>
           <div className='data-table-name ms-2'>
             <div>{record?.dAppName ? record?.dAppName : 'Unknown'}</div>
@@ -377,22 +369,16 @@ const Similar = ({ type, listProjectId }) => {
     {
       title: 'Name',
       render: (_, record) => (<span className='crypto-table-info image-list'>
-        {record?.exchangeId && record?.smallLogo ? (
-          <Avatar size={34} alt='Exchange Logo' src={isValidProductId(record?.exchangeId) ? formatImgUrlFromProductId(record?.exchangeId) : imgAbsentImageExchange} preview={false} />
-        )
-          : (<span className='image-list-no-data'>
-            {record?.name?.slice(0, 3)}
-          </span>)
-        }
+        <ProductImage
+          imageUrl={record?.smallLogo}
+          productName={record?.name}
+          altImageType={altExchange}
+          size={sizeImg32_4}
+        />
         <span>
-          {/* <Tooltip
-            title={(
-              <p>{`${record?.name}`}</p>
-            )}> */}
           <div className='data-table-name ms-2'>
             <div>{record?.name ? record?.name : 'Unknown'}</div>
           </div>
-          {/* </Tooltip> */}
         </span>
       </span>)
 
@@ -467,13 +453,12 @@ const Similar = ({ type, listProjectId }) => {
     {
       title: 'Name',
       render: (_, record) => (<span className='crypto-table-info image-list'>
-        {record?.ventureId && record?.ventureLogo ? (
-          <Avatar size={34} alt='Venture Logo' src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
-        )
-          : (<span className='image-list-no-data'>
-            {record?.ventureName?.slice(0, 3)}
-          </span>)
-        }
+        <ProductImage
+          imageUrl={record?.ventureLogo}
+          productName={record?.ventureName}
+          altImageType={altVenture}
+          size={sizeImg32_4}
+        />
         <span>
           <div className='data-table-name ms-2'>
             <div>{record?.ventureName ? record?.ventureName : 'Unknown'}</div>
@@ -561,11 +546,12 @@ const Similar = ({ type, listProjectId }) => {
     {
       title: 'Name',
       render: (_, record) => (<span className='crypto-table-info image-list'>
-        {record?.smallLogo ? <Avatar size={34} src={record?.smallLogo} alt='IDO'/> : <NoImage
-          alt={record?.name?.slice(0, 3)}
-          height={36}
-          width={36}
-        />}
+        <ProductImage
+          imageUrl={record?.smallLogo}
+          productName={record?.name}
+          altImageType={altLaunchpad}
+          size={sizeImg32_4}
+        />
         <span>
           <div className='data-table-name ms-2'>
             <div>{record?.name ? record?.name : 'Unknown'}</div>
@@ -684,26 +670,12 @@ const Similar = ({ type, listProjectId }) => {
         <span
           className='crypto-table-info image-list'
         >
-          {record?.projectId ? (
-            <Avatar
-              size={34}
-              alt={`${record?.projectName} Logo`}
-              src={
-                isValidProductId(record?.projectId)
-                  ? formatImgUrlFromProductId(
-                    record?.projectId
-                  )
-                  : imgAbsentImageSoon
-              }
-              preview={false}
-            />
-          ) : (
-            <NoImage
-              alt={record?.projectName?.slice(0, 3)}
-              height={36}
-              width={36}
-            />
-          )}
+          <ProductImage
+            imageUrl={record?.smallLogo}
+            productName={record?.projectSymbol || record?.projectName}
+            altImageType={altSoon}
+            size={sizeImg32_4}
+          />
           <span>
             <Tooltip
               title={(

@@ -1,17 +1,14 @@
-import { Avatar, Tooltip, Image, Modal } from 'antd'
+import { Avatar, Tooltip, Modal } from 'antd'
 import _ from 'lodash'
 import React, { useContext, useState } from 'react'
 import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { ChainListContext } from '../../../../App'
 import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
-// import FormReport from '../../Forms/form-report/FormReport'
 import { DetailLayout } from '../detail-layout'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 import Description from '../description/Description'
 import {
-  // isValidProductId, formatImgUrlFromProductId,
   toCammelCase } from '../../../../utils/formatText'
-// import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import MyScoreComponent from '../../score/scoreComponent'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import './dapp.scss'
@@ -29,6 +26,7 @@ import hands from '../../../../images/svg/hands.svg'
 import ProductDetailHeader from '../../skeleton/product-detail-skeleton/ProductDetailHeader'
 import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
+import ProductImage, { altDApp, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -50,20 +48,20 @@ const DappInfo = ({ productInfo, ...rest }) => {
   }
 
   // DAPP HEADER
-  const Header = () => {
-    return <>
-      {rest?.loadingDetail ? (<ProductDetailHeader/>) : (
+  const header = (
+    <>
+      {rest?.loadingDetail ? (
+        <ProductDetailHeader/>
+      ) : (
         <div className='profile-info mb-1'>
           <div className='profile-details'>
             <div className='profile-photo'>
-              {productInfo?.details?.dAppId && productInfo?.details?.dAppLogo ? (
-
-                <Image src={productInfo?.details?.dAppLogo} preview={false} alt='DApp Logo'/>
-              )
-                : (<h2 className='image-list-no-data-detail'>
-                  {productInfo?.details?.dAppName?.slice(0, 3)}
-                </h2>)
-              }
+              <ProductImage
+                imageUrl={detail?.dAppLogo}
+                productName={detail?.dAppName}
+                altImageType={altDApp}
+                size={sizeImg48}
+              />
             </div>
             <div className='profile-name cus-profile-name'>
               <h1 className='text-primary mb-2 cus-h4 fs-22'>
@@ -78,7 +76,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
                 <img src={share} alt='share button'/>
-              Share
+            Share
               </Button>
               <WebsiteButton website={detail?.website} />
             </div>
@@ -94,7 +92,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
         </div>
       )}
     </>
-  }
+  )
 
   // DAPP SUMMARY
   const summary =
@@ -390,7 +388,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
     </>
   )
 
-  return <DetailLayout Header={<Header />}
+  return <DetailLayout Header={header}
     summary={summary}
     more={more}
     about={about}

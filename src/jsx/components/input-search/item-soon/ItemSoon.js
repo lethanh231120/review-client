@@ -1,10 +1,6 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Image } from 'antd'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageSoon from '../../../../images/absent_image_soon.png'
-import NoImage from './../../common-widgets/no-image/NoImage'
-import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
+import ProductImage, { altSoon, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItemSearch, isFormReport, refInput }) => {
   const navigate = useNavigate()
@@ -30,16 +26,12 @@ const ItemSoon = ({ item, itemSubmit, setItemSubmit, global, setItemSearch, isFo
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {(item?.soonId && item?.image && item?.image !== absentImageElasticSearch) ? (
-          <Image src={isValidProductId(item?.soonId) ? formatImgUrlFromProductId(item?.soonId) : imgAbsentImageSoon} preview={false} />
-        )
-          : (
-            <NoImage
-              alt={item?.name?.slice(0, 3)}
-              height={48}
-              width={48}
-            />
-          )}
+        <ProductImage
+          imageUrl={item?.image}
+          productName={item?.symbol || item?.name}
+          altImageType={altSoon}
+          size={sizeImg48}
+        />
         <div>
           <div className='form-search-data-item-data-content'>
             <h6 className='cus-h6'>{item?.name}</h6>

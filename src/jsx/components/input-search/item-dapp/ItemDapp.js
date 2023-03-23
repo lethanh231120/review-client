@@ -3,10 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
-import NoImage from '../../common-widgets/no-image/NoImage'
-import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
+import ProductImage, { altDApp, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearch, isFormReport, refInput }) => {
   const navigate = useNavigate()
@@ -32,17 +29,12 @@ const ItemDapp = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearc
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {(item?.dappId && item?.image && item?.image !== absentImageElasticSearch) ? (
-          <Image src={isValidProductId(item?.dappId) ? formatImgUrlFromProductId(item?.dappId) : imgAbsentImageDapp} preview={false} />
-        )
-          : (
-            <NoImage
-              alt={item?.name?.slice(0, 3)?.toUpperCase()}
-              height={48}
-              width={48}
-            />
-          )
-        }
+        <ProductImage
+          imageUrl={item?.image}
+          productName={item?.name}
+          altImageType={altDApp}
+          size={sizeImg48}
+        />
         <div className='form-search-data-item-content'>
           <div className='form-search-data-item-data-content'>
             <h6 className='cus-h6'>
