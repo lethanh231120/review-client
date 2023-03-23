@@ -16,7 +16,6 @@ import MyScoreComponent from '../../score/scoreComponent'
 import { exchanges } from '../../../../utils/ExchangeImage'
 import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
 import { MAX_PAGE } from '../../../constants/pagination'
-import { formatImgUrlFromProductId } from '../../../../utils/formatText'
 import { copyAddress } from '../../../../utils/effect'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { CRYPTO } from './../../../constants/category'
@@ -25,7 +24,66 @@ import { formatMoneyGreaterEqualOneDollar } from '../../../../utils/formatNumber
 import { formatMoneyLessOneDollar } from '../../../../utils/formatNumber'
 import { toCammelCase, getExchangeNameFromUrlImageExchage } from '../../../../utils/formatText'
 import { formatLargeNumber } from '../../../../utils/formatNumber'
-import ProductImage, { altCrypto, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
+import ProductImage, { altCrypto, ProductNoImage, sizeImg23_4, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
+
+const onCancelClick = (e) =>{
+  e.stopPropagation()
+}
+
+export const chainsColumn = (record, chainList) => (
+  record?.multichain
+    ? <div onClick={(e) => onCancelClick(e)}
+    >
+      {/* Have multiple chain EVM, Ex: USDC, USDT, ... */}
+      <Avatar.Group
+        alt='Blockchains Logos'
+        maxCount={record?.multichain?.length >= 4 ? 2 : 3}
+        size={25}
+        maxStyle={{
+          color: '#fff',
+          backgroundColor: '#039F7F',
+          cursor: 'pointer'
+        }}
+      >
+        {record?.multichain?.map((item, index) => (
+          <React.Fragment key={item?.cryptoId}>
+            {chainList[item?.split('_')[2]] && (
+              <Tooltip title={toCammelCase(chainList[item?.split('_')[2]]?.chainName)}>
+                <Avatar
+                  alt='Blockchain Logo'
+                  size={25}
+                  src={chainList[item?.split('_')[2]]?.image}
+                  key={index}
+                  className='crypto-table-chain'
+                  onClick={(e) => onCancelClick(e)}
+                />
+              </Tooltip>
+            )}
+          </React.Fragment>
+        ))}
+      </Avatar.Group>
+    </div>
+    : chainList[record?.chainName]
+      ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
+        {/* Native coin (exist in EVM chain list, Ex: ethereum, binance, ...) */}
+        <Avatar
+          alt='Blockchain Logo'
+          size={25}
+          src={chainList[record?.chainName]?.image}
+          key={record}
+          className='crypto-table-chain'
+          onClick={(e) => onCancelClick(e)}
+        />
+      </Tooltip>
+      : (
+    // Native coin (don't exist in EVM chain list, Ex: bitcoin, dogecoin, ...)
+        <ProductNoImage
+          projectName={record?.symbol || record?.name}
+          size={sizeImg23_4}
+        />
+      )
+)
+
 const CryptoTable = ({ loading, listData }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
@@ -106,10 +164,6 @@ const CryptoTable = ({ loading, listData }) => {
         }`
       )
     }
-  }
-
-  const onCancelClick = (e) =>{
-    e.stopPropagation()
   }
 
   const columns = [
@@ -204,66 +258,7 @@ const CryptoTable = ({ loading, listData }) => {
         </span>
       ),
       dataIndex: 'chains',
-      render: (_, record) => (
-        record?.multichain
-          ? <div onClick={(e) => onCancelClick(e)}
-          >
-            <Avatar.Group
-              alt='Blockchains Logos'
-              maxCount={record?.multichain?.length >= 4 ? 2 : 3}
-              size={25}
-              maxStyle={{
-                color: '#fff',
-                backgroundColor: '#039F7F',
-                cursor: 'pointer'
-              }}
-            >
-              {record?.multichain?.map((item, index) => (
-                <React.Fragment key={item?.cryptoId}>
-                  {chainList[item?.split('_')[2]] && (
-                    <Tooltip title={toCammelCase(chainList[item?.split('_')[2]]?.chainName)}>
-                      <Avatar
-                        alt='Blockchain Logo'
-                        size={25}
-                        src={chainList[item?.split('_')[2]]?.image}
-                        key={index}
-                        className='crypto-table-chain'
-                        onClick={(e) => onCancelClick(e)}
-                      />
-                    </Tooltip>
-                  )}
-                </React.Fragment>
-              ))}
-            </Avatar.Group>
-          </div>
-          : chainList[record?.chainName]
-            ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
-              <Avatar
-                alt='Blockchain Logo'
-                size={25}
-                src={chainList[record?.chainName]?.image}
-                key={record}
-                className='crypto-table-chain'
-                onClick={(e) => onCancelClick(e)}
-              />
-            </Tooltip>
-            : record?.smallLogo ? (
-              <Tooltip title={record?.name}>
-                <Avatar
-                  alt='Blockchain Logo'
-                  src={formatImgUrlFromProductId(record?.cryptoId)}
-                  // preview={false}
-                  size={25}
-                  key={record}
-                  onClick={(e) => onCancelClick(e)}
-                />
-              </Tooltip>
-            ) : (
-              <span className='crypto-table-info-logo image-list-no-data'>
-                {record?.name?.slice(0, 3)}
-              </span>
-            )
-      )
+      render: (_, record) => chainsColumn(record, chainList)
     },
     {
       title: (

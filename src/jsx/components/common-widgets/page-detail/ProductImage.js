@@ -8,7 +8,8 @@ export const altVenture = 'venture'
 export const altExchange = 'exchange'
 export const altLaunchpad = 'launchpad'
 export const sizeImg48 = 48
-const ProductNoImage = ({ projectName, size }) =>{
+export const sizeImg23_4 = 23.4
+export const ProductNoImage = ({ projectName, size }) =>{
   return <Avatar size={size} className='image-list-no-data-detail'>
     {projectName?.slice(0, 3)}
   </Avatar>
