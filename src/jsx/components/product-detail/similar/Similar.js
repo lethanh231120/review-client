@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { post } from '../../../../api/BaseRequest'
+import { post, S3_IMG_URL } from '../../../../api/BaseRequest'
 import { Image, Tooltip, Avatar, Table } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { CRYPTO, DAPP, EXCHANGE, LAUNCHPAD, SOON, VENTURE } from '../../../constants/category'
@@ -730,13 +730,9 @@ const Similar = ({ type, listProjectId }) => {
                     <Avatar
                       alt='Blockchain Logo'
                       size={25}
-                      src={`https://gear5.s3.ap-northeast-1.amazonaws.com/image/chain/smallLogo/${chainName
-                        ?.trim()
-                        .toLowerCase()}.png`}
+                      src={`${S3_IMG_URL}/image/chain/smallLogo/${chainName
+                        ?.trim()?.toLowerCase()}.png`}
                       className='soon-table-blockchain'
-                      // onClick={(e) => {
-                      //   // e.stopPropagation();
-                      // }}
                     />
                   </Tooltip>
                 ) : (

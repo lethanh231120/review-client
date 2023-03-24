@@ -7,6 +7,7 @@ import moment from 'moment'
 import { PREFIX_DETAIL, SOON } from '../../../constants/category'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import ProductImage, { altSoon, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
+import { S3_IMG_URL } from '../../../../api/BaseRequest'
 
 const SoonTable = ({ listData, loading }) => {
   const navigate = useNavigate()
@@ -67,7 +68,7 @@ const SoonTable = ({ listData, loading }) => {
                     <Avatar
                       alt='Blockchain Logo'
                       size={25}
-                      src={`https://gear5.s3.ap-northeast-1.amazonaws.com/image/chain/smallLogo/${chainName
+                      src={`${S3_IMG_URL}/image/chain/smallLogo/${chainName
                         ?.trim()
                         .toLowerCase()}.png`}
                       className='soon-table-blockchain'
