@@ -222,7 +222,7 @@ const CategoryItem = () => {
     setParams(sort)
   }
 
-  const RenderComponent = () => {
+  const renderComponent = () => {
     const projectType = category
     switch (projectType) {
       case DAPP:
@@ -565,7 +565,7 @@ const CategoryItem = () => {
                 {loading ? (
                   <div style={{ width: '100%' }}>  <MySkeletonLoadinng count={50} height={70} /></div>
                 ) : (
-                  <RenderComponent/>
+                  renderComponent()
                 )}
               </>
             )}
