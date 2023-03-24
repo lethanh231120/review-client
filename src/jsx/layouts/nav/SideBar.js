@@ -269,6 +269,8 @@ const SideBar = () => {
       case CATEGORY_SOON:
         tempType = SOON
         break
+      default:
+        return null
     }
     const savedDataString = window.localStorage.getItem(tempType)
     if (tempType === SOON) {
@@ -277,7 +279,8 @@ const SideBar = () => {
         delete temp?.launchpad
         window.localStorage.setItem(tempType, JSON.stringify(temp))
       }
-    } else {
+    }
+    if (tempType === DAPP || tempType === CRYPTO || tempType === EXCHANGE) {
       if (savedDataString) {
         const temp = JSON.parse(savedDataString)
         delete temp?.tag
