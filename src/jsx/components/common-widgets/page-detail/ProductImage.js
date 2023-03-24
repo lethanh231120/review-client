@@ -26,7 +26,11 @@ const ProductImage = ({ imageUrl, productName, altImageType, size, noMarginRight
   const [hasImgData, setHasImgData] = useState(null) // loading state
 
   useEffect(() => {
-    setHasImgData(true)
+    if (imageUrl) {
+      setHasImgData(true)
+    } else {
+      setHasImgData(false)
+    }
   }, [imageUrl])
 
   return <div className='profile-photo'>
