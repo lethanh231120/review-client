@@ -24,7 +24,7 @@ import { formatMoneyGreaterEqualOneDollar } from '../../../../utils/formatNumber
 import { formatMoneyLessOneDollar } from '../../../../utils/formatNumber'
 import { toCammelCase, getExchangeNameFromUrlImageExchage } from '../../../../utils/formatText'
 import { formatLargeNumber } from '../../../../utils/formatNumber'
-import ProductImage, { altCrypto, ProductNoImage, sizeImg23_4, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
+import ProductImage, { altCrypto, sizeImg23_4, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const onCancelClick = (e) =>{
   e.stopPropagation()
@@ -77,8 +77,10 @@ export const chainsColumn = (record, chainList) => (
       </Tooltip>
       : (
     // Native coin (don't exist in EVM chain list, Ex: bitcoin, dogecoin, ...)
-        <ProductNoImage
-          projectName={record?.symbol || record?.name}
+        <ProductImage
+          imageUrl={record?.smallLogo}
+          productName={record?.symbol || record?.name}
+          altImageType={altCrypto}
           size={sizeImg23_4}
         />
       )

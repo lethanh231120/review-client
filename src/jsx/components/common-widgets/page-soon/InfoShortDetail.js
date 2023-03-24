@@ -38,17 +38,20 @@ export const InfoShortDetail = ({ itemDetail }) => {
         itemDetail?.acceptCurrency &&
         <div className='mb-3 col-12' >
           <ShortItem
-            title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName} is exchanged in currencies</h3>:&nbsp;
+            title={<>
+              <h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName} is exchanged in currencies</h3>
+            </>
+            }
+            content={
               <span className='text-primary'>
                 <b>{itemDetail?.acceptCurrency?.split(',')?.map((keyName, index) => (
                   <span className='text-primary fs-16 text-uppercase' key={index}>
                     <b>{keyName}</b>
                     {/* last element in array */}
-                    {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : <>,&nbsp;</>}
+                    {index >= (itemDetail?.acceptCurrency?.split(',')?.length - 1) ? '' : <>, </>}
                   </span>
                 ))}</b>
               </span>
-            </>
             }
           />
         </div>

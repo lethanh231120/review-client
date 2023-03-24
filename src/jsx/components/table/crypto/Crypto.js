@@ -134,16 +134,12 @@ const Crypto = ({
     const mainExplorerMapLocal = new Map()
     records?.forEach(record => {
       if (!_.isEmpty(record?.multichain)) {
-        const newMultiChain = []
         record?.multichain?.forEach((itemMulti) => {
-          const itemChain = chainList[itemMulti?.chainName]
+          const chainName = itemMulti?.split('_')[2]
+          const itemChain = chainList[chainName]
           if (itemChain) {
-            newMultiChain.push({
-              ...itemChain,
-              ...itemMulti
-            })
             // main address to display
-            if (record.chainName === itemMulti?.chainName) {
+            if (record?.chainName === itemChain?.chainName) {
               const address = getAddressFromCryptoId(record?.cryptoId)
               const url = itemChain?.exploreWebsite + itemChain?.path + address
               mainExplorerMapLocal.set(record?.cryptoId, url)

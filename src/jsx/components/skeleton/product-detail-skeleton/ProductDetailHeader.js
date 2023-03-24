@@ -1,12 +1,12 @@
 import React from 'react'
 import { Skeleton } from 'antd'
-
+export const ImageLoading = (size = 60) => <Skeleton.Avatar active={true} size={size} shape='circle' />
 const ProductDetailHeader = () => {
   return (
     <div className='profile-info'>
       <div className='profile-details'>
         <>
-          <Skeleton.Avatar active={true} size={60} shape='circle' />
+          {ImageLoading()}
           <div className='profile-name px-2'>
             <div>
               <Skeleton.Input

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Avatar, Image } from 'antd'
+import { ImageLoading } from '../../skeleton/product-detail-skeleton/ProductDetailHeader'
 
 export const altSoon = 'soon'
 export const altCrypto = 'crypto'
@@ -22,14 +23,14 @@ export const ProductNoImage = ({ projectName, size, noMarginRight = false }) =>{
 }
 
 const ProductImage = ({ imageUrl, productName, altImageType, size, noMarginRight = false }) => {
-  const [hasImgData, setHasImgData] = useState(false)
+  const [hasImgData, setHasImgData] = useState(null) // loading state
 
   useEffect(() => {
-    setHasImgData(imageUrl)
+    setHasImgData(true)
   }, [imageUrl])
 
   return <div className='profile-photo'>
-    {hasImgData
+    { hasImgData === true
       ? <Image
         alt={altImageType}
         src={imageUrl}
@@ -39,11 +40,13 @@ const ProductImage = ({ imageUrl, productName, altImageType, size, noMarginRight
         style={{ borderRadius: '50%' }}
         onError={() => setHasImgData(false)}
       />
-      : <ProductNoImage
-        projectName={productName}
-        size={size}
-        noMarginRight={noMarginRight}
-      />
+      : hasImgData === false
+        ? <ProductNoImage
+          projectName={productName}
+          size={size}
+          noMarginRight={noMarginRight}
+        />
+        : ImageLoading(size)
     }
   </div>
 }
