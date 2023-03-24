@@ -1,3 +1,4 @@
+import { S3_IMG_URL } from '../api/BaseRequest'
 import { PREFIX_DETAIL, DAPP, VENTURE, EXCHANGE,
   CRYPTO, CRYPTO_COIN, CRYPTO_TOKEN
 } from '../jsx/constants/category'
@@ -69,7 +70,7 @@ export const formatImgUrlFromProductId = (productId) => {
       productImgType = CRYPTO
       break
   }
-  const imgUrl = `https://gear5.s3.ap-northeast-1.amazonaws.com/image/${productImgType}/${folderImgPath}/${productId}.png`
+  const imgUrl = `${S3_IMG_URL}/image/${productImgType}/${folderImgPath}/${productId}.png`
   return imgUrl
 }
 

@@ -2,7 +2,7 @@ import { Avatar } from 'antd'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { PRICE_WS_URL } from '../../../../api/BaseRequest'
+import { WS_URL } from '../../../../api/BaseRequest'
 // import { getPrice } from '../../../../api/BaseRequest'
 import { MySkeletonLoadinng } from '../my-spinner'
 // const getImage = (symbol) => {
@@ -20,7 +20,7 @@ export const TopCoins = () => {
 
   // GET TOP COINS DATA
   useEffect(() => {
-    const socket = new WebSocket(`${PRICE_WS_URL}/prices/crypto/latest`)
+    const socket = new WebSocket(`${WS_URL}/prices/crypto/latest`)
 
     socket?.addEventListener('open', () => {
       // console.log('WS Opened')

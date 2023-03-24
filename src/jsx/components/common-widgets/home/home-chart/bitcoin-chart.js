@@ -11,7 +11,6 @@ import TradingViewWidget from './trading-view-chart'
 //   pMinDelay(import('../../../Dashboard/Dashboard/DashboardComboChart'), 1000)
 // )
 
-// const imageLink = (name) => `https://gear5.s3.ap-northeast-1.amazonaws.com/image/crypto/bigLogo/gear5_coin_${name}.png`
 const imageLink = (name) => `./img/${name}.webp`
 
 const coinList = [
