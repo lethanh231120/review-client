@@ -2,6 +2,7 @@ import { Avatar } from 'antd'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { WS_URL } from '../../../../api/BaseRequest'
 // import { getPrice } from '../../../../api/BaseRequest'
 import { MySkeletonLoadinng } from '../my-spinner'
 // const getImage = (symbol) => {
@@ -17,10 +18,9 @@ export const TopCoins = () => {
   const [listData, setListData] = useState()
   const [screenWidth, setScreenWidth] = useState()
 
-  const PRICE_WS_URL = 'wss://crypto-price.gear5.io/prices/crypto/top'
   // GET TOP COINS DATA
   useEffect(() => {
-    const socket = new WebSocket(PRICE_WS_URL)
+    const socket = new WebSocket(`${WS_URL}/prices/crypto/latest`)
 
     socket?.addEventListener('open', () => {
       // console.log('WS Opened')
@@ -36,7 +36,13 @@ export const TopCoins = () => {
 
     socket?.addEventListener('message', (message) => {
       const data = JSON.parse(message?.data)
-      data && setTopCoins(data)
+      const type = data?.type
+      if (type === 'ping') {
+        socket.send('pong')
+      }
+      if (type === 'add') {
+        setTopCoins(data?.data)
+      }
     })
   }, [])
 

@@ -3,11 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageExchange from '../../../../images/absent_image_exchange.png'
-import NoImage from '../../common-widgets/no-image/NoImage'
-import { absentImageElasticSearch } from '../item-crypto/ItemCrypto'
 import { formatLargeNumber } from '../../../../utils/formatNumber'
+import ProductImage, { altExchange, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearch, isFormReport, refInput }) => {
   const navigate = useNavigate()
@@ -34,17 +31,12 @@ const ItemExchange = ({ item, index, itemSubmit, setItemSubmit, global, setItemS
     >
       <div className='form-search-data-item-data'>
 
-        {(item?.exchangeId && item?.image && item?.image !== absentImageElasticSearch) ? (
-          <Image src={isValidProductId(item?.exchangeId) ? formatImgUrlFromProductId(item?.exchangeId) : imgAbsentImageExchange} preview={false} />
-        )
-          : (
-            <NoImage
-              alt={item?.name?.slice(0, 3)?.toUpperCase()}
-              height={48}
-              width={48}
-            />
-          )
-        }
+        <ProductImage
+          imageUrl={item?.image}
+          productName={item?.name}
+          altImageType={altExchange}
+          size={sizeImg48}
+        />
         <div>
           <div className='form-search-data-item-data-content'>
             <h6 className='cus-h6'>

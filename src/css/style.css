@@ -21570,3 +21570,12 @@ li.countdown span {
 @media all and (max-width: 767px) {
   .ant-menu-inline-collapsed-tooltip { display: none; }
 }
+
+
+/* styling for absent image(display name or symbol) */
+.product-no-image{
+  background-color: #039F7F;
+  text-transform: uppercase;
+  margin-right: 0.625rem;
+  font-weight: 600;
+}

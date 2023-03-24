@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import '../../table/dapp/dapp.scss'
-import { Image, Table, Avatar, Tooltip } from 'antd'
+import { Table, Avatar, Tooltip } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { formatLargeNumber, renderNumber } from '../../../../utils/formatNumber'
@@ -8,10 +8,9 @@ import { PREFIX_DETAIL, DAPP } from '../../../constants/category'
 import { ChainListContext } from '../../../../App'
 import MyScoreComponent from '../../score/scoreComponent'
 import { encodeUrl } from '../../../../utils/formatUrl'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageDapp from '../../../../images/absent_image_dapp.png'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { toCammelCase } from '../../../../utils/formatText'
+import ProductImage, { altDApp, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const DappTable = ({ loading, listData }) => {
   const navigate = useNavigate()
@@ -33,13 +32,13 @@ const DappTable = ({ loading, listData }) => {
           className='crypto-table-info image-list'
           onClick={(e) => e.stopPropagation()}
         >
-          {record?.dAppId && record?.dAppLogo ? (
-            <Image src={isValidProductId(record?.dAppId) ? formatImgUrlFromProductId(record?.dAppId) : imgAbsentImageDapp} preview={false} alt='DApp Logo'/>
-          )
-            : (<span className='image-list-no-data'>
-              {record?.dAppName?.slice(0, 3)}
-            </span>)
-          }
+          <ProductImage
+            imageUrl={record?.dAppLogo}
+            productName={record?.dAppName}
+            altImageType={altDApp}
+            size={sizeImg48}
+          />
+
           <span>
             <div className='data-table-name ms-2'>
               <div className='data-table-name-title'>

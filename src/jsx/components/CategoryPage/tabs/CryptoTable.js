@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Table, Image, Tooltip, Avatar } from 'antd'
+import { Table, Tooltip, Avatar } from 'antd'
 import {
   CopyOutlined,
   CheckCircleOutlined,
@@ -14,9 +14,8 @@ import { ChainListContext } from '../../../../App'
 import _ from 'lodash'
 import MyScoreComponent from '../../score/scoreComponent'
 import { exchanges } from '../../../../utils/ExchangeImage'
-import { formatUrlDetailFromUrlImageExchange, isValidProductId } from '../../../../utils/formatText'
+import { formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
 import { MAX_PAGE } from '../../../constants/pagination'
-import { formatImgUrlFromProductId } from '../../../../utils/formatText'
 import { copyAddress } from '../../../../utils/effect'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { CRYPTO } from './../../../constants/category'
@@ -25,7 +24,99 @@ import { formatMoneyGreaterEqualOneDollar } from '../../../../utils/formatNumber
 import { formatMoneyLessOneDollar } from '../../../../utils/formatNumber'
 import { toCammelCase, getExchangeNameFromUrlImageExchage } from '../../../../utils/formatText'
 import { formatLargeNumber } from '../../../../utils/formatNumber'
-import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
+import ProductImage, { altCrypto, sizeImg23_4, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
+
+const onCancelClick = (e) =>{
+  e.stopPropagation()
+}
+
+export const chainsColumn = (record, chainList) => (
+  record?.multichain
+    ? <div onClick={(e) => onCancelClick(e)}
+    >
+      {/* Have multiple chain EVM, Ex: USDC, USDT, ... */}
+      <Avatar.Group
+        alt='Blockchains Logos'
+        maxCount={record?.multichain?.length >= 4 ? 2 : 3}
+        size={25}
+        maxStyle={{
+          color: '#fff',
+          backgroundColor: '#039F7F',
+          cursor: 'pointer'
+        }}
+      >
+        {record?.multichain?.map((item, index) => (
+          <React.Fragment key={item?.cryptoId}>
+            {chainList[item?.split('_')[2]] && (
+              <Tooltip title={toCammelCase(chainList[item?.split('_')[2]]?.chainName)}>
+                <Avatar
+                  alt='Blockchain Logo'
+                  size={25}
+                  src={chainList[item?.split('_')[2]]?.image}
+                  key={index}
+                  className='crypto-table-chain'
+                  onClick={(e) => onCancelClick(e)}
+                />
+              </Tooltip>
+            )}
+          </React.Fragment>
+        ))}
+      </Avatar.Group>
+    </div>
+    : chainList[record?.chainName]
+      ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
+        {/* Native coin (exist in EVM chain list, Ex: ethereum, binance, ...) */}
+        <Avatar
+          alt='Blockchain Logo'
+          size={25}
+          src={chainList[record?.chainName]?.image}
+          key={record}
+          className='crypto-table-chain'
+          onClick={(e) => onCancelClick(e)}
+        />
+      </Tooltip>
+      : (
+    // Native coin (don't exist in EVM chain list, Ex: bitcoin, dogecoin, ...)
+        <ProductImage
+          imageUrl={record?.smallLogo}
+          productName={record?.symbol || record?.name}
+          altImageType={altCrypto}
+          size={sizeImg23_4}
+        />
+      )
+)
+
+export const exchangesColumn = (record, handleClickExchange) => (
+  <Avatar.Group
+    alt='Exchanges Logos'
+    maxCount={4}
+    size={25}
+    maxStyle={{
+      color: '#fff',
+      backgroundColor: '#039F7F',
+      cursor: 'pointer'
+    }}
+  >
+    {record?.exchanges?.map((item, index) => (
+      <React.Fragment key={index}>
+        {item && (
+          <Tooltip title={getExchangeNameFromUrlImageExchage(item)} >
+            <Avatar
+              alt='Exchange Logo'
+              size={25}
+              src={item}
+              key={index}
+              className='crypto-table-exchange'
+              onClick={(e) => handleClickExchange(e, item)}
+            />
+          </Tooltip>
+
+        )}
+      </React.Fragment>
+    ))}
+  </Avatar.Group>
+)
+
 const CryptoTable = ({ loading, listData }) => {
   const navigate = useNavigate()
   const chainList = useContext(ChainListContext)
@@ -89,7 +180,7 @@ const CryptoTable = ({ loading, listData }) => {
     e.stopPropagation()
     e.preventDefault()
     const urlDetail = formatUrlDetailFromUrlImageExchange(item)
-    navigate(`../../products/${urlDetail}`)
+    navigate(`/${urlDetail}`)
   }
 
   const handleRowClicked = (record) => {
@@ -108,10 +199,6 @@ const CryptoTable = ({ loading, listData }) => {
     }
   }
 
-  const onCancelClick = (e) =>{
-    e.stopPropagation()
-  }
-
   const columns = [
     {
       title: 'Name',
@@ -128,13 +215,12 @@ const CryptoTable = ({ loading, listData }) => {
           onClick={(e) => e.stopPropagation()}
           className='crypto-table-info image-list'
         >
-          {record?.cryptoId && record?.smallLogo ? (
-            <Image src={isValidProductId(record?.cryptoId) ? formatImgUrlFromProductId(record?.cryptoId) : imgAbsentImageCrypto} alt='Cryptocurrency Logo'/>
-          ) : (
-            <span className='image-list-no-data'>
-              {record?.name?.slice(0, 3)}
-            </span>
-          )}
+          <ProductImage
+            imageUrl={record?.smallLogo}
+            productName={record?.symbol || record?.name}
+            altImageType={altCrypto}
+            size={sizeImg48}
+          />
           <span>
             <Tooltip
               title={(
@@ -205,66 +291,7 @@ const CryptoTable = ({ loading, listData }) => {
         </span>
       ),
       dataIndex: 'chains',
-      render: (_, record) => (
-        record?.multichain
-          ? <div onClick={(e) => onCancelClick(e)}
-          >
-            <Avatar.Group
-              alt='Blockchains Logos'
-              maxCount={record?.multichain?.length >= 4 ? 2 : 3}
-              size={25}
-              maxStyle={{
-                color: '#fff',
-                backgroundColor: '#039F7F',
-                cursor: 'pointer'
-              }}
-            >
-              {record?.multichain?.map((item, index) => (
-                <React.Fragment key={item?.cryptoId}>
-                  {chainList[item?.split('_')[2]] && (
-                    <Tooltip title={toCammelCase(chainList[item?.split('_')[2]]?.chainName)}>
-                      <Avatar
-                        alt='Blockchain Logo'
-                        size={25}
-                        src={chainList[item?.split('_')[2]]?.image}
-                        key={index}
-                        className='crypto-table-chain'
-                        onClick={(e) => onCancelClick(e)}
-                      />
-                    </Tooltip>
-                  )}
-                </React.Fragment>
-              ))}
-            </Avatar.Group>
-          </div>
-          : chainList[record?.chainName]
-            ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
-              <Avatar
-                alt='Blockchain Logo'
-                size={25}
-                src={chainList[record?.chainName]?.image}
-                key={record}
-                className='crypto-table-chain'
-                onClick={(e) => onCancelClick(e)}
-              />
-            </Tooltip>
-            : record?.smallLogo ? (
-              <Tooltip title={record?.name}>
-                <Avatar
-                  alt='Blockchain Logo'
-                  src={formatImgUrlFromProductId(record?.cryptoId)}
-                  // preview={false}
-                  size={25}
-                  key={record}
-                  onClick={(e) => onCancelClick(e)}
-                />
-              </Tooltip>
-            ) : (
-              <span className='crypto-table-info-logo image-list-no-data'>
-                {record?.name?.slice(0, 3)}
-              </span>
-            )
-      )
+      render: (_, record) => chainsColumn(record, chainList)
     },
     {
       title: (
@@ -279,36 +306,7 @@ const CryptoTable = ({ loading, listData }) => {
         </span>
       ),
       dataIndex: 'exchanges',
-      render: (_, record) => (
-        <Avatar.Group
-          alt='Exchanges Logos'
-          maxCount={4}
-          size={25}
-          maxStyle={{
-            color: '#fff',
-            backgroundColor: '#039F7F',
-            cursor: 'pointer'
-          }}
-        >
-          {record?.exchanges?.map((item, index) => (
-            <React.Fragment key={index}>
-              {item && (
-                <Tooltip title={getExchangeNameFromUrlImageExchage(item)} >
-                  <Avatar
-                    alt='Exchange Logo'
-                    size={25}
-                    src={item}
-                    key={index}
-                    className='crypto-table-exchange'
-                    onClick={(e) => handleClickExchange(e, item)}
-                  />
-                </Tooltip>
-
-              )}
-            </React.Fragment>
-          ))}
-        </Avatar.Group>
-      )
+      render: (_, record) => exchangesColumn(record, handleClickExchange)
     },
     {
       title: (

@@ -17,7 +17,7 @@ import { WARNING_ICON } from '../../components/common-widgets/logo/logo'
 import './sidebar.scss'
 
 import { PathNameContext } from '../../index'
-import { CRYPTO, DAPP, EXCHANGE, INSIGHT, LAUNCHPAD, SOON, VENTURE } from '../../constants/category'
+import { CATEGORY_NEW_TOKENS, CRYPTO, DAPP, EXCHANGE, INSIGHT, LAUNCHPAD, SOON, VENTURE } from '../../constants/category'
 import { CATEGORY_CRYPTO, CATEGORY_DAPP, CATEGORY_EXCHANGE, CATEGORY_INSIGHT, CATEGORY_LAUNCHPAD, CATEGORY_SOON, CATEGORY_VENTURE } from '../../constants/category'
 
 const reducer = (previousState, updatedState) => ({
@@ -183,11 +183,19 @@ const SideBar = () => {
     }
 
     objCategories?.push({
+      title: CATEGORY_NEW_TOKENS,
+      classsChange: '',
+      iconStyle: <i className='material-icons'>new_releases</i>,
+      to: 'new-tokens'
+    })
+
+    objCategories?.push({
       title: CATEGORY_INSIGHT,
       classsChange: '',
       iconStyle: <i className='material-icons'>insert_chart</i>,
       to: 'insight'
     })
+
     setCategories(objCategories)
   }, [categoryContext])
 
@@ -261,6 +269,8 @@ const SideBar = () => {
       case CATEGORY_SOON:
         tempType = SOON
         break
+      default:
+        return null
     }
     const savedDataString = window.localStorage.getItem(tempType)
     if (tempType === SOON) {
@@ -269,7 +279,8 @@ const SideBar = () => {
         delete temp?.launchpad
         window.localStorage.setItem(tempType, JSON.stringify(temp))
       }
-    } else {
+    }
+    if (tempType === DAPP || tempType === CRYPTO || tempType === EXCHANGE) {
       if (savedDataString) {
         const temp = JSON.parse(savedDataString)
         delete temp?.tag
@@ -318,7 +329,6 @@ const SideBar = () => {
                         onClick={() => {
                           handleMenuActive(data?.title)
                           removeFilterTag(data?.title)
-                          console.log(1231231)
                           pathName?.handleChangePathName(data?.title)
                           pathName?.setPathDetail(false)
                           if (sizeScreen < 767.98) {

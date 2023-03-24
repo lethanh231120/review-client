@@ -226,7 +226,7 @@ const ProductDetail = () => {
         setLoadingDetail(false)
       }).catch((error) => {
         const respCode = error?.response?.data?.code
-        const statusCodeNotFoundProduct = 'B.CODE.400'
+        const statusCodeNotFoundProduct = 'B.CODE.10'
         const stautsCodeInternalServerError = 'B.CODE.500'
         if (respCode === statusCodeNotFoundProduct) {
           navigate('/not-found-product')

@@ -7,7 +7,7 @@ import Description from '../description/Description'
 // import FormReport from '../../Forms/form-report/FormReport'
 import { useNavigate } from 'react-router-dom'
 import MyScoreComponent from '../../score/scoreComponent'
-import { myLogo, WARNING_ICON } from '../../common-widgets/logo/logo'
+import { WARNING_ICON } from '../../common-widgets/logo/logo'
 import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
 import { ChainListContext } from '../../../../App'
 import _ from 'lodash'
@@ -26,6 +26,7 @@ import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDet
 import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
 import InformationSubTitle, { typeBlockchain, typeExplorer, typeShort } from '../../common-widgets/page-detail/InformationSubTitle'
 import ShortItem from '../../common-widgets/page-detail/ShortItem'
+import ProductImage, { altLaunchpad, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -51,21 +52,21 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
     url && window.open(url)
   }
 
-  // VENTURE HEADER
-  const Header = () => {
-    return <>
-      {rest?.loadingDetail ? (<ProductDetailHeader/>) : (
+  // launchpad HEADER
+  const header = (
+    <>
+      {rest?.loadingDetail ? (
+        <ProductDetailHeader/>
+      ) : (
         <div className='profile-info mb-1'>
           <div className='profile-details'>
             <div className='profile-photo'>
-              { myLogo('thumbLogo', detail?.launchPadId, 'launchpad', 60) ||
-            myLogo('bigLogo', detail?.launchPadId, 'launchpad', 60) ||
-            myLogo('nativeLogo', detail?.launchPadId, 'launchpad', 60) ||
-            myLogo('smallLogo', detail?.launchPadId, 'launchpad', 60) ||
-              <span className='image-list-no-data-detail'>
-                {detail?.name?.slice(0, 3)}
-              </span>
-              }
+              <ProductImage
+                imageUrl={detail?.bigLogo || detail?.smallLogo || detail?.thumbLogo}
+                productName={detail?.name}
+                altImageType={altLaunchpad}
+                size={sizeImg48}
+              />
             </div>
             <div className='profile-name cus-profile-name'>
               <h1 className='text-primary mb-2 cus-h4 fs-20'>{detail?.name} {detail?.symbol ? `(${detail?.symbol})` : null}</h1>
@@ -74,7 +75,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
                 <img src={share} alt='share button'/>
-              Share
+            Share
               </Button>
               <WebsiteButton website={detail?.website} />
             </div>
@@ -90,7 +91,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
         </div>
       )}
     </>
-  }
+  )
 
   // LAUNCHPAD SUMMARY
   const summary = <>
@@ -460,7 +461,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
   return (
     <DetailLayout
       type='launchpad'
-      Header={<Header />}
+      Header={header}
       summary={summary}
       more={<More />}
       about={about}

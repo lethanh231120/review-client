@@ -25,8 +25,9 @@
         & .has-arrow-after {
             position: absolute;
             content: "";
-            width: 0.8rem;
-            height: 0.8rem;
+            width: 1rem;
+            height: 1rem;
+            margin-top: 0.1rem;
             border-width: 1px 0 0 1px;
             border-style: solid;
             border-color: initial;
@@ -323,7 +324,7 @@
     padding: 0.125rem 1.25rem;
 }
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li > a {
-    padding: 1.7rem 1.3rem;
+    padding: 1rem 1rem;
     margin: 3px 6px;
     text-align: center;
     border-radius: 0.625rem;
@@ -477,7 +478,7 @@
 }
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu li a {
     background: transparent;
-    margin: 0.125rem 0;
+    // margin: 0.125rem 0;
 }
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu li a svg {
     max-width: 1.5rem;

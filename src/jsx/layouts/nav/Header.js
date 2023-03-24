@@ -296,10 +296,7 @@ const Header = () => {
           <nav className='navbar navbar-expand'>
             <div className='collapse navbar-collapse justify-content-between'>
               <div className='header-left'>
-                {pathname?.pathDetail
-                  ? <div className='dashboard_bar text-etc-overflow cus-h1'>{header}</div>
-                  : <h1 className='dashboard_bar text-etc-overflow cus-h1 fs-22 mt-2'>{header}</h1>
-                }
+                <h1 className='dashboard_bar text-etc-overflow cus-h1 fs-22 mt-1'>{header}</h1>
               </div>
               {/* header: search elk input */}
               <div

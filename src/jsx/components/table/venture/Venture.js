@@ -1,4 +1,4 @@
-import { Row, Col, Table, Image, Tooltip } from 'antd'
+import { Row, Col, Table, Tooltip } from 'antd'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { renderNumber } from '../../../../utils/formatNumber'
@@ -7,12 +7,11 @@ import { NO_DATA } from '../../../constants/data'
 import DrawerFilter from '../../drawer-filter/DrawerFilter'
 import CategorySearch from '../../input-search/CategorySearch'
 import MyScoreComponent from '../../score/scoreComponent'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageVenture from '../../../../images/absent_image_venture.png'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { VentureExplain } from '../../common-widgets/row-explaination/RowExplainationText'
 import { Badge } from 'react-bootstrap'
 import _ from 'lodash'
+import ProductImage, { altVenture, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 const Venture = ({
   listProduct,
@@ -40,13 +39,12 @@ const Venture = ({
         to={`../../products/${record?.ventureId?.split('_')[1]}/${record?.ventureId?.split('_')[2]}`}
         className='crypto-table-info image-list'
         onClick={e => e.stopPropagation()}>
-        {record?.ventureId && record?.ventureLogo ? (
-          <Image alt='Venture Logo' src={isValidProductId(record?.ventureId) ? formatImgUrlFromProductId(record?.ventureId) : imgAbsentImageVenture} preview={false} />
-        )
-          : (<span className='image-list-no-data'>
-            {record?.ventureName?.slice(0, 3)}
-          </span>)
-        }
+        <ProductImage
+          imageUrl={record?.ventureLogo}
+          productName={record?.ventureName}
+          altImageType={altVenture}
+          size={sizeImg48}
+        />
         <Tooltip title={(<p>{`${record?.ventureName}`}</p>)}>
           <span>
             <div className='data-table-name ms-2'>

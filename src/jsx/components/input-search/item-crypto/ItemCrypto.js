@@ -3,9 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Image } from 'antd'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
-import { isValidProductId, formatImgUrlFromProductId } from '../../../../utils/formatText'
-import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
-import NoImage from './../../common-widgets/no-image/NoImage'
+import ProductImage, { altCrypto, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 
 export const absentImageElasticSearch = 'empty-token'
 const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItemSearch, isFormReport, refInput }) => {
@@ -32,17 +30,12 @@ const ItemCrypto = ({ item, index, itemSubmit, setItemSubmit, global, setItemSea
       onMouseEnter={() => global ? setItemSubmit(item) : ''}
     >
       <div className='form-search-data-item-data'>
-        {(item?.cryptoId && item?.image && item?.image !== absentImageElasticSearch) ? (
-          <Image src={isValidProductId(item?.cryptoId) ? formatImgUrlFromProductId(item?.cryptoId) : imgAbsentImageCrypto} preview={false}/>
-        ) : (
-          (
-            <NoImage
-              alt={item?.name?.slice(0, 3)?.toUpperCase()}
-              height={48}
-              width={48}
-            />
-          )
-        )}
+        <ProductImage
+          imageUrl={item?.image}
+          productName={item?.symbol || item?.name }
+          altImageType={altCrypto}
+          size={sizeImg48}
+        />
         <div>
           <div className='form-search-data-item-data-content'>
             <div className='form-search-data-item-data-content-name'>
