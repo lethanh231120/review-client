@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { get } from '../../../api/BaseRequest'
 import { ChainListContext } from '../../../App'
 import {
-//   CopyOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
   ApartmentOutlined
@@ -13,6 +12,8 @@ import { useNavigate } from 'react-router-dom'
 import './live-new-tokens.scss'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import _ from 'lodash'
+import { SEO } from './../SEO/SEO'
+import { getHeaderLiveNewToken } from '../SEO/server/new-live-token'
 
 const LiveNewTokensList = () => {
   const navigate = useNavigate()
@@ -130,27 +131,28 @@ const LiveNewTokensList = () => {
     }
   ]
 
-  return <div className='font-family crypto-table'>
-    <Card
-    // title={<div>Live New Tokens</div>}s
-    >
-      {loading ? <MySkeletonLoadinng count={30} height={80} />
-        : <Table
-          loading={loading}
-          columns={columns}
-          dataSource={tokenList}
-          pagination={{ pageSize: PAGE_SIZE, showSizeChanger: false, disabled: true }}
-          rowKey={record => record?.cryptoId}
-          onRow={(record) => ({
-            onClick: () => {
-              onRowClicked(record?.cryptoId)
-            }
-          })}
-          className='new-token-table'
-          scroll={{ x: 'max-content' }}
-        />}
-    </Card>
-  </div>
+  return <>
+    <SEO props={{ title: getHeaderLiveNewToken() }}/>
+    <div className='font-family crypto-table'>
+      <Card>
+        {loading ? <MySkeletonLoadinng count={30} height={80} />
+          : <Table
+            loading={loading}
+            columns={columns}
+            dataSource={tokenList}
+            pagination={{ pageSize: PAGE_SIZE, showSizeChanger: false, disabled: true }}
+            rowKey={record => record?.cryptoId}
+            onRow={(record) => ({
+              onClick: () => {
+                onRowClicked(record?.cryptoId)
+              }
+            })}
+            className='new-token-table'
+            scroll={{ x: 'max-content' }}
+          />}
+      </Card>
+    </div>
+  </>
 }
 
 export default LiveNewTokensList
