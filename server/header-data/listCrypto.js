@@ -20,7 +20,7 @@ subcategoryTotalMap.set('Meme', '100+')
 subcategoryTotalMap.set('NFT', '390+')
 subcategoryTotalMap.set('Decentralized Exchange', '135+')
 
-const LIST_TITLE = `${totalCryptoProject} Cryptos| Review & Discuss | Gear5`
+const LIST_TITLE = `${totalCryptoProject} Cryptos | Review & Discuss | Gear5`
 const LIST_DESCRIPTION = `Discover Gear5's comprehensive list of ${totalCryptoProject} Cryptos includes detailed ratings, reviews & essential information and watch out which projects are reported as Scam or Dead! `
 
 const IMAGE = `/list-crypto.webp`

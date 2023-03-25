@@ -20,7 +20,7 @@ subcategoryTotalMap.set('Meme', '100+')
 subcategoryTotalMap.set('NFT', '390+')
 subcategoryTotalMap.set('Decentralized Exchange', '135+')
 
-const LIST_TITLE = `${totalCryptoProject} Cryptos| Review & Discuss | Gear5`
+const LIST_TITLE = `${totalCryptoProject} Cryptos | Review & Discuss | Gear5`
 const SUB_CATEGORY_TITLE = `Review & Discuss ${REPLACE_TOTAL}${REPLACE_SUB_CATEGORY} Cryptos | Gear5`
 
 export const getHeaderListCrypto = (subCategory) => {

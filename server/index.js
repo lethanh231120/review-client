@@ -46,6 +46,7 @@ const { getMetaTagAddProject } = require('./header-data/add-project')
 const { getMetaTagReportScam } = require('./header-data/report-scam')
 const { toCammelCase } = require('./utils/formatText')
 const { getScriptSchemaMarkupSiteLinkSearchBoxHomePage } = require('./constants/schemaMarkup')
+const { getMetaTagLiveNewToken } = require('./header-data/new-live-token')
 
 // ######## Default meta tag
 const metaTagHome = getMetaTagHome()
@@ -444,6 +445,12 @@ const genListHeader = (req, res, category, subCategory) => {
     }
   }
 }
+
+// Live new token
+app.get(`/new-tokens`, (req, res)=>{
+  // console.log(`/new-tokens`)
+  genStaticHeader(res, getMetaTagLiveNewToken(getURLFromRequest(req)))
+})
 
 // Report Scam page
 app.get(`/report-scam`, (req, res) => {
