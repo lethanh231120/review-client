@@ -7,33 +7,30 @@ import ThemeContext from './context/ThemeContext'
 import { HelmetProvider } from 'react-helmet-async'
 import { ErrorBoundary } from 'react-error-boundary'
 import { emailNika } from './jsx/components/privacy-policy/PrivacyPolicy'
+import { Button } from 'react-bootstrap'
 
-const templateNewVersion = <>
+const templateAppCrashed = <>
   <p style={{
     fontSize: '4rem',
     color: '#039F7F' // main color
   }}>
-    <center>The website has a new update.</center>
+    <center>Something went wrong.</center>
   </p>
 
   <p style={{
     fontSize: '2rem',
     color: '#039F7F' // main color
   }}>
-  Please clear your browser cache, or press key combination <code>Ctrl</code> <code>Shift</code> <code>R</code>
-  </p>
-
-  <p style={{
-    fontSize: '2rem',
-    color: '#039F7F' // main color
-  }}>
-  In the worst case try closing the browser and reopening it, or contact us via email <b>{emailNika}</b>
+    <a href='/'><Button className='btn btn-primary' style={{ marginRight: '1rem' }}>
+                  Go Home
+    </Button></a>
+    , or contact us via email <b>{emailNika}</b>
   </p>
 
 </>
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <ErrorBoundary fallback={templateNewVersion}>
+  <ErrorBoundary fallback={templateAppCrashed}>
     <HelmetProvider>
       <BrowserRouter>
         <ThemeContext>
@@ -43,7 +40,6 @@ root.render(
     </HelmetProvider>
   </ErrorBoundary>,
   document.getElementById('root')
-
 )
 
 // If you want to start measuring performance in your app, pass a function
