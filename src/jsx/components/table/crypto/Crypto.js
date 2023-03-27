@@ -134,7 +134,7 @@ const Crypto = ({
     const mainExplorerMapLocal = new Map()
     records?.forEach(record => {
       if (!_.isEmpty(record?.multichain)) {
-        record?.multichain?.foreEach((itemMulti) => {
+        record?.multichain?.forEach((itemMulti) => {
           const chainName = itemMulti?.split('_')[2]
           const itemChain = chainList[chainName]
           if (itemChain) {
