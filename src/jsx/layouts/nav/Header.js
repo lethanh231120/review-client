@@ -257,7 +257,7 @@ const Header = () => {
     profileModal?.setOpenModalUserProfile(false)
   }
 
-  const header = pathname?.pathName !== '' ? pathname?.pathName : `Substitute`
+  const header = pathname?.pathName !== '' ? pathname?.pathName : `Don't trust, verify`
 
   return (
     <>
