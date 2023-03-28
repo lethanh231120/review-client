@@ -368,9 +368,14 @@ const getURLFromRequest = (req) => {
   return META_UNIQUE_LINK + req?.originalUrl
 }
 
+// app.get(`/test`, (req, res) => {
+//   console.log(`server BE - 2. call from ReactJS`)
+// })
+
 // ######## detail page
 // detail: crypto(coin)
 app.get(`/products/crypto/coin/:coinName`, (req, res) => {
+  // console.log(`server BE - 1. call from ExpressJS`)
   // console.log('detail: crypto(coin)')
   const coinName = req?.params?.coinName
   genDetailHeader(req, res, coinName ? `coin_${coinName}` : '')
