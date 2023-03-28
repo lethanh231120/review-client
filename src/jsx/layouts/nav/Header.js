@@ -35,7 +35,6 @@ const Header = () => {
   const pathname = useContext(PathNameContext)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
-  // const [isSmallMode, setIsSmallMode] = useState()
   const [isSmallMode, setIsSmallMode] = useState(window.innerWidth <= minimumWidthBigScreenMode)
   const showFullSearchConext = useContext(ShowFullSearchConext)
   const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)

@@ -76,9 +76,11 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
           </div>
           <Modal
             open={openModalShare}
+            show={openModalShare}
             onCancel={() => setOpenModalShare(false)}
             onOk={() => setOpenModalShare(false)}
-            footer={null}
+            footer={false}
+            destroyOnClose={true}
           >
             <ShareButton name={detail?.name} setOpenModalShare={setOpenModalShare}/>
           </Modal>
