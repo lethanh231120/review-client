@@ -193,7 +193,7 @@ const Markup = () => {
       //   }).catch((err) => {
       //     console.log(err)
       //   })
-      console.log('page loaded')
+      // console.log('page loaded', window.document.title, typeof (window.document.title))
       // do something else
     }
 
