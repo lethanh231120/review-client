@@ -11,7 +11,7 @@ const ShareButton = ({ name, setOpenModalShare }) => {
   const getShareLink = async() =>{
     let code = ''
     try {
-      [code] = await getReferralStatistics(false)
+      [code] = await getReferralStatistics()
     } catch (e) {
       console.error(e)
     }

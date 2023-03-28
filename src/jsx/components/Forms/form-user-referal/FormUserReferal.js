@@ -4,17 +4,16 @@ import { get } from '../../../../api/BaseRequest'
 import profile from '../../../../images/product/user.png'
 import { notifyTopRightSuccess } from '../../product-detail/ProductDetail'
 import { notifyTopRightFail } from '../form-report/FormReport'
+import { CopyOutlined } from '@ant-design/icons'
+import { copyAddress } from '../../../../utils/effect'
 
-export const getReferralStatistics = async(isShowMessageErr = true) =>{
+export const getReferralStatistics = async() =>{
   try {
     const resp = await get('reviews/referral')
     const respData = resp?.data
     return [respData?.code, respData?.click]
   } catch (err) {
     console.error(err)
-    if (isShowMessageErr) {
-      notifyTopRightFail('Something when wrong while get your referral statistics')
-    }
   }
 }
 
@@ -49,7 +48,7 @@ export const FormUserReferal = ({ userInfo }) => {
   }, [])
 
   return <>
-    <h3 className='form-title'>Referral Statistics</h3>
+    <h3 className='form-title'>Referral</h3>
     <div className='row'>
       <div className='col-3'>
         <img src={userInfo?.image ? userInfo?.image : profile} alt='error' width={64} height={64}/>
@@ -72,6 +71,12 @@ export const FormUserReferal = ({ userInfo }) => {
                 ? <>
                   <p>
                     My referral code:  <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{code}</Badge>
+                    &nbsp;
+                    <CopyOutlined
+                      onClick={(e) =>
+                        copyAddress(e, code, 'Copy referral code successfully')
+                      }
+                    />
                   </p>
                   <p>
                     Total click from your share with referral code: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{click}</Badge>
