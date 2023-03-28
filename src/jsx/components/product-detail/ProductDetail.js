@@ -31,6 +31,22 @@ import { PathNameContext } from '../../index'
 import ProductDetailEmpty from '../skeleton/product-detail-skeleton/ProductDetailEmpty'
 import { getHeaderProductDetail } from '../SEO/server/productDetail'
 
+// noti report success
+export const notifyTopRightSuccess = (content) => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true
+  })
+
+  Toast.fire({
+    icon: 'success',
+    title: content
+  })
+}
+
 const ProductDetail = () => {
   const TYPE_REVIEW = 0
   const TYPE_REPLY = 1
@@ -419,22 +435,6 @@ const ProductDetail = () => {
     }
   }, [productInfo])
 
-  // noti report success
-  const notifyTopRight = () => {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true
-    })
-
-    Toast.fire({
-      icon: 'success',
-      title: 'Send Review successfully!'
-    })
-  }
-
   const handleAddComment = async(params, type, header) => {
     try {
       let dataAdd
@@ -472,7 +472,7 @@ const ProductDetail = () => {
               ...reviews
             ])
           }
-          notifyTopRight()
+          notifyTopRightSuccess('Send Review successfully!')
         } else {
           Swal.fire({
             icon: 'warning',
