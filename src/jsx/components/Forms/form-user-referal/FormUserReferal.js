@@ -5,28 +5,36 @@ import profile from '../../../../images/product/user.png'
 import { notifyTopRightSuccess } from '../../product-detail/ProductDetail'
 import { notifyTopRightFail } from '../form-report/FormReport'
 
+export const getReferralStatistics = async(isShowMessageErr = true) =>{
+  try {
+    const resp = await get('reviews/referral')
+    const respData = resp?.data
+    return [respData?.code, respData?.click]
+  } catch (err) {
+    console.error(err)
+    if (isShowMessageErr) {
+      notifyTopRightFail('Something when wrong while get your referral statistics')
+    }
+  }
+}
+
 export const FormUserReferal = ({ userInfo }) => {
   const [code, setCode] = useState()
   const [click, setClick] = useState()
 
-  const getReferal = async() =>{
-    try {
-      const resp = await get('reviews/referral')
-      const respData = resp?.data
-      setCode(respData?.code)
-      setClick(respData?.click)
-    } catch (err) {
-      console.error(err)
-      notifyTopRightFail('Something when wrong while get your referral statistics')
-    }
+  const setReferralCodeAndClick = async() =>{
+    const [code, click] = await getReferralStatistics()
+    setCode(code)
+    setClick(click)
   }
+
   const createCode = async() => {
     try {
       const resp = await get('reviews/referral/create')
       const status = resp?.status
       if (status) {
         notifyTopRightSuccess('Activate your referral code successfully')
-        await getReferal()
+        setReferralCodeAndClick()
       } else {
         throw new Error('error')
       }
@@ -37,7 +45,7 @@ export const FormUserReferal = ({ userInfo }) => {
   }
 
   useEffect(() => {
-    getReferal()
+    setReferralCodeAndClick()
   }, [])
 
   return <>
