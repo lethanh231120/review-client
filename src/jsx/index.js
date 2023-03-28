@@ -35,6 +35,7 @@ import { CATEGORY_CRYPTO, CATEGORY_DAPP, CATEGORY_EXCHANGE, CATEGORY_INSIGHT, CA
 import ChartDetail from './components/insight/chartDetail/ChartDetail'
 import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 import LiveNewTokensList from './components/live-new-tokens/LiveNewTokensList'
+// import axios from 'axios'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -174,6 +175,37 @@ const Markup = () => {
       }
     }
   }, [location])
+
+  // This will run one time after the component mounts
+  useEffect(() => {
+    // callback function to call when event triggers
+    const onPageLoad = () => {
+      // axios({
+      //   method: 'get',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   url: `https://c33b-2a09-bac5-d458-16d2-00-246-5a.ap.ngrok.io/test`,
+      //   timeout: 1000 // 1 second
+      // })
+      //   .then((resp) =>{
+      //     console.log(resp)
+      //   }).catch((err) => {
+      //     console.log(err)
+      //   })
+      console.log('page loaded')
+      // do something else
+    }
+
+    // Check if the page has already loaded
+    if (document.readyState === 'complete') {
+      onPageLoad()
+    } else {
+      window.addEventListener('load', onPageLoad, false)
+      // Remove the event listener when component unmounts
+      return () => window.removeEventListener('load', onPageLoad)
+    }
+  }, [])
 
   return (
     <>
