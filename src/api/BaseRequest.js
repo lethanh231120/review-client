@@ -26,9 +26,13 @@ const setHeaderSearch = async() => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
   instanceSearch.defaults.headers.common[authorizationText] = `${bearerText} ${token}`
 }
-const setHeaderRead = async() => {
+const setHeaderRead = async(header) => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
   instanceRead.defaults.headers.common[authorizationText] = `${bearerText} ${token}`
+  // Access page with reference first time
+  if (header?.Referral) {
+    instanceRead.defaults.headers.common['Referral'] = `${header?.Referral}`
+  }
 }
 const setHeaderWrite = async(header) => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
@@ -51,9 +55,9 @@ const search = async(url, params = {}) => {
   }
 }
 
-const get = async(url, params = {}) => {
+const get = async(url, params = {}, header) => {
   try {
-    await setHeaderRead()
+    await setHeaderRead(header)
     const config = { params: params }
     const response = await instanceRead.get(getUrlPrefix() + url, config)
     return _responseHandler(response)
