@@ -83,13 +83,19 @@
   </script>
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7KCVV5ZDJ"></script>
+  <!-- production -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7KCVV5ZDJ"></script> -->
+  <!-- development -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-48T12XNS5S"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'G-D7KCVV5ZDJ');
+    // production
+    // gtag('config', 'G-D7KCVV5ZDJ');
+    // development
+    gtag('config', 'G-48T12XNS5S');
   </script>
 
   <!-- from const appIDFacebook -->
