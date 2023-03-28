@@ -213,7 +213,7 @@ const genDetailHeader = (req, res, productId = '') => {
         'Content-Type': 'application/json'
       },
       url: `${DOMAIN_READ}${PATH_DETAIL_PRODUCT}${productId}`,
-      timeout: 1000 // 1 second
+      timeout: 3000 // 1 second
     })
       .then((resp) =>{
         const data = resp?.data?.data?.details
@@ -328,11 +328,11 @@ const genDetailHeader = (req, res, productId = '') => {
         return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription, getURLFromRequest(req))))
       }).catch((error) => {
         console.error(`Error call API detail product | ${error.name}: ${error.message}`)
-        return res?.send(injectHtmlHeader(getMetaTagHome()))
+        return res?.send(injectHtmlHeader(getMetaTag(META_TITLE, META_IMAGE, META_DESCRIPTION, getURLFromRequest(req))))
       })
   } else {
     // don't have product id
-    return res?.send(injectHtmlHeader(getMetaTagHome()))
+    return res?.send(injectHtmlHeader(getMetaTag(META_TITLE, META_IMAGE, META_DESCRIPTION, getURLFromRequest(req))))
   }
 }
 
