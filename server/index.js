@@ -371,6 +371,11 @@ const getDetailInsightHeader = (req, res, chartName = '') =>{
   }
 }
 
+// app.get(`/test`, (req, res) => {
+//   console.log(JSON.stringify(req.headers['user-agent']))
+//   res.send('123')
+// })
+
 // ######## detail page
 // detail: crypto(coin)
 app.get(`/products/crypto/coin/:coinName`, (req, res) => {
