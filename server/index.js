@@ -7,6 +7,7 @@ const PATH_DETAIL_INSIGHT = '/reviews/chart/detail?chartId='
 // const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
 const DOMAIN_IMAGE = 'https://gear5.s3.ap-northeast-1.amazonaws.com'
 const PORT = process.env.PORT || 3000
+const API_TIME_LIMIT = 3000 // millisecond
 const app = express()
 
 const path = require('path')
@@ -204,6 +205,7 @@ const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
 }
 
 const genDetailHeader = (req, res, productId = '') => {
+  const uniqueLink = getURLFromRequest(req)
   if (productId) {
     productId = encodeSpecialCharacterUrl(productId)
     productId = `gear5_${productId}`
@@ -213,7 +215,7 @@ const genDetailHeader = (req, res, productId = '') => {
         'Content-Type': 'application/json'
       },
       url: `${DOMAIN_READ}${PATH_DETAIL_PRODUCT}${productId}`,
-      timeout: 3000 // 1 second
+      timeout: API_TIME_LIMIT
     })
       .then((resp) =>{
         const data = resp?.data?.data?.details
@@ -325,14 +327,14 @@ const genDetailHeader = (req, res, productId = '') => {
         const hasImage = data?.bigLogo || data?.dAppLogo || data?.ventureLogo || data?.smallLogo || data?.thumbLogo || data?.nativeLogo
         const image = (productId && hasImage) ? `${DOMAIN_IMAGE}/image/${imgPath}/bigLogo/${productId}.png` : META_IMAGE
 
-        return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription, getURLFromRequest(req))))
+        return res.send(injectHtmlHeader(getMetaTag(title, image, cleanDescription, uniqueLink)))
       }).catch((error) => {
         console.error(`Error call API detail product | ${error.name}: ${error.message}`)
-        return res?.send(injectHtmlHeader(getMetaTag(META_TITLE, META_IMAGE, META_DESCRIPTION, getURLFromRequest(req))))
+        return res?.send(injectHtmlHeader(getMetaTag(META_TITLE, META_IMAGE, META_DESCRIPTION, uniqueLink)))
       })
   } else {
     // don't have product id
-    return res?.send(injectHtmlHeader(getMetaTag(META_TITLE, META_IMAGE, META_DESCRIPTION, getURLFromRequest(req))))
+    return res?.send(injectHtmlHeader(getMetaTag(META_TITLE, META_IMAGE, META_DESCRIPTION, uniqueLink)))
   }
 }
 
