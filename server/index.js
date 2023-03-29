@@ -32,6 +32,7 @@ const file = (function() {
 }())
 
 const axios = require('axios')
+const isbot = require('isbot')
 
 const { getMetaTagHome } = require('./header-data/home')
 const { getMetaTagListCrypto, getSubTitle } = require('./header-data/listCrypto')
@@ -370,6 +371,12 @@ const getDetailInsightHeader = (req, res, chartName = '') =>{
     return res?.send(injectHtmlHeader(getMetaTagInsight(uniqueLink)))
   }
 }
+
+app.get(`/test`, (req, res) => {
+  console.log('is bot: ' + isbot(req.get('user-agent')), JSON.stringify(req.headers['user-agent']))
+
+  res.send('123')
+})
 
 // ######## detail page
 // detail: crypto(coin)

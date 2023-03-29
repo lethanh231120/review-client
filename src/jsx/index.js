@@ -35,7 +35,8 @@ import { CATEGORY_CRYPTO, CATEGORY_DAPP, CATEGORY_EXCHANGE, CATEGORY_INSIGHT, CA
 import ChartDetail from './components/insight/chartDetail/ChartDetail'
 import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 import LiveNewTokensList from './components/live-new-tokens/LiveNewTokensList'
-// import { get } from '../api/BaseRequest'
+import { get } from '../api/BaseRequest'
+// import axios from 'axios'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -184,54 +185,54 @@ const Markup = () => {
   }, [location])
 
   // This will run one time after the component mounts
-  // useEffect(() => {
-  //   // callback function to call when event triggers
-  //   const onPageLoad = async() => {
-  //     // get query params
-  //     const params = new Proxy(new URLSearchParams(window.location.search), {
-  //       get: (searchParams, prop) => searchParams.get(prop)
-  //     })
-  //     const referenceVal = params.ref
+  useEffect(() => {
+    // callback function to call when event triggers
+    const onPageLoad = async() => {
+      // get query params
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop)
+      })
+      const referenceVal = params.ref
 
-  //     // history.pushState({}, null, window.location.href.split('?')[0])
-  //     // Has ref params
-  //     if (referenceVal) {
-  //       try {
-  //         await get(`reviews/referral/confirm`, {}, { Referral: referenceVal })
-  //       } catch (e) {
-  //         console.error(e)
-  //       }
-  //     }
+      // history.pushState({}, null, window.location.href.split('?')[0])
+      // Has ref params
+      if (referenceVal) {
+        try {
+          await get(`reviews/referral/confirm`, {}, { Referral: referenceVal })
+        } catch (e) {
+          console.error(e)
+        }
+      }
 
-  //     // ############## my way(Trieudd) ######
-  //     // axios({
-  //     //   method: 'get',
-  //     //   headers: {
-  //     //     'Content-Type': 'application/json'
-  //     //   },
-  //     //   url: `https://c33b-2a09-bac5-d458-16d2-00-246-5a.ap.ngrok.io/test`,
-  //     //   timeout: 1000 // 1 second
-  //     // })
-  //     //   .then((resp) =>{
-  //     //     console.log(resp)
-  //     //   }).catch((err) => {
-  //     //     console.log(err)
-  //     //   })
-  //     // const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
-  //     // history.pushState({}, null, window.location.href + '?gear5Click=' + token) // home
-  //     // const list = document.querySelectorAll('script[type="application/ld+json"]')
-  //     // console.log('page loaded', list[0].innerText)
-  //   }
+      // ############## my way(Trieudd) ######
+      // axios({
+      //   method: 'get',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   url: `https://c33b-2a09-bac5-d458-16d2-00-246-5a.ap.ngrok.io/test`,
+      //   timeout: 1000 // 1 second
+      // })
+      //   .then((resp) =>{
+      //     console.log(resp)
+      //   }).catch((err) => {
+      //     console.log(err)
+      //   })
+      // const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
+      // history.pushState({}, null, window.location.href + '?gear5Click=' + token) // home
+      // const list = document.querySelectorAll('script[type="application/ld+json"]')
+      // console.log('page loaded', list[0].innerText)
+    }
 
-  //   // Check if the page has already loaded
-  //   if (document.readyState === 'complete') {
-  //     onPageLoad()
-  //   } else {
-  //     window.addEventListener('load', onPageLoad, false)
-  //     // Remove the event listener when component unmounts
-  //     return () => window.removeEventListener('load', onPageLoad)
-  //   }
-  // }, [])
+    // Check if the page has already loaded
+    if (document.readyState === 'complete') {
+      onPageLoad()
+    } else {
+      window.addEventListener('load', onPageLoad, false)
+      // Remove the event listener when component unmounts
+      return () => window.removeEventListener('load', onPageLoad)
+    }
+  }, [])
 
   return (
     <>
