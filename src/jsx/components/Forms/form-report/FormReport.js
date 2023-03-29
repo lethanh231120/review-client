@@ -13,14 +13,9 @@ import {
 } from 'antd'
 import { StarFilled } from '@ant-design/icons'
 import ReCAPTCHA from 'react-google-recaptcha'
-// import EmojiPicker from 'emoji-picker-react'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
-// import { SignInContext } from '../../layout/Main'
-// import { explorers } from '../../../../utils/ExplorerScan'
 import moment from 'moment'
 import { post } from '../../../../api/BaseRequest'
-// import smile from '../../../../images/product/smile.png'
-// import user from '../../../../images/product/user.webp'
 import user from '../../../../images/svg/anonymous.svg'
 import FilterReview from '../../product-detail/filter-review/FilterReview'
 import '../../../../scss/base/cus-form.scss'
@@ -30,7 +25,7 @@ import _ from 'lodash'
 import imgshit from '../../common-widgets/home/reviews/shit-icon.svg'
 
 // toast message
-const notifyTopRight = (content) => {
+export const notifyTopRightFail = (content) => {
   const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -48,11 +43,11 @@ const notifyTopRight = (content) => {
 export const beforeUpload = (file) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   if (!isJpgOrPng) {
-    notifyTopRight('You can only upload JPG/PNG file!')
+    notifyTopRightFail('You can only upload JPG/PNG file!')
   }
   const isLt10M = file.size / 1024 / 1024 < 10
   if (!isLt10M) {
-    notifyTopRight('Image must smaller than 10MB!')
+    notifyTopRightFail('Image must smaller than 10MB!')
   }
   return isJpgOrPng && isLt10M
 }

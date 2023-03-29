@@ -83,10 +83,6 @@ const VentureInfo = ({ productInfo, ...rest }) => {
                   : ''
               }
             </div>
-            {/* <div className='detail-button'>
-            <ShareButton name={detail?.name} />
-            <WebsiteButton website={detail?.website} />
-          </div> */}
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
                 <img src={share} alt='share button'/>
@@ -97,9 +93,11 @@ const VentureInfo = ({ productInfo, ...rest }) => {
           </div>
           <Modal
             open={openModalShare}
+            show={openModalShare}
             onCancel={() => setOpenModalShare(false)}
             onOk={() => setOpenModalShare(false)}
-            footer={null}
+            footer={false}
+            destroyOnClose={true}
           >
             <ShareButton name={detail?.name} setOpenModalShare={setOpenModalShare}/>
           </Modal>
