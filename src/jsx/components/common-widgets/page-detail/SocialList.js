@@ -4,13 +4,18 @@ import { toCammelCase } from '../../../../utils/formatText'
 import ShortItem from './ShortItem'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 
+export const isUrlValid = (userInput) => {
+  var res = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)
+  if (res == null) { return false } else { return true }
+}
+
 const SocialList = ({ detailSocials }) => {
   return <div className='mb-3 col-12'>
     <ShortItem
       title={Object.keys(detailSocials).map(
         (socialName) => {
           // absent data string and, text only
-          return detailSocials[socialName] !== '' && !detailSocials[socialName]?.trim().includes(' ') ? (
+          return isUrlValid(detailSocials[socialName]?.trim()) ? (
             <Tooltip
               className='me-1 mt-2'
               placementTooltip='topLeft'
@@ -18,7 +23,7 @@ const SocialList = ({ detailSocials }) => {
               key={socialName}
             >
               <a
-                href={ detailSocials[socialName]?.includes('http') ? detailSocials[socialName] : `//${detailSocials[socialName]}`}
+                href={ detailSocials[socialName]?.startsWith('http') ? detailSocials[socialName] : `//${detailSocials[socialName]}`}
                 target='_blank'
                 rel='noreferrer'
               >

@@ -177,6 +177,11 @@ const statusUpcoming = 'upcoming'
 const statusOngoing = 'ongoing'
 const statusPast = 'past'
 
+const getURLFromRequest = (req) => {
+  // META_UNIQUE_LINK is home page
+  return META_UNIQUE_LINK + req?.originalUrl
+}
+
 const getStatusFromStartDateAndEndDate = (startDate, endDate) => {
   const myCurrentDateTimeUnix = getCurrentTimeUnix()
 
@@ -339,6 +344,7 @@ const genDetailHeader = (req, res, productId = '') => {
 }
 
 const getDetailInsightHeader = (req, res, chartName = '') =>{
+  const uniqueLink = getURLFromRequest(req)
   if (chartName) {
     chartName = encodeSpecialCharacterUrl(chartName)
     axios({
@@ -354,20 +360,15 @@ const getDetailInsightHeader = (req, res, chartName = '') =>{
         const title = data?.description ? `${data?.description} | Insights by Gear5` : META_TITLE_INSIGHT
         const image = META_IMAGE_INSIGHT
         const description = `Take a look at ${data?.title ? (data?.title + ' ') : ''}by Gear5 and make well-informed investment decisions.`
-        return res.send(injectHtmlHeader(getMetaTag(title, image, description, getURLFromRequest(req))))
+        return res.send(injectHtmlHeader(getMetaTag(title, image, description, uniqueLink)))
       }).catch((error) => {
         console.error(`Error call API detail insight | ${error.name}: ${error.message}`)
-        return res?.send(injectHtmlHeader(getMetaTagHome()))
+        return res?.send(injectHtmlHeader(getMetaTagInsight(uniqueLink)))
       })
   } else {
     // don't have product id
-    return res?.send(injectHtmlHeader(getMetaTagInsight(META_UNIQUE_LINK)))
+    return res?.send(injectHtmlHeader(getMetaTagInsight(uniqueLink)))
   }
-}
-
-const getURLFromRequest = (req) => {
-  // META_UNIQUE_LINK is home page
-  return META_UNIQUE_LINK + req?.originalUrl
 }
 
 // ######## detail page
@@ -410,37 +411,38 @@ const genListHeader = (req, res, category, subCategory) => {
     // split between word category from '-' to ' '
     subCategory = subCategory?.split('-')?.join(' ')
   }
+  const uniqueLink = getURLFromRequest(req)
   switch (category) {
     case CRYPTO:{
-      genStaticHeader(res, getMetaTagListCrypto(subCategory, getURLFromRequest(req)))
+      genStaticHeader(res, getMetaTagListCrypto(subCategory, uniqueLink))
       break
     }
     case DAPP:{
-      genStaticHeader(res, getMetaTagListDApp(subCategory, getURLFromRequest(req)))
+      genStaticHeader(res, getMetaTagListDApp(subCategory, uniqueLink))
       break
     }
     case VENTURE:{
-      genStaticHeader(res, getMetaTagListVenture(getURLFromRequest(req)))
+      genStaticHeader(res, getMetaTagListVenture(uniqueLink))
       break
     }
     case EXCHANGE:{
-      genStaticHeader(res, getMetaTagListExchange(subCategory, getURLFromRequest(req)))
+      genStaticHeader(res, getMetaTagListExchange(subCategory, uniqueLink))
       break
     }
     case SOON:{
-      genStaticHeader(res, getMetaTagListSoon(subCategory, getURLFromRequest(req)))
+      genStaticHeader(res, getMetaTagListSoon(subCategory, uniqueLink))
       break
     }
     case LAUNCHPAD:{
-      genStaticHeader(res, getMetaTagListLaunchpad(getURLFromRequest(req)))
+      genStaticHeader(res, getMetaTagListLaunchpad(uniqueLink))
       break
     }
     case 'insight':{
-      genStaticHeader(res, getMetaTagInsight(getURLFromRequest(req)))
+      genStaticHeader(res, getMetaTagInsight(uniqueLink))
       break
     }
     default: {
-      genStaticHeader(res, getMetaTagHome())
+      genStaticHeader(res, getMetaTag(META_TITLE, META_IMAGE, META_DESCRIPTION, uniqueLink))
       break
     }
   }
@@ -486,9 +488,10 @@ app.get('/', (_, res) => {
 })
 
 // otherwise page
-app.get('/*', (_, res) => {
+app.get('/*', (req, res) => {
   // console.log('other')
-  genStaticHeader(res, getMetaTagHome())
+  const uniqueLink = getURLFromRequest(req)
+  genStaticHeader(res, getMetaTag(META_TITLE, META_IMAGE, META_DESCRIPTION, uniqueLink))
 })
 
 // listening...
