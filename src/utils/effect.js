@@ -4,6 +4,10 @@ export const openWebsite = (link, setLoading, waitTime) => {
   setLoading(true)
   setTimeout(() => {
     if (link) {
+      // append http schema if it
+      if (!link.match(/^https?:\/\//i)) {
+        link = 'http://' + link
+      }
       window.open(link, '_blank')
     }
     setLoading(false)

@@ -412,7 +412,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
              &nbsp;
       <CopyOutlined
         style={{ padding: '0, 1rem', fontSize: '1rem' }}
-        className=''
         onClick={(e) => {
           copyAddress(e, detail?.address, 'Copy address successfully!')
         }}
