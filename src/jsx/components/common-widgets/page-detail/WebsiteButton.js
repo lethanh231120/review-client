@@ -4,12 +4,13 @@ import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import { websiteIcon } from '../icons'
 import { openWebsite } from '../../../../utils/effect'
+import { isUrlValid } from './SocialList'
 
 export const WebsiteButton = ({ website }) => {
   const waitMillSecOpenWebsite = 3000
   const [websiteLoading, setWebsiteLoading] = useState(false)
 
-  return website && <Button
+  return isUrlValid(website) && <Button
     className='btn btn-primary'
     onClick={() => openWebsite(website, setWebsiteLoading, waitMillSecOpenWebsite)}
   >
