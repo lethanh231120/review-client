@@ -36,19 +36,17 @@ import ChartDetail from './components/insight/chartDetail/ChartDetail'
 import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 import LiveNewTokensList from './components/live-new-tokens/LiveNewTokensList'
 import { get } from '../api/BaseRequest'
-// import axios from 'axios'
+import { ReferralCode } from './components/referral-code/ReferralCode'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
 export const ToggleContext = createContext()
 export const PathNameContext = createContext()
 export const NormalUserProfileContext = createContext()
-export const UserReferalContext = createContext()
 const Markup = () => {
   const [openModalReport, setOpenModalReport] = useState(false)
   const [openModalAdd, setOpenModalAdd] = useState(false)
   const [openModalUserProfile, setOpenModalUserProfile] = useState(false)
-  const [openModalUserReferal, setOpenModalUserReferal] = useState(false)
   const [toggle, setToggle] = useState(false)
   const [pathName, setPathName] = useState('')
   const [pathDetail, setPathDetail] = useState(false)
@@ -93,11 +91,6 @@ const Markup = () => {
   const stateUserProfile = {
     openModalUserProfile: openModalUserProfile,
     setOpenModalUserProfile: (isOpen) => setOpenModalUserProfile(isOpen)
-  }
-
-  const stateUserReferal = {
-    openModalUserReferal: openModalUserReferal,
-    setOpenModalUserReferal: (isOpen) => setOpenModalUserReferal(isOpen)
   }
 
   const location = useLocation()
@@ -241,95 +234,94 @@ const Markup = () => {
           <ToggleContext.Provider value={stateToggle}>
             <PathNameContext.Provider value={statePathName}>
               <NormalUserProfileContext.Provider value={stateUserProfile}>
-                <UserReferalContext.Provider value={stateUserReferal}>
-                  <Routes>
-                    <Route element={<MainLayout />}>
-                      {allroutes.map((data, i) => (
-                        <Route key={i} path={`${data.url}`} element={data.component}/>
-                      ))}
-                      <Route path='confirm-email' element={<ConfirmEmail />}/>
-                      <Route path='/' element={<Home />}></Route>
-                      <Route path='search/:categorySearch/:keyword' element={<CategoryItem />}/>
-                      <Route path=''>
-                        <Route path=':category'>
-                          <Route path='' element={<CategoryItem />} />
-                          <Route
-                            path=':subCategory'
-                            element={<CategoryItem />}
-                          />
-                        </Route>
+                <Routes>
+                  <Route element={<MainLayout />}>
+                    {allroutes.map((data, i) => (
+                      <Route key={i} path={`${data.url}`} element={data.component}/>
+                    ))}
+                    <Route path='confirm-email' element={<ConfirmEmail />}/>
+                    <Route path='/' element={<Home />}></Route>
+                    <Route path='search/:categorySearch/:keyword' element={<CategoryItem />}/>
+                    <Route path=''>
+                      <Route path=':category'>
+                        <Route path='' element={<CategoryItem />} />
+                        <Route
+                          path=':subCategory'
+                          element={<CategoryItem />}
+                        />
                       </Route>
-                      <Route path='insight' >
-                        <Route path='' element={<InsightMain />}/>
-                        <Route path=':id' element={<ChartDetail />}/>
-                      </Route>
-                      <Route path='new-tokens' >
-                        <Route path='' element={<LiveNewTokensList />}/>
-                      </Route>
-                      <Route path='products'>
-                        <Route path='crypto'>
-                          <Route path=':type'>
-                            <Route path=':productName'>
-                              <Route path='' element={<ProductDetail />} />
-                              {/* token only */}
-                              <Route path=':path' element={<ProductDetail />} />
-                            </Route>
-                          </Route>
-                        </Route>
-                        <Route path=':categoryName'>
+                    </Route>
+                    <Route path='insight' >
+                      <Route path='' element={<InsightMain />}/>
+                      <Route path=':id' element={<ChartDetail />}/>
+                    </Route>
+                    <Route path='new-tokens' >
+                      <Route path='' element={<LiveNewTokensList />}/>
+                    </Route>
+                    <Route path='products'>
+                      <Route path='crypto'>
+                        <Route path=':type'>
                           <Route path=':productName'>
                             <Route path='' element={<ProductDetail />} />
+                            {/* token only */}
                             <Route path=':path' element={<ProductDetail />} />
                           </Route>
-                          <Route
-                            path=':productId'
-                            element={<ProductDetail />}
-                          />
+                        </Route>
+                      </Route>
+                      <Route path=':categoryName'>
+                        <Route path=':productName'>
+                          <Route path='' element={<ProductDetail />} />
+                          <Route path=':path' element={<ProductDetail />} />
                         </Route>
                         <Route
                           path=':productId'
                           element={<ProductDetail />}
                         />
                       </Route>
-                      <Route path='terms-of-service' element={<TermOfService />}/>
-                      <Route path='privacy-policy' element={<PrivacyPolicy />}/>
-                      <Route path='not-found-product' element={<NotFoundProduct />} />
-                      <Route path='server-error' element={<ServerError />} />
-                      <Route path='not-found' element={<NotFound />} />
-                      <Route path='*' element={<NotFound />} />
+                      <Route
+                        path=':productId'
+                        element={<ProductDetail />}
+                      />
                     </Route>
-                  </Routes>
-                  <ScrollToTop />
-                  <Modal className='fade cus-modal' show={openModalReport} size='lg'>
-                    <Modal.Header className='cus-modal'>
-                      <Modal.Title>Report scam projects with us</Modal.Title>
-                      <Button
-                        variant=''
-                        className='btn-close'
-                        onClick={() => setOpenModalReport(false)}
-                      >
+                    <Route path='referral' element={<ReferralCode />}/>
+                    <Route path='terms-of-service' element={<TermOfService />}/>
+                    <Route path='privacy-policy' element={<PrivacyPolicy />}/>
+                    <Route path='not-found-product' element={<NotFoundProduct />} />
+                    <Route path='server-error' element={<ServerError />} />
+                    <Route path='not-found' element={<NotFound />} />
+                    <Route path='*' element={<NotFound />} />
+                  </Route>
+                </Routes>
+                <ScrollToTop />
+                <Modal className='fade cus-modal' show={openModalReport} size='lg'>
+                  <Modal.Header className='cus-modal'>
+                    <Modal.Title>Report scam projects with us</Modal.Title>
+                    <Button
+                      variant=''
+                      className='btn-close'
+                      onClick={() => setOpenModalReport(false)}
+                    >
 
-                      </Button>
-                    </Modal.Header>
-                    <Modal.Body className='cus-modal'>
-                      <ModalReport isModal={true} setOpenModalReport={setOpenModalReport}/>
-                    </Modal.Body>
-                  </Modal>
-                  <Modal className='fade' show={openModalAdd} size='lg'>
-                    <Modal.Header>
-                      <Modal.Title>Add New Project</Modal.Title>
-                      <Button
-                        variant=''
-                        className='btn-close'
-                        onClick={() => setOpenModalAdd(false)}
-                      >
-                      </Button>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <ModalAdd isModal={true}/>
-                    </Modal.Body>
-                  </Modal>
-                </UserReferalContext.Provider>
+                    </Button>
+                  </Modal.Header>
+                  <Modal.Body className='cus-modal'>
+                    <ModalReport isModal={true} setOpenModalReport={setOpenModalReport}/>
+                  </Modal.Body>
+                </Modal>
+                <Modal className='fade' show={openModalAdd} size='lg'>
+                  <Modal.Header>
+                    <Modal.Title>Add New Project</Modal.Title>
+                    <Button
+                      variant=''
+                      className='btn-close'
+                      onClick={() => setOpenModalAdd(false)}
+                    >
+                    </Button>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <ModalAdd isModal={true}/>
+                  </Modal.Body>
+                </Modal>
               </NormalUserProfileContext.Provider>
             </PathNameContext.Provider>
           </ToggleContext.Provider>

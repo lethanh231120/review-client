@@ -374,6 +374,7 @@ const getDetailInsightHeader = (req, res, chartName = '') =>{
 
 app.get(`/test`, (req, res) => {
   console.log('is bot: ' + isbot(req.get('user-agent')), JSON.stringify(req.headers['user-agent']))
+  console.log(req.headers['x-forwarded-for'], req.socket.remoteAddress)
 
   res.send('123')
 })

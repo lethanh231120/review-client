@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { FacebookIcon, LinkedinIcon, PinterestIcon, RedditIcon, TelegramIcon, TwitterIcon } from 'react-share'
 import { FacebookShareButton, TwitterShareButton, TelegramShareButton, LinkedinShareButton, PinterestShareButton, RedditShareButton } from 'react-share'
-import { getReferralStatistics } from '../../Forms/form-user-referal/FormUserReferal'
 import { notifyTopRightSuccess } from '../../product-detail/ProductDetail'
 
 const ShareButton = ({ name, setOpenModalShare }) => {
@@ -11,7 +10,7 @@ const ShareButton = ({ name, setOpenModalShare }) => {
   const getShareLink = async() =>{
     let code = ''
     try {
-      [code] = await getReferralStatistics()
+      [code] = 'ABC' // await getReferralStatistics()
     } catch (e) {
       console.error(e)
     }

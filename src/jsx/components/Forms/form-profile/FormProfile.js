@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import _ from 'lodash'
 import moment from 'moment'
 import Swal from 'sweetalert2'
@@ -11,6 +12,9 @@ import { Spin, Upload, Modal } from 'antd'
 import profile from '../../../../images/product/user.png'
 
 const FormProfile = ({ userInfo }) => {
+  const navigate = useNavigate()
+  const isNormalUser = userInfo?.accountType === 'normal' // type of account is normal register
+  const hasReferal = userInfo?.role === 3 // admin upgrade user permission can get benefit from referal
   const profileModal = useContext(NormalUserProfileContext)
 
   // Upload image
@@ -140,12 +144,18 @@ const FormProfile = ({ userInfo }) => {
     setUsername(userInfo?.userName)
   }, [])
 
+  const onClickReferralButton = () =>{
+    navigate('/referral')
+    profileModal?.setOpenModalUserProfile(false)
+  }
+
   return <>
     <h3 className='form-title'>Profile</h3>
     <form onSubmit={onChangProfile} className='mt-4'>
       <div className='row'>
         <div className='col-3'>
           <Upload
+            disabled={!isNormalUser}
             listType='picture-circle' // shape of uploader
             onPreview={onPreview} // view in eye
             beforeUpload={beforeUpload}
@@ -156,7 +166,7 @@ const FormProfile = ({ userInfo }) => {
               : <div className='container-profile'>
                 <img src={userInfo?.image ? userInfo?.image : profile} alt='error' width={64} height={64}/>
                 <div className='centered-profile'>
-                  <i className='material-icons'>upload</i>
+                  <i className='material-icons' hidden={!isNormalUser}>upload</i>
                 </div>
               </div>}
           </Upload>
@@ -182,10 +192,21 @@ const FormProfile = ({ userInfo }) => {
           </div>
           <div className='row'>
             <div className='col-12 d-flex align-items-center justify-content-center'>
+              {/* Navigate referral page code */}
+              <button
+                type='button'
+                className='btn btn-primary'
+                hidden={!hasReferal}
+                onClick={onClickReferralButton}
+              >
+                Referral
+              </button>
+              {/* Change information */}
               <button
                 type='submit'
-                className='btn btn-primary'
+                className='btn btn-primary ms-4'
                 disabled={isLoading || (_.isEmpty(fileList) && username === userInfo?.userName)}
+                hidden={!isNormalUser}
               >
                 Update
               </button>
