@@ -17,13 +17,11 @@ import _ from 'lodash'
 import LaunchpadList from '../table/launchpad/LaunchpadTable'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import SEO from '../SEO/SEO'
-import Swal from 'sweetalert2'
-
 import { LIST_CRYPTO, LIST_DAPP, LIST_EXCHANGE, LIST_SOON, LIST_VENTURE, LIST_LAUNCHPAD } from '../../constants/category'
 import { read } from '../../../api/BaseRequest'
 import { genListHeader } from '../SEO/server/ExpressGenerHeader'
 import { formatData } from '../drawer-filter/FilterHelperFunctions'
-// import { formatData } from '../drawer-filter/FilterHelperFunctions'
+import { notifyTopRightFail } from '../Forms/form-report/FormReport'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -121,21 +119,6 @@ const CategoryItem = () => {
     setParram()
   }, [category, subCategory])
 
-  const notifyTopRight = (content) => {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true
-    })
-
-    Toast.fire({
-      icon: 'error',
-      title: `${content}, Please try again !`
-    })
-  }
-
   const getData = async(category, paramSort) => {
     try {
       setListProduct() // reset for loading
@@ -182,7 +165,7 @@ const CategoryItem = () => {
       }
       setLoading(false)
     } catch (error) {
-      notifyTopRight(error?.response?.data?.error)
+      notifyTopRightFail(error?.response?.data?.error)
     }
   }
 

@@ -10,7 +10,7 @@ import InputSearch from '../../components/input-search/GlobalSearch'
 import { getCookie, removeCookie, STORAGEKEY } from '../../../utils/storage'
 import ExpiredJWTChecker from '../../components/auth/ExpiredJWTChecker'
 import Swal from 'sweetalert2'
-import { ReportModalContext, AddModalContext, NormalUserProfileContext } from '../../index'
+import { ReportModalContext, AddModalContext, NormalUserProfileContext, UserReferalContext } from '../../index'
 import imgLogIn from '../../../images/svg/log-in-primary.svg'
 import imgSignUp from '../../../images/svg/sign-up-primary.svg'
 import { Link } from 'react-router-dom'
@@ -21,6 +21,8 @@ import './custom-header.scss'
 import { PathNameContext } from '../../index'
 import './header.scss'
 import FormProfile from '../../components/Forms/form-profile/FormProfile'
+import { mainColorHex } from './../../constants/color'
+import { FormUserReferal } from '../../components/Forms/form-user-referal/FormUserReferal'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
@@ -33,12 +35,12 @@ const Header = () => {
   const pathname = useContext(PathNameContext)
   // For fix header
   const [headerFix, setheaderFix] = useState(false)
-  // const [isSmallMode, setIsSmallMode] = useState()
   const [isSmallMode, setIsSmallMode] = useState(window.innerWidth <= minimumWidthBigScreenMode)
   const showFullSearchConext = useContext(ShowFullSearchConext)
   const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)
   const summaryData = useContext(SummaryHomeContext)
   const profileModal = useContext(NormalUserProfileContext)
+  const userReferalModal = useContext(UserReferalContext)
   const userInfo = getCookie(STORAGEKEY?.USER_INFO)
 
   useEffect(() => {
@@ -98,6 +100,10 @@ const Header = () => {
     signInFromAddProductContext?.setIsOpenModalAddProduct(false) // reset state add product form when close login form
   }
 
+  const closeUserMenu = () => {
+    document.getElementsByClassName('dropdown-menu dropdown-menu-end dropdown-menu show')[0].classList.toggle('show')
+  }
+
   const logedInHtml = <Dropdown
     as='li'
     className='nav-item dropdown header-profile'
@@ -119,6 +125,22 @@ const Header = () => {
       align='right'
       className='dropdown-menu dropdown-menu-end'
     >
+      {/* Referral */}
+      <Link
+        to='#'
+        className='dropdown-item ai-icon'
+        onClick={() => {
+          const isShowSubMenu = document.getElementsByClassName('dropdown-menu dropdown-menu-end dropdown-menu show').length > 0
+          if (isShowSubMenu) {
+            userReferalModal?.setOpenModalUserReferal(true)
+            // hide submenu when see referal
+            closeUserMenu()
+          }
+        }}
+      >
+        <svg fill={mainColorHex} width='18' height='18' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M5,22a4,4,0,0,0,3.858-3h6.284a4.043,4.043,0,1,0,2.789-4.837L14.816,8.836a4,4,0,1,0-5.63,0L6.078,14.166A3.961,3.961,0,0,0,5,14a4,4,0,0,0,0,8Zm14-6a2,2,0,1,1-2,2A2,2,0,0,1,19,16ZM12,4a2,2,0,1,1-2,2A2,2,0,0,1,12,4ZM10.922,9.834A3.961,3.961,0,0,0,12,10a3.909,3.909,0,0,0,1.082-.168l3.112,5.323A4,4,0,0,0,15.142,17H8.858a3.994,3.994,0,0,0-1.044-1.838ZM5,16a2,2,0,1,1-2,2A2,2,0,0,1,5,16Z'/></svg>
+        <span className='ms-2'>Referral</span>
+      </Link>
       {/* Profile */}
       {userInfo?.accountType === 'normal'// Normal user
         ? <Link
@@ -128,8 +150,8 @@ const Header = () => {
             const isShowSubMenu = document.getElementsByClassName('dropdown-menu dropdown-menu-end dropdown-menu show').length > 0
             if (isShowSubMenu) {
               profileModal?.setOpenModalUserProfile(true)
-              // hide submenu see profile/ logout
-              document.getElementsByClassName('dropdown-menu dropdown-menu-end dropdown-menu show')[0].classList.toggle('show')
+              // hide submenu when see profile
+              closeUserMenu()
             }
           }}
         >
@@ -257,23 +279,46 @@ const Header = () => {
     profileModal?.setOpenModalUserProfile(false)
   }
 
+  const onCloseUserReferalForm = () =>{
+    userReferalModal?.setOpenModalUserReferal(false)
+  }
+
   const header = pathname?.pathName !== '' ? pathname?.pathName : `Don't trust, verify`
 
   return (
     <>
-      {/* only when login exist, for only normal User*/}
-      {authenticated?.isAuthenticated && userInfo?.accountType === 'normal'
+      {/* only when login exist*/}
+      {authenticated?.isAuthenticated
         ? <>
-          {/* Form Profile */}
+          {
+            /* for only normal User */
+            userInfo?.accountType === 'normal'
+              ? <>
+                {/* Form Profile */}
+                <Modal
+                  open={profileModal?.openModalUserProfile}
+                  onCancel={onCloseUserProfileForm}
+                  onOk={onCloseUserProfileForm}
+                  footer={false}
+                  destroyOnClose={true}
+                  show={profileModal?.openModalUserProfile}
+                >
+                  <FormProfile userInfo={userInfo}/>
+                </Modal>
+              </>
+              : ''
+          }
+
+          {/* Form Referal */}
           <Modal
-            open={profileModal?.openModalUserProfile}
-            onCancel={onCloseUserProfileForm}
-            onOk={onCloseUserProfileForm}
+            open={userReferalModal?.openModalUserReferal}
+            onCancel={onCloseUserReferalForm}
+            onOk={onCloseUserReferalForm}
             footer={false}
             destroyOnClose={true}
-            show={profileModal?.openModalUserProfile}
+            show={userReferalModal?.openModalUserReferal}
           >
-            <FormProfile userInfo={userInfo}/>
+            <FormUserReferal userInfo={userInfo}/>
           </Modal>
         </>
         : <>

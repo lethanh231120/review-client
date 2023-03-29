@@ -67,7 +67,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    setIsAuthenticated(!!getCookie(STORAGEKEY.ACCESS_TOKEN))
+    setIsAuthenticated(getCookie(STORAGEKEY.ACCESS_TOKEN))
   }, [])
 
   const getCategoryAndSubcategories = async() => {

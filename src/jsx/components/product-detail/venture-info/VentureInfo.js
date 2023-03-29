@@ -1,14 +1,12 @@
-import { Avatar, Table, Tooltip, Modal } from 'antd'
+import { Avatar, Table, Modal } from 'antd'
 import React, { useState } from 'react'
 import { Badge, Button } from 'react-bootstrap'
 import { DetailLayout } from '../detail-layout'
-import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 import { renderNumber } from '../../../../utils/formatNumber'
 import _ from 'lodash'
 import Description from '../description/Description'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
-import { toCammelCase } from '../../../../utils/formatText'
 import MyScoreComponent from '../../score/scoreComponent'
 import './ventureInfo.scss'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
@@ -27,6 +25,7 @@ import ProductDetailSummary from '../../skeleton/product-detail-skeleton/Product
 import InformationSubTitle, { typeExplorer, typeShort } from '../../common-widgets/page-detail/InformationSubTitle'
 import ShortItem from '../../common-widgets/page-detail/ShortItem'
 import ProductImage, { altVenture, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
+import SocialList from '../../common-widgets/page-detail/SocialList'
 
 export const calculateTotalFund = (fund) =>{
   let total = 0
@@ -83,10 +82,6 @@ const VentureInfo = ({ productInfo, ...rest }) => {
                   : ''
               }
             </div>
-            {/* <div className='detail-button'>
-            <ShareButton name={detail?.name} />
-            <WebsiteButton website={detail?.website} />
-          </div> */}
             <div className='detail-button ms-auto'>
               <Button onClick={() => setOpenModalShare(true)}>
                 <img src={share} alt='share button'/>
@@ -97,9 +92,11 @@ const VentureInfo = ({ productInfo, ...rest }) => {
           </div>
           <Modal
             open={openModalShare}
+            show={openModalShare}
             onCancel={() => setOpenModalShare(false)}
             onOk={() => setOpenModalShare(false)}
-            footer={null}
+            footer={false}
+            destroyOnClose={true}
           >
             <ShareButton name={detail?.name} setOpenModalShare={setOpenModalShare}/>
           </Modal>
@@ -231,51 +228,11 @@ const VentureInfo = ({ productInfo, ...rest }) => {
 
                 {
                   detail?.socials
-                    ? <InformationSubTitle type={typeExplorer}/>
-                    : ''
+                    ? <>
+                      <InformationSubTitle type={typeExplorer}/>
+                      <SocialList detailSocials={detail?.socials} />
+                    </> : ''
                 }
-                {detail?.socials ? <div className='mb-3 col-12'>
-                  <ShortItem
-                    title={Object.keys(detail?.socials).map(
-                      (socialName) => {
-                        return detail?.socials[socialName] !== '' ? (
-                          <Tooltip
-                            className='me-1 mt-2'
-                            placementTooltip='topLeft'
-                            title={toCammelCase(socialName)}
-                            key={socialName}
-                          >
-                            <a
-                              href={detail?.socials[socialName]}
-                              target='_blank'
-                              rel='noreferrer'
-                            >
-                              <Avatar
-                                alt='Social Logo'
-                                className='img-fluid p-1 rounded-circle cus-avatar'
-                                style={{ backgroundColor: '#F0F2F5' }}
-                                preview={false}
-                                src={
-                                  socials?.find(
-                                    (social) =>
-                                      social?.key?.toLowerCase() ===
-                                          socialName?.toLowerCase()
-                                  )?.icon
-                                    ? socials?.find(
-                                      (social) =>
-                                        social?.key?.toLowerCase() ===
-                                              socialName?.toLowerCase()
-                                    ).icon
-                                    : defaultSocial
-                                }
-                              />
-                            </a>
-                          </Tooltip>
-                        ) : null
-                      }
-                    )}
-                  />
-                </div> : ''}
 
                 <p>
               If you have any good or bad experience with

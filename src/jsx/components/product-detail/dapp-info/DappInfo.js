@@ -5,7 +5,6 @@ import { Badge, Button, Dropdown } from 'react-bootstrap'
 import { ChainListContext } from '../../../../App'
 import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
 import { DetailLayout } from '../detail-layout'
-import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 import Description from '../description/Description'
 import {
   toCammelCase } from '../../../../utils/formatText'
@@ -27,6 +26,7 @@ import ProductDetailHeader from '../../skeleton/product-detail-skeleton/ProductD
 import ProductDetailSummary from '../../skeleton/product-detail-skeleton/ProductDetailSummary'
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
 import ProductImage, { altDApp, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
+import SocialList from '../../common-widgets/page-detail/SocialList'
 
 const DappInfo = ({ productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -83,9 +83,11 @@ const DappInfo = ({ productInfo, ...rest }) => {
           </div>
           <Modal
             open={openModalShare}
+            show={openModalShare}
             onCancel={() => setOpenModalShare(false)}
             onOk={() => setOpenModalShare(false)}
-            footer={null}
+            footer={false}
+            destroyOnClose={true}
           >
             <ShareButton name={detail?.name} setOpenModalShare={setOpenModalShare}/>
           </Modal>
@@ -268,48 +270,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
                 detail?.socials
                   ? <>
                     <InformationSubTitle type={typeSocial}/>
-                    <ShortItem
-                      title={<>
-                        {
-                          Object.keys(detail?.socials).map(
-                            (socialName) => {
-                              return detail?.socials[socialName] !== '' ? (
-                                <Tooltip className='ms-1'
-                                  title={toCammelCase(socialName)}
-                                  key={socialName}
-                                >
-                                  <a
-                                    href={detail?.socials[socialName]}
-                                    target='_blank'
-                                    rel='noreferrer'
-                                  >
-                                    <Avatar
-                                      alt='Social Logo'
-                                      className='img-fluid p-1 rounded-circle cus-avatar'
-                                      style={{ backgroundColor: '#F0F2F5' }}
-                                      // preview={false}
-                                      src={
-                                        socials?.find(
-                                          (social) =>
-                                            social?.key?.toLowerCase() ===
-                  socialName?.toLowerCase()
-                                        )?.icon
-                                          ? socials?.find(
-                                            (social) =>
-                                              social?.key?.toLowerCase() ===
-                      socialName?.toLowerCase()
-                                          ).icon
-                                          : defaultSocial
-                                      }
-                                    />
-                                  </a>
-                                </Tooltip>
-                              ) : null
-                            }
-                          )
-                        }
-                      </>}
-                    />
+                    <SocialList detailSocials={detail?.socials} />
                   </>
                   : ''
               }
