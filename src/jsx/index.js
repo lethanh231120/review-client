@@ -30,7 +30,7 @@ import { NotFoundProduct } from './components/not-found-product/NotFoundProduct'
 import { ServerError } from './components/server-error/ServerError'
 import InsightMain from './components/insight/InsightMain'
 import { TermOfService } from './components/term-of-service/TermOfService'
-import { CRYPTO, DAPP, EXCHANGE, VENTURE, SOON, LAUNCHPAD, INSIGHT, NEW_TOKENS, CATEGORY_NEW_TOKENS } from './constants/category'
+import { CRYPTO, DAPP, EXCHANGE, VENTURE, SOON, LAUNCHPAD, INSIGHT, NEW_TOKENS, CATEGORY_NEW_TOKENS, REFERRAL, CATEGORY_REFERRAL } from './constants/category'
 import { CATEGORY_CRYPTO, CATEGORY_DAPP, CATEGORY_EXCHANGE, CATEGORY_INSIGHT, CATEGORY_LAUNCHPAD, CATEGORY_SOON, CATEGORY_VENTURE } from './constants/category'
 import ChartDetail from './components/insight/chartDetail/ChartDetail'
 import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
@@ -156,6 +156,9 @@ const Markup = () => {
             setPathName(CATEGORY_NEW_TOKENS)
           }
           break
+        case REFERRAL:
+          setPathName(CATEGORY_REFERRAL)
+          break
         case 'report-scam':
           setPathName('Report Scam')
           break
@@ -251,11 +254,11 @@ const Markup = () => {
                         />
                       </Route>
                     </Route>
-                    <Route path='insight' >
+                    <Route path={INSIGHT} >
                       <Route path='' element={<InsightMain />}/>
                       <Route path=':id' element={<ChartDetail />}/>
                     </Route>
-                    <Route path='new-tokens' >
+                    <Route path={NEW_TOKENS} >
                       <Route path='' element={<LiveNewTokensList />}/>
                     </Route>
                     <Route path='products'>
@@ -283,7 +286,7 @@ const Markup = () => {
                         element={<ProductDetail />}
                       />
                     </Route>
-                    <Route path='referral' element={<ReferralCode />}/>
+                    <Route path={REFERRAL} element={<ReferralCode />}/>
                     <Route path='terms-of-service' element={<TermOfService />}/>
                     <Route path='privacy-policy' element={<PrivacyPolicy />}/>
                     <Route path='not-found-product' element={<NotFoundProduct />} />

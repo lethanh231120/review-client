@@ -197,7 +197,7 @@ const TableRoundSale = ({ projectName, roundSales }) => {
                 - {record.lockUpPeriod}
                   {record?.launchPadId ? <>
                     <br />
-                - {record?.linkDetail ? 'Buy here' : 'Launch at' }: <b><LaunchpadTableDetail launchpadId={record?.launchPadId} linkBuy={record?.linkDetail} /></b>
+                - {record?.linkDetail ? 'Buy here' : 'Launch at' }:&nbsp;<b><LaunchpadTableDetail launchpadId={record?.launchPadId} linkBuy={record?.linkDetail} /></b>
                   </> : ''}
                 </p>
               </>,

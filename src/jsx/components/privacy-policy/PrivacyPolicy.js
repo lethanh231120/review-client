@@ -2,9 +2,9 @@ import React from 'react'
 import '../term-of-service/TermOfService.scss'
 import moment from 'moment'
 import { formatDateStyle } from '../../../utils/time/time'
+import { emailContactText } from '../referral-code/ReferralCodeNotification'
 
 export const txtPrivacyPolicy = 'Privacy Policy'
-export const emailNika = 'zoro@nika.guru'
 export const PrivacyPolicy = () => {
   const latestUpdatedDate = '2023/01/15' // YYYY/MM/DD
 
@@ -148,7 +148,7 @@ export const PrivacyPolicy = () => {
       <h3 className='title-box text-primary'>Contact Us</h3>
       <div>
         <p className='term-content-sub'>
-        If you have any questions, comments, or concerns regarding our Privacy Policy and/or practices, please contact us at <i className='text-primary'>{emailNika}</i> or by writing Nika JSC at 10th floor, Viet A Building, 9 Duy Tan, Dich Vong Hau Ward, Cau Giay District, Hanoi, Vietnam.
+        If you have any questions, comments, or concerns regarding our Privacy Policy and/or practices, please contact us at {emailContactText} or by writing Nika JSC at 10th floor, Viet A Building, 9 Duy Tan, Dich Vong Hau Ward, Cau Giay District, Hanoi, Vietnam.
         </p>
       </div>
     </div>

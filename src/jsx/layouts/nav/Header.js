@@ -10,7 +10,6 @@ import { getCookie, removeCookie, STORAGEKEY } from '../../../utils/storage'
 import ExpiredJWTChecker from '../../components/auth/ExpiredJWTChecker'
 import Swal from 'sweetalert2'
 import { ReportModalContext, AddModalContext, NormalUserProfileContext } from '../../index'
-import imgLogIn from '../../../images/svg/log-in-primary.svg'
 import imgSignUp from '../../../images/svg/sign-up-primary.svg'
 import { Link } from 'react-router-dom'
 import { SEARCH_ICON } from '../../../images/svg/search'
@@ -20,6 +19,8 @@ import './custom-header.scss'
 import { PathNameContext } from '../../index'
 import './header.scss'
 import FormProfile from '../../components/Forms/form-profile/FormProfile'
+import { signInImage } from '../../components/referral-code/ReferralCodeNotification'
+import { mainColorHex } from './../../constants/color'
 
 const txtScamTooltip = 'Report Scam'
 const txtAddProjectTooltip = 'Add New Project'
@@ -191,7 +192,7 @@ const Header = () => {
             signContext?.handleSetOpenModal(true)
           }}
         >
-          <img src={imgLogIn} alt='err' />
+          {signInImage(17.5, mainColorHex)}
         </Dropdown.Toggle>
       </Tooltip>
     </Dropdown>

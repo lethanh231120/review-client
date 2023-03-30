@@ -2,7 +2,7 @@ import React from 'react'
 import './TermOfService.scss'
 import moment from 'moment'
 import { formatDateStyle } from './../../../utils/time/time'
-import { emailNika } from '../privacy-policy/PrivacyPolicy'
+import { emailContactText } from '../referral-code/ReferralCodeNotification'
 
 export const txtTermsOfService = 'Terms of Service'
 
@@ -335,7 +335,7 @@ export const TermOfService = () => {
         </p>
         <p className='term-content-sub'>
           <b className='text-primary'>15.2.</b>&nbsp;
-          Please write to us to make clear the details surrounding your complaint. You can send your complaint by email to {emailNika} or by writing Nika JSC at 10th floor, Viet A Building, 9 Duy Tan, Dich Vong Hau Ward, Cau Giay District, Hanoi, Vietnam.
+          Please write to us to make clear the details surrounding your complaint. You can send your complaint by email to {emailContactText} or by writing Nika JSC at 10th floor, Viet A Building, 9 Duy Tan, Dich Vong Hau Ward, Cau Giay District, Hanoi, Vietnam.
         </p>
       </div>
       <h3 className='title-box text-primary'>16. Changes to Terms of Use</h3>

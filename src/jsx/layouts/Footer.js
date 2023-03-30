@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { emailContactText } from '../components/referral-code/ReferralCodeNotification'
 import { txtTermsOfService } from '../components/term-of-service/TermOfService'
-import { emailNika, txtPrivacyPolicy } from './../components/privacy-policy/PrivacyPolicy'
+import { txtPrivacyPolicy } from './../components/privacy-policy/PrivacyPolicy'
 
 const Footer = () => {
   var d = new Date()
@@ -29,7 +30,7 @@ const Footer = () => {
             className = 'text-primary txt-link'>
             {txtPrivacyPolicy}
           </Link>
-          . Contact us on <span className = 'text-primary txt-link' href='#'>{emailNika}</span>.
+          . Contact us on {emailContactText}.
         </p>
       </div>
     </div>
