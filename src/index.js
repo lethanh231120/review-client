@@ -6,8 +6,8 @@ import { BrowserRouter } from 'react-router-dom'
 import ThemeContext from './context/ThemeContext'
 import { HelmetProvider } from 'react-helmet-async'
 import { ErrorBoundary } from 'react-error-boundary'
-import { emailNika } from './jsx/components/privacy-policy/PrivacyPolicy'
 import { Button } from 'react-bootstrap'
+import { emailContactText } from './jsx/components/referral-code/ReferralCodeNotification'
 
 const templateAppCrashed = <>
   <p style={{
@@ -24,7 +24,7 @@ const templateAppCrashed = <>
     <a href='/'><Button className='btn btn-primary' style={{ marginRight: '1rem' }}>
                   Go Home
     </Button></a>
-    , or contact us via email <b>{emailNika}</b>
+    , or contact us via email <b>{emailContactText}</b>
   </p>
 
 </>
