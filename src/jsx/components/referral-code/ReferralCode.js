@@ -8,7 +8,8 @@ import { copyAddress } from '../../../utils/effect'
 import { ReferralCodeNotification } from './ReferralCodeNotification'
 import { Authenticated } from '../../../App'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
-import LineChart from '../insight/charts/LineChart'
+// import LineChart from '../insight/charts/LineChart'
+import ReferralChart from './ReferralChart'
 
 export const getReferralStatistics = async() =>{
   try {
@@ -26,9 +27,29 @@ export const ReferralCode = () => {
   const userInfo = getCookie(STORAGEKEY?.USER_INFO)
   const ROLE_COLLABORATOR = 3
   const isCollaboratorUser = userInfo?.role === ROLE_COLLABORATOR
-
+  // ################
   const [code, setCode] = useState()
-  const [clickChart, setClickChart] = useState([])
+  const [clickChart, setClickChart] = useState()
+  const [totalClick, setTotalClick] = useState()
+
+  const setReferralCodeAndClickChart = async() =>{
+    const resp = await getReferralStatistics()
+    setCode(resp?.code)
+    setClickChart(resp?.dailyCharts)
+    let totalClick = 0
+    resp?.dailyCharts?.forEach(chartPoint => {
+      if (chartPoint?.click > 0) {
+        totalClick += chartPoint?.click
+      }
+      console.log(chartPoint?.click)
+    })
+    setTotalClick(totalClick)
+  }
+
+  useEffect(() => {
+    setTotalClick(111)
+    setReferralCodeAndClickChart()
+  }, [])
 
   const createCode = async() => {
     try {
@@ -46,17 +67,6 @@ export const ReferralCode = () => {
     }
   }
 
-  const setReferralCodeAndClickChart = async() =>{
-    const resp = await getReferralStatistics()
-    setCode(resp?.code)
-    setClickChart(resp?.dailyCharts)
-    console.log(clickChart, resp?.dailyCharts)
-  }
-
-  useEffect(() => {
-    setReferralCodeAndClickChart()
-  }, [])
-
   const isActiveReferralCode = code
 
   const referralInfo = isActiveReferralCode
@@ -72,7 +82,7 @@ export const ReferralCode = () => {
         />
       </p>
       <p>
-      Total click from your share with referral code: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{1}</Badge>
+      Total click from your share with referral code: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{totalClick}</Badge>
       </p>
     </>
     : <>
@@ -95,34 +105,8 @@ export const ReferralCode = () => {
     />
   </>
 
-  const datasets = [
-    [
-      '2023-03-18T00:00:00Z',
-      598
-    ],
-    [
-      '2023-03-19T00:00:00Z',
-      656
-    ],
-    [
-      '2023-03-20T00:00:00Z',
-      626
-    ],
-    [
-      '2023-03-21T00:00:00Z',
-      621
-    ],
-    [
-      '2023-03-22T00:00:00Z',
-      592
-    ],
-    [
-      '2023-03-23T00:00:00Z',
-      414
-    ]
-  ]
   const chart = <>
-    <LineChart dataSet={datasets} height={200} isDetail={true} title={'Daily Click Chart'}/>
+    <ReferralChart data={clickChart}/>
   </>
 
   if (isSignedIn && isCollaboratorUser) {
@@ -131,7 +115,9 @@ export const ReferralCode = () => {
         {/* detail header: icon, name, score */}
         <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12'>
           <div className='profile card card-body'>
-            Price: 7$/1000 view
+            <p>
+            Current Share Commission: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>5$/1000 views</Badge>
+            </p>
             {referralInfo}
           </div>
         </div>
