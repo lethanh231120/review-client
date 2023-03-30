@@ -8,6 +8,7 @@ import { copyAddress } from '../../../utils/effect'
 import { ReferralCodeNotification } from './ReferralCodeNotification'
 import { Authenticated } from '../../../App'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
+import LineChart from '../insight/charts/LineChart'
 
 export const getReferralStatistics = async() =>{
   try {
@@ -20,6 +21,12 @@ export const getReferralStatistics = async() =>{
 }
 
 export const ReferralCode = () => {
+  const authenticated = useContext(Authenticated)
+  const isSignedIn = authenticated?.isAuthenticated
+  const userInfo = getCookie(STORAGEKEY?.USER_INFO)
+  const ROLE_COLLABORATOR = 3
+  const isCollaboratorUser = userInfo?.role === ROLE_COLLABORATOR
+
   const [code, setCode] = useState()
   const [clickChart, setClickChart] = useState([])
 
@@ -82,38 +89,65 @@ export const ReferralCode = () => {
     </>
 
   const referralMsg = <>
-  Price: 7$/1000 view
+    <ReferralCodeNotification
+      isSignedIn={isSignedIn}
+      isCollaboratorUser={isCollaboratorUser}
+    />
   </>
 
+  const datasets = [
+    [
+      '2023-03-18T00:00:00Z',
+      598
+    ],
+    [
+      '2023-03-19T00:00:00Z',
+      656
+    ],
+    [
+      '2023-03-20T00:00:00Z',
+      626
+    ],
+    [
+      '2023-03-21T00:00:00Z',
+      621
+    ],
+    [
+      '2023-03-22T00:00:00Z',
+      592
+    ],
+    [
+      '2023-03-23T00:00:00Z',
+      414
+    ]
+  ]
   const chart = <>
-  Chart here
+    <LineChart dataSet={datasets} height={200} isDetail={true} title={'Daily Click Chart'}/>
   </>
 
-  const authenticated = useContext(Authenticated)
-  const isSignedIn = authenticated?.isAuthenticated
-  const userInfo = getCookie(STORAGEKEY?.USER_INFO)
-  const ROLE_COLLABORATOR = 3
-  const isCollaboratorUser = userInfo?.role === ROLE_COLLABORATOR
   if (isSignedIn && isCollaboratorUser) {
     return <>
       <div className='row'>
         {/* detail header: icon, name, score */}
         <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12'>
           <div className='profile card card-body'>
+            Price: 7$/1000 view
             {referralInfo}
           </div>
         </div>
       </div>
 
       <div className='row'>
-        <div className='col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 col-xxl-5'>
-          <div className='profile card card-body'>
-            {referralMsg}
-          </div>
-        </div>
-        <div className='col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 col-xxl-7'>
+        <div className='col-12 col-sm-12'>
           <div className='profile card card-body'>
             {chart}
+          </div>
+        </div>
+      </div>
+      <div>
+        <div className='col-12 col-sm-12'>
+          <div className=''>
+            {referralMsg}
           </div>
         </div>
       </div>
