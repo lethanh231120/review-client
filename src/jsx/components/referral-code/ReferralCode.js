@@ -10,6 +10,7 @@ import { Authenticated } from '../../../App'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
 // import LineChart from '../insight/charts/LineChart'
 import ReferralChart from './ReferralChart'
+import { MySkeletonLoadinng } from './../common-widgets/my-spinner'
 
 export const getReferralStatistics = async() =>{
   try {
@@ -33,6 +34,7 @@ export const ReferralCode = () => {
   const [code, setCode] = useState()
   const [clickChart, setClickChart] = useState()
   const [totalClick, setTotalClick] = useState()
+  const isLoadingComp = !code
 
   const setReferralCodeAndClickChart = async() =>{
     const resp = await getReferralStatistics()
@@ -48,10 +50,13 @@ export const ReferralCode = () => {
     setTotalClick(totalClick)
   }
 
+  // at same page, sign in will run here
   useEffect(() => {
-    setTotalClick(111)
-    setReferralCodeAndClickChart()
-  }, [])
+    // only sign in call API
+    if (isSignedIn) {
+      setReferralCodeAndClickChart()
+    }
+  }, [isSignedIn])
 
   const createCode = async() => {
     try {
@@ -70,7 +75,6 @@ export const ReferralCode = () => {
   }
 
   const isActiveReferralCode = code
-
   const referralInfo = isActiveReferralCode
     ? <>
       {/* Get referral code click */}
@@ -117,10 +121,16 @@ export const ReferralCode = () => {
         {/* detail header: icon, name, score */}
         <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12'>
           <div className='profile card card-body'>
-            <p>
+            {
+              isLoadingComp
+                ? <MySkeletonLoadinng count={3} height={30} />
+                : <>
+                  <p>
             Current Share Commission: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{shareCommissionDollarPerView[0]}$/{shareCommissionDollarPerView[1]} views</Badge>
-            </p>
-            {referralInfo}
+                  </p>
+                  {referralInfo}
+                </>
+            }
           </div>
         </div>
       </div>
@@ -128,7 +138,9 @@ export const ReferralCode = () => {
       <div className='row'>
         <div className='col-12 col-sm-12'>
           <div className='profile card card-body'>
-            {chart}
+            {isLoadingComp
+              ? <MySkeletonLoadinng count={1} height={150}/>
+              : chart}
           </div>
         </div>
       </div>
@@ -139,7 +151,6 @@ export const ReferralCode = () => {
           </div>
         </div>
       </div>
-
     </>
   } else {
     // Not login, or login but don't have role collaborator
