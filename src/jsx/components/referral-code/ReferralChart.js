@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +10,7 @@ import {
   Legend
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
+import { useState } from 'react'
 
 ChartJS.register(
   CategoryScale,
@@ -25,41 +26,63 @@ const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: 'top'
+      position: 'top',
+      display: false// hide square defination annotate
     },
     title: {
       display: true,
-      text: '7 Day Latest Click And Share Commission Chart'
+      text: 'Visit Chart'
+    }
+  },
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: 'Time'
+      }
+    },
+    y: {
+      title: {
+        display: true,
+        text: 'Visitor'
+      },
+      min: 0,
+      ticks: {
+        stepSize: 1
+      }
     }
   }
 }
 
-const labels = ['1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7', '1114142142142142121', '2', '3', '4', '5', '6', '7']
-
-const getRndInteger = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
-const dataTest = {
-  labels,
-  datasets: [
-    {
-      label: 'Click',
-      data: labels.map(() => getRndInteger(-1000, 1000)),
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)'
-    },
-    {
-      label: 'Share Commission',
-      data: labels.map(() => getRndInteger(-1000, 1000)),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)'
-    }
-  ]
-}
-
 const ReferralChart = ({ data }) => {
-  console.log(data)
+  const [labels1, setLabels] = useState()
+  const [data1, setData1] = useState()
+  // console.log(labels)
+  useEffect(() => {
+    console.log(data)
+    if (data) {
+      const labels = []
+      const data1 = new Map()
+      data?.forEach(clickEachDay => {
+      // console.log(moment(clickEachDay?.createdDate).format({ formatDateStyle }))
+        labels?.push(clickEachDay?.createdDate)
+        data1.set(clickEachDay?.createdDate, clickEachDay?.click)
+      })
+      setLabels(labels)
+      setData1(data1)
+    }
+  }, [data])
+  const dataTest = {
+    defaultFontFamily: 'Poppins',
+    labels: labels1,
+    datasets: [
+      {
+        data: labels1?.map((label) =>data1?.get(label)),
+        borderColor: 'rgba(3, 159, 127, 1)',
+        backgroundColor: 'rgba(3, 159, 127, 1)'
+      }
+    ]
+  }
   return <Line options={options} data={dataTest} />
 }
 

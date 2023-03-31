@@ -21,6 +21,8 @@ export const getReferralStatistics = async() =>{
   }
 }
 
+const shareCommissionDollarPerView = [5, 1000]
+
 export const ReferralCode = () => {
   const authenticated = useContext(Authenticated)
   const isSignedIn = authenticated?.isAuthenticated
@@ -36,12 +38,12 @@ export const ReferralCode = () => {
     const resp = await getReferralStatistics()
     setCode(resp?.code)
     setClickChart(resp?.dailyCharts)
+
     let totalClick = 0
     resp?.dailyCharts?.forEach(chartPoint => {
       if (chartPoint?.click > 0) {
         totalClick += chartPoint?.click
       }
-      console.log(chartPoint?.click)
     })
     setTotalClick(totalClick)
   }
@@ -116,7 +118,7 @@ export const ReferralCode = () => {
         <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12'>
           <div className='profile card card-body'>
             <p>
-            Current Share Commission: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>5$/1000 views</Badge>
+            Current Share Commission: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{shareCommissionDollarPerView[0]}$/{shareCommissionDollarPerView[1]} views</Badge>
             </p>
             {referralInfo}
           </div>

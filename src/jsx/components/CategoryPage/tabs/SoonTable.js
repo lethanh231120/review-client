@@ -8,6 +8,7 @@ import { PREFIX_DETAIL, SOON } from '../../../constants/category'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import ProductImage, { altSoon, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 import { S3_IMG_URL } from '../../../../api/BaseRequest'
+import { formatDateStyle } from './../../../../utils/time/time'
 
 const SoonTable = ({ listData, loading }) => {
   const navigate = useNavigate()
@@ -107,7 +108,7 @@ const SoonTable = ({ listData, loading }) => {
       render: (_, record) => (
         <span>
           {record?.startDate
-            ? moment(record?.startDate).format('ddd, DD MMM YYYY')
+            ? moment(record?.startDate).format({ formatDateStyle })
             : 'TBA'}
         </span>
       ),
@@ -118,7 +119,7 @@ const SoonTable = ({ listData, loading }) => {
       render: (_, record) => (
         <span>
           {record?.endDate
-            ? moment(record?.endDate).format('ddd, DD MMM YYYY')
+            ? moment(record?.endDate).format({ formatDateStyle })
             : 'TBA'}
         </span>
       ),

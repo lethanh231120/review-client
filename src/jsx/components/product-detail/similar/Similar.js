@@ -20,6 +20,7 @@ import moment from 'moment'
 
 import { Badge } from 'react-bootstrap'
 import ProductImage, { altCrypto, altDApp, altExchange, altLaunchpad, altSoon, altVenture, sizeImg32_4 } from '../../common-widgets/page-detail/ProductImage'
+import { formatDateStyle } from './../../../../utils/time/time'
 
 const Similar = ({ type, listProjectId }) => {
   const navigate = useNavigate()
@@ -767,7 +768,7 @@ const Similar = ({ type, listProjectId }) => {
       render: (_, record) => (
         <span>
           {record?.startDate
-            ? moment(record?.startDate).format('ddd, DD MMM YYYY')
+            ? moment(record?.startDate).format({ formatDateStyle })
             : 'TBA'}
           {/* { record?.startDate} */}
         </span>
@@ -782,7 +783,7 @@ const Similar = ({ type, listProjectId }) => {
       render: (_, record) => (
         <span>
           {record?.endDate
-            ? moment(record?.endDate).format('ddd, DD MMM YYYY')
+            ? moment(record?.endDate).format({ formatDateStyle })
             : 'TBA'}
           {/* { record?.endDate} */}
         </span>
