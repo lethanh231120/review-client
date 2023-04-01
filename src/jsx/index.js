@@ -37,12 +37,20 @@ import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 import LiveNewTokensList from './components/live-new-tokens/LiveNewTokensList'
 import { get } from '../api/BaseRequest'
 import { ReferralCode } from './components/referral-code/ReferralCode'
+import { getCookie, STORAGEKEY } from '../utils/storage'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
 export const ToggleContext = createContext()
 export const PathNameContext = createContext()
 export const NormalUserProfileContext = createContext()
+export const getQueryParam = (name) =>{
+  // get query params
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop)
+  })
+  return params[name]
+}
 const Markup = () => {
   const [openModalReport, setOpenModalReport] = useState(false)
   const [openModalAdd, setOpenModalAdd] = useState(false)
@@ -184,19 +192,25 @@ const Markup = () => {
   useEffect(() => {
     // callback function to call when event triggers
     const onPageLoad = async() => {
-      // get query params
-      const params = new Proxy(new URLSearchParams(window.location.search), {
-        get: (searchParams, prop) => searchParams.get(prop)
-      })
-      const referenceVal = params.ref
+      const refParam = getQueryParam('ref')
 
-      // history.pushState({}, null, window.location.href.split('?')[0])
       // Has ref params
-      if (referenceVal) {
-        try {
-          await get(`reviews/referral/confirm`, {}, { Referral: referenceVal })
-        } catch (e) {
-          console.error(e)
+      if (refParam) {
+        // remove referral in URL
+        history.pushState({}, null, window.location.href.split('?')[0])
+
+        // Already login(first time can't check context, check token in browser)
+        const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
+        if (token) {
+          try {
+            await get(`reviews/referral/confirm`, {}, { Referral: refParam })
+          } catch (e) {
+            console.error(e)
+          }
+        } else {
+          // not login yet, keep referral code
+          sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE)
+          sessionStorage.setItem(STORAGEKEY.REFERRAL_CODE, refParam)
         }
       }
 

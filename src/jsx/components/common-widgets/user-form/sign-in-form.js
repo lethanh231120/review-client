@@ -1,17 +1,18 @@
 import { useContext, useState } from 'react'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
-import { post } from '../../../../api/BaseRequest'
+import { get, post } from '../../../../api/BaseRequest'
 import { removeCookie, setCookie, STORAGEKEY } from '../../../../utils/storage'
 import { SignInContext, Authenticated, SignInFromAddProductContext, ShowFullSearchConext } from '../../../../App'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import Swal from 'sweetalert2'
 import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
-import { AddModalContext } from '../../../index'
+import { AddModalContext, getQueryParam } from '../../../index'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GoogleLogin } from '@react-oauth/google'
 import { parseJwt } from '../../../../utils/decode'
 import { txtEnterEmail, txtEnterPassword } from './sign-up-form'
+import { resetNotValidRefCodeInSession } from '../../product-detail/ProductDetail'
 
 export const codeBlockAccount = 'B.CODE.8'
 export const msgBlockAccount = 'Your email is blocked. Please contact with the administrator'
@@ -37,7 +38,7 @@ export const SignInComponent = () => {
         }
         const resp = await post('reviews/auth/signin/social', dataSignin)
         if (resp?.status) {
-          setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
+          await setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
         }
       }
     } catch (error) {
@@ -130,20 +131,36 @@ export const SignInComponent = () => {
       setIsLoading(true)
       const resp = await post('reviews/auth/signin/normal', dataSignin)
       if (resp?.status) {
-        setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
+        await setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
       }
+      setIsLoading(false)
     } catch (error) {
       openNotification(error)
-    } finally {
       setIsLoading(false)
     }
   }
 
-  const setStateLoginSuccess = (token, userInfo) => {
+  const resetRefParam = (refParam, refSession, error = true) => {
+    if (refParam) {
+      // remove referral in URL
+      history.pushState({}, null, window.location.href.split('?')[0])
+    }
+    if (refSession) {
+      if (error) {
+        resetNotValidRefCodeInSession(error)
+      } else {
+        // remove in session cache when commit success (error = false)
+        sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE)
+      }
+    }
+  }
+
+  const setStateLoginSuccess = async(token, userInfo) => {
     removeCookie(STORAGEKEY.ACCESS_TOKEN)
     removeCookie(STORAGEKEY.USER_INFO)
     setCookie(STORAGEKEY.ACCESS_TOKEN, token)
     setCookie(STORAGEKEY.USER_INFO, userInfo)
+
     signContext?.handleSetOpenModal(false)
     authenticated?.handleSetAuthenticated(true)
     showFullSearchConext?.setIsShowFullSearchSmallMode(false) // in small mode, small search when its state is full width
@@ -152,6 +169,21 @@ export const SignInComponent = () => {
       addModal?.handleSetOpenModal(true)
       // reset state not login from add product form, after login successful
       signInFromAddProductContext?.setIsOpenModalAddProduct(false)
+    }
+
+    // **** login have referral code in url or session cache, send BE
+    // get query params
+    const refParam = getQueryParam('ref')
+    const refSession = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
+    // has ref param or ref code in session cache
+    if (refParam || refSession) {
+      try {
+        await get(`reviews/referral/confirm`, {}, { Referral: refParam || refSession })
+        resetRefParam(refParam, refSession, false)
+      } catch (e) {
+        console.error(e)
+        resetRefParam(refParam, refSession, e)
+      }
     }
   }
 
@@ -170,7 +202,7 @@ export const SignInComponent = () => {
         }
         const resp = await post('reviews/auth/signin/social', dataSignin)
         if (resp?.status) {
-          setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
+          await setStateLoginSuccess(resp?.data?.jwt?.token, resp?.data?.profile)
         }
       }
     } catch (error) {

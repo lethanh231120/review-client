@@ -15,6 +15,16 @@ import moment from 'moment/moment'
 // import faker from 'faker';
 import './chart.scss'
 
+export const formatChartDate = (date, formatDate) => {
+  if (moment(date)?.isValid()) {
+    return moment(date)?.format(formatDate)
+  } else {
+    return date
+  }
+}
+
+const dateFormat = 'YYYY-MM-DD'
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -57,11 +67,7 @@ const Barchart = ({ dataSet, height, isDetail, title, colorPallet }) => {
         callbacks: {
           title: (xDatapoint) => {
             const label = xDatapoint[0]?.label
-            if (moment(label)?.isValid()) {
-              return moment(label)?.format('YYYY-MM-DD')
-            } else {
-              return label
-            }
+            return formatChartDate(label, dateFormat)
           }
         }
       }
@@ -92,11 +98,7 @@ const Barchart = ({ dataSet, height, isDetail, title, colorPallet }) => {
             ticks: {
               callback: function(value) {
                 const label = this.getLabelForValue(value)
-                if (moment(label)?.isValid()) {
-                  return moment(label)?.format('YYYY-MM-DD')
-                } else {
-                  return label
-                }
+                return formatChartDate(label, dateFormat)
               }
             }
           }

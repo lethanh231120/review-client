@@ -47,6 +47,16 @@ export const notifyTopRightSuccess = (content) => {
   })
 }
 
+export const resetNotValidRefCodeInSession = (error) => {
+  const codeRefTooManyRequest = 'B.CODE.429' // used ref code
+  const codeRefNotExist = 'B.CODE.400' // wrong ref code
+  const respCode = error?.response?.data?.code
+  // remove referral code from session when this IP confirm before successful
+  if (respCode === codeRefTooManyRequest || respCode === codeRefNotExist) {
+    sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE)
+  }
+}
+
 const ProductDetail = () => {
   const TYPE_REVIEW = 0
   const TYPE_REPLY = 1
@@ -439,7 +449,15 @@ const ProductDetail = () => {
     try {
       let dataAdd
       if (type === 'anonymous') {
-        dataAdd = await post('reviews/review/anonymous', params, { ReCaptchaResponse: header })
+        const headerExtra = { ReCaptchaResponse: header }
+        const referralCode = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
+        // has referral code in current session
+        if (referralCode) {
+          headerExtra.Referral = referralCode
+        }
+        dataAdd = await post('reviews/review/anonymous', params, headerExtra)
+        // remove referral code from session when confirm successful
+        sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE)
       } else {
         dataAdd = await post('reviews/review', params, { ReCaptchaResponse: header })
       }
@@ -498,6 +516,7 @@ const ProductDetail = () => {
       }
     } catch (error) {
       recapcharRef.current.reset()
+      resetNotValidRefCodeInSession(error)
     }
   }
 

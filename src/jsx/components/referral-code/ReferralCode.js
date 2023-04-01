@@ -22,8 +22,6 @@ export const getReferralStatistics = async() =>{
   }
 }
 
-const shareCommissionDollarPerView = [5, 1000]
-
 export const ReferralCode = () => {
   const authenticated = useContext(Authenticated)
   const isSignedIn = authenticated?.isAuthenticated
@@ -34,6 +32,7 @@ export const ReferralCode = () => {
   const [code, setCode] = useState()
   const [clickChart, setClickChart] = useState()
   const [totalClick, setTotalClick] = useState()
+  const [totalClickReward, setTotalClickReward] = useState()
   const isLoadingComp = !code
 
   const setReferralCodeAndClickChart = async() =>{
@@ -41,12 +40,19 @@ export const ReferralCode = () => {
     setCode(resp?.code)
     setClickChart(resp?.dailyCharts)
 
-    let totalClick = 0
+    let totalClickClaimed = 0
+    let totalClickReward = 0
     resp?.dailyCharts?.forEach(chartPoint => {
-      if (chartPoint?.click > 0) {
-        totalClick += chartPoint?.click
+      const isGetReward = !chartPoint?.isClaimed
+      const dailyClick = chartPoint?.click
+      if (isGetReward) {
+        totalClickReward += dailyClick
+      } else {
+        totalClickClaimed += dailyClick
       }
     })
+    setTotalClickReward(totalClickReward)
+    const totalClick = totalClickClaimed + totalClickReward
     setTotalClick(totalClick)
   }
 
@@ -88,7 +94,25 @@ export const ReferralCode = () => {
         />
       </p>
       <p>
-      Total click from your share with referral code: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{totalClick}</Badge>
+      Total click from your share with referral code: <Badge pill bg='badge-l' className='badge-info progress-bar-striped progress-bar-animated'>{totalClick}</Badge>
+      </p>
+      <p>
+      Total number of new clicks that have not received commission: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{totalClickReward}</Badge>
+      </p>
+      <p>
+      Total share commission you&apos;ve received so far: <Badge pill bg='badge-l' className='badge-info progress-bar-striped progress-bar-animated'>{totalClickReward}</Badge>
+      </p>
+      <p>
+      Total share commission you have not taken out yet: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{totalClickReward}</Badge>
+      </p>
+      <p>
+      Share commission for 1 thousand views today: <Badge pill bg='badge-l' className='badge-info progress-bar-striped progress-bar-animated'>{totalClickReward}</Badge>
+      </p>
+      <p>
+      Share the lowest price commission ever: <Badge pill bg='badge-l' className='badge-danger progress-bar-striped progress-bar-animated'>{totalClickReward}</Badge>
+      </p>
+      <p>
+      Share the highest price commission ever: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{totalClickReward}</Badge>
       </p>
     </>
     : <>
@@ -125,9 +149,6 @@ export const ReferralCode = () => {
               isLoadingComp
                 ? <MySkeletonLoadinng count={3} height={30} />
                 : <>
-                  <p>
-            Current Share Commission: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{shareCommissionDollarPerView[0]}$/{shareCommissionDollarPerView[1]} views</Badge>
-                  </p>
                   {referralInfo}
                 </>
             }

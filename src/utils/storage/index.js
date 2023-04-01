@@ -4,7 +4,8 @@ const cookies = new Cookies()
 
 export const STORAGEKEY = {
   ACCESS_TOKEN: `Gear5_${window?.location?.hostname}_access_token`,
-  USER_INFO: `Gear5_${window?.location?.hostname}_user_info`
+  USER_INFO: `Gear5_${window?.location?.hostname}_user_info`,
+  REFERRAL_CODE: `Gear5_${window?.location?.hostname}_referral_code`
 }
 
 export const setCookie = (key, value) => {
