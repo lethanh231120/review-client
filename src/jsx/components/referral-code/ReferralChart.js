@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,9 +10,6 @@ import {
   Legend
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
-import { useState } from 'react'
-import { formatChartDate } from '../insight/charts/BarChart'
-import { formatDateStyle } from '../../../utils/time/time'
 
 ChartJS.register(
   CategoryScale,
@@ -62,74 +59,7 @@ const options = {
   }
 }
 
-const ReferralChart = ({ data }) => {
-  const [rewardLabelsTime, setRewardLabelsTime] = useState()
-  const [dataRewardClick, setDataRewardClick] = useState()
-  const [dataRewardValue, setDataRewardValue] = useState()
-  const [dataRewardTotal, setDataRewardTotal] = useState()
-
-  const [claimedLabelsTime, setClaimedLabelsTime] = useState()
-  const [dataClaimedClick, setDataClaimedClick] = useState()
-  const [dataClaimedValue, setDataClaimedValue] = useState()
-
-  function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min
-  }
-  useEffect(() => {
-    if (data) {
-      const rewardLabelsTimeLocal = []
-      const dataRewardClickLocal = new Map()
-      const dataRewardValueLocal = new Map()
-      const dataRewardTotalLocal = new Map()
-
-      const claimedLabelsTimeLocal = []
-      const dataClaimedClickLocal = new Map()
-      const dataClaimedValueLocal = new Map()
-      // reverse array, then tranverse array (past to now)
-      data?.slice()?.reverse()?.forEach(clickEachDay => {
-        const formattedDate = formatChartDate(clickEachDay?.createdDate, formatDateStyle)
-        const dailyClick = clickEachDay?.click
-        const dailyRewardValue = clickEachDay?.rewardPrice
-        const dailyRewardTotal = dailyRewardValue * dailyClick
-
-        const isGetReward = !clickEachDay?.isClaimed
-        if (isGetReward) {
-          rewardLabelsTimeLocal?.push(formattedDate)
-          dataRewardClickLocal?.set(formattedDate, dailyClick)
-          dataRewardValueLocal?.set(formattedDate, dailyRewardValue)
-          dataRewardTotalLocal?.set(formattedDate, dailyRewardTotal)
-
-          // Fake data
-          for (let i = 1; i <= 7; i++) {
-            var date = new Date()
-            // add a day
-            date.setDate(date.getDate() + i)
-            const formattedDate = formatChartDate(date, formatDateStyle)
-            const fakeClick = getRndInteger(0, 1000)
-            const fakeRewardValue = getRndInteger(1, 10)
-            const fakeDailyReward = (clickEachDay?.rewardPrice * fakeClick)
-            rewardLabelsTimeLocal?.push(formattedDate)
-            dataRewardClickLocal?.set(formattedDate, fakeClick)
-            dataRewardValueLocal?.set(formattedDate, fakeRewardValue)
-            dataRewardTotalLocal?.set(formattedDate, fakeDailyReward)
-          }
-        } else {
-          claimedLabelsTimeLocal?.push(formattedDate)
-          dataClaimedClickLocal?.set(formattedDate, dailyClick)
-          dataClaimedValueLocal?.set(formattedDate, dailyRewardTotal)
-        }
-      })
-      setRewardLabelsTime(rewardLabelsTimeLocal)
-      setDataRewardClick(dataRewardClickLocal)
-      setDataRewardValue(dataRewardValueLocal)
-      setDataRewardTotal(dataRewardTotalLocal)
-
-      setClaimedLabelsTime(claimedLabelsTimeLocal)
-      setDataClaimedClick(dataClaimedClickLocal)
-      setDataClaimedValue(dataClaimedValueLocal)
-    }
-  }, [data])
-
+const ReferralChart = ({ rewardLabelsTime, dataRewardClick, dataRewardValue, dataRewardTotal, claimedLabelsTime, dataClaimedClick, dataClaimedValue }) => {
   const dataSetReward = {
     defaultFontFamily: 'Poppins',
     labels: rewardLabelsTime,
@@ -177,7 +107,7 @@ const ReferralChart = ({ data }) => {
 
   return <>
     <Line options={options} data={dataSetReward} />
-    <Line options={options} data={dataSetClaimed} />
+    {/* <Line options={options} data={dataSetClaimed} /> */}
   </>
 }
 
