@@ -40,6 +40,10 @@ const setHeaderWrite = async(header) => {
   if (header?.ReCaptchaResponse) {
     instanceWrite.defaults.headers.common['ReCaptchaResponse'] = `${header?.ReCaptchaResponse}`
   }
+  // Send review as anynomous has referral code first time access
+  if (header?.Referral) {
+    instanceWrite.defaults.headers.common['Referral'] = `${header?.Referral}`
+  }
 }
 
 const search = async(url, params = {}) => {

@@ -5,7 +5,7 @@ import ShortItem from './ShortItem'
 import { socials, defaultSocial } from '../../../../utils/social-icons/socials-icon'
 
 export const isUrlValid = (userInput) => {
-  var res = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)
+  var res = userInput?.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)
   if (res == null) { return false } else { return true }
 }
 

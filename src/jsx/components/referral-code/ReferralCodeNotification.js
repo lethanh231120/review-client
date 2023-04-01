@@ -134,6 +134,8 @@ export const ReferralCodeNotification = ({ isSignedIn, isCollaboratorUser }) => 
                   onClick={() => {
                     formLoginSignupKeyContext?.setLoginSignupFormactiveTabKey(logInKey)
                     signContext?.handleSetOpenModal(true)
+                    // scroll to the top page
+                    window.scrollTo(0, 0)
                   }}
                 >
                   {signInImage(24, whiteColorHex)}
