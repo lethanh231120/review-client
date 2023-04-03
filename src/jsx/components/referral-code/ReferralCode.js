@@ -12,8 +12,7 @@ import ReferralChart from './ReferralChart'
 import { MySkeletonLoadinng } from './../common-widgets/my-spinner'
 import { formatChartDate } from '../insight/charts/BarChart'
 import { formatDateStyle } from '../../../utils/time/time'
-import { renderNumber } from './../../../utils/formatNumber'
-import { formatLargeNumber } from './../../../utils/formatNumber'
+import { formatLargeNumberMoneyUSD } from './../../../utils/formatNumber'
 
 export const getReferralStatistics = async() =>{
   try {
@@ -24,6 +23,8 @@ export const getReferralStatistics = async() =>{
     console.error(err)
   }
 }
+
+const rewardPerView = 1000
 
 export const ReferralCode = () => {
   const authenticated = useContext(Authenticated)
@@ -47,6 +48,7 @@ export const ReferralCode = () => {
   const [highestShareComissionDate, setHighestShareComissionDate] = useState()
 
   // For chart
+  const [chartData, setChartData] = useState()
   const [rewardLabelsTime, setRewardLabelsTime] = useState()
   const [dataRewardClick, setDataRewardClick] = useState()
   const [dataRewardValue, setDataRewardValue] = useState()
@@ -118,7 +120,7 @@ export const ReferralCode = () => {
         data?.push(createClickPoint(noClick, today, noClaimed, lastReward))
       } else {
         // At least one person click referral link --> update lastReward admin not fix(equal zero)
-        data[data?.length - 1 ].rewardPrice = lastReward
+        lastItem.rewardPrice = lastReward
       }
 
       // ## Add day between two date missing
@@ -142,117 +144,112 @@ export const ReferralCode = () => {
           }
         }
 
+        // format existed date same date format with dynamic gen missing date
+        item.createdDate = getDDMMYYYYDate(item?.createdDate)
         newArray?.push(item)
         previousDate = currentDate // update previous date
         previousRewardPerClick = currentRewardPerClick // update previous rewardPrice
       })
       data = newArray
+      extractDataFromChartData(data)
+      setChartData(data)
+    }
+  }
 
-      const todayShareComission = data[0]?.rewardPrice
-      const defaultDate = formatChartDate(data[0]?.createdDate, formatDateStyle)
-      setTodayShareComission(todayShareComission)
+  const extractDataFromChartData = (data) =>{
+    const lastItem = data[data?.length - 1 ]
+    const todayShareComission = lastItem?.rewardPrice
+    setTodayShareComission(todayShareComission)
+    let totalClickLocal = 0
+    let totalRewardClickLocal = 0
+    let totalClaimedValueLocal = 0
+    let totalRewardValueLocal = 0
+    let lowestShareComissionLocal = todayShareComission
+    let highestShareComissionLocal = todayShareComission
+    const defaultDate = formatChartDate(lastItem.createdDate, formatDateStyle)
+    let lowestShareComissionDateLocal = defaultDate
+    let highestShareComissionDateLocal = defaultDate
 
-      let totalClickLocal = 0
-      let totalRewardClickLocal = 0
-      let totalClaimedValueLocal = 0
-      let totalRewardValueLocal = 0
-      let lowestShareComissionLocal = todayShareComission
-      let highestShareComissionLocal = todayShareComission
-      let lowestShareComissionDateLocal = defaultDate
-      let highestShareComissionDateLocal = defaultDate
+    const rewardLabelsTimeLocal = []
+    const dataRewardClickLocal = new Map()
+    const dataRewardValueLocal = new Map()
+    const dataRewardTotalLocal = new Map()
 
-      const rewardLabelsTimeLocal = []
-      const dataRewardClickLocal = new Map()
-      const dataRewardValueLocal = new Map()
-      const dataRewardTotalLocal = new Map()
+    const claimedLabelsTimeLocal = []
+    const dataClaimedClickLocal = new Map()
+    const dataClaimedValueLocal = new Map()
 
-      const claimedLabelsTimeLocal = []
-      const dataClaimedClickLocal = new Map()
-      const dataClaimedValueLocal = new Map()
+    console.log('data', data)
+    data?.forEach((clickEachDay) => {
+      const formattedDate = formatChartDate(clickEachDay?.createdDate, formatDateStyle)
+      const dailyClick = clickEachDay?.click
+      const dailyRewardValue = clickEachDay?.rewardPrice
+      const dailyRewardTotal = dailyRewardValue * (dailyClick / rewardPerView)
 
-      // let startDate = getDDMMYYYYDate(data[data?.length - 1]?.createdDate)
-      // const endDate = getDDMMYYYYDate(new Date())
-      // const totalDatePoint = ((endDate - startDate) / millisecondsInADay) + 1 // end - start + 1 to get include point
-      // reverse array, then tranverse array (past to now)
-      data?.forEach((clickEachDay) => {
-        // const currentDate = getDDMMYYYYDate(clickEachDay?.createdDate)
-        // const indexExtra = (totalDatePoint - ((endDate - currentDate) / millisecondsInADay) - 1)
-        // console.log(indexExtra, index, clickEachDay?.createdDate, add1Day(startDate))
-        // startDate = getDDMMYYYYDate(clickEachDay?.createdDate)
+      if (lowestShareComissionLocal > dailyRewardValue) {
+        lowestShareComissionLocal = dailyRewardValue
+        lowestShareComissionDateLocal = formattedDate
+      }
+      if (dailyRewardValue > highestShareComissionLocal) {
+        highestShareComissionLocal = dailyRewardValue
+        highestShareComissionDateLocal = formattedDate
+      }
 
-        const formattedDate = formatChartDate(clickEachDay?.createdDate, formatDateStyle)
-        const dailyClick = clickEachDay?.click
-        const dailyRewardValue = clickEachDay?.rewardPrice
-        const dailyRewardTotal = dailyRewardValue * dailyClick
+      totalClickLocal += dailyClick
 
-        if (lowestShareComissionLocal > dailyRewardValue) {
-          lowestShareComissionLocal = dailyRewardValue
-          lowestShareComissionDateLocal = formattedDate
-        }
-        if (dailyRewardValue > highestShareComissionLocal) {
-          highestShareComissionLocal = dailyRewardValue
-          highestShareComissionDateLocal = formattedDate
-        }
+      const isGetReward = !clickEachDay?.isClaimed
+      if (isGetReward) {
+        totalRewardClickLocal += dailyClick
+        totalRewardValueLocal += dailyRewardTotal
 
-        totalClickLocal += dailyClick
+        rewardLabelsTimeLocal?.push(formattedDate)
+        dataRewardClickLocal?.set(formattedDate, dailyClick)
+        dataRewardValueLocal?.set(formattedDate, dailyRewardValue)
+        dataRewardTotalLocal?.set(formattedDate, dailyRewardTotal)
 
-        const isGetReward = !clickEachDay?.isClaimed
-        if (isGetReward) {
-          // if (!startDate){
-          //   startDate =
-          // }
-          totalRewardClickLocal += dailyClick
-          totalRewardValueLocal += dailyRewardTotal
-
+        // Fake data
+        for (let i = 1; i <= 0; i++) {
+          var date = new Date()
+          // add a day
+          date.setDate(date.getDate() + i)
+          const formattedDate = formatChartDate(date, formatDateStyle)
+          const fakeClick = getRndInteger(0, 1000)
+          const fakeRewardValue = getRndInteger(1, 10)
+          const fakeDailyReward = (clickEachDay?.rewardPrice * fakeClick)
           rewardLabelsTimeLocal?.push(formattedDate)
-          dataRewardClickLocal?.set(formattedDate, dailyClick)
-          dataRewardValueLocal?.set(formattedDate, dailyRewardValue)
-          dataRewardTotalLocal?.set(formattedDate, dailyRewardTotal)
-
-          // Fake data
-          for (let i = 1; i <= 0; i++) {
-            var date = new Date()
-            // add a day
-            date.setDate(date.getDate() + i)
-            const formattedDate = formatChartDate(date, formatDateStyle)
-            const fakeClick = getRndInteger(0, 1000)
-            const fakeRewardValue = getRndInteger(1, 10)
-            const fakeDailyReward = (clickEachDay?.rewardPrice * fakeClick)
-            rewardLabelsTimeLocal?.push(formattedDate)
-            dataRewardClickLocal?.set(formattedDate, fakeClick)
-            dataRewardValueLocal?.set(formattedDate, fakeRewardValue)
-            dataRewardTotalLocal?.set(formattedDate, fakeDailyReward)
-          }
-        } else {
-          totalClaimedValueLocal += dailyRewardTotal
-
-          claimedLabelsTimeLocal?.push(formattedDate)
-          dataClaimedClickLocal?.set(formattedDate, dailyClick)
-          dataClaimedValueLocal?.set(formattedDate, dailyRewardTotal)
+          dataRewardClickLocal?.set(formattedDate, fakeClick)
+          dataRewardValueLocal?.set(formattedDate, fakeRewardValue)
+          dataRewardTotalLocal?.set(formattedDate, fakeDailyReward)
         }
-      })
-      setRewardLabelsTime(rewardLabelsTimeLocal)
-      setDataRewardClick(dataRewardClickLocal)
-      setDataRewardValue(dataRewardValueLocal)
-      setDataRewardTotal(dataRewardTotalLocal)
+      } else {
+        totalClaimedValueLocal += dailyRewardTotal
 
-      setClaimedLabelsTime(claimedLabelsTimeLocal)
-      setDataClaimedClick(dataClaimedClickLocal)
-      setDataClaimedValue(dataClaimedValueLocal)
+        claimedLabelsTimeLocal?.push(formattedDate)
+        dataClaimedClickLocal?.set(formattedDate, dailyClick)
+        dataClaimedValueLocal?.set(formattedDate, dailyRewardTotal)
+      }
+    })
+    setRewardLabelsTime(rewardLabelsTimeLocal)
+    setDataRewardClick(dataRewardClickLocal)
+    setDataRewardValue(dataRewardValueLocal)
+    setDataRewardTotal(dataRewardTotalLocal)
 
-      // For statistic
-      setTotalClick(totalClickLocal)
-      setTotalRewardClick(totalRewardClickLocal)
-      setTotalClaimedValue(totalClaimedValueLocal)
-      setTotalRewardValue(totalRewardValueLocal)
-      setLowestShareComission(lowestShareComissionLocal)
-      setHighestShareComission(highestShareComissionLocal)
-      if (lowestShareComissionDateLocal) {
-        setLowestShareComissionDate(` (${lowestShareComissionDateLocal})`)
-      }
-      if (highestShareComissionDateLocal) {
-        setHighestShareComissionDate(` (${highestShareComissionDateLocal})`)
-      }
+    setClaimedLabelsTime(claimedLabelsTimeLocal)
+    setDataClaimedClick(dataClaimedClickLocal)
+    setDataClaimedValue(dataClaimedValueLocal)
+
+    // For statistic
+    setTotalClick(totalClickLocal)
+    setTotalRewardClick(totalRewardClickLocal)
+    setTotalClaimedValue(totalClaimedValueLocal)
+    setTotalRewardValue(totalRewardValueLocal)
+    setLowestShareComission(lowestShareComissionLocal)
+    setHighestShareComission(highestShareComissionLocal)
+    if (lowestShareComissionDateLocal) {
+      setLowestShareComissionDate(` (${lowestShareComissionDateLocal})`)
+    }
+    if (highestShareComissionDateLocal) {
+      setHighestShareComissionDate(` (${highestShareComissionDateLocal})`)
     }
   }
 
@@ -283,9 +280,29 @@ export const ReferralCode = () => {
   const getAllReward = async() => {
     try {
       const resp = await post('reviews/referral/claim', {}, { Referral: code })
-      console.log(resp)
       if (resp?.status) {
-        notifyTopRightSuccess('You claim all your rewards successfully')
+        // update needed data change when claim
+
+        setTotalClaimedValue(resp?.data?.totalReward)
+        const lastItem = chartData[chartData?.length - 1]
+        const todayValue = (lastItem?.click / rewardPerView) * lastItem?.rewardPrice
+
+        const arrLabels = []
+        arrLabels?.push(lastItem?.createdDate)
+        setRewardLabelsTime(arrLabels)
+        const mapClick = new Map()
+        mapClick?.set(lastItem?.createdDate, lastItem?.click)
+        setDataRewardClick(mapClick)
+        const mapValue = new Map()
+        mapValue?.set(lastItem?.createdDate, lastItem?.rewardPrice)
+        setDataRewardValue(mapValue)
+        const mapTotal = new Map()
+        mapTotal?.set(lastItem?.createdDate, todayValue)
+        setDataRewardTotal(mapTotal)
+
+        setTotalRewardValue(todayValue)
+        setTotalRewardClick(lastItem?.click)
+        notifyTopRightSuccess(`You claim ${formatLargeNumberMoneyUSD(resp?.data?.totalReward)} for ${new Intl.NumberFormat().format(resp?.data?.totalClick)} click from your friends successfully`)
       }
     } catch (e) {
       const codeBE = e?.response?.data?.code
@@ -313,12 +330,12 @@ export const ReferralCode = () => {
             />
           </p>
           <p>
-            Available your new friends visit: <Badge pill bg='badge-l' className='badge-light progress-bar-striped progress-bar-animated'>
-              {formatLargeNumber(totalRewardClick)}
+            Your new friends visit: <Badge pill bg='badge-l' className='badge-light progress-bar-striped progress-bar-animated'>
+              {new Intl.NumberFormat().format(totalRewardClick)}
             </Badge>
           </p>
           <p>
-            Available share commission reward: <Badge pill bg='badge-l' className='badge-light progress-bar-striped progress-bar-animated'>{renderNumber(totalRewardValue)}</Badge>
+            Available share commission reward: <Badge pill bg='badge-l' className='badge-light progress-bar-striped progress-bar-animated'>{formatLargeNumberMoneyUSD(totalRewardValue)}</Badge>
           </p>
           <p className='text-center'>
             <button
@@ -333,21 +350,21 @@ export const ReferralCode = () => {
         </div>
         <div className='col-12 col-sm-6'>
           <p>
-          Total your friend visit: <Badge pill bg='badge-l' className='badge-primary progress-bar-striped progress-bar-animated'>{formatLargeNumber(totalClick)}</Badge>
+          Total your friend visit: <Badge pill bg='badge-l' className='badge-primary progress-bar-striped progress-bar-animated'>{new Intl.NumberFormat().format(totalClick)}</Badge>
           </p>
 
           <p>
-          Total share commission reward: <Badge pill bg='badge-l' className='badge-primary progress-bar-striped progress-bar-animated'>{renderNumber(totalClaimedValue)}</Badge>
+          Total share commission reward claimed: <Badge pill bg='badge-l' className='badge-primary progress-bar-striped progress-bar-animated'>{formatLargeNumberMoneyUSD(totalClaimedValue)}</Badge>
           </p>
 
           <p>
-          Share commission for 1000 views today: <Badge pill bg='badge-l' className='badge-primary progress-bar-striped progress-bar-animated'>{renderNumber(todayShareComission)}</Badge>
+          Share commission for {rewardPerView} views today: <Badge pill bg='badge-l' className='badge-primary progress-bar-striped progress-bar-animated'>{formatLargeNumberMoneyUSD(todayShareComission)}</Badge>
           </p>
           <p>
-          Lowest share commission{lowestShareComissionDate}: <Badge pill bg='badge-l' className='badge-danger progress-bar-striped progress-bar-animated'>{renderNumber(lowestShareComission)}</Badge>
+          Lowest share commission{lowestShareComissionDate}: <Badge pill bg='badge-l' className='badge-danger progress-bar-striped progress-bar-animated'>{formatLargeNumberMoneyUSD(lowestShareComission)}</Badge>
           </p>
           <p>
-          Highest share commission{highestShareComissionDate}: <Badge pill bg='badge-l' className='badge-info progress-bar-striped progress-bar-animated'>{renderNumber(highestShareComission)}</Badge>
+          Highest share commission{highestShareComissionDate}: <Badge pill bg='badge-l' className='badge-info progress-bar-striped progress-bar-animated'>{formatLargeNumberMoneyUSD(highestShareComission)}</Badge>
           </p>
         </div>
       </div>
