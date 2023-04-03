@@ -29,7 +29,7 @@ export const renderNumber = (value) => {
   if (value >= 1) {
     value = parseInt(value)
   }
-  if (value > 0) {
+  if (value >= 0) {
     if (isInt(value)) {
       if (value >= dividendShortcutTrillion) {
         return (
@@ -64,6 +64,11 @@ export const renderNumber = (value) => {
           <span>${formatBigMoney(value)}</span>
         )
       }
+
+      // zero
+      return (
+        <span>${(value)}</span>
+      )
     } else { // float number
       return <span>${new Intl.NumberFormat().format(value)}</span>
     }
