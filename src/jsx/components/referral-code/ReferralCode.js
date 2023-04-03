@@ -12,6 +12,8 @@ import ReferralChart from './ReferralChart'
 import { MySkeletonLoadinng } from './../common-widgets/my-spinner'
 import { formatChartDate } from '../insight/charts/BarChart'
 import { formatDateStyle } from '../../../utils/time/time'
+import { renderNumber } from './../../../utils/formatNumber'
+import { formatLargeNumber } from './../../../utils/formatNumber'
 
 export const getReferralStatistics = async() =>{
   try {
@@ -58,12 +60,94 @@ export const ReferralCode = () => {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
+  const getDDMMYYYYDate = (date) => new Date(formatChartDate(date, 'YYYY-MM-DD'))
+
+  const millisecondsInADay = 86400000
+  const addDay = (date, amountDate) => new Date(date.getTime() + (amountDate * millisecondsInADay))
+
+  const dayBeetween2Day = (date1, date2) => (getDDMMYYYYDate(date1) - getDDMMYYYYDate(date2)) / millisecondsInADay
+
+  const createClickPoint = (click, createdDate, isClaimed, rewardPrice) => {
+    return {
+      click: click,
+      createdDate: createdDate,
+      isClaimed: isClaimed,
+      rewardPrice: rewardPrice
+    }
+  }
+
   const setReferralCodeAndClickChart = async() =>{
     const resp = await getReferralStatistics()
     setCode(resp?.code)
 
-    const data = resp?.dailyCharts
+    let data = resp?.dailyCharts
     if (data) {
+      // Sort first by createdate asc
+      data?.sort((a, b) => getDDMMYYYYDate(a?.createdDate) - getDDMMYYYYDate(b?.createdDate))
+
+      // ###### Adding missing day
+      // ## Add today missing
+      const lastItem = data[data?.length - 1 ]
+      const lastDate = lastItem?.createdDate
+      let lastReward = lastItem?.rewardPrice
+      const today = new Date()
+
+      // # admin still don't fix data reward (default  equal 0)
+      // Both case no one click today, or atleast one click
+      if (lastReward === 0) {
+        var BreakException = {}
+        try {
+          // traverse opposite direction
+          data?.slice()?.reverse()?.forEach(item => {
+            const currentReward = item?.rewardPrice
+            if (currentReward > 0) {
+              lastReward = currentReward
+              throw BreakException
+            }
+          })
+        } catch (e) {
+          console.error(e)
+        }
+      }
+
+      // # today no one click referral link
+      if (dayBeetween2Day(today, lastDate) !== 0) {
+        const noClick = 0
+        const today = new Date()
+        const noClaimed = false
+        data?.push(createClickPoint(noClick, today, noClaimed, lastReward))
+      } else {
+        // At least one person click referral link --> update lastReward admin not fix(equal zero)
+        data[data?.length - 1 ].rewardPrice = lastReward
+      }
+
+      // ## Add day between two date missing
+      const newArray = []
+      let previousDate = data[0]?.createdDate
+      let previousRewardPerClick = data[0]?.rewardPrice
+      data?.forEach(item => {
+        const currentDate = item?.createdDate
+        const currentRewardPerClick = item?.rewardPrice
+        const dayBetween2Date = dayBeetween2Day(currentDate, previousDate)
+        // push missing dates
+        const oneOrMoreDayBetween = 2
+        if (dayBetween2Date >= oneOrMoreDayBetween) {
+          // tranverse each missing date
+          for (let dayNo = 1; dayNo < dayBetween2Date; dayNo++) {
+            const cloneItem = JSON.parse(JSON.stringify(item))
+            cloneItem.createdDate = addDay(getDDMMYYYYDate(currentDate), (-dayBetween2Date + dayNo))
+            cloneItem.click = 0
+            cloneItem.rewardPrice = previousRewardPerClick
+            newArray?.push(cloneItem)
+          }
+        }
+
+        newArray?.push(item)
+        previousDate = currentDate // update previous date
+        previousRewardPerClick = currentRewardPerClick // update previous rewardPrice
+      })
+      data = newArray
+
       const todayShareComission = data[0]?.rewardPrice
       const defaultDate = formatChartDate(data[0]?.createdDate, formatDateStyle)
       setTodayShareComission(todayShareComission)
@@ -85,8 +169,17 @@ export const ReferralCode = () => {
       const claimedLabelsTimeLocal = []
       const dataClaimedClickLocal = new Map()
       const dataClaimedValueLocal = new Map()
+
+      // let startDate = getDDMMYYYYDate(data[data?.length - 1]?.createdDate)
+      // const endDate = getDDMMYYYYDate(new Date())
+      // const totalDatePoint = ((endDate - startDate) / millisecondsInADay) + 1 // end - start + 1 to get include point
       // reverse array, then tranverse array (past to now)
-      data?.slice()?.reverse()?.forEach(clickEachDay => {
+      data?.forEach((clickEachDay) => {
+        // const currentDate = getDDMMYYYYDate(clickEachDay?.createdDate)
+        // const indexExtra = (totalDatePoint - ((endDate - currentDate) / millisecondsInADay) - 1)
+        // console.log(indexExtra, index, clickEachDay?.createdDate, add1Day(startDate))
+        // startDate = getDDMMYYYYDate(clickEachDay?.createdDate)
+
         const formattedDate = formatChartDate(clickEachDay?.createdDate, formatDateStyle)
         const dailyClick = clickEachDay?.click
         const dailyRewardValue = clickEachDay?.rewardPrice
@@ -105,6 +198,9 @@ export const ReferralCode = () => {
 
         const isGetReward = !clickEachDay?.isClaimed
         if (isGetReward) {
+          // if (!startDate){
+          //   startDate =
+          // }
           totalRewardClickLocal += dailyClick
           totalRewardValueLocal += dailyRewardTotal
 
@@ -114,7 +210,7 @@ export const ReferralCode = () => {
           dataRewardTotalLocal?.set(formattedDate, dailyRewardTotal)
 
           // Fake data
-          for (let i = 1; i <= 7; i++) {
+          for (let i = 1; i <= 0; i++) {
             var date = new Date()
             // add a day
             date.setDate(date.getDate() + i)
@@ -205,7 +301,7 @@ export const ReferralCode = () => {
   const referralInfo = isActiveReferralCode
     ? <>
       <div className='row'>
-        <div className='col-12 col-sm-4'>
+        <div className='col-12 col-sm-6'>
           {/* Get referral code click */}
           <p>
       My referral code:  <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{code}</Badge>
@@ -216,38 +312,42 @@ export const ReferralCode = () => {
               }
             />
           </p>
+          <p>
+            Available your new friends visit: <Badge pill bg='badge-l' className='badge-light progress-bar-striped progress-bar-animated'>
+              {formatLargeNumber(totalRewardClick)}
+            </Badge>
+          </p>
+          <p>
+            Available share commission reward: <Badge pill bg='badge-l' className='badge-light progress-bar-striped progress-bar-animated'>{renderNumber(totalRewardValue)}</Badge>
+          </p>
           <p className='text-center'>
             <button
               type='button'
               className='btn btn-primary'
               onClick={getAllReward}
             >
-          Get Referral
+            Claim rewards
             </button>
             <hr className='hr-custome my-2'></hr>
           </p>
         </div>
-        <div className='col-12 col-sm-8'>
+        <div className='col-12 col-sm-6'>
           <p>
-      Total click from your share with referral code: <Badge pill bg='badge-l' className='badge-info progress-bar-striped progress-bar-animated'>{totalClick}</Badge>
+          Total your friend visit: <Badge pill bg='badge-l' className='badge-primary progress-bar-striped progress-bar-animated'>{formatLargeNumber(totalClick)}</Badge>
+          </p>
+
+          <p>
+          Total share commission reward: <Badge pill bg='badge-l' className='badge-primary progress-bar-striped progress-bar-animated'>{renderNumber(totalClaimedValue)}</Badge>
+          </p>
+
+          <p>
+          Share commission for 1000 views today: <Badge pill bg='badge-l' className='badge-primary progress-bar-striped progress-bar-animated'>{renderNumber(todayShareComission)}</Badge>
           </p>
           <p>
-      Total number of new clicks that have not received commission: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{totalRewardClick}</Badge>
+          Lowest share commission{lowestShareComissionDate}: <Badge pill bg='badge-l' className='badge-danger progress-bar-striped progress-bar-animated'>{renderNumber(lowestShareComission)}</Badge>
           </p>
           <p>
-      Total share commission you&apos;ve received so far: <Badge pill bg='badge-l' className='badge-info progress-bar-striped progress-bar-animated'>{totalClaimedValue}</Badge>
-          </p>
-          <p>
-      Total share commission you have not taken out yet: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{totalRewardValue}</Badge>
-          </p>
-          <p>
-      Share commission for 1 thousand views today: <Badge pill bg='badge-l' className='badge-info progress-bar-striped progress-bar-animated'>{todayShareComission}</Badge>
-          </p>
-          <p>
-      Share the lowest price commission ever{lowestShareComissionDate}: <Badge pill bg='badge-l' className='badge-danger progress-bar-striped progress-bar-animated'>{lowestShareComission}</Badge>
-          </p>
-          <p>
-      Share the highest price commission ever{highestShareComissionDate}: <Badge pill bg='badge-l' className='badge-success progress-bar-striped progress-bar-animated'>{highestShareComission}</Badge>
+          Highest share commission{highestShareComissionDate}: <Badge pill bg='badge-l' className='badge-info progress-bar-striped progress-bar-animated'>{renderNumber(highestShareComission)}</Badge>
           </p>
         </div>
       </div>
