@@ -9,6 +9,7 @@ import { renderNumber } from '../../../utils/formatNumber'
 import { formatChartDate } from '../insight/charts/BarChart'
 import { formatDateStyle } from '../../../utils/time/time'
 import { getDDMMYYYYDate } from './referralCode'
+import _ from 'lodash'
 
 const getReward = async() => {
   try {
@@ -20,11 +21,17 @@ const getReward = async() => {
   }
 }
 
-export const ReferralWithdrawHistory = () => {
+export const ReferralWithdrawHistory = ({ newClaimedHistory }) => {
   const [withdrawalHistory, setWithdrawalHistory] = useState()
   useEffect(() => {
     getData()
   }, [])
+
+  useEffect(() => {
+    if (newClaimedHistory && withdrawalHistory) {
+      setWithdrawalHistory([newClaimedHistory, ...withdrawalHistory])
+    }
+  }, [newClaimedHistory])
 
   const getData = async() => {
     let respData = await getReward()
@@ -107,18 +114,20 @@ export const ReferralWithdrawHistory = () => {
     }
   ]
 
-  return <Card style={{ height: '100%' }}>
-    <Card.Header>
-      <Card.Title>
-        <h3 className='heading text-center' style={{ textTransform: 'none' }}>{`Widthdrawal History`}</h3>
-      </Card.Title>
-    </Card.Header>
-    <Card.Body>
-      <Table
-        pagination={{ pageSize: 5 }}
-        className='custom-table'
-        columns={columns}
-        dataSource={withdrawalHistory}/>
-    </Card.Body>
-  </Card>
+  return !_.isEmpty(withdrawalHistory) && <div className='profile card card-body'>
+    <Card style={{ height: '100%' }}>
+      <Card.Header>
+        <Card.Title>
+          <h3 className='heading text-center' style={{ textTransform: 'none' }}>{`Widthdrawal History`}</h3>
+        </Card.Title>
+      </Card.Header>
+      <Card.Body>
+        <Table
+          pagination={{ pageSize: 5 }}
+          className='custom-table'
+          columns={columns}
+          dataSource={withdrawalHistory}/>
+      </Card.Body>
+    </Card>
+  </div>
 }

@@ -58,13 +58,7 @@ export const ReferralCode = () => {
   const [dataRewardValue, setDataRewardValue] = useState()
   const [dataRewardTotal, setDataRewardTotal] = useState()
 
-  const [claimedLabelsTime, setClaimedLabelsTime] = useState()
-  const [dataClaimedClick, setDataClaimedClick] = useState()
-  const [dataClaimedValue, setDataClaimedValue] = useState()
-
-  function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min
-  }
+  const [newClaimedHistory, setNewClaimedHistory] = useState()
 
   const millisecondsInADay = 86400000
   const addDay = (date, amountDate) => new Date(date.getTime() + (amountDate * millisecondsInADay))
@@ -153,7 +147,8 @@ export const ReferralCode = () => {
         previousDate = currentDate // update previous date
         previousRewardPerClick = currentRewardPerClick // update previous rewardPrice
       })
-      data = newArray
+      // get latest 7 point in array
+      data = newArray?.slice(newArray?.length - 7)
       extractDataFromChartData(data)
       setChartData(data)
     }
@@ -165,7 +160,7 @@ export const ReferralCode = () => {
     setTodayShareComission(todayShareComission)
     let totalClickLocal = 0
     let totalRewardClickLocal = 0
-    let totalClaimedValueLocal = 0
+    const totalClaimedValueLocal = 0
     let totalRewardValueLocal = 0
     let lowestShareComissionLocal = todayShareComission
     let highestShareComissionLocal = todayShareComission
@@ -177,10 +172,6 @@ export const ReferralCode = () => {
     const dataRewardClickLocal = new Map()
     const dataRewardValueLocal = new Map()
     const dataRewardTotalLocal = new Map()
-
-    const claimedLabelsTimeLocal = []
-    const dataClaimedClickLocal = new Map()
-    const dataClaimedValueLocal = new Map()
 
     data?.forEach((clickEachDay) => {
       const formattedDate = formatChartDate(clickEachDay?.createdDate, formatDateStyle)
@@ -208,37 +199,12 @@ export const ReferralCode = () => {
         dataRewardClickLocal?.set(formattedDate, dailyClick)
         dataRewardValueLocal?.set(formattedDate, dailyRewardValue)
         dataRewardTotalLocal?.set(formattedDate, dailyRewardTotal)
-
-        // Fake data
-        for (let i = 1; i <= 0; i++) {
-          var date = new Date()
-          // add a day
-          date.setDate(date.getDate() + i)
-          const formattedDate = formatChartDate(date, formatDateStyle)
-          const fakeClick = getRndInteger(0, 1000)
-          const fakeRewardValue = getRndInteger(1, 10)
-          const fakeDailyReward = (clickEachDay?.rewardPrice * fakeClick)
-          rewardLabelsTimeLocal?.push(formattedDate)
-          dataRewardClickLocal?.set(formattedDate, fakeClick)
-          dataRewardValueLocal?.set(formattedDate, fakeRewardValue)
-          dataRewardTotalLocal?.set(formattedDate, fakeDailyReward)
-        }
-      } else {
-        totalClaimedValueLocal += dailyRewardTotal
-
-        claimedLabelsTimeLocal?.push(formattedDate)
-        dataClaimedClickLocal?.set(formattedDate, dailyClick)
-        dataClaimedValueLocal?.set(formattedDate, dailyRewardTotal)
       }
     })
     setRewardLabelsTime(rewardLabelsTimeLocal)
     setDataRewardClick(dataRewardClickLocal)
     setDataRewardValue(dataRewardValueLocal)
     setDataRewardTotal(dataRewardTotalLocal)
-
-    setClaimedLabelsTime(claimedLabelsTimeLocal)
-    setDataClaimedClick(dataClaimedClickLocal)
-    setDataClaimedValue(dataClaimedValueLocal)
 
     // For statistic
     setTotalClick(totalClickLocal)
@@ -289,21 +255,24 @@ export const ReferralCode = () => {
         const lastItem = chartData[chartData?.length - 1]
         const todayValue = (lastItem?.click / rewardPerView) * lastItem?.rewardPrice
 
+        const dateKeyFormated = formatChartDate(lastItem?.createdDate, formatDateStyle)
         const arrLabels = []
-        arrLabels?.push(lastItem?.createdDate)
+        arrLabels?.push(dateKeyFormated)
         setRewardLabelsTime(arrLabels)
         const mapClick = new Map()
-        mapClick?.set(lastItem?.createdDate, lastItem?.click)
+        mapClick?.set(dateKeyFormated, lastItem?.click)
         setDataRewardClick(mapClick)
         const mapValue = new Map()
-        mapValue?.set(lastItem?.createdDate, lastItem?.rewardPrice)
+        mapValue?.set(dateKeyFormated, lastItem?.rewardPrice)
         setDataRewardValue(mapValue)
         const mapTotal = new Map()
-        mapTotal?.set(lastItem?.createdDate, todayValue)
+        mapTotal?.set(dateKeyFormated, todayValue)
         setDataRewardTotal(mapTotal)
 
         setTotalRewardValue(todayValue)
         setTotalRewardClick(lastItem?.click)
+
+        setNewClaimedHistory(resp?.data) // append in table
         notifyTopRightSuccess(`You claim ${formatLargeNumberMoneyUSD(resp?.data?.totalReward)} for ${new Intl.NumberFormat().format(resp?.data?.totalClick)} click from your friends successfully`)
       }
     } catch (e) {
@@ -399,14 +368,11 @@ export const ReferralCode = () => {
       dataRewardClick={dataRewardClick}
       dataRewardValue={dataRewardValue}
       dataRewardTotal={dataRewardTotal}
-      claimedLabelsTime={claimedLabelsTime}
-      dataClaimedClick={dataClaimedClick}
-      dataClaimedValue={dataClaimedValue}
     />
   </>
 
   const withdrawHistory = <>
-    <ReferralWithdrawHistory />
+    <ReferralWithdrawHistory newClaimedHistory={newClaimedHistory} />
   </>
 
   if (isSignedIn && isCollaboratorUser) {
@@ -434,9 +400,7 @@ export const ReferralCode = () => {
         <div className='col-12 col-sm-12'>
           {isActiveReferralCode
             ? <>
-              <div className='profile card card-body'>
-                {withdrawHistory}
-              </div>
+              {withdrawHistory}
             </>
             : ''
           }

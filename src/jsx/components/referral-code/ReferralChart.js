@@ -36,7 +36,7 @@ const options = {
     },
     title: {
       display: true,
-      text: 'Visitor Chart'
+      text: 'Visitor Chart 7 Days Latest'
     }
   },
   scales: {
@@ -59,7 +59,7 @@ const options = {
   }
 }
 
-const ReferralChart = ({ rewardLabelsTime, dataRewardClick, dataRewardValue, dataRewardTotal, claimedLabelsTime, dataClaimedClick, dataClaimedValue }) => {
+const ReferralChart = ({ rewardLabelsTime, dataRewardClick, dataRewardValue, dataRewardTotal }) => {
   const dataSetReward = {
     defaultFontFamily: 'Poppins',
     labels: rewardLabelsTime,
@@ -85,29 +85,8 @@ const ReferralChart = ({ rewardLabelsTime, dataRewardClick, dataRewardValue, dat
     ]
   }
 
-  const dataSetClaimed = {
-    defaultFontFamily: 'Poppins',
-    labels: claimedLabelsTime,
-    datasets: [
-      {
-        label: 'Click',
-        data: claimedLabelsTime?.map((label) =>dataClaimedClick?.get(label)),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)'
-      },
-      {
-        label: 'Reward',
-        data: claimedLabelsTime?.map((label) =>dataClaimedValue?.get(label)),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)'
-      }
-    ]
-  }
-  console.log(dataSetClaimed)
-
   return <>
     <Line options={options} data={dataSetReward} />
-    {/* <Line options={options} data={dataSetClaimed} /> */}
   </>
 }
 
