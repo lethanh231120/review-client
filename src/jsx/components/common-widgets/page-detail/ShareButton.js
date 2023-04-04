@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { FacebookIcon, LinkedinIcon, PinterestIcon, RedditIcon, TelegramIcon, TwitterIcon } from 'react-share'
 import { FacebookShareButton, TwitterShareButton, TelegramShareButton, LinkedinShareButton, PinterestShareButton, RedditShareButton } from 'react-share'
 import { notifyTopRightSuccess } from '../../product-detail/ProductDetail'
-import { getReferralStatistics } from '../../referral-code/ReferralCode'
+import { getReferralStatistics } from '../../referral-code/referralCode'
 
 const ShareButton = ({ name, setOpenModalShare }) => {
   const [link, setLink] = useState()
