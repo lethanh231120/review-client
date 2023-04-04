@@ -1,7 +1,7 @@
 import React from 'react'
 import { get } from '../../../api/BaseRequest'
 import { useEffect } from 'react'
-import { Line } from 'react-chartjs-2'
+import { Card, Table } from 'react-bootstrap'
 import { useState } from 'react'
 
 const getReward = async() => {
@@ -15,87 +15,55 @@ const getReward = async() => {
 }
 
 export const ReferralWithdrawHistory = () => {
-  const [withdrawLabelsTime, setWithdrawLabelsTime] = useState()
-  const [withdrawClickMap, setWithdrawClickMap] = useState()
-  const [withdrawRewardMap, setWithdrawRewardMap] = useState()
+  const [withdrawalHistory, setWithdrawalHistory] = useState()
   useEffect(() => {
     getData()
   }, [])
 
   const getData = async() => {
     const respData = await getReward()
-
-    const arrWithdrawLabelsLocal = []
-    const mapClickLocal = new Map()
-    const mapRewardLocal = new Map()
-    respData?.forEach(item => {
-      arrWithdrawLabelsLocal?.push(item?.createdDate)
-      mapClickLocal?.set(item?.createdDate, item?.totalClick)
-      mapRewardLocal?.set(item?.createdDate, item?.totalReward)
-    })
-    setWithdrawLabelsTime(arrWithdrawLabelsLocal)
-    setWithdrawClickMap(mapClickLocal)
-    setWithdrawRewardMap(mapRewardLocal)
+    setWithdrawalHistory(respData)
   }
 
-  const options = {
-    responsive: true,
-    // Hover, display anotation all line chart
-    interaction: {
-      mode: 'index',
-      intersect: false
-    },
-    stacked: false,
-    plugins: {
-      legend: {
-        position: 'top'
-        // display: false// hide square defination annotate
-      },
-      title: {
-        display: true,
-        text: 'Reward Chart'
-      }
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Time'
-        }
-      },
-      y: {
-        title: {
-          display: true,
-          text: 'Amount'
-        },
-        min: 0,
-        ticks: {
-          stepSize: 1 // y axis step
-        }
-      }
-    }
-  }
-
-  const data = {
-    defaultFontFamily: 'Poppins',
-    labels: withdrawLabelsTime,
-    datasets: [
-      {
-        label: 'Click',
-        data: withdrawLabelsTime?.map((label) =>withdrawClickMap?.get(label)),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)'
-      },
-      {
-        label: 'Reward',
-        data: withdrawLabelsTime?.map((label) =>withdrawRewardMap?.get(label)),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)'
-      }
-    ]
-  }
-
-  return <>
-    <Line options={options} data={data} />
-  </>
+  return <Card style={{ height: '100%' }}>
+    <Card.Header>
+      <Card.Title>
+        <h3 className='heading text-center' style={{ textTransform: 'none' }}>{`Gear5's Blockchains Data`}</h3>
+      </Card.Title>
+    </Card.Header>
+    <Card.Body>
+      <Table responsive hover className='header-border verticle-middle table-bc cus-table-blockchain'>
+        <thead className='text-center'>
+          <tr>
+            <th scope='col'>#</th>
+            <th scope='col'>Total Click</th>
+            <th scope='col'>Total Reward</th>
+            <th scope='col'>Total Projects</th>
+            <th scope='col'>Claimed Date</th>
+            <th scope='col'>Approved</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            withdrawalHistory?.map((item, index) => {
+              <tr className='text-center ' key={index}>
+                <td >{index}</td>
+                <td >
+                  <div className='d-flex justify-content-start align-items-center'>
+123
+                  </div>
+                </td>
+                <td>
+                </td>
+                <td >
+                </td>
+                <td >
+                </td>
+              </tr>
+            })
+          }
+        </tbody>
+      </Table>
+    </Card.Body>
+  </Card>
 }

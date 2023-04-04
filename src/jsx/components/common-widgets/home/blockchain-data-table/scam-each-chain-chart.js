@@ -1,4 +1,4 @@
-import { Avatar, Tooltip } from 'antd'
+import { Avatar } from 'antd'
 import _ from 'lodash'
 import React, { useContext } from 'react'
 import {
@@ -78,7 +78,7 @@ export const ScamEachChainsList = ({ data, isHome }) => {
             <th scope='col'>Chain Name</th>
             <th scope='col'>Scam or Dead Projects</th>
             <th scope='col'>Total Projects</th>
-            <th scope='col'><Tooltip title=''>Scam/Dead Percentage</Tooltip></th>
+            <th scope='col'>Scam/Dead Percentage</th>
           </tr>
         </thead>
         <tbody>

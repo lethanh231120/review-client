@@ -171,6 +171,9 @@ export const SignInComponent = () => {
       signInFromAddProductContext?.setIsOpenModalAddProduct(false)
     }
 
+    // **** scroll to the top page
+    window.scrollTo(0, 0)
+
     // **** login have referral code in url or session cache, send BE
     // get query params
     const refParam = getQueryParam('ref')

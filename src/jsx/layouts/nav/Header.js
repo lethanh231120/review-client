@@ -78,6 +78,10 @@ const Header = () => {
     removeCookie(STORAGEKEY.ACCESS_TOKEN)
     removeCookie(STORAGEKEY.USER_INFO)
     authenticated.handleSetAuthenticated(false)
+
+    // **** scroll to the top page
+    window.scrollTo(0, 0)
+
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',

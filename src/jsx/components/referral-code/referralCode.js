@@ -35,7 +35,7 @@ export const ReferralCode = () => {
   const isCollaboratorUser = userInfo?.role === ROLE_COLLABORATOR
   // ################
   const [code, setCode] = useState()
-  const [loadingGUI, setLoadingGUI] = useState(true)
+  const [loadingGUI, setLoadingGUI] = useState(true) // access page, always loading first
   const isActiveReferralCode = code
 
   // For statistic
