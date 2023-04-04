@@ -1,8 +1,14 @@
 import React from 'react'
 import { get } from '../../../api/BaseRequest'
 import { useEffect } from 'react'
-import { Card, Table } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import { useState } from 'react'
+import { Table, Tooltip } from 'antd'
+import { CheckCircleOutlined, CloseCircleOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { renderNumber } from '../../../utils/formatNumber'
+import { formatChartDate } from '../insight/charts/BarChart'
+import { formatDateStyle } from '../../../utils/time/time'
+import { getDDMMYYYYDate } from './referralCode'
 
 const getReward = async() => {
   try {
@@ -21,49 +27,98 @@ export const ReferralWithdrawHistory = () => {
   }, [])
 
   const getData = async() => {
-    const respData = await getReward()
+    let respData = await getReward()
+
+    // Sort first by createdate desc
+    respData?.sort((a, b) => getDDMMYYYYDate(b?.createdDate) - getDDMMYYYYDate(a?.createdDate))
+    const verifiedArray = []
+    const notVerifiedArray = []
+    respData?.forEach((item) => {
+      const isVerified = item?.isVerify
+      if (isVerified) {
+        verifiedArray?.push(item)
+      } else {
+        notVerifiedArray?.push(item)
+      }
+    })
+    respData = [...notVerifiedArray, ...verifiedArray]
+
     setWithdrawalHistory(respData)
   }
+
+  const columns = [
+    {
+      title: '#',
+      render: (_, record, index) => <span>{new Intl.NumberFormat().format(index + 1)}</span>
+    },
+    {
+      title: 'Total Click',
+      render: (_, record) => <span>{new Intl.NumberFormat().format(record?.totalClick)}</span>
+    },
+    {
+      title: 'Total Reward',
+      align: 'right',
+      render: (_, record) => <span>{renderNumber(record?.totalReward)}</span>
+    },
+    {
+      title: 'Claimed Date',
+      render: (_, record) => <span>{formatChartDate(record?.createdDate, formatDateStyle)}</span>
+    },
+    {
+      title: <>
+        <span className='crypto-table-tooltip'>
+          Approved
+          <Tooltip
+            overlayClassName='crypto-table-tooltip-box'
+            title='Admin verify your claim to send you reward or not'
+          >
+            <InfoCircleOutlined />
+          </Tooltip>
+        </span>
+      </>,
+      render: (_, record) => <>
+        <span className='d-flex justify-content-center'>
+
+          {
+            record?.isVerify
+              ? <>
+                <CheckCircleOutlined
+                  style={{
+                    color: 'green',
+                    display: 'flex',
+                    alignItems: 'center',
+                    paddingRight: '0.3rem'
+                  }}
+                />
+              </>
+              : <>
+                <CloseCircleOutlined
+                  style={{
+                    color: 'red',
+                    display: 'flex',
+                    alignItems: 'center',
+                    paddingRight: '0.3rem'
+                  }}
+                />
+              </>
+          }
+        </span>
+      </>
+    }
+  ]
 
   return <Card style={{ height: '100%' }}>
     <Card.Header>
       <Card.Title>
-        <h3 className='heading text-center' style={{ textTransform: 'none' }}>{`Gear5's Blockchains Data`}</h3>
+        <h3 className='heading text-center' style={{ textTransform: 'none' }}>{`Widthdrawal History`}</h3>
       </Card.Title>
     </Card.Header>
     <Card.Body>
-      <Table responsive hover className='header-border verticle-middle table-bc cus-table-blockchain'>
-        <thead className='text-center'>
-          <tr>
-            <th scope='col'>#</th>
-            <th scope='col'>Total Click</th>
-            <th scope='col'>Total Reward</th>
-            <th scope='col'>Total Projects</th>
-            <th scope='col'>Claimed Date</th>
-            <th scope='col'>Approved</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            withdrawalHistory?.map((item, index) => {
-              <tr className='text-center ' key={index}>
-                <td >{index}</td>
-                <td >
-                  <div className='d-flex justify-content-start align-items-center'>
-123
-                  </div>
-                </td>
-                <td>
-                </td>
-                <td >
-                </td>
-                <td >
-                </td>
-              </tr>
-            })
-          }
-        </tbody>
-      </Table>
+      <Table
+        pagination={{ pageSize: 5 }}
+        className='custom-table'
+        columns={columns}
+        dataSource={withdrawalHistory}/>
     </Card.Body>
   </Card>
 }

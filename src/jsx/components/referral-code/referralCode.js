@@ -27,6 +27,8 @@ export const getReferralStatistics = async() =>{
 
 const rewardPerView = 1000
 
+export const getDDMMYYYYDate = (date) => new Date(formatChartDate(date, 'YYYY-MM-DD'))
+
 export const ReferralCode = () => {
   const authenticated = useContext(Authenticated)
   const isSignedIn = authenticated?.isAuthenticated
@@ -63,8 +65,6 @@ export const ReferralCode = () => {
   function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
-
-  const getDDMMYYYYDate = (date) => new Date(formatChartDate(date, 'YYYY-MM-DD'))
 
   const millisecondsInADay = 86400000
   const addDay = (date, amountDate) => new Date(date.getTime() + (amountDate * millisecondsInADay))

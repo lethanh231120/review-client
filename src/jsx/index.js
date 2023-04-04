@@ -193,6 +193,10 @@ const Markup = () => {
   useEffect(() => {
     // callback function to call when event triggers
     const onPageLoad = async() => {
+      // scroll to the top page
+      const [xCoord, yCoord] = [0, 0]
+      window.scrollTo(xCoord, yCoord)
+
       const refParam = getQueryParam('ref')
 
       // // Set event avtive tab
