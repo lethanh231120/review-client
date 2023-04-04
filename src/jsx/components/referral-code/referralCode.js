@@ -9,11 +9,11 @@ import { ReferralCodeNotification } from './ReferralCodeNotification'
 import { Authenticated } from '../../../App'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import ReferralChart from './ReferralChart'
-import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import { formatChartDate } from '../insight/charts/BarChart'
 import { formatDateStyle } from '../../../utils/time/time'
 import { formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
 import { ReferralWithdrawHistory } from './ReferralWithdrawHistory'
+import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 
 export const getReferralStatistics = async() =>{
   try {
@@ -35,7 +35,8 @@ export const ReferralCode = () => {
   const isCollaboratorUser = userInfo?.role === ROLE_COLLABORATOR
   // ################
   const [code, setCode] = useState()
-  const isLoadingComp = !code
+  const [loadingGUI, setLoadingGUI] = useState(true)
+  const isActiveReferralCode = code
 
   // For statistic
   const [totalClick, setTotalClick] = useState()
@@ -81,6 +82,7 @@ export const ReferralCode = () => {
 
   const setReferralCodeAndClickChart = async() =>{
     const resp = await getReferralStatistics()
+    setLoadingGUI(false)
     setCode(resp?.code)
 
     let data = resp?.dailyCharts
@@ -314,7 +316,6 @@ export const ReferralCode = () => {
     }
   }
 
-  const isActiveReferralCode = code
   const referralInfo = isActiveReferralCode
     ? <>
       <div className='row'>
@@ -369,18 +370,21 @@ export const ReferralCode = () => {
         </div>
       </div>
     </>
-    : <>
-      {/* Active referral code */}
-      <div className=' d-flex align-items-center justify-content-center'>
-        <button
-          type='submit'
-          className='btn btn-primary'
-          onClick={createCode}
-        >
-    Activate my referral code
-        </button>
-      </div>
+    : loadingGUI ? <>
+      <MySkeletonLoadinng count={3} height={30} />
     </>
+      : <>
+        {/* Active referral code */}
+        <div className=' d-flex align-items-center justify-content-center'>
+          <button
+            type='submit'
+            className='btn btn-primary'
+            onClick={createCode}
+          >
+    Activate my referral code
+          </button>
+        </div>
+      </>
 
   const referralMsg = <>
     <ReferralCodeNotification
@@ -411,29 +415,31 @@ export const ReferralCode = () => {
         {/* detail header: icon, name, score */}
         <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12'>
           <div className='profile card card-body'>
-            {
-              isLoadingComp
-                ? <MySkeletonLoadinng count={3} height={30} />
-                : <>
-                  {referralInfo}
-                </>
-            }
+            {referralInfo}
           </div>
         </div>
       </div>
 
       <div className='row'>
         <div className='col-12 col-sm-12'>
-          <div className='profile card card-body'>
-            {isLoadingComp
-              ? <MySkeletonLoadinng count={1} height={150}/>
-              : chart}
-          </div>
+          {isActiveReferralCode
+            ? <>
+              <div className='profile card card-body'>
+                { chart}
+              </div>
+            </>
+            : ''
+          }
         </div>
         <div className='col-12 col-sm-12'>
-          <div className='profile card card-body'>
-            {withdrawHistory}
-          </div>
+          {isActiveReferralCode
+            ? <>
+              <div className='profile card card-body'>
+                {withdrawHistory}
+              </div>
+            </>
+            : ''
+          }
         </div>
       </div>
       <div>
