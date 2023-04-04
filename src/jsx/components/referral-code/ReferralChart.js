@@ -36,7 +36,7 @@ const options = {
     },
     title: {
       display: true,
-      text: 'Reward chart'
+      text: 'Visitor Chart'
     }
   },
   scales: {

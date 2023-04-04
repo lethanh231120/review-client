@@ -36,8 +36,9 @@ import ChartDetail from './components/insight/chartDetail/ChartDetail'
 import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 import LiveNewTokensList from './components/live-new-tokens/LiveNewTokensList'
 import { get } from '../api/BaseRequest'
-import { ReferralCode } from './components/referral-code/ReferralCode'
 import { getCookie, STORAGEKEY } from '../utils/storage'
+import { sleep } from './components/input-search/GlobalSearch'
+import { ReferralCode } from './components/referral-code/referralCode'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -194,6 +195,14 @@ const Markup = () => {
     const onPageLoad = async() => {
       const refParam = getQueryParam('ref')
 
+      // // Set event avtive tab
+      // window.onfocus = async() => {
+      //   if (document.hasFocus()) console.log('Tab is active')
+      // }
+      // window.onblur = () => {
+      //   console.log('out')
+      // }
+
       // Has ref params
       if (refParam) {
         // remove referral in URL
@@ -203,6 +212,8 @@ const Markup = () => {
         const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
         if (token) {
           try {
+            // 90sec, value as milliseconds
+            await sleep(90 * 1000)
             await get(`reviews/referral/confirm`, {}, { Referral: refParam })
           } catch (e) {
             console.error(e)
@@ -213,25 +224,6 @@ const Markup = () => {
           sessionStorage.setItem(STORAGEKEY.REFERRAL_CODE, refParam)
         }
       }
-
-      // ############## my way(Trieudd) ######
-      // axios({
-      //   method: 'get',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   url: `https://c33b-2a09-bac5-d458-16d2-00-246-5a.ap.ngrok.io/test`,
-      //   timeout: 1000 // 1 second
-      // })
-      //   .then((resp) =>{
-      //     console.log(resp)
-      //   }).catch((err) => {
-      //     console.log(err)
-      //   })
-      // const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
-      // history.pushState({}, null, window.location.href + '?gear5Click=' + token) // home
-      // const list = document.querySelectorAll('script[type="application/ld+json"]')
-      // console.log('page loaded', list[0].innerText)
     }
 
     // Check if the page has already loaded

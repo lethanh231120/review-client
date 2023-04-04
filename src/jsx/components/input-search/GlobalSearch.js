@@ -16,6 +16,7 @@ import { SummaryHomeContext } from '../../../App'
 import { formatLargeNumber } from '../../../utils/formatNumber'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import Swal from 'sweetalert2'
+export const sleep = ms => new Promise(r => setTimeout(r, ms))
 
 const InputSearch = ({ isFormReport, setItemSearch }) => {
   const summaryData = useContext(SummaryHomeContext)
@@ -238,7 +239,6 @@ const InputSearch = ({ isFormReport, setItemSearch }) => {
     }, [txtDisplaySearchHeader])
   }
 
-  const sleep = ms => new Promise(r => setTimeout(r, ms))
   const millSecChangeText = 1000
   const millSecAppendChar = 150
   const runnerTextSearch = async() =>{

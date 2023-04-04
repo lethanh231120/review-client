@@ -9,10 +9,11 @@ import { ReferralCodeNotification } from './ReferralCodeNotification'
 import { Authenticated } from '../../../App'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import ReferralChart from './ReferralChart'
-import { MySkeletonLoadinng } from './../common-widgets/my-spinner'
+import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
 import { formatChartDate } from '../insight/charts/BarChart'
 import { formatDateStyle } from '../../../utils/time/time'
-import { formatLargeNumberMoneyUSD } from './../../../utils/formatNumber'
+import { formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
+import { ReferralWithdrawHistory } from './ReferralWithdrawHistory'
 
 export const getReferralStatistics = async() =>{
   try {
@@ -179,7 +180,6 @@ export const ReferralCode = () => {
     const dataClaimedClickLocal = new Map()
     const dataClaimedValueLocal = new Map()
 
-    console.log('data', data)
     data?.forEach((clickEachDay) => {
       const formattedDate = formatChartDate(clickEachDay?.createdDate, formatDateStyle)
       const dailyClick = clickEachDay?.click
@@ -401,6 +401,10 @@ export const ReferralCode = () => {
     />
   </>
 
+  const withdrawHistory = <>
+    <ReferralWithdrawHistory />
+  </>
+
   if (isSignedIn && isCollaboratorUser) {
     return <>
       <div className='row'>
@@ -426,9 +430,14 @@ export const ReferralCode = () => {
               : chart}
           </div>
         </div>
+        <div className='col-12 col-sm-12'>
+          <div className='profile card card-body'>
+            {withdrawHistory}
+          </div>
+        </div>
       </div>
       <div>
-        <div className='col-12 col-sm-12'>
+        <div className='col-12'>
           <div className=''>
             {referralMsg}
           </div>
