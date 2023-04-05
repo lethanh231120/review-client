@@ -36,8 +36,7 @@ import ChartDetail from './components/insight/chartDetail/ChartDetail'
 import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 import LiveNewTokensList from './components/live-new-tokens/LiveNewTokensList'
 import { get } from '../api/BaseRequest'
-import { getCookie, STORAGEKEY } from '../utils/storage'
-import { sleep } from './components/input-search/GlobalSearch'
+import { STORAGEKEY } from '../utils/storage'
 import { ReferralCode } from './components/referral-code/referralCode'
 
 export const ReportModalContext = createContext()
@@ -198,36 +197,57 @@ const Markup = () => {
       window.scrollTo(xCoord, yCoord)
 
       const refParam = getQueryParam('ref')
+      sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE)
+      sessionStorage.setItem(STORAGEKEY.REFERRAL_CODE, refParam)
+      // remove referral in URL
+      history.pushState({}, null, window.location.href.split('?')[0])
 
-      // // Set event avtive tab
-      // window.onfocus = async() => {
-      //   if (document.hasFocus()) console.log('Tab is active')
-      // }
-      // window.onblur = () => {
-      //   console.log('out')
-      // }
+      // ***Set event avtive tab
+      let timerCheckHuman
+      sessionStorage.setItem(STORAGEKEY.COUNTER_HUMAN_CHECK, 0)
+      const RunTimerCheckHuman = () =>{
+        // clear before run again
+        clearInterval(timerCheckHuman)
+        timerCheckHuman = setInterval(async() => {
+          const counter = parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_HUMAN_CHECK))
+          // count 120 times(1 second * 120)
+          if (counter === 120) {
+            clearInterval(timerCheckHuman)
 
-      // Has ref params
-      if (refParam) {
-        // remove referral in URL
-        history.pushState({}, null, window.location.href.split('?')[0])
-
-        // Already login(first time can't check context, check token in browser)
-        const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
-        if (token) {
-          try {
-            // 90sec, value as milliseconds
-            await sleep(90 * 1000)
-            await get(`reviews/referral/confirm`, {}, { Referral: refParam })
-          } catch (e) {
-            console.error(e)
+            try {
+              const refSession = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
+              // has ref params
+              if (refSession) {
+                await get(`reviews/referral/confirm`, {}, { Referral: refSession })
+                console.log('call API successful')
+              }
+            } catch (e) {
+              console.error(e)
+            }
           }
-        } else {
-          // not login yet, keep referral code
-          sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE)
-          sessionStorage.setItem(STORAGEKEY.REFERRAL_CODE, refParam)
-        }
+          if (counter <= 120) {
+            sessionStorage.removeItem(STORAGEKEY.COUNTER_HUMAN_CHECK)
+            sessionStorage.setItem(STORAGEKEY.COUNTER_HUMAN_CHECK, counter + 1)
+          }
+          if (counter > 120) {
+            clearInterval(timerCheckHuman)
+          }
+        }, 1000)
       }
+      // first time
+      RunTimerCheckHuman()
+      // Click website after focus
+      window.addEventListener('focus', () => {
+        // tab is focus
+        if (document.hasFocus()) {
+          RunTimerCheckHuman()
+        }
+      })
+      // Focus website
+      window.addEventListener('blur', ()=>{
+        console.log('out')
+        clearInterval(timerCheckHuman)
+      })
     }
 
     // Check if the page has already loaded
