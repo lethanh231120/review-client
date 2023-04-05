@@ -53,7 +53,7 @@ const options = {
       },
       min: 0,
       ticks: {
-        stepSize: 1 // y axis step
+        stepSize: 250 // y axis step
       }
     }
   }

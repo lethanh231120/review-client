@@ -198,15 +198,16 @@ export const ReferralCode = () => {
       if (isGetReward) {
         totalRewardClickLocal += dailyClick
         totalRewardValueLocal += dailyRewardTotal
-
-        rewardLabelsTimeLocal?.push(formattedDate)
-        dataRewardClickLocal?.set(formattedDate, dailyClick)
-        dataRewardValueLocal?.set(formattedDate, dailyRewardValue)
-        dataRewardTotalLocal?.set(formattedDate, dailyRewardTotal)
       } else {
         // Not yet claimed
         totalClaimedValueLocal += dailyRewardTotal
       }
+
+      // Both claimed and not claimed point
+      rewardLabelsTimeLocal?.push(formattedDate)
+      dataRewardClickLocal?.set(formattedDate, dailyClick)
+      dataRewardValueLocal?.set(formattedDate, dailyRewardValue)
+      dataRewardTotalLocal?.set(formattedDate, dailyRewardTotal)
     })
     setRewardLabelsTime(rewardLabelsTimeLocal)
     setDataRewardClick(dataRewardClickLocal)
@@ -262,24 +263,10 @@ export const ReferralCode = () => {
         const lastItem = chartData[chartData?.length - 1]
         const todayValue = (lastItem?.click / rewardPerView) * lastItem?.rewardPrice
 
-        const dateKeyFormated = formatChartDate(lastItem?.createdDate, formatDateStyle)
-        const arrLabels = []
-        arrLabels?.push(dateKeyFormated)
-        setRewardLabelsTime(arrLabels)
-        const mapClick = new Map()
-        mapClick?.set(dateKeyFormated, lastItem?.click)
-        setDataRewardClick(mapClick)
-        const mapValue = new Map()
-        mapValue?.set(dateKeyFormated, lastItem?.rewardPrice)
-        setDataRewardValue(mapValue)
-        const mapTotal = new Map()
-        mapTotal?.set(dateKeyFormated, todayValue)
-        setDataRewardTotal(mapTotal)
-
         setTotalRewardValue(todayValue)
         setTotalRewardClick(lastItem?.click)
 
-        setNewClaimedHistory(resp?.data) // append in table
+        setNewClaimedHistory(resp?.data) // append in table withdrawl history
         notifyTopRightSuccess(`You claim ${formatLargeNumberMoneyUSD(resp?.data?.totalReward)} for ${new Intl.NumberFormat().format(resp?.data?.totalClick)} click from your friends successfully`)
       }
     } catch (e) {
