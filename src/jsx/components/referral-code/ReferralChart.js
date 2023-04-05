@@ -65,7 +65,7 @@ const ReferralChart = ({ rewardLabelsTime, dataRewardClick, dataRewardValue, dat
     labels: rewardLabelsTime,
     datasets: [
       {
-        label: 'Click',
+        label: 'Visitors',
         data: rewardLabelsTime?.map((label) =>dataRewardClick?.get(label)),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)'
@@ -77,7 +77,7 @@ const ReferralChart = ({ rewardLabelsTime, dataRewardClick, dataRewardValue, dat
         backgroundColor: 'rgba(53, 162, 235, 0.5)'
       },
       {
-        label: 'Total Of Reward',
+        label: `Reward's Total`,
         data: rewardLabelsTime?.map((label) =>dataRewardTotal?.get(label)),
         borderColor: 'rgb(3,159,127)',
         backgroundColor: 'rgba(3,159,127,0.5)'

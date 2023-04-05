@@ -56,10 +56,12 @@ export const ReferralWithdrawHistory = ({ newClaimedHistory }) => {
   const columns = [
     {
       title: '#',
+      align: 'right',
       render: (_, record, index) => <span>{new Intl.NumberFormat().format(index + 1)}</span>
     },
     {
       title: 'Total Click',
+      align: 'right',
       render: (_, record) => <span>{new Intl.NumberFormat().format(record?.totalClick)}</span>
     },
     {
@@ -69,20 +71,18 @@ export const ReferralWithdrawHistory = ({ newClaimedHistory }) => {
     },
     {
       title: 'Claimed Date',
+      align: 'right',
       render: (_, record) => <span>{formatChartDate(record?.createdDate, formatDateStyle)}</span>
     },
     {
-      title: <>
-        <span className='crypto-table-tooltip'>
-          Approved
-          <Tooltip
-            overlayClassName='crypto-table-tooltip-box'
-            title='Admin verify your claim to send you reward or not'
-          >
-            <InfoCircleOutlined />
-          </Tooltip>
-        </span>
-      </>,
+      title: <span className='d-flex align-items-center justify-content-center'>
+        Approved
+        &nbsp;
+        <Tooltip title='Admin verify your claim to send you reward or not'>
+          <InfoCircleOutlined />
+        </Tooltip>
+      </span>,
+      align: 'center',
       render: (_, record) => <>
         <span className='d-flex justify-content-center'>
 

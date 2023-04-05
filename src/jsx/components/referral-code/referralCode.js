@@ -124,9 +124,11 @@ export const ReferralCode = () => {
       const newArray = []
       let previousDate = data[0]?.createdDate
       let previousRewardPerClick = data[0]?.rewardPrice
+      let previousIsClaimed = data[0]?.isClaimed
       data?.forEach(item => {
         const currentDate = item?.createdDate
         const currentRewardPerClick = item?.rewardPrice
+        const currentIsClaimed = item?.isClaimed
         const dayBetween2Date = dayBeetween2Day(currentDate, previousDate)
         // push missing dates
         const oneOrMoreDayBetween = 2
@@ -136,6 +138,7 @@ export const ReferralCode = () => {
             const cloneItem = JSON.parse(JSON.stringify(item))
             cloneItem.createdDate = addDay(getDDMMYYYYDate(currentDate), (-dayBetween2Date + dayNo))
             cloneItem.click = 0
+            cloneItem.isClaimed = previousIsClaimed
             cloneItem.rewardPrice = previousRewardPerClick
             newArray?.push(cloneItem)
           }
@@ -146,6 +149,7 @@ export const ReferralCode = () => {
         newArray?.push(item)
         previousDate = currentDate // update previous date
         previousRewardPerClick = currentRewardPerClick // update previous rewardPrice
+        previousIsClaimed = currentIsClaimed // update previous isClaimed
       })
       // get latest 7 point in array
       data = newArray?.slice(newArray?.length - 7)
@@ -160,7 +164,7 @@ export const ReferralCode = () => {
     setTodayShareComission(todayShareComission)
     let totalClickLocal = 0
     let totalRewardClickLocal = 0
-    const totalClaimedValueLocal = 0
+    let totalClaimedValueLocal = 0
     let totalRewardValueLocal = 0
     let lowestShareComissionLocal = todayShareComission
     let highestShareComissionLocal = todayShareComission
@@ -199,6 +203,9 @@ export const ReferralCode = () => {
         dataRewardClickLocal?.set(formattedDate, dailyClick)
         dataRewardValueLocal?.set(formattedDate, dailyRewardValue)
         dataRewardTotalLocal?.set(formattedDate, dailyRewardTotal)
+      } else {
+        // Not yet claimed
+        totalClaimedValueLocal += dailyRewardTotal
       }
     })
     setRewardLabelsTime(rewardLabelsTimeLocal)
