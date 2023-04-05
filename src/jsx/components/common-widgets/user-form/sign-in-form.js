@@ -7,7 +7,7 @@ import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import Swal from 'sweetalert2'
 import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
-import { AddModalContext, getQueryParam } from '../../../index'
+import { AddModalContext, getQueryParam, getUserInfo } from '../../../index'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GoogleLogin } from '@react-oauth/google'
 import { parseJwt } from '../../../../utils/decode'
@@ -181,7 +181,8 @@ export const SignInComponent = () => {
     // has ref param or ref code in session cache
     if (refParam || refSession) {
       try {
-        await get(`reviews/referral/confirm`, {}, { Referral: refParam || refSession })
+        const userInfo = await getUserInfo()
+        await get(`reviews/referral/confirm`, {}, { Referral: refParam || refSession, Sum: userInfo })
         resetRefParam(refParam, refSession, false)
       } catch (e) {
         console.error(e)
