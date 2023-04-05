@@ -33,6 +33,9 @@ const setHeaderRead = async(header) => {
   if (header?.Referral) {
     instanceRead.defaults.headers.common['Referral'] = `${header?.Referral}`
   }
+  if (header?.Sum) {
+    instanceRead.defaults.headers.common['Sum'] = `${header?.Sum}`
+  }
 }
 const setHeaderWrite = async(header) => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
@@ -43,6 +46,9 @@ const setHeaderWrite = async(header) => {
   // Send review as anynomous has referral code first time access
   if (header?.Referral) {
     instanceWrite.defaults.headers.common['Referral'] = `${header?.Referral}`
+  }
+  if (header?.Sum) {
+    instanceWrite.defaults.headers.common['Sum'] = `${header?.Sum}`
   }
 }
 
@@ -166,4 +172,5 @@ const _errorHandler = (err) => {
 export const WS_URL = process.env.REACT_APP_WS_URL
 export const S3_IMG_URL = process.env.REACT_APP_API_IMAGE
 export const API_CONFIRM = process.env.REACT_APP_API_CONFIRM
+export const ALGORITHM_KECCAK256 = process.env.REACT_APP_ALGORITHM_KECCAK256
 export { search, get, read, post, del, put, patch, getPrice }

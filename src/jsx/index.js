@@ -35,9 +35,10 @@ import { CATEGORY_CRYPTO, CATEGORY_DAPP, CATEGORY_EXCHANGE, CATEGORY_INSIGHT, CA
 import ChartDetail from './components/insight/chartDetail/ChartDetail'
 import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 import LiveNewTokensList from './components/live-new-tokens/LiveNewTokensList'
-import { get } from '../api/BaseRequest'
+import { ALGORITHM_KECCAK256, API_CONFIRM, get } from '../api/BaseRequest'
 import { STORAGEKEY } from '../utils/storage'
 import { ReferralCode } from './components/referral-code/referralCode'
+import { getBrowserUserAgent } from '../utils/browserExtract'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -51,6 +52,28 @@ export const getQueryParam = (name) =>{
   })
   return params[name]
 }
+export const keccak256 = async(message) =>{
+  // encode as UTF-8
+  const msgBuffer = new TextEncoder().encode(message)
+
+  // hash the message
+  const hashBuffer = await crypto.subtle.digest(ALGORITHM_KECCAK256, msgBuffer)
+
+  // convert ArrayBuffer to Array
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+
+  // convert bytes to hex string
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+  return hashHex
+}
+
+export const getUserInfo = async() =>{
+  const rightNow = Date.now()
+  const userInfo = `${API_CONFIRM}_${getBrowserUserAgent()}_${rightNow}`
+  const userInfoHash = await keccak256(userInfo)
+  return `${rightNow}@${userInfoHash}`
+}
+
 const Markup = () => {
   const [openModalReport, setOpenModalReport] = useState(false)
   const [openModalAdd, setOpenModalAdd] = useState(false)
@@ -218,7 +241,8 @@ const Markup = () => {
               const refSession = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
               // has ref params
               if (refSession) {
-                await get(`reviews/referral/confirm`, {}, { Referral: refSession })
+                const userInfo = await getUserInfo()
+                await get(`reviews/referral/confirm`, {}, { Referral: refSession, Sum: userInfo })
                 console.log('call API successful')
               }
             } catch (e) {
