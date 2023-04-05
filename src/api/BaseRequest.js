@@ -165,4 +165,5 @@ const _errorHandler = (err) => {
 // export const PRICE_WS_URL = 'wss://ct6a-backend.nika.guru'
 export const WS_URL = process.env.REACT_APP_WS_URL
 export const S3_IMG_URL = process.env.REACT_APP_API_IMAGE
+export const API_CONFIRM = process.env.REACT_APP_API_CONFIRM
 export { search, get, read, post, del, put, patch, getPrice }

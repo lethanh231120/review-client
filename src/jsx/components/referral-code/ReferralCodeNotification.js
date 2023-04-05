@@ -4,14 +4,6 @@ import { Button } from 'react-bootstrap'
 import { FormLoginSignupKeyContext, SignInContext } from '../../../App'
 import { whiteColorHex } from '../../constants/color'
 import { logInKey } from '../common-widgets/user-form/account-tab'
-import imgPart1 from '../../../images/referral-code/part1.png'
-import imgPart1_1 from '../../../images/referral-code/part1_1.png'
-import imgPart1_2 from '../../../images/referral-code/part1_2.png'
-import imgPart1_3 from '../../../images/referral-code/part1_3.png'
-import imgPart2 from '../../../images/referral-code/part2.png'
-import imgPart2_1 from '../../../images/referral-code/part2_1.png'
-import imgPart2_2 from '../../../images/referral-code/part2_2.png'
-import imgPart2_3 from '../../../images/referral-code/part2_3.png'
 const emailNika = 'zoro@nika.guru'
 
 const emailContact = (htmlComp) => <>
@@ -86,21 +78,14 @@ export const ReferralCodeNotification = ({ isSignedIn, isCollaboratorUser }) => 
   const signContext = useContext(SignInContext)
 
   return <div className='term'>
-    <div className='term-header'>
-      <h2 className='title-page'>Refer Friends</h2>
-      <div>
-      Earn Crypto Together
-      </div>
-    </div>
-    <div className='term-content' style={{ height: 'auto' }}>
+    <div className='term-content' style={{ height: 'auto', borderRadius: '1rem' }}>
       {/* PART 1 */}
       <h3 className='title-box text-primary'>1. How Referral Works</h3>
-      <img src={imgPart1} alt='img' style={{ width: '100%', maxHeight: '20rem' }} className='mb-2' ></img>
       <div>
-        {subMenu('1.1. Share Commission', <>Contact us via email {emailContactText} to become each other&apos;s partners.</>, imgPart1_1)}
+        {subMenu('1.1. Share Commission', <>Contact us via email {emailContactText} to become each other&apos;s partners.</>, null)}
         <hr className='hr-custome mb-5'></hr>
 
-        {subMenu('1.2. Refer Friends', <>Share link with your referral with your friends by copy link in social share button, or just add your referral at the end of the link you want to share.</>, imgPart1_2)}
+        {subMenu('1.2. Refer Friends', <>Share link with your referral with your friends by copy link in social share button, or just add your referral at the end of the link you want to share.</>, null)}
         <div>{subMenu('Suppose:', <>
           1. You want to share this link {link('https://gear5.io/crypto')}
           <br/>2. Your referral code is <b className='text-primary'>GEAR5-1234</b>
@@ -108,17 +93,7 @@ export const ReferralCodeNotification = ({ isSignedIn, isCollaboratorUser }) => 
         </>)}</div>
         <hr className='hr-custome mb-5'></hr>
 
-        {subMenu('1.3. Earn Crypto!', 'Earn up to 100% commission when your friends go to our webite.', imgPart1_3)}
-      </div>
-
-      <hr className='hr-custome my-5'></hr>
-      {/* PART 2 */}
-      <h3 className='title-box text-primary'>2. How To Refer Your Friends</h3>
-      <img src={imgPart2} style={{ width: '100%', maxHeight: '20rem' }} className='mb-2' ></img>
-      <div>
-        {subMenu('2.1. Share your referral link with friends', null, imgPart2_1)}
-        {subMenu('2.2. Invite friends to visit website', null, imgPart2_2)}
-        {subMenu('2.3. Receive up to 100% interact fee for each visit from link attached your referral code', null, imgPart2_3)}
+        {subMenu('1.3. Earn Crypto!', 'Earn up to xxx% commission when your friends go to our webite.', null)}
       </div>
 
       <hr className='hr-custome my-5'></hr>
