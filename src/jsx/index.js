@@ -39,7 +39,7 @@ import { ALGORITHM_KECCAK256, API_CONFIRM, get } from '../api/BaseRequest'
 import { STORAGEKEY } from '../utils/storage'
 import { ReferralCode } from './components/referral-code/referralCode'
 import { getBrowserUserAgent } from '../utils/browserExtract'
-import { convertType } from '../utils/decode'
+import { getReferralCodeHeader } from './components/common-widgets/user-form/sign-in-form'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -69,10 +69,16 @@ export const keccak256 = async(message) =>{
 }
 
 export const getUserInfo = async() =>{
-  const rightNow = Date.now()
+  const rightNow = Date.now() // timestamp UNIX as milliseconds
   const userInfo = `${API_CONFIRM}_${getBrowserUserAgent()}_${rightNow}`
   const userInfoHash = await keccak256(userInfo)
   return `${rightNow}@${userInfoHash}`
+}
+
+export const removeStorageRefCode = () =>{
+  sessionStorage.removeItem(STORAGEKEY.COUNTER_HUMAN_CHECK) // remove reduant data
+  sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE) // remove here (don't evoke this timer again later)
+  sessionStorage.removeItem(STORAGEKEY.CAMPAIGN_CODE) // remove here (don't evoke this timer again later)
 }
 
 const Markup = () => {
@@ -216,63 +222,78 @@ const Markup = () => {
   useEffect(() => {
     // callback function to call when event triggers
     const onPageLoad = async() => {
-      // scroll to the top page
+      // *** scroll to the top page
       const [xCoord, yCoord] = [0, 0]
       window.scrollTo(xCoord, yCoord)
 
+      // *** clear url, save param referral code
       const refParam = getQueryParam('ref')
       sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE)
       sessionStorage.setItem(STORAGEKEY.REFERRAL_CODE, refParam)
+      const campainParam = getQueryParam('cam')
+      sessionStorage.removeItem(STORAGEKEY.CAMPAIGN_CODE)
+      sessionStorage.setItem(STORAGEKEY.CAMPAIGN_CODE, campainParam)
       // remove referral in URL
       history.pushState({}, null, window.location.href.split('?')[0])
 
-      // ***Set event avtive tab
+      // *** Set event avtive tab
       let timerCheckHuman
-      sessionStorage.setItem(STORAGEKEY.COUNTER_HUMAN_CHECK, 0)
-      const RunTimerCheckHuman = () =>{
-        // clear before run again
-        clearInterval(timerCheckHuman)
-        timerCheckHuman = setInterval(async() => {
-          const counter = parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_HUMAN_CHECK))
-          // count 120 times(1 second * 120)
-          const limit = 120
-          if (counter === limit) {
-            clearInterval(timerCheckHuman)
+      sessionStorage.removeItem(STORAGEKEY.COUNTER_MOVE)
+      sessionStorage.setItem(STORAGEKEY.COUNTER_MOVE, 0)
 
-            try {
-              let refCode = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
-              refCode = convertType(refCode)
-              // has ref params
-              if (refCode) {
-                const userInfo = await getUserInfo()
-                await get(`reviews/referral/confirm`, {}, { Referral: refCode, Sum: userInfo })
+      sessionStorage.removeItem(STORAGEKEY.COUNTER_HUMAN_CHECK)
+      sessionStorage.setItem(STORAGEKEY.COUNTER_HUMAN_CHECK, 0)
+      const RunTimerCheckHuman = async() =>{
+        const header = await getReferralCodeHeader()
+
+        const refCode = header?.Referral
+        // has parameter must couter (prequiosute param to call this API)
+        if (refCode) {
+        // clear before run again
+          clearInterval(timerCheckHuman)
+          timerCheckHuman = setInterval(async() => {
+            const counter = parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_HUMAN_CHECK))
+            // count 60 times(1 second * 60)
+            const limitSecond = 60
+            if (counter >= limitSecond) {
+              try {
+                if (parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_MOVE)) >= 2) {
+                  clearInterval(timerCheckHuman) // last time run
+                  removeStorageRefCode()
+                  await get(`reviews/referral/confirm`, {}, header)
+                }
+              } catch (e) {
+                console.error(e)
               }
-            } catch (e) {
-              console.error(e)
+            } else {
+              // counter < limit
+              sessionStorage.removeItem(STORAGEKEY.COUNTER_HUMAN_CHECK)
+              sessionStorage.setItem(STORAGEKEY.COUNTER_HUMAN_CHECK, counter + 1)
             }
-          }
-          if (counter <= limit) {
-            sessionStorage.removeItem(STORAGEKEY.COUNTER_HUMAN_CHECK)
-            sessionStorage.setItem(STORAGEKEY.COUNTER_HUMAN_CHECK, counter + 1)
-          }
-          if (counter > limit) {
-            clearInterval(timerCheckHuman)
-          }
-        }, 1000)
+          }, 1000)
+        }
       }
-      // first time
+      // **first time
       RunTimerCheckHuman()
-      // Click website after focus
+      // **Click website after focus
       window.addEventListener('focus', () => {
         // tab is focus
         if (document.hasFocus()) {
           RunTimerCheckHuman()
         }
       })
-      // Focus website
+      // **Focus website
       window.addEventListener('blur', ()=>{
         clearInterval(timerCheckHuman)
       })
+      // Event evoke one times
+      window.addEventListener('click', ()=>{
+        moveUp()
+      }, { once: 'true' })
+      // Event evoke one times
+      window.addEventListener('scroll', ()=>{
+        moveUp()
+      }, { once: 'true' })
     }
 
     // Check if the page has already loaded
@@ -284,6 +305,12 @@ const Markup = () => {
       return () => window.removeEventListener('load', onPageLoad)
     }
   }, [])
+
+  const moveUp = () => {
+    const counter = parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_MOVE))
+    sessionStorage.removeItem(STORAGEKEY.COUNTER_MOVE)
+    sessionStorage.setItem(STORAGEKEY.COUNTER_MOVE, counter + 1)
+  }
 
   return (
     <>

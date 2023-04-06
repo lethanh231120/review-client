@@ -27,10 +27,10 @@ import Swal from 'sweetalert2'
 import LaunchpadDetail from './launchpad-info/LaunchpadDetail'
 import { encodeSpecialCharacterUrl } from '../../../utils/formatText'
 import { SEO } from './../SEO/SEO'
-import { PathNameContext, getUserInfo } from '../../index'
+import { PathNameContext, removeStorageRefCode } from '../../index'
 import ProductDetailEmpty from '../skeleton/product-detail-skeleton/ProductDetailEmpty'
 import { getHeaderProductDetail } from '../SEO/server/productDetail'
-import { convertType } from '../../../utils/decode'
+import { getReferralCodeHeader } from '../common-widgets/user-form/sign-in-form'
 
 // noti report success
 export const notifyTopRightSuccess = (content) => {
@@ -450,21 +450,11 @@ const ProductDetail = () => {
     try {
       let dataAdd
       if (type === 'anonymous') {
-        const headerExtra = { ReCaptchaResponse: header }
-        let refCode = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
-        refCode = convertType(refCode)
-        // has referral code in current session
-        if (refCode) {
-          headerExtra.Referral = refCode
-        }
-        // Has user info data for check sum
-        const userInfo = await getUserInfo()
-        if (userInfo) {
-          headerExtra.Sum = userInfo
-        }
-        dataAdd = await post('reviews/review/anonymous', params, headerExtra)
-        // remove referral code from session when confirm successful
-        sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE)
+        const headerExtra1 = { ReCaptchaResponse: header }
+        const headerExtra2 = await getReferralCodeHeader()
+        header = { ...headerExtra1, ...headerExtra2 }
+        dataAdd = await post('reviews/review/anonymous', params, header)
+        removeStorageRefCode()
       } else {
         dataAdd = await post('reviews/review', params, { ReCaptchaResponse: header })
       }
@@ -523,7 +513,7 @@ const ProductDetail = () => {
       }
     } catch (error) {
       recapcharRef.current.reset()
-      resetNotValidRefCodeInSession(error)
+      console.error(error)
     }
   }
 

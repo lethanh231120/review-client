@@ -227,18 +227,31 @@ export const ReferralCode = () => {
     }
   }
 
+  const getTodayRewardAndClickFromChartData = (chartData) => {
+    const lastItem = chartData[chartData?.length - 1]
+    const todayReward = (lastItem?.click / rewardPerView) * lastItem?.rewardPrice
+    const todayClick = lastItem?.click
+    return [todayReward, todayClick]
+  }
+
   const getAllReward = async() => {
+    const minDollarWidthdrawl = 50
+    const errMsgValidate = `You can't claim reward in today, and the before days must accumulate at least ${minDollarWidthdrawl}$ to claim`
+    const [todayReward, todayClick] = getTodayRewardAndClickFromChartData(chartData)
+    const totalRewardValueWithoutToday = totalRewardValue - todayReward
+    alert(totalRewardValueWithoutToday + ' ' + totalRewardValue)
+    if (totalRewardValueWithoutToday < minDollarWidthdrawl) {
+      notifyTopRightFail(`123` + errMsgValidate)
+    }
     try {
       const resp = await post('reviews/referral/claim', {}, { Referral: code })
       if (resp?.status) {
         // update needed data change when claim
 
         setTotalClaimedValue(resp?.data?.totalReward)
-        const lastItem = chartData[chartData?.length - 1]
-        const todayValue = (lastItem?.click / rewardPerView) * lastItem?.rewardPrice
 
-        setTotalRewardValue(todayValue)
-        setTotalRewardClick(lastItem?.click)
+        setTotalRewardValue(todayReward)
+        setTotalRewardClick(todayClick)
 
         setNewClaimedHistory(resp?.data) // append in table withdrawl history
         notifyTopRightSuccess(`You claim ${formatLargeNumberMoneyUSD(resp?.data?.totalReward)} for ${new Intl.NumberFormat().format(resp?.data?.totalClick)} click from your friends successfully`)
@@ -247,7 +260,7 @@ export const ReferralCode = () => {
       const codeBE = e?.response?.data?.code
       const codeWrongRequest = 'B.CODE.400'
       if (codeBE === codeWrongRequest) {
-        notifyTopRightFail(`You can't claim reward in today, and the before days must accumulate at least 50$ to claim`)
+        notifyTopRightFail(errMsgValidate)
       }
       console.log(e)
     }

@@ -6,7 +6,7 @@ import { SignInContext, Authenticated, HotTopicsContext } from '../../../../App'
 import './report.scss'
 import Description from '../../product-detail/description/Description'
 import FormReport from '../../Forms/form-report/FormReport'
-import { ReportModalContext, AddModalContext } from '../../../index'
+import { ReportModalContext, AddModalContext, removeStorageRefCode } from '../../../index'
 import InputSearch from '../../input-search/GlobalSearch'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
 import Swal from 'sweetalert2'
@@ -19,6 +19,7 @@ import { encodeSpecialCharacterUrl } from '../../../../utils/formatText'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import ProductImage, { sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 import { CRYPTO_TOKEN } from './../../../constants/category'
+import { getReferralCodeHeader } from '../../common-widgets/user-form/sign-in-form'
 
 const ModalReport = ({ isModal, setOpenModalReport }) => {
   const signInContext = useContext(SignInContext)
@@ -259,7 +260,11 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
     try {
       let dataAdd
       if (type === 'anonymous') {
-        dataAdd = await post('reviews/review/anonymous', params, { ReCaptchaResponse: header })
+        const headerExtra1 = { ReCaptchaResponse: header }
+        const headerExtra2 = await getReferralCodeHeader()
+        header = { ...headerExtra1, ...headerExtra2 }
+        dataAdd = await post('reviews/review/anonymous', params, header)
+        removeStorageRefCode()
       } else {
         dataAdd = await post('reviews/review', params, { ReCaptchaResponse: header })
       }
@@ -286,8 +291,9 @@ const ModalReport = ({ isModal, setOpenModalReport }) => {
           }
         })
       }
-    } catch {
+    } catch (error) {
       recapcharRef.current.reset()
+      console.error(error)
     }
   }
 
