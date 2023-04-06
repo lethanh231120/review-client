@@ -234,7 +234,8 @@ const Markup = () => {
         timerCheckHuman = setInterval(async() => {
           const counter = parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_HUMAN_CHECK))
           // count 120 times(1 second * 120)
-          if (counter === 120) {
+          const limit = 5
+          if (counter === limit) {
             clearInterval(timerCheckHuman)
 
             try {
@@ -243,17 +244,16 @@ const Markup = () => {
               if (refSession) {
                 const userInfo = await getUserInfo()
                 await get(`reviews/referral/confirm`, {}, { Referral: refSession, Sum: userInfo })
-                console.log('call API successful')
               }
             } catch (e) {
               console.error(e)
             }
           }
-          if (counter <= 120) {
+          if (counter <= limit) {
             sessionStorage.removeItem(STORAGEKEY.COUNTER_HUMAN_CHECK)
             sessionStorage.setItem(STORAGEKEY.COUNTER_HUMAN_CHECK, counter + 1)
           }
-          if (counter > 120) {
+          if (counter > limit) {
             clearInterval(timerCheckHuman)
           }
         }, 1000)
@@ -269,7 +269,6 @@ const Markup = () => {
       })
       // Focus website
       window.addEventListener('blur', ()=>{
-        console.log('out')
         clearInterval(timerCheckHuman)
       })
     }
