@@ -21579,3 +21579,8 @@ li.countdown span {
   margin-right: 0.625rem;
   font-weight: 600;
 }
+
+/* button in form sweet alert */
+.swal2-styled.swal2-confirm{
+  background-color: #039F7F;
+}

@@ -14,6 +14,7 @@ import { formatDateStyle } from '../../../utils/time/time'
 import { formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
 import { ReferralWithdrawHistory } from './ReferralWithdrawHistory'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
+import Swal from 'sweetalert2'
 
 export const getReferralStatistics = async() =>{
   try {
@@ -28,6 +29,8 @@ export const getReferralStatistics = async() =>{
 const rewardPerView = 1000
 
 export const getDDMMYYYYDate = (date) => new Date(formatChartDate(date, 'YYYY-MM-DD'))
+
+export const txtClaimReward = 'Claim rewards'
 
 export const ReferralCode = () => {
   const authenticated = useContext(Authenticated)
@@ -53,6 +56,7 @@ export const ReferralCode = () => {
   const [dataRewardClick, setDataRewardClick] = useState()
   const [dataRewardValue, setDataRewardValue] = useState()
   const [dataRewardTotal, setDataRewardTotal] = useState()
+  const [pickedRewardLabelsTime, setPickedRewardLabelsTime] = useState()
 
   const [newClaimedHistory, setNewClaimedHistory] = useState()
 
@@ -75,7 +79,7 @@ export const ReferralCode = () => {
     setLoadingGUI(false)
     setCode(resp?.code)
 
-    let data = resp?.dailyCharts
+    const data = resp?.dailyCharts
     if (data) {
       // Sort first by createdate asc
       data?.sort((a, b) => getDDMMYYYYDate(a?.createdDate) - getDDMMYYYYDate(b?.createdDate))
@@ -147,9 +151,7 @@ export const ReferralCode = () => {
         previousRewardPerClick = currentRewardPerClick // update previous rewardPrice
         previousIsClaimed = currentIsClaimed // update previous isClaimed
       })
-      // get latest 7 point in array
-      data = newArray?.slice(newArray?.length - 7)
-      extractDataFromChartData(data)
+      extractDataFromChartData(newArray)
       setChartData(data)
     }
   }
@@ -191,10 +193,12 @@ export const ReferralCode = () => {
       dataRewardValueLocal?.set(formattedDate, dailyRewardValue)
       dataRewardTotalLocal?.set(formattedDate, dailyRewardTotal)
     })
+    // For chart
     setRewardLabelsTime(rewardLabelsTimeLocal)
     setDataRewardClick(dataRewardClickLocal)
     setDataRewardValue(dataRewardValueLocal)
     setDataRewardTotal(dataRewardTotalLocal)
+    setPickedRewardLabelsTime(rewardLabelsTimeLocal?.slice(rewardLabelsTimeLocal?.length - 7))
 
     // For statistic
     setTotalClick(totalClickLocal)
@@ -239,30 +243,84 @@ export const ReferralCode = () => {
     const errMsgValidate = `You can't claim reward in today, and the before days must accumulate at least ${minDollarWidthdrawl}$ to claim`
     const [todayReward, todayClick] = getTodayRewardAndClickFromChartData(chartData)
     const totalRewardValueWithoutToday = totalRewardValue - todayReward
-    alert(totalRewardValueWithoutToday + ' ' + totalRewardValue)
+    // Validate FE
     if (totalRewardValueWithoutToday < minDollarWidthdrawl) {
-      notifyTopRightFail(`123` + errMsgValidate)
-    }
-    try {
-      const resp = await post('reviews/referral/claim', {}, { Referral: code })
-      if (resp?.status) {
-        // update needed data change when claim
+      notifyTopRightFail(errMsgValidate)
+      return
+    } else {
+      const address = await Swal.fire({
+        icon: 'info',
+        title: txtClaimReward,
+        inputLabel: 'Enter your binance address wallet here',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Claim',
+        showLoaderOnConfirm: true,
+        allowOutsideClick: false,
+        // for validate
+        preConfirm: (binanceAddress) =>{
+          if (binanceAddress === '') {
+            Swal.showValidationMessage(
+              `Can't leave be blank`
+            )
+          }
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          return result.value
+        }
+      })
 
-        setTotalClaimedValue(resp?.data?.totalReward)
+      // Claim click (already input address)
+      if (address) {
+        const isCancelConfirm = await Swal.fire({
+          title: `Are you confirm ${address} is your wallet address ?`,
+          text: "You won't be able to revert this!",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Confirm'
+        }).then(async(result) => {
+          if (result.isConfirmed) {
+            await Swal.fire(
+              'Claimed',
+              'Your claim has been recorded, ',
+              'success'
+            )
+            return false
+          } else if (result.isDismissed) {
+            return result.isDismissed
+          }
+        })
 
-        setTotalRewardValue(todayReward)
-        setTotalRewardClick(todayClick)
-
-        setNewClaimedHistory(resp?.data) // append in table withdrawl history
-        notifyTopRightSuccess(`You claim ${formatLargeNumberMoneyUSD(resp?.data?.totalReward)} for ${new Intl.NumberFormat().format(resp?.data?.totalClick)} click from your friends successfully`)
+        if (isCancelConfirm) {
+          return
+        }
+      } else {
+        // Cancel Claim rewards
+        return
       }
-    } catch (e) {
-      const codeBE = e?.response?.data?.code
-      const codeWrongRequest = 'B.CODE.400'
-      if (codeBE === codeWrongRequest) {
-        notifyTopRightFail(errMsgValidate)
+
+      try {
+        const resp = await post(`reviews/referral/claim?address=${address}&chainname=bnb-chain`, {}, { Referral: code })
+        if (resp?.status) {
+          // update needed data change when claim
+
+          setTotalClaimedValue(resp?.data?.totalReward)
+
+          setTotalRewardValue(todayReward)
+          setTotalRewardClick(todayClick)
+
+          setNewClaimedHistory(resp?.data) // append in table withdrawl history
+          notifyTopRightSuccess(`You claim ${formatLargeNumberMoneyUSD(resp?.data?.totalReward)} for ${new Intl.NumberFormat().format(resp?.data?.totalClick)} click from your friends successfully`)
+        }
+      } catch (e) {
+        const codeBE = e?.response?.data?.code
+        const codeWrongRequest = 'B.CODE.400'
+        if (codeBE === codeWrongRequest) {
+          notifyTopRightFail(errMsgValidate)
+        }
+        console.log(e)
       }
-      console.log(e)
     }
   }
 
@@ -294,7 +352,7 @@ export const ReferralCode = () => {
               className='btn btn-primary'
               onClick={getAllReward}
             >
-            Claim rewards
+              {txtClaimReward}
             </button>
             <hr className='hr-custome my-2'></hr>
           </p>
@@ -338,8 +396,14 @@ export const ReferralCode = () => {
   </>
 
   const chart = <>
+    <button onClick={()=>{
+      setPickedRewardLabelsTime(rewardLabelsTime?.slice(rewardLabelsTime?.length - 7))
+    }}>7 day</button>
+    <button onClick={()=>{
+      setPickedRewardLabelsTime(rewardLabelsTime)
+    }}>all</button>
     <ReferralChart
-      rewardLabelsTime={rewardLabelsTime}
+      rewardLabelsTime={pickedRewardLabelsTime} // get latest 7 point in array for display chart
       dataRewardClick={dataRewardClick}
       dataRewardValue={dataRewardValue}
       dataRewardTotal={dataRewardTotal}
