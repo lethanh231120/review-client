@@ -30,6 +30,7 @@ import { SEO } from './../SEO/SEO'
 import { PathNameContext, getUserInfo } from '../../index'
 import ProductDetailEmpty from '../skeleton/product-detail-skeleton/ProductDetailEmpty'
 import { getHeaderProductDetail } from '../SEO/server/productDetail'
+import { convertType } from '../../../utils/decode'
 
 // noti report success
 export const notifyTopRightSuccess = (content) => {
@@ -450,10 +451,11 @@ const ProductDetail = () => {
       let dataAdd
       if (type === 'anonymous') {
         const headerExtra = { ReCaptchaResponse: header }
-        const referralCode = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
+        let refCode = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
+        refCode = convertType(refCode)
         // has referral code in current session
-        if (referralCode) {
-          headerExtra.Referral = referralCode
+        if (refCode) {
+          headerExtra.Referral = refCode
         }
         // Has user info data for check sum
         const userInfo = await getUserInfo()

@@ -39,6 +39,7 @@ import { ALGORITHM_KECCAK256, API_CONFIRM, get } from '../api/BaseRequest'
 import { STORAGEKEY } from '../utils/storage'
 import { ReferralCode } from './components/referral-code/referralCode'
 import { getBrowserUserAgent } from '../utils/browserExtract'
+import { convertType } from '../utils/decode'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -234,16 +235,17 @@ const Markup = () => {
         timerCheckHuman = setInterval(async() => {
           const counter = parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_HUMAN_CHECK))
           // count 120 times(1 second * 120)
-          const limit = 5
+          const limit = 120
           if (counter === limit) {
             clearInterval(timerCheckHuman)
 
             try {
-              const refSession = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
+              let refCode = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
+              refCode = convertType(refCode)
               // has ref params
-              if (refSession) {
+              if (refCode) {
                 const userInfo = await getUserInfo()
-                await get(`reviews/referral/confirm`, {}, { Referral: refSession, Sum: userInfo })
+                await get(`reviews/referral/confirm`, {}, { Referral: refCode, Sum: userInfo })
               }
             } catch (e) {
               console.error(e)

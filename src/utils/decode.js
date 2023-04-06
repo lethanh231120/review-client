@@ -10,6 +10,8 @@ export const parseJwt = (token) => {
 }
 
 // 'undefined' to undefined
+// 'null' to null
+// sessionStorage.getItem('') return 'null', 'undefined'
 export const convertType = function(value) {
   try {
     return (new Function('return ' + value + ';'))()

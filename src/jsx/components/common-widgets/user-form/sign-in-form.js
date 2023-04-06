@@ -10,7 +10,7 @@ import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
 import { AddModalContext, getQueryParam, getUserInfo } from '../../../index'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GoogleLogin } from '@react-oauth/google'
-import { parseJwt } from '../../../../utils/decode'
+import { convertType, parseJwt } from '../../../../utils/decode'
 import { txtEnterEmail, txtEnterPassword } from './sign-up-form'
 import { resetNotValidRefCodeInSession } from '../../product-detail/ProductDetail'
 
@@ -140,12 +140,12 @@ export const SignInComponent = () => {
     }
   }
 
-  const resetRefParam = (refParam, refSession, error = true) => {
+  const resetRefParam = (refParam, refCode, error = true) => {
     if (refParam) {
       // remove referral in URL
       history.pushState({}, null, window.location.href.split('?')[0])
     }
-    if (refSession) {
+    if (refCode) {
       if (error) {
         resetNotValidRefCodeInSession(error)
       } else {
@@ -177,16 +177,17 @@ export const SignInComponent = () => {
     // **** login have referral code in url or session cache, send BE
     // get query params
     const refParam = getQueryParam('ref')
-    const refSession = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
+    let refCode = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
+    refCode = convertType(refCode)
     // has ref param or ref code in session cache
-    if (refParam || refSession) {
+    if (refParam || refCode) {
       try {
         const userInfo = await getUserInfo()
-        await get(`reviews/referral/confirm`, {}, { Referral: refParam || refSession, Sum: userInfo })
-        resetRefParam(refParam, refSession, false)
+        await get(`reviews/referral/confirm`, {}, { Referral: refParam || refCode, Sum: userInfo })
+        resetRefParam(refParam, refCode, false)
       } catch (e) {
         console.error(e)
-        resetRefParam(refParam, refSession, e)
+        resetRefParam(refParam, refCode, e)
       }
     }
   }
