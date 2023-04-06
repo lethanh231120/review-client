@@ -46,10 +46,6 @@ export const ReferralCode = () => {
   const [totalClaimedValue, setTotalClaimedValue] = useState()
   const [totalRewardValue, setTotalRewardValue] = useState()
   const [todayShareComission, setTodayShareComission] = useState()
-  const [lowestShareComission, setLowestShareComission] = useState()
-  const [lowestShareComissionDate, setLowestShareComissionDate] = useState()
-  const [highestShareComission, setHighestShareComission] = useState()
-  const [highestShareComissionDate, setHighestShareComissionDate] = useState()
 
   // For chart
   const [chartData, setChartData] = useState()
@@ -166,11 +162,6 @@ export const ReferralCode = () => {
     let totalRewardClickLocal = 0
     let totalClaimedValueLocal = 0
     let totalRewardValueLocal = 0
-    let lowestShareComissionLocal = todayShareComission
-    let highestShareComissionLocal = todayShareComission
-    const defaultDate = formatChartDate(lastItem.createdDate, formatDateStyle)
-    let lowestShareComissionDateLocal = defaultDate
-    let highestShareComissionDateLocal = defaultDate
 
     const rewardLabelsTimeLocal = []
     const dataRewardClickLocal = new Map()
@@ -182,15 +173,6 @@ export const ReferralCode = () => {
       const dailyClick = clickEachDay?.click
       const dailyRewardValue = clickEachDay?.rewardPrice
       const dailyRewardTotal = dailyRewardValue * (dailyClick / rewardPerView)
-
-      if (lowestShareComissionLocal > dailyRewardValue) {
-        lowestShareComissionLocal = dailyRewardValue
-        lowestShareComissionDateLocal = formattedDate
-      }
-      if (dailyRewardValue > highestShareComissionLocal) {
-        highestShareComissionLocal = dailyRewardValue
-        highestShareComissionDateLocal = formattedDate
-      }
 
       totalClickLocal += dailyClick
 
@@ -219,14 +201,6 @@ export const ReferralCode = () => {
     setTotalRewardClick(totalRewardClickLocal)
     setTotalClaimedValue(totalClaimedValueLocal)
     setTotalRewardValue(totalRewardValueLocal)
-    setLowestShareComission(lowestShareComissionLocal)
-    setHighestShareComission(highestShareComissionLocal)
-    if (lowestShareComissionDateLocal) {
-      setLowestShareComissionDate(` (${lowestShareComissionDateLocal})`)
-    }
-    if (highestShareComissionDateLocal) {
-      setHighestShareComissionDate(` (${highestShareComissionDateLocal})`)
-    }
   }
 
   // at same page, sign in will run here
@@ -323,12 +297,6 @@ export const ReferralCode = () => {
 
           <p>
           Share commission for {rewardPerView} views today: <Badge pill bg='badge-l' className='badge-primary progress-bar-striped progress-bar-animated'>{formatLargeNumberMoneyUSD(todayShareComission)}</Badge>
-          </p>
-          <p>
-          Lowest share commission{lowestShareComissionDate}: <Badge pill bg='badge-l' className='badge-danger progress-bar-striped progress-bar-animated'>{formatLargeNumberMoneyUSD(lowestShareComission)}</Badge>
-          </p>
-          <p>
-          Highest share commission{highestShareComissionDate}: <Badge pill bg='badge-l' className='badge-info progress-bar-striped progress-bar-animated'>{formatLargeNumberMoneyUSD(highestShareComission)}</Badge>
           </p>
         </div>
       </div>
