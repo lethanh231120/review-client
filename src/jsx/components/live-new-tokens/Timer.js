@@ -12,9 +12,21 @@ const Timer = ({ inputDate }) => {
 
     duration = moment.duration(duration.asSeconds() + 1, 'seconds')
 
-    return (
-      // duration.days() + 'd ' + duration.hours() + ' h ' +
-      duration.minutes() + ' m ' + duration.seconds() + ' s')
+    let output = ''
+    const days = duration.days()
+    if (days !== 0) {
+      output += (days + 'd ')
+    }
+    const hours = duration.hours()
+    if (hours !== 0) {
+      output += (hours + 'h ')
+    }
+    const minutes = duration.minutes()
+    output += (minutes + 'm ')
+    const seconds = duration.seconds()
+    output += (seconds + 's ')
+
+    return output
   }
 
   useEffect(() => {

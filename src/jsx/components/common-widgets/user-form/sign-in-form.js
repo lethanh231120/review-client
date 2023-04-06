@@ -7,16 +7,39 @@ import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import Swal from 'sweetalert2'
 import { isValidEmail, isValidPassword } from '../../../../utils/regrex'
-import { AddModalContext, getQueryParam, getUserInfo } from '../../../index'
+import { AddModalContext, getUserInfo, removeStorageRefCode } from '../../../index'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GoogleLogin } from '@react-oauth/google'
-import { parseJwt } from '../../../../utils/decode'
+import { convertType, parseJwt } from '../../../../utils/decode'
 import { txtEnterEmail, txtEnterPassword } from './sign-up-form'
-import { resetNotValidRefCodeInSession } from '../../product-detail/ProductDetail'
 
 export const codeBlockAccount = 'B.CODE.8'
 export const msgBlockAccount = 'Your email is blocked. Please contact with the administrator'
 const appIDFacebook = '6488605091156536'
+export const getReferralCodeHeader = async() => {
+  const header = {}
+  // has referral code in current session
+  let refCode = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
+  refCode = convertType(refCode)
+  if (refCode) {
+    header['Referral'] = refCode
+  }
+
+  // has campaign code in current session
+  let campaignCode = sessionStorage.getItem(STORAGEKEY.CAMPAIGN_CODE)
+  campaignCode = convertType(campaignCode)
+  if (campaignCode) {
+    header['Campaign'] = campaignCode
+  }
+
+  const userInfo = await getUserInfo()
+  if (userInfo) {
+    header['Sum'] = userInfo
+  }
+
+  return header
+}
+
 export const SignInComponent = () => {
   const authenticated = useContext(Authenticated)
   const signContext = useContext(SignInContext)
@@ -140,21 +163,6 @@ export const SignInComponent = () => {
     }
   }
 
-  const resetRefParam = (refParam, refSession, error = true) => {
-    if (refParam) {
-      // remove referral in URL
-      history.pushState({}, null, window.location.href.split('?')[0])
-    }
-    if (refSession) {
-      if (error) {
-        resetNotValidRefCodeInSession(error)
-      } else {
-        // remove in session cache when commit success (error = false)
-        sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE)
-      }
-    }
-  }
-
   const setStateLoginSuccess = async(token, userInfo) => {
     removeCookie(STORAGEKEY.ACCESS_TOKEN)
     removeCookie(STORAGEKEY.USER_INFO)
@@ -175,18 +183,15 @@ export const SignInComponent = () => {
     window.scrollTo(0, 0)
 
     // **** login have referral code in url or session cache, send BE
-    // get query params
-    const refParam = getQueryParam('ref')
-    const refSession = sessionStorage.getItem(STORAGEKEY.REFERRAL_CODE)
+    const header = await getReferralCodeHeader()
+    const refCode = header?.Referral
     // has ref param or ref code in session cache
-    if (refParam || refSession) {
+    if (refCode) {
       try {
-        const userInfo = await getUserInfo()
-        await get(`reviews/referral/confirm`, {}, { Referral: refParam || refSession, Sum: userInfo })
-        resetRefParam(refParam, refSession, false)
+        removeStorageRefCode()
+        await get(`reviews/referral/confirm`, {}, header)
       } catch (e) {
         console.error(e)
-        resetRefParam(refParam, refSession, e)
       }
     }
   }

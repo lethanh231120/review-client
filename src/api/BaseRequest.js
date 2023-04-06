@@ -36,6 +36,9 @@ const setHeaderRead = async(header) => {
   if (header?.Sum) {
     instanceRead.defaults.headers.common['Sum'] = `${header?.Sum}`
   }
+  if (header?.Campaign) {
+    instanceRead.defaults.headers.common['Campaign'] = `${header?.Campaign}`
+  }
 }
 const setHeaderWrite = async(header) => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
@@ -50,14 +53,15 @@ const setHeaderWrite = async(header) => {
   if (header?.Sum) {
     instanceWrite.defaults.headers.common['Sum'] = `${header?.Sum}`
   }
+  if (header?.Campaign) {
+    instanceWrite.defaults.headers.common['Campaign'] = `${header?.Campaign}`
+  }
 }
 
 const search = async(url, params = {}) => {
   try {
     await setHeaderSearch()
-    // const source = axios.CancelToken.source()
     const config = { params: params }
-    // const config = { params: params, cancelToken: source.token }
     const response = await instanceSearch.get(getUrlPrefix() + url, config)
     return _responseHandler(response)
   } catch (error) {

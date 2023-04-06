@@ -114,7 +114,7 @@ export const ReferralWithdrawHistory = ({ newClaimedHistory }) => {
     }
   ]
 
-  return !_.isEmpty(withdrawalHistory) && <div className='profile card card-body'>
+  return !_.isEmpty(withdrawalHistory) && <div className='mb-2'>
     <Card style={{ height: '100%' }}>
       <Card.Header>
         <Card.Title>
