@@ -341,10 +341,12 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
   }
 
   const about = <>
-    {rest?.loadingDetail ? (<ProductDetailInfo/>) : (<Description
-      projectName={detail?.name}
-      text={detail?.fullDescription}
-    />)}
+    {rest?.loadingDetail
+      ? (<ProductDetailInfo/>)
+      : (<Description
+        projectName={`About ${detail?.name}`}
+        text={detail?.fullDescription}
+      />)}
   </>
 
   // scam

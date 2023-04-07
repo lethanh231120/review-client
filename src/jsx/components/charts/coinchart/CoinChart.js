@@ -15,9 +15,6 @@ const CoinChart = ({ name, symbol, price, marketCap, totalSupply, holders, trans
         <div className='card-header border-0 flex-wrap cus-card-header'>
           <div className='mb-2'>
             <h2 className='heading text-primary m-0'>{name} Market Info</h2>
-            {/* <span className='fs-16'>
-              Lorem ipsum dolor sit amet, consectetur
-            </span> */}
           </div>
         </div>
         <div className='card-body'>

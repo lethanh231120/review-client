@@ -268,7 +268,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       more={more}
       type={SOON}
       portfolioOrChartOrDesc={<Description
-        projectName={itemDetail?.projectName}
+        projectName={`About ${itemDetail?.projectName}`}
         text={itemDetail?.fullDesc || itemDetail?.shortDesc}
       />}
       about={<ScreenShot screenshots={itemDetail?.media} />}
