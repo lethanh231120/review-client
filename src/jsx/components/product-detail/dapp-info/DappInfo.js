@@ -281,7 +281,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
                                   Source Code
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    {Object.keys(detail?.sourceCode)?.map((key, index) => key && <Dropdown.Item key={index} ><a href={detail?.sourceCode[key]}>{detail?.sourceCode[key]}</a></Dropdown.Item>)}
+                    {Object.keys(detail?.sourceCode)?.map((key, index) => key && <Dropdown.Item key={index} ><a rel='noopener noreferrer' href={detail?.sourceCode[key]}>{detail?.sourceCode[key]}</a></Dropdown.Item>)}
                   </Dropdown.Menu>
                 </Dropdown>
               </div>}

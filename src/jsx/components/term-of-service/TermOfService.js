@@ -23,7 +23,7 @@ export const TermOfService = () => {
       <div>
         <p className='term-content-sub'>
           <b className='text-primary'>1.1.</b>&nbsp;
-          The Terms of Use constitute a legal agreement between you (referred to as <b className='text-primary'>the User</b>&nbsp; or <b className='text-primary'>your</b>&nbsp;) and Nika JSC, a company incorporated under Vietnamese law, and its subsidiaries, affiliates and related corporations that provide the <b className='text-primary'><a href={website} className='text-primary txt-link'>GEAR 5</a></b>&nbsp; Services (referred to herein as <b className='text-primary'>the Company</b>&nbsp;, <b className='text-primary'>we</b>&nbsp;, <b className='text-primary'>us</b>&nbsp; or <b className='text-primary'>our</b>&nbsp;).
+          The Terms of Use constitute a legal agreement between you (referred to as <b className='text-primary'>the User</b>&nbsp; or <b className='text-primary'>your</b>&nbsp;) and Nika JSC, a company incorporated under Vietnamese law, and its subsidiaries, affiliates and related corporations that provide the <b className='text-primary'><a rel='noopener noreferrer' href={website} className='text-primary txt-link'>GEAR 5</a></b>&nbsp; Services (referred to herein as <b className='text-primary'>the Company</b>&nbsp;, <b className='text-primary'>we</b>&nbsp;, <b className='text-primary'>us</b>&nbsp; or <b className='text-primary'>our</b>&nbsp;).
         </p>
         <p className='term-content-sub'>
           <b className='text-primary'>1.2.</b>&nbsp;

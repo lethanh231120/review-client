@@ -10,7 +10,7 @@ export const LaunchpadTableDetail = ({ launchpadId, linkBuy }) => {
     if (dataLaunchpad) {
       return <>
 
-        <a className='mb-0 link-success txt-link' href={linkBuy || dataLaunchpad?.website} target='_blank' rel='noreferrer'><img src={dataLaunchpad?.thumbLogo} height={18} width={18}/>{dataLaunchpad?.name}</a>
+        <a className='mb-0 link-success txt-link' href={linkBuy || dataLaunchpad?.website} target='_blank' rel='noopener noreferrer'><img src={dataLaunchpad?.thumbLogo} height={18} width={18}/>{dataLaunchpad?.name}</a>
       </>
     }
   }

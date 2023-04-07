@@ -412,7 +412,7 @@ const ReviewItem = (props) => {
                     {data?.review?.sources?.map((item, index) => (
                       <span key={index}>
                         {item !== '' && (
-                          <a href={item} target='_blank' rel='noreferrer'>
+                          <a href={item} target='_blank' rel='noopener noreferrer'>
                             <LinkOutlined/>
                             {item?.split('/')[2]}
                           </a>

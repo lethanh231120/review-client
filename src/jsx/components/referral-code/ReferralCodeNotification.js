@@ -64,7 +64,7 @@ const subMenu = (title, content, image) => <>
 </>
 
 const link = (url) => <>
-  <a className='text-primary txt-link' href={url} target='_blank' rel='noreferrer'><ins>{url}</ins></a>
+  <a rel='noopener noreferrer' className='text-primary txt-link' href={url} target='_blank' rel='noreferrer'><ins>{url}</ins></a>
 </>
 
 export const signInImage = (size, fill) => <>
