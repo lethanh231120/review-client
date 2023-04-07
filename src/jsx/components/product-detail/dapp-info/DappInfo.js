@@ -323,7 +323,7 @@ const DappInfo = ({ productInfo, ...rest }) => {
       <ProductDetailInfo/>
     ) : (
       <Description
-        projectName={detail?.dAppName}
+        projectName={`About ${detail?.dAppName}`}
         text={detail?.description}
       />
     )}

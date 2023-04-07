@@ -271,7 +271,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
   const about = <>
     {rest?.loadingDetail ? (<ProductDetailInfo/>) : (
       <Description
-        projectName={detail?.ventureName}
+        projectName={`About ${detail?.ventureName}`}
         text={detail?.description}
       />
     )}

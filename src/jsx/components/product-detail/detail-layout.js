@@ -32,7 +32,12 @@ export const dataReviewFounder = {
   </p>
 }
 export const DetailLayout = (props) => {
-  const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, similar, rest, setTop, productInfo } = props
+  const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, similar, rest, setTop, productInfo,
+    // { /* START DEMO: TEST NEW GUI FOR SEO */ }
+    test1, test2, test3, test4, test5,
+    test6, test7, test8
+    // { /* END DEMO: TEST NEW GUI FOR SEO */ }
+  } = props
   const PAGE_SIZE = 25
 
   const getPosition = () => {
@@ -118,6 +123,39 @@ export const DetailLayout = (props) => {
                 </div>
               </div>}
 
+              {/* START DEMO: TEST NEW GUI FOR SEO */}
+              {/* Test1 */}
+              {test1 && <div className='col-lg-12'>
+                <div className='card'>
+                  {test1}
+                </div>
+              </div>}
+              {/* Test2 */}
+              {test2 && <div className='col-lg-12'>
+                <div className='card'>
+                  {test2}
+                </div>
+              </div>}
+              {/* Test3 */}
+              {test3 && <div className='col-lg-12'>
+                <div className='card'>
+                  {test3}
+                </div>
+              </div>}
+              {/* Test4 */}
+              {test4 && <div className='col-lg-12'>
+                <div className='card'>
+                  {test4}
+                </div>
+              </div>}
+              {/* Test5 */}
+              {test5 && <div className='col-lg-12'>
+                <div className='card'>
+                  {test5}
+                </div>
+              </div>}
+              {/* END DEMO: TEST NEW GUI FOR SEO */}
+
               <div className='display-desktop'>
                 <div className='col-lg-12'>
                   {topDiscus}
@@ -199,6 +237,29 @@ export const DetailLayout = (props) => {
                 </div>
               </div>}
             </div>
+
+            {/* START DEMO: TEST NEW GUI FOR SEO */}
+            {/* Test7 */}
+            {test7 && <div className='col-lg-12 mt-3'>
+              <div className='card'>
+                {test7}
+              </div>
+            </div>}
+
+            {/* Test8 */}
+            {test8 && <div className='col-lg-12'>
+              <div className='card'>
+                {test8}
+              </div>
+            </div>}
+
+            {/* Test6 */}
+            {test6 && <div className='col-lg-12'>
+              <div className='card'>
+                {test6}
+              </div>
+            </div>}
+            {/* END DEMO: TEST NEW GUI FOR SEO */}
           </div>
         </div></>
       : <>

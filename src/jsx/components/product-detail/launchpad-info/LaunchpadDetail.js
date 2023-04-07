@@ -283,7 +283,7 @@ const LaunchpadDetail = ({ productInfo, ...rest }) => {
   const about = <>
     {rest?.loadingDetail ? (<ProductDetailInfo/>) : (
       <Description
-        projectName={detail?.name}
+        projectName={`About ${detail?.name}`}
         text={detail?.description}
       />
     )}

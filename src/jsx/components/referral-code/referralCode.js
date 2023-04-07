@@ -396,10 +396,10 @@ export const ReferralCode = () => {
   </>
 
   const chart = <>
-    <button onClick={()=>{
+    <button hidden={true} onClick={()=>{
       setPickedRewardLabelsTime(rewardLabelsTime?.slice(rewardLabelsTime?.length - 7))
     }}>7 day</button>
-    <button onClick={()=>{
+    <button hidden={true} onClick={()=>{
       setPickedRewardLabelsTime(rewardLabelsTime)
     }}>all</button>
     <ReferralChart

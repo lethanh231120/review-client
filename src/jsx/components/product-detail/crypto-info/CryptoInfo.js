@@ -7,7 +7,7 @@ import _ from 'lodash'
 import { CRYPTO, CRYPTO_COIN } from '../../../constants/category'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { ChainListContext, ExchangeContext } from '../../../../App'
-import { Badge, Button } from 'react-bootstrap'
+import { Badge, Button, Card } from 'react-bootstrap'
 import { Image } from 'antd'
 import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { LinkOutlined } from '@ant-design/icons'
@@ -51,6 +51,7 @@ import ProductDetailSummary from '../../skeleton/product-detail-skeleton/Product
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
 import ProductDetailChart from '../../skeleton/product-detail-skeleton/ProductDetailChart'
 import { mapScamReason } from './scam-reason'
+import { Pie } from 'react-chartjs-2'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -623,14 +624,36 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     )}
   </div>
 
+  const contractAddress = <>
+    { !_.isEmpty(detail?.multichain)
+      ? <>
+        <div>
+          {detail?.multichain?.map((chain) => (<>
+            {
+              chain?.split('_')?.length >= 4
+                ? <div className='mb-3'>
+                  <h3 style={{ fontSize: '1rem', color: '#A098AE', fontWeight: '400', display: 'inline' }}>
+                    <span className='text-primary text-break'>{chain?.split('_')[3]}</span>&nbsp;
+                            on chain {toCammelCase(chain?.split('_')[2])}
+                  </h3>
+                </div>
+                : ''
+            }
+          </>
+          ))}
+        </div>
+                  &nbsp;
+      </>
+      : ''}
+  </>
+
   const about = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
     ) : (
       <Description
-        projectName={detail?.name}
+        projectName={`About ${detail?.name}`}
         text={ detail?.description }
-        descriptionTokenMultichain = { detail?.multichain}
       />
     )}
   </>
@@ -695,6 +718,277 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     )}
   </>
 
+  // { /* START DEMO: TEST NEW GUI FOR SEO */ }
+  const blockHeader = (headerText) => <>
+    <div className='card-header border-0 pb-0'>
+      <div className='heading text-primary d-flex align-items-center break-word'>
+        <i className='material-icons fs-30 text-primary'>subject</i>
+        <h2 style={{ fontSize: '1.5rem' }} className='m-0 text-primary'>
+          {headerText}
+        </h2>
+      </div>
+    </div>
+  </>
+
+  const blockContent = (content) => <>
+    <div className={ 'card-body pt-3' }>
+      <div className={ 'profile-blog' }>
+        <div className={ 'mb-0' }>
+          <div className='description-list'>
+            <div className='card-content' style={{ fontSize: '1rem', lineHeight: '2' }}>
+              {content}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </>
+
+  const test1 = <>
+    {rest?.loadingDetail ? (
+      <ProductDetailInfo/>
+    ) : <>
+      <Description
+        replaceIcon='price_check'
+        projectName={`${detail?.symbol} Price Live Data`}
+        text={`
+          The live ${detail?.name} price today is <b style='color: #039F7F'>$0.288751 USD</b> with a 24-hour trading volume of <b style='color: #039F7F'>$97,285,442 USD</b>. We update our ${detail?.symbol} to USD price in real-time. ${detail?.name} is down <b style='color: #039F7F'>5.45%</b> in the last 24 hours. It has a circulating supply of <b style='color: #039F7F'>435,555,547</b> ${detail?.symbol} coins and a max. supply of <b style='color: #039F7F'>1,000,000,000</b> ${detail?.symbol} coins.
+          <br />
+          If you would like to know where to buy ${detail?.name} at the current rate, the top cryptocurrency exchanges for trading in Coin9 are currently Binance, Deepcoin, Bybit, Bitrue, and BingX. You can find others listed on our crypto exchanges page.
+        ` }
+      />
+    </>
+    }
+  </>
+
+  const test2 = <>
+    {rest?.loadingDetail ? (
+      <ProductDetailInfo/>
+    ) : <>
+      <Description
+        projectName={`What Is ${detail?.name}(${detail?.symbol}) ?`}
+        text={`
+        ${detail?.name} is an all-in-one DeFi Platform that aims to fulfill untapped demand in the industry and become a Gateway bridging TradFi users to any DeFi services on multiple blockchains. It accomplishes this mission through a full suite of products, including ${detail?.name} Wallet, ${detail?.name} Exchange, and Space Gate (cross-chain bridge). ${detail?.name} Wallet: Allows users to store, send, receive, manage crypto assets and connect to numerous dApps on multiple blockchains. It supports over 20 blockchains such as Ethereum, Binance Smart Chain, Solana, Polygon, Avalanche, Terra, etc on both mobile (iOS & android) and Chrome extension versions. ${detail?.name} Exchange: A multichain liquidity aggregator that allows users to swap, stake, lend, borrow, earn crypto with the best rates and low slippage. Space Gate: A cross-chain bridge that enables swapping and transferring values across multiple networks. It supports token swaps between ERC20 tokens, BEP20 tokens, SPL tokens, and more. The C98 token is the native utility token of the ${detail?.name} platform and will be used to pay services fees, as staking incentives, for governance, and unique membership rights.. ,
+        ` }
+      />
+    </>
+    }
+  </>
+
+  const test3 = <>
+    {rest?.loadingDetail ? (
+      <ProductDetailInfo/>
+    ) : <>
+      <Description
+        projectName={`${detail?.name}'s Score`}
+        text={`
+        C98 scored 6/10 on the Gear5.io,  which we based on parameters such as liquidity on Dex exchanges, contract information such as whether there is a proxy or not, whether the contract is verified or not, which CEX and DEX exchanges it is traded on, trading volume, website information, number of holders, and transfers of COINS/TOKENS. If you have any questions about the score we provided, please contact zoro@nika.guru.
+        <br />
+        <br />
+        In addition, we also provide user alerts for suspicious COINS/TOKENS based on simulated trading methods on DEX exchanges and checking their contract. The number of Spam reports also has a significant impact on our alert system.
+        ` }
+      />
+    </>
+    }
+  </>
+
+  const test4 = <>
+    {rest?.loadingDetail ? (
+      <ProductDetailInfo/>
+    ) : <>
+      <Description
+        projectName={`What is ${detail?.name}(${detail?.symbol})'s community?`}
+        text={`
+        You can join the COIN98 communities at coin98.com and blog.coin98.com.  The Coin98 team has released the source code here. Additionally, Coin98 has currently been launched on 3 chains with addresses c98a4nkjxhpvznazdhua95rptf3t4whtqubl3yobiux9 , 0xaec945e04baf28b135fa7c640f624f8d90f1c3a6, and 0xae12c5930881c53715b369cec7606b70d8eb229f.
+        ` }
+      />
+    </>
+    }
+  </>
+
+  const test5 = <>
+    {rest?.loadingDetail ? (
+      <ProductDetailInfo/>
+    ) : <>
+      <Description
+        projectName={`Related Detail`}
+        text={`
+        What is Binance Smart Chain ? Binance Smart Chain (BSC) is a blockchain network built for running smart contract-based applications. BSC runs in parallel with Binance's native Binance Chain (BC), which allows users to get the best of both worlds: the high transaction capacity of BC and the smart contract functionality of BSC.
+        <br />
+        Furthermore, Binance Smart Chain also implements the Ethereum Virtual Machine (EVM), which allows it to run Ethereum-based applications like MetaMask.
+        ` }
+      />
+    </>
+    }
+  </>
+
+  const test6 = <>
+    {rest?.loadingDetail ? (
+      <ProductDetailInfo/>
+    ) : <>
+      <Description
+        projectName={`Related Detail`}
+      />
+      {blockContent(<>{ contractAddress }</>)}
+    </>
+    }
+  </>
+
+  const test7 = <>
+    {rest?.loadingDetail ? (
+      <ProductDetailInfo/>
+    ) : <>
+      <Description
+        projectName={`FAQs`}
+        text={`
+        <b style='color: #039F7F'>Coin98 (C98) price has declined today.</b>
+        <br/>
+        The price of Coin98 (C98) is $0.288471 today with a 24-hour trading volume of $67,783,183. This represents a -5.88% price decline in the last 24 hours and a 4.86% price increase in the past 7 days. With a circulating supply of 440 Million C98, Coin98 is valued at a market cap of $125,952,605.
+        <br/>
+        <br/>
+        <b style='color: #039F7F'>Where can you buy Coin98?</b>
+        <br/>
+        C98 tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade Coin98 is Binance, where the most active trading pair C98/USDT has a trading volume of $30,141,381 in the last 24 hours. Other popular options include  XYZ Exchange and XYZ Exchange.
+        <br/>
+        <br/>
+        <b style='color: #039F7F'>What is the daily trading volume of Coin98 (C98)?</b>
+        <br/>
+        The trading volume of Coin98 (C98) is $67,973,704 in the last 24 hours, representing a -5.30% decrease from one day ago and signalling a recent fall in market activity.
+        <br/>
+        <br/>
+        <b style='color: #039F7F'>What is the all-time high for Coin98 (C98)?</b>
+        <br/>
+        The highest price paid for Coin98 (C98) is $6.42, which was recorded on Aug 25, 2021 (over 1 year). Comparatively, the current price is -95.50% lower than the all-time high price.
+        <br/>
+        <br/>
+        <b style='color: #039F7F'>What is the all-time low for Coin98 (C98)?</b>
+        <br/>
+        The lowest price paid for Coin98 (C98) is $0.153360, which was recorded on Dec 31, 2022 (3 months). Comparatively, the current price is 88.54% higher than the all-time low price.
+        <br/>
+        <br/>
+        <b style='color: #039F7F'>What is the market cap of Coin98 (C98)?</b>
+        <br/>
+        Market capitalization of Coin98 (C98) is $125,952,605 and is ranked #251 on CoinGecko today. Market cap is measured by multiplying token price with the circulating supply of C98 tokens (440 Million tokens are tradable on the market today).
+          ` }
+      />
+    </>
+    }
+  </>
+
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: `${detail?.name}'s holding rate`,
+        font: {
+          size: 22,
+          color: '#18A594'
+        },
+        padding: 30
+      },
+      legend: {
+        display: false, // show annotations chart
+        position: 'bottom',
+        align: 'center',
+        labels: {
+          boxWidth: 20,
+          padding: 30
+        }
+      },
+      // responsive: true,
+      tooltip: {
+        callbacks: {
+          title: (xDatapoint) => {
+            const label = xDatapoint[0]?.label
+            return `${_.capitalize(label)}`
+          }
+        }
+      }
+    },
+    maintainAspectRatio: true,
+    responsive: true
+  }
+  const addressHoldingMap = new Map()
+  addressHoldingMap?.set('0x00000000219ab540356cbb839cbe05303d7705fa', 15.02)
+  addressHoldingMap?.set('0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 3.09)
+  addressHoldingMap?.set('0xbe0eb53f46cd790cd13851d5eff43d12404d33e8', 1.66)
+  addressHoldingMap?.set('0xda9dfa130df4de4673b89022ee50ff26f6ea73cf', 1.48)
+  addressHoldingMap?.set('0x0716a17fbaee714f1e6ab0f9d59edbc5f09815c0', 1.36)
+  addressHoldingMap?.set('0xf977814e90da44bfa03b6295a0616a897441acec', 1.25)
+  addressHoldingMap?.set('0x8315177ab297ba92a06054ce80a67ed4dbd7ed3a', 0.91)
+  addressHoldingMap?.set('0x47ac0fb4f2d84898e4d9e7b4dab3c24507a6d503', 0.49)
+  addressHoldingMap?.set('0xdc24316b9ae028f1497c275eb9192a3ea0f67022', 0.37)
+  addressHoldingMap?.set('0xe92d1a43df510f82c66382592a047d288f85226f', 0.37)
+  addressHoldingMap?.set('Other Address', 74)
+
+  const addressColorMap = new Map()
+  addressColorMap?.set('0x00000000219ab540356cbb839cbe05303d7705fa', '#e60049')
+  addressColorMap?.set('0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', '#0bb4ff')
+  addressColorMap?.set('0xbe0eb53f46cd790cd13851d5eff43d12404d33e8', '#50e991')
+  addressColorMap?.set('0xda9dfa130df4de4673b89022ee50ff26f6ea73cf', '#e6d800')
+  addressColorMap?.set('0x0716a17fbaee714f1e6ab0f9d59edbc5f09815c0', '#9b19f5')
+  addressColorMap?.set('0xf977814e90da44bfa03b6295a0616a897441acec', '#ffa300')
+  addressColorMap?.set('0x8315177ab297ba92a06054ce80a67ed4dbd7ed3a', '#dc0ab4')
+  addressColorMap?.set('0x47ac0fb4f2d84898e4d9e7b4dab3c24507a6d503', '#b3d4ff')
+  addressColorMap?.set('0xdc24316b9ae028f1497c275eb9192a3ea0f67022', '#00bfa0')
+  addressColorMap?.set('0xe92d1a43df510f82c66382592a047d288f85226f', '#50e991')
+  addressColorMap?.set('Other Address', '#039F7F')
+  const data = {
+    labels: Array.from(addressHoldingMap, ([address, _]) => address),
+    datasets: [
+      {
+        label: `# holding's percentage`,
+        data: Array.from(addressHoldingMap, ([_, value]) => value),
+        backgroundColor: Array.from(addressColorMap, ([_, color]) => color),
+        borderWidth: 1
+      }
+    ]
+  }
+  const columns = [
+    {
+      title: '#',
+      align: 'right',
+      render: (_, record, index) => <span style={{ color: addressColorMap?.get(record?.address) }}>{new Intl.NumberFormat().format(index + 1)}</span>
+    },
+    {
+      title: 'Holding',
+      align: 'right',
+      render: (_, record) => <span style={{ color: addressColorMap?.get(record?.address) }}>{(record?.holdingRate)}&nbsp;%</span>
+    },
+    {
+      title: 'Address',
+      align: 'left',
+      render: (_, record) => <span style={{ color: addressColorMap?.get(record?.address) }}>{record?.address}</span>
+    }
+  ]
+  const test8 = <>
+    {rest?.loadingDetail ? (
+      <ProductDetailInfo/>
+    ) : <>
+      {detail?.name && blockHeader(`Holders' address `) }
+      {blockContent(<>
+        <Pie data={data} height={100} options={options} />
+        <Card style={{ height: '100%' }}>
+          <Card.Header>
+            <Card.Title>
+              <h3 className='heading text-center text-primary' style={{ textTransform: 'none' }}>{`Top 10 ${detail?.name}'s holder`}</h3>
+            </Card.Title>
+          </Card.Header>
+          <Card.Body>
+            <Table
+              style={{ overflow: 'scroll' }}
+              pagination={{ pageSize: 3 }}
+              className='custom-table'
+              columns={columns}
+              dataSource={Array.from(addressHoldingMap, ([address, holdingRate]) => ({ address, holdingRate }))}/>
+          </Card.Body>
+        </Card>
+      </>)}
+    </>
+    }
+  </>
+  // { /* END DEMO: TEST NEW GUI FOR SEO */ }
+
   return <DetailLayout
     Header={header}
     type={CRYPTO}
@@ -709,6 +1003,18 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     rest={rest}
     similar={ <ProductSimilar productType={CRYPTO} similarList={productInfo?.similars} /> }
     productInfo={productInfo}
+    // { /* START DEMO: TEST NEW GUI FOR SEO */ }
+
+    test1={test1}
+    test2={test2}
+    test3={test3}
+    test4={test4}
+    test5={test5}
+
+    test6={!_.isEmpty(detail?.multichain) && test6}
+    test7={test7}
+    test8={test8}
+    // { /* END DEMO: TEST NEW GUI FOR SEO */ }
   />
 }
 export default CryptoInfo
