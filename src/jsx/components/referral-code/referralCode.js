@@ -251,7 +251,7 @@ export const ReferralCode = () => {
       const address = await Swal.fire({
         icon: 'info',
         title: txtClaimReward,
-        inputLabel: 'Enter your binance address wallet here',
+        inputLabel: 'Enter your wallet on binace blockchain here',
         input: 'text',
         showCancelButton: true,
         confirmButtonText: 'Claim',
@@ -283,7 +283,7 @@ export const ReferralCode = () => {
           if (result.isConfirmed) {
             await Swal.fire(
               'Claimed',
-              'Your claim has been recorded, ',
+              'Your request has been sent',
               'success'
             )
             return false
@@ -301,7 +301,7 @@ export const ReferralCode = () => {
       }
 
       try {
-        const resp = await post(`reviews/referral/claim?address=${address}&chainname=bnb-chain`, {}, { Referral: code })
+        const resp = await post(`reviews/referral/claim?address=${address}&chainname=binance`, {}, { Referral: code })
         if (resp?.status) {
           // update needed data change when claim
 
