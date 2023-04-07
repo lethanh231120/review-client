@@ -118,7 +118,7 @@ export const ReferralWithdrawHistory = ({ newClaimedHistory }) => {
     <Card style={{ height: '100%' }}>
       <Card.Header>
         <Card.Title>
-          <h3 className='heading text-center' style={{ textTransform: 'none' }}>{`Widthdrawal History`}</h3>
+          <h3 className='heading text-center text-primary' style={{ textTransform: 'none' }}>{`Widthdrawal History`}</h3>
         </Card.Title>
       </Card.Header>
       <Card.Body>
