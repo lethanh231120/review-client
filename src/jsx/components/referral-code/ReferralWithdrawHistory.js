@@ -76,7 +76,7 @@ export const ReferralWithdrawHistory = ({ newClaimedHistory }) => {
     },
     {
       title: <span className='d-flex align-items-center justify-content-center'>
-        Approved
+        Status
         &nbsp;
         <Tooltip title='Admin verify your claim to send you reward or not'>
           <InfoCircleOutlined />

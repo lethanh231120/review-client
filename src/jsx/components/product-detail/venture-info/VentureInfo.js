@@ -314,7 +314,7 @@ const VentureInfo = ({ productInfo, ...rest }) => {
       {
         title: 'Announcement',
         dataIndex: 'announcement',
-        render: (_, record) => <a className='announcement-link' onClick={(e) =>{
+        render: (_, record) => <a className='announcement-link' rel='noopener noreferrer' onClick={(e) =>{
           e.stopPropagation()
           window.open(record?.announcementUrl)
         }}><i className='fas fa-link me-1'></i>Link</a>

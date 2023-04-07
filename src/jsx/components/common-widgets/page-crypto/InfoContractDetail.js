@@ -20,7 +20,8 @@ const InfoContractDetail = ({ detail, mainExplorer }) => {
                     <a className='text-primary txt-link text-break'
                       href={detail?.explorer || mainExplorer}
                       target='_blank'
-                      rel='noreferrer'>{detail?.address}</a>
+                      rel='noopener noreferrer'
+                    >{detail?.address}</a>
                   </span>
                 } />
               </div>

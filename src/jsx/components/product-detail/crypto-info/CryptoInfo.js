@@ -920,6 +920,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   addressHoldingMap?.set('0xdc24316b9ae028f1497c275eb9192a3ea0f67022', 0.37)
   addressHoldingMap?.set('0xe92d1a43df510f82c66382592a047d288f85226f', 0.37)
   addressHoldingMap?.set('Other Address', 74)
+  const addressHoldingArr = (Array.from(addressHoldingMap, ([address, holdingRate]) => ({ address, holdingRate }))) //
 
   const addressColorMap = new Map()
   addressColorMap?.set('0x00000000219ab540356cbb839cbe05303d7705fa', '#e60049')
@@ -948,12 +949,13 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     {
       title: '#',
       align: 'right',
-      render: (_, record, index) => <span style={{ color: addressColorMap?.get(record?.address) }}>{new Intl.NumberFormat().format(index + 1)}</span>
+      render: (text, record, index) => <span style={{ color: addressColorMap?.get(record?.address) }}>{addressHoldingArr.indexOf(record) + 1}</span>
+
     },
     {
       title: 'Holding',
       align: 'right',
-      render: (_, record) => <span style={{ color: addressColorMap?.get(record?.address) }}>{(record?.holdingRate)}&nbsp;%</span>
+      render: (_, record) => <span style={{ color: addressColorMap?.get(record?.address) }}>{record?.holdingRate}&nbsp;%</span>
     },
     {
       title: 'Address',
@@ -961,6 +963,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       render: (_, record) => <span style={{ color: addressColorMap?.get(record?.address) }}>{record?.address}</span>
     }
   ]
+
   const test8 = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
@@ -977,10 +980,10 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           <Card.Body>
             <Table
               style={{ overflow: 'scroll' }}
-              pagination={{ pageSize: 3 }}
+              pagination={false}
               className='custom-table'
               columns={columns}
-              dataSource={Array.from(addressHoldingMap, ([address, holdingRate]) => ({ address, holdingRate }))}/>
+              dataSource={addressHoldingArr}/>
           </Card.Body>
         </Card>
       </>)}

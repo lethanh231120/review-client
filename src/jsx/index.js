@@ -40,6 +40,7 @@ import { STORAGEKEY } from '../utils/storage'
 import { ReferralCode } from './components/referral-code/referralCode'
 import { getBrowserUserAgent } from '../utils/browserExtract'
 import { getReferralCodeHeader } from './components/common-widgets/user-form/sign-in-form'
+import { getCookie } from './../utils/storage/index'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -253,14 +254,19 @@ const Markup = () => {
           clearInterval(timerCheckHuman)
           timerCheckHuman = setInterval(async() => {
             const counter = parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_HUMAN_CHECK))
-            // count 60 times(1 second * 60)
-            const limitSecond = 60
+            // count 30 times(1 second * 30)
+            const limitSecond = 30
             if (counter >= limitSecond) {
               try {
+                // already interact with website
                 if (parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_MOVE)) >= 2) {
-                  clearInterval(timerCheckHuman) // last time run
-                  removeStorageRefCode()
-                  await get(`reviews/referral/confirm`, {}, header)
+                  const userAccessToken = getCookie(STORAGEKEY.ACCESS_TOKEN)
+                  // already login
+                  if (userAccessToken) {
+                    clearInterval(timerCheckHuman) // last time run
+                    removeStorageRefCode()
+                    await get(`reviews/referral/confirm`, {}, header)
+                  }
                 }
               } catch (e) {
                 console.error(e)

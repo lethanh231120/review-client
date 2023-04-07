@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://v5.getbootstrap.com/">
+  <a rel="noreferrer" href="https://v5.getbootstrap.com/">
     <img src="https://v5.getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo-shadow.png" alt="Bootstrap logo" width="200" height="165">
   </a>
 </p>
@@ -9,14 +9,14 @@
 <p align="center">
   Official open source SVG icon library for Bootstrap.
   <br>
-  <a href="https://icons.getbootstrap.com/"><strong>Explore Bootstrap Icons »</strong></a>
+  <a rel="noreferrer" href="https://icons.getbootstrap.com/"><strong>Explore Bootstrap Icons »</strong></a>
   <br>
   <br>
-  <a href="https://getbootstrap.com/">Bootstrap</a>
+  <a rel="noreferrer" href="https://getbootstrap.com/">Bootstrap</a>
   ·
-  <a href="https://themes.getbootstrap.com/">Themes</a>
+  <a rel="noreferrer" href="https://themes.getbootstrap.com/">Themes</a>
   ·
-  <a href="https://blog.getbootstrap.com/">Blog</a>
+  <a rel="noreferrer" href="https://blog.getbootstrap.com/">Blog</a>
 </p>
 
 ## 1,300+ icons
