@@ -57,7 +57,7 @@ export const ReferralWithdrawHistory = ({ newClaimedHistory }) => {
     {
       title: '#',
       align: 'right',
-      render: (_, record, index) => <span>{new Intl.NumberFormat().format(index + 1)}</span>
+      render: (_, record) => <span>{new Intl.NumberFormat().format(withdrawalHistory?.indexOf(record) + 1)}</span>
     },
     {
       title: 'Total Click',
