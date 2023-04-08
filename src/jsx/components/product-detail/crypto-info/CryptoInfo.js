@@ -906,7 +906,14 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       }
     },
     maintainAspectRatio: true,
-    responsive: true
+    responsive: true,
+
+    layout: {
+      padding: {
+        left: 80,
+        right: 80
+      }
+    }
   }
   const addressHoldingMap = new Map()
   addressHoldingMap?.set('0x00000000219ab540356cbb839cbe05303d7705fa', 15.02)

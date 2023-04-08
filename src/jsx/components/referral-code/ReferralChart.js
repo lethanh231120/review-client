@@ -36,7 +36,7 @@ const options = {
     },
     title: {
       display: true,
-      text: 'Visitor Chart 7 Days Latest'
+      text: 'Visitor Chart'
     }
   },
   scales: {
