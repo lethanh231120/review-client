@@ -10,7 +10,6 @@ import { Authenticated } from '../../../App'
 import { getCookie, STORAGEKEY } from '../../../utils/storage'
 import ReferralChart from './ReferralChart'
 import { formatChartDate } from '../insight/charts/BarChart'
-import { formatDateStyle } from '../../../utils/time/time'
 import { formatLargeNumberMoneyUSD } from '../../../utils/formatNumber'
 import { ReferralWithdrawHistory } from './ReferralWithdrawHistory'
 import { MySkeletonLoadinng } from '../common-widgets/my-spinner'
@@ -52,11 +51,27 @@ export const ReferralCode = () => {
 
   // For chart
   const [chartData, setChartData] = useState()
-  const [rewardLabelsTime, setRewardLabelsTime] = useState()
-  const [dataRewardClick, setDataRewardClick] = useState()
-  const [dataRewardValue, setDataRewardValue] = useState()
-  const [dataRewardTotal, setDataRewardTotal] = useState()
+
+  // // // 7 day
+  const [rewardLabelsTime7day, setRewardLabelsTime7day] = useState()
+  const [dataRewardClick7day, setDataRewardClick7day] = useState()
+  const [dataRewardValue7day, setDataRewardValue7day] = useState()
+  const [dataRewardTotal7day, setDataRewardTotal7day] = useState()
+  // // 9 month
+  const [rewardLabelsTime9month, setRewardLabelsTime9month] = useState()
+  const [dataRewardClick9month, setDataRewardClick9month] = useState()
+  const [dataRewardValue9month, setDataRewardValue9month] = useState()
+  const [dataRewardTotal9month, setDataRewardTotal9month] = useState()
+  // // all (each year)
+  const [rewardLabelsTimeAlltime, setRewardLabelsTimeAlltime] = useState()
+  const [dataRewardClickAlltime, setDataRewardClickAlltime] = useState()
+  const [dataRewardValueAlltime, setDataRewardValueAlltime] = useState()
+  const [dataRewardTotalAlltime, setDataRewardTotalAlltime] = useState()
+  // chang chart type
   const [pickedRewardLabelsTime, setPickedRewardLabelsTime] = useState()
+  const [pickedRewardClick, setPickedRewardClick] = useState()
+  const [pickedRewardValue, setPickedRewardValue] = useState()
+  const [pickedRewardTotal, setPickedRewardTotal] = useState()
 
   const [newClaimedHistory, setNewClaimedHistory] = useState()
 
@@ -126,21 +141,26 @@ export const ReferralCode = () => {
       let previousRewardPerClick = data[0]?.rewardPrice
       let previousIsClaimed = data[0]?.isClaimed
       data?.forEach(item => {
-        const currentDate = item?.createdDate
         const currentRewardPerClick = item?.rewardPrice
         const currentIsClaimed = item?.isClaimed
-        const dayBetween2Date = dayBeetween2Day(currentDate, previousDate)
-        // push missing dates
-        const oneOrMoreDayBetween = 2
-        if (dayBetween2Date >= oneOrMoreDayBetween) {
-          // tranverse each missing date
-          for (let dayNo = 1; dayNo < dayBetween2Date; dayNo++) {
-            const cloneItem = JSON.parse(JSON.stringify(item))
-            cloneItem.createdDate = addDay(getDDMMYYYYDate(currentDate), (-dayBetween2Date + dayNo))
-            cloneItem.click = 0
-            cloneItem.isClaimed = previousIsClaimed
-            cloneItem.rewardPrice = previousRewardPerClick
-            newArray?.push(cloneItem)
+        const currentDate = item?.createdDate
+        const marginFromNow = (Date.now() - getDDMMYYYYDate(currentDate)?.getTime()) / millisecondsInADay
+
+        // only add missing day in 7 day recently
+        if (marginFromNow <= 7) {
+          const dayBetween2Date = dayBeetween2Day(currentDate, previousDate)
+          // push missing dates
+          const oneOrMoreDayBetween = 2
+          if (dayBetween2Date >= oneOrMoreDayBetween) {
+            // tranverse each missing date
+            for (let dayNo = 1; dayNo < dayBetween2Date; dayNo++) {
+              const cloneItem = JSON.parse(JSON.stringify(item))
+              cloneItem.createdDate = addDay(getDDMMYYYYDate(currentDate), (-dayBetween2Date + dayNo))
+              cloneItem.click = 0
+              cloneItem.isClaimed = previousIsClaimed
+              cloneItem.rewardPrice = previousRewardPerClick
+              newArray?.push(cloneItem)
+            }
           }
         }
 
@@ -171,7 +191,7 @@ export const ReferralCode = () => {
     const dataRewardTotalLocal = new Map()
 
     data?.forEach((clickEachDay) => {
-      const formattedDate = formatChartDate(clickEachDay?.createdDate, formatDateStyle)
+      const currentate = clickEachDay?.createdDate
       const dailyClick = clickEachDay?.click
       const dailyRewardValue = clickEachDay?.rewardPrice
       const dailyRewardTotal = dailyRewardValue * (dailyClick / rewardPerView)
@@ -188,17 +208,124 @@ export const ReferralCode = () => {
       }
 
       // Both claimed and not claimed point
-      rewardLabelsTimeLocal?.push(formattedDate)
-      dataRewardClickLocal?.set(formattedDate, dailyClick)
-      dataRewardValueLocal?.set(formattedDate, dailyRewardValue)
-      dataRewardTotalLocal?.set(formattedDate, dailyRewardTotal)
+      rewardLabelsTimeLocal?.push(currentate)
+      dataRewardClickLocal?.set(currentate, dailyClick)
+      dataRewardValueLocal?.set(currentate, dailyRewardValue)
+      dataRewardTotalLocal?.set(currentate, dailyRewardTotal)
     })
     // For chart
-    setRewardLabelsTime(rewardLabelsTimeLocal)
-    setDataRewardClick(dataRewardClickLocal)
-    setDataRewardValue(dataRewardValueLocal)
-    setDataRewardTotal(dataRewardTotalLocal)
-    setPickedRewardLabelsTime(rewardLabelsTimeLocal?.slice(rewardLabelsTimeLocal?.length - 7))
+
+    const rewardLabelsTime7dayLocal = []
+    const dataRewardClick7dayLocal = new Map()
+    const dataRewardValue7dayLocal = new Map()
+    const dataRewardTotal7dayLocal = new Map()
+
+    const map9monthLabel = new Map()
+    let previoustTimeLabel = ''
+    const rewardLabelsTime9monthLocal = []
+    const dataRewardClick9monthLocal = new Map()
+    const dataRewardValue9monthLocal = new Map()
+    const dataRewardTotal9monthLocal = new Map()
+
+    const mapAlltimeLabel = new Map()
+    const rewardLabelsTimeAlltimeLocal = []
+    const dataRewardClickAlltimeLocal = new Map()
+    const dataRewardValueAlltimeLocal = new Map()
+    const dataRewardTotalAlltimeLocal = new Map()
+    rewardLabelsTimeLocal?.forEach((date, index) => {
+      // chart 7 day (get latest 7 chartPoint in array)
+      if (index >= rewardLabelsTimeLocal?.length - 7) {
+        // only day no
+        const formattedDateAsDoW = formatChartDate(date, 'dddd')
+        const dailyClick = dataRewardClickLocal?.get(date)
+        const dailyRewardValue = dataRewardValueLocal?.get(date)
+        const dailyRewardTotal = dataRewardTotalLocal?.get(date)
+        rewardLabelsTime7dayLocal?.push(formattedDateAsDoW)
+        dataRewardClick7dayLocal?.set(formattedDateAsDoW, dailyClick)
+        dataRewardValue7dayLocal?.set(formattedDateAsDoW, dailyRewardValue)
+        dataRewardTotal7dayLocal?.set(formattedDateAsDoW, dailyRewardTotal)
+      }
+
+      // chart 9 month
+      const formattedDateAsMonth = formatChartDate(date, 'MMMM YYYY')
+      const monthYear = map9monthLabel?.get(formattedDateAsMonth)
+      const dailyClick = dataRewardClickLocal?.get(date)
+      const dailyRewardValue = dataRewardValueLocal?.get(date)
+      const dailyRewardTotal = dataRewardTotalLocal?.get(date)
+      // not exist month before list
+      if (!monthYear) {
+        map9monthLabel?.set(formattedDateAsMonth, true)
+        rewardLabelsTime9monthLocal?.push(formattedDateAsMonth)
+        dataRewardClick9monthLocal?.set(formattedDateAsMonth, dailyClick)
+        dataRewardValue9monthLocal?.set(formattedDateAsMonth, dailyRewardValue)
+        dataRewardTotal9monthLocal?.set(formattedDateAsMonth, dailyRewardTotal)
+        previoustTimeLabel = formattedDateAsMonth
+      } else {
+        let existedClick = dataRewardClick9monthLocal?.get(formattedDateAsMonth)
+        existedClick += dailyClick
+        dataRewardClick9monthLocal?.set(formattedDateAsMonth, existedClick)
+
+        let existedValue = dataRewardValue9monthLocal?.get(formattedDateAsMonth)
+        // common time key -> Incremental
+        if (formattedDateAsMonth === previoustTimeLabel) {
+          existedValue += dailyRewardValue
+        } else {
+          // new time key -> get average of sum all
+          existedValue = (existedValue / dataRewardValue9monthLocal?.length)
+        }
+        dataRewardValue9monthLocal?.set(formattedDateAsMonth, existedValue)
+
+        let existedTotal = dataRewardTotal9monthLocal?.get(formattedDateAsMonth)
+        existedTotal += dailyRewardTotal
+        dataRewardTotal9monthLocal?.set(formattedDateAsMonth, existedTotal)
+      }
+
+      // chart all time
+      const formattedDateAsYear = formatChartDate(date, 'YYYY')
+      const year = mapAlltimeLabel?.get(formattedDateAsYear)
+      // not exist month before list
+      if (!year) {
+        mapAlltimeLabel?.set(formattedDateAsYear, true)
+        rewardLabelsTimeAlltimeLocal?.push(formattedDateAsYear)
+        dataRewardClickAlltimeLocal?.set(formattedDateAsYear, dailyClick)
+        dataRewardValueAlltimeLocal?.set(formattedDateAsYear, dailyRewardValue)
+        dataRewardTotalAlltimeLocal?.set(formattedDateAsYear, dailyRewardTotal)
+      } else {
+        let existedClick = dataRewardClickAlltimeLocal?.get(formattedDateAsYear)
+        existedClick += dailyClick
+        dataRewardClickAlltimeLocal?.set(formattedDateAsYear, existedClick)
+
+        let existedValue = dataRewardValueAlltimeLocal?.get(formattedDateAsYear)
+        existedValue += dailyRewardValue
+        dataRewardValueAlltimeLocal?.set(formattedDateAsYear, existedValue)
+
+        let existedTotal = dataRewardTotalAlltimeLocal?.get(formattedDateAsYear)
+        existedTotal += dailyRewardTotal
+        dataRewardTotalAlltimeLocal?.set(formattedDateAsYear, existedTotal)
+      }
+    })
+    setRewardLabelsTime7day(rewardLabelsTime7dayLocal)
+    setDataRewardClick7day(dataRewardClick7dayLocal)
+    setDataRewardValue7day(dataRewardValue7dayLocal)
+    setDataRewardTotal7day(dataRewardTotal7dayLocal)
+
+    // get latest 9 month recently
+    setRewardLabelsTime9month(rewardLabelsTime9monthLocal?.slice(rewardLabelsTime9monthLocal.length - 9))
+    setDataRewardClick9month(dataRewardClick9monthLocal)
+    setDataRewardValue9month(dataRewardValue9monthLocal)
+    setDataRewardTotal9month(dataRewardTotal9monthLocal)
+
+    // all time
+    setRewardLabelsTimeAlltime(rewardLabelsTimeAlltimeLocal)
+    setDataRewardClickAlltime(dataRewardClickAlltimeLocal)
+    setDataRewardValueAlltime(dataRewardValueAlltimeLocal)
+    setDataRewardTotalAlltime(dataRewardTotalAlltimeLocal)
+
+    // First time set chart 7 day
+    setPickedRewardLabelsTime(rewardLabelsTime7dayLocal)
+    setPickedRewardClick(dataRewardClick7dayLocal)
+    setPickedRewardValue(dataRewardValue7dayLocal)
+    setPickedRewardTotal(dataRewardTotal7dayLocal)
 
     // For statistic
     setTotalClick(totalClickLocal)
@@ -319,7 +446,7 @@ export const ReferralCode = () => {
         if (codeBE === codeWrongRequest) {
           notifyTopRightFail(errMsgValidate)
         }
-        console.log(e)
+        console.error(e)
       }
     }
   }
@@ -396,17 +523,40 @@ export const ReferralCode = () => {
   </>
 
   const chart = <>
-    <button hidden={true} onClick={()=>{
-      setPickedRewardLabelsTime(rewardLabelsTime?.slice(rewardLabelsTime?.length - 7))
-    }}>7 day</button>
-    <button hidden={true} onClick={()=>{
-      setPickedRewardLabelsTime(rewardLabelsTime)
-    }}>all</button>
+    <div className='d-flex align-items-center justify-content-center'>
+      <button
+        className='btn btn-primary mx-2 active'
+        data-bs-toggle='button' aria-pressed='true'
+        onClick={()=>{
+          setPickedRewardLabelsTime(rewardLabelsTime7day)
+          setPickedRewardClick(dataRewardClick7day)
+          setPickedRewardValue(dataRewardValue7day)
+          setPickedRewardTotal(dataRewardTotal7day)
+        }}>7 day</button>
+      <button
+        className='btn btn-primary mx-2'
+        onClick={()=>{
+          setPickedRewardLabelsTime(rewardLabelsTime9month)
+          setPickedRewardClick(dataRewardClick9month)
+          setPickedRewardValue(dataRewardValue9month)
+          setPickedRewardTotal(dataRewardTotal9month)
+        }}>9 month</button>
+      <button
+        className='btn btn-primary mx-2'
+        onClick={()=>{
+          setPickedRewardLabelsTime(rewardLabelsTimeAlltime)
+          setPickedRewardClick(dataRewardClickAlltime)
+          setPickedRewardValue(dataRewardValueAlltime)
+          setPickedRewardTotal(dataRewardTotalAlltime)
+        }}>All time</button>
+
+    </div>
+
     <ReferralChart
       rewardLabelsTime={pickedRewardLabelsTime} // get latest 7 point in array for display chart
-      dataRewardClick={dataRewardClick}
-      dataRewardValue={dataRewardValue}
-      dataRewardTotal={dataRewardTotal}
+      dataRewardClick={pickedRewardClick}
+      dataRewardValue={pickedRewardValue}
+      dataRewardTotal={pickedRewardTotal}
     />
   </>
 

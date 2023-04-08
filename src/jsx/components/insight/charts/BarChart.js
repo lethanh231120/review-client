@@ -11,8 +11,6 @@ import {
 } from 'chart.js'
 import { chartColorPallet } from './PieChart'
 import moment from 'moment/moment'
-// import { Bar } from 'react-chartjs-2';
-// import faker from 'faker';
 import './chart.scss'
 
 export const formatChartDate = (date, formatDate) => {
