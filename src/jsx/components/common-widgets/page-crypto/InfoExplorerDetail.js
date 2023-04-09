@@ -144,8 +144,6 @@ export const InfoExplorerDetail = ({ isShow, detail, multichain }) => {
                     <CopyOutlined
                       style={{ padding: '0, 1rem' }}
                       onClick={(e) => {
-                        e.preventDefault()
-                        e.stopPropagation()
                         copyAddress(e, item?.address, 'Copy address successfully!')
                       }}
                     />

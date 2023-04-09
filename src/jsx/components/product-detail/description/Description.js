@@ -3,7 +3,7 @@ import './description.scss'
 
 // projectName has data will description detail
 // projectName has no data --> review
-const Description = ({ projectName, text }) => {
+const Description = ({ projectName, text, skipMinimizeMode = false }) => {
   // max length displayed first time(more length withh display show more, less length withh display all)
   const length = 500
   const [showLess, setShowLess] = React.useState(true)
@@ -23,7 +23,7 @@ const Description = ({ projectName, text }) => {
         <div className={projectName ? 'mb-0' : ''}>
           <div className='description-list'>
             <div className='card-content' style={{ fontSize: '1rem', lineHeight: '2' }}>
-              {text?.length < length ? (
+              {text?.length < length || skipMinimizeMode ? (
                 <span className='cus-text-justify' dangerouslySetInnerHTML={{ __html: `${text}` }}></span>
               ) : (
                 <>
