@@ -786,7 +786,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         projectName={`What is ${detail?.name}(${detail?.symbol})'s community?`}
       />
       {blockContent(<>
-        You can join the {detail?.name} communities at coin98.com and blog.coin98.com. The ${detail?.name} team has released the source code here.
+        You can join the {detail?.name} communities at { Object.keys(detail?.community).map(
+          (key) => detail?.community[key] && <>{detail?.community[key]} <br/></>) }The ${detail?.name} team has released the source code here.
         {!_.isEmpty(detail?.multichain) ? ` Additionally, ${detail?.name} has currently been launched on ${detail?.multichain?.length} chains with addresses` : ''}
         { contractAddress }
       </>)}
