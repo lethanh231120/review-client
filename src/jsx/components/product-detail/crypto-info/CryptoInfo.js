@@ -7,7 +7,7 @@ import _ from 'lodash'
 import { CRYPTO, CRYPTO_COIN } from '../../../constants/category'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { ChainListContext, ExchangeContext } from '../../../../App'
-import { Badge, Button, Card } from 'react-bootstrap'
+import { Badge, Button } from 'react-bootstrap'
 import { Image } from 'antd'
 import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { LinkOutlined } from '@ant-design/icons'
@@ -51,7 +51,6 @@ import ProductDetailSummary from '../../skeleton/product-detail-skeleton/Product
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
 import ProductDetailChart from '../../skeleton/product-detail-skeleton/ProductDetailChart'
 import { mapScamReason } from './scam-reason'
-import { Pie } from 'react-chartjs-2'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -652,7 +651,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       <ProductDetailInfo/>
     ) : (
       <Description
-        projectName={`About ${detail?.name}`}
+        projectName={`What Is ${detail?.name}(${detail?.symbol}) ?`}
         text={ detail?.description }
       />
     )}
@@ -761,20 +760,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   </>
 
-  const test2 = <>
-    {rest?.loadingDetail ? (
-      <ProductDetailInfo/>
-    ) : <>
-      <Description
-        projectName={`What Is ${detail?.name}(${detail?.symbol}) ?`}
-        text={`
-        ${detail?.name} is an all-in-one DeFi Platform that aims to fulfill untapped demand in the industry and become a Gateway bridging TradFi users to any DeFi services on multiple blockchains. It accomplishes this mission through a full suite of products, including ${detail?.name} Wallet, ${detail?.name} Exchange, and Space Gate (cross-chain bridge). ${detail?.name} Wallet: Allows users to store, send, receive, manage crypto assets and connect to numerous dApps on multiple blockchains. It supports over 20 blockchains such as Ethereum, Binance Smart Chain, Solana, Polygon, Avalanche, Terra, etc on both mobile (iOS & android) and Chrome extension versions. ${detail?.name} Exchange: A multichain liquidity aggregator that allows users to swap, stake, lend, borrow, earn crypto with the best rates and low slippage. Space Gate: A cross-chain bridge that enables swapping and transferring values across multiple networks. It supports token swaps between ERC20 tokens, BEP20 tokens, SPL tokens, and more. The C98 token is the native utility token of the ${detail?.name} platform and will be used to pay services fees, as staking incentives, for governance, and unique membership rights.. ,
-        ` }
-      />
-    </>
-    }
-  </>
-
   const test3 = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
@@ -806,22 +791,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   </>
 
-  const test5 = <>
-    {rest?.loadingDetail ? (
-      <ProductDetailInfo/>
-    ) : <>
-      <Description
-        projectName={`Related Detail`}
-        text={`
-        What is Binance Smart Chain ? Binance Smart Chain (BSC) is a blockchain network built for running smart contract-based applications. BSC runs in parallel with Binance's native Binance Chain (BC), which allows users to get the best of both worlds: the high transaction capacity of BC and the smart contract functionality of BSC.
-        <br />
-        Furthermore, Binance Smart Chain also implements the Ethereum Virtual Machine (EVM), which allows it to run Ethereum-based applications like MetaMask.
-        ` }
-      />
-    </>
-    }
-  </>
-
   const test6 = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
@@ -839,6 +808,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       <ProductDetailInfo/>
     ) : <>
       <Description
+        skipMinimizeMode={true}
         projectName={`FAQs`}
         text={`
         <b style='color: #039F7F'>Coin98 (C98) price has declined today.</b>
@@ -875,46 +845,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   </>
 
-  const options = {
-    plugins: {
-      title: {
-        display: true,
-        text: `${detail?.name}'s holding rate`,
-        font: {
-          size: 22,
-          color: '#18A594'
-        },
-        padding: 30
-      },
-      legend: {
-        display: false, // show annotations chart
-        position: 'bottom',
-        align: 'center',
-        labels: {
-          boxWidth: 20,
-          padding: 30
-        }
-      },
-      // responsive: true,
-      tooltip: {
-        callbacks: {
-          title: (xDatapoint) => {
-            const label = xDatapoint[0]?.label
-            return `${_.capitalize(label)}`
-          }
-        }
-      }
-    },
-    maintainAspectRatio: true,
-    responsive: true,
-
-    layout: {
-      padding: {
-        left: 80,
-        right: 80
-      }
-    }
-  }
   const addressHoldingMap = new Map()
   addressHoldingMap?.set('0x00000000219ab540356cbb839cbe05303d7705fa', 15.02)
   addressHoldingMap?.set('0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 3.09)
@@ -926,7 +856,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   addressHoldingMap?.set('0x47ac0fb4f2d84898e4d9e7b4dab3c24507a6d503', 0.49)
   addressHoldingMap?.set('0xdc24316b9ae028f1497c275eb9192a3ea0f67022', 0.37)
   addressHoldingMap?.set('0xe92d1a43df510f82c66382592a047d288f85226f', 0.37)
-  addressHoldingMap?.set('Other Address', 74)
   const addressHoldingArr = (Array.from(addressHoldingMap, ([address, holdingRate]) => ({ address, holdingRate }))) //
 
   const addressColorMap = new Map()
@@ -939,19 +868,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   addressColorMap?.set('0x8315177ab297ba92a06054ce80a67ed4dbd7ed3a', '#dc0ab4')
   addressColorMap?.set('0x47ac0fb4f2d84898e4d9e7b4dab3c24507a6d503', '#b3d4ff')
   addressColorMap?.set('0xdc24316b9ae028f1497c275eb9192a3ea0f67022', '#00bfa0')
-  addressColorMap?.set('0xe92d1a43df510f82c66382592a047d288f85226f', '#50e991')
-  addressColorMap?.set('Other Address', '#039F7F')
-  const data = {
-    labels: Array.from(addressHoldingMap, ([address, _]) => address),
-    datasets: [
-      {
-        label: `# holding's percentage`,
-        data: Array.from(addressHoldingMap, ([_, value]) => value),
-        backgroundColor: Array.from(addressColorMap, ([_, color]) => color),
-        borderWidth: 1
-      }
-    ]
-  }
+  addressColorMap?.set('0xe92d1a43df510f82c66382592a047d288f85226f', '#039F7F')
   const columns = [
     {
       title: '#',
@@ -967,7 +884,17 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     {
       title: 'Address',
       align: 'left',
-      render: (_, record) => <span style={{ color: addressColorMap?.get(record?.address) }}>{record?.address}</span>
+      render: (_, record) => <>
+        <div className='d-flex align-items-center'>
+          <CopyOutlined
+            onClick={(e) =>
+              copyAddress(e, record?.address, 'Copy address successfully')
+            }
+          />
+          &nbsp;
+          <span style={{ color: addressColorMap?.get(record?.address) }}>{record?.address}</span>
+        </div>
+      </>
     }
   ]
 
@@ -975,24 +902,16 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
     ) : <>
-      {detail?.name && blockHeader(`Holders' address `) }
+      {detail?.name && blockHeader(`Top 10 ${detail?.name}'s holder`) }
       {blockContent(<>
-        <Pie data={data} height={100} options={options} />
-        <Card style={{ height: '100%' }}>
-          <Card.Header>
-            <Card.Title>
-              <h3 className='heading text-center text-primary' style={{ textTransform: 'none' }}>{`Top 10 ${detail?.name}'s holder`}</h3>
-            </Card.Title>
-          </Card.Header>
-          <Card.Body>
-            <Table
-              style={{ overflow: 'scroll' }}
-              pagination={false}
-              className='custom-table'
-              columns={columns}
-              dataSource={addressHoldingArr}/>
-          </Card.Body>
-        </Card>
+        <div style={{ height: '100%' }}>
+          <Table
+            style={{ overflow: 'scroll' }}
+            pagination={false}
+            className='custom-table'
+            columns={columns}
+            dataSource={addressHoldingArr}/>
+        </div>
       </>)}
     </>
     }
@@ -1016,10 +935,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     // { /* START DEMO: TEST NEW GUI FOR SEO */ }
 
     test1={test1}
-    test2={test2}
     test3={test3}
     test4={test4}
-    test5={test5}
 
     test6={!_.isEmpty(detail?.multichain) && test6}
     test7={test7}
