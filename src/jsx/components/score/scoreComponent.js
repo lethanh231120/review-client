@@ -3,23 +3,28 @@ import { Badge } from 'react-bootstrap'
 import './score.scss'
 import { CRYPTO, DAPP, EXCHANGE, LAUNCHPAD, VENTURE } from './../../constants/category'
 
+export const getFinalScore = (score, type) => {
+  let output = 0
+  if (score <= 0) {
+    output = 0
+  } else {
+    if (type === LAUNCHPAD) {
+      output = score / 3.5
+    }
+    if (type === VENTURE || type === EXCHANGE) {
+      output = score / 20
+    }
+    if (type === CRYPTO || type === DAPP) {
+      output = score / 10
+    }
+  }
+  return output
+}
 const MyScoreComponent = ({ score, type }) => {
   let output = 0
   let classname
   if (score) {
-    if (score <= 0) {
-      output = 0
-    } else {
-      if (type === LAUNCHPAD) {
-        output = score / 3.5
-      }
-      if (type === VENTURE || type === EXCHANGE) {
-        output = score / 20
-      }
-      if (type === CRYPTO || type === DAPP) {
-        output = score / 10
-      }
-    }
+    output = getFinalScore(score, type)
 
     // color
     if (parseInt(output) > 6) {

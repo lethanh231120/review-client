@@ -35,7 +35,7 @@ export const DetailLayout = (props) => {
   const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, similar, rest, setTop, productInfo,
     // { /* START DEMO: TEST NEW GUI FOR SEO */ }
     test1, test3, test4,
-    test6, test7, test8
+    test7, test8
     // { /* END DEMO: TEST NEW GUI FOR SEO */ }
   } = props
   const PAGE_SIZE = 25
@@ -241,12 +241,6 @@ export const DetailLayout = (props) => {
               </div>
             </div>}
 
-            {/* Test6 */}
-            {test6 && <div className='col-lg-12'>
-              <div className='card'>
-                {test6}
-              </div>
-            </div>}
             {/* END DEMO: TEST NEW GUI FOR SEO */}
           </div>
         </div></>

@@ -2,6 +2,9 @@ import React from 'react'
 import { formatMoneyLessOneDollar, formatMoneyGreaterEqualOneDollar, formatLargeNumberMoneyUSD, formatLargeNumber } from '../../../../utils/formatNumber'
 import TradingViewWidget from '../../common-widgets/home/home-chart/trading-view-chart'
 
+export const formatPriceNumber = (price) =>{
+  return price < 1 ? formatMoneyLessOneDollar(price) : formatMoneyGreaterEqualOneDollar(price)
+}
 const CoinChart = ({ name, symbol, price, marketCap, totalSupply, holders, transfer, symbolForChart }) => {
   const STABLE_COINS = ['USDT', 'USDC', 'DAI', 'BUSD']
   const STABLE_SYMBOlS = []
@@ -22,7 +25,7 @@ const CoinChart = ({ name, symbol, price, marketCap, totalSupply, holders, trans
             <div className='d-flex align-items-center justify-content-between flex-wrap'>
               {price > 0 && <div className='price-content'>
                 <span className='fs-18 d-block mb-2'>Price</span>
-                <div className='font-w600 fs-20 text-black'>{price < 1 ? formatMoneyLessOneDollar(price) : formatMoneyGreaterEqualOneDollar(price) }</div>
+                <div className='font-w600 fs-20 text-black'>{formatPriceNumber(price)}</div>
               </div>}
               {marketCap > 0 && <div className='price-content'>
                 <span className='fs-14 d-block mb-2'>Market Cap</span>
