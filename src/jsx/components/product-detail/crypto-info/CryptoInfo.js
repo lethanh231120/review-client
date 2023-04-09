@@ -18,7 +18,7 @@ import {
 } from '../../../../utils/formatText'
 import { DetailLayout } from '../detail-layout'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
-import MyScoreComponent from '../../score/scoreComponent'
+import MyScoreComponent, { getFinalScore } from '../../score/scoreComponent'
 import { copyAddress } from '../../../../utils/effect'
 import CoinChart from '../../charts/coinchart/CoinChart'
 import { Link } from 'react-router-dom'
@@ -54,6 +54,7 @@ import { mapScamReason } from './scam-reason'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const detail = productInfo?.details
+  const topHolder = productInfo?.mores?.holder
   const PAGE_SIZE = 10
   const chainList = useContext(ChainListContext)
   const exchanges = useContext(ExchangeContext)
@@ -751,7 +752,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
         replaceIcon='price_check'
         projectName={`${detail?.symbol} Price Live Data`}
         text={`
-          The live ${detail?.name} price today is <b style='color: #039F7F'>$0.288751 USD</b> with a 24-hour trading volume of <b style='color: #039F7F'>$97,285,442 USD</b>. We update our ${detail?.symbol} to USD price in real-time. ${detail?.name} is down <b style='color: #039F7F'>5.45%</b> in the last 24 hours. It has a circulating supply of <b style='color: #039F7F'>435,555,547</b> ${detail?.symbol} coins and a max. supply of <b style='color: #039F7F'>1,000,000,000</b> ${detail?.symbol} coins.
+          The live ${detail?.name} price today is <b style='color: #039F7F'>$${detail?.priceUSD} USD</b> with a 24-hour trading volume of <b style='color: #039F7F'>$${detail?.marketcapUSD} USD</b>. We update our ${detail?.symbol} to USD price in real-time. ${detail?.name} is down <b style='color: #039F7F'>5.45%</b> in the last 24 hours. It has a circulating supply of <b style='color: #039F7F'>435,555,547</b> ${detail?.symbol} coins and a max. supply of <b style='color: #039F7F'>${detail?.totalSupply || 0}</b> ${detail?.symbol} coins.
           <br />
           If you would like to know where to buy ${detail?.name} at the current rate, the top cryptocurrency exchanges for trading in Coin9 are currently Binance, Deepcoin, Bybit, Bitrue, and BingX. You can find others listed on our crypto exchanges page.
         ` }
@@ -767,7 +768,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       <Description
         projectName={`${detail?.name}'s Score`}
         text={`
-        C98 scored 6/10 on the Gear5.io,  which we based on parameters such as liquidity on Dex exchanges, contract information such as whether there is a proxy or not, whether the contract is verified or not, which CEX and DEX exchanges it is traded on, trading volume, website information, number of holders, and transfers of COINS/TOKENS. If you have any questions about the score we provided, please contact zoro@nika.guru.
+        ${detail?.symbol} scored ${getFinalScore(detail?.score, CRYPTO)}/10 on the Gear5.io,  which we based on parameters such as liquidity on Dex exchanges, contract information such as whether there is a proxy or not, whether the contract is verified or not, which CEX and DEX exchanges it is traded on, trading volume, website information, number of holders, and transfers of COINS/TOKENS. If you have any questions about the score we provided, please contact zoro@nika.guru.
         <br />
         <br />
         In addition, we also provide user alerts for suspicious COINS/TOKENS based on simulated trading methods on DEX exchanges and checking their contract. The number of Spam reports also has a significant impact on our alert system.
@@ -783,22 +784,12 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     ) : <>
       <Description
         projectName={`What is ${detail?.name}(${detail?.symbol})'s community?`}
-        text={`
-        You can join the COIN98 communities at coin98.com and blog.coin98.com.  The Coin98 team has released the source code here. Additionally, Coin98 has currently been launched on 3 chains with addresses c98a4nkjxhpvznazdhua95rptf3t4whtqubl3yobiux9 , 0xaec945e04baf28b135fa7c640f624f8d90f1c3a6, and 0xae12c5930881c53715b369cec7606b70d8eb229f.
-        ` }
       />
-    </>
-    }
-  </>
-
-  const test6 = <>
-    {rest?.loadingDetail ? (
-      <ProductDetailInfo/>
-    ) : <>
-      <Description
-        projectName={`Related Detail`}
-      />
-      {blockContent(<>{ contractAddress }</>)}
+      {blockContent(<>
+        You can join the {detail?.name} communities at coin98.com and blog.coin98.com. The ${detail?.name} team has released the source code here.
+        {!_.isEmpty(detail?.multichain) ? ` Additionally, ${detail?.name} has currently been launched on ${detail?.multichain?.length} chains with addresses` : ''}
+        { contractAddress }
+      </>)}
     </>
     }
   </>
@@ -845,46 +836,33 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   </>
 
-  const addressHoldingMap = new Map()
-  addressHoldingMap?.set('0x00000000219ab540356cbb839cbe05303d7705fa', 15.02)
-  addressHoldingMap?.set('0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 3.09)
-  addressHoldingMap?.set('0xbe0eb53f46cd790cd13851d5eff43d12404d33e8', 1.66)
-  addressHoldingMap?.set('0xda9dfa130df4de4673b89022ee50ff26f6ea73cf', 1.48)
-  addressHoldingMap?.set('0x0716a17fbaee714f1e6ab0f9d59edbc5f09815c0', 1.36)
-  addressHoldingMap?.set('0xf977814e90da44bfa03b6295a0616a897441acec', 1.25)
-  addressHoldingMap?.set('0x8315177ab297ba92a06054ce80a67ed4dbd7ed3a', 0.91)
-  addressHoldingMap?.set('0x47ac0fb4f2d84898e4d9e7b4dab3c24507a6d503', 0.49)
-  addressHoldingMap?.set('0xdc24316b9ae028f1497c275eb9192a3ea0f67022', 0.37)
-  addressHoldingMap?.set('0xe92d1a43df510f82c66382592a047d288f85226f', 0.37)
-  const addressHoldingArr = (Array.from(addressHoldingMap, ([address, holdingRate]) => ({ address, holdingRate }))) //
-
-  const addressColorMap = new Map()
-  addressColorMap?.set('0x00000000219ab540356cbb839cbe05303d7705fa', '#e60049')
-  addressColorMap?.set('0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', '#0bb4ff')
-  addressColorMap?.set('0xbe0eb53f46cd790cd13851d5eff43d12404d33e8', '#50e991')
-  addressColorMap?.set('0xda9dfa130df4de4673b89022ee50ff26f6ea73cf', '#e6d800')
-  addressColorMap?.set('0x0716a17fbaee714f1e6ab0f9d59edbc5f09815c0', '#9b19f5')
-  addressColorMap?.set('0xf977814e90da44bfa03b6295a0616a897441acec', '#ffa300')
-  addressColorMap?.set('0x8315177ab297ba92a06054ce80a67ed4dbd7ed3a', '#dc0ab4')
-  addressColorMap?.set('0x47ac0fb4f2d84898e4d9e7b4dab3c24507a6d503', '#b3d4ff')
-  addressColorMap?.set('0xdc24316b9ae028f1497c275eb9192a3ea0f67022', '#00bfa0')
-  addressColorMap?.set('0xe92d1a43df510f82c66382592a047d288f85226f', '#039F7F')
+  const addressColorArr = []
+  addressColorArr?.push('#e60049')
+  addressColorArr?.push('#0bb4ff')
+  addressColorArr?.push('#50e991')
+  addressColorArr?.push('#e6d800')
+  addressColorArr?.push('#9b19f5')
+  addressColorArr?.push('#ffa300')
+  addressColorArr?.push('#dc0ab4')
+  addressColorArr?.push('#b3d4ff')
+  addressColorArr?.push('#00bfa0')
+  addressColorArr?.push('#039F7F')
   const columns = [
     {
       title: '#',
       align: 'right',
-      render: (text, record, index) => <span style={{ color: addressColorMap?.get(record?.address) }}>{addressHoldingArr.indexOf(record) + 1}</span>
+      render: (text, record, index) => <span style={{ color: addressColorArr[index % 10] }}>{index + 1}</span>
 
     },
     {
       title: 'Holding',
       align: 'right',
-      render: (_, record) => <span style={{ color: addressColorMap?.get(record?.address) }}>{record?.holdingRate}&nbsp;%</span>
+      render: (_, record, index) => <span style={{ color: addressColorArr[index % 10] }}>{record?.share}&nbsp;%</span>
     },
     {
       title: 'Address',
       align: 'left',
-      render: (_, record) => <>
+      render: (_, record, index) => <>
         <div className='d-flex align-items-center'>
           <CopyOutlined
             onClick={(e) =>
@@ -892,28 +870,29 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
             }
           />
           &nbsp;
-          <span style={{ color: addressColorMap?.get(record?.address) }}>{record?.address}</span>
+          <span style={{ color: addressColorArr[index % 10] }}>{record?.address}</span>
         </div>
       </>
     }
   ]
 
   const test8 = <>
-    {rest?.loadingDetail ? (
-      <ProductDetailInfo/>
-    ) : <>
-      {detail?.name && blockHeader(`Top 10 ${detail?.name}'s holder`) }
-      {blockContent(<>
-        <div style={{ height: '100%' }}>
-          <Table
-            style={{ overflow: 'scroll' }}
-            pagination={false}
-            className='custom-table'
-            columns={columns}
-            dataSource={addressHoldingArr}/>
-        </div>
-      </>)}
-    </>
+    {
+      rest?.loadingDetail
+        ? <ProductDetailInfo/>
+        : (topHolder && !_.isEmpty(topHolder)) && <>
+          {detail?.name && blockHeader(`Top ${topHolder?.length} ${detail?.name}'s holder`) }
+          {blockContent(<>
+            <div style={{ height: '100%' }}>
+              <Table
+                style={{ overflow: 'scroll' }}
+                pagination={false}
+                className='custom-table'
+                columns={columns}
+                dataSource={topHolder}/>
+            </div>
+          </>)}
+        </>
     }
   </>
   // { /* END DEMO: TEST NEW GUI FOR SEO */ }
@@ -938,7 +917,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     test3={test3}
     test4={test4}
 
-    test6={!_.isEmpty(detail?.multichain) && test6}
     test7={test7}
     test8={test8}
     // { /* END DEMO: TEST NEW GUI FOR SEO */ }
