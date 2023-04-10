@@ -840,8 +840,7 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     <br/>
     <b className='text-primary'>Where can you buy {detail?.name}?</b>
     <br/>
-    {detail?.symbol} tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade {detail?.name} is <span className='text-primary'>{getTradingExchangeText()}</span>
-    , where the most active trading pair {detail?.symbol}/<b>USDT</b>.
+    {detail?.symbol} tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade {detail?.name} is <span className='text-primary'>{getTradingExchangeText()}</span>.
     <br/>
     <br/>
     <b className='text-primary'>What is the daily trading volume of {detail?.name} ({detail?.symbol})?</b>
