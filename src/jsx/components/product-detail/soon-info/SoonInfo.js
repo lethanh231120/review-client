@@ -27,7 +27,7 @@ import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import ProductImage, { altSoon, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 import { ProductNameSubName } from '../../common-widgets/page-detail/ProductNameSubName'
 import { SoonStatusLocation } from './../../common-widgets/page-soon/SoonStatusLocation'
-import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
+// import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
 import share from '../../../../images/svg/share.svg'
 import { Modal } from 'antd'
 import { Button } from 'react-bootstrap'
@@ -275,7 +275,7 @@ const SoonInfo = ({ productInfo, ...rest }) => {
       rest={rest}
       setTop={setTop}
       topDiscus={<TopDiscussed />}
-      similar={<ProductSimilar productType={SOON} similarList={productInfo?.similars} />}
+      // similar={<ProductSimilar productType={SOON} similarList={productInfo?.similars} />}
       productInfo={productInfo}
     />
   )
