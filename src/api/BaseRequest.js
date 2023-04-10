@@ -22,6 +22,10 @@ const instancePrice = axios.create({
   baseURL: process.env.REACT_APP_API_PRICE
 })
 
+const instanceUpload = axios.create({
+  baseURL: process.env.REACT_APP_API_UPLOAD
+})
+
 const setHeaderSearch = async() => {
   const token = await getCookie(STORAGEKEY.ACCESS_TOKEN)
   instanceSearch.defaults.headers.common[authorizationText] = `${bearerText} ${token}`
@@ -130,6 +134,16 @@ const post = async(url, data = {}, header) => {
   }
 }
 
+const upload = async(url, data = {}, header) => {
+  try {
+    await setHeaderWrite(header)
+    const response = await instanceUpload.post(getUrlPrefix() + url, data)
+    return _responseHandler(response)
+  } catch (error) {
+    _errorHandler(error)
+  }
+}
+
 const del = async(url, data = {}) => {
   try {
     await setHeaderWrite()
@@ -177,4 +191,4 @@ export const WS_URL = process.env.REACT_APP_WS_URL
 export const S3_IMG_URL = process.env.REACT_APP_API_IMAGE
 export const API_CONFIRM = process.env.REACT_APP_API_CONFIRM
 export const ALGORITHM_KECCAK256 = process.env.REACT_APP_ALGORITHM_KECCAK256
-export { search, get, read, post, del, put, patch, getPrice }
+export { search, get, read, post, del, put, patch, getPrice, upload }
