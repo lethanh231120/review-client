@@ -1,11 +1,9 @@
 const express = require('express')
 require('dotenv').config()
-// const DOMAIN_READ = process.env.REACT_APP_API_READ
-const DOMAIN_READ = 'https://api-ver1.gear5.io'
+const DOMAIN_READ = process.env.REACT_APP_API_READ
 const PATH_DETAIL_PRODUCT = '/reviews/product/detail?productId='
 const PATH_DETAIL_INSIGHT = '/reviews/chart/detail?chartId='
-// const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
-const DOMAIN_IMAGE = 'https://gear5.s3.ap-northeast-1.amazonaws.com'
+const DOMAIN_IMAGE = process.env.REACT_APP_API_IMAGE
 const PORT = process.env.PORT || 3000
 const API_TIME_LIMIT = 3000 // millisecond
 const app = express()
@@ -508,4 +506,6 @@ app.listen(PORT, (error) => {
     console.error('Error during app startup', error)
   }
   console.log('listening on ' + PORT + '...')
+  console.log(`DOMAIN_READ`, DOMAIN_READ)
+  console.log(`DOMAIN_IMAGE`, DOMAIN_IMAGE)
 })
