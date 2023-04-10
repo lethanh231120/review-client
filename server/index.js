@@ -1,7 +1,6 @@
 const express = require('express')
 const path = require('path')
-const envPath = path.resolve(__dirname, '..', '.env')
-require('dotenv').config(envPath)
+require('dotenv').config({ path: path.resolve(__dirname, '..', 'build', indexFileName) })
 const DOMAIN_READ = process.env.REACT_APP_API_READ
 const PATH_DETAIL_PRODUCT = '/reviews/product/detail?productId='
 const PATH_DETAIL_INSIGHT = '/reviews/chart/detail?chartId='
@@ -507,6 +506,7 @@ app.listen(PORT, (error) => {
     console.error('Error during app startup', error)
   }
   console.log('listening on ' + PORT + '...')
+  console.log(`PATH`, path.resolve(__dirname, '..', '.env'))
   console.log(`DOMAIN_READ`, DOMAIN_READ)
   console.log(`DOMAIN_IMAGE`, DOMAIN_IMAGE)
 })
