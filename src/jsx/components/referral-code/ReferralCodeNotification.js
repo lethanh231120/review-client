@@ -73,6 +73,8 @@ export const signInImage = (size, fill) => <>
   </svg>
 </>
 
+export const domainGear5 = `https://gear5.io`
+
 export const ReferralCodeNotification = ({ isSignedIn, isCollaboratorUser }) => {
   const formLoginSignupKeyContext = useContext(FormLoginSignupKeyContext)
   const signContext = useContext(SignInContext)
@@ -87,9 +89,9 @@ export const ReferralCodeNotification = ({ isSignedIn, isCollaboratorUser }) => 
 
         {subMenu('1.2. Refer Friends', <>Share link with your referral with your friends by copy link in social share button, or just add your referral at the end of the link you want to share.</>, null)}
         <div>{subMenu('Suppose:', <>
-          1. You want to share this link {link('https://gear5.io/crypto')}
+          1. You want to share this link {link(`${domainGear5}/crypto`)}
           <br/>2. Your referral code is <b className='text-primary'>GEAR5-1234</b>
-          <br/>3. You will share this link {link('https://gear5.io/crypto?ref=GEAR5-1234', null)}
+          <br/>3. You will share this link {link(`${domainGear5}/crypto?ref=GEAR5-1234`, null)}
         </>)}</div>
         <hr className='hr-custome mb-5'></hr>
 

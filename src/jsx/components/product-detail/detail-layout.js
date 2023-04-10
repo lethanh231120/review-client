@@ -33,9 +33,9 @@ export const dataReviewFounder = {
 }
 export const DetailLayout = (props) => {
   const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, similar, rest, setTop, productInfo,
+    cryptoPriceLiveData, cryptoDefinition, cryptoSocreDescription, cryptoFAQ, // For Crypto only
     // { /* START DEMO: TEST NEW GUI FOR SEO */ }
-    test1, test3, test4,
-    test7, test8
+    test8
     // { /* END DEMO: TEST NEW GUI FOR SEO */ }
   } = props
   const PAGE_SIZE = 25
@@ -123,26 +123,24 @@ export const DetailLayout = (props) => {
                 </div>
               </div>}
 
-              {/* START DEMO: TEST NEW GUI FOR SEO */}
-              {/* Test1 */}
-              {test1 && <div className='col-lg-12'>
+              {/* Crypto: Live data */}
+              {cryptoPriceLiveData && <div className='col-lg-12'>
                 <div className='card'>
-                  {test1}
+                  {cryptoPriceLiveData}
                 </div>
               </div>}
-              {/* Test3 */}
-              {test3 && <div className='col-lg-12'>
+              {/* Crypto: score description */}
+              {cryptoSocreDescription && <div className='col-lg-12'>
                 <div className='card'>
-                  {test3}
+                  {cryptoSocreDescription}
                 </div>
               </div>}
-              {/* Test4 */}
-              {test4 && <div className='col-lg-12'>
+              {/* Crypto: definition description */}
+              {cryptoDefinition && <div className='col-lg-12'>
                 <div className='card'>
-                  {test4}
+                  {cryptoDefinition}
                 </div>
               </div>}
-              {/* END DEMO: TEST NEW GUI FOR SEO */}
 
               <div className='display-desktop'>
                 <div className='col-lg-12'>
@@ -226,14 +224,15 @@ export const DetailLayout = (props) => {
               </div>}
             </div>
 
-            {/* START DEMO: TEST NEW GUI FOR SEO */}
-            {/* Test7 */}
-            {test7 && <div className='col-lg-12 mt-3'>
-              <div className='card'>
-                {test7}
+            { type === CRYPTO && (
+              cryptoFAQ && <div className='col-lg-12 mt-3'>
+                <div className='card'>
+                  {cryptoFAQ}
+                </div>
               </div>
-            </div>}
+            )}
 
+            {/* START DEMO: TEST NEW GUI FOR SEO */}
             {/* Test8 */}
             {test8 && <div className='col-lg-12'>
               <div className='card'>

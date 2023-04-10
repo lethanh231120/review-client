@@ -52,4 +52,18 @@ const Description = ({ projectName, text, skipMinimizeMode = false }) => {
   </div>
 }
 
+export const blockContent = (content) => <>
+  <div className={ 'card-body pt-3' }>
+    <div className={ 'profile-blog' }>
+      <div className={ 'mb-0' }>
+        <div className='description-list'>
+          <div className='card-content' style={{ fontSize: '1rem', lineHeight: '2' }}>
+            {content}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</>
+
 export default Description

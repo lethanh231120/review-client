@@ -20,7 +20,7 @@ import { DetailLayout } from '../detail-layout'
 import imgAbsentImageCrypto from '../../../../images/absent_image_crypto.png'
 import MyScoreComponent, { getFinalScore } from '../../score/scoreComponent'
 import { copyAddress } from '../../../../utils/effect'
-import CoinChart from '../../charts/coinchart/CoinChart'
+import CoinChart, { formatPriceNumber } from '../../charts/coinchart/CoinChart'
 import { Link } from 'react-router-dom'
 import {
   underlines,
@@ -51,10 +51,13 @@ import ProductDetailSummary from '../../skeleton/product-detail-skeleton/Product
 import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDetailInfo'
 import ProductDetailChart from '../../skeleton/product-detail-skeleton/ProductDetailChart'
 import { mapScamReason } from './scam-reason'
+import { domainGear5, emailContactText } from '../../referral-code/ReferralCodeNotification'
+import { formatMoney } from '../../../../utils/formatNumber'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const detail = productInfo?.details
   const topHolder = productInfo?.mores?.holder
+  const tradingExchanges = productInfo?.mores?.trading
   const PAGE_SIZE = 10
   const chainList = useContext(ChainListContext)
   const exchanges = useContext(ExchangeContext)
@@ -120,7 +123,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   useEffect(() => {
     const newListExchange = []
-    productInfo?.mores?.trading?.forEach((itemExchange) => {
+    tradingExchanges?.forEach((itemExchange) => {
       if (itemExchange?.exchangeId) {
         const newItemExchange = exchanges?.find(
           (itemExchangeInList) =>
@@ -744,95 +747,127 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     </div>
   </>
 
-  const test1 = <>
+  const [tradingExchangeNameMap, setTradingExchangeNameMap] = useState(new Map())
+  useEffect(() => {
+    const tradingExchangeNameMapLocal = new Map()
+    tradingExchanges?.forEach((tradingExchange) => {
+      let exchangeName = tradingExchange?.exchangeId?.split('_')[2]
+      if (exchangeName) {
+        exchangeName = toCammelCase(exchangeName)
+        tradingExchangeNameMapLocal?.set(exchangeName, true)
+      }
+    })
+    setTradingExchangeNameMap(tradingExchangeNameMapLocal)
+  }, [])
+
+  const cryptoPriceLiveDataContent = <>
+   The live {detail?.name} price today is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)} USD</b> with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)} USD</b>. We update our {detail?.symbol} to USD price in real-time. {detail?.name} is {detail?.priceChangePercentage24h < 0 ? 'down' : 'up'} <b className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b> in the last 24 hours. It has a circulating supply of <b className='text-primary'>435,555,547</b> {detail?.symbol} coins and a max. supply of <b className='text-primary'>{detail?.totalSupply ? formatMoney(detail?.totalSupply) : 0}</b> {detail?.symbol} coins.
+    <br />
+    <br />
+    If you would like to know where to buy {detail?.name} at the current rate, the top cryptocurrency exchanges for trading in {detail?.name} are currently {
+      Object.keys(tradingExchangeNameMap)?.map(
+        (websiteName) => tradingExchangeNameMap[websiteName] && <>
+          <a className='text-primary txt-link' href={tradingExchangeNameMap[websiteName]} rel='noreferrer'>{websiteName}</a>,&nbsp;
+        </>) }. You can find others listed on our crypto exchanges page.
+  </>
+  const cryptoPriceLiveData = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
     ) : <>
       <Description
         replaceIcon='price_check'
         projectName={`${detail?.symbol} Price Live Data`}
-        text={`
-          The live ${detail?.name} price today is <b style='color: #039F7F'>$${detail?.priceUSD} USD</b> with a 24-hour trading volume of <b style='color: #039F7F'>$${detail?.marketcapUSD} USD</b>. We update our ${detail?.symbol} to USD price in real-time. ${detail?.name} is down <b style='color: #039F7F'>5.45%</b> in the last 24 hours. It has a circulating supply of <b style='color: #039F7F'>435,555,547</b> ${detail?.symbol} coins and a max. supply of <b style='color: #039F7F'>${detail?.totalSupply || 0}</b> ${detail?.symbol} coins.
-          <br />
-          If you would like to know where to buy ${detail?.name} at the current rate, the top cryptocurrency exchanges for trading in Coin9 are currently Binance, Deepcoin, Bybit, Bitrue, and BingX. You can find others listed on our crypto exchanges page.
-        ` }
       />
+      {blockContent(cryptoPriceLiveDataContent)}
     </>
     }
   </>
 
-  const test3 = <>
+  const contentCryptoSocreDescription = <>
+    {detail?.symbol} scored <b className='text-primary'>{getFinalScore(detail?.score, CRYPTO)}</b>/10 on the <b><a href={domainGear5} className='text-primary txt-link'>Gear5.io</a></b>,  which we based on parameters such as liquidity on Dex exchanges, contract information such as whether there is a proxy or not, whether the contract is verified or not, which CEX and DEX exchanges it is traded on, trading volume, website information, number of holders, and transfers of COINS/TOKENS. If you have any questions about the score we provided, please contact {emailContactText}.
+    <br />
+    <br />
+In addition, we also provide user alerts for suspicious COINS/TOKENS based on simulated trading methods on DEX exchanges and checking their contract. The number of Spam reports also has a significant impact on our alert system.
+  </>
+  const cryptoSocreDescription = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
     ) : <>
       <Description
         projectName={`${detail?.name}'s Score`}
-        text={`
-        ${detail?.symbol} scored ${getFinalScore(detail?.score, CRYPTO)}/10 on the Gear5.io,  which we based on parameters such as liquidity on Dex exchanges, contract information such as whether there is a proxy or not, whether the contract is verified or not, which CEX and DEX exchanges it is traded on, trading volume, website information, number of holders, and transfers of COINS/TOKENS. If you have any questions about the score we provided, please contact zoro@nika.guru.
-        <br />
-        <br />
-        In addition, we also provide user alerts for suspicious COINS/TOKENS based on simulated trading methods on DEX exchanges and checking their contract. The number of Spam reports also has a significant impact on our alert system.
-        ` }
       />
+      {blockContent(contentCryptoSocreDescription)}
     </>
     }
   </>
 
-  const test4 = <>
+  const cryptoDefinitionContent = <>
+  You can join the {detail?.name} communities at { Object.keys(detail?.community)?.map(
+      (websiteName) => detail?.community[websiteName] && <>
+        <a className='text-primary txt-link' href={detail?.community[websiteName]} rel='noreferrer'>{websiteName}</a>,&nbsp;
+      </>) }
+        ... The {detail?.name} team has released the source code here: { Object.keys(detail?.sourceCode)?.map(
+      (websiteName) => <>
+        <a className='text-primary txt-link' rel='noreferrer' href={detail?.sourceCode[websiteName]}>
+          {websiteName}
+        </a>,&nbsp;
+      </>
+    )}
+
+    {!_.isEmpty(detail?.multichain) ? <>... Additionally, {detail?.name} has currently been launched on {detail?.multichain?.length} chains with addresses:</> : ''}
+    { contractAddress }
+  </>
+  const cryptoDefinition = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
     ) : <>
       <Description
         projectName={`What is ${detail?.name}(${detail?.symbol})'s community?`}
       />
-      {blockContent(<>
-        You can join the {detail?.name} communities at { Object.keys(detail?.community).map(
-          (key) => detail?.community[key] && <>{detail?.community[key]} <br/></>) }The ${detail?.name} team has released the source code here.
-        {!_.isEmpty(detail?.multichain) ? ` Additionally, ${detail?.name} has currently been launched on ${detail?.multichain?.length} chains with addresses` : ''}
-        { contractAddress }
-      </>)}
+      {blockContent(cryptoDefinitionContent)}
     </>
     }
   </>
 
-  const test7 = <>
+  const cryptoFAQContent = <>
+    <b className='text-primary'>Coin98 (C98) price has declined today.</b>
+    <br/>
+        The price of Coin98 (C98) is $0.288471 today with a 24-hour trading volume of $67,783,183. This represents a -5.88% price decline in the last 24 hours and a 4.86% price increase in the past 7 days. With a circulating supply of 440 Million C98, Coin98 is valued at a market cap of $125,952,605.
+    <br/>
+    <br/>
+    <b className='text-primary'>Where can you buy Coin98?</b>
+    <br/>
+        C98 tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade Coin98 is Binance, where the most active trading pair C98/USDT has a trading volume of $30,141,381 in the last 24 hours. Other popular options include  XYZ Exchange and XYZ Exchange.
+    <br/>
+    <br/>
+    <b className='text-primary'>What is the daily trading volume of Coin98 (C98)?</b>
+    <br/>
+        The trading volume of Coin98 (C98) is $67,973,704 in the last 24 hours, representing a -5.30% decrease from one day ago and signalling a recent fall in market activity.
+    <br/>
+    <br/>
+    <b className='text-primary'>What is the all-time high for Coin98 (C98)?</b>
+    <br/>
+        The highest price paid for Coin98 (C98) is $6.42, which was recorded on Aug 25, 2021 (over 1 year). Comparatively, the current price is -95.50% lower than the all-time high price.
+    <br/>
+    <br/>
+    <b className='text-primary'>What is the all-time low for Coin98 (C98)?</b>
+    <br/>
+        The lowest price paid for Coin98 (C98) is $0.153360, which was recorded on Dec 31, 2022 (3 months). Comparatively, the current price is 88.54% higher than the all-time low price.
+    <br/>
+    <br/>
+    <b className='text-primary'>What is the market cap of Coin98 (C98)?</b>
+    <br/>
+        Market capitalization of Coin98 (C98) is $125,952,605 and is ranked #251 on CoinGecko today. Market cap is measured by multiplying token price with the circulating supply of C98 tokens (440 Million tokens are tradable on the market today).
+  </>
+  const cryptoFAQ = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
     ) : <>
       <Description
         skipMinimizeMode={true}
         projectName={`FAQs`}
-        text={`
-        <b style='color: #039F7F'>Coin98 (C98) price has declined today.</b>
-        <br/>
-        The price of Coin98 (C98) is $0.288471 today with a 24-hour trading volume of $67,783,183. This represents a -5.88% price decline in the last 24 hours and a 4.86% price increase in the past 7 days. With a circulating supply of 440 Million C98, Coin98 is valued at a market cap of $125,952,605.
-        <br/>
-        <br/>
-        <b style='color: #039F7F'>Where can you buy Coin98?</b>
-        <br/>
-        C98 tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade Coin98 is Binance, where the most active trading pair C98/USDT has a trading volume of $30,141,381 in the last 24 hours. Other popular options include  XYZ Exchange and XYZ Exchange.
-        <br/>
-        <br/>
-        <b style='color: #039F7F'>What is the daily trading volume of Coin98 (C98)?</b>
-        <br/>
-        The trading volume of Coin98 (C98) is $67,973,704 in the last 24 hours, representing a -5.30% decrease from one day ago and signalling a recent fall in market activity.
-        <br/>
-        <br/>
-        <b style='color: #039F7F'>What is the all-time high for Coin98 (C98)?</b>
-        <br/>
-        The highest price paid for Coin98 (C98) is $6.42, which was recorded on Aug 25, 2021 (over 1 year). Comparatively, the current price is -95.50% lower than the all-time high price.
-        <br/>
-        <br/>
-        <b style='color: #039F7F'>What is the all-time low for Coin98 (C98)?</b>
-        <br/>
-        The lowest price paid for Coin98 (C98) is $0.153360, which was recorded on Dec 31, 2022 (3 months). Comparatively, the current price is 88.54% higher than the all-time low price.
-        <br/>
-        <br/>
-        <b style='color: #039F7F'>What is the market cap of Coin98 (C98)?</b>
-        <br/>
-        Market capitalization of Coin98 (C98) is $125,952,605 and is ranked #251 on CoinGecko today. Market cap is measured by multiplying token price with the circulating supply of C98 tokens (440 Million tokens are tradable on the market today).
-          ` }
       />
+      {blockContent(cryptoFAQContent)}
     </>
     }
   </>
@@ -912,13 +947,12 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     rest={rest}
     similar={ <ProductSimilar productType={CRYPTO} similarList={productInfo?.similars} /> }
     productInfo={productInfo}
+    cryptoPriceLiveData={cryptoPriceLiveData}
+    cryptoDefinition={cryptoDefinition}
+    cryptoSocreDescription={cryptoSocreDescription}
+    cryptoFAQ={cryptoFAQ}
     // { /* START DEMO: TEST NEW GUI FOR SEO */ }
 
-    test1={test1}
-    test3={test3}
-    test4={test4}
-
-    test7={test7}
     test8={test8}
     // { /* END DEMO: TEST NEW GUI FOR SEO */ }
   />
