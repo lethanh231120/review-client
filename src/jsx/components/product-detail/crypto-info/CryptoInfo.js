@@ -787,7 +787,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   </>
 
   const contentCryptoSocreDescription = <>
-    {detail?.symbol} scored <b className='text-primary'>{getFinalScore(detail?.score, CRYPTO)}</b>/10 on the <b><a href={domainGear5} className='text-primary txt-link'>Gear5.io</a></b>,  which we based on parameters such as liquidity on Dex exchanges, contract information such as whether there is a proxy or not, whether the contract is verified or not, which CEX and DEX exchanges it is traded on, trading volume, website information, number of holders, and transfers of COINS/TOKENS. If you have any questions about the score we provided, please contact {emailContactText}.
+    {detail?.symbol} scored <b className='text-primary'>{getFinalScore(detail?.score, CRYPTO)}</b>/10 on the <b><a href={domainGear5} className='text-primary txt-link' target='_blank' rel='noreferrer'>Gear5.io</a></b>,  which we based on parameters such as liquidity on Dex exchanges, contract information such as whether there is a proxy or not, whether the contract is verified or not, which CEX and DEX exchanges it is traded on, trading volume, website information, number of holders, and transfers of COINS/TOKENS. If you have any questions about the score we provided, please contact {emailContactText}.
     <br />
     <br />
 In addition, we also provide user alerts for suspicious COINS/TOKENS based on simulated trading methods on DEX exchanges and checking their contract. The number of Spam reports also has a significant impact on our alert system.
@@ -807,11 +807,11 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
   const cryptoDefinitionContent = <>
   You can join the {detail?.name} communities at { Object.keys(detail?.community)?.map(
       (websiteName) => detail?.community[websiteName] && <>
-        <a className='text-primary txt-link' href={detail?.community[websiteName]} rel='noreferrer'>{websiteName}</a>,&nbsp;
+        <a className='text-primary txt-link' target='_blank' href={detail?.community[websiteName]} rel='noreferrer'>{websiteName}</a>,&nbsp;
       </>) }
         ... The {detail?.name} team has released the source code here: { Object.keys(detail?.sourceCode)?.map(
       (websiteName) => <>
-        <a className='text-primary txt-link' rel='noreferrer' href={detail?.sourceCode[websiteName]}>
+        <a className='text-primary txt-link' rel='noreferrer' target='_blank' href={detail?.sourceCode[websiteName]}>
           {websiteName}
         </a>,&nbsp;
       </>
