@@ -31,6 +31,7 @@ import { PathNameContext, removeStorageRefCode } from '../../index'
 import ProductDetailEmpty from '../skeleton/product-detail-skeleton/ProductDetailEmpty'
 import { getHeaderProductDetail } from '../SEO/server/productDetail'
 import { getReferralCodeHeader } from '../common-widgets/user-form/sign-in-form'
+import { Ads } from '../ads/Ads'
 
 // noti report success
 export const notifyTopRightSuccess = (content) => {
@@ -906,11 +907,13 @@ const ProductDetail = () => {
   return (
     <>
       {productInfo?.details
-        ? <SEO props={{ title: getHeaderProductDetail(productInfo?.details) }} />
+        ? <>
+          <SEO props={{ title: getHeaderProductDetail(productInfo?.details) }} />
+        </>
         : ''}
       <div className='section'>
         {loadingDetail ? <ProductDetailEmpty/>
-          : (
+          : <>
             <div className='product' ref={ref} hidden={!productInfo}>
               {categoryName === DAPP ? (
                 <>{dapp}</>
@@ -929,7 +932,10 @@ const ProductDetail = () => {
               )
                 : ''}
             </div>
-          )}
+
+            <Ads />
+          </>
+        }
       </div>
     </>
 

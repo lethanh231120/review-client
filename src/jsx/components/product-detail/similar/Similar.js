@@ -922,7 +922,7 @@ const Similar = ({ type, listProjectId }) => {
     const params = {}
     params[key] = listProjectId
     if (key && !_.isEmpty(listProjectId)) {
-      post(`reviews/${type === CRYPTO ? 'crypto' : type === DAPP ? 'dapp' : type === EXCHANGE ? 'exchange' : type === SOON ? 'soon' : type === VENTURE ? 'venture' : 'launchpad'}/list`, params)
+      post(`reviews/${type === CRYPTO ? CRYPTO : type === DAPP ? DAPP : type === EXCHANGE ? EXCHANGE : type === SOON ? SOON : type === VENTURE ? VENTURE : LAUNCHPAD}/list`, params)
         .then((res) => setData(res?.data[type === CRYPTO ? 'cryptos' : type === DAPP ? 'dApps' : type === EXCHANGE ? 'exchanges' : type === SOON ? 'soons' : type === VENTURE ? 'ventures' : 'launchPads']))
     }
   }, [listProjectId, type])
