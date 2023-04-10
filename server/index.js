@@ -1,5 +1,7 @@
 const express = require('express')
-require('dotenv').config()
+const path = require('path')
+const envPath = path.resolve(__dirname, '..', '.env')
+require('dotenv').config(envPath)
 const DOMAIN_READ = process.env.REACT_APP_API_READ
 const PATH_DETAIL_PRODUCT = '/reviews/product/detail?productId='
 const PATH_DETAIL_INSIGHT = '/reviews/chart/detail?chartId='
@@ -8,7 +10,6 @@ const PORT = process.env.PORT || 3000
 const API_TIME_LIMIT = 3000 // millisecond
 const app = express()
 
-const path = require('path')
 const fs = require('fs')
 const indexFileName = 'index.html'
 const indexPath = path.resolve(__dirname, '..', 'build', indexFileName)
