@@ -391,7 +391,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
 
   const explorerCoin = <>
     {(detail?.type === CRYPTO_COIN && detail?.explorer) && (
-      <p className='crypto-info-item-address text-break fs-6'>
+      <p className='crypto-info-item-address text-break fs-16'>
         <a
           href={detail?.explorer}
           target='_blank'
@@ -411,13 +411,13 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       <img
         alt={`${detail?.chainName} blockchain Logo`}
         src={chainList[`${detail?.chainName}`]?.image}
-        height={14}
-        width={14}
+        height={18}
+        width={18}
         style={{ borderRadius: '1rem' }}
         // className='d-flex align-items-center'
       />
               &nbsp;
-      <h1 className='mb-0 fs-6 '>
+      <h1 className='mb-0 fs-16 '>
         <a
           href={detail?.explorer || mainExplorer}
           target='_blank'
