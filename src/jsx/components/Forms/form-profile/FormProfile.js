@@ -4,8 +4,8 @@ import _ from 'lodash'
 import moment from 'moment'
 import Swal from 'sweetalert2'
 import { LoadingOutlined } from '@ant-design/icons'
-import { beforeUpload, getBase64 } from '../form-report/FormReport'
-import { patch, post } from '../../../../api/BaseRequest'
+import { beforeUpload, getBase64, notifyTopRightFail } from '../form-report/FormReport'
+import { patch, upload } from '../../../../api/BaseRequest'
 import { removeCookie, setCookie, STORAGEKEY } from '../../../../utils/storage'
 import { NormalUserProfileContext } from '../../..'
 import { Spin, Upload, Modal } from 'antd'
@@ -49,11 +49,16 @@ const FormProfile = ({ userInfo }) => {
           formData.append('file', itemFile?.originFileObj)
           const time = moment().unix()
           const fileName = `${itemFile?.uid}_${time}`
-          const resp = await post(`reviews/upload/image?storeEndpoint=account&fileName=${fileName}`, formData)
-          setUserAvatar(resp?.data)
+          try {
+            const resp = await upload(`reviews/upload/image?storeEndpoint=account&fileName=${fileName}`, formData)
+            setUserAvatar(resp?.data)
+            setFileList(newFileList) // update view of image in profile form
+          } catch (e) {
+            notifyTopRightFail('Upload image failed')
+            console.error(e)
+          }
         }
       })
-      setFileList(newFileList)
     }
 
     if (e?.file?.status === 'removed') {

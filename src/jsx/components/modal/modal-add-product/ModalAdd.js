@@ -4,7 +4,7 @@ import { Select, Form, Row, Col, Input, Checkbox, Upload, Image } from 'antd'
 import { DAPP, EXCHANGE, CRYPTO } from '../../../constants/category'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
-import { post } from '../../../../api/BaseRequest'
+import { post, upload } from '../../../../api/BaseRequest'
 import moment from 'moment'
 import { CategoryContext, SignInContext } from '../../../../App'
 import _ from 'lodash'
@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { AddModalContext } from '../../../index'
 import { ChainListContext } from '../../../../App'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
+import { notifyTopRightFail } from '../../Forms/form-report/FormReport'
 
 const { Option } = Select
 const defaultValue = [
@@ -231,12 +232,17 @@ const ModalAdd = ({ isModal }) => {
         formData.append('file', e?.fileList[0]?.originFileObj)
         const time = moment().unix()
         const fileName = `${userInfo.id}_${time}`
-        const dataImage = await post(`reviews/upload/image?storeEndpoint=project&fileName=${fileName}`, formData)
-        setData({
-          ...data,
-          image: dataImage?.data
-        })
-      }
+        try {
+          const dataImage = await upload(`reviews/upload/image?storeEndpoint=project&fileName=${fileName}`, formData)
+          setData({
+            ...data,
+            image: dataImage?.data
+          })
+        } catch (e) {
+          notifyTopRightFail('Upload image failed')
+          console.error(e)
+        }
+      } else
       if (e.file?.status === 'removed') {
         setFileList([])
       }

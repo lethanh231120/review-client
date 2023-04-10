@@ -15,7 +15,7 @@ import { StarFilled } from '@ant-design/icons'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
 import moment from 'moment'
-import { post } from '../../../../api/BaseRequest'
+import { upload } from '../../../../api/BaseRequest'
 import user from '../../../../images/svg/anonymous.svg'
 import FilterReview from '../../product-detail/filter-review/FilterReview'
 import '../../../../scss/base/cus-form.scss'
@@ -125,14 +125,19 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
           formData.append('file', itemFile?.originFileObj)
           const time = moment().unix()
           const fileName = `${itemFile?.uid}_${time}`
-          const dataImage = await post(`reviews/upload/image?storeEndpoint=review&fileName=${fileName}`, formData)
-          setData({
-            ...data,
-            images: _.isEmpty(rest.data.images) ? [dataImage?.data] : [...rest.data.images, dataImage?.data]
-          })
+          try {
+            const dataImage = await upload(`reviews/upload/image?storeEndpoint=review&fileName=${fileName}`, formData)
+            setData({
+              ...data,
+              images: _.isEmpty(rest.data.images) ? [dataImage?.data] : [...rest.data.images, dataImage?.data]
+            })
+            setFileList(newFileList)
+          } catch (e) {
+            notifyTopRightFail('Upload image failed')
+            console.error(e)
+          }
         }
       })
-      setFileList(newFileList)
     }
     if (e.file?.status === 'removed') {
       const index = rest?.data?.images?.findIndex((item) => item?.includes(e?.file?.uid))
