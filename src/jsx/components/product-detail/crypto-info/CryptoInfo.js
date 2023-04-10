@@ -52,7 +52,10 @@ import ProductDetailInfo from '../../skeleton/product-detail-skeleton/ProductDet
 import ProductDetailChart from '../../skeleton/product-detail-skeleton/ProductDetailChart'
 import { mapScamReason } from './scam-reason'
 import { domainGear5, emailContactText } from '../../referral-code/ReferralCodeNotification'
-import { formatMoney } from '../../../../utils/formatNumber'
+import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
+import { formatChartDate } from '../../insight/charts/BarChart'
+import { formatDateStyle } from '../../../../utils/time/time'
+import { timeAgoConvert } from '../../common-widgets/home/click-function'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const detail = productInfo?.details
@@ -653,7 +656,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const about = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
-    ) : (
+    ) : detail?.description && (
       <Description
         projectName={`What Is ${detail?.name}(${detail?.symbol}) ?`}
         text={ detail?.description }
@@ -746,29 +749,29 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       </div>
     </div>
   </>
-
-  const [tradingExchangeNameMap, setTradingExchangeNameMap] = useState(new Map())
-  useEffect(() => {
-    const tradingExchangeNameMapLocal = new Map()
-    tradingExchanges?.forEach((tradingExchange) => {
-      let exchangeName = tradingExchange?.exchangeId?.split('_')[2]
-      if (exchangeName) {
-        exchangeName = toCammelCase(exchangeName)
-        tradingExchangeNameMapLocal?.set(exchangeName, true)
+  const getTradingExchangeText = () =>{
+    const existedTradingExchangeMap = new Map()
+    let textOutput = ''
+    tradingExchanges?.map((tradingExchange) => {
+      const exchangeName = toCammelCase(tradingExchange?.exchangeId?.split('_')[2])
+      const isExist = existedTradingExchangeMap?.get(exchangeName)
+      if (!isExist) {
+        existedTradingExchangeMap?.set(exchangeName, true)
+        textOutput += exchangeName + ', '
       }
     })
-    setTradingExchangeNameMap(tradingExchangeNameMapLocal)
-  }, [])
+    // remove last ',...'
+    if (textOutput) {
+      textOutput = textOutput?.substring(0, textOutput?.length - 2)
+    }
+    return textOutput
+  }
 
   const cryptoPriceLiveDataContent = <>
-   The live {detail?.name} price today is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)} USD</b> with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)} USD</b>. We update our {detail?.symbol} to USD price in real-time. {detail?.name} is {detail?.priceChangePercentage24h < 0 ? 'down' : 'up'} <b className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b> in the last 24 hours. It has a circulating supply of <b className='text-primary'>435,555,547</b> {detail?.symbol} coins and a max. supply of <b className='text-primary'>{detail?.totalSupply ? formatMoney(detail?.totalSupply) : 0}</b> {detail?.symbol} coins.
+   The live {detail?.name} price today is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)} USD</b> with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)} USD</b>. We update our {detail?.symbol} to USD price in real-time. {detail?.name} is {detail?.priceChangePercentage24h < 0 ? 'down' : 'up'} <b className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b> in the last 24 hours. It has a total supply of <b className='text-primary'>{detail?.totalSupply ? formatLargeNumber(detail?.totalSupply) : 0}</b> {detail?.symbol} coins.
     <br />
     <br />
-    If you would like to know where to buy {detail?.name} at the current rate, the top cryptocurrency exchanges for trading in {detail?.name} are currently {
-      Object.keys(tradingExchangeNameMap)?.map(
-        (websiteName) => tradingExchangeNameMap[websiteName] && <>
-          <a className='text-primary txt-link' href={tradingExchangeNameMap[websiteName]} rel='noreferrer'>{websiteName}</a>,&nbsp;
-        </>) }. You can find others listed on our crypto exchanges page.
+    If you would like to know where to buy {detail?.name} at the current rate, the top cryptocurrency exchanges for trading in {detail?.name} are currently <span className='text-primary'>{getTradingExchangeText()}</span>. You can find others listed on our crypto exchanges page.
   </>
   const cryptoPriceLiveData = <>
     {rest?.loadingDetail ? (
@@ -830,34 +833,35 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
   </>
 
   const cryptoFAQContent = <>
-    <b className='text-primary'>Coin98 (C98) price has declined today.</b>
+    <b className='text-primary'>{detail?.name} ({detail?.symbol}) price has declined today.</b>
     <br/>
-        The price of Coin98 (C98) is $0.288471 today with a 24-hour trading volume of $67,783,183. This represents a -5.88% price decline in the last 24 hours and a 4.86% price increase in the past 7 days. With a circulating supply of 440 Million C98, Coin98 is valued at a market cap of $125,952,605.
-    <br/>
-    <br/>
-    <b className='text-primary'>Where can you buy Coin98?</b>
-    <br/>
-        C98 tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade Coin98 is Binance, where the most active trading pair C98/USDT has a trading volume of $30,141,381 in the last 24 hours. Other popular options include  XYZ Exchange and XYZ Exchange.
+        The price of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)}</b> today with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)}</b>. This represents a <span className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}><b>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b></span> price {detail?.priceChangePercentage24h < 0 ? 'decline' : 'increase'} in the last 24 hours. With a total supply of <b className='text-primary'>{detail?.totalSupply ? formatLargeNumber(detail?.totalSupply) : 0}</b> {detail?.symbol}, {detail?.name} is valued at a market cap of <b className='text-primary'>{formatMoney(detail?.marketcapUSD)}</b>.
     <br/>
     <br/>
-    <b className='text-primary'>What is the daily trading volume of Coin98 (C98)?</b>
+    <b className='text-primary'>Where can you buy {detail?.name}?</b>
     <br/>
-        The trading volume of Coin98 (C98) is $67,973,704 in the last 24 hours, representing a -5.30% decrease from one day ago and signalling a recent fall in market activity.
-    <br/>
-    <br/>
-    <b className='text-primary'>What is the all-time high for Coin98 (C98)?</b>
-    <br/>
-        The highest price paid for Coin98 (C98) is $6.42, which was recorded on Aug 25, 2021 (over 1 year). Comparatively, the current price is -95.50% lower than the all-time high price.
+    {detail?.symbol} tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade {detail?.name} is <span className='text-primary'>{getTradingExchangeText()}</span>
+    , where the most active trading pair {detail?.symbol}/<b>USDT</b>.
     <br/>
     <br/>
-    <b className='text-primary'>What is the all-time low for Coin98 (C98)?</b>
+    <b className='text-primary'>What is the daily trading volume of {detail?.name} ({detail?.symbol})?</b>
     <br/>
-        The lowest price paid for Coin98 (C98) is $0.153360, which was recorded on Dec 31, 2022 (3 months). Comparatively, the current price is 88.54% higher than the all-time low price.
+        The trading volume of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatLargeNumber(detail?.totalVolume) }</b> in the last 24 hours.
     <br/>
     <br/>
-    <b className='text-primary'>What is the market cap of Coin98 (C98)?</b>
+    <b className='text-primary'>What is the all-time high for {detail?.name} ({detail?.symbol})?</b>
     <br/>
-        Market capitalization of Coin98 (C98) is $125,952,605 and is ranked #251 on CoinGecko today. Market cap is measured by multiplying token price with the circulating supply of C98 tokens (440 Million tokens are tradable on the market today).
+        The highest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.ath)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.athDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.athDate)}</span>). Comparatively, the current price is <b className='text-danger'>-{ (detail?.priceUSD / detail?.ath * 100)?.toFixed(2) }%</b> lower than the all-time high price.
+    <br/>
+    <br/>
+    <b className='text-primary'>What is the all-time low for {detail?.name} ({detail?.symbol})?</b>
+    <br/>
+        The lowest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-danger'>{formatPriceNumber(detail?.atl)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.atlDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.atlDate)}</span>). Comparatively, the current price is <b className='text-primary'>{ (detail?.priceUSD / detail?.atl * 100)?.toFixed(2) }%</b> higher than the all-time low price.
+    <br/>
+    <br/>
+    <b className='text-primary'>What is the market cap of {detail?.name} ({detail?.symbol})?</b>
+    <br/>
+        Market capitalization of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatMoney(detail?.marketcapUSD) }</b>. Market cap is measured by multiplying token price with the circulating supply of {detail?.symbol} tokens.
   </>
   const cryptoFAQ = <>
     {rest?.loadingDetail ? (
