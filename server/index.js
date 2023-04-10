@@ -506,7 +506,6 @@ app.listen(PORT, (error) => {
     console.error('Error during app startup', error)
   }
   console.log('listening on ' + PORT + '...')
-  console.log(`PATH`, path.resolve(__dirname, '..', '.env'))
   console.log(`DOMAIN_READ`, DOMAIN_READ)
   console.log(`DOMAIN_IMAGE`, DOMAIN_IMAGE)
 })
