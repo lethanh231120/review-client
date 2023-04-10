@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, '..', 'build', indexFileName) })
+require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') })
 const DOMAIN_READ = process.env.REACT_APP_API_READ
 const PATH_DETAIL_PRODUCT = '/reviews/product/detail?productId='
 const PATH_DETAIL_INSIGHT = '/reviews/chart/detail?chartId='
