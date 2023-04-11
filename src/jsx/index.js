@@ -37,7 +37,6 @@ import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 import LiveNewTokensList from './components/live-new-tokens/LiveNewTokensList'
 import { ALGORITHM_KECCAK256, API_CONFIRM, get } from '../api/BaseRequest'
 import { STORAGEKEY } from '../utils/storage'
-import { ReferralCode } from './components/referral-code/referralCode'
 import { getBrowserUserAgent } from '../utils/browserExtract'
 import { getReferralCodeHeader } from './components/common-widgets/user-form/sign-in-form'
 import { getCookie } from './../utils/storage/index'
@@ -374,7 +373,7 @@ const Markup = () => {
                         element={<ProductDetail />}
                       />
                     </Route>
-                    <Route path={REFERRAL} element={<ReferralCode />}/>
+                    {/* <Route path={REFERRAL} element={<ReferralCode />}/> */}
                     <Route path='terms-of-service' element={<TermOfService />}/>
                     <Route path='privacy-policy' element={<PrivacyPolicy />}/>
                     <Route path='not-found-product' element={<NotFoundProduct />} />

@@ -17,9 +17,8 @@ import { WARNING_ICON } from '../../components/common-widgets/logo/logo'
 import './sidebar.scss'
 
 import { PathNameContext } from '../../index'
-import { CATEGORY_NEW_TOKENS, CRYPTO, DAPP, EXCHANGE, INSIGHT, LAUNCHPAD, NEW_TOKENS, REFERRAL, SOON, VENTURE } from '../../constants/category'
+import { CATEGORY_NEW_TOKENS, CRYPTO, DAPP, EXCHANGE, INSIGHT, LAUNCHPAD, NEW_TOKENS, SOON, VENTURE } from '../../constants/category'
 import { CATEGORY_CRYPTO, CATEGORY_DAPP, CATEGORY_EXCHANGE, CATEGORY_INSIGHT, CATEGORY_LAUNCHPAD, CATEGORY_SOON, CATEGORY_VENTURE } from '../../constants/category'
-import { CATEGORY_REFERRAL } from './../../constants/category'
 
 const reducer = (previousState, updatedState) => ({
   ...previousState,
@@ -197,12 +196,12 @@ const SideBar = () => {
       to: INSIGHT
     })
 
-    objCategories?.push({
-      title: CATEGORY_REFERRAL,
-      classsChange: '',
-      iconStyle: <i className='material-icons'>share</i>,
-      to: REFERRAL
-    })
+    // objCategories?.push({
+    //   title: CATEGORY_REFERRAL,
+    //   classsChange: '',
+    //   iconStyle: <i className='material-icons'>share</i>,
+    //   to: REFERRAL
+    // })
 
     setCategories(objCategories)
   }, [categoryContext])
