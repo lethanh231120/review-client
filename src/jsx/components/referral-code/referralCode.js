@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Badge } from 'react-bootstrap'
-import { get, post } from '../../../api/BaseRequest'
 import { notifyTopRightFail } from '../Forms/form-report/FormReport'
 import { notifyTopRightSuccess } from '../product-detail/ProductDetail'
 import { CopyOutlined } from '@ant-design/icons'
@@ -17,9 +16,9 @@ import Swal from 'sweetalert2'
 
 export const getReferralStatistics = async() =>{
   try {
-    const resp = await get('reviews/referral')
-    const respData = resp?.data
-    return respData
+    // const resp = await get('reviews/referral')
+    // const respData = resp?.data
+    // return respData
   } catch (err) {
     console.error(err)
   }
@@ -344,14 +343,14 @@ export const ReferralCode = () => {
 
   const createCode = async() => {
     try {
-      const resp = await get('reviews/referral/create')
-      const status = resp?.status
-      if (status) {
-        notifyTopRightSuccess('Activate your referral code successfully')
-        setReferralCodeAndClickChart()
-      } else {
-        throw new Error('error')
-      }
+      // const resp = await get('reviews/referral/create')
+      // const status = resp?.status
+      // if (status) {
+      //   notifyTopRightSuccess('Activate your referral code successfully')
+      //   setReferralCodeAndClickChart()
+      // } else {
+      //   throw new Error('error')
+      // }
     } catch (err) {
       console.error(err)
       notifyTopRightFail('Something when wrong while activate your referral code')
@@ -428,7 +427,8 @@ export const ReferralCode = () => {
       }
 
       try {
-        const resp = await post(`reviews/referral/claim?address=${address}&chainname=binance`, {}, { Referral: code })
+        // const resp = await post(`reviews/referral/claim?address=${address}&chainname=binance`, {}, { Referral: code })
+        const resp = {}
         if (resp?.status) {
           // update needed data change when claim
 

@@ -767,13 +767,45 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     return textOutput
   }
 
-  const cryptoPriceLiveDataContent = <>
-   The live {detail?.name} price today is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)} USD</b> with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)} USD</b>. We update our {detail?.symbol} to USD price in real-time. {detail?.name} is {detail?.priceChangePercentage24h < 0 ? 'down' : 'up'} <b className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b> in the last 24 hours. It has a total supply of <b className='text-primary'>{detail?.totalSupply ? formatLargeNumber(detail?.totalSupply) : 0}</b> {detail?.symbol} coins.
-    <br />
-    <br />
-    If you would like to know where to buy {detail?.name} at the current rate, the top cryptocurrency exchanges for trading in {detail?.name} are currently <span className='text-primary'>{getTradingExchangeText()}</span>. You can find others listed on our crypto exchanges page.
+  const conditionCryptoPriceLiveDataContent1 = detail?.priceUSD
+  const conditionCryptoPriceLiveDataContent2 = detail?.totalVolume
+  const conditionCryptoPriceLiveDataContent3 = detail?.priceChangePercentage24h
+  const conditionCryptoPriceLiveDataContent4 = detail?.totalSupply
+  const conditionCryptoPriceLiveDataContent5 = getTradingExchangeText()
+  const cryptoPriceLiveDataContent = (conditionCryptoPriceLiveDataContent1 ||
+    conditionCryptoPriceLiveDataContent2 ||
+    conditionCryptoPriceLiveDataContent3 ||
+    conditionCryptoPriceLiveDataContent4 ||
+    conditionCryptoPriceLiveDataContent5
+  ) && <>
+    {conditionCryptoPriceLiveDataContent1 && <>
+      The live {detail?.name} price today is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)} USD</b> with a 24-hour.
+      <br />
+    </>}
+
+    { conditionCryptoPriceLiveDataContent2 && <>
+       Trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)} USD</b>.
+      <br />
+    </> }
+
+    {conditionCryptoPriceLiveDataContent3 && <>
+      We update our {detail?.symbol} to USD price in real-time. {detail?.name} is {detail?.priceChangePercentage24h < 0 ? 'down' : 'up'} <b className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b> in the last 24 hours.
+      <br />
+    </>}
+
+    {conditionCryptoPriceLiveDataContent4 && <>
+      It has a total supply of <b className='text-primary'>{detail?.totalSupply ? formatLargeNumber(detail?.totalSupply) : 0}</b> {detail?.symbol} coins.
+      <br />
+    </> }
+
+    {conditionCryptoPriceLiveDataContent5 && <>
+      If you would like to know where to buy {detail?.name} at the current rate, the top cryptocurrency exchanges for trading in {detail?.name} are currently <span className='text-primary'>{getTradingExchangeText()}</span>. You can find others listed on our crypto exchanges page.
+      <br />
+    </> }
+
   </>
-  const cryptoPriceLiveData = <>
+  const cryptoPriceLiveData = cryptoPriceLiveDataContent &&
+  <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
     ) : <>
@@ -804,23 +836,44 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     }
   </>
 
-  const cryptoDefinitionContent = <>
-  You can join the {detail?.name} communities at { Object.keys(detail?.community)?.map(
-      (websiteName) => detail?.community[websiteName] && <>
-        <a className='text-primary txt-link' target='_blank' href={detail?.community[websiteName]} rel='noreferrer'>{websiteName}</a>,&nbsp;
-      </>) }
-        ... The {detail?.name} team has released the source code here: { Object.keys(detail?.sourceCode)?.map(
-      (websiteName) => <>
-        <a className='text-primary txt-link' rel='noreferrer' target='_blank' href={detail?.sourceCode[websiteName]}>
-          {websiteName}
-        </a>,&nbsp;
-      </>
-    )}
+  const conditionCryptoDefinitionContent1 = (detail?.community && !_.isEmpty(detail?.community))
+  const conditionCryptoDefinitionContent2 = (detail?.sourceCode && !_.isEmpty(detail?.sourceCode))
+  const conditionCryptoDefinitionContent3 = (detail?.multichain && !_.isEmpty(detail?.multichain))
+  const cryptoDefinitionContent = (
+    conditionCryptoDefinitionContent1 ||
+    conditionCryptoDefinitionContent2 ||
+    conditionCryptoDefinitionContent3
+  ) &&
+  <>
+    {conditionCryptoDefinitionContent1 && <>
+      You can join the {detail?.name} communities at { Object.keys(detail?.community)?.map(
+        (websiteName) => detail?.community[websiteName] && <>
+          <a className='text-primary txt-link' target='_blank' href={detail?.community[websiteName]} rel='noreferrer'>{websiteName}</a>,&nbsp;
+        </>) }
+    </>
+    }
 
-    {!_.isEmpty(detail?.multichain) ? <>... Additionally, {detail?.name} has currently been launched on {detail?.multichain?.length} chains with addresses:</> : ''}
-    { contractAddress }
+    {conditionCryptoDefinitionContent1 && `... `}
+    {conditionCryptoDefinitionContent2 && <>
+      The {detail?.name} team has released the source code here: { Object.keys(detail?.sourceCode)?.map(
+        (websiteName) => <>
+          <a className='text-primary txt-link' rel='noreferrer' target='_blank' href={detail?.sourceCode[websiteName]}>
+            {websiteName}
+          </a>,&nbsp;
+        </>
+      )}
+    </>}
+
+    {(conditionCryptoDefinitionContent1 || conditionCryptoDefinitionContent2) && `... `}
+    {conditionCryptoDefinitionContent3 && <>
+      Additionally, {detail?.name} has currently been launched on {detail?.multichain?.length} chains with addresses:
+      { contractAddress }
+    </>}
+
   </>
-  const cryptoDefinition = <>
+
+  const cryptoDefinition = cryptoDefinitionContent &&
+  <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
     ) : <>
@@ -832,7 +885,7 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     }
   </>
 
-  const cryptoFAQContent = <>
+  const cryptoFAQContent = (detail?.isCoingecko) && <>
     <b className='text-primary'>{detail?.name} ({detail?.symbol}) price has declined today.</b>
     <br/>
         The price of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)}</b> today with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)}</b>. This represents a <span className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}><b>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b></span> price {detail?.priceChangePercentage24h < 0 ? 'decrease' : 'increase'} in the last 24 hours. With a total supply of <b className='text-primary'>{detail?.totalSupply ? formatLargeNumber(detail?.totalSupply) : 0}</b> {detail?.symbol}, {detail?.name} is valued at a market cap of <b className='text-primary'>{formatMoney(detail?.marketcapUSD)}</b>.
@@ -862,7 +915,7 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     <br/>
         Market capitalization of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatMoney(detail?.marketcapUSD) }</b>. Market cap is measured by multiplying token price with the circulating supply of {detail?.symbol} tokens.
   </>
-  const cryptoFAQ = <>
+  const cryptoFAQ = cryptoFAQContent && <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
     ) : <>
