@@ -923,7 +923,7 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     ) : <>
       <Description
         skipMinimizeMode={true}
-        projectName={`FAQs`}
+        projectName={`${detail?.name} FAQs`}
       />
       {blockContent(cryptoFAQContent)}
     </>
