@@ -900,7 +900,7 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     <br/>
     <b className='text-primary'>What is the daily trading volume of {detail?.name} ({detail?.symbol})?</b>
     <br/>
-        The trading volume of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatLargeNumber(detail?.totalVolume) }</b> in the last 24 hours.
+        The trading volume of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatMoney(detail?.totalVolume) }</b> in the last 24 hours.
     <br/>
     <br/>
     <b className='text-primary'>What is the all-time high for {detail?.name} ({detail?.symbol})?</b>
