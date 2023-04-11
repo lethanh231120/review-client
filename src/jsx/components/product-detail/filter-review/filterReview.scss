@@ -30,6 +30,7 @@
                 width: 18.75rem !important;
                 right: 0 !important;
                 &-item{
+                    
                     cursor: pointer;
                     padding: 0.6rem !important;
                     border-radius: 0.5rem;
@@ -48,4 +49,5 @@
 }
 .cus-dropdown-item{
     white-space: normal !important;
+    font-size: 1rem !important; 
 }

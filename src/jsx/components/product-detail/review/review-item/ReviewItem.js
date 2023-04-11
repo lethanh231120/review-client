@@ -484,20 +484,6 @@ const ReviewItem = (props) => {
                   <Form.Item
                     name={`comment`}
                   >
-                    {/* <Input
-                        name={`reply ${newData?.data?.id}`}
-                        className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
-                        autoFocus
-                        suffix={<>
-                          <SendOutlined
-                            style={{ cursor: 'pointer' }}
-                            onClick={handleSend}
-                          />
-                        </>}
-                        placeholder={`${validateTextArea ? 'Please enter reply' : 'Enter reply...'}`}
-                        onChange={handleChangeComment}
-                        onPressEnter={handleSubmit}
-                      /> */}
                     <Input.TextArea
                       className={`${validateTextArea ? 'product-detail-form-content-textarea' : ''}`}
                       autoFocus

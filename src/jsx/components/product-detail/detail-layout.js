@@ -72,10 +72,10 @@ export const DetailLayout = (props) => {
             </div>
           </div>
           <>
-            {cryptoPriceLiveData}
+            {about}
           </>
           <>
-            {about}
+            {cryptoPriceLiveData}
           </>
           <>
             {collap1}
@@ -119,56 +119,54 @@ export const DetailLayout = (props) => {
               )}
             </Row>
           </div>
-          <>
-            <div className='box-form-report' id='comment'>
-              <FormReport
-                isFormReport={true}
-                numberReviews={rest?.totalReviews}
-                rest={rest}
-                setTop={setTop}
-                productInfo={productInfo}
-              />
+          <div className='box-form-report' id='comment'>
+            <FormReport
+              isFormReport={true}
+              numberReviews={rest?.totalReviews}
+              rest={rest}
+              setTop={setTop}
+              productInfo={productInfo}
+            />
 
-              <div id='div2'>
-                <div className='review-founder'>
-                  <ReviewItem
-                    type='founder'
-                    data={dataReviewFounder}
-                  />
-                </div>
-                {rest?.reviews && rest?.reviews?.map((item, index) => (
-                  <ReviewItem
-                    type='normal'
-                    index={index}
-                    key={item?.id}
-                    data={item}
-                    reviews={rest?.reviews}
-                    setReviews={rest?.setReviews}
-                    setCurrentReview={rest?.setCurrentReview}
-                    curentReview={rest?.curentReview}
-                    productId={rest?.productId}
-                  />
-                ))}
+            <div id='div2'>
+              <div className='review-founder'>
+                <ReviewItem
+                  type='founder'
+                  data={dataReviewFounder}
+                />
               </div>
-              <div className='category-paginate cus-category-paginate'>
-                {rest?.totalReviews > PAGE_SIZE && (
-                  <Pagination
-                    total= {rest?.totalReviews}
-                    current={rest?.defaultFilter?.page}
-                    pageSize={PAGE_SIZE}
-                    showSizeChanger={false}
-                    onChange={(value) => {
-                      rest?.setDefaultFilter({
-                        ...rest.defaultFilter,
-                        page: value
-                      })
-                      rest?.setLoadingFilter(true)
-                    }}
-                  />
-                )}
-              </div>
+              {rest?.reviews && rest?.reviews?.map((item, index) => (
+                <ReviewItem
+                  type='normal'
+                  index={index}
+                  key={item?.id}
+                  data={item}
+                  reviews={rest?.reviews}
+                  setReviews={rest?.setReviews}
+                  setCurrentReview={rest?.setCurrentReview}
+                  curentReview={rest?.curentReview}
+                  productId={rest?.productId}
+                />
+              ))}
             </div>
-          </>
+            <div className='category-paginate cus-category-paginate'>
+              {rest?.totalReviews > PAGE_SIZE && (
+                <Pagination
+                  total= {rest?.totalReviews}
+                  current={rest?.defaultFilter?.page}
+                  pageSize={PAGE_SIZE}
+                  showSizeChanger={false}
+                  onChange={(value) => {
+                    rest?.setDefaultFilter({
+                      ...rest.defaultFilter,
+                      page: value
+                    })
+                    rest?.setLoadingFilter(true)
+                  }}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </Col>
       <Col xl={{ span: 7 }} md={{ span: 0 }} sm={{ span: 0 }} xs={{ span: 0 }}>

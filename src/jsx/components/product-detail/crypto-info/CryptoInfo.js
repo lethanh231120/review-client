@@ -647,26 +647,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       )}
     </>
   )
-  // scam
-  // const scam = (
-  //   <>
-  //     {detail?.isScam ? (
-  //       <ScamWarningDetail
-  //         isShow={true}
-  //         scamWarningReason={mapScamReason(detail?.proof?.isScam)}
-  //         proofType='warning'
-  //       />
-  //     ) : detail?.isWarning ? (
-  //       <ScamWarningDetail
-  //         isShow={true}
-  //         scamWarningReason={mapScamReason(detail?.proof?.isScam || detail?.proof?.isWarning)}
-  //         proofType='warning'
-  //       />
-  //     ) : (
-  //       ''
-  //     )}
-  //   </>
-  // )
 
   const handleClickExchange = (e, item) => {
     e.stopPropagation()
@@ -675,148 +655,28 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     navigate(`../../../../../${urlDetail}`)
   }
 
-  // const more = <div>
-  //   {rest?.loadingDetail ? (<ProductDetailInfo/>) : (
-  //     <>
-  //       <InformationHeader projectName={detail?.name}/>
-  //       <div>
-  //         <div className='basic-form'>
-  //           {(detail?.isProxy !== null ||
-  //         detail?.contractVerified !== null)
-  //             ? <InfoContractDetail detail={detail} mainExplorer={mainExplorer} />
-  //             : ''
-  //           }
-  //           <ShortItem
-  //             icon={
-  //               <>
-  //                 <CheckCircleOutlined
-  //                   style={{
-  //                     color: 'green',
-  //                     display: 'flex',
-  //                     alignItems: 'center',
-  //                     marginTop: '0.3rem',
-  //                     paddingRight: '0.3rem',
-  //                     float: 'left',
-  //                     fontSize: '1.1rem'
-  //                   }}
-  //                 />
-  //               </>
-  //             }
-  //             title={
-  //               <>
-  //                 {(detail?.isCoinmarketcap !== null || detail?.isCoingecko)
-  //                   ? <div className='col-xxl-12 col-12'>
-  //                     <h3 className='fs-16 mb-0' style={{ display: 'inline', color: 'rgba(0, 0, 0, 0.6)' }}>
-  //                       {detail?.name} is listed on
-  //                       {detail?.isCoinmarketcap ? <span className='text-primary'> Coinmarketcap</span> : ''}
-  //                       {detail?.isCoingecko ? <span className='text-primary'>, Coingecko</span> : ''}
-  //                       {!_.isEmpty(detail?.exchanges) ? (
-  //                         <>
-  //                           &nbsp; and trading on &nbsp;
-  //                           {detail?.exchanges?.map((itemImageUrl, index) => (<>
-  //                             <span>
-  //                               &nbsp;
-  //                               <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
-  //                                   &nbsp;
-  //                               <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
-  //                                 className='text-primary txt-link'
-  //                               >
-  //                                 {getExchangeNameFromUrlImageExchage(itemImageUrl)}
-  //                               </span>
-  //                                 &nbsp;
-  //                               {/* <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
-  //                                   &nbsp;
-  //                                 <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
-  //                                   className='text-primary txt-link'
-  //                                 >
-  //                                   {getExchangeNameFromUrlImageExchage(itemImageUrl)}
-  //                                 </span> */}
-  //                             </span>
-  //                           </>))}
-  //                         </>
-  //                       ) : ''}
-  //                     </h3>
-  //                   </div> : (<>
-  //                     {!_.isEmpty(detail?.exchanges) ? (
-  //                       <>
-  //                         {detail?.name} is traded on Binance &nbsp;
-  //                         {detail?.exchanges?.map((itemImageUrl, index) => (<>
-  //                           <span>
-  //                               &nbsp;
-  //                             <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
-  //                                   &nbsp;
-  //                             <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
-  //                               className='text-primary txt-link'
-  //                             >
-  //                               {getExchangeNameFromUrlImageExchage(itemImageUrl)}
-  //                             </span>
-  //                                 &nbsp;
-  //                           </span>
-  //                         </>))}
-  //                       </>
-  //                     ) : ''}
-  //                   </>)
-  //                 }
-  //               </>
-  //             }
-  //           />
-
-  //           {!showInfo && <InfoExplorerDetail isShow={isShow} detail={detail} multichain={multichain}/>
-  //           }
-
-  //           <div style={{ fontSize: '1rem' }}>
-  //             If you have any good or bad experience with
-  //             <span className='text-primary'>
-  //               {` ${detail?.name}`}
-  //             </span>, please share with us in informing everyone
-  //             <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem', width: '1.1rem' }}/>
-  //             <img src={hands} alt='icon-hand' style={{ width: '1.1rem' }}/>
-  //             <img src={hands} alt='icon-hand' style={{ marginRight: '0.3rem', width: '1.1rem' }}/>
-  //             <span
-  //               onClick={() => {
-  //                 rest?.setData({ ...rest.data, isScam: false })
-  //                 rest?.form.setFieldsValue({
-  //                   isScam: false,
-  //                   star: undefined,
-  //                   sources: []
-  //                 })
-  //                 window.scrollTo(0, top)
-  //               }}
-  //               className='text-primary txt-link'
-  //               style={{ marginLeft: '0.5rem' }}
-
-  //             >
-  //           Review Now
-  //             </span>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </>
-  //   )}
-  // </div>
-
-  // const contractAddress = <>
-  //   { !_.isEmpty(detail?.multichain)
-  //     ? <>
-  //       <div>
-  //         {detail?.multichain?.map((chain) => (<>
-  //           {
-  //             chain?.split('_')?.length >= 4
-  //               ? <div className='mb-3'>
-  //                 <h3 style={{ fontSize: '1.2rem', color: '#A098AE', fontWeight: '400', display: 'inline' }}>
-  //                   <span className='text-primary text-break'>{chain?.split('_')[3]}</span>&nbsp;
-  //                     on chain {toCammelCase(chain?.split('_')[2])}
-  //                 </h3>
-  //               </div>
-  //               : ''
-  //           }
-  //         </>
-  //         ))}
-  //       </div>
-  //                 &nbsp;
-  //     </>
-  //     : ''}
-  // </>
+  const contractAddress = <>
+    { !_.isEmpty(detail?.multichain)
+      ? <>
+        <div>
+          {detail?.multichain?.map((chain) => (<>
+            {
+              chain?.split('_')?.length >= 4
+                ? <div className='mb-3'>
+                  <h3 style={{ fontSize: '1.2rem', color: '#A098AE', fontWeight: '400', display: 'inline' }}>
+                    <span className='text-primary text-break'>{chain?.split('_')[3]}</span>&nbsp;
+                      on chain {toCammelCase(chain?.split('_')[2])}
+                  </h3>
+                </div>
+                : ''
+            }
+          </>
+          ))}
+        </div>
+                  &nbsp;
+      </>
+      : ''}
+  </>
 
   const about = <>
     {rest?.loadingDetail ? (
@@ -891,16 +751,6 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   </>
 
   // { /* START DEMO: TEST NEW GUI FOR SEO */ }
-  // const blockHeader = (headerText) => <>
-  //   <div className='card-header border-0 pb-0'>
-  //     <div className='heading text-primary d-flex align-items-center break-word'>
-  //       <i className='material-icons fs-30 text-primary'>subject</i>
-  //       <h2 style={{ fontSize: '1.5rem' }} className='m-0 text-primary'>
-  //         {headerText}
-  //       </h2>
-  //     </div>
-  //   </div>
-  // </>
 
   const blockContent = (content) => <>
     <div className={ 'card-body pt-3' }>
@@ -984,23 +834,11 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     }
   </>
 
-  const contentCryptoSocreDescription = <>
+  const contentCryptoScoreDescription = <>
     {detail?.symbol} scored <b className='text-primary'>{getFinalScore(detail?.score, CRYPTO)}</b>/10 on the <b><a href={domainGear5} className='text-primary txt-link' target='_blank' rel='noreferrer'>Gear5.io</a></b>,  which we based on parameters such as liquidity on Dex exchanges, contract information such as whether there is a proxy or not, whether the contract is verified or not, which CEX and DEX exchanges it is traded on, trading volume, website information, number of holders, and transfers of COINS/TOKENS. If you have any questions about the score we provided, please contact {emailContactText}.
     <br />
     <br />
 In addition, we also provide user alerts for suspicious COINS/TOKENS based on simulated trading methods on DEX exchanges and checking their contract. The number of Spam reports also has a significant impact on our alert system.
-  </>
-
-  const cryptoSocreDescription = <>
-    {rest?.loadingDetail ? (
-      <ProductDetailInfo/>
-    ) : <>
-      <Description
-        projectName={`${detail?.name}'s Score`}
-      />
-      {blockContent(contentCryptoSocreDescription)}
-    </>
-    }
   </>
 
   const cryptoDefinitionContent = <>
@@ -1030,7 +868,7 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     <Collapse bordered={false}>
       <Panel header={<h4>{`${detail?.name}'s Score`}</h4>} key='1' className='panel'>
         <span className='cus-text-justify' style={{ display: 'inline', fontSize: '1.2rem', lineHeight: '2', fontWeight: '500', color: 'rgba(0, 0, 0, 0.6)' }}>
-          {(contentCryptoSocreDescription)}
+          {(contentCryptoScoreDescription)}
         </span>
       </Panel>
       <Panel header={(<h4>{`What is ${detail?.name}(${detail?.symbol})'s community?`}</h4>)} key='2' className='panel'>
@@ -1084,106 +922,6 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     </Collapse>
   </>
 
-  // const test3 = <>
-  //   {rest?.loadingDetail ? (
-  //     <ProductDetailInfo/>
-  //   ) : <>
-  //     <Description
-  //       projectName={`${detail?.name}'s Score`}
-  //     />
-  //     {blockContent(contentCryptoSocreDescription)}
-  //   </>
-  //   }
-  // </>
-
-  const cryptoDefinition = <>
-    {rest?.loadingDetail ? (
-      <ProductDetailInfo/>
-    ) : <>
-      <Description
-        projectName={`What is ${detail?.name}(${detail?.symbol})'s community?`}
-      />
-      {blockContent(cryptoDefinitionContent)}
-    </>
-    }
-  </>
-
-  // const cryptoFAQContent = <>
-  //   <b className='text-primary'>{detail?.name} ({detail?.symbol}) price has declined today.</b>
-  //   <br/>
-  //       The price of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)}</b> today with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)}</b>. This represents a <span className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}><b>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b></span> price {detail?.priceChangePercentage24h < 0 ? 'decline' : 'increase'} in the last 24 hours. With a total supply of <b className='text-primary'>{detail?.totalSupply ? formatLargeNumber(detail?.totalSupply) : 0}</b> {detail?.symbol}, {detail?.name} is valued at a market cap of <b className='text-primary'>{formatMoney(detail?.marketcapUSD)}</b>.
-  //   <br/>
-  //   <br/>
-  //   <b className='text-primary'>Where can you buy {detail?.name}?</b>
-  //   <br/>
-  //   {detail?.symbol} tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade {detail?.name} is <span className='text-primary'>{getTradingExchangeText()}</span>.
-  //   <br/>
-  //   <br/>
-  //   <b className='text-primary'>What is the daily trading volume of {detail?.name} ({detail?.symbol})?</b>
-  //   <br/>
-  //       The trading volume of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatLargeNumber(detail?.totalVolume) }</b> in the last 24 hours.
-  //   <br/>
-  //   <br/>
-  //   <b className='text-primary'>What is the all-time high for {detail?.name} ({detail?.symbol})?</b>
-  //   <br/>
-  //       The highest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.ath)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.athDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.athDate)}</span>). Comparatively, the current price is <b className='text-danger'>-{ (detail?.priceUSD / detail?.ath * 100)?.toFixed(2) }%</b> lower than the all-time high price.
-  //   <br/>
-  //   <br/>
-  //   <b className='text-primary'>What is the all-time low for {detail?.name} ({detail?.symbol})?</b>
-  //   <br/>
-  //       The lowest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-danger'>{formatPriceNumber(detail?.atl)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.atlDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.atlDate)}</span>). Comparatively, the current price is <b className='text-primary'>{ (detail?.priceUSD / detail?.atl * 100)?.toFixed(2) }%</b> higher than the all-time low price.
-  //   <br/>
-  //   <br/>
-  //   <b className='text-primary'>What is the market cap of {detail?.name} ({detail?.symbol})?</b>
-  //   <br/>
-  //       Market capitalization of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatMoney(detail?.marketcapUSD) }</b>. Market cap is measured by multiplying token price with the circulating supply of {detail?.symbol} tokens.
-  // </>
-  // const cryptoFAQ = <>
-  //   {rest?.loadingDetail ? (
-  //     <ProductDetailInfo/>
-  //   ) : <>
-  //     <Description
-  //       skipMinimizeMode={true}
-  //       projectName={`FAQs`}
-  //     />
-  //     {blockContent(cryptoFAQContent)}
-  //   </>
-  //   }
-  // </>
-
-  // const options = {
-  //   plugins: {
-  //     title: {
-  //       display: true,
-  //       text: `${detail?.name}'s holding rate`,
-  //       font: {
-  //         size: 22,
-  //         color: '#18A594'
-  //       },
-  //       padding: 30
-  //     },
-  //     legend: {
-  //       display: false, // show annotations chart
-  //       position: 'bottom',
-  //       align: 'center',
-  //       labels: {
-  //         boxWidth: 20,
-  //         padding: 30
-  //       }
-  //     },
-  //     // responsive: true,
-  //     tooltip: {
-  //       callbacks: {
-  //         title: (xDatapoint) => {
-  //           const label = xDatapoint[0]?.label
-  //           return `${_.capitalize(label)}`
-  //         }
-  //       }
-  //     }
-  //   },
-  //   maintainAspectRatio: true,
-  //   responsive: true
-  // }
   const columns = [
     {
       title: '#',
@@ -1243,8 +981,6 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     Header={header}
     type={CRYPTO}
     summary={summary}
-    // scam={scam}
-    // more={more}
     about={about}
     exchange={exchange}
     topDiscus={<TopDiscussed borderRadius={'0'} marginBottom={'1rem'}/>}
@@ -1254,13 +990,9 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     similar={ <ProductSimilar productType={CRYPTO} similarList={productInfo?.similars} /> }
     productInfo={productInfo}
     cryptoPriceLiveData={cryptoPriceLiveData}
-    cryptoDefinition={cryptoDefinition}
-    cryptoSocreDescription={cryptoSocreDescription}
-    // cryptoFAQ={cryptoFAQ}
     collap1={collap1}
     FAQs={FAQs}
     // { /* START DEMO: TEST NEW GUI FOR SEO */ }
-
     holders={holders}
     // { /* END DEMO: TEST NEW GUI FOR SEO */ }
   />
