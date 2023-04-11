@@ -850,10 +850,11 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
         (websiteName) => detail?.community[websiteName] && <>
           <a className='text-primary txt-link' target='_blank' href={detail?.community[websiteName]} rel='noreferrer'>{websiteName}</a>,&nbsp;
         </>) }
+      ...
+      <br/>
     </>
     }
 
-    {conditionCryptoDefinitionContent1 && `... `}
     {conditionCryptoDefinitionContent2 && <>
       The {detail?.name} team has released the source code here: { Object.keys(detail?.sourceCode)?.map(
         (websiteName) => <>
@@ -862,9 +863,10 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
           </a>,&nbsp;
         </>
       )}
+      ...
+      <br/>
     </>}
 
-    {(conditionCryptoDefinitionContent1 || conditionCryptoDefinitionContent2) && `... `}
     {conditionCryptoDefinitionContent3 && <>
       Additionally, {detail?.name} has currently been launched on {detail?.multichain?.length} chains with addresses:
       { contractAddress }

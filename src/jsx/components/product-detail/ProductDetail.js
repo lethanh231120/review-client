@@ -31,7 +31,6 @@ import { PathNameContext, removeStorageRefCode } from '../../index'
 import ProductDetailEmpty from '../skeleton/product-detail-skeleton/ProductDetailEmpty'
 import { getHeaderProductDetail } from '../SEO/server/productDetail'
 import { getReferralCodeHeader } from '../common-widgets/user-form/sign-in-form'
-import { Ads } from '../ads/Ads'
 
 // noti report success
 export const notifyTopRightSuccess = (content) => {
@@ -932,8 +931,6 @@ const ProductDetail = () => {
               )
                 : ''}
             </div>
-
-            <Ads />
           </>
         }
       </div>
