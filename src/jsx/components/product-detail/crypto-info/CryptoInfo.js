@@ -835,7 +835,7 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
   const cryptoFAQContent = <>
     <b className='text-primary'>{detail?.name} ({detail?.symbol}) price has declined today.</b>
     <br/>
-        The price of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)}</b> today with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)}</b>. This represents a <span className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}><b>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b></span> price {detail?.priceChangePercentage24h < 0 ? 'decline' : 'increase'} in the last 24 hours. With a total supply of <b className='text-primary'>{detail?.totalSupply ? formatLargeNumber(detail?.totalSupply) : 0}</b> {detail?.symbol}, {detail?.name} is valued at a market cap of <b className='text-primary'>{formatMoney(detail?.marketcapUSD)}</b>.
+        The price of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)}</b> today with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)}</b>. This represents a <span className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}><b>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b></span> price {detail?.priceChangePercentage24h < 0 ? 'decrease' : 'increase'} in the last 24 hours. With a total supply of <b className='text-primary'>{detail?.totalSupply ? formatLargeNumber(detail?.totalSupply) : 0}</b> {detail?.symbol}, {detail?.name} is valued at a market cap of <b className='text-primary'>{formatMoney(detail?.marketcapUSD)}</b>.
     <br/>
     <br/>
     <b className='text-primary'>Where can you buy {detail?.name}?</b>
@@ -850,12 +850,12 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     <br/>
     <b className='text-primary'>What is the all-time high for {detail?.name} ({detail?.symbol})?</b>
     <br/>
-        The highest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.ath)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.athDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.athDate)}</span>). Comparatively, the current price is <b className='text-danger'>-{ (detail?.priceUSD / detail?.ath * 100)?.toFixed(2) }%</b> lower than the all-time high price.
+        The highest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.ath)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.athDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.athDate)}</span>). Comparatively, the current price is <b className='text-danger'>-{ (100 - ((detail?.priceUSD / detail?.ath * 100)))?.toFixed(2) }%</b> lower than the all-time high price.
     <br/>
     <br/>
     <b className='text-primary'>What is the all-time low for {detail?.name} ({detail?.symbol})?</b>
     <br/>
-        The lowest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-danger'>{formatPriceNumber(detail?.atl)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.atlDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.atlDate)}</span>). Comparatively, the current price is <b className='text-primary'>{ (detail?.priceUSD / detail?.atl * 100)?.toFixed(2) }%</b> higher than the all-time low price.
+        The lowest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-danger'>{formatPriceNumber(detail?.atl)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.atlDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.atlDate)}</span>). Comparatively, the current price is <b className='text-primary'>{ ((detail?.priceUSD / detail?.atl * 100) - 100)?.toFixed(2) }%</b> higher than the all-time low price.
     <br/>
     <br/>
     <b className='text-primary'>What is the market cap of {detail?.name} ({detail?.symbol})?</b>
@@ -875,28 +875,17 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     }
   </>
 
-  const addressColorArr = []
-  addressColorArr?.push('#e60049')
-  addressColorArr?.push('#0bb4ff')
-  addressColorArr?.push('#50e991')
-  addressColorArr?.push('#e6d800')
-  addressColorArr?.push('#9b19f5')
-  addressColorArr?.push('#ffa300')
-  addressColorArr?.push('#dc0ab4')
-  addressColorArr?.push('#b3d4ff')
-  addressColorArr?.push('#00bfa0')
-  addressColorArr?.push('#039F7F')
   const columns = [
     {
       title: '#',
       align: 'right',
-      render: (text, record, index) => <span style={{ color: addressColorArr[index % 10] }}>{index + 1}</span>
+      render: (text, record, index) => <span>{index + 1}</span>
 
     },
     {
       title: 'Holding',
       align: 'right',
-      render: (_, record, index) => <span style={{ color: addressColorArr[index % 10] }}>{record?.share}&nbsp;%</span>
+      render: (_, record, index) => <span>{record?.share}&nbsp;%</span>
     },
     {
       title: 'Address',
@@ -904,12 +893,13 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
       render: (_, record, index) => <>
         <div className='d-flex align-items-center'>
           <CopyOutlined
+            className='text-primary'
             onClick={(e) =>
               copyAddress(e, record?.address, 'Copy address successfully')
             }
           />
           &nbsp;
-          <span style={{ color: addressColorArr[index % 10] }}>{record?.address}</span>
+          <span>{record?.address}</span>
         </div>
       </>
     }
