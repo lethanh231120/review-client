@@ -370,44 +370,6 @@ const getDetailInsightHeader = (req, res, chartName = '') =>{
   }
 }
 
-app.get(`/test`, (req, res) => {
-  console.log('is bot: ' + isbot(req.get('user-agent')), JSON.stringify(req.headers['user-agent']))
-  console.log(req.headers['x-forwarded-for'], req.socket.remoteAddress)
-
-  res.send('123')
-})
-
-// ######## detail page
-// detail: crypto(coin)
-app.get(`/products/crypto/coin/:coinName`, (req, res) => {
-  // console.log('detail: crypto(coin)')
-  const coinName = req?.params?.coinName
-  genDetailHeader(req, res, coinName ? `coin_${coinName}` : '')
-})
-
-// detail: crypto(token)
-app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
-  // console.log('detail: crypto(token)')
-  const chainName = req?.params?.chainName
-  const tokenAddress = req?.params?.tokenAddress
-  genDetailHeader(req, res, (chainName && tokenAddress) ? `token_${chainName}_${tokenAddress}` : '')
-})
-
-// detail: dApp, venture, exchange, soon, launchpad
-app.get(`/products/:category/:productName`, (req, res) => {
-  const category = req?.params?.category
-  const productName = req?.params?.productName
-  // console.log('detail', category, productName)
-  genDetailHeader(req, res, (category && productName) ? `${category}_${productName}` : '')
-})
-
-// detail: insight
-app.get(`/insight/:chartName`, (req, res) => {
-  const chartName = req?.params?.chartName
-  getDetailInsightHeader(req, res, chartName)
-})
-
-// ######## Otherwise page,..
 const genStaticHeader = (res, metaTag) => {
   return res?.send(injectHtmlHeader(metaTag))
 }
@@ -454,50 +416,130 @@ const genListHeader = (req, res, category, subCategory) => {
   }
 }
 
+const isBotRequest = (req) => {
+  return isbot(req.get('user-agent'))
+}
+
+// ######## detail page
+// detail: crypto(coin)
+app.get(`/products/crypto/coin/:coinName`, (req, res) => {
+  if (isBotRequest(req)) {
+    res.send('rate limit')
+  } else {
+    // console.log('detail: crypto(coin)')
+    const coinName = req?.params?.coinName
+    genDetailHeader(req, res, coinName ? `coin_${coinName}` : '')
+  }
+})
+
+// detail: crypto(token)
+app.get(`/products/crypto/token/:chainName/:tokenAddress`, (req, res) => {
+  if (isBotRequest(req)) {
+    res.send('rate limit')
+  } else {
+    // console.log('detail: crypto(token)')
+    const chainName = req?.params?.chainName
+    const tokenAddress = req?.params?.tokenAddress
+    genDetailHeader(req, res, (chainName && tokenAddress) ? `token_${chainName}_${tokenAddress}` : '')
+  }
+})
+
+// detail: dApp, venture, exchange, soon, launchpad
+app.get(`/products/:category/:productName`, (req, res) => {
+  if (isBotRequest(req)) {
+    res.send('rate limit')
+  } else {
+    const category = req?.params?.category
+    const productName = req?.params?.productName
+    // console.log('detail', category, productName)
+    genDetailHeader(req, res, (category && productName) ? `${category}_${productName}` : '')
+  }
+})
+
+// detail: insight
+app.get(`/insight/:chartName`, (req, res) => {
+  if (isBotRequest(req)) {
+    res.send('rate limit')
+  } else {
+    const chartName = req?.params?.chartName
+    getDetailInsightHeader(req, res, chartName)
+  }
+})
+
+// ######## Otherwise page,..
+
 // Live new token
 app.get(`/new-tokens`, (req, res)=>{
+  if (isBotRequest(req)) {
+    res.send('rate limit')
+  } else {
   // console.log(`/new-tokens`)
-  genStaticHeader(res, getMetaTagLiveNewToken(getURLFromRequest(req)))
+    genStaticHeader(res, getMetaTagLiveNewToken(getURLFromRequest(req)))
+  }
 })
 
 // Report Scam page
 app.get(`/report-scam`, (req, res) => {
-  // console.log(`/report-scam`)
-  genStaticHeader(res, getMetaTagReportScam(getURLFromRequest(req)))
+  if (isBotRequest(req)) {
+    res.send('rate limit')
+  } else {
+    // console.log(`/report-scam`)
+    genStaticHeader(res, getMetaTagReportScam(getURLFromRequest(req)))
+  }
 })
 
 // Add Project page
 app.get(`/add-project`, (req, res) => {
-  // console.log(`/add-project`)
-  genStaticHeader(res, getMetaTagAddProject(getURLFromRequest(req)))
+  if (isBotRequest(req)) {
+    res.send('rate limit')
+  } else {
+    // console.log(`/add-project`)
+    genStaticHeader(res, getMetaTagAddProject(getURLFromRequest(req)))
+  }
 })
 
 // list
 app.get('/:category', (req, res) => {
-  const category = req?.params?.category
-  // console.log('list', category)
-  genListHeader(req, res, category)
+  if (isBotRequest(req)) {
+    res.send('rate limit')
+  } else {
+    const category = req?.params?.category
+    // console.log('list', category)
+    genListHeader(req, res, category)
+  }
 })
 
 // list with sub-category
 app.get('/:category/:subCategory', (req, res) =>{
-  const category = req?.params?.category
-  const subCategory = req?.params?.subCategory
-  // console.log('list', category, 'subCategory', subCategory)
-  genListHeader(req, res, category, subCategory)
+  if (isBotRequest(req)) {
+    res.send('rate limit')
+  } else {
+    const category = req?.params?.category
+    const subCategory = req?.params?.subCategory
+    // console.log('list', category, 'subCategory', subCategory)
+    genListHeader(req, res, category, subCategory)
+  }
 })
 
 // home (NOT WORKING when use express.static)
-app.get('/', (_, res) => {
-  // console.log('home')
-  genStaticHeader(res, getMetaTagHome())
+app.get('/', (req, res) => {
+  if (isBotRequest(req)) {
+    res.send('rate limit')
+  } else {
+    // console.log('home')
+    genStaticHeader(res, getMetaTagHome())
+  }
 })
 
 // otherwise page
 app.get('/*', (req, res) => {
-  // console.log('other')
-  const uniqueLink = getURLFromRequest(req)
-  genStaticHeader(res, getMetaTag(META_TITLE, META_IMAGE, META_DESCRIPTION, uniqueLink))
+  if (isBotRequest(req)) {
+    res.send('rate limit')
+  } else {
+    // console.log('other')
+    const uniqueLink = getURLFromRequest(req)
+    genStaticHeader(res, getMetaTag(META_TITLE, META_IMAGE, META_DESCRIPTION, uniqueLink))
+  }
 })
 
 // listening...
