@@ -30,7 +30,7 @@ const file = (function() {
 }())
 
 const axios = require('axios')
-const isbot = require('isbot')
+// const isbot = require('isbot') // auto false for gg bot can access to crawl
 const rateLimit = require('express-rate-limit')
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minutes
@@ -427,7 +427,8 @@ const genListHeader = (req, res, category, subCategory) => {
 }
 
 const isBotRequest = (req) => {
-  return isbot(req.get('user-agent'))
+  return false // auto false for gg bot can access to crawl
+  // return isbot(req.get('user-agent'))
 }
 
 // ######## detail page
