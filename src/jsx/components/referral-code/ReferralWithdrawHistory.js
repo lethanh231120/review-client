@@ -1,5 +1,4 @@
 import React from 'react'
-import { get } from '../../../api/BaseRequest'
 import { useEffect } from 'react'
 import { Card } from 'react-bootstrap'
 import { useState } from 'react'
@@ -13,9 +12,9 @@ import _ from 'lodash'
 
 const getReward = async() => {
   try {
-    const resp = await get('reviews/referral/reward')
-    const respData = resp?.data
-    return respData
+    // const resp = await get('reviews/referral/reward')
+    // const respData = resp?.data
+    // return respData
   } catch (err) {
     console.error(err)
   }

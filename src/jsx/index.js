@@ -35,11 +35,9 @@ import { CATEGORY_CRYPTO, CATEGORY_DAPP, CATEGORY_EXCHANGE, CATEGORY_INSIGHT, CA
 import ChartDetail from './components/insight/chartDetail/ChartDetail'
 import { PrivacyPolicy } from './components/privacy-policy/PrivacyPolicy'
 import LiveNewTokensList from './components/live-new-tokens/LiveNewTokensList'
-import { ALGORITHM_KECCAK256, API_CONFIRM, get } from '../api/BaseRequest'
+import { ALGORITHM_KECCAK256, API_CONFIRM } from '../api/BaseRequest'
 import { STORAGEKEY } from '../utils/storage'
 import { getBrowserUserAgent } from '../utils/browserExtract'
-import { getReferralCodeHeader } from './components/common-widgets/user-form/sign-in-form'
-import { getCookie } from './../utils/storage/index'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -219,103 +217,103 @@ const Markup = () => {
   }, [location])
 
   // This will run one time after the component mounts
-  useEffect(() => {
-    // callback function to call when event triggers
-    const onPageLoad = async() => {
-      // *** scroll to the top page
-      const [xCoord, yCoord] = [0, 0]
-      window.scrollTo(xCoord, yCoord)
+  // useEffect(() => {
+  //   // callback function to call when event triggers
+  //   const onPageLoad = async() => {
+  //     // *** scroll to the top page
+  //     const [xCoord, yCoord] = [0, 0]
+  //     window.scrollTo(xCoord, yCoord)
 
-      // *** clear url, save param referral code
-      const refParam = getQueryParam('ref')
-      sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE)
-      sessionStorage.setItem(STORAGEKEY.REFERRAL_CODE, refParam)
-      const campainParam = getQueryParam('cam')
-      sessionStorage.removeItem(STORAGEKEY.CAMPAIGN_CODE)
-      sessionStorage.setItem(STORAGEKEY.CAMPAIGN_CODE, campainParam)
-      // remove referral in URL
-      history.pushState({}, null, window.location.href.split('?')[0])
+  //     // *** clear url, save param referral code
+  //     const refParam = getQueryParam('ref')
+  //     sessionStorage.removeItem(STORAGEKEY.REFERRAL_CODE)
+  //     sessionStorage.setItem(STORAGEKEY.REFERRAL_CODE, refParam)
+  //     const campainParam = getQueryParam('cam')
+  //     sessionStorage.removeItem(STORAGEKEY.CAMPAIGN_CODE)
+  //     sessionStorage.setItem(STORAGEKEY.CAMPAIGN_CODE, campainParam)
+  //     // remove referral in URL
+  //     history.pushState({}, null, window.location.href.split('?')[0])
 
-      // *** Set event avtive tab
-      let timerCheckHuman
-      sessionStorage.removeItem(STORAGEKEY.COUNTER_MOVE)
-      sessionStorage.setItem(STORAGEKEY.COUNTER_MOVE, 0)
+  //     // *** Set event avtive tab
+  //     let timerCheckHuman
+  //     sessionStorage.removeItem(STORAGEKEY.COUNTER_MOVE)
+  //     sessionStorage.setItem(STORAGEKEY.COUNTER_MOVE, 0)
 
-      sessionStorage.removeItem(STORAGEKEY.COUNTER_HUMAN_CHECK)
-      sessionStorage.setItem(STORAGEKEY.COUNTER_HUMAN_CHECK, 0)
-      const RunTimerCheckHuman = async() =>{
-        const header = await getReferralCodeHeader()
+  //     sessionStorage.removeItem(STORAGEKEY.COUNTER_HUMAN_CHECK)
+  //     sessionStorage.setItem(STORAGEKEY.COUNTER_HUMAN_CHECK, 0)
+  //     const RunTimerCheckHuman = async() =>{
+  //       const header = await getReferralCodeHeader()
 
-        const refCode = header?.Referral
-        // has parameter must couter (prequiosute param to call this API)
-        if (refCode) {
-        // clear before run again
-          clearInterval(timerCheckHuman)
-          timerCheckHuman = setInterval(async() => {
-            const counter = parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_HUMAN_CHECK))
-            // count 30 times(1 second * 30)
-            const limitSecond = 30
-            if (counter >= limitSecond) {
-              try {
-                // already interact with website
-                if (parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_MOVE)) >= 2) {
-                  const userAccessToken = getCookie(STORAGEKEY.ACCESS_TOKEN)
-                  // already login
-                  if (userAccessToken) {
-                    clearInterval(timerCheckHuman) // last time run
-                    removeStorageRefCode()
-                    await get(`reviews/referral/confirm`, {}, header)
-                  }
-                }
-              } catch (e) {
-                console.error(e)
-              }
-            } else {
-              // counter < limit
-              sessionStorage.removeItem(STORAGEKEY.COUNTER_HUMAN_CHECK)
-              sessionStorage.setItem(STORAGEKEY.COUNTER_HUMAN_CHECK, counter + 1)
-            }
-          }, 1000)
-        }
-      }
-      // **first time
-      RunTimerCheckHuman()
-      // **Click website after focus
-      window.addEventListener('focus', () => {
-        // tab is focus
-        if (document.hasFocus()) {
-          RunTimerCheckHuman()
-        }
-      })
-      // **Focus website
-      window.addEventListener('blur', ()=>{
-        clearInterval(timerCheckHuman)
-      })
-      // Event evoke one times
-      window.addEventListener('click', ()=>{
-        moveUp()
-      }, { once: 'true' })
-      // Event evoke one times
-      window.addEventListener('scroll', ()=>{
-        moveUp()
-      }, { once: 'true' })
-    }
+  //       const refCode = header?.Referral
+  //       // has parameter must couter (prequiosute param to call this API)
+  //       if (refCode) {
+  //       // clear before run again
+  //         clearInterval(timerCheckHuman)
+  //         timerCheckHuman = setInterval(async() => {
+  //           const counter = parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_HUMAN_CHECK))
+  //           // count 30 times(1 second * 30)
+  //           const limitSecond = 30
+  //           if (counter >= limitSecond) {
+  //             try {
+  //               // already interact with website
+  //               if (parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_MOVE)) >= 2) {
+  //                 const userAccessToken = getCookie(STORAGEKEY.ACCESS_TOKEN)
+  //                 // already login
+  //                 if (userAccessToken) {
+  //                   clearInterval(timerCheckHuman) // last time run
+  //                   removeStorageRefCode()
+  //                   await get(`reviews/referral/confirm`, {}, header)
+  //                 }
+  //               }
+  //             } catch (e) {
+  //               console.error(e)
+  //             }
+  //           } else {
+  //             // counter < limit
+  //             sessionStorage.removeItem(STORAGEKEY.COUNTER_HUMAN_CHECK)
+  //             sessionStorage.setItem(STORAGEKEY.COUNTER_HUMAN_CHECK, counter + 1)
+  //           }
+  //         }, 1000)
+  //       }
+  //     }
+  //     // **first time
+  //     RunTimerCheckHuman()
+  //     // **Click website after focus
+  //     window.addEventListener('focus', () => {
+  //       // tab is focus
+  //       if (document.hasFocus()) {
+  //         RunTimerCheckHuman()
+  //       }
+  //     })
+  //     // **Focus website
+  //     window.addEventListener('blur', ()=>{
+  //       clearInterval(timerCheckHuman)
+  //     })
+  //     // Event evoke one times
+  //     window.addEventListener('click', ()=>{
+  //       moveUp()
+  //     }, { once: 'true' })
+  //     // Event evoke one times
+  //     window.addEventListener('scroll', ()=>{
+  //       moveUp()
+  //     }, { once: 'true' })
+  //   }
 
-    // Check if the page has already loaded
-    if (document.readyState === 'complete') {
-      onPageLoad()
-    } else {
-      window.addEventListener('load', onPageLoad, false)
-      // Remove the event listener when component unmounts
-      return () => window.removeEventListener('load', onPageLoad)
-    }
-  }, [])
+  //   // Check if the page has already loaded
+  //   if (document.readyState === 'complete') {
+  //     onPageLoad()
+  //   } else {
+  //     window.addEventListener('load', onPageLoad, false)
+  //     // Remove the event listener when component unmounts
+  //     return () => window.removeEventListener('load', onPageLoad)
+  //   }
+  // }, [])
 
-  const moveUp = () => {
-    const counter = parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_MOVE))
-    sessionStorage.removeItem(STORAGEKEY.COUNTER_MOVE)
-    sessionStorage.setItem(STORAGEKEY.COUNTER_MOVE, counter + 1)
-  }
+  // const moveUp = () => {
+  //   const counter = parseInt(sessionStorage.getItem(STORAGEKEY.COUNTER_MOVE))
+  //   sessionStorage.removeItem(STORAGEKEY.COUNTER_MOVE)
+  //   sessionStorage.setItem(STORAGEKEY.COUNTER_MOVE, counter + 1)
+  // }
 
   return (
     <>
