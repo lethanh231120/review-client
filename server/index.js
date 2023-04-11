@@ -34,7 +34,8 @@ const isbot = require('isbot')
 const rateLimit = require('express-rate-limit')
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minutes
-  max: 60, // Limit each IP to 60 requests per `window` (here, per 1 minutes)
+  // gg bot maximum 10times/ second, ref: https://meta.stackexchange.com/questions/84695/eeeeek-where-is-my-slow-performance/84701#84701
+  max: 610, // Limit each IP to 610 requests per `window` (here, per 1 minutes)
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false // Disable the `X-RateLimit-*` headers
 })
