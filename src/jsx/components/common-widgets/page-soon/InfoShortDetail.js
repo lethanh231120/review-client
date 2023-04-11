@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import InformationSubTitle, { typeShort } from '../page-detail/InformationSubTitle'
 import ShortItem from '../page-detail/ShortItem'
-import ShortItemScamWarning, { typeReview, typeScamReport } from '../page-detail/ShortItemScamWarning'
+// import ShortItemScamWarning, { typeReview, typeScamReport } from '../page-detail/ShortItemScamWarning'
 
 export const InfoShortDetail = ({ itemDetail }) => {
   return itemDetail?.projectName && (itemDetail?.roundType || !_.isEmpty(itemDetail?.blockchain || itemDetail?.acceptCurrency || itemDetail?.type || (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0) || (itemDetail?.totalReviews || itemDetail?.totalReviews === 0)))
@@ -12,11 +12,12 @@ export const InfoShortDetail = ({ itemDetail }) => {
         itemDetail?.type &&
         <div className='mb-3 col-12' >
           <ShortItem
-            title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName}&apos;s token type</h3>:&nbsp;
+            title={<div style={{ display: 'flex', alignItems: 'center' }}>
+              <h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName}&apos;s token type</h3>:&nbsp;
               <span className='text-primary'>
                 <b>{itemDetail?.type}</b>
               </span>
-            </>
+            </div>
             }
           />
         </div>
@@ -25,11 +26,12 @@ export const InfoShortDetail = ({ itemDetail }) => {
         itemDetail?.roundType &&
         <div className='mb-3 col-12' >
           <ShortItem
-            title={<><h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName}&apos;s current round</h3>:&nbsp;
+            title={<div style={{ display: 'flex', alignItems: 'center' }}>
+              <h3 className='fs-16 mb-0' style={{ color: '#A098AE' }}>{itemDetail?.projectName}&apos;s current round</h3>:&nbsp;
               <span className='text-primary'>
                 <h3 className='mb-0 text-primary fs-16'><b>{itemDetail?.roundType}</b></h3>
               </span>
-            </>
+            </div>
             }
           />
         </div>
@@ -76,7 +78,7 @@ export const InfoShortDetail = ({ itemDetail }) => {
           />
         </div>
       }
-
+      {/*
       {
       // check like this cus && don't pass zero
         (itemDetail?.totalIsScam || itemDetail?.totalIsScam === 0)
@@ -101,7 +103,7 @@ export const InfoShortDetail = ({ itemDetail }) => {
             />
           </div>
           : ''
-      }
+      } */}
 
     </div> : ''
 }

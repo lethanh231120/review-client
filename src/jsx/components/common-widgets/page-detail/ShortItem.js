@@ -5,7 +5,7 @@ const defaultIcon = <i className='material-icons fs-18 text-primary'>keyboard_ar
 const ShortItem = ({ title, content, icon = defaultIcon }) => {
   return <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'>
     {/* return <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ marginLeft: '1.5rem', width: '96%' }}> */}
-    <div className='form-check custom-checkbox checkbox-succes' style={{ padding: '0' }}>
+    <div className='form-check custom-checkbox checkbox-succes' style={{ padding: '0', display: 'flex', alignItems: 'center' }}>
       {icon}
       {title}
     </div>

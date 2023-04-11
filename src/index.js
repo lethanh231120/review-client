@@ -5,40 +5,40 @@ import reportWebVitals from './reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
 import ThemeContext from './context/ThemeContext'
 import { HelmetProvider } from 'react-helmet-async'
-import { ErrorBoundary } from 'react-error-boundary'
-import { Button } from 'react-bootstrap'
-import { emailContactText } from './jsx/components/referral-code/ReferralCodeNotification'
+// import { ErrorBoundary } from 'react-error-boundary'
+// import { Button } from 'react-bootstrap'
+// import { emailContactText } from './jsx/components/referral-code/ReferralCodeNotification'
 
-const templateAppCrashed = <>
-  <p style={{
-    fontSize: '4rem',
-    color: '#039F7F' // main color
-  }}>
-    <center>Something went wrong.</center>
-  </p>
+// const templateAppCrashed = <>
+//   <p style={{
+//     fontSize: '4rem',
+//     color: '#039F7F' // main color
+//   }}>
+//     <center>Something went wrong.</center>
+//   </p>
 
-  <p style={{
-    fontSize: '2rem',
-    color: '#039F7F' // main color
-  }}>
-    <a href='/'><Button className='btn btn-primary' style={{ marginRight: '1rem' }}>
-                  Go Home
-    </Button></a>
-    , or contact us via email <b>{emailContactText}</b>
-  </p>
+//   <p style={{
+//     fontSize: '2rem',
+//     color: '#039F7F' // main color
+//   }}>
+//     <a href='/'><Button className='btn btn-primary' style={{ marginRight: '1rem' }}>
+//                   Go Home
+//     </Button></a>
+//     , or contact us via email <b>{emailContactText}</b>
+//   </p>
 
-</>
+// </>
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <ErrorBoundary fallback={templateAppCrashed}>
-    <HelmetProvider>
-      <BrowserRouter>
-        <ThemeContext>
-          <App />
-        </ThemeContext>
-      </BrowserRouter>
-    </HelmetProvider>
-  </ErrorBoundary>,
+  // <ErrorBoundary fallback={templateAppCrashed}>
+  <HelmetProvider>
+    <BrowserRouter>
+      <ThemeContext>
+        <App />
+      </ThemeContext>
+    </BrowserRouter>
+  </HelmetProvider>,
+  // </ErrorBoundary>,
   document.getElementById('root')
 )
 

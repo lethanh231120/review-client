@@ -4,6 +4,7 @@ import FormReport from '../Forms/form-report/FormReport'
 import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
 // import { SOON, CRYPTO, VENTURE, LAUNCHPAD } from '../../constants/category'
+import { SOON } from '../../constants/category'
 // import logocolor from '../../../images/logo/gear5_logo_notext.webp'
 import logo from '../../../images/logo/logo.png'
 import hands from '../../../images/svg/hands.svg'
@@ -33,7 +34,7 @@ export const dataReviewFounder = {
   </p>
 }
 export const DetailLayout = (props) => {
-  const { Header, portfolioOrChartOrDesc, summary, about, exchange, topDiscus, similar, rest, collap1, FAQs, setTop, productInfo, cryptoPriceLiveData, holders } = props
+  const { Header, portfolioOrChartOrDesc, summary, about, exchange, topDiscus, similar, rest, more, collap1, FAQs, setTop, productInfo, cryptoPriceLiveData, holders, type, timeAndPercentProcess } = props
   // const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, similar, rest, collap1, FAQs, setTop, productInfo,
   //   // { /* START DEMO: TEST NEW GUI FOR SEO */ }
   //   cryptoPriceLiveData, test2, test3, test4, test5,
@@ -61,16 +62,38 @@ export const DetailLayout = (props) => {
           <div style={{ padding: '1rem' }}>
             {Header}
           </div>
+
+          {type === SOON && (
+            <div style={{ padding: '1rem' }}>
+              <div className='box-summary display-block-1200' style={{ padding: '1rem' }}>
+                {type === SOON && (timeAndPercentProcess &&
+                  <div className='profile-statistics'>
+                    {timeAndPercentProcess}
+                  </div>)}
+              </div>
+              <div>
+                <div className='box-summary'>
+                  {summary}
+                </div>
+              </div>
+              <div className='display-block-1200' style={{ background: '#fff', border: '1px solid rgba(0, 0, 0, 0.1)' }}>
+                {more}
+              </div>
+            </div>
+          )}
+
           {portfolioOrChartOrDesc && (
             <>
               {portfolioOrChartOrDesc}
             </>
           )}
-          <div className='display-block-1200'>
-            <div className='box-summary'>
+
+          {type !== SOON && (
+            <div className='display-block-1200 box-summary'>
               {summary}
             </div>
-          </div>
+          )}
+
           <>
             {about}
           </>
@@ -83,22 +106,27 @@ export const DetailLayout = (props) => {
           <>
             {FAQs}
           </>
+
           <div className='display-block-1200'>
             <Row gutter={[15, 15]}>
-              <Col md={{ span: 12 }} sm={{ span: 24 }} xs={{ span: 24 }}>
-                <div className='box-in-maxWidth-1200'>
-                  {similar && (
-                    <>
-                      {similar}
-                    </>
-                  )}
-                </div>
-              </Col>
-              <Col md={{ span: 12 }} sm={{ span: 24 }} xs={{ span: 24 }}>
-                <div className='box-in-maxWidth-1200'>
-                  {topDiscus}
-                </div>
-              </Col>
+              {similar && (
+                <Col md={{ span: 12 }} sm={{ span: 24 }} xs={{ span: 24 }}>
+                  <div className='box-in-maxWidth-1200'>
+                    {similar && (
+                      <>
+                        {similar}
+                      </>
+                    )}
+                  </div>
+                </Col>
+              )}
+              {topDiscus && (
+                <Col md={{ span: 12 }} sm={{ span: 24 }} xs={{ span: 24 }}>
+                  <div className='box-in-maxWidth-1200'>
+                    {topDiscus}
+                  </div>
+                </Col>
+              )}
             </Row>
           </div>
           <div className='display-block-1200'>
@@ -172,8 +200,23 @@ export const DetailLayout = (props) => {
       <Col xl={{ span: 7 }} md={{ span: 0 }} sm={{ span: 0 }} xs={{ span: 0 }}>
         <div>
           <div className='box-summary display-none-1200'>
-            {summary}
+            {type === SOON && (timeAndPercentProcess &&
+              <div className='profile-statistics'>
+                {timeAndPercentProcess}
+              </div>)}
           </div>
+
+          {type !== SOON && (
+            <div className='box-summary display-none-1200'>
+              {summary}
+            </div>
+          )}
+
+          {type === SOON && (
+            <div className='display-none-1200' style={{ background: '#fff', border: '1px solid rgba(0, 0, 0, 0.1)' }}>
+              {more}
+            </div>
+          )}
 
           <div className='box-in-minWidth-1200'>
             {similar && (
