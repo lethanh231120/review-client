@@ -8,6 +8,7 @@ import { CRYPTO, CRYPTO_COIN } from '../../../constants/category'
 import { TopDiscussed } from '../../common-widgets/home/top-discussed/top-discuss-project'
 import { ChainListContext, ExchangeContext } from '../../../../App'
 import { Badge, Button } from 'react-bootstrap'
+// import { Badge, Button, Card } from 'react-bootstrap'
 import { Image } from 'antd'
 import ScamWarningDetail from '../scam-warning/ScamWarningDetail'
 import { LinkOutlined } from '@ant-design/icons'
@@ -28,20 +29,19 @@ import {
   current,
   slash
 } from '../../../constants/exchanges'
-import { WARNING_ICON } from '../../common-widgets/logo/logo'
-import { ExchangeDetail } from '../../common-widgets/page-crypto/ExchangeDetail'
+// import { WARNING_ICON } from '../../common-widgets/logo/logo'
+// import { ExchangeDetail } from '../../common-widgets/page-crypto/ExchangeDetail'
 import ShareButton from '../../common-widgets/page-detail/ShareButton'
 import { WebsiteButton } from '../../common-widgets/page-detail/WebsiteButton'
 import { ProductSimilar } from '../../common-widgets/page-detail/ProductSimilar'
 import ProductImage, { altCrypto, sizeImg48 } from '../../common-widgets/page-detail/ProductImage'
 import { ProductNameSubName } from '../../common-widgets/page-detail/ProductNameSubName'
-import { bgRed, SummaryDetail } from '../../common-widgets/page-detail/SummaryDetail'
-import { bgGreen } from './../../common-widgets/page-detail/SummaryDetail'
-import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
+import { bgRed, SummaryDetail, bgGreen } from '../../common-widgets/page-detail/SummaryDetail'
+// import InformationHeader from '../../common-widgets/page-detail/InformationHeader'
 import InfoContractDetail from '../../common-widgets/page-crypto/InfoContractDetail'
-import InfoAvailableDetail from './../../common-widgets/page-crypto/InfoAvailableDetail'
+// import InfoAvailableDetail from './../../common-widgets/page-crypto/InfoAvailableDetail'
 import { InfoExplorerDetail } from '../../common-widgets/page-crypto/InfoExplorerDetail'
-import { InfoTagDetail } from './../../common-widgets/page-crypto/InfoTagDetail'
+// import { InfoTagDetail } from './../../common-widgets/page-crypto/InfoTagDetail'
 import share from '../../../../images/svg/share.svg'
 import hands from '../../../../images/svg/hands.svg'
 import { Modal } from 'antd'
@@ -56,12 +56,22 @@ import { formatLargeNumber, formatMoney } from '../../../../utils/formatNumber'
 import { formatChartDate } from '../../insight/charts/BarChart'
 import { formatDateStyle } from '../../../../utils/time/time'
 import { timeAgoConvert } from '../../common-widgets/home/click-function'
+// import { Pie } from 'react-chartjs-2'
+import { Collapse } from 'antd'
+import { useNavigate } from 'react-router-dom'
+const { Panel } = Collapse
+import { getExchangeNameFromUrlImageExchage, formatUrlDetailFromUrlImageExchange } from '../../../../utils/formatText'
+import { CheckCircleOutlined } from '@ant-design/icons'
+import ShortItem from '../../common-widgets/page-detail/ShortItem'
 
 const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
+  const navigate = useNavigate()
+
   const detail = productInfo?.details
   const topHolder = productInfo?.mores?.holder
   const tradingExchanges = productInfo?.mores?.trading
-  const PAGE_SIZE = 10
+  // const PAGE_SIZE = 10
+  const PAGE_SIZE = 5
   const chainList = useContext(ChainListContext)
   const exchanges = useContext(ExchangeContext)
   const [showInfo, setShowInfo] = useState()
@@ -300,17 +310,17 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     setDataExchange(newListExchange)
   }, [productInfo, exchanges])
 
-  const handleReportScam = () => {
-    rest?.setData({
-      ...rest.data,
-      isScam: true
-    })
-    rest?.form?.setFieldsValue({
-      isScam: true,
-      star: 1
-    })
-    window.scrollTo(0, top)
-  }
+  // const handleReportScam = () => {
+  //   rest?.setData({
+  //     ...rest.data,
+  //     isScam: true
+  //   })
+  //   rest?.form?.setFieldsValue({
+  //     isScam: true,
+  //     star: 1
+  //   })
+  //   window.scrollTo(0, top)
+  // }
 
   const columnExchanges = [
     {
@@ -365,6 +375,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       <Badge className='badge-sm ' >{toCammelCase(detail?.type) }</Badge>
     )}
   </>
+
   const nameSymbolType = <div className=''>
     <span>
       {detail?.name}
@@ -488,119 +499,126 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
       {rest?.loadingDetail ? (
         <ProductDetailSummary/>
       ) : (
-        <div className='text-center'>
-          <div className='row'>
-            <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
-              <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalReviews)} text={'Reviews'} backgroundColor={bgGreen} />
-            </div>
-            <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
-              <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalIsScam)} text={'Reported Scam'} backgroundColor={bgRed} />
-            </div>
-            <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
-              <div className='mb-0 mt-3'>
-                <MyScoreComponent score={detail?.score} type={CRYPTO} />
+        <div>
+          {/* summary */}
+          <div>
+            <div style={{ textAlign: 'center', width: '100%', display: 'flex', alignItems: 'center' }}>
+              <div className='summary-item display-1200'>
+                <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalReviews)} text={'Reviews'} backgroundColor={bgGreen} />
               </div>
-              <div>Score</div>
+              <div className='summary-item'>
+                <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalIsScam)} text={'Reported Scam'} backgroundColor={bgRed} />
+              </div>
+              <div className='summary-item'>
+                <div className='mb-0 mt-3'>
+                  <MyScoreComponent score={detail?.score} type={CRYPTO} />
+                </div>
+                <div>Score</div>
+              </div>
+            </div>
+            <div style={{ fontSize: '1rem', color: 'rgba(0, 0, 0, 0.6)', fontWeight: '500', padding: '1rem 0' }}>
+              Click
+              <a href='' target='_blank' className='summary-link'>Here</a> to view a list of projects based on your preferences
             </div>
           </div>
-          <div className='mt-4 '>
-            <Button
-              className='mb-1 me-1'
-              variant='danger'
-              onClick={handleReportScam}
-            >
-              <span className='d-flex'>
-                {WARNING_ICON('#fff', '18px')}
-                &nbsp; Report&nbsp;Scam
-              </span>
-            </Button>
-            <Button
-              className='btn btn-primary mb-1 ms-1'
-              onClick={() => {
-                rest?.setData({ ...rest.data, isScam: false })
-                rest?.form.setFieldsValue({
-                  isScam: false,
-                  star: undefined,
-                  sources: []
-                })
-                window.scrollTo(0, top)
-              }}
-            >
-              <svg
-                width='18'
-                height='18'
-                viewBox='0 0 1024 1024'
-                className='icon'
-                version='1.1'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  d='M687.542857 965.485714H182.857143c-87.771429 0-160.914286-73.142857-160.914286-160.914285V256c0-87.771429 73.142857-160.914286 160.914286-160.914286h336.457143V146.285714H182.857143C124.342857 146.285714 73.142857 197.485714 73.142857 256v541.257143c0 58.514286 51.2 109.714286 109.714286 109.714286h504.685714c58.514286 0 109.714286-51.2 109.714286-109.714286V533.942857h58.514286v263.314286c-7.314286 95.085714-80.457143 168.228571-168.228572 168.228571z'
-                  fill='#fff'
-                />
-                <path
-                  d='M877.714286 95.085714l109.714285 138.971429c7.314286 7.314286 0 14.628571-7.314285 21.942857L629.028571 526.628571c-7.314286 7.314286-160.914286-7.314286-160.914285-7.314285s29.257143-146.285714 36.571428-153.6l351.085715-270.628572c7.314286-7.314286 14.628571-7.314286 21.942857 0z'
-                  fill='#F4B1B2'
-                />
-                <path
-                  d='M607.085714 555.885714c-21.942857 0-65.828571 0-138.971428-7.314285H438.857143V512c29.257143-160.914286 36.571429-160.914286 43.885714-168.228571L833.828571 73.142857c21.942857-14.628571 43.885714-14.628571 58.514286 7.314286L1002.057143 219.428571c14.628571 14.628571 7.314286 43.885714-7.314286 58.514286L643.657143 548.571429c-7.314286 7.314286-7.314286 7.314286-36.571429 7.314285z m-109.714285-58.514285c51.2 0 95.085714 7.314286 117.028571 7.314285L950.857143 241.371429l-87.771429-117.028572-336.457143 263.314286c-7.314286 14.628571-14.628571 58.514286-29.257142 109.714286z'
-                  fill='#fff'
-                />
-              </svg>
-              &nbsp; Add Review
-            </Button>
-          </div>
-        </div>
-      )}
-    </>
-  )
-  // scam
-  const scam = (
-    <>
-      {detail?.isScam ? (
-        <ScamWarningDetail
-          isShow={true}
-          scamWarningReason={mapScamReason(detail?.proof?.isScam)}
-          proofType='warning'
-        />
-      ) : detail?.isWarning ? (
-        <ScamWarningDetail
-          isShow={true}
-          scamWarningReason={mapScamReason(detail?.proof?.isScam || detail?.proof?.isWarning)}
-          proofType='warning'
-        />
-      ) : (
-        ''
-      )}
-    </>
-  )
 
-  const more = <div>
-    {rest?.loadingDetail ? (<ProductDetailInfo/>) : (
-      <>
-        <InformationHeader projectName={detail?.name}/>
-        <div className='card-body pt-3'>
+          {/* scam or warning */}
+          <>
+            {detail?.isScam ? (
+              <ScamWarningDetail
+                isShow={true}
+                scamWarningReason={mapScamReason(detail?.proof?.isScam)}
+                proofType='warning'
+              />
+            ) : detail?.isWarning ? (
+              <ScamWarningDetail
+                isShow={true}
+                scamWarningReason={mapScamReason(detail?.proof?.isScam || detail?.proof?.isWarning)}
+                proofType='warning'
+              />
+            ) : (
+              ''
+            )}
+          </>
+
+          {/* more */}
           <div className='basic-form'>
-            {(detail?.isProxy !== null ||
-          detail?.contractVerified !== null)
+            {(detail?.isProxy !== null || detail?.contractVerified !== null)
               ? <InfoContractDetail detail={detail} mainExplorer={mainExplorer} />
               : ''
             }
+            <ShortItem
+              icon={
+                <>
+                  <CheckCircleOutlined
+                    style={{
+                      color: 'green',
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginTop: '0.3rem',
+                      paddingRight: '0.3rem',
+                      float: 'left',
+                      fontSize: '1.1rem'
+                    }}
+                  />
+                </>
+              }
+              title={
+                <>
+                  {(detail?.isCoinmarketcap !== null || detail?.isCoingecko)
+                    ? <div className='col-xxl-12 col-12'>
+                      <h3 className='fs-16 mb-0' style={{ display: 'inline', color: 'rgba(0, 0, 0, 0.6)' }}>
+                        {detail?.name} is listed on
+                        {detail?.isCoinmarketcap ? <span className='text-primary'> Coinmarketcap</span> : ''}
+                        {detail?.isCoingecko ? <span className='text-primary'>, Coingecko</span> : ''}
+                        {!_.isEmpty(detail?.exchanges) ? (
+                          <>
+                            &nbsp; and trading on &nbsp;
+                            {detail?.exchanges?.map((itemImageUrl, index) => (<>
+                              <span>
+                                &nbsp;
+                                <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
+                                    &nbsp;
+                                <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
+                                  className='text-primary txt-link'
+                                >
+                                  {getExchangeNameFromUrlImageExchage(itemImageUrl)}
+                                </span>
+                                  &nbsp;
+                              </span>
+                            </>))}
+                          </>
+                        ) : ''}
+                      </h3>
+                    </div> : (<>
+                      {!_.isEmpty(detail?.exchanges) ? (
+                        <>
+                          {detail?.name} is traded on Binance &nbsp;
+                          {detail?.exchanges?.map((itemImageUrl, index) => (<>
+                            <span>
+                                &nbsp;
+                              <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
+                                    &nbsp;
+                              <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
+                                className='text-primary txt-link'
+                              >
+                                {getExchangeNameFromUrlImageExchage(itemImageUrl)}
+                              </span>
+                                  &nbsp;
+                            </span>
+                          </>))}
+                        </>
+                      ) : ''}
+                    </>)
+                  }
+                </>
+              }
+            />
 
-            {detail?.isCoinmarketcap !== null ||
-          detail?.isCoingecko !== null
-              ? <InfoAvailableDetail detail={detail} />
-              : ''
-            }
+            {!showInfo && <InfoExplorerDetail isShow={isShow} detail={detail} multichain={multichain}/> }
 
-            <ExchangeDetail coinName={detail?.name} exchangeList={detail?.exchanges} />
-
-            {!showInfo && <InfoExplorerDetail isShow={isShow} detail={detail} multichain={multichain}/>
-            }
-
-            <InfoTagDetail itemTags={productInfo?.mores?.tag} />
-            <p>
-          If you have any good or bad experience with
+            <div style={{ fontSize: '1rem' }}>
+              If you have any good or bad experience with
               <span className='text-primary'>
                 {` ${detail?.name}`}
               </span>, please share with us in informing everyone
@@ -623,35 +641,182 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
               >
             Review Now
               </span>
-            </p>
+            </div>
           </div>
         </div>
-      </>
-    )}
-  </div>
+      )}
+    </>
+  )
+  // scam
+  // const scam = (
+  //   <>
+  //     {detail?.isScam ? (
+  //       <ScamWarningDetail
+  //         isShow={true}
+  //         scamWarningReason={mapScamReason(detail?.proof?.isScam)}
+  //         proofType='warning'
+  //       />
+  //     ) : detail?.isWarning ? (
+  //       <ScamWarningDetail
+  //         isShow={true}
+  //         scamWarningReason={mapScamReason(detail?.proof?.isScam || detail?.proof?.isWarning)}
+  //         proofType='warning'
+  //       />
+  //     ) : (
+  //       ''
+  //     )}
+  //   </>
+  // )
 
-  const contractAddress = <>
-    { !_.isEmpty(detail?.multichain)
-      ? <>
-        <div>
-          {detail?.multichain?.map((chain) => (<>
-            {
-              chain?.split('_')?.length >= 4
-                ? <div className='mb-3'>
-                  <h3 style={{ fontSize: '1rem', color: '#A098AE', fontWeight: '400', display: 'inline' }}>
-                    <span className='text-primary text-break'>{chain?.split('_')[3]}</span>&nbsp;
-                            on chain {toCammelCase(chain?.split('_')[2])}
-                  </h3>
-                </div>
-                : ''
-            }
-          </>
-          ))}
-        </div>
-                  &nbsp;
-      </>
-      : ''}
-  </>
+  const handleClickExchange = (e, item) => {
+    e.stopPropagation()
+    e.preventDefault()
+    const urlDetail = formatUrlDetailFromUrlImageExchange(item)
+    navigate(`../../../../../${urlDetail}`)
+  }
+
+  // const more = <div>
+  //   {rest?.loadingDetail ? (<ProductDetailInfo/>) : (
+  //     <>
+  //       <InformationHeader projectName={detail?.name}/>
+  //       <div>
+  //         <div className='basic-form'>
+  //           {(detail?.isProxy !== null ||
+  //         detail?.contractVerified !== null)
+  //             ? <InfoContractDetail detail={detail} mainExplorer={mainExplorer} />
+  //             : ''
+  //           }
+  //           <ShortItem
+  //             icon={
+  //               <>
+  //                 <CheckCircleOutlined
+  //                   style={{
+  //                     color: 'green',
+  //                     display: 'flex',
+  //                     alignItems: 'center',
+  //                     marginTop: '0.3rem',
+  //                     paddingRight: '0.3rem',
+  //                     float: 'left',
+  //                     fontSize: '1.1rem'
+  //                   }}
+  //                 />
+  //               </>
+  //             }
+  //             title={
+  //               <>
+  //                 {(detail?.isCoinmarketcap !== null || detail?.isCoingecko)
+  //                   ? <div className='col-xxl-12 col-12'>
+  //                     <h3 className='fs-16 mb-0' style={{ display: 'inline', color: 'rgba(0, 0, 0, 0.6)' }}>
+  //                       {detail?.name} is listed on
+  //                       {detail?.isCoinmarketcap ? <span className='text-primary'> Coinmarketcap</span> : ''}
+  //                       {detail?.isCoingecko ? <span className='text-primary'>, Coingecko</span> : ''}
+  //                       {!_.isEmpty(detail?.exchanges) ? (
+  //                         <>
+  //                           &nbsp; and trading on &nbsp;
+  //                           {detail?.exchanges?.map((itemImageUrl, index) => (<>
+  //                             <span>
+  //                               &nbsp;
+  //                               <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
+  //                                   &nbsp;
+  //                               <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
+  //                                 className='text-primary txt-link'
+  //                               >
+  //                                 {getExchangeNameFromUrlImageExchage(itemImageUrl)}
+  //                               </span>
+  //                                 &nbsp;
+  //                               {/* <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
+  //                                   &nbsp;
+  //                                 <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
+  //                                   className='text-primary txt-link'
+  //                                 >
+  //                                   {getExchangeNameFromUrlImageExchage(itemImageUrl)}
+  //                                 </span> */}
+  //                             </span>
+  //                           </>))}
+  //                         </>
+  //                       ) : ''}
+  //                     </h3>
+  //                   </div> : (<>
+  //                     {!_.isEmpty(detail?.exchanges) ? (
+  //                       <>
+  //                         {detail?.name} is traded on Binance &nbsp;
+  //                         {detail?.exchanges?.map((itemImageUrl, index) => (<>
+  //                           <span>
+  //                               &nbsp;
+  //                             <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
+  //                                   &nbsp;
+  //                             <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
+  //                               className='text-primary txt-link'
+  //                             >
+  //                               {getExchangeNameFromUrlImageExchage(itemImageUrl)}
+  //                             </span>
+  //                                 &nbsp;
+  //                           </span>
+  //                         </>))}
+  //                       </>
+  //                     ) : ''}
+  //                   </>)
+  //                 }
+  //               </>
+  //             }
+  //           />
+
+  //           {!showInfo && <InfoExplorerDetail isShow={isShow} detail={detail} multichain={multichain}/>
+  //           }
+
+  //           <div style={{ fontSize: '1rem' }}>
+  //             If you have any good or bad experience with
+  //             <span className='text-primary'>
+  //               {` ${detail?.name}`}
+  //             </span>, please share with us in informing everyone
+  //             <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem', width: '1.1rem' }}/>
+  //             <img src={hands} alt='icon-hand' style={{ width: '1.1rem' }}/>
+  //             <img src={hands} alt='icon-hand' style={{ marginRight: '0.3rem', width: '1.1rem' }}/>
+  //             <span
+  //               onClick={() => {
+  //                 rest?.setData({ ...rest.data, isScam: false })
+  //                 rest?.form.setFieldsValue({
+  //                   isScam: false,
+  //                   star: undefined,
+  //                   sources: []
+  //                 })
+  //                 window.scrollTo(0, top)
+  //               }}
+  //               className='text-primary txt-link'
+  //               style={{ marginLeft: '0.5rem' }}
+
+  //             >
+  //           Review Now
+  //             </span>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </>
+  //   )}
+  // </div>
+
+  // const contractAddress = <>
+  //   { !_.isEmpty(detail?.multichain)
+  //     ? <>
+  //       <div>
+  //         {detail?.multichain?.map((chain) => (<>
+  //           {
+  //             chain?.split('_')?.length >= 4
+  //               ? <div className='mb-3'>
+  //                 <h3 style={{ fontSize: '1.2rem', color: '#A098AE', fontWeight: '400', display: 'inline' }}>
+  //                   <span className='text-primary text-break'>{chain?.split('_')[3]}</span>&nbsp;
+  //                     on chain {toCammelCase(chain?.split('_')[2])}
+  //                 </h3>
+  //               </div>
+  //               : ''
+  //           }
+  //         </>
+  //         ))}
+  //       </div>
+  //                 &nbsp;
+  //     </>
+  //     : ''}
+  // </>
 
   const about = <>
     {rest?.loadingDetail ? (
@@ -680,7 +845,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
                   columns={columnExchanges}
                   dataSource={dataExchange}
                   pagination={
-                    dataExchange?.length > 10
+                    dataExchange?.length > PAGE_SIZE
                       ? {
                         pageSize: PAGE_SIZE,
                         defaultCurrent: 1,
@@ -712,7 +877,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   const priceChart = <>
     {rest?.loadingDetail ? (<ProductDetailChart/>) : (
       <CoinChart
-        name={detail?.name}
+        // name={detail?.name}
+        name={''}
         symbol={detail?.symbol}
         price={detail?.priceUSD}
         holders={detail?.holders}
@@ -725,23 +891,23 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
   </>
 
   // { /* START DEMO: TEST NEW GUI FOR SEO */ }
-  const blockHeader = (headerText) => <>
-    <div className='card-header border-0 pb-0'>
-      <div className='heading text-primary d-flex align-items-center break-word'>
-        <i className='material-icons fs-30 text-primary'>subject</i>
-        <h2 style={{ fontSize: '1.5rem' }} className='m-0 text-primary'>
-          {headerText}
-        </h2>
-      </div>
-    </div>
-  </>
+  // const blockHeader = (headerText) => <>
+  //   <div className='card-header border-0 pb-0'>
+  //     <div className='heading text-primary d-flex align-items-center break-word'>
+  //       <i className='material-icons fs-30 text-primary'>subject</i>
+  //       <h2 style={{ fontSize: '1.5rem' }} className='m-0 text-primary'>
+  //         {headerText}
+  //       </h2>
+  //     </div>
+  //   </div>
+  // </>
 
   const blockContent = (content) => <>
     <div className={ 'card-body pt-3' }>
       <div className={ 'profile-blog' }>
         <div className={ 'mb-0' }>
           <div className='description-list'>
-            <div className='card-content' style={{ fontSize: '1rem', lineHeight: '2' }}>
+            <div className='card-content' style={{ fontSize: '1.2rem', lineHeight: '2' }}>
               {content}
             </div>
           </div>
@@ -804,8 +970,8 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     </> }
 
   </>
-  const cryptoPriceLiveData = cryptoPriceLiveDataContent &&
-  <>
+
+  const cryptoPriceLiveData = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
     ) : <>
@@ -824,6 +990,7 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     <br />
 In addition, we also provide user alerts for suspicious COINS/TOKENS based on simulated trading methods on DEX exchanges and checking their contract. The number of Spam reports also has a significant impact on our alert system.
   </>
+
   const cryptoSocreDescription = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
@@ -836,46 +1003,100 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     }
   </>
 
-  const conditionCryptoDefinitionContent1 = (detail?.community && !_.isEmpty(detail?.community))
-  const conditionCryptoDefinitionContent2 = (detail?.sourceCode && !_.isEmpty(detail?.sourceCode))
-  const conditionCryptoDefinitionContent3 = (detail?.multichain && !_.isEmpty(detail?.multichain))
-  const cryptoDefinitionContent = (
-    conditionCryptoDefinitionContent1 ||
-    conditionCryptoDefinitionContent2 ||
-    conditionCryptoDefinitionContent3
-  ) &&
-  <>
-    {conditionCryptoDefinitionContent1 && <>
-      You can join the {detail?.name} communities at { Object.keys(detail?.community)?.map(
-        (websiteName) => detail?.community[websiteName] && <>
-          <a className='text-primary txt-link' target='_blank' href={detail?.community[websiteName]} rel='noreferrer'>{websiteName}</a>,&nbsp;
-        </>) }
-      ...
-      <br/>
-    </>
-    }
-
-    {conditionCryptoDefinitionContent2 && <>
-      The {detail?.name} team has released the source code here: { Object.keys(detail?.sourceCode)?.map(
-        (websiteName) => <>
-          <a className='text-primary txt-link' rel='noreferrer' target='_blank' href={detail?.sourceCode[websiteName]}>
-            {websiteName}
-          </a>,&nbsp;
-        </>
-      )}
-      ...
-      <br/>
-    </>}
-
-    {conditionCryptoDefinitionContent3 && <>
-      Additionally, {detail?.name} has currently been launched on {detail?.multichain?.length} chains with addresses:
-      { contractAddress }
-    </>}
+  const cryptoDefinitionContent = <>
+  You can join the {detail?.name} communities at { Object.keys(detail?.community)?.map(
+      (websiteName) => detail?.community[websiteName] && <>
+        <a className='text-primary txt-link' target='_blank' href={detail?.community[websiteName]} rel='noreferrer'>{websiteName}</a>,&nbsp;
+      </>) }
+      ... The {detail?.name} team has released the source code here: { Object.keys(detail?.sourceCode)?.map(
+      (websiteName) => <>
+        <a className='text-primary txt-link' rel='noreferrer' target='_blank' href={detail?.sourceCode[websiteName]}>
+          {websiteName}
+        </a>,&nbsp;
+      </>
+    )}
 
   </>
 
-  const cryptoDefinition = cryptoDefinitionContent &&
-  <>
+  const collap1 = <>
+    <div className='card-header border-0 pb-0'>
+      <div className='heading text-primary d-flex align-items-center break-word'>
+        <i className='material-icons fs-30 text-primary'>subject</i>
+        <h2 style={{ fontSize: '1.5rem' }} className='m-0 text-primary'>
+          About Bitcoin
+        </h2>
+      </div>
+    </div>
+    <Collapse bordered={false}>
+      <Panel header={<h4>{`${detail?.name}'s Score`}</h4>} key='1' className='panel'>
+        <span className='cus-text-justify' style={{ display: 'inline', fontSize: '1.2rem', lineHeight: '2', fontWeight: '500', color: 'rgba(0, 0, 0, 0.6)' }}>
+          {(contentCryptoSocreDescription)}
+        </span>
+      </Panel>
+      <Panel header={(<h4>{`What is ${detail?.name}(${detail?.symbol})'s community?`}</h4>)} key='2' className='panel'>
+        <span className='cus-text-justify' style={{ display: 'inline', fontSize: '1.2rem', lineHeight: '2', fontWeight: '500', color: 'rgba(0, 0, 0, 0.6)' }}>
+          {(cryptoDefinitionContent) }
+        </span>
+      </Panel>
+    </Collapse>
+  </>
+
+  const FAQs = <>
+    <div className='card-header border-0 pb-0'>
+      <div className='heading text-primary d-flex align-items-center break-word'>
+        <i className='material-icons fs-30 text-primary'>subject</i>
+        <h2 style={{ fontSize: '1.5rem' }} className='m-0 text-primary'>
+          FAQs
+        </h2>
+      </div>
+    </div>
+    <Collapse bordered={false}>
+      <Panel header={(<h4>{detail?.name} ({detail?.symbol}) price has declined today.</h4>)} key='1' className='panel'>
+        <span className='cus-text-justify' style={{ display: 'inline', fontSize: '1.2rem', lineHeight: '2', fontWeight: '500', color: 'rgba(0, 0, 0, 0.6)' }}>
+          The price of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)}</b> today with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)}</b>. This represents a <span className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}><b>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b></span> price {detail?.priceChangePercentage24h < 0 ? 'decline' : 'increase'} in the last 24 hours. With a total supply of <b className='text-primary'>{detail?.totalSupply ? formatLargeNumber(detail?.totalSupply) : 0}</b> {detail?.symbol}, {detail?.name} is valued at a market cap of <b className='text-primary'>{formatMoney(detail?.marketcapUSD)}</b>
+        </span>
+      </Panel>
+      <Panel header={(<h4>Where can you buy {detail?.name}?</h4>)} key='2' className='panel'>
+        <span className='cus-text-justify' style={{ display: 'inline', fontSize: '1.2rem', lineHeight: '2', fontWeight: '500', color: 'rgba(0, 0, 0, 0.6)' }}>
+          {detail?.symbol} tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade {detail?.name} is <span className='text-primary'>{getTradingExchangeText()}</span>.
+        </span>
+      </Panel>
+      <Panel header={(<h4>What is the daily trading volume of {detail?.name} ({detail?.symbol})?</h4>)} key='3' className='panel'>
+        <span className='cus-text-justify' style={{ display: 'inline', fontSize: '1.2rem', lineHeight: '2', fontWeight: '500', color: 'rgba(0, 0, 0, 0.6)' }}>
+          The trading volume of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatLargeNumber(detail?.totalVolume) }</b> in the last 24 hours.
+        </span>
+      </Panel>
+      <Panel header={(<h4>What is the all-time high for {detail?.name} ({detail?.symbol})?</h4>)} key='4' className='panel'>
+        <span className='cus-text-justify' style={{ display: 'inline', fontSize: '1.2rem', lineHeight: '2', fontWeight: '500', color: 'rgba(0, 0, 0, 0.6)' }}>
+          The highest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.ath)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.athDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.athDate)}</span>). Comparatively, the current price is <b className='text-danger'>-{ (detail?.priceUSD / detail?.ath * 100)?.toFixed(2) }%</b> lower than the all-time high price.
+        </span>
+      </Panel>
+      <Panel header={(<h4>What is the all-time low for {detail?.name} ({detail?.symbol})?</h4>)} key='5' className='panel'>
+        <span className='cus-text-justify' style={{ display: 'inline', fontSize: '1.2rem', lineHeight: '2', fontWeight: '500', color: 'rgba(0, 0, 0, 0.6)' }}>
+          The lowest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-danger'>{formatPriceNumber(detail?.atl)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.atlDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.atlDate)}</span>). Comparatively, the current price is <b className='text-primary'>{ (detail?.priceUSD / detail?.atl * 100)?.toFixed(2) }%</b> higher than the all-time low price.
+        </span>
+      </Panel>
+      <Panel header={(<h4>What is the market cap of {detail?.name} ({detail?.symbol})?</h4>)} key='6' className='panel'>
+        <span className='cus-text-justify' style={{ display: 'inline', fontSize: '1.2rem', lineHeight: '2', fontWeight: '500', color: 'rgba(0, 0, 0, 0.6)' }}>
+          Market capitalization of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatMoney(detail?.marketcapUSD) }</b>. Market cap is measured by multiplying token price with the circulating supply of {detail?.symbol} tokens.
+        </span>
+      </Panel>
+    </Collapse>
+  </>
+
+  // const test3 = <>
+  //   {rest?.loadingDetail ? (
+  //     <ProductDetailInfo/>
+  //   ) : <>
+  //     <Description
+  //       projectName={`${detail?.name}'s Score`}
+  //     />
+  //     {blockContent(contentCryptoSocreDescription)}
+  //   </>
+  //   }
+  // </>
+
+  const cryptoDefinition = <>
     {rest?.loadingDetail ? (
       <ProductDetailInfo/>
     ) : <>
@@ -887,55 +1108,87 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     }
   </>
 
-  const cryptoFAQContent = (detail?.isCoingecko) && <>
-    <b className='text-primary'>{detail?.name} ({detail?.symbol}) price has declined today.</b>
-    <br/>
-        The price of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)}</b> today with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)}</b>. This represents a <span className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}><b>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b></span> price {detail?.priceChangePercentage24h < 0 ? 'decrease' : 'increase'} in the last 24 hours. With a total supply of <b className='text-primary'>{detail?.totalSupply ? formatLargeNumber(detail?.totalSupply) : 0}</b> {detail?.symbol}, {detail?.name} is valued at a market cap of <b className='text-primary'>{formatMoney(detail?.marketcapUSD)}</b>.
-    <br/>
-    <br/>
-    <b className='text-primary'>Where can you buy {detail?.name}?</b>
-    <br/>
-    {detail?.symbol} tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade {detail?.name} is <span className='text-primary'>{getTradingExchangeText()}</span>.
-    <br/>
-    <br/>
-    <b className='text-primary'>What is the daily trading volume of {detail?.name} ({detail?.symbol})?</b>
-    <br/>
-        The trading volume of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatMoney(detail?.totalVolume) }</b> in the last 24 hours.
-    <br/>
-    <br/>
-    <b className='text-primary'>What is the all-time high for {detail?.name} ({detail?.symbol})?</b>
-    <br/>
-        The highest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.ath)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.athDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.athDate)}</span>). Comparatively, the current price is <b className='text-danger'>-{ (100 - ((detail?.priceUSD / detail?.ath * 100)))?.toFixed(2) }%</b> lower than the all-time high price.
-    <br/>
-    <br/>
-    <b className='text-primary'>What is the all-time low for {detail?.name} ({detail?.symbol})?</b>
-    <br/>
-        The lowest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-danger'>{formatPriceNumber(detail?.atl)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.atlDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.atlDate)}</span>). Comparatively, the current price is <b className='text-primary'>{ ((detail?.priceUSD / detail?.atl * 100) - 100)?.toFixed(2) }%</b> higher than the all-time low price.
-    <br/>
-    <br/>
-    <b className='text-primary'>What is the market cap of {detail?.name} ({detail?.symbol})?</b>
-    <br/>
-        Market capitalization of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatMoney(detail?.marketcapUSD) }</b>. Market cap is measured by multiplying token price with the circulating supply of {detail?.symbol} tokens.
-  </>
-  const cryptoFAQ = cryptoFAQContent && <>
-    {rest?.loadingDetail ? (
-      <ProductDetailInfo/>
-    ) : <>
-      <Description
-        skipMinimizeMode={true}
-        projectName={`${detail?.name} FAQs`}
-      />
-      {blockContent(cryptoFAQContent)}
-    </>
-    }
-  </>
+  // const cryptoFAQContent = <>
+  //   <b className='text-primary'>{detail?.name} ({detail?.symbol}) price has declined today.</b>
+  //   <br/>
+  //       The price of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.priceUSD)}</b> today with a 24-hour trading volume of <b className='text-primary'>{formatMoney(detail?.totalVolume)}</b>. This represents a <span className={`${detail?.priceChangePercentage24h < 0 ? 'text-danger' : 'text-primary'}`}><b>{Math.abs(detail?.priceChangePercentage24h)?.toFixed(3)}%</b></span> price {detail?.priceChangePercentage24h < 0 ? 'decline' : 'increase'} in the last 24 hours. With a total supply of <b className='text-primary'>{detail?.totalSupply ? formatLargeNumber(detail?.totalSupply) : 0}</b> {detail?.symbol}, {detail?.name} is valued at a market cap of <b className='text-primary'>{formatMoney(detail?.marketcapUSD)}</b>.
+  //   <br/>
+  //   <br/>
+  //   <b className='text-primary'>Where can you buy {detail?.name}?</b>
+  //   <br/>
+  //   {detail?.symbol} tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade {detail?.name} is <span className='text-primary'>{getTradingExchangeText()}</span>.
+  //   <br/>
+  //   <br/>
+  //   <b className='text-primary'>What is the daily trading volume of {detail?.name} ({detail?.symbol})?</b>
+  //   <br/>
+  //       The trading volume of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatLargeNumber(detail?.totalVolume) }</b> in the last 24 hours.
+  //   <br/>
+  //   <br/>
+  //   <b className='text-primary'>What is the all-time high for {detail?.name} ({detail?.symbol})?</b>
+  //   <br/>
+  //       The highest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatPriceNumber(detail?.ath)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.athDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.athDate)}</span>). Comparatively, the current price is <b className='text-danger'>-{ (detail?.priceUSD / detail?.ath * 100)?.toFixed(2) }%</b> lower than the all-time high price.
+  //   <br/>
+  //   <br/>
+  //   <b className='text-primary'>What is the all-time low for {detail?.name} ({detail?.symbol})?</b>
+  //   <br/>
+  //       The lowest price paid for {detail?.name} ({detail?.symbol}) is <b className='text-danger'>{formatPriceNumber(detail?.atl)}</b>, which was recorded on <span className='text-primary'>{formatChartDate(detail?.atlDate, formatDateStyle)}</span> (<span className='text-primary'>{timeAgoConvert(detail?.atlDate)}</span>). Comparatively, the current price is <b className='text-primary'>{ (detail?.priceUSD / detail?.atl * 100)?.toFixed(2) }%</b> higher than the all-time low price.
+  //   <br/>
+  //   <br/>
+  //   <b className='text-primary'>What is the market cap of {detail?.name} ({detail?.symbol})?</b>
+  //   <br/>
+  //       Market capitalization of {detail?.name} ({detail?.symbol}) is <b className='text-primary'>{formatMoney(detail?.marketcapUSD) }</b>. Market cap is measured by multiplying token price with the circulating supply of {detail?.symbol} tokens.
+  // </>
+  // const cryptoFAQ = <>
+  //   {rest?.loadingDetail ? (
+  //     <ProductDetailInfo/>
+  //   ) : <>
+  //     <Description
+  //       skipMinimizeMode={true}
+  //       projectName={`FAQs`}
+  //     />
+  //     {blockContent(cryptoFAQContent)}
+  //   </>
+  //   }
+  // </>
 
+  // const options = {
+  //   plugins: {
+  //     title: {
+  //       display: true,
+  //       text: `${detail?.name}'s holding rate`,
+  //       font: {
+  //         size: 22,
+  //         color: '#18A594'
+  //       },
+  //       padding: 30
+  //     },
+  //     legend: {
+  //       display: false, // show annotations chart
+  //       position: 'bottom',
+  //       align: 'center',
+  //       labels: {
+  //         boxWidth: 20,
+  //         padding: 30
+  //       }
+  //     },
+  //     // responsive: true,
+  //     tooltip: {
+  //       callbacks: {
+  //         title: (xDatapoint) => {
+  //           const label = xDatapoint[0]?.label
+  //           return `${_.capitalize(label)}`
+  //         }
+  //       }
+  //     }
+  //   },
+  //   maintainAspectRatio: true,
+  //   responsive: true
+  // }
   const columns = [
     {
       title: '#',
       align: 'right',
       render: (text, record, index) => <span>{index + 1}</span>
-
     },
     {
       title: 'Holding',
@@ -944,38 +1197,43 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     },
     {
       title: 'Address',
-      align: 'left',
-      render: (_, record, index) => <>
-        <div className='d-flex align-items-center'>
-          <CopyOutlined
-            className='text-primary'
-            onClick={(e) =>
-              copyAddress(e, record?.address, 'Copy address successfully')
-            }
-          />
+      render: (_, record) => <div className='d-flex align-items-center'>
+        <CopyOutlined
+          onClick={(e) =>
+            copyAddress(e, record?.address, 'Copy address successfully')
+          }
+        />
           &nbsp;
-          <span>{record?.address}</span>
-        </div>
-      </>
+        {`${record?.address?.slice(0, 4)}...${record?.address?.slice(record?.address?.length - 5, record?.address?.length - 1)}`}
+      </div>,
+      align: 'right'
     }
   ]
 
-  const test8 = <>
+  const holders = <>
     {
       rest?.loadingDetail
         ? <ProductDetailInfo/>
         : (topHolder && !_.isEmpty(topHolder)) && <>
-          {detail?.name && blockHeader(`Top ${topHolder?.length} ${detail?.name}'s holder`) }
-          {blockContent(<>
-            <div style={{ height: '100%' }}>
-              <Table
-                style={{ overflow: 'scroll' }}
-                pagination={false}
-                className='custom-table'
-                columns={columns}
-                dataSource={topHolder}/>
-            </div>
-          </>)}
+          <div className='card-header border-0 pb-0'>
+            <h2 className='heading text-primary'>{`Top ${topHolder?.length} ${detail?.name}'s holder`}</h2>
+          </div>
+          <div className='card-body pt-3 exchange'>
+            <Table
+              pagination={
+                topHolder?.length > 6
+                  ? {
+                    pageSize: 6,
+                    defaultCurrent: 1,
+                    showSizeChanger: false
+                  }
+                  : false
+              }
+              columns={columns}
+              dataSource={topHolder}
+              scroll={{ x: 'max-content' }}
+            />
+          </div>
         </>
     }
   </>
@@ -985,11 +1243,11 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     Header={header}
     type={CRYPTO}
     summary={summary}
-    scam={scam}
-    more={more}
+    // scam={scam}
+    // more={more}
     about={about}
     exchange={exchange}
-    topDiscus={<TopDiscussed />}
+    topDiscus={<TopDiscussed borderRadius={'0'} marginBottom={'1rem'}/>}
     portfolioOrChartOrDesc={priceChart}
     setTop={setTop}
     rest={rest}
@@ -998,10 +1256,12 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     cryptoPriceLiveData={cryptoPriceLiveData}
     cryptoDefinition={cryptoDefinition}
     cryptoSocreDescription={cryptoSocreDescription}
-    cryptoFAQ={cryptoFAQ}
+    // cryptoFAQ={cryptoFAQ}
+    collap1={collap1}
+    FAQs={FAQs}
     // { /* START DEMO: TEST NEW GUI FOR SEO */ }
 
-    test8={test8}
+    holders={holders}
     // { /* END DEMO: TEST NEW GUI FOR SEO */ }
   />
 }

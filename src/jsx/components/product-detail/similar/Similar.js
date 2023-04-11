@@ -4,15 +4,17 @@ import { Image, Tooltip, Avatar, Table } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { CRYPTO, DAPP, EXCHANGE, LAUNCHPAD, SOON, VENTURE } from '../../../constants/category'
 import _ from 'lodash'
-import { formatImgUrlFromProductId } from '../../../../utils/formatText'
+// import { formatImgUrlFromProductId } from '../../../../utils/formatText'
 import { PREFIX_DETAIL, CRYPTO_TOKEN } from '../../../constants/category'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 import { ChainListContext } from '../../../../App'
 import { NO_DATA } from '../../../constants/data'
-import { getExchangeNameFromUrlImageExchage, toCammelCase } from '../../../../utils/formatText'
-import { CheckCircleOutlined, CloseCircleOutlined, ApartmentOutlined } from '@ant-design/icons'
-import { renderNumber, formatMoneyLessOneDollar, formatMoneyGreaterEqualOneDollar, formatLargeNumber } from '../../../../utils/formatNumber'
+import { toCammelCase } from '../../../../utils/formatText'
+// import { getExchangeNameFromUrlImageExchage, toCammelCase } from '../../../../utils/formatText'
+// import { CheckCircleOutlined, CloseCircleOutlined, ApartmentOutlined } from '@ant-design/icons'
+import { renderNumber, formatLargeNumber } from '../../../../utils/formatNumber'
+// import { renderNumber, formatMoneyLessOneDollar, formatMoneyGreaterEqualOneDollar, formatLargeNumber } from '../../../../utils/formatNumber'
 import MyScoreComponent from '../../score/scoreComponent'
 import './similar.scss'
 import { exchanges } from '../../../../utils/ExchangeImage'
@@ -80,205 +82,205 @@ const Similar = ({ type, listProjectId }) => {
         </span>
       )
     },
-    {
-      title: (
-        <span className='crypto-table-tooltip'>
-          Price
-        </span>
-      ),
-      dataIndex: 'priceUSD',
-      align: 'right',
-      render: (_, record) => (
-        <>
-          {
-            record?.priceUSD && record?.priceUSD >= 1 // format money greater than or equal with 1
-              ? formatMoneyGreaterEqualOneDollar(record?.priceUSD)
-              : record?.priceUSD > 0 // format money greater than 0
-                ? formatMoneyLessOneDollar(record.priceUSD)
-                : NO_DATA // money less than or equal with 0
-          }
-        </>
-      )
-    },
-    {
-      title: (
-        <span className='crypto-table-tooltip'>
-          Chains
-        </span>
-      ),
-      dataIndex: 'chains',
-      render: (_, record) => (
-        record?.multichain
-          ? <div
-          >
-            <Avatar.Group
-              alt='Blockchains Logos'
-              maxCount={record?.multichain?.length >= 4 ? 2 : 3}
-              size={25}
-              maxStyle={{
-                color: '#fff',
-                backgroundColor: '#039F7F',
-                cursor: 'pointer'
-              }}
-            >
-              {record?.multichain?.map((item, index) => (
-                <React.Fragment key={item?.cryptoId}>
-                  {chainList[item?.split('_')[2]] && (
-                    <Tooltip title={toCammelCase(chainList[item?.split('_')[2]]?.chainName)}>
-                      <Avatar
-                        alt='Blockchain Logo'
-                        size={25}
-                        src={chainList[item?.split('_')[2]]?.image}
-                        key={index}
-                        className='crypto-table-chain'
-                      />
-                    </Tooltip>
-                  )}
-                </React.Fragment>
-              ))}
-            </Avatar.Group>
-          </div>
-          : chainList[record?.chainName]
-            ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
-              <Avatar
-                alt='Blockchain Logo'
-                size={25}
-                src={chainList[record?.chainName]?.image}
-                key={record}
-                className='crypto-table-chain'
-              />
-            </Tooltip>
-            : record?.smallLogo ? (
-              <Tooltip title={record?.name}>
-                <Avatar
-                  alt='Blockchain Logo'
-                  src={formatImgUrlFromProductId(record?.cryptoId)}
-                  // preview={false}
-                  size={25}
-                  key={record}
-                />
-              </Tooltip>
-            ) : (
-              <span className='crypto-table-info-logo image-list-no-data'>
-                {record?.name?.slice(0, 3)}
-              </span>
-            )
-      )
-    },
-    {
-      title: (
-        <span className='crypto-table-tooltip'>
-          Exchanges
-        </span>
-      ),
-      dataIndex: 'exchanges',
-      render: (_, record) => (
-        <Avatar.Group
-          alt='Exchanges Logos'
-          maxCount={4}
-          size={25}
-          maxStyle={{
-            color: '#fff',
-            backgroundColor: '#039F7F',
-            cursor: 'pointer'
-          }}
-        >
-          {record?.exchanges?.map((item, index) => (
-            <React.Fragment key={index}>
-              {item && (
-                <Tooltip title={getExchangeNameFromUrlImageExchage(item)} >
-                  <Avatar
-                    alt='Exchange Logo'
-                    size={25}
-                    src={item}
-                    key={index}
-                    className='crypto-table-exchange'
-                  />
-                </Tooltip>
+    // {
+    //   title: (
+    //     <span className='crypto-table-tooltip'>
+    //       Price
+    //     </span>
+    //   ),
+    //   dataIndex: 'priceUSD',
+    //   align: 'right',
+    //   render: (_, record) => (
+    //     <>
+    //       {
+    //         record?.priceUSD && record?.priceUSD >= 1 // format money greater than or equal with 1
+    //           ? formatMoneyGreaterEqualOneDollar(record?.priceUSD)
+    //           : record?.priceUSD > 0 // format money greater than 0
+    //             ? formatMoneyLessOneDollar(record.priceUSD)
+    //             : NO_DATA // money less than or equal with 0
+    //       }
+    //     </>
+    //   )
+    // },
+    // {
+    //   title: (
+    //     <span className='crypto-table-tooltip'>
+    //       Chains
+    //     </span>
+    //   ),
+    //   dataIndex: 'chains',
+    //   render: (_, record) => (
+    //     record?.multichain
+    //       ? <div
+    //       >
+    //         <Avatar.Group
+    //           alt='Blockchains Logos'
+    //           maxCount={record?.multichain?.length >= 4 ? 2 : 3}
+    //           size={25}
+    //           maxStyle={{
+    //             color: '#fff',
+    //             backgroundColor: '#039F7F',
+    //             cursor: 'pointer'
+    //           }}
+    //         >
+    //           {record?.multichain?.map((item, index) => (
+    //             <React.Fragment key={item?.cryptoId}>
+    //               {chainList[item?.split('_')[2]] && (
+    //                 <Tooltip title={toCammelCase(chainList[item?.split('_')[2]]?.chainName)}>
+    //                   <Avatar
+    //                     alt='Blockchain Logo'
+    //                     size={25}
+    //                     src={chainList[item?.split('_')[2]]?.image}
+    //                     key={index}
+    //                     className='crypto-table-chain'
+    //                   />
+    //                 </Tooltip>
+    //               )}
+    //             </React.Fragment>
+    //           ))}
+    //         </Avatar.Group>
+    //       </div>
+    //       : chainList[record?.chainName]
+    //         ? <Tooltip title={toCammelCase(chainList[record?.chainName]?.chainName)}>
+    //           <Avatar
+    //             alt='Blockchain Logo'
+    //             size={25}
+    //             src={chainList[record?.chainName]?.image}
+    //             key={record}
+    //             className='crypto-table-chain'
+    //           />
+    //         </Tooltip>
+    //         : record?.smallLogo ? (
+    //           <Tooltip title={record?.name}>
+    //             <Avatar
+    //               alt='Blockchain Logo'
+    //               src={formatImgUrlFromProductId(record?.cryptoId)}
+    //               // preview={false}
+    //               size={25}
+    //               key={record}
+    //             />
+    //           </Tooltip>
+    //         ) : (
+    //           <span className='crypto-table-info-logo image-list-no-data'>
+    //             {record?.name?.slice(0, 3)}
+    //           </span>
+    //         )
+    //   )
+    // },
+    // {
+    //   title: (
+    //     <span className='crypto-table-tooltip'>
+    //       Exchanges
+    //     </span>
+    //   ),
+    //   dataIndex: 'exchanges',
+    //   render: (_, record) => (
+    //     <Avatar.Group
+    //       alt='Exchanges Logos'
+    //       maxCount={4}
+    //       size={25}
+    //       maxStyle={{
+    //         color: '#fff',
+    //         backgroundColor: '#039F7F',
+    //         cursor: 'pointer'
+    //       }}
+    //     >
+    //       {record?.exchanges?.map((item, index) => (
+    //         <React.Fragment key={index}>
+    //           {item && (
+    //             <Tooltip title={getExchangeNameFromUrlImageExchage(item)} >
+    //               <Avatar
+    //                 alt='Exchange Logo'
+    //                 size={25}
+    //                 src={item}
+    //                 key={index}
+    //                 className='crypto-table-exchange'
+    //               />
+    //             </Tooltip>
 
-              )}
-            </React.Fragment>
-          ))}
-        </Avatar.Group>
-      )
-    },
-    {
-      title: (
-        <span className='crypto-table-tooltip'>
-          Contract
-        </span>
-      ),
-      key: 'contractVerified',
-      align: 'center',
-      dataIndex: 'contractVerified',
-      render: (_, record) => (
-        <span>
-          {record?.contractVerified !== null && (
-            <div style={{ display: 'flex', padding: '0 5px' }}
-            >
-              <Tooltip
-                title={
-                  record?.contractVerified
-                    ? `${record?.name} contract has been verified`
-                    : `${record?.name} contract has not been verified`
-                }
-              >
-                {record?.contractVerified ? (
-                  <CheckCircleOutlined
-                    style={{ color: 'green', padding: '0 5px' }}
-                  />
-                ) : (
-                  <CloseCircleOutlined
-                    style={{ color: 'red', padding: '0 5px' }}
-                  />
-                )}
-              </Tooltip>{' '}
-              <Tooltip
-                title={
-                  record?.isProxy
-                    ? `${record?.name} contract is a proxy contract`
-                    : `${record?.name} contract is not a proxy contract`
-                }
-              >
-                {record?.isProxy ? (
-                  <ApartmentOutlined
-                    style={{ color: 'red', padding: '0 5px' }}
-                  />
-                ) : (
-                  <ApartmentOutlined
-                    style={{ color: 'green', padding: '0 5px' }}
-                  />
-                )}
-              </Tooltip>
-            </div>
-          )}
-        </span>
-      )
-    },
-    {
-      title: (
-        <span className='crypto-table-tooltip'>
-          Market Cap
-        </span>
-      ),
-      className: 'width-170',
-      key: 'marketcapUSD',
-      align: 'right',
-      dataIndex: 'marketcapUSD',
-      render: (_, record) => <span>{record?.marketcapUSD ? renderNumber(record?.marketcapUSD) : NO_DATA}</span>
-    },
-    {
-      title: (
-        <span className='crypto-table-tooltip'>
-          Holders
-        </span>
-      ),
-      dataIndex: 'holders',
-      align: 'right',
-      render: (_, record) => (<span>
-        {formatLargeNumber(record?.holders)}
-      </span>)
-    },
+    //           )}
+    //         </React.Fragment>
+    //       ))}
+    //     </Avatar.Group>
+    //   )
+    // },
+    // {
+    //   title: (
+    //     <span className='crypto-table-tooltip'>
+    //       Contract
+    //     </span>
+    //   ),
+    //   key: 'contractVerified',
+    //   align: 'center',
+    //   dataIndex: 'contractVerified',
+    //   render: (_, record) => (
+    //     <span>
+    //       {record?.contractVerified !== null && (
+    //         <div style={{ display: 'flex', padding: '0 5px' }}
+    //         >
+    //           <Tooltip
+    //             title={
+    //               record?.contractVerified
+    //                 ? `${record?.name} contract has been verified`
+    //                 : `${record?.name} contract has not been verified`
+    //             }
+    //           >
+    //             {record?.contractVerified ? (
+    //               <CheckCircleOutlined
+    //                 style={{ color: 'green', padding: '0 5px' }}
+    //               />
+    //             ) : (
+    //               <CloseCircleOutlined
+    //                 style={{ color: 'red', padding: '0 5px' }}
+    //               />
+    //             )}
+    //           </Tooltip>{' '}
+    //           <Tooltip
+    //             title={
+    //               record?.isProxy
+    //                 ? `${record?.name} contract is a proxy contract`
+    //                 : `${record?.name} contract is not a proxy contract`
+    //             }
+    //           >
+    //             {record?.isProxy ? (
+    //               <ApartmentOutlined
+    //                 style={{ color: 'red', padding: '0 5px' }}
+    //               />
+    //             ) : (
+    //               <ApartmentOutlined
+    //                 style={{ color: 'green', padding: '0 5px' }}
+    //               />
+    //             )}
+    //           </Tooltip>
+    //         </div>
+    //       )}
+    //     </span>
+    //   )
+    // },
+    // {
+    //   title: (
+    //     <span className='crypto-table-tooltip'>
+    //       Market Cap
+    //     </span>
+    //   ),
+    //   className: 'width-170',
+    //   key: 'marketcapUSD',
+    //   align: 'right',
+    //   dataIndex: 'marketcapUSD',
+    //   render: (_, record) => <span>{record?.marketcapUSD ? renderNumber(record?.marketcapUSD) : NO_DATA}</span>
+    // },
+    // {
+    //   title: (
+    //     <span className='crypto-table-tooltip'>
+    //       Holders
+    //     </span>
+    //   ),
+    //   dataIndex: 'holders',
+    //   align: 'right',
+    //   render: (_, record) => (<span>
+    //     {formatLargeNumber(record?.holders)}
+    //   </span>)
+    // },
     {
       title: (
         <span className='crypto-table-tooltip'>

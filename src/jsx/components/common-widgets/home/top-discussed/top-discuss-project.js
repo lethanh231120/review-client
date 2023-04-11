@@ -6,7 +6,7 @@ import { useContext } from 'react'
 import _ from 'lodash'
 import { MySkeletonLoadinng } from '../../my-spinner'
 
-export const TopDiscussed = () => {
+export const TopDiscussed = ({ borderRadius, marginBottom }) => {
   const hotList = useContext(HotTopicsContext)
   const [screenWidth, setScreenWidth] = useState()
   const [list, setList] = useState()
@@ -50,7 +50,8 @@ export const TopDiscussed = () => {
     }
   }, [screenWidth, list])
 
-  return <div className='card pb-0' style={{ height: '100%' }}>
+  // return <div className='card pb-0' style={{ height: '100%' }}>
+  return <div className='card pb-0' style={{ height: '100%', borderRadius: `${borderRadius}`, marginBottom: `${marginBottom}` }}>
     <div className='card-header border-0 pb-0'>
       <div className='heading text-primary' style={{ marginBottom: '1rem' }}>Hot Topics</div>
     </div>

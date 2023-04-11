@@ -1,20 +1,21 @@
 import React from 'react'
-import InformationSubTitle, { typeContract } from '../page-detail/InformationSubTitle'
+// import InformationSubTitle, { typeContract } from '../page-detail/InformationSubTitle'
 import { CloseCircleOutlined, CheckCircleOutlined, ApartmentOutlined } from '@ant-design/icons'
 import ShortItem from './../page-detail/ShortItem'
 
 const InfoContractDetail = ({ detail, mainExplorer }) => {
   return <div className='crypto-info'>
     <div className=''>
-      <InformationSubTitle type={typeContract}/>
+      {/* <InformationSubTitle type={typeContract}/> */}
       <div>
         <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' style={{ paddingLeft: '0' }}>
-          { detail?.address
+          {/* { detail?.address
             ? <div className='col-xxl-12 col-12'>
               <div
                 className='form-check custom-checkbox mb-3 checkbox-success'
                 style={{ padding: '0', display: 'flex' }}
-              > <ShortItem title={
+              >
+                <ShortItem title={
                   <span>
                 Address is:{' '}
                     <a className='text-primary txt-link text-break'
@@ -27,7 +28,7 @@ const InfoContractDetail = ({ detail, mainExplorer }) => {
               </div>
             </div>
             : ''
-          }
+          } */}
 
           {
             detail?.contractVerified !== null ? <div className='col-xxl-12 col-12'>
@@ -43,7 +44,10 @@ const InfoContractDetail = ({ detail, mainExplorer }) => {
                           color: 'green',
                           display: 'flex',
                           alignItems: 'center',
-                          paddingRight: '0.3rem'
+                          marginTop: '0.2rem',
+                          paddingRight: '0.3rem',
+                          float: 'left',
+                          fontSize: '1rem'
                         }}
                       />
                     </>
@@ -62,10 +66,13 @@ const InfoContractDetail = ({ detail, mainExplorer }) => {
                         <>
                           <CloseCircleOutlined
                             style={{
-                              color: 'red',
+                              color: 'green',
                               display: 'flex',
                               alignItems: 'center',
-                              paddingRight: '0.3rem'
+                              marginTop: '0.2rem',
+                              paddingRight: '0.3rem',
+                              float: 'left',
+                              fontSize: '1rem'
                             }}
                           />
                         </>
@@ -86,7 +93,7 @@ const InfoContractDetail = ({ detail, mainExplorer }) => {
 
           {detail?.isProxy !== null ? <div className='col-xxl-12 col-12'>
             <div
-              className='form-check custom-checkbox mb-3 checkbox-success'
+              className='form-check custom-checkbox checkbox-success'
               style={{ padding: '0', display: 'flex' }}
             >
               { (detail?.isProxy ? (<ShortItem
@@ -94,10 +101,13 @@ const InfoContractDetail = ({ detail, mainExplorer }) => {
                   <>
                     <ApartmentOutlined
                       style={{
-                        color: 'red',
+                        color: 'green',
                         display: 'flex',
                         alignItems: 'center',
-                        paddingRight: '0.3rem'
+                        marginTop: '0.2rem',
+                        paddingRight: '0.3rem',
+                        float: 'left',
+                        fontSize: '1rem'
                       }}
                     />
                   </>
@@ -117,7 +127,10 @@ const InfoContractDetail = ({ detail, mainExplorer }) => {
                         color: 'green',
                         display: 'flex',
                         alignItems: 'center',
-                        paddingRight: '0.3rem'
+                        marginTop: '0.2rem',
+                        paddingRight: '0.3rem',
+                        float: 'left',
+                        fontSize: '1rem'
                       }}
                     />
                   </>

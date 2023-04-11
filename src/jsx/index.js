@@ -38,6 +38,9 @@ import LiveNewTokensList from './components/live-new-tokens/LiveNewTokensList'
 import { ALGORITHM_KECCAK256, API_CONFIRM } from '../api/BaseRequest'
 import { STORAGEKEY } from '../utils/storage'
 import { getBrowserUserAgent } from '../utils/browserExtract'
+// import { getReferralCodeHeader } from './components/common-widgets/user-form/sign-in-form'
+// import { getCookie } from './../utils/storage/index'
+import CreateArtical from './components/create-artical/CreateArtical'
 
 export const ReportModalContext = createContext()
 export const AddModalContext = createContext()
@@ -371,6 +374,7 @@ const Markup = () => {
                         element={<ProductDetail />}
                       />
                     </Route>
+                    <Route path='create-artical' element={<CreateArtical />}/>
                     {/* <Route path={REFERRAL} element={<ReferralCode />}/> */}
                     <Route path='terms-of-service' element={<TermOfService />}/>
                     <Route path='privacy-policy' element={<PrivacyPolicy />}/>

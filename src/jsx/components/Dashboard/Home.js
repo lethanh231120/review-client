@@ -60,7 +60,7 @@ const Home = () => {
         </div>
         {/* hot topic */}
         <div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4'>
-          <TopDiscussed />
+          <TopDiscussed borderRadius={'1.25rem'} marginBottom={'1.875rem'}/>
         </div>
       </div>
 

@@ -12,7 +12,7 @@ export const InfoExplorerDetail = ({ isShow, detail, multichain }) => {
       <InformationSubTitle type={typeExplorer}/>
       <div
         className='d-flex align-items-center'
-        style={{ flexWrap: 'wrap', marginLeft: '1.5rem' }}
+        style={{ flexWrap: 'wrap' }}
       >
         {isShow?.community && (
           <div

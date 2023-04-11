@@ -8,11 +8,11 @@ export const ProductSimilar = ({ productType, similarList }) => {
       <div className='card-header border-0 pb-0 cus-card-header'>
         <div className='heading text-primary cus-heading'>Similar</div>
       </div>
-      <div className='card-body pt-3'>
-        <div className='profile-interest '>
-          <Similar type={productType} listProjectId={similarList}/>
-        </div>
+      {/* <div className='card-body pt-3'> */}
+      <div className='profile-interest '>
+        <Similar type={productType} listProjectId={similarList}/>
       </div>
+      {/* </div> */}
     </>
   )
 }
