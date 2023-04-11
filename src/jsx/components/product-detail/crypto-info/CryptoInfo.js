@@ -660,28 +660,28 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     navigate(`../../../../../${urlDetail}`)
   }
 
-  const contractAddress = <>
-    { !_.isEmpty(detail?.multichain)
-      ? <>
-        <div>
-          {detail?.multichain?.map((chain) => (<>
-            {
-              chain?.split('_')?.length >= 4
-                ? <div className='mb-3'>
-                  <h3 style={{ fontSize: '1.2rem', color: '#A098AE', fontWeight: '400', display: 'inline' }}>
-                    <span className='text-primary text-break'>{chain?.split('_')[3]}</span>&nbsp;
-                      on chain {toCammelCase(chain?.split('_')[2])}
-                  </h3>
-                </div>
-                : ''
-            }
-          </>
-          ))}
-        </div>
-                  &nbsp;
-      </>
-      : ''}
-  </>
+  // const contractAddress = <>
+  //   { !_.isEmpty(detail?.multichain)
+  //     ? <>
+  //       <div>
+  //         {detail?.multichain?.map((chain) => (<>
+  //           {
+  //             chain?.split('_')?.length >= 4
+  //               ? <div className='mb-3'>
+  //                 <h3 style={{ fontSize: '1.2rem', color: '#A098AE', fontWeight: '400', display: 'inline' }}>
+  //                   <span className='text-primary text-break'>{chain?.split('_')[3]}</span>&nbsp;
+  //                     on chain {toCammelCase(chain?.split('_')[2])}
+  //                 </h3>
+  //               </div>
+  //               : ''
+  //           }
+  //         </>
+  //         ))}
+  //       </div>
+  //                 &nbsp;
+  //     </>
+  //     : ''}
+  // </>
 
   const about = <>
     {rest?.loadingDetail ? (
