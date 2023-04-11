@@ -31,6 +31,8 @@ import { PathNameContext, removeStorageRefCode } from '../../index'
 import ProductDetailEmpty from '../skeleton/product-detail-skeleton/ProductDetailEmpty'
 import { getHeaderProductDetail } from '../SEO/server/productDetail'
 import { getReferralCodeHeader } from '../common-widgets/user-form/sign-in-form'
+import { DrawerContext } from '../../index'
+// import { Ads } from '../ads/Ads'
 
 // noti report success
 export const notifyTopRightSuccess = (content) => {
@@ -70,6 +72,7 @@ const ProductDetail = () => {
   const ref = useRef(null)
   const recapcharRef = useRef(null)
   const signInContext = useContext(SignInContext)
+  const drawer = useContext(DrawerContext)
   const pathNameHeader = useContext(PathNameContext)
   const auth = useContext(Authenticated)
 
@@ -106,7 +109,6 @@ const ProductDetail = () => {
   const [totalSortBy, setTotalSortBy] = useState()
   const [loadingDetail, setLoadingDetail] = useState(true)
 
-  console.log('offsetTopByListComment', offsetTopByListComment)
   // set productId
   useEffect(() => {
     setLoadingDetail(true)
@@ -643,6 +645,25 @@ const ProductDetail = () => {
     ref?.current?.scrollTo(0, 0)
   }, [pathname])
 
+  const location = useLocation()
+  const pathName = location.pathname.split('/')
+  const handleClickFilter = () => {
+    drawer?.handleToggleDrawer(true)
+    if (pathName[2] === CRYPTO) {
+      navigate('../../../../../crypto')
+    } else if (pathName[2] === DAPP) {
+      navigate('../../../../../dapp')
+    } else if (pathName[2] === EXCHANGE) {
+      navigate('../../../../../exchange')
+    } else if (pathName[2] === VENTURE) {
+      navigate('../../../../../venture')
+    } else if (pathName[2] === SOON) {
+      navigate('../../../../../soon')
+    } if (pathName[2] === LAUNCHPAD) {
+      navigate('../../../../../launchpad')
+    }
+  }
+
   const crypto = <CryptoInfo
     // use in crypto info
     isShow={isShow}
@@ -681,6 +702,7 @@ const ProductDetail = () => {
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
     loadingDetail={loadingDetail}
+    handleClickFilter={handleClickFilter}
   />
 
   const soon = <SoonInfo
@@ -723,6 +745,7 @@ const ProductDetail = () => {
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
     loadingDetail={loadingDetail}
+    handleClickFilter={handleClickFilter}
   />
 
   const dapp = <DappInfo
@@ -765,6 +788,7 @@ const ProductDetail = () => {
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
     loadingDetail={loadingDetail}
+    handleClickFilter={handleClickFilter}
   />
 
   const exchange = <ExchangeInfo
@@ -805,6 +829,7 @@ const ProductDetail = () => {
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
     loadingDetail={loadingDetail}
+    handleClickFilter={handleClickFilter}
   />
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -854,6 +879,7 @@ const ProductDetail = () => {
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
     loadingDetail={loadingDetail}
+    handleClickFilter={handleClickFilter}
   />
 
   const launchpad = <LaunchpadDetail
@@ -896,6 +922,7 @@ const ProductDetail = () => {
     setOffsetTopByListComment={setOffsetTopByListComment}
     setLoadingFilter={setLoadingFilter}
     loadingDetail={loadingDetail}
+    handleClickFilter={handleClickFilter}
   />
 
   useEffect(() => {

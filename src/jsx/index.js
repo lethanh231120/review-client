@@ -47,6 +47,8 @@ export const AddModalContext = createContext()
 export const ToggleContext = createContext()
 export const PathNameContext = createContext()
 export const NormalUserProfileContext = createContext()
+export const DrawerContext = createContext()
+
 export const getQueryParam = (name) =>{
   // get query params
   const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -89,6 +91,7 @@ const Markup = () => {
   const [toggle, setToggle] = useState(false)
   const [pathName, setPathName] = useState('')
   const [pathDetail, setPathDetail] = useState(false)
+  const [showDrawer, setShowDrawer] = useState(false)
 
   const allroutes = [
     { url: '', pathName: 'Home', component: <Home /> },
@@ -132,6 +135,10 @@ const Markup = () => {
     setOpenModalUserProfile: (isOpen) => setOpenModalUserProfile(isOpen)
   }
 
+  const stateDrawer = {
+    showDrawer: showDrawer,
+    handleToggleDrawer: (isOpen) => setShowDrawer(isOpen)
+  }
   const location = useLocation()
   useEffect(() => {
     const path = location.pathname.split('/')
@@ -324,97 +331,99 @@ const Markup = () => {
         <AddModalContext.Provider value={stateAdd}>
           <ToggleContext.Provider value={stateToggle}>
             <PathNameContext.Provider value={statePathName}>
-              <NormalUserProfileContext.Provider value={stateUserProfile}>
-                <Routes>
-                  <Route element={<MainLayout />}>
-                    {allroutes.map((data, i) => (
-                      <Route key={i} path={`${data.url}`} element={data.component}/>
-                    ))}
-                    <Route path='confirm-email' element={<ConfirmEmail />}/>
-                    <Route path='/' element={<Home />}></Route>
-                    <Route path='search/:categorySearch/:keyword' element={<CategoryItem />}/>
-                    <Route path=''>
-                      <Route path=':category'>
-                        <Route path='' element={<CategoryItem />} />
-                        <Route
-                          path=':subCategory'
-                          element={<CategoryItem />}
-                        />
-                      </Route>
-                    </Route>
-                    <Route path={INSIGHT} >
-                      <Route path='' element={<InsightMain />}/>
-                      <Route path=':id' element={<ChartDetail />}/>
-                    </Route>
-                    <Route path={NEW_TOKENS} >
-                      <Route path='' element={<LiveNewTokensList />}/>
-                    </Route>
-                    <Route path='products'>
-                      <Route path='crypto'>
-                        <Route path=':type'>
-                          <Route path=':productName'>
-                            <Route path='' element={<ProductDetail />} />
-                            {/* token only */}
-                            <Route path=':path' element={<ProductDetail />} />
-                          </Route>
+              <DrawerContext.Provider value={stateDrawer}>
+                <NormalUserProfileContext.Provider value={stateUserProfile}>
+                  <Routes>
+                    <Route element={<MainLayout />}>
+                      {allroutes.map((data, i) => (
+                        <Route key={i} path={`${data.url}`} element={data.component}/>
+                      ))}
+                      <Route path='confirm-email' element={<ConfirmEmail />}/>
+                      <Route path='/' element={<Home />}></Route>
+                      <Route path='search/:categorySearch/:keyword' element={<CategoryItem />}/>
+                      <Route path=''>
+                        <Route path=':category'>
+                          <Route path='' element={<CategoryItem />} />
+                          <Route
+                            path=':subCategory'
+                            element={<CategoryItem />}
+                          />
                         </Route>
                       </Route>
-                      <Route path=':categoryName'>
-                        <Route path=':productName'>
-                          <Route path='' element={<ProductDetail />} />
-                          <Route path=':path' element={<ProductDetail />} />
+                      <Route path={INSIGHT} >
+                        <Route path='' element={<InsightMain />}/>
+                        <Route path=':id' element={<ChartDetail />}/>
+                      </Route>
+                      <Route path={NEW_TOKENS} >
+                        <Route path='' element={<LiveNewTokensList />}/>
+                      </Route>
+                      <Route path='products'>
+                        <Route path='crypto'>
+                          <Route path=':type'>
+                            <Route path=':productName'>
+                              <Route path='' element={<ProductDetail />} />
+                              {/* token only */}
+                              <Route path=':path' element={<ProductDetail />} />
+                            </Route>
+                          </Route>
+                        </Route>
+                        <Route path=':categoryName'>
+                          <Route path=':productName'>
+                            <Route path='' element={<ProductDetail />} />
+                            <Route path=':path' element={<ProductDetail />} />
+                          </Route>
+                          <Route
+                            path=':productId'
+                            element={<ProductDetail />}
+                          />
                         </Route>
                         <Route
                           path=':productId'
                           element={<ProductDetail />}
                         />
                       </Route>
-                      <Route
-                        path=':productId'
-                        element={<ProductDetail />}
-                      />
+                      <Route path='create-artical' element={<CreateArtical />}/>
+                      {/* <Route path={REFERRAL} element={<ReferralCode />}/> */}
+                      <Route path='terms-of-service' element={<TermOfService />}/>
+                      <Route path='privacy-policy' element={<PrivacyPolicy />}/>
+                      <Route path='not-found-product' element={<NotFoundProduct />} />
+                      <Route path='server-error' element={<ServerError />} />
+                      <Route path='not-found' element={<NotFound />} />
+                      <Route path='*' element={<NotFound />} />
                     </Route>
-                    <Route path='create-artical' element={<CreateArtical />}/>
-                    {/* <Route path={REFERRAL} element={<ReferralCode />}/> */}
-                    <Route path='terms-of-service' element={<TermOfService />}/>
-                    <Route path='privacy-policy' element={<PrivacyPolicy />}/>
-                    <Route path='not-found-product' element={<NotFoundProduct />} />
-                    <Route path='server-error' element={<ServerError />} />
-                    <Route path='not-found' element={<NotFound />} />
-                    <Route path='*' element={<NotFound />} />
-                  </Route>
-                </Routes>
-                <ScrollToTop />
-                <Modal className='fade cus-modal' show={openModalReport} size='lg'>
-                  <Modal.Header className='cus-modal'>
-                    <Modal.Title>Report scam projects with us</Modal.Title>
-                    <Button
-                      variant=''
-                      className='btn-close'
-                      onClick={() => setOpenModalReport(false)}
-                    >
+                  </Routes>
+                  <ScrollToTop />
+                  <Modal className='fade cus-modal' show={openModalReport} size='lg'>
+                    <Modal.Header className='cus-modal'>
+                      <Modal.Title>Report scam projects with us</Modal.Title>
+                      <Button
+                        variant=''
+                        className='btn-close'
+                        onClick={() => setOpenModalReport(false)}
+                      >
 
-                    </Button>
-                  </Modal.Header>
-                  <Modal.Body className='cus-modal'>
-                    <ModalReport isModal={true} setOpenModalReport={setOpenModalReport}/>
-                  </Modal.Body>
-                </Modal>
-                <Modal className='fade' show={openModalAdd} size='lg'>
-                  <Modal.Header>
-                    <Modal.Title>Add New Project</Modal.Title>
-                    <Button
-                      variant=''
-                      className='btn-close'
-                      onClick={() => setOpenModalAdd(false)}
-                    >
-                    </Button>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <ModalAdd isModal={true}/>
-                  </Modal.Body>
-                </Modal>
-              </NormalUserProfileContext.Provider>
+                      </Button>
+                    </Modal.Header>
+                    <Modal.Body className='cus-modal'>
+                      <ModalReport isModal={true} setOpenModalReport={setOpenModalReport}/>
+                    </Modal.Body>
+                  </Modal>
+                  <Modal className='fade' show={openModalAdd} size='lg'>
+                    <Modal.Header>
+                      <Modal.Title>Add New Project</Modal.Title>
+                      <Button
+                        variant=''
+                        className='btn-close'
+                        onClick={() => setOpenModalAdd(false)}
+                      >
+                      </Button>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <ModalAdd isModal={true}/>
+                    </Modal.Body>
+                  </Modal>
+                </NormalUserProfileContext.Provider>
+              </DrawerContext.Provider>
             </PathNameContext.Provider>
           </ToggleContext.Provider>
         </AddModalContext.Provider>

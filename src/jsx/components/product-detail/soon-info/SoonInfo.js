@@ -139,17 +139,23 @@ const SoonInfo = ({ productInfo, ...rest }) => {
   </>
 
   const timeAndPercentProcess = (itemDetail?.startDate && itemDetail?.endDate)
-    ? <div className='row mb-3 d-flex'>
-      <TimeText icon={typeStart} date={itemDetail?.startDate}/>
-      <TimeText icon={typeEnd} date={itemDetail?.endDate}/>
-      <CountDown
-        soonId={itemDetail?.projectId}
-        progressGoal={itemProgressGoal}
-        projectStatus={itemStatus}
-        startDate={itemDetail?.startDate}
-        endDate={itemDetail?.endDate}
-      />
-    </div>
+    ? <>
+      <div className='row mb-3 d-flex'>
+        <TimeText icon={typeStart} date={itemDetail?.startDate}/>
+        <TimeText icon={typeEnd} date={itemDetail?.endDate}/>
+        <CountDown
+          soonId={itemDetail?.projectId}
+          progressGoal={itemProgressGoal}
+          projectStatus={itemStatus}
+          startDate={itemDetail?.startDate}
+          endDate={itemDetail?.endDate}
+        />
+      </div>
+      <div style={{ fontSize: '1rem', color: 'rgba(0, 0, 0, 0.6)', fontWeight: '500', padding: '1rem 0' }}>
+              Click
+        <span className='summary-link' onClick={() => rest?.handleClickFilter()}>Here</span> to view a list of projects based on your preferences
+      </div>
+    </>
     : ''
 
   const onBuyClicked = (website) => {
@@ -348,6 +354,7 @@ You can join the {detail?.projectName} communities at { Object.keys(detail?.comm
       </Panel>
     </Collapse>
   </>
+
   return (
     <DetailLayout
       Header={header}

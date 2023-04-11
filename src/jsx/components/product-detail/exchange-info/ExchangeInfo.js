@@ -387,7 +387,7 @@ const ExchangeInfo = ({ productInfo, ...rest }) => {
           </div>
           <div style={{ fontSize: '1rem', color: 'rgba(0, 0, 0, 0.6)', fontWeight: '500', padding: '1rem 0' }}>
               Click
-            <a href='' target='_blank' className='summary-link'>Here</a> to view a list of projects based on your preferences
+            <span className='summary-link' onClick={() => rest?.handleClickFilter()}>Here</span> to view a list of projects based on your preferences
           </div>
         </div>
 

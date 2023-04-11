@@ -162,6 +162,7 @@ const Crypto = ({
   useEffect(() => {
     getMainExplorer(listProduct)
   }, [])
+
   const onAddressClicked = (e, cryptoId) => {
     e.stopPropagation()
     e.preventDefault()

@@ -34,6 +34,7 @@ import {
 import { CryptoTagContext, DappTagContext, IdoRoundTypeContext, IdoTagContext, LaunchpadMapContext, VentureLocationContext } from '../../../App'
 import _ from 'lodash'
 import { formatData, fromObjectToArray } from './FilterHelperFunctions'
+import { DrawerContext } from '../..'
 
 const tradingOnList = [
   { label: 'Uniswap', value: 'isUniswap' },
@@ -44,13 +45,14 @@ const tradingOnList = [
 
 const DrawerFilter = ({ type, handleFilter }) => {
   const cryptoTag = useContext(CryptoTagContext)
+  const drawer = useContext(DrawerContext)
   const dappTag = useContext(DappTagContext)
   const ventureLocation = useContext(VentureLocationContext)
   const idoTag = useContext(IdoTagContext)
   const idoRoundtype = useContext(IdoRoundTypeContext)
   const launchpadContext = useContext(LaunchpadMapContext)
 
-  const [showDrawer, setShowDrawer] = useState(false)
+  // const [showDrawer, setShowDrawer] = useState(false)
   const [form] = Form.useForm()
   const { Option } = Select
   const [initialValues, setInititalValues] = useState()
@@ -112,15 +114,15 @@ const DrawerFilter = ({ type, handleFilter }) => {
 
   useEffect(() => {
     setFormNewData()
-  }, [showDrawer])
+  }, [drawer?.showDrawer])
 
-  const openDrawer = (type) => {
-    setShowDrawer(true)
-  }
+  // const openDrawer = (type) => {
+  //   setShowDrawer(true)
+  // }
 
-  const closeDrawer = () => {
-    setShowDrawer(false)
-  }
+  // const closeDrawer = () => {
+  //   setShowDrawer(false)
+  // }
 
   const onResetClicked = () => {
     window.localStorage.removeItem(type)
@@ -168,7 +170,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
 
     filterParams = formatData(type)
     handleFilter(filterParams)
-    setShowDrawer(false)
+    drawer?.handleToggleDrawer(false)
   }
 
   const [reset, setReset] = useState(false)
@@ -228,7 +230,6 @@ const DrawerFilter = ({ type, handleFilter }) => {
             setFromList(fromList => fromList?.filter(item => item?.value <= e))
           }}/>
         </Form.Item></Col>
-
     </Row>
   }
 
@@ -245,7 +246,7 @@ const DrawerFilter = ({ type, handleFilter }) => {
 
   return (
     <div className='drawer'>
-      <Button onClick={openDrawer} style={{ background: filterCount === 0 ? '#fff' : '#18A594', color: filterCount === 0 ? 'black' : '#fff' }}>
+      <Button onClick={() => drawer?.handleToggleDrawer(true)} style={{ background: filterCount === 0 ? '#fff' : '#18A594', color: filterCount === 0 ? 'black' : '#fff' }}>
         <div className='d-flex align-items-center'>
           <FilterOutlined className='me-2'/>
         Filter{ filterCount === 0 ? '' : `(${(filterCount)})`}
@@ -259,8 +260,8 @@ const DrawerFilter = ({ type, handleFilter }) => {
         width={window.innerWidth > 900 ? '50%' : '90%'}
         placement='right'
         style={{ borderTopLeftRadius: '30px', borderBottomLeftRadius: '30px' }}
-        onClose={closeDrawer}
-        open={showDrawer}
+        onClose={() => drawer?.handleToggleDrawer(false)}
+        open={drawer?.showDrawer}
         destroyOnClose={true}
         className='filter'
       >
