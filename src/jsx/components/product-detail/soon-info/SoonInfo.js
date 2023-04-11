@@ -331,7 +331,7 @@ You can join the {detail?.projectName} communities at { Object.keys(detail?.comm
       <div className='heading text-primary d-flex align-items-center break-word'>
         <i className='material-icons fs-30 text-primary'>subject</i>
         <h2 style={{ fontSize: '1.5rem' }} className='m-0 text-primary'>
-          About Bitcoin
+          {`About ${detail?.projectName}`}
         </h2>
       </div>
     </div>

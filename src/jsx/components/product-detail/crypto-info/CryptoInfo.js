@@ -493,16 +493,137 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
     </>
   )
 
+  const scam = <>
+    {detail?.isScam ? (
+      <ScamWarningDetail
+        isShow={true}
+        scamWarningReason={mapScamReason(detail?.proof?.isScam)}
+        proofType='warning'
+      />
+    ) : detail?.isWarning ? (
+      <ScamWarningDetail
+        isShow={true}
+        scamWarningReason={mapScamReason(detail?.proof?.isScam || detail?.proof?.isWarning)}
+        proofType='warning'
+      />
+    ) : (
+      ''
+    )}
+  </>
+
+  const more = <div className='basic-form'>
+    {(detail?.isProxy !== null || detail?.contractVerified !== null)
+      ? <InfoContractDetail detail={detail} mainExplorer={mainExplorer} />
+      : ''
+    }
+    <ShortItem
+      icon={
+        <>
+          <CheckCircleOutlined
+            style={{
+              color: 'green',
+              display: 'flex',
+              alignItems: 'center',
+              marginTop: '0.3rem',
+              paddingRight: '0.3rem',
+              float: 'left',
+              fontSize: '1.1rem'
+            }}
+          />
+        </>
+      }
+      title={
+        <>
+          {(detail?.isCoinmarketcap !== null || detail?.isCoingecko)
+            ? <div>
+              <h3 className='fs-16 mb-0' style={{ display: 'inline', color: 'rgba(0, 0, 0, 0.6)' }}>
+                {detail?.name} is listed on
+                {detail?.isCoinmarketcap ? <span className='text-primary'> Coinmarketcap</span> : ''}
+                {detail?.isCoingecko ? <span className='text-primary'>, Coingecko</span> : ''}
+                {!_.isEmpty(detail?.exchanges) ? (
+                  <>
+                &nbsp; and trading on &nbsp;
+                    {detail?.exchanges?.map((itemImageUrl, index) => (<>
+                      <span>
+                    &nbsp;
+                        <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
+                        &nbsp;
+                        <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
+                          className='text-primary txt-link'
+                        >
+                          {getExchangeNameFromUrlImageExchage(itemImageUrl)}
+                        </span>
+                      &nbsp;
+                      </span>
+                    </>))}
+                  </>
+                ) : ''}
+              </h3>
+            </div> : (<>
+              {!_.isEmpty(detail?.exchanges) ? (
+                <>
+                  {detail?.name} is traded on Binance &nbsp;
+                  {detail?.exchanges?.map((itemImageUrl, index) => (<>
+                    <span>
+                    &nbsp;
+                      <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
+                        &nbsp;
+                      <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
+                        className='text-primary txt-link'
+                      >
+                        {getExchangeNameFromUrlImageExchage(itemImageUrl)}
+                      </span>
+                      &nbsp;
+                    </span>
+                  </>))}
+                </>
+              ) : ''}
+            </>)
+          }
+        </>
+      }
+    />
+
+    {!showInfo && <InfoExplorerDetail isShow={isShow} detail={detail} multichain={multichain}/> }
+
+    <div style={{ fontSize: '1rem' }}>
+      If you have any good or bad experience with
+      <span className='text-primary'>
+        {` ${detail?.name}`}
+      </span>, please share with us in informing everyone
+      <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem', width: '1.1rem' }}/>
+      <img src={hands} alt='icon-hand' style={{ width: '1.1rem' }}/>
+      <img src={hands} alt='icon-hand' style={{ marginRight: '0.3rem', width: '1.1rem' }}/>
+      <span
+        onClick={() => {
+          rest?.setData({ ...rest.data, isScam: false })
+          rest?.form.setFieldsValue({
+            isScam: false,
+            star: undefined,
+            sources: []
+          })
+          window.scrollTo(0, top)
+          console.log(top)
+        }}
+        className='text-primary txt-link'
+        style={{ marginLeft: '0.5rem' }}
+
+      >
+        Review Now
+      </span>
+    </div>
+  </div>
+
   // summary
   const summary = (
     <>
       {rest?.loadingDetail ? (
         <ProductDetailSummary/>
       ) : (
-        <div>
+        <div style={{ padding: '1rem 0' }}>
           {/* summary */}
-          <div>
-            <div style={{ textAlign: 'center', width: '100%', display: 'flex', alignItems: 'center' }}>
+          <div >
+            <div style={{ textAlign: 'center', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div className='summary-item display-1200'>
                 <SummaryDetail number={new Intl.NumberFormat().format(detail?.totalReviews)} text={'Reviews'} backgroundColor={bgGreen} />
               </div>
@@ -523,126 +644,10 @@ const CryptoInfo = ({ isShow, productInfo, ...rest }) => {
           </div>
 
           {/* scam or warning */}
-          <>
-            {detail?.isScam ? (
-              <ScamWarningDetail
-                isShow={true}
-                scamWarningReason={mapScamReason(detail?.proof?.isScam)}
-                proofType='warning'
-              />
-            ) : detail?.isWarning ? (
-              <ScamWarningDetail
-                isShow={true}
-                scamWarningReason={mapScamReason(detail?.proof?.isScam || detail?.proof?.isWarning)}
-                proofType='warning'
-              />
-            ) : (
-              ''
-            )}
-          </>
+          {scam}
 
           {/* more */}
-          <div className='basic-form'>
-            {(detail?.isProxy !== null || detail?.contractVerified !== null)
-              ? <InfoContractDetail detail={detail} mainExplorer={mainExplorer} />
-              : ''
-            }
-            <ShortItem
-              icon={
-                <>
-                  <CheckCircleOutlined
-                    style={{
-                      color: 'green',
-                      display: 'flex',
-                      alignItems: 'center',
-                      marginTop: '0.3rem',
-                      paddingRight: '0.3rem',
-                      float: 'left',
-                      fontSize: '1.1rem'
-                    }}
-                  />
-                </>
-              }
-              title={
-                <>
-                  {(detail?.isCoinmarketcap !== null || detail?.isCoingecko)
-                    ? <div className='col-xxl-12 col-12'>
-                      <h3 className='fs-16 mb-0' style={{ display: 'inline', color: 'rgba(0, 0, 0, 0.6)' }}>
-                        {detail?.name} is listed on
-                        {detail?.isCoinmarketcap ? <span className='text-primary'> Coinmarketcap</span> : ''}
-                        {detail?.isCoingecko ? <span className='text-primary'>, Coingecko</span> : ''}
-                        {!_.isEmpty(detail?.exchanges) ? (
-                          <>
-                            &nbsp; and trading on &nbsp;
-                            {detail?.exchanges?.map((itemImageUrl, index) => (<>
-                              <span>
-                                &nbsp;
-                                <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
-                                    &nbsp;
-                                <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
-                                  className='text-primary txt-link'
-                                >
-                                  {getExchangeNameFromUrlImageExchage(itemImageUrl)}
-                                </span>
-                                  &nbsp;
-                              </span>
-                            </>))}
-                          </>
-                        ) : ''}
-                      </h3>
-                    </div> : (<>
-                      {!_.isEmpty(detail?.exchanges) ? (
-                        <>
-                          {detail?.name} is traded on Binance &nbsp;
-                          {detail?.exchanges?.map((itemImageUrl, index) => (<>
-                            <span>
-                                &nbsp;
-                              <img src={itemImageUrl} height={18} width={18} alt='Exchange Logo' style={{ borderRadius: '2rem' }}/>
-                                    &nbsp;
-                              <span onClick={(e) => { handleClickExchange(e, itemImageUrl) } }
-                                className='text-primary txt-link'
-                              >
-                                {getExchangeNameFromUrlImageExchage(itemImageUrl)}
-                              </span>
-                                  &nbsp;
-                            </span>
-                          </>))}
-                        </>
-                      ) : ''}
-                    </>)
-                  }
-                </>
-              }
-            />
-
-            {!showInfo && <InfoExplorerDetail isShow={isShow} detail={detail} multichain={multichain}/> }
-
-            <div style={{ fontSize: '1rem' }}>
-              If you have any good or bad experience with
-              <span className='text-primary'>
-                {` ${detail?.name}`}
-              </span>, please share with us in informing everyone
-              <img src={hands} alt='icon-hand' style={{ marginLeft: '0.3rem', width: '1.1rem' }}/>
-              <img src={hands} alt='icon-hand' style={{ width: '1.1rem' }}/>
-              <img src={hands} alt='icon-hand' style={{ marginRight: '0.3rem', width: '1.1rem' }}/>
-              <span
-                onClick={() => {
-                  rest?.setData({ ...rest.data, isScam: false })
-                  rest?.form.setFieldsValue({
-                    isScam: false,
-                    star: undefined,
-                    sources: []
-                  })
-                  window.scrollTo(0, top)
-                }}
-                className='text-primary txt-link'
-                style={{ marginLeft: '0.5rem' }}
-
-              >
-            Review Now
-              </span>
-            </div>
-          </div>
+          {more}
         </div>
       )}
     </>
@@ -861,7 +866,7 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
       <div className='heading text-primary d-flex align-items-center break-word'>
         <i className='material-icons fs-30 text-primary'>subject</i>
         <h2 style={{ fontSize: '1.5rem' }} className='m-0 text-primary'>
-          About Bitcoin
+          {`About ${detail?.name}`}
         </h2>
       </div>
     </div>
@@ -935,7 +940,8 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     },
     {
       title: 'Address',
-      render: (_, record) => <div className='d-flex align-items-center'>
+      align: 'right',
+      render: (_, record) => <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right', width: '100%' }}>
         <CopyOutlined
           onClick={(e) =>
             copyAddress(e, record?.address, 'Copy address successfully')
@@ -943,8 +949,7 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
         />
           &nbsp;
         {`${record?.address?.slice(0, 4)}...${record?.address?.slice(record?.address?.length - 5, record?.address?.length - 1)}`}
-      </div>,
-      align: 'right'
+      </div>
     }
   ]
 
@@ -952,7 +957,7 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     {
       rest?.loadingDetail
         ? <ProductDetailInfo/>
-        : (topHolder && !_.isEmpty(topHolder)) && <>
+        : (topHolder !== null && !_.isEmpty(topHolder)) && <>
           <div className='card-header border-0 pb-0'>
             <h2 className='heading text-primary'>{`Top ${topHolder?.length} ${detail?.name}'s holder`}</h2>
           </div>
@@ -993,7 +998,7 @@ In addition, we also provide user alerts for suspicious COINS/TOKENS based on si
     collap1={collap1}
     FAQs={FAQs}
     // { /* START DEMO: TEST NEW GUI FOR SEO */ }
-    holders={holders}
+    holders={(topHolder !== null && !_.isEmpty(topHolder)) ? holders : undefined}
     // { /* END DEMO: TEST NEW GUI FOR SEO */ }
   />
 }

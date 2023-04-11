@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 // import React, { useRef, useContext } from 'react'
 import {
   Image,
@@ -66,7 +66,7 @@ const defaultValue = [
   { name: 'isScam', value: false },
   { name: 'star', value: undefined }
 ]
-const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) => {
+const FormReport = ({ numberReviews, rest, isFormReport, productInfo }) => {
   const {
     data,
     setData,
@@ -101,14 +101,15 @@ const FormReport = ({ numberReviews, rest, isFormReport, setTop, productInfo }) 
     handleSubmitComment(values)
   }
 
-  const getPosition = () => {
-    const top = document.getElementById('div1')?.offsetTop
-    setTop && setTop(top - 135)
-  }
+  // const getPosition = () => {
+  //   const top = document.getElementById('div1')?.offsetTop
+  //   console.log('top', top)
+  //   // setTop && setTop(top - 135)
+  // }
 
-  useEffect(() => {
-    window.addEventListener('mouseover', getPosition)
-  }, [])
+  // useEffect(() => {
+  //   window.addEventListener('mouseover', getPosition)
+  // }, [])
 
   // chose file in select
   const handleChangeFile = (e) => {

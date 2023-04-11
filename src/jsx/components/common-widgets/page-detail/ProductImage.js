@@ -33,7 +33,7 @@ const ProductImage = ({ imageUrl, productName, altImageType, size, noMarginRight
     }
   }, [imageUrl])
 
-  return <div className='profile-photo'>
+  return <div className='profile-photo' style={{ marginRight: '0.8rem' }}>
     { hasImgData === true
       ? <Image
         alt={altImageType}
@@ -41,7 +41,7 @@ const ProductImage = ({ imageUrl, productName, altImageType, size, noMarginRight
         preview={false}
         width={size}
         height={size}
-        style={{ borderRadius: '50%' }}
+        style={{ borderRadius: '50%', border: '1px solid rgba(0, 0, 0, 0.1)' }}
         onError={() => setHasImgData(false)}
       />
       : hasImgData === false

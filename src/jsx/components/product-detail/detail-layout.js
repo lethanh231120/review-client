@@ -4,7 +4,7 @@ import FormReport from '../Forms/form-report/FormReport'
 import ReviewItem from './review/review-item/ReviewItem'
 import { Pagination } from 'antd'
 // import { SOON, CRYPTO, VENTURE, LAUNCHPAD } from '../../constants/category'
-import { SOON } from '../../constants/category'
+import { CRYPTO, LAUNCHPAD, SOON, VENTURE } from '../../constants/category'
 // import logocolor from '../../../images/logo/gear5_logo_notext.webp'
 import logo from '../../../images/logo/logo.png'
 import hands from '../../../images/svg/hands.svg'
@@ -34,7 +34,7 @@ export const dataReviewFounder = {
   </p>
 }
 export const DetailLayout = (props) => {
-  const { Header, portfolioOrChartOrDesc, summary, about, exchange, topDiscus, similar, rest, more, collap1, FAQs, setTop, productInfo, cryptoPriceLiveData, holders, type, timeAndPercentProcess } = props
+  const { Header, portfolioOrChartOrDesc, roundSale, summary, about, exchange, topDiscus, similar, rest, more, collap1, FAQs, setTop, productInfo, cryptoPriceLiveData, holders, type, timeAndPercentProcess } = props
   // const { Header, type, roundSale, portfolioOrChartOrDesc, timeAndPercentProcess, summary, more, about, scam, exchange, topDiscus, similar, rest, collap1, FAQs, setTop, productInfo,
   //   // { /* START DEMO: TEST NEW GUI FOR SEO */ }
   //   cryptoPriceLiveData, test2, test3, test4, test5,
@@ -45,7 +45,9 @@ export const DetailLayout = (props) => {
 
   const getPosition = () => {
     const top = document.getElementById('div2')?.offsetTop
-    rest?.setOffsetTopByListComment && rest?.setOffsetTopByListComment(top - 150)
+    const top2 = document.getElementById('comment')?.offsetTop
+    setTop && setTop(top2)
+    rest?.setOffsetTopByListComment(top)
   }
 
   useEffect(() => {
@@ -63,6 +65,11 @@ export const DetailLayout = (props) => {
             {Header}
           </div>
 
+          {/* if type is Launchpad OR crypto, then the display order on screens <1200 would be: header, portfolioOrChartOrDesc, summary, what is..., live data, about, FAQs, reviews,
+          if type is dapp, the display order <1200 would be: header, summary, what is, about,
+          if type is venture, the display order <1200 would be: header, summary, what is, portfolioOrChartOrDesc, about,
+          if type is exchange, the display order <1200 would be: header, summary, what is, about,
+          if type is soon, the display order <1200 would be: header, timeAndPercentProcess, summary, more, what is, about, FAQs */}
           {type === SOON && (
             <div style={{ padding: '1rem' }}>
               <div className='box-summary display-block-1200' style={{ padding: '1rem' }}>
@@ -76,27 +83,59 @@ export const DetailLayout = (props) => {
                   {summary}
                 </div>
               </div>
-              <div className='display-block-1200' style={{ background: '#fff', border: '1px solid rgba(0, 0, 0, 0.1)' }}>
-                {more}
-              </div>
             </div>
           )}
 
-          {portfolioOrChartOrDesc && (
+          {(type === LAUNCHPAD || type === CRYPTO) && (
             <>
-              {portfolioOrChartOrDesc}
+              {portfolioOrChartOrDesc && (
+                <>
+                  {portfolioOrChartOrDesc}
+                </>
+              )}
             </>
           )}
 
           {type !== SOON && (
-            <div className='display-block-1200 box-summary'>
-              {summary}
+            <div style={{ padding: '0 1rem' }}>
+              <div className='display-block-1200 box-summary'>
+                {summary}
+              </div>
             </div>
           )}
 
-          <>
-            {about}
-          </>
+          {type !== CRYPTO && (
+            <div style={{ padding: '0 1rem' }}>
+              {more && (
+                <div className='display-block-1200' style={{ background: '#fff', border: '1px solid rgba(0, 0, 0, 0.1)' }}>
+                  {more}
+                </div>
+              )}
+            </div>
+          )}
+
+          {type === VENTURE && (
+            <>
+              {about}
+            </>
+          )}
+
+          {type !== LAUNCHPAD && type !== CRYPTO && (
+            <>
+              {portfolioOrChartOrDesc && (
+                <>
+                  {portfolioOrChartOrDesc}
+                </>
+              )}
+            </>
+          )}
+
+          {type !== VENTURE && (
+            <>
+              {about}
+            </>
+          )}
+
           <>
             {cryptoPriceLiveData}
           </>
@@ -152,93 +191,107 @@ export const DetailLayout = (props) => {
               isFormReport={true}
               numberReviews={rest?.totalReviews}
               rest={rest}
-              setTop={setTop}
               productInfo={productInfo}
             />
 
-            <div id='div2'>
-              <div className='review-founder'>
-                <ReviewItem
-                  type='founder'
-                  data={dataReviewFounder}
-                />
-              </div>
-              {rest?.reviews && rest?.reviews?.map((item, index) => (
-                <ReviewItem
-                  type='normal'
-                  index={index}
-                  key={item?.id}
-                  data={item}
-                  reviews={rest?.reviews}
-                  setReviews={rest?.setReviews}
-                  setCurrentReview={rest?.setCurrentReview}
-                  curentReview={rest?.curentReview}
-                  productId={rest?.productId}
-                />
-              ))}
+          </div>
+          <div id='div2' style={{ padding: '0 1rem' }}>
+            <div className='review-founder'>
+              <ReviewItem
+                type='founder'
+                data={dataReviewFounder}
+              />
             </div>
-            <div className='category-paginate cus-category-paginate'>
-              {rest?.totalReviews > PAGE_SIZE && (
-                <Pagination
-                  total= {rest?.totalReviews}
-                  current={rest?.defaultFilter?.page}
-                  pageSize={PAGE_SIZE}
-                  showSizeChanger={false}
-                  onChange={(value) => {
-                    rest?.setDefaultFilter({
-                      ...rest.defaultFilter,
-                      page: value
-                    })
-                    rest?.setLoadingFilter(true)
-                  }}
-                />
-              )}
-            </div>
+            {rest?.reviews && rest?.reviews?.map((item, index) => (
+              <ReviewItem
+                type='normal'
+                index={index}
+                key={item?.id}
+                data={item}
+                reviews={rest?.reviews}
+                setReviews={rest?.setReviews}
+                setCurrentReview={rest?.setCurrentReview}
+                curentReview={rest?.curentReview}
+                productId={rest?.productId}
+              />
+            ))}
+          </div>
+          <div className='category-paginate cus-category-paginate'>
+            {rest?.totalReviews > PAGE_SIZE && (
+              <Pagination
+                total= {rest?.totalReviews}
+                current={rest?.defaultFilter?.page}
+                pageSize={PAGE_SIZE}
+                showSizeChanger={false}
+                onChange={(value) => {
+                  rest?.setDefaultFilter({
+                    ...rest.defaultFilter,
+                    page: value
+                  })
+                  rest?.setLoadingFilter(true)
+                }}
+              />
+            )}
           </div>
         </div>
       </Col>
       <Col xl={{ span: 7 }} md={{ span: 0 }} sm={{ span: 0 }} xs={{ span: 0 }}>
         <div>
+          {type === SOON && (timeAndPercentProcess &&
           <div className='box-summary display-none-1200'>
-            {type === SOON && (timeAndPercentProcess &&
-              <div className='profile-statistics'>
-                {timeAndPercentProcess}
-              </div>)}
-          </div>
+            <div className='profile-statistics'>
+              {timeAndPercentProcess}
+            </div>
+          </div>)}
 
           {type !== SOON && (
-            <div className='box-summary display-none-1200'>
-              {summary}
+            <>
+              {summary && (
+                <div className='box-summary display-none-1200'>
+                  {summary}
+                </div>
+              )}
+            </>
+          )}
+
+          {/* if type !== crypto => display more */}
+          {type !== CRYPTO && (
+            <>
+              {more && (
+                <div className='display-none-1200' style={{ background: '#fff', border: '1px solid rgba(0, 0, 0, 0.1)', marginBottom: '1rem' }}>
+                  {more}
+                </div>
+              )}
+            </>
+          )}
+
+          {similar && (
+            <div className='box-in-minWidth-1200'>
+              {similar}
             </div>
           )}
 
-          {type === SOON && (
-            <div className='display-none-1200' style={{ background: '#fff', border: '1px solid rgba(0, 0, 0, 0.1)' }}>
-              {more}
+          {topDiscus && (
+            <div className='box-in-minWidth-1200'>
+              {topDiscus}
             </div>
           )}
 
-          <div className='box-in-minWidth-1200'>
-            {similar && (
-              <>
-                {similar}
-              </>
-            )}
-          </div>
-          <div className='box-in-minWidth-1200'>
-            {topDiscus}
-          </div>
+          {holders && (
+            <div className='box-in-minWidth-1200'>
+              {holders}
+            </div>
+          )}
 
-          <div className='box-in-minWidth-1200'>
-            {holders}
-          </div>
-          <div className='box-in-minWidth-1200'>
-            {exchange}
-          </div>
+          {exchange && (
+            <div className='box-in-minWidth-1200'>
+              {exchange}
+            </div>
+          )}
         </div>
       </Col>
     </Row>
-    {/* {
+    {
       roundSale ? <div className='row'>
         <div className='col-lg-12'>
           <div className='profile card card-body px-3 pt-3 pb-0'>
@@ -248,7 +301,7 @@ export const DetailLayout = (props) => {
       </div>
         : ''
     }
-    {type === CRYPTO || type === VENTURE || type === LAUNCHPAD || type === SOON
+    {/* {type === CRYPTO || type === VENTURE || type === LAUNCHPAD || type === SOON
       ? <>
         <div className='row'>
           <div className='col-xl-5'>

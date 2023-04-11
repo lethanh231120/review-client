@@ -9,11 +9,12 @@ import { PREFIX_DETAIL, CRYPTO_TOKEN } from '../../../constants/category'
 import scam from '../../../../images/product/scam.png'
 import warning from '../../../../images/product/warning.png'
 import { ChainListContext } from '../../../../App'
-import { NO_DATA } from '../../../constants/data'
-import { toCammelCase } from '../../../../utils/formatText'
+// import { NO_DATA } from '../../../constants/data'
+// import { toCammelCase } from '../../../../utils/formatText'
 // import { getExchangeNameFromUrlImageExchage, toCammelCase } from '../../../../utils/formatText'
 // import { CheckCircleOutlined, CloseCircleOutlined, ApartmentOutlined } from '@ant-design/icons'
-import { renderNumber, formatLargeNumber } from '../../../../utils/formatNumber'
+import { renderNumber } from '../../../../utils/formatNumber'
+// import { renderNumber, formatLargeNumber } from '../../../../utils/formatNumber'
 // import { renderNumber, formatMoneyLessOneDollar, formatMoneyGreaterEqualOneDollar, formatLargeNumber } from '../../../../utils/formatNumber'
 import MyScoreComponent from '../../score/scoreComponent'
 import './similar.scss'
@@ -312,51 +313,51 @@ const Similar = ({ type, listProjectId }) => {
       </span>)
 
     },
-    {
-      title: 'Subcategory',
-      render: (_, record) => (<Badge bg=' badge-l' className='badge-success '>
-        {record?.subCategory}
-      </Badge>)
-    },
-    {
-      title: <span className='crypto-table-tooltip'>
-      Chain
-      </span>,
-      render: (_, record) => (
-        <Avatar.Group
-          alt='Blockchains Logos'
-          maxStyle={{
-            color: '#fff',
-            backgroundColor: '#039F7F',
-            cursor: 'pointer'
-          }}
-          maxCount={3}
-          size={25} >
-          {record?.chains && Object.keys(record?.chains).map((key, index) => <Tooltip key={index} title={toCammelCase(key)}><Avatar alt='Blockchain Logo' size={25} src={chainList[key]?.image} /></Tooltip>)}
-        </Avatar.Group>
-      )
-    },
-    {
-      title: 'Volume24h',
-      dataIndex: 'volume24h',
-      render: (_, record) => (
-        <span>{record?.volume24h ? renderNumber(record?.volume24h) : 'Unknown' }</span>
-      )
-    },
-    {
-      title: 'User24h',
-      dataIndex: 'user24h',
-      render: (_, record) => (
-        <span>{record?.user24h ? formatLargeNumber(record?.user24h) : 'Unknown' }</span>
-      )
-    },
-    {
-      title: 'Balance',
-      dataIndex: 'balance',
-      render: (_, record) => (
-        <span>{record?.balance ? renderNumber(record?.balance) : 'Unknown' }</span>
-      )
-    },
+    // {
+    //   title: 'Subcategory',
+    //   render: (_, record) => (<Badge bg=' badge-l' className='badge-success '>
+    //     {record?.subCategory}
+    //   </Badge>)
+    // },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //   Chain
+    //   </span>,
+    //   render: (_, record) => (
+    //     <Avatar.Group
+    //       alt='Blockchains Logos'
+    //       maxStyle={{
+    //         color: '#fff',
+    //         backgroundColor: '#039F7F',
+    //         cursor: 'pointer'
+    //       }}
+    //       maxCount={3}
+    //       size={25} >
+    //       {record?.chains && Object.keys(record?.chains).map((key, index) => <Tooltip key={index} title={toCammelCase(key)}><Avatar alt='Blockchain Logo' size={25} src={chainList[key]?.image} /></Tooltip>)}
+    //     </Avatar.Group>
+    //   )
+    // },
+    // {
+    //   title: 'Volume24h',
+    //   dataIndex: 'volume24h',
+    //   render: (_, record) => (
+    //     <span>{record?.volume24h ? renderNumber(record?.volume24h) : 'Unknown' }</span>
+    //   )
+    // },
+    // {
+    //   title: 'User24h',
+    //   dataIndex: 'user24h',
+    //   render: (_, record) => (
+    //     <span>{record?.user24h ? formatLargeNumber(record?.user24h) : 'Unknown' }</span>
+    //   )
+    // },
+    // {
+    //   title: 'Balance',
+    //   dataIndex: 'balance',
+    //   render: (_, record) => (
+    //     <span>{record?.balance ? renderNumber(record?.balance) : 'Unknown' }</span>
+    //   )
+    // },
     {
       title: <span className='crypto-table-tooltip'>
       Score
@@ -386,61 +387,61 @@ const Similar = ({ type, listProjectId }) => {
       </span>)
 
     },
-    {
-      title: 'Subcategory',
-      align: 'center',
-      render: (_, record) => (<Badge bg=' badge-l' className='badge-success '>
-        {record?.subCategory}
-      </Badge>)
-    },
+    // {
+    //   title: 'Subcategory',
+    //   align: 'center',
+    //   render: (_, record) => (<Badge bg=' badge-l' className='badge-success '>
+    //     {record?.subCategory}
+    //   </Badge>)
+    // },
 
-    {
-      title: <span className='crypto-table-tooltip'>
-        Pairs
-      </span>,
-      dataIndex: 'pairCount',
-      render: (_, record) => (
-        <span>{record?.pairCount ? record?.pairCount : NO_DATA }
-        </span>
-      )
-    },
-    {
-      title: <span className='crypto-table-tooltip'>
-      Txn Fee
-      </span>,
-      dataIndex: 'feeTxs',
-      render: (_, record) => (
-        <span>{record?.feeTxs ? `${record?.feeTxs} %` : NO_DATA }</span>
-      )
-    },
-    {
-      title: 'Volume 24h',
-      dataIndex: 'volume24h',
-      render: (_, record) => (
-        <span>{record?.volume24h ? renderNumber(record?.volume24h) : 'Unknown' }</span>
-      )
-    },
-    {
-      title: 'Volume 7d',
-      dataIndex: 'volume7d',
-      render: (_, record) => (
-        <span>{record?.volume7d ? renderNumber(record?.volume7d) : 'Unknown' }</span>
-      )
-    },
-    {
-      title: 'Volume 30d',
-      dataIndex: 'volume1m',
-      render: (_, record) => (
-        <span>{record?.volume1m ? renderNumber(record?.volume1m) : 'Unknown' }</span>
-      )
-    },
-    {
-      title: 'Visit 7d',
-      dataIndex: 'visit7d',
-      render: (_, record) => (
-        <span>{record?.visit7d ? formatLargeNumber(record?.visit7d) : 'Unknown' }</span>
-      )
-    },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //     Pairs
+    //   </span>,
+    //   dataIndex: 'pairCount',
+    //   render: (_, record) => (
+    //     <span>{record?.pairCount ? record?.pairCount : NO_DATA }
+    //     </span>
+    //   )
+    // },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //   Txn Fee
+    //   </span>,
+    //   dataIndex: 'feeTxs',
+    //   render: (_, record) => (
+    //     <span>{record?.feeTxs ? `${record?.feeTxs} %` : NO_DATA }</span>
+    //   )
+    // },
+    // {
+    //   title: 'Volume 24h',
+    //   dataIndex: 'volume24h',
+    //   render: (_, record) => (
+    //     <span>{record?.volume24h ? renderNumber(record?.volume24h) : 'Unknown' }</span>
+    //   )
+    // },
+    // {
+    //   title: 'Volume 7d',
+    //   dataIndex: 'volume7d',
+    //   render: (_, record) => (
+    //     <span>{record?.volume7d ? renderNumber(record?.volume7d) : 'Unknown' }</span>
+    //   )
+    // },
+    // {
+    //   title: 'Volume 30d',
+    //   dataIndex: 'volume1m',
+    //   render: (_, record) => (
+    //     <span>{record?.volume1m ? renderNumber(record?.volume1m) : 'Unknown' }</span>
+    //   )
+    // },
+    // {
+    //   title: 'Visit 7d',
+    //   dataIndex: 'visit7d',
+    //   render: (_, record) => (
+    //     <span>{record?.visit7d ? formatLargeNumber(record?.visit7d) : 'Unknown' }</span>
+    //   )
+    // },
     {
       title: <span className='crypto-table-tooltip'>
       Score
@@ -469,71 +470,71 @@ const Similar = ({ type, listProjectId }) => {
       </span>)
 
     },
-    {
-      title: 'Year Founded',
-      dataIndex: 'yearFounded',
-      render: (_, record) => (
-        <span>{record?.yearFounded ? record?.yearFounded : NO_DATA }</span>
-      )
-    },
-    {
-      title: 'Location',
-      showSorterTooltip: false,
-      dataIndex: 'location',
-      render: (_, record) => (
-        <span>{record?.location ? `${record?.location}` : NO_DATA }</span>
-      )
-    },
-    {
-      title: <span className='crypto-table-tooltip'>
-      Seed
-      </span>,
-      dataIndex: 'seed',
-      render: (_, record) => (
-        <span>{record?.seed ? renderNumber(record?.seed) : '$0' }</span>
-      )
-    },
-    {
-      title: <span className='crypto-table-tooltip'>
-     Series A
-      </span>,
-      dataIndex: 'seriesA',
-      render: (_, record) => (
-        <span>{record?.seriesA ? renderNumber(record?.seriesA) : '$0' }</span>
-      )
-    },
-    {
-      title: <span className='crypto-table-tooltip'>
-      Series B
-      </span>,
-      dataIndex: 'seriesB',
-      render: (_, record) => (
-        <span>{record?.seriesB ? renderNumber(record?.seriesB) : '$0' }</span>
-      )
-    },
-    {
-      title: <span className='crypto-table-tooltip'>
-      Series C
-      </span>,
-      dataIndex: 'seriesC',
-      render: (_, record) => (
-        <span>{record?.seriesC ? renderNumber(record?.seriesC) : '$0' }</span>
-      )
-    },
-    {
-      title: 'Strategic',
-      dataIndex: 'strategic',
-      render: (_, record) => (
-        <span>{record?.strategic ? renderNumber(record?.strategic) : '$0' }</span>
-      )
-    },
-    {
-      title: 'Total Funds',
-      dataIndex: 'totalFund',
-      render: (_, record) => (
-        <span>{record?.totalFund ? renderNumber(record?.totalFund) : '$0' }</span>
-      )
-    },
+    // {
+    //   title: 'Year Founded',
+    //   dataIndex: 'yearFounded',
+    //   render: (_, record) => (
+    //     <span>{record?.yearFounded ? record?.yearFounded : NO_DATA }</span>
+    //   )
+    // },
+    // {
+    //   title: 'Location',
+    //   showSorterTooltip: false,
+    //   dataIndex: 'location',
+    //   render: (_, record) => (
+    //     <span>{record?.location ? `${record?.location}` : NO_DATA }</span>
+    //   )
+    // },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //   Seed
+    //   </span>,
+    //   dataIndex: 'seed',
+    //   render: (_, record) => (
+    //     <span>{record?.seed ? renderNumber(record?.seed) : '$0' }</span>
+    //   )
+    // },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //  Series A
+    //   </span>,
+    //   dataIndex: 'seriesA',
+    //   render: (_, record) => (
+    //     <span>{record?.seriesA ? renderNumber(record?.seriesA) : '$0' }</span>
+    //   )
+    // },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //   Series B
+    //   </span>,
+    //   dataIndex: 'seriesB',
+    //   render: (_, record) => (
+    //     <span>{record?.seriesB ? renderNumber(record?.seriesB) : '$0' }</span>
+    //   )
+    // },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //   Series C
+    //   </span>,
+    //   dataIndex: 'seriesC',
+    //   render: (_, record) => (
+    //     <span>{record?.seriesC ? renderNumber(record?.seriesC) : '$0' }</span>
+    //   )
+    // },
+    // {
+    //   title: 'Strategic',
+    //   dataIndex: 'strategic',
+    //   render: (_, record) => (
+    //     <span>{record?.strategic ? renderNumber(record?.strategic) : '$0' }</span>
+    //   )
+    // },
+    // {
+    //   title: 'Total Funds',
+    //   dataIndex: 'totalFund',
+    //   render: (_, record) => (
+    //     <span>{record?.totalFund ? renderNumber(record?.totalFund) : '$0' }</span>
+    //   )
+    // },
     {
       title: <span className='crypto-table-tooltip'>
       Score
@@ -562,98 +563,98 @@ const Similar = ({ type, listProjectId }) => {
       </span>)
 
     },
-    {
-      title: <span className='crypto-table-tooltip'>
-     Blockchains
-      </span>,
-      dataIndex: 'chains',
-      key: 'chains',
-      render: (_, record) => (
-        <div
-        >
-          <Avatar.Group
-            alt='Blockchains Logos'
-            maxCount={2}
-            size={25}
-            maxStyle={{
-              color: '#fff',
-              backgroundColor: '#039F7F',
-              cursor: 'pointer'
-            }}
-          >
-            {record?.chains && Object.keys(record?.chains)?.map((item, index) => (
-              <React.Fragment key={item}>
-                {chainList[item] && (
-                  <Tooltip title={toCammelCase(chainList[item]?.chainName)}>
-                    <Avatar
-                      alt='Blockchain Logo'
-                      size={25}
-                      src={chainList[item]?.image}
-                      key={index}
-                      className='crypto-table-chain'
-                    />
-                  </Tooltip>
-                )}
-              </React.Fragment>
-            ))}
-          </Avatar.Group>
-        </div>
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //  Blockchains
+    //   </span>,
+    //   dataIndex: 'chains',
+    //   key: 'chains',
+    //   render: (_, record) => (
+    //     <div
+    //     >
+    //       <Avatar.Group
+    //         alt='Blockchains Logos'
+    //         maxCount={2}
+    //         size={25}
+    //         maxStyle={{
+    //           color: '#fff',
+    //           backgroundColor: '#039F7F',
+    //           cursor: 'pointer'
+    //         }}
+    //       >
+    //         {record?.chains && Object.keys(record?.chains)?.map((item, index) => (
+    //           <React.Fragment key={item}>
+    //             {chainList[item] && (
+    //               <Tooltip title={toCammelCase(chainList[item]?.chainName)}>
+    //                 <Avatar
+    //                   alt='Blockchain Logo'
+    //                   size={25}
+    //                   src={chainList[item]?.image}
+    //                   key={index}
+    //                   className='crypto-table-chain'
+    //                 />
+    //               </Tooltip>
+    //             )}
+    //           </React.Fragment>
+    //         ))}
+    //       </Avatar.Group>
+    //     </div>
 
-      )
-    },
-    {
-      title: <span className='crypto-table-tooltip'>
-      Current ROI
-      </span>,
-      dataIndex: 'avgRoiCurrent',
-      render: (_, record) => (
-        <span>{record?.avgRoiCurrent ? `${formatLargeNumber(record?.avgRoiCurrent)}x` : 'Unknown' }</span>
-      )
-    },
-    {
-      title: <span className='crypto-table-tooltip'>
-      ATH ROI
-      </span>,
-      dataIndex: 'avgRoiATH',
-      render: (_, record) => (
-        <span>{record?.avgRoiATH ? formatLargeNumber(record?.avgRoiATH) : 'Unknown' }x</span>
-      )
-    },
-    {
-      title: 'Year Founded',
-      dataIndex: 'yearFounded',
-      render: (_, record) => (
-        <span>{record?.yearFounded ? record?.yearFounded : 'Unknown' }</span>
-      )
-    },
-    {
-      title: <span className='crypto-table-tooltip'>
-      Raised
-      </span>,
-      dataIndex: 'totalFundsRaised',
-      render: (_, record) => (
-        <span>{record?.totalFundsRaised ? renderNumber(record?.totalFundsRaised) : 'Unknown' }</span>
-      )
-    },
+    //   )
+    // },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //   Current ROI
+    //   </span>,
+    //   dataIndex: 'avgRoiCurrent',
+    //   render: (_, record) => (
+    //     <span>{record?.avgRoiCurrent ? `${formatLargeNumber(record?.avgRoiCurrent)}x` : 'Unknown' }</span>
+    //   )
+    // },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //   ATH ROI
+    //   </span>,
+    //   dataIndex: 'avgRoiATH',
+    //   render: (_, record) => (
+    //     <span>{record?.avgRoiATH ? formatLargeNumber(record?.avgRoiATH) : 'Unknown' }x</span>
+    //   )
+    // },
+    // {
+    //   title: 'Year Founded',
+    //   dataIndex: 'yearFounded',
+    //   render: (_, record) => (
+    //     <span>{record?.yearFounded ? record?.yearFounded : 'Unknown' }</span>
+    //   )
+    // },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //   Raised
+    //   </span>,
+    //   dataIndex: 'totalFundsRaised',
+    //   render: (_, record) => (
+    //     <span>{record?.totalFundsRaised ? renderNumber(record?.totalFundsRaised) : 'Unknown' }</span>
+    //   )
+    // },
 
-    {
-      title: <span className='crypto-table-tooltip'>
-     Market Cap
-      </span>,
-      dataIndex: 'marketCap',
-      render: (_, record) => (
-        <span>{record?.marketCap ? renderNumber(record?.marketCap) : 'Unknown' }</span>
-      )
-    },
-    {
-      title: <span className='crypto-table-tooltip'>
-      Volume24h
-      </span>,
-      dataIndex: 'volume24h',
-      render: (_, record) => (
-        <span>{record?.volume24h ? renderNumber(record?.volume24h) : 'Unknown' }</span>
-      )
-    },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //  Market Cap
+    //   </span>,
+    //   dataIndex: 'marketCap',
+    //   render: (_, record) => (
+    //     <span>{record?.marketCap ? renderNumber(record?.marketCap) : 'Unknown' }</span>
+    //   )
+    // },
+    // {
+    //   title: <span className='crypto-table-tooltip'>
+    //   Volume24h
+    //   </span>,
+    //   dataIndex: 'volume24h',
+    //   render: (_, record) => (
+    //     <span>{record?.volume24h ? renderNumber(record?.volume24h) : 'Unknown' }</span>
+    //   )
+    // },
 
     {
       title: <span className='crypto-table-tooltip'>

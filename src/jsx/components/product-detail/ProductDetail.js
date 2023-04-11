@@ -106,6 +106,7 @@ const ProductDetail = () => {
   const [totalSortBy, setTotalSortBy] = useState()
   const [loadingDetail, setLoadingDetail] = useState(true)
 
+  console.log('offsetTopByListComment', offsetTopByListComment)
   // set productId
   useEffect(() => {
     setLoadingDetail(true)
