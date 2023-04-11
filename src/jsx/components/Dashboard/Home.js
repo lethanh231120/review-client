@@ -17,6 +17,7 @@ import { SummaryHomeContext } from '../../../App'
 import SEO from '../SEO/SEO'
 import { getHeaderHome } from './../SEO/server/home'
 import { LatestTokenTable } from '../common-widgets/home/latest-token/LatestTokenTable'
+import { Ads } from '../ads/Ads'
 
 const Home = () => {
   const { changeBackground } = useContext(ThemeContext)
@@ -70,6 +71,8 @@ const Home = () => {
           <ReviewList isHome={true}/>
         </div>
       </div>
+
+      <Ads />
 
       {/* row 3 */}
       <div className='row'>

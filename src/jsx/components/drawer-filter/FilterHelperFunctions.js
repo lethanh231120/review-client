@@ -147,7 +147,7 @@ export const formatData = (type) => {
           filterParams['roundType'] = values?.roundType
         }
       }
-      checkingValues(values?.fullyDilutedMarketCap?.from, values?.fullyDilutedMarketCap?.to, filterParams, 'fullyDilutedMarketCap', SOON_FDMC_SELECTION)
+      checkingValues(values?.fullyDilutedMarketCap?.from, values?.fullyDilutedMarketCap?.to, filterParams, 'fullyDilutedMarketcap', SOON_FDMC_SELECTION)
       checkingValues(values?.fundRaisingGoals?.from, values?.fundRaisingGoals?.to, filterParams, 'fundRaisingGoals', SOON_GOAL_SELECTION)
       checkingValues(values?.tokenPrice?.from, values?.tokenPrice?.to, filterParams, 'tokenPrice', SOON_TOKENPRICE_SELECTION)
 

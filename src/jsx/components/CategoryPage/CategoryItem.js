@@ -22,6 +22,7 @@ import { read } from '../../../api/BaseRequest'
 import { genListHeader } from '../SEO/server/ExpressGenerHeader'
 import { formatData } from '../drawer-filter/FilterHelperFunctions'
 import { notifyTopRightFail } from '../Forms/form-report/FormReport'
+import { Ads } from './../ads/Ads'
 
 const CategoryItem = () => {
   const navigate = useNavigate()
@@ -206,36 +207,35 @@ const CategoryItem = () => {
   }
 
   const renderComponent = () => {
+    let htmlOutput = ''
     const projectType = category
     switch (projectType) {
       case DAPP:
-        return (
-          <Col span={24}>
-            <Dapp
-              listProduct={listProduct?.dapp}
-              handleChangeTable={handleChangeTable}
-              params={params}
-              loading={loading}
-              handleFilter={handleFilter}
-              total={total}
-            />
-          </Col>
-        )
+        htmlOutput = <Col span={24}>
+          <Dapp
+            listProduct={listProduct?.dapp}
+            handleChangeTable={handleChangeTable}
+            params={params}
+            loading={loading}
+            handleFilter={handleFilter}
+            total={total}
+          />
+        </Col>
+        break
       case CRYPTO:
-        return (
-          <Col span={24}>
-            <Crypto
-              listProduct={listProduct?.crypto}
-              handleChangeTable={handleChangeTable}
-              params={params}
-              loading={loading}
-              handleFilter={handleFilter}
-              total={total}
-            />
-          </Col>
-        )
+        htmlOutput = <Col span={24}>
+          <Crypto
+            listProduct={listProduct?.crypto}
+            handleChangeTable={handleChangeTable}
+            params={params}
+            loading={loading}
+            handleFilter={handleFilter}
+            total={total}
+          />
+        </Col>
+        break
       case EXCHANGE:
-        return (
+        htmlOutput = <Col span={24}>
           <Exchange
             listProduct={listProduct?.exchange}
             handleChangeTable={handleChangeTable}
@@ -244,9 +244,10 @@ const CategoryItem = () => {
             handleFilter={handleFilter}
             total={total}
           />
-        )
+        </Col>
+        break
       case VENTURE:
-        return (
+        htmlOutput = <Col span={24}>
           <Venture
             listProduct={listProduct?.venture}
             handleChangeTable={handleChangeTable}
@@ -255,9 +256,10 @@ const CategoryItem = () => {
             handleFilter={handleFilter}
             total={total}
           />
-        )
+        </Col>
+        break
       case SOON:
-        return (
+        htmlOutput = <Col span={24}>
           <Soon
             listProduct={listProduct?.soon}
             handleChangeTable={handleChangeTable}
@@ -266,9 +268,10 @@ const CategoryItem = () => {
             handleFilter={handleFilter}
             total={total}
           />
-        )
+        </Col>
+        break
       case LAUNCHPAD:
-        return (
+        htmlOutput = <Col span={24}>
           <LaunchpadList
             listProduct={listProduct?.launchpad}
             handleChangeTable={handleChangeTable}
@@ -277,10 +280,15 @@ const CategoryItem = () => {
             handleFilter={handleFilter}
             total={total}
           />
-        )
+        </Col>
+        break
       default:
         break
     }
+
+    return <>
+      {htmlOutput}
+    </>
   }
 
   // change param(tag: in state)
@@ -547,13 +555,18 @@ const CategoryItem = () => {
               <>
                 {loading ? (
                   <div style={{ width: '100%' }}>  <MySkeletonLoadinng count={50} height={70} /></div>
-                ) : (
-                  renderComponent()
-                )}
+                ) : <>
+                  {renderComponent()}
+                </>
+                }
               </>
             )}
           </Row>
         </div>
+
+        {/* Ads */}
+        <Ads pageType={category} />
+
         {/* Pagination */}
         {total > PAGE_SIZE && (
           <>

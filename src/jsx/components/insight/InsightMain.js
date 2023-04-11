@@ -11,6 +11,8 @@ import { getHeaderListInsight } from './../SEO/server/insight'
 import { ScamEachChainsList } from '../common-widgets/home/blockchain-data-table/scam-each-chain-chart'
 import { LatestTokenTable } from '../common-widgets/home/latest-token/LatestTokenTable'
 import { SummaryHomeContext } from '../../../App'
+import { Ads } from '../ads/Ads'
+import { INSIGHT } from '../../constants/category'
 
 const InsightMain = () => {
   // const navigate = useNavigate()
@@ -78,6 +80,7 @@ const InsightMain = () => {
   return loading ? <MySkeletonLoadinng count={4} height={100}/>
     : <>
       <SEO props={{ title: getHeaderListInsight() }}/>
+
       <Row >
         {data && Object.keys(data)?.map(key => chartSection(data[key]))}
       </Row>
@@ -91,6 +94,8 @@ const InsightMain = () => {
           <LatestTokenTable />
         </div>
       </div>
+
+      <Ads pageType={INSIGHT} />
     </>
 }
 
