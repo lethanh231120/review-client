@@ -34,6 +34,7 @@ ChartJS.register(
 
 ChartJS.defaults.color = '#18A594'
 const Barchart = ({ dataSet, height, isDetail, title, colorPallet }) => {
+  console.log(dataSet)
   const data = {
     defaultFontFamily: 'Poppins',
     labels: dataSet?.results?.map(item => item[0]),

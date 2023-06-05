@@ -22,6 +22,7 @@ const InsightMain = () => {
     const getInsightChart = async() => {
       const res = await get('reviews/chart')
       if (res?.code === 'B.CODE.200') {
+        console.log('data call api', res?.data)
         setData(res?.data)
         setLoading(false)
       }
@@ -47,6 +48,7 @@ const InsightMain = () => {
   }
 
   const getChartType = (data) => {
+    console.log('data in type chart', data)
     const colorPallet = data?.config?.colors?.split(',')
     switch (data?.typechart) {
       case 'pie':
@@ -60,7 +62,9 @@ const InsightMain = () => {
     }
   }
 
+  console.log('data all', data)
   const chartSection = (data) => {
+    console.log('data in chart section', data)
     return <Col key={data?.chartId} xl={4} sm={6} xs={12} style={{ display: 'flex', cursor: 'pointer', marginBottom: '1.5rem' }} >
       <Link to={`${data?.chartId}`} style={{ width: '100%' }}>
         <Card style={{ width: '100%', height: '100%' }}>

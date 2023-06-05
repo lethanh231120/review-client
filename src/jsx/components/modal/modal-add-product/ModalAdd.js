@@ -4,13 +4,14 @@ import { Select, Form, Row, Col, Input, Checkbox, Upload, Image } from 'antd'
 import { DAPP, EXCHANGE, CRYPTO } from '../../../constants/category'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { getCookie, STORAGEKEY } from '../../../../utils/storage'
-import { post, upload } from '../../../../api/BaseRequest'
+import { upload } from '../../../../api/BaseRequest'
+// import { post, upload } from '../../../../api/BaseRequest'
 import moment from 'moment'
 import { CategoryContext, SignInContext } from '../../../../App'
 import _ from 'lodash'
 import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom'
-import { AddModalContext } from '../../../index'
+// import { useNavigate } from 'react-router-dom'
+// import { AddModalContext } from '../../../index'
 import { ChainListContext } from '../../../../App'
 import { MySkeletonLoadinng } from '../../common-widgets/my-spinner'
 import { notifyTopRightFail } from '../../Forms/form-report/FormReport'
@@ -36,12 +37,12 @@ const defaultValue = [
   { name: 'isWarning', value: false }
 ]
 const ModalAdd = ({ isModal }) => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const TOKEN = 'token'
   const categoryContext = useContext(CategoryContext)
   const signContext = useContext(SignInContext)
   const chainList = useContext(ChainListContext)
-  const addModal = useContext(AddModalContext)
+  // const addModal = useContext(AddModalContext)
   const [form] = Form.useForm()
   const userInfo = getCookie(STORAGEKEY.USER_INFO)
 
@@ -99,46 +100,47 @@ const ModalAdd = ({ isModal }) => {
   }
 
   const sendData = async(data, recaptchaValue) => {
-    try {
-      let res
-      if (category === CRYPTO) {
-        res = await post('reviews/crypto/upload', data, { ReCaptchaResponse: recaptchaValue })
-      }
-      if (category === EXCHANGE) {
-        res = await post('reviews/exchange/upload', data, { ReCaptchaResponse: recaptchaValue })
-      }
-      if (category === DAPP) {
-        res = await post('reviews/dapp/upload', data, { ReCaptchaResponse: recaptchaValue })
-      }
-      if (res?.status) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Add project successfully!',
-          text: 'Please wait for our admin to confirm',
-          showDenyButton: true,
-          confirmButtonText: 'Add New Project',
-          denyButtonText: `Back to home`
-        }).then((result) => {
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            handleReset()
-          } else if (result.isDenied) {
-            handleReset()
-            if (isModal) {
-              addModal.handleSetOpenModal(false)
-              navigate('../')
-            } else {
-              navigate('../')
-            }
-          }
-        })
-      }
-    } catch (error) {
-      if (error?.response?.data?.code === 'B.CODE.9') {
-        toartError('This project already exists in gear5')
-      }
-      recapcharRef.current.reset()
-    }
+    console.log(category, data)
+    // try {
+    //   let res
+    //   if (category === CRYPTO) {
+    //     res = await post('reviews/crypto/upload', data, { ReCaptchaResponse: recaptchaValue })
+    //   }
+    //   if (category === EXCHANGE) {
+    //     res = await post('reviews/exchange/upload', data, { ReCaptchaResponse: recaptchaValue })
+    //   }
+    //   if (category === DAPP) {
+    //     res = await post('reviews/dapp/upload', data, { ReCaptchaResponse: recaptchaValue })
+    //   }
+    //   if (res?.status) {
+    //     Swal.fire({
+    //       icon: 'success',
+    //       title: 'Add project successfully!',
+    //       text: 'Please wait for our admin to confirm',
+    //       showDenyButton: true,
+    //       confirmButtonText: 'Add New Project',
+    //       denyButtonText: `Back to home`
+    //     }).then((result) => {
+    //       /* Read more about isConfirmed, isDenied below */
+    //       if (result.isConfirmed) {
+    //         handleReset()
+    //       } else if (result.isDenied) {
+    //         handleReset()
+    //         if (isModal) {
+    //           addModal.handleSetOpenModal(false)
+    //           navigate('../')
+    //         } else {
+    //           navigate('../')
+    //         }
+    //       }
+    //     })
+    //   }
+    // } catch (error) {
+    //   if (error?.response?.data?.code === 'B.CODE.9') {
+    //     toartError('This project already exists in gear5')
+    //   }
+    //   recapcharRef.current.reset()
+    // }
   }
 
   const onFinish = async(values) => {

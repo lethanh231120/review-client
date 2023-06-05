@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "homepage": "https://soon1.gear5.io",
   "dependencies": {
+    "@ckeditor/ckeditor5-adapter-ckfinder": "^37.0.1",
+    "@ckeditor/ckeditor5-build-classic": "^37.0.1",
+    "@ckeditor/ckeditor5-markdown-gfm": "^37.0.1",
+    "@ckeditor/ckeditor5-react": "^6.0.0",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
